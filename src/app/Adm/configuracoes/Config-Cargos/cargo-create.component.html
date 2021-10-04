@@ -1,0 +1,47 @@
+<div style="font-size: 1.2em;">Criar cargo
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<!-- <div style="font-size: 0.8em;margin-top: 5px;">* O colaborador será salvo na unidade de {{tokenInfo.Unidade}}</div> -->
+<hr>
+
+
+    <form novalidate [formGroup]="cargoForm" (ngSubmit)="onSubmit(cargoForm)">
+
+
+        <mat-form-field appearance="standard" style="width: 35%; ">
+            <mat-label>Nome</mat-label>
+            <input selected formControlName="nome" required name="nome" matInput placeholder="Nome">
+        </mat-form-field>
+
+        <mat-slide-toggle style="margin-left: 30px; width: 10%;" #tooltip="matTooltip"
+            formControlName="ativo" name="ativo" matTooltip="ativo/inativo" matTooltipPosition="above"
+            matTooltipHideDelay="250" color="primary">
+        </mat-slide-toggle>
+
+   
+        <br>
+        <mat-form-field style="width: 100%" appearance="outline">
+            <mat-label>Descrição do cargo</mat-label>
+            <textarea formControlName="descricao" name="descricao" matInput></textarea>
+        </mat-form-field>
+
+
+        <ng-container>
+            <button type="submit" mat-raised-button disabled="true" color="primary"
+                style="float:right;margin-bottom: 0px;margin-left: 10px;" 
+                [disabled]="!cargoForm.valid || progress" >
+                
+           
+            <mat-spinner *ngIf="progress" style="margin-left: 8px;margin-top: 5px; position: absolute;"
+                [diameter]="26"></mat-spinner>Salvar</button>
+        </ng-container>
+
+
+
+    </form>

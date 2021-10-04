@@ -1,0 +1,35 @@
+<div role="group" class="example-date-input-container"
+     [formGroup]="parts"
+     [attr.aria-labelledby]="_formField?.getLabelId()">
+  <input class="example-date-input-element"
+         formControlName="dia" size="2"
+         maxLength="2"
+         aria-label="dia code"
+         (input)="_handleInput(parts.controls.dia, mes)"
+         #dia>
+  <span class="example-date-input-spacer">/</span>
+  <input class="example-date-input-element"
+         formControlName="mes"
+         maxLength="2"
+         min="1"
+         max="12"
+         size="2"
+         aria-label="mes code"
+         (input)="_handleInput(parts.controls.mes, ano)"
+         (keyup.backspace)="autoFocusPrev(parts.controls.mes, dia)"
+         #mes>
+  <span class="example-date-input-spacer">/</span>
+  <input class="example-date-input-element"
+         formControlName="ano"
+         maxLength="4"
+         size="4"
+         aria-label="ano number"
+         (input)="_handleInput(parts.controls.ano)"
+         (keyup.backspace)="autoFocusPrev(parts.controls.ano, mes)"
+         #ano>
+</div>
+
+
+<!-- Copyright 2021 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

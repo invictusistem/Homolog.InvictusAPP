@@ -1,0 +1,339 @@
+<!-- Turma CGI 000001 (Curso Técnico em Enfermagem)<br> -->
+
+<div style="font-size: 1.2em;">{{ descricaoCompleta }}
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+    
+</div>
+
+<!-- <div style="font-size: 0.8em;margin-top: 5px;">* O colaborador será salvo na unidade de {{tokenInfo.Unidade}}</div> -->
+<hr>
+<div style="padding-bottom: 20px;">
+    <mat-form-field class="example-full-width" appearance="outline" style="width: 41%;">
+        <mat-label>Turma</mat-label>
+        <input style="color: black;" disabled name="templateName" matInput selected [(value)]="descricaoCompleta">
+    </mat-form-field>
+    <br>
+    <!-- Turno: manhã (2ª, 3ª e 6ª feira, 08:00 às 13:00)<br>
+<span style="text-decoration: line-through;">Previsão de início 1: 01/05/2021</span> | Previsão de início 2: 01/06/2021 <span>(atual</span>) | Previsão de início 3: 01/07/2021<br> -->
+
+    <ng-container *ngIf="turma.statusDaTurma == 'AguardandoInicio';else iniciada">
+        <mat-form-field class="example-full-width" appearance="outline" style="width: 33%;">
+            <mat-label [style.color]="previQuadro1Proximo ? 'red': ''">Previsão 1 <span
+                    *ngIf="previQuadro1Proximo">(Próxima)</span></mat-label>
+            <input style="color: black;" [style.text-decoration]="previQuadro1linethrough ? 'line-through' : ''"
+                [style.color]="previQuadro1Color ? 'red': ''" disabled name="templateName" matInput [(value)]="previ1">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="outline" style="width: 33%;">
+            <mat-label [style.color]="previQuadro2Proximo ? 'red': ''">Previsão 2 <span
+                    *ngIf="previQuadro2Proximo">(Próxima)</span></mat-label>
+            <input style="color: black;" [style.text-decoration]="previQuadro2linethrough ? 'line-through' : ''"
+                [style.color]="previQuadro2Color ? 'red': ''" disabled name="templateName" matInput [(value)]="previ2">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="outline" style="width: 33%;">
+            <mat-label [style.color]="previQuadro3Proximo ? 'red': ''">Previsão 3 <span
+                    *ngIf="previQuadro3Proximo">(Próxima)</span></mat-label>
+            <input style="color: black;" [style.text-decoration]="previQuadro3linethrough ? 'line-through' : ''"
+                [style.color]="previQuadro3Color ? 'red': ''" disabled name="templateName" matInput [(value)]="previ3">
+        </mat-form-field>
+    </ng-container>
+    <ng-template #iniciada>
+        <mat-form-field class="example-full-width" appearance="outline" style="width: 60%;">
+            <mat-label >Duração<span *ngIf="previQuadro1Proximo">(Próxima)</span></mat-label>
+            <input style="color: black;" disabled name="templateName" matInput [(value)]="duracaomsg">
+        </mat-form-field>
+        <br>
+        <!-- <div style="margin-left: 10px;margin-bottom: 30px;">Turma iniciada em {{turma.previsaoAtual | date:'d/M/yyy'}} com previsão de término em {{turma.previsaoTerminoAtual | date:'d/M/yyy'}}</div> -->
+
+    </ng-template>
+    <mat-form-field  appearance="outline" style="border-color: black; width: 16%">
+        <mat-label>vagas/matriculados:</mat-label>
+        <input style="color: black;" disabled name="templateName" matInput [value]="vagasMatriculados">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width: 16%; margin-left: 10px;">
+        <mat-label>Mínimo de alunos:</mat-label>
+        <input style="color: black;" name="templateName" matInput required [(ngModel)]="turma.minimoAlunos" >
+    </mat-form-field>
+
+
+    <mat-tab-group mat-align-tabs="start">
+        <mat-tab label="Matriculados">
+
+            <div class="table-responsive" style="height: 430px;position: relative;">
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+                    <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
+                    <thead>
+                        <tr>
+                            <th style="width: 2%; 
+                        text-align:left; 
+                        vertical-align: middle;
+                        border-top: 0px;"></th>
+
+
+                            <th style="width: 40%;font-size:1em;
+                        vertical-align: middle; 
+                        text-align:left;
+                         border-top: 0px; font-weight: 400;">Nome</th>
+
+                            <th style="width: 29%;font-size:1em;
+                        vertical-align: middle;
+                        text-align:center;
+                        border-top: 0px; font-weight: 400;">E-mail</th>
+
+                            <th style="width: 29%;font-size:1em;
+                        text-align:center; 
+                        vertical-align: middle;
+                        border-top: 0px; font-weight: 400;">CPF</th>
+
+                            <!--<th style="width: 12%;font-size:1em;
+                        text-align:center; 
+                        vertical-align: middle;
+                        border-top: 0px; font-weight: 400;">Matriculados</th>
+        
+                        <th style="width: 13%;font-size:1em;
+                        text-align:center; 
+                        vertical-align: middle;
+                        border-top: 0px; font-weight: 400;">Status</th> -->
+
+                            <!-- <th style="width: 34%;font-size:1em;
+                        text-align:center; 
+                        vertical-align: middle;
+                        border-top: 0px; font-weight: 400;">
+        
+                        </th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let aluno of alunos; let i = index;">
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">{{i + 1}}</td>
+
+                            <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                                {{aluno.nome}}
+                            </td>
+
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                {{aluno.email || 'sem e-mail cadastrado'}}
+                            </td>
+
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">{{aluno.cpf}}</td>
+
+                            <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;"></td> -->
+                            <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;">Não iniciada</td>
+                        <td style="text-align: center;vertical-align: middle;"> -->
+                            <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                matTooltip="adiar a tumra para a próxima data" matTooltipPosition="above"
+                                matTooltipHideDelay="100">
+                                <button 
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon style="font-size: 1.5em;" class="material-icons-outlined">watch_later</mat-icon>
+                                </button>
+                            </i>
+        
+                            <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                matTooltip="iniciar as aulas" matTooltipPosition="above"
+                                matTooltipHideDelay="100">
+                                <button 
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon style="font-size: 1.5em;" class="material-icons-outlined">play_arrow</mat-icon>
+                                </button>
+                            </i>-->
+
+                            <!-- update_disabled -->
+
+                            <!--<i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="detalhes/editar"
+                                matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button (click)="openEditCursoModal(item)"
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon>description</mat-icon>
+                                </button>
+                            </i> 
+                        </td>  
+                        <td style="font-size:0.9em;text-align: center;vertical-align: middle;"></td>     
+                        -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </mat-tab>
+        <mat-tab label="Professores">
+
+
+            <div class="table-responsive" style="height: 400px;position: relative;">
+                <div *ngIf="mensagemSemProfessores" style="margin-top: 15px;
+            margin-left: 10px;">Não há professores alocados à turma.
+                    <i style="margin: 0px; margin: 0px;
+            margin-bottom: 10px;" #tooltip="matTooltip" matTooltip="adicionar professor" matTooltipPosition="above"
+                        matTooltipHideDelay="100">
+                        <button (click)="openAddProfModal()" style="margin: 0px;" mat-icon-button>
+                            <mat-icon>person_add</mat-icon>
+                        </button>
+                    </i>
+                </div>
+                <table *ngIf="!mensagemSemProfessores" color="primary" style="margin-bottom: 0px;" class="table">
+
+                    <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
+                    <thead>
+                        <tr>
+                            <th style="width: 2%; 
+                        text-align:left; 
+                        vertical-align: middle;
+                        border-top: 0px;"></th>
+
+
+                            <th style="width: 25%;font-size:1em;
+                        vertical-align: middle; 
+                        text-align:left;
+                         border-top: 0px; font-weight: 400;">Nome</th>
+
+                            <th style="width: 22%;font-size:1em;
+                        vertical-align: middle;
+                        text-align:center;
+                        border-top: 0px; font-weight: 400;">E-mail</th>
+
+                            <th style="width: 10%;font-size:1em;
+                        vertical-align: middle;
+                        text-align:center;
+                        border-top: 0px; font-weight: 400;"></th>
+
+                            <th style="width: 30%;font-size:1em;
+                        text-align:center; 
+                        vertical-align: middle;
+                        border-top: 0px; font-weight: 400;">Matéria</th>
+
+                            <!--<th style="width: 12%;font-size:1em;
+                        text-align:center; 
+                        vertical-align: middle;
+                        border-top: 0px; font-weight: 400;">Matriculados</th>
+        
+                        <th style="width: 13%;font-size:1em;
+                        text-align:center; 
+                        vertical-align: middle;
+                        border-top: 0px; font-weight: 400;">Status</th> -->
+
+                            <th style="width: 7%;font-size:1em;
+                        text-align:center; 
+                        vertical-align: middle;
+                        border-top: 0px; font-weight: 400;">
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="adicionar professor" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
+                                    <button (click)="openAddProfModal()" style="margin: 0px;" mat-icon-button>
+                                        <mat-icon>person_add</mat-icon>
+                                    </button>
+                                </i>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let profs of professoresSlice; let i = index;">
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">{{i + 1}}</td>
+
+                            <td style="font-size:0.9em;text-align:left;vertical-align: middle;">{{profs.nome}}
+                            </td>
+
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                {{profs.email || '-'}}</td>
+
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="adicionar materia" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openAddMateriaModal(profs)" style="margin: 0px;" mat-icon-button>
+                                        <mat-icon>
+                                            assignment
+                                        </mat-icon>
+                                    </button>
+                                </i>
+                            </td>
+
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                <div *ngIf="profs.materias.length  > 0">
+                                    <div *ngFor="let mat of profs.materias">
+                                        {{mat.descricao || '-'}}
+                                    </div>
+                                </div>
+                                <!-- Anatomia e Fisiologia<br>Fundamentos de Enfermagem<br>
+                                Anatomia e Fisiologia<br>Fundamentos de Enfermagem<br>
+                                Anatomia e Fisiologia<br>Fundamentos de Enfermagem<br> -->
+
+                            </td>
+
+                            <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;"></td> -->
+                            <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;">Não iniciada</td>
+                        <td style="text-align: center;vertical-align: middle;"> -->
+                            <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                matTooltip="adiar a tumra para a próxima data" matTooltipPosition="above"
+                                matTooltipHideDelay="100">
+                                <button 
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon style="font-size: 1.5em;" class="material-icons-outlined">watch_later</mat-icon>
+                                </button>
+                            </i>
+        
+                            <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                matTooltip="iniciar as aulas" matTooltipPosition="above"
+                                matTooltipHideDelay="100">
+                                <button 
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon style="font-size: 1.5em;" class="material-icons-outlined">play_arrow</mat-icon>
+                                </button>
+                            </i>-->
+
+                            <!-- update_disabled -->
+                            <td style="vertical-align: middle;">
+
+                                <i style="float: right;margin-left: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="excluir" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="excluirProfessorDaTurma(profs.id)" style="margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>delete_outline</mat-icon>
+                                    </button>
+                                </i>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <ng-template #message>
+                    Não há professores alocados na turma.
+                </ng-template>
+                <!-- <paginator style="padding-bottom: 45px;" 
+            disabled [Count]="pageCount" 
+            [selectedPage]="selectedPage" 
+            (currentPage)="changePage($event)"></paginator> -->
+
+
+
+            </div>
+
+            <!-- <mat-paginator *ngIf="professores.length > 0" [length]="length" [pageSize]="pageSize" hidePageSize="true"
+                (page)="pageEvent = $event" (click)="changePage(pageEvent)">
+            </mat-paginator> -->
+        </mat-tab>
+        <!-- <mat-tab label="Third">Content 3</mat-tab> -->
+    </mat-tab-group>
+    <!-- <div style="float:right;margin-bottom: 30px;">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" type="submit" mat-raised-button disabled="false">
+            Fechar
+        </button>
+    </div> -->
+    <!-- <button style="float:right;margin-bottom: 10px;" mat-raised-button
+    [mat-dialog-close]="{clicked:'Cancel'}">Cancel</button> -->
+</div>

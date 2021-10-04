@@ -1,0 +1,21 @@
+.example-date-input-container {
+  display: flex;
+}
+
+.example-date-input-element {
+  border: none;
+  background: none;
+  padding: 0;
+  outline: none;
+  font: inherit;
+  text-align: center;
+}
+
+.example-date-input-spacer {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+:host.example-floating .example-date-input-spacer {
+  opacity: 1;
+}

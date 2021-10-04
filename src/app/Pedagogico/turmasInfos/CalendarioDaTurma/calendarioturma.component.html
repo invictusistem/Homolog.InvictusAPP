@@ -1,0 +1,159 @@
+<div style="font-size: 1.2em;">Calendario
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+Turma {{ data['turma'].identificador}}
+<hr>
+
+
+
+<div class="table-responsive" style="position: relative;min-height: 100px;">
+    <mat-spinner *ngIf="showSpin" @rowHighlight [diameter]="100" style="margin-left: 450px;">
+    </mat-spinner>
+    <table *ngIf="calendarios.length > 0" color="primary" style="margin-bottom: 0px;" class="table">
+        <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
+        <thead>
+            <tr>
+                <th style="width: 2%; 
+                    text-align:left; 
+                    vertical-align: middle;
+                    border-top: 0px;"></th>
+
+
+                <th style="width: 12%;font-size:0.8em;
+                    vertical-align: middle; 
+                    text-align:left;
+                     border-top: 0px; font-weight: 400;">Dia</th>
+
+                <th style="width: 15%;font-size:0.8em;
+                    vertical-align: middle;
+                    text-align:center;
+                    border-top: 0px; font-weight: 400;">Horário</th>
+
+                <th style="width: 15%;font-size:0.8em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">Iniciada/Concluida</th>
+
+                <th style="width: 12%;font-size:0.8em;
+text-align:center; 
+vertical-align: middle;
+border-top: 0px; font-weight: 400;">Sala</th>
+
+                <th style="width: 15%;font-size:0.8em;
+text-align:center; 
+vertical-align: middle;
+border-top: 0px; font-weight: 400;">Matéria</th>
+
+                <th style="width: 22%;font-size:0.8em;
+text-align:center; 
+vertical-align: middle;
+border-top: 0px; font-weight: 400;">Professor</th>
+
+                <th style="width: 7%;font-size:0.8em;
+text-align:center; 
+vertical-align: middle;
+border-top: 0px; font-weight: 400;">Obs</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr *ngFor="let cale of calendarios;let i = index;">
+
+                <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                    {{ i + 1}}
+                </td>
+                <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                    {{cale.diaaula | date:'dd/MM/yyyy'}}
+                </td>
+
+                <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                    {{cale.diadasemana}}<br>{{cale.horainicial}} às {{cale.horafinal}}
+                </td>
+
+                <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                    <ng-container *ngIf="cale.aulainiciada;else naoiniciada">
+                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip=""
+                            matTooltipPosition="above" matTooltipHideDelay="100">
+                            <mat-icon style="color: green;">check_circle</mat-icon>
+
+                        </i>
+                    </ng-container>
+                    <ng-template #naoiniciada>
+                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip=""
+                            matTooltipPosition="above" matTooltipHideDelay="100">
+                            <mat-icon style="color: red;">dangerous</mat-icon>
+                        </i>
+                    </ng-template>
+
+                    <!-- <span> / </span> -->
+
+                    <ng-container *ngIf="cale.aulaconcluida;else naoconcluida">
+                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip=""
+                            matTooltipPosition="above" matTooltipHideDelay="100">
+                            <mat-icon style="color: green;">check_circle</mat-icon>
+
+                        </i>
+                    </ng-container>
+                    <ng-template #naoconcluida>
+                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip=""
+                            matTooltipPosition="above" matTooltipHideDelay="100">
+                            <mat-icon style="color: red;">dangerous</mat-icon>
+                        </i>
+                    </ng-template>
+
+
+
+
+                    <!-- {{cale.aulainiciada}} {{cale.aulaconcluida}} -->
+                </td>
+
+                <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                    {{cale.titulo}}
+                </td>
+
+                <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                    {{cale.descricao || 'livre'}}
+                </td>
+
+                <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                    {{cale.nome || 'Nenhum professor alocado'}}
+                </td>
+
+                <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                    <ng-container *ngIf="cale.aulaconcluida">
+                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="nota da aula"
+                            matTooltipPosition="above" matTooltipHideDelay="100">
+                            <button [disabled]="showSpinner" (click)="getNotaAula(cale.id)"
+                                style="margin: 0px; margin: 0px;" mat-icon-button>
+                                <mat-icon style="color: black;">note_alt</mat-icon>
+                            </button>
+                        </i>
+                    </ng-container>
+
+
+                </td>
+
+
+            </tr>
+        </tbody>
+    </table>
+    <!-- <mat-spinner  @rowHighlight [diameter]="100" style="margin-left: 20.5%;
+                   position: absolute;">
+    </mat-spinner> -->
+</div>
+
+<!-- style="margin-left: 42.5%;
+        margin-top: 10%; 
+        position: absolute;" 
+    
+    check_circle
+    dangerous
+    -->

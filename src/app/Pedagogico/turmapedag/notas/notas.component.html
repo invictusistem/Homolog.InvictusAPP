@@ -1,0 +1,228 @@
+<div class="container">
+    <div>{{data.turma.descricao}} - {{ data.turma.identificador }} 
+    </div>
+
+    <div>
+        <mat-form-field style="width: 25%;">
+            <mat-label>Matéria</mat-label>
+            <mat-select selected>
+                <mat-option ></mat-option>
+                <mat-option (click)="filter(mat)" *ngFor="let mat of materias" [value]="mat.descricao" >
+                    {{mat.descricao}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- <mat-form-field style="width: 25%;margin-left: 3%;">
+            <mat-label>Avaliação</mat-label>
+            <mat-select selected>
+                <mat-option ></mat-option>
+                <mat-option >1ª Avaliação</mat-option>
+                <mat-option >2ª Avaliação</mat-option>
+            </mat-select>
+        </mat-form-field> -->
+    </div>
+
+    <!-- <mat-form-field style="width: 25%;">
+        <mat-label>Matéria</mat-label>
+        <mat-select selected>
+            <mat-option></mat-option>
+            <mat-option>Português</mat-option>
+        </mat-select>
+    </mat-form-field> -->
+
+
+    <div *ngIf="showTable" class="table-responsive" style="height: 430px;position: relative;">
+        <table color="primary" style="margin-bottom: 0px;" class="table">
+            <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
+            <thead>
+                <tr>
+                    <th style="width: 2%; 
+                    text-align:left; 
+                    vertical-align: middle;
+                    border-top: 0px;"></th>
+
+
+                    <th style="width: 33%;font-size:1em;
+                    vertical-align: middle; 
+                    text-align:left;
+                     border-top: 0px; font-weight: 400;"></th>
+
+                    <!-- <th style="width: 24%;font-size:1em;
+                    vertical-align: middle;border: 1px solid red;
+                    text-align:center;
+                    border-top: 0px; font-weight: 400;">{{ agendaProvas.materia }}</th> -->
+
+                    <th style="width: 15%;font-size:1em;
+                    text-align:center; border: 1px solid red;
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">1ª Av.<br>
+                    <span *ngIf="showTable" style="font-size: 0.8em;">{{ agendaProvas.avaliacaoUm }}</span></th>
+
+                    <th style="width: 15%;font-size:1em;
+                    text-align:center;
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">2ª Av.<br>
+                    <span *ngIf="showTable" style="font-size: 0.8em;">{{agendaProvas.avaliacaoDois }}</span></th>
+
+                    <th style="width: 15%;font-size:1em;
+                    text-align:center;
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">3ª Av.<br>
+                    <span *ngIf="showTable" style="font-size: 0.8em;">{{agendaProvas.avaliacaoTres }}</span></th>
+
+                    <th style="width: 20%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">Status</th> 
+    
+                    <!--<th style="width: 13%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">Status</th> -->
+
+                    <!-- <th style="width: 34%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">
+    
+                    </th> -->
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let aluno of notasDisciplinas;let i = index;">
+                    <td style="font-size:0.9em;text-align:center;vertical-align: middle;">{{i+1}}</td>
+
+                    <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                        {{aluno.nome}}
+                    </td>
+
+                    <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                    {{aluno.materia}}
+                    </td> -->
+
+                    <td style="text-align: center;vertical-align: middle;">
+                        
+                        <div style="">
+                            <input type="text" style="margin-right: auto;
+                            margin-left: auto;font-size:0.9em;width: 60px;" class="form-control"
+                            [(ngModel)]="aluno.avaliacaoUm"
+                            [value]="aluno.avaliacaoUm || ''"
+                            (focusout)="onFocusOutEvent($event, aluno)"
+                              aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                        </div>
+                    </td>
+
+                    <td style="text-align: center;vertical-align: middle;">
+
+                        <div style="text-align: center;vertical-align: middle;">
+                            <input type="text" style="margin-right: auto;
+                            margin-left: auto;font-size:0.9em;width: 60px;" class="form-control"
+                            [(ngModel)]="aluno.avaliacaoDois"
+                            [value]="aluno.avaliacaoDois || ''"
+
+                             aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                        </div>
+                    </td>
+
+                    <td style="text-align: center;vertical-align: middle;">
+
+                        <div style="text-align: center;vertical-align: middle;">
+                            <input type="text" style="margin-right: auto;
+                            margin-left: auto;font-size:0.9em;width: 60px;" class="form-control"
+                            [(ngModel)]="aluno.avaliacaoTres"
+                            [value]="aluno.avaliacaoTres || ''"
+
+                            aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                        </div>
+                    </td>
+
+                    <td style="text-align: center;vertical-align: middle;">
+{{aluno.resultado}}
+                        <!-- <div style="text-align: center;vertical-align: middle;">
+                            <input type="text" style="margin-right: auto;
+                            margin-left: auto;font-size:0.9em;width: 60px;" class="form-control"
+                            [(ngModel)]="aluno.avaliacaoTres"
+                            [value]="aluno.avaliacaoTres || ''"
+
+                            aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                        </div> -->
+                    </td>
+
+                </tr>
+
+
+
+
+                <!-- <tr>
+                    <td style="font-size:0.9em;text-align:center;vertical-align: middle;">1</td>
+
+                    <td style="font-size:0.9em;text-align:left;vertical-align: middle;">Álvaro Carlos Camargo
+                        Ximenes Júnior
+                    </td>
+
+                    <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                    {{teste.materia}}
+                    </td>
+
+                    <td style="text-align: center;vertical-align: middle;">
+                        <div style="">
+                            <input type="text" style="margin-right: auto;
+                            margin-left: auto;font-size:0.9em;width: 60px;" class="form-control"
+                            onkeypress="return String.fromCharCode(event.charCode).match(/^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:(\.|,)\d+)?$/g) === null"
+                                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                        </div>
+                    </td>
+
+                    <td style="text-align: center;vertical-align: middle;">
+                        <div style="text-align: center;vertical-align: middle;">
+                            <input type="text" style="margin-right: auto;
+                            margin-left: auto;font-size:0.9em;width: 60px;" class="form-control"
+                                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                        </div>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td style="font-size:0.9em;text-align:center;vertical-align: middle;">1</td>
+
+                    <td style="font-size:0.9em;text-align:left;vertical-align: middle;">Álvaro Carlos Camargo
+                        Ximenes Júnior
+                    </td>
+
+                    <td style="font-size:0.9em;text-align: center;vertical-align: middle;"></td>
+
+                    <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                        <div style="float: right;">
+                            <input type="text" disabled style="font-size:0.9em;width: 60px;" class="form-control"
+                                aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="faltou">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:0.9em;text-align:center;vertical-align: middle;">1</td>
+
+                    <td style="font-size:0.9em;text-align:left;vertical-align: middle;">Álvaro Carlos Camargo
+                        Ximenes Júnior
+                    </td>
+
+                    <td style="font-size:0.9em;text-align: center;vertical-align: middle;"></td>
+
+                    <td style="text-align: center;vertical-align: middle;">
+                        <div style="float: right;">
+                            <input disabled type="text" style="font-size:0.9em;width: 60px;" class="form-control"
+                                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                        </div>
+                    </td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
+    <button type="submit" (click)="salvar()" mat-raised-button disabled="false" style="float:right;margin-bottom: 10px;margin-left: 10px;">
+        Salvar
+    </button>
+    <button style="float:right;margin-bottom: 10px;" mat-raised-button
+        [mat-dialog-close]="{clicked:'Cancel'}">Cancel</button>
+</div>

@@ -1,0 +1,311 @@
+<div style="font-size: 1.2em;">Criar Pacote
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+
+<hr>
+<form novalidate [formGroup]="moduloForm" (ngSubmit)="onSubmit(moduloForm)">
+    <div class="card-body">
+
+        <mat-form-field appearance="standard" style="width: 280px; ">
+            <mat-label>Descrição</mat-label>
+            <input selected formControlName="descricao" name="templateName" matInput
+                placeholder="dica: Curso Técnico de Enfermagem">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 15%; margin-left: 10px;">
+            <mat-label>Duração/meses</mat-label>
+            <input selected formControlName="duracaoMeses"
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" name="capacidade"
+                matInput>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 100px;margin-left: 10px; ">
+            <mat-label>Preço</mat-label>
+            <input currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }" formControlName="preco"
+                type="text" selected required name="preco" matInput placeholder="R$ 00,00">
+            <span matPrefix>R$&nbsp;</span>
+        </mat-form-field>
+
+        <!-- <mat-form-field appearance="standard" style="width: 250px;margin-left: 5px;">
+            <mat-label>Tipo</mat-label>
+            <mat-select placeholder="temRecuperacao">
+                <mat-option [value]="1">APH/ENFERMAGEM</mat-option>
+            </mat-select>
+        </mat-form-field> -->
+
+        <br>
+        <mat-form-field appearance="standard" style="width: 350px;">
+            <mat-label>Tipo</mat-label>
+            <mat-select formControlName="typePacoteId" placeholder="">
+                <mat-option style="font-size: 0.8em;" 
+                [value]="type.id"
+                *ngFor="let type of typePacotes" >
+                    {{type.nome}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+      
+
+
+        <mat-form-field appearance="standard" style="width: 120px;margin-left: 10px; ">
+            <mat-label>Total horas</mat-label>
+            <input selected disabled [value]="totalHoras" name="templateName" matInput placeholder="curso tal...">
+        </mat-form-field>
+
+        <br>
+
+        <div style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+            Adicione ao menos uma matéria ao curso:
+        </div>
+
+        <ng-container formArrayName="materias">
+
+            <ng-container *ngFor="let matForm of materias.controls; let i = index;">
+
+                <div [formGroup]="matForm">
+
+                    <!-- <mat-form-field appearance="fill" >
+                        <input matInput formControlName="Descricao" placeholder="Lesson title">
+                    </mat-form-field> -->
+
+                    <mat-form-field appearance="standard" style="width: 250px;">
+                        <mat-label>Descrição</mat-label>
+                        <input selected formControlName="descricao" matInput placeholder="Descrição">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" style="width: 70px;margin-left: 5px;">
+                        <mat-label>Qnt Aulas</mat-label>
+                        <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                            selected formControlName="qntAulas" matInput placeholder="Descrição">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" style="width: 70px;margin-left: 5px;">
+                        <mat-label>Semestre</mat-label>
+                        <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                            selected formControlName="semestre" matInput placeholder="semestre">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" style="width: 50px;margin-left: 5px;">
+                        <mat-label>Horas</mat-label>
+                        <input type="number" onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                            selected formControlName="cargaHoraria" matInput placeholder="carga Horaria">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" style="width: 80px;margin-left: 5px;">
+                        <mat-label>Qnt Provas</mat-label>
+                        <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                            selected formControlName="qntProvas" matInput placeholder="qntProvas">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" style="width: 105px;margin-left: 5px;">
+                        <mat-label>Recuperação?</mat-label>
+
+                        <mat-select formControlName="temRecuperacao" placeholder="temRecuperacao">
+                            <mat-option [value]="true">Sim</mat-option>
+                            <mat-option [value]="false">Não</mat-option>
+
+                        </mat-select>
+
+                    </mat-form-field>
+
+                    <!-- <mat-form-field appearance="fill">
+                    <mat-select formControlName="temRecuperacao"
+                            placeholder="temRecuperacao">
+                        <mat-option value=true>Sim</mat-option>
+                        <mat-option value=false>Não</mat-option>
+                        
+                    </mat-select>
+                </mat-form-field> -->
+
+                    <mat-form-field appearance="standard" style="width: 120px;margin-left: 5px;">
+                        <mat-label>Modalidade</mat-label>
+                        <mat-select formControlName="modalidade" placeholder="modalidade">
+                            <mat-option value="online">On-line</mat-option>
+                            <mat-option value="presencial">Presencial</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <button mat-icon-button (click)="deleteLesson(i)" style="margin-left:10px ;" #tooltip="matTooltip"
+                        matTooltip="remover" matTooltipPosition="above" matTooltipHideDelay="100">
+
+                        <mat-icon style="vertical-align: middle;" class="delete-btn">
+                            delete_forever</mat-icon>
+                    </button>
+
+                </div>
+            </ng-container>
+
+        </ng-container>
+        <button mat-icon-button type="button" (click)="addMateria()" #tooltip="matTooltip"
+            matTooltip="adicionar matéria" matTooltipPosition="above" matTooltipHideDelay="100">
+            <mat-icon>add</mat-icon>
+        </button>
+
+
+        <div style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+            Adicione a documentação exigida (opcional):
+        </div>
+
+        <ng-container formArrayName="documentos">
+
+            <ng-container *ngFor="let docsForm of documentos.controls; let i = index;">
+
+                <div [formGroup]="docsForm">
+
+
+                    <mat-form-field appearance="standard" style="width: 250px;">
+                        <mat-label>Descrição</mat-label>
+                        <input selected formControlName="descricao" matInput placeholder="ex: RG">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" style="width: 250px;margin-left: 5px;">
+                        <mat-label>Comentário</mat-label>
+                        <input selected formControlName="comentario" matInput placeholder="ex: RG do aluno...">
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="standard" style="width: 200px;margin-left: 5px;">
+                        <mat-label>Titular</mat-label>
+                        <mat-select formControlName="titular" placeholder="Titular">
+                            <mat-option value="Aluno">Aluno</mat-option>
+                            <mat-option value="Responsável menor">Responsável menor</mat-option>
+                            <mat-option value="Responsável financeiro">Responsável financeiro</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+
+
+
+                    <button mat-icon-button (click)="deleteDocumento(i)" style="margin-left:10px ;"
+                        #tooltip="matTooltip" matTooltip="remover" matTooltipPosition="above" matTooltipHideDelay="100">
+
+                        <mat-icon style="vertical-align: middle;" class="delete-btn">
+                            delete_forever</mat-icon>
+                    </button>
+
+                </div>
+            </ng-container>
+
+        </ng-container>
+
+        <!-- <button (click)="openCreateUserModal()" mat-icon-button>
+            <mat-icon>person_add_alt</mat-icon>
+        </button> -->
+
+        <button mat-icon-button type="button" (click)="addDocumentos()" #tooltip="matTooltip"
+            matTooltip="adicionar exigência de documentação" matTooltipPosition="above" matTooltipHideDelay="100">
+            <mat-icon>add</mat-icon>
+        </button>
+
+        <!-- <mat-form-field style="width: 100%" appearance="outline">
+            <mat-label>Observações gerais</mat-label>
+            <textarea formControlName="comentarios" name="comentarios" matInput></textarea>
+        </mat-form-field>  -->
+
+
+
+    </div>
+    <button color="primary" mat-raised-button [disabled]="!moduloForm.valid" style="float:right;margin-bottom: 10px;">
+        Salvar</button>
+</form>
+
+
+
+
+
+
+<!--
+
+<mat-form-field _ngcontent-vpk-c374="" appearance="fill"
+    class="mat-form-field ng-tns-c374-4 ng-tns-c119-10 mat-primary mat-form-field-type-mat-input 
+    mat-form-field-appearance-fill mat-form-field-can-float ng-pristine 
+    ng-invalid mat-form-field-invalid ng-touched"
+    ng-reflect-appearance="fill">
+    <div class="mat-form-field-wrapper ng-tns-c119-10">
+        <div class="mat-form-field-flex ng-tns-c119-10">
+
+            <div class="mat-form-field-infix ng-tns-c119-10">
+                <input _ngcontent-vpk-c374="" matinput="" formcontrolname="Descricao" placeholder="Lesson title"
+                    class="mat-input-element mat-form-field-autofill-control ng-tns-c119-10 ng-pristine ng-invalid cdk-text-field-autofill-monitored ng-touched"
+                    ng-reflect-placeholder="Lesson title" ng-reflect-name="Descricao" id="mat-input-5"
+                    data-placeholder="Lesson title" aria-invalid="false" aria-required="false">
+                <span class="mat-form-field-label-wrapper ng-tns-c119-10">
+
+                </span>
+            </div>
+
+        </div>
+
+        <div class="mat-form-field-underline ng-tns-c119-10 ng-star-inserted">
+            <span class="mat-form-field-ripple ng-tns-c119-10">
+            </span>
+        </div>
+
+        <div class="mat-form-field-subscript-wrapper ng-tns-c119-10" ng-reflect-ng-switch="hint">
+
+            <div class="mat-form-field-hint-wrapper ng-tns-c119-10 ng-trigger ng-trigger-transitionMessages ng-star-inserted"
+                style="opacity: 1; transform: translateY(0%);">
+
+                <div class="mat-form-field-hint-spacer ng-tns-c119-10"></div>
+            </div>
+
+        </div>
+    </div>
+</mat-form-field>
+
+
+<mat-form-field _ngcontent-kcd-c374="" appearance="outline"
+    class="mat-form-field ng-tns-c374-4 ng-tns-c119-8 mat-primary mat-form-field-type-mat-input 
+    mat-form-field-appearance-outline mat-form-field-can-float mat-form-field-has-label 
+    mat-form-field-hide-placeholder"
+    ng-reflect-appearance="outline">
+    <div class="mat-form-field-wrapper ng-tns-c119-8">
+        <div class="mat-form-field-flex ng-tns-c119-8">
+            <div class="mat-form-field-outline ng-tns-c119-8 ng-star-inserted" style="">
+                <div class="mat-form-field-outline-start ng-tns-c119-8" style="width: 1.29999px;"></div>
+                <div class="mat-form-field-outline-gap ng-tns-c119-8" style="width: 54.25px;"></div>
+                <div class="mat-form-field-outline-end ng-tns-c119-8"></div>
+            </div>
+            <div class="mat-form-field-outline mat-form-field-outline-thick ng-tns-c119-8 ng-star-inserted" style="">
+                <div class="mat-form-field-outline-start ng-tns-c119-8" style="width: 1.29999px;"></div>
+                <div class="mat-form-field-outline-gap ng-tns-c119-8" style="width: 54.25px;"></div>
+                <div class="mat-form-field-outline-end ng-tns-c119-8"></div>
+            </div>
+          
+            <div class="mat-form-field-infix ng-tns-c119-8">
+                <input _ngcontent-kcd-c374="" matinput=""
+                    class="mat-input-element mat-form-field-autofill-control ng-tns-c119-8 cdk-text-field-autofill-monitored"
+                    ng-reflect-placeholder="Jane Doe" id="mat-input-3" data-placeholder="Jane Doe" aria-invalid="false"
+                    aria-required="false">
+                <span class="mat-form-field-label-wrapper ng-tns-c119-8">
+                    <label class="mat-form-field-label ng-tns-c119-8 mat-empty mat-form-field-empty ng-star-inserted"
+                        ng-reflect-disabled="false" id="mat-form-field-label-7" ng-reflect-ng-switch="true"
+                        for="mat-input-3" aria-owns="mat-input-3" style="">
+                      
+                        <mat-label _ngcontent-kcd-c374="" class="ng-tns-c119-8 ng-star-inserted">Your name</mat-label>
+                       
+                    </label>
+                   
+                </span>
+            </div>
+           
+        </div>
+       
+        <div class="mat-form-field-subscript-wrapper ng-tns-c119-8" ng-reflect-ng-switch="hint">
+           
+            <div class="mat-form-field-hint-wrapper ng-tns-c119-8 ng-trigger ng-trigger-transitionMessages ng-star-inserted"
+                style="opacity: 1; transform: translateY(0%);">
+               
+                <div class="mat-form-field-hint-spacer ng-tns-c119-8"></div>
+            </div>
+           
+        </div>
+    </div>
+</mat-form-field> -->

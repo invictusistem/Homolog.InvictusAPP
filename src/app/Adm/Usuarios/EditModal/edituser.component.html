@@ -1,0 +1,43 @@
+<div style="font-size: 1.2em;">Visualizar/Editar Usuário</div>
+
+<hr>
+
+<form novalidate #form="ngForm" (ngSubmit)="submitForm(form)" style=" ">
+
+        <mat-form-field appearance="standard" style="width: 45%; ">
+            <mat-label>Nome</mat-label>
+            <input disabled [(ngModel)]="usuario.nome" selected  name="nome" matInput
+                placeholder="Nome" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 45%;margin-left: 10%;">
+            <mat-label>Email</mat-label>
+            <input disabled [(ngModel)]="usuario.email"  value="alvaro@gmail.com.br" name="templateName" matInput
+                placeholder="Email">
+        </mat-form-field>
+        
+        <br>
+        
+        <mat-form-field appearance="standard" style="width: 45%;">
+            <mat-label>Perfil</mat-label>
+            <mat-select matNativeControl [(ngModel)]="usuario.perfil" (change)="selectPerfil($event)" name="perfil">
+                <!-- <mat-option></mat-option> -->
+                <mat-option *ngFor="let item of perfis" [value]="item.value"  
+                (click)="changePerfil(item.value)" >
+                    {{item.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-slide-toggle *ngIf="usuario != null"style="width: 30%; margin-left: 10%;" class="autoPagination-slide" #tooltip="matTooltip"
+        [(ngModel)]="isChecked" name="perfilAtivo" (click)="onOffPerfil()" matTooltip="ativo/inativo" matTooltipPosition="above" matTooltipHideDelay="250"
+            color="primary">
+        </mat-slide-toggle>
+        
+        <br>
+    
+        <button mat-raised-button disabled="false" style="float:right;margin-bottom: 10px; margin-left: 10px;">
+            Salvar</button>
+        <button style="float:right;margin-bottom: 10px;" mat-raised-button
+            [mat-dialog-close]="{clicked:'Cancel'}">Cancel</button>
+</form>

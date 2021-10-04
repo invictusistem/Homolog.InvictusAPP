@@ -1,0 +1,89 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+
+    <br>
+
+
+
+    <div *ngIf="showMatriculaButton" style="margin-top: 20px;">
+        <!-- <button (click)="inscricao()" mat-raised-button style="background-color: green;">inscricao</button> -->
+
+        <i style="" #tooltip="matTooltip" matTooltip="enviar documentação" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button (click)="inscricao()" mat-icon-button>
+                <mat-icon>insert_drive_file</mat-icon>
+            </button>
+        </i>
+    </div>
+
+    <div *ngIf="showMessage" style="margin-top: 20px;">
+        <mat-icon style="vertical-align: middle; 
+        
+                    margin-bottom: 5px;">warning
+        </mat-icon>
+        {{message}}
+    </div>
+
+    <div *ngIf="showTableVagas" @rowHighlight>
+        <div style="margin-top: 20px; font-style: italic;font-size: 0.8em;">Vagas estágios disponíveis:</div>
+        <hr>
+        <div class="card card-plain mat-elevation-z8" style="width: 100%;
+                position: relative;
+                margin-top: 20px;
+                box-shadow: 0 0 1em rgb(172, 170, 170);
+                background-color: rgb(227, 240, 227);">
+            <div class="card-header">
+                <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                    Estágios</h4>
+                <p class="card-category">Vagas disponíveis: </p>
+            </div>
+            <div class="card-body">
+
+                <ng-container *ngIf="showVagas">
+
+                    <div *ngFor="let estagio of estagios " style="margin-bottom: 10px;">
+
+                        <div style="font-size: 1.2em;">
+                            <button #tooltip="matTooltip" matTooltip="Matricular-se" matTooltipPosition="above"
+                            matTooltipHideDelay="100" 
+                            (click)="matricular(estagio)" style="" mat-icon-button>
+                                <mat-icon style="vertical-align: middle; 
+                    margin: 0px; margin: 0px;">local_hospital</mat-icon>
+                            </button>{{estagio.nome}}
+                        </div>
+                        <div style="font-size: 0.9em;color: red;">início: 20/07/2021</div>
+                        <span style="font-size: 0.9em;">{{estagio.logradouro}}, {{estagio.complemento || 'N/A'}},
+                            {{estagio.bairro}}</span>
+                        <!-- <mat-icon style="vertical-align: middle; 
+        margin: 0px; margin: 0px;">local_hospital</mat-icon> -->
+                        <hr>
+                    </div>
+
+                </ng-container>
+
+                <div *ngIf="semVagasMessage" style="">Não há vagas disponíveis no momento. Consulte
+                    novamente mais tarde.
+
+                </div>
+
+
+            </div>
+
+            <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+                top: 46.5%; 
+                position: absolute;">
+            </mat-spinner> -->
+        </div>
+
+    </div>
+    <br>
+
+    <!-- <div>
+        <img  [src]="file()"
+            >
+    </div> -->
+
+
+
+
+</div>

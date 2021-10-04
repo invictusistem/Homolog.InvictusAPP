@@ -1,0 +1,118 @@
+<div class="container">
+
+    <!-- <div>
+        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="cadastrar estágio" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button style="" (click)="cadastroEstagio()" mat-icon-button>
+                <mat-icon>domain</mat-icon>
+            </button>
+        </i>
+    </div> -->
+
+<!-- 
+    <hr> -->
+
+    <br>
+
+    <!-- <div @rowHighlight *ngIf="showMessage" class="card-header " style="background-color: rgb(227, 240, 227);
+    margin-top: 50px;
+    margin-left: 10px;
+    width: 350px; 
+    font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on" onselectstart="return false;">
+        {{mensagem}}
+    </div> -->
+
+    <div *ngIf="docsViewModel.length > 0" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
+                position: relative;
+                margin-top: 20px;
+                box-shadow: 0 0 1em rgb(172, 170, 170);
+                background-color: rgb(227, 240, 227);">
+        <div class="card-header">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Estágio/Documentações (Curso Técnico em Enfermagem)</h4>
+            <p class="card-category">Documentações pendente de análise: </p>
+        </div>
+        <div class="card-body">
+
+
+
+            <div *ngFor="let aluno of docsViewModel" style="margin-bottom: 10px;">
+
+                <div style="font-size: 1.2em;margin-bottom: 10px;">
+                    <mat-icon style="vertical-align: middle; 
+                    margin: 0px; margin: 0px;">portrait</mat-icon>
+                    {{aluno.nome}}, CPF {{aluno.cpf}}, TODO: Turma x
+                </div>
+
+                <!-- <div style="font-size: 0.9em;">{{estagio.logradouro}}, {{estagio.complemento || 'N/A'}},
+                        {{estagio.bairro}}</div> -->
+                <!-- <div style="font-size: 1.2em;">
+                        <mat-icon style="vertical-align: middle; 
+                        margin: 0px; margin: 0px;">local_hospital</mat-icon>Hospital São Matheus, <span>Estrada
+                            Cachamorra, N/A, Campo Grande</span>
+                    </div>
+                    <div style="font-size: 0.9em;color: red;">início: 20/07/2021</div> -->
+
+                <div *ngFor="let doc of aluno.documentos">
+
+
+                    <span style="font-size: 1.2em;">
+                        <mat-icon (click)="exportar(doc)" type="button" style="vertical-align: middle; 
+                        margin: 0px; margin-bottom: 5px;">save_alt</mat-icon>
+                        {{doc.nome}} ({{doc.descricao}})
+                    </span>
+                    <!-- <span type="button" style="margin-left: 10px; color: blue;
+                            text-decoration: underline;">aprovar</span><br> -->
+
+                    <span *ngIf="doc.analisado;else analisar">
+                        
+                        <mat-icon 
+                        [style.color]="doc.validado? 'green':'red'"
+                        style="vertical-align: middle; 
+                        margin: 0px;color: green; margin-bottom: 5px;">
+                            {{doc.validado? 'done' : 'close'}} 
+                        </mat-icon>
+
+
+                    </span>
+
+                    <ng-template #analisar>
+                        <button style="" class="analisar" mat-button [matMenuTriggerFor]="menu">
+                            analisar
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button (click)="aprovar(aluno,doc)" mat-menu-item>
+                                <mat-icon style="vertical-align: middle; 
+                        margin: 0px;color: green; margin-bottom: 5px;">
+                                    done
+                                </mat-icon>
+                                aprovar
+                            </button>
+                            <button (click)="reprovar(aluno,doc)" mat-menu-item>
+                                <mat-icon style="vertical-align: middle; 
+                        margin: 0px;color: red; margin-bottom: 5px;">
+                                    close
+                                </mat-icon>
+                                reprovar
+                            </button>
+                        </mat-menu>
+                    </ng-template>
+
+                    <br>
+
+
+
+
+                </div>
+
+
+                <hr>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>

@@ -1,0 +1,201 @@
+<div class="container">
+    <!-- Transferência Interna
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button (click)="fechar()" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i> -->
+
+    <div style="font-size: 1.2em;">
+        Transferência Interna (Unidade {{ tokenInfo.Unidade }})
+
+        <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button (click)="fechar()" style="" mat-icon-button>
+                <mat-icon>close</mat-icon>
+            </button>
+        </i>
+    </div>
+    <hr>
+
+    <div *ngIf="showSearch">
+        <div style="margin-top: 20px;font-size: 0.9em;font-style: italic;">
+            Digite o CPF do aluno para colalizá-lo no sistema:
+        </div>
+        <form novalidate [formGroup]="pesquisaForm" (ngSubmit)="consulta(pesquisaForm)">
+            <mat-form-field appearance="standard" style="width: 25%; ">
+                <mat-label>CPF</mat-label>
+                <input mask="000.000.000-00"
+                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" minlength="11"
+                    formControlName="cpf" required name="cpf" matInput placeholder="CPF">
+            </mat-form-field>
+
+            <button type="submit" style="margin: 0px; margin: 0px;" mat-icon-button>
+                <mat-icon>search</mat-icon>
+            </button>
+
+        </form>
+
+        <br>
+        <div @rowHighlight class="card-header " style="background-color: rgb(227, 240, 227);margin-left: 0px;
+       width: 350px; font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on"
+            onselectstart="return false;" *ngIf="showMensagem">{{mensagem}}</div>
+
+    </div>
+
+
+
+    <div *ngIf="showAluno">
+
+
+        <div style="position: relative;">
+
+            <div style="position: absolute;  display:flex;padding: 0px; margin-left: 88%; display: inline-block;
+            overflow: hidden;margin-top: 5px; width: 100px; height: 133px; border: 1px solid black; ">
+
+                <img src="../../../../assets/img/belchior-fotografia-3x4-700x390.jpg" style="display: block;
+            margin-left: auto;
+            margin-right: auto;width:50%
+            ">
+
+            </div>
+
+            <mat-form-field appearance="standard" style="width: 35%; ">
+                <mat-label>Nome completo</mat-label>
+                <input [(ngModel)]="aluno.nome" disabled selected required name="nome" matInput placeholder="Nome">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
+                <mat-label>CPF</mat-label>
+                <input [(ngModel)]="aluno.cpf" disabled
+                mask="000.000.000-00"
+                    selected name="cpf" matInput placeholder="digite o CPF">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 12%; margin-left: 2%;">
+                <mat-label>RG</mat-label>
+                <input [(ngModel)]="aluno.rg" disabled
+                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected name="rg"
+                    minlength="9" maxlength="11" matInput placeholder="digite o RG">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 17%; margin-left: 2%;">
+                <mat-label>Nascimento</mat-label>
+                <date-input disabled [(ngModel)]="nascimento" disabled name="nascimento" matInput required></date-input>
+            </mat-form-field>
+
+
+            <br>
+
+
+            <mat-form-field appearance="standard" style="width: 25%; ">
+                <mat-label>Nome Social</mat-label>
+                <input [(ngModel)]="aluno.nomeSocial" disabled selected name="nome" matInput placeholder="Nome">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 20%; margin-left: 2%; ">
+                <mat-label>Naturalidade</mat-label>
+                <input [(ngModel)]="aluno.naturalidade" disabled selected required name="naturalidade" matInput
+                    placeholder="Nome">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
+                <mat-label>UF</mat-label>
+                <input [(ngModel)]="aluno.uf" disabled
+                    onkeypress="return String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null" minlength="2"
+                    maxlength="2" selected required name="naturalidadeUF" matInput placeholder="UF">
+            </mat-form-field>
+
+            <mat-form-field #tooltip="matTooltip" [matTooltip]="aluno.email" matTooltipPosition="above"
+                matTooltipHideDelay="100" appearance="standard" style="width: auto; margin-left: 2%;">
+                <mat-label>Email</mat-label>
+                <input [(ngModel)]="aluno.email" disabled selected name="email" matInput placeholder="Email">
+            </mat-form-field>
+
+            <!-- <div style="font-style: italic;margin-top: 10px;">Selecione o curso em que o Aluno está matriculado e para o qual deseja transferência:</div>
+
+            <mat-form-field appearance="standard" style="width: 25%;">
+                <mat-label>Curso</mat-label>
+                <mat-select  selected name="cargo" required>
+                    <mat-option value=""></mat-option>
+                    <mat-option (click)="select()" >Curso Técnico em Enfermagem</mat-option>
+                </mat-select>
+            </mat-form-field> -->
+
+            <br>
+
+            <mat-form-field appearance="standard" style="width: 28%;">
+                <mat-label>Curso</mat-label>
+                <input disabled value="Curso Técnico em Enfermagem" selected required name="templateName" matInput
+                    placeholder="digite o bairro">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 20%; margin-left: 2%;">
+                <mat-label>Turma atual</mat-label>
+                <input disabled value="Turma IRJ 0006" selected required name="templateName" matInput
+                    placeholder="digite o bairro">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 20%; margin-left: 2%;">
+                <mat-label>Unidade atual</mat-label>
+                <input disabled value="Ilha do Governador" selected required name="templateName" matInput
+                    placeholder="digite o bairro">
+            </mat-form-field>
+
+            <!-- <mat-form-field appearance="standard" style="width: 14%; margin-left: 2%;">
+                <mat-label>Semestre atual</mat-label>
+                <input disabled value="2º semestre" selected required name="templateName" matInput
+                    placeholder="digite o bairro">
+            </mat-form-field> -->
+
+            <br>
+
+            <!-- <div style="font-style: italic;margin-bottom: 10px;">Disciplinas faltantes:</div>
+
+            <div>Fundamentos de Enfermagem I
+                <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+                    matTooltipHideDelay="100">
+                    <button style="color: green" mat-icon-button>
+                        <mat-icon>done</mat-icon>
+                    </button>
+                </i>
+            </div> -->
+
+            <div style="font-style: italic;margin-top: 10px; margin-bottom: 10px;">
+                Turmas com vagas (unidade {{tokenInfo.Unidade}}):</div>
+
+            <ng-container *ngIf="turmas.length > 0; else semturmas">
+
+                <mat-form-field appearance="standard" style="width: 25%;">
+                    <mat-label>Curso</mat-label>
+                    <mat-select selected name="cargo" required>
+                        <mat-option value=""></mat-option>
+                        <mat-option (click)="selectTurma(turma.id)" *ngFor="let turma of turmas" [value]="turma.id">
+                            Turma {{turma.identificador}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </ng-container>
+            <ng-template #semturmas>
+                <span style="font-size: 0.8em; font-style: italic;">
+                Não turmas disponíveis ou com vagas para transferência.
+                </span>
+            </ng-template>
+
+            <span *ngIf="temDebito" style="font-size: 0.8em; font-style: italic;">
+                O aluno possui débitos em aberto, favor procurar a sua unidade responsável e regularizar.
+                </span>
+            
+
+        </div>
+
+        <button type="submit" color="primary" (click)="salvar()" mat-raised-button 
+        [disabled]="turmas.length == 0"
+            style="float:right;margin-bottom: 10px;margin-left: 10px;">
+            Salvar
+        </button>
+
+    </div>
+
+</div>

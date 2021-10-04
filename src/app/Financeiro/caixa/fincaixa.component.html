@@ -1,0 +1,174 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+    <div>
+        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="vender produto" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button (click)="openCaixaModal()" mat-icon-button>
+                <mat-icon>point_of_sale</mat-icon>
+            </button>
+        </i>
+
+        <i style="margin-left: 20px;" #tooltip="matTooltip" matTooltip="vender produto" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button (click)="openCaixaDiario()" mat-icon-button>
+                <mat-icon>today</mat-icon>
+            </button>
+        </i>
+
+        
+    </div>
+
+    <br>
+
+
+    <form novalidate [formGroup]="range" (ngSubmit)="submitSearch(range)" class="form-inline siteForm"
+        style="margin-top: 5px;display: inline-block">
+
+        <span style="margin-left: 10px;margin-bottom: 20px; font-size: 0.9em;font-style: italic;">Selecione o período
+            para pesquisar pelas
+            vendas efetuadas:
+        </span>
+
+        <br>
+
+        <div class="form-row align-items-center divSiteForm" style="padding: 0px;">
+
+            <mat-form-field style="transform: scale(0.85);" appearance="fill" style="margin: 0px;">
+                <mat-label>Selecione o período</mat-label>
+                <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                    <input matStartDate formControlName="start" placeholder="início">
+                    <input matEndDate formControlName="end" placeholder="fim">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+
+                <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+                <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+            </mat-form-field>
+
+            <span style="margin-left: 2px;margin-bottom: 30px;">
+                <i style="margin-left: 2px;margin-bottom: 10px;" #tooltip="matTooltip" matTooltip="pesquisar"
+                    matTooltipPosition="above" matTooltipHideDelay="100">
+                    <button (click)="pesquisarData()" type="submit" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+        </div>
+
+    </form>
+
+    <!-- <div class="card-header " style="background-color: rgb(227, 240, 227);margin-left: 10px;
+   width: 350px; font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on"
+        onselectstart="return false;" *ngIf="showMessageNoColaborador">{{mensagem}}</div> -->
+
+    <div @rowHighlight class="card card-plain mat-elevation-z8" 
+    *ngIf="balancoProdutos.length > 0"
+    style="width: 100%;
+            position: relative;
+            margin-top: 50px;
+            box-shadow: 0 0 1em rgb(172, 170, 170);
+            background-color: rgb(227, 240, 227);">
+
+        <div class="card-header">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Produtos</h4>
+            <p class="card-category">Produtos vendidos: </p>
+            <span>Total no período: {{totalVendas  | currency:'BRL':true:'1.2-2' }}  </span>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive" style="height: 430px;position: relative;">
+
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 2%; 
+                    text-align:left; 
+                    vertical-align: middle;
+                    border-top: 0px;"></th>
+
+                            <th style="width: 27%;font-size:0.8em;
+                                    vertical-align: middle;
+                                    text-align:left;
+                    border-top: 0px; font-weight: 400;">Descricao</th>
+
+                            <th style="width: 5%;font-size:0.8em;
+                            vertical-align: middle;
+                            text-align:center;
+                            border-top: 0px; font-weight: 400;">Valor unit.</th>
+
+                            <th style="width: 5%;font-size:0.8em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">Qnt</th>
+
+                            <th style="width: 12%;font-size:0.8em;font-weight: 400;
+                            text-align:center; 
+                            vertical-align: middle;
+                            border-top: 0px;">Meio<br>Parcelas
+                            </th>
+
+                            <th style="width: 15%;font-size:0.8em;font-weight: 400;
+                            text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px;">Data</th>
+
+                            <th style="width: 20%;font-size:0.8em;font-weight: 400;
+                            text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px;">Meio<br>pagamento
+                            </th>
+
+                            <th style="width: 14%;font-size:0.8em;
+                            text-align:center; 
+                            vertical-align: middle;
+                            border-top: 0px; font-weight: 400;">Total venda</th>
+
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of balancoProdutos;let i = index;" @rowHighlight>
+                            <td style="text-align:center;vertical-align: middle;">{{i + 1}}</td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.valorUnitario | currency:'BRL':true:'1.2-2'}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.quantidade}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.parcelas}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.dataVenda | date:'d/M/y'}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.meioPagamento}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.valorTotal | currency:'BRL':true:'1.2-2'}}</td>
+                            
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <!-- <mat-paginator *ngIf="length > 5" style="
+                background-color: rgb(227, 240, 227);
+                bottom: 0px;
+                right: 0px;" [length]="length" [pageSize]="5" hidePageSize="true" (page)="pageEvent = $event"
+                (click)="changePage(pageEvent)">
+            </mat-paginator> -->
+
+        </div>
+
+        <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+            top: 46.5%; 
+            position: absolute;">
+        </mat-spinner> -->
+    </div>
+
+
+
+</div>

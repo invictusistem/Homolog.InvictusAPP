@@ -1,0 +1,148 @@
+<div style="font-size: 1.2em;">Cadastrar Estágio
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+
+<div style="font-size: 0.8em;margin-top: 5px;">* O Estágio estará disponível para a unidade de {{tokenInfo.Unidade}}
+</div>
+<hr>
+
+<div style="position: relative;">
+
+    <form novalidate [formGroup]="estagioForm" (ngSubmit)="onSubmit(estagioForm)">
+
+
+        <mat-form-field appearance="standard" style="width: 250px; ">
+            <mat-label>Instituição</mat-label>
+            <input selected formControlName="nome" required name="templateName" matInput placeholder="Nome">
+        </mat-form-field>
+
+        <br>
+
+
+
+
+
+
+
+
+        <mat-form-field appearance="standard" style="width: 25%; ">
+            <mat-label>Inicio</mat-label>
+            <input mask="00/00/0000" required name="cpf" matInput placeholder="cpf" 
+            
+            [value]="valor"
+                (focusout)="onFocusOutDateEvent($event)"
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+        </mat-form-field>
+
+        <!-- <mat-form-field (focusout)="onFocusOutDateEvent($event)" appearance="standard" style="width: 145px; ">
+            <mat-label>Previsão 1</mat-label>
+            <input mask="00/00/0000" required name="prevInicio_1" matInput [value]="previIniOne"
+                formControlName="prevInicio_1"
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+            <mat-hint>Previsão de início 1</mat-hint>
+        </mat-form-field>
+
+
+
+        <mat-form-field appearance="standard" style="width: 150px;">
+            <mat-label>Inicio</mat-label>
+            <date-input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                formControlName="dataInicio" matInput required></date-input>
+            <mat-hint>Previsão de início</mat-hint>
+        </mat-form-field> -->
+
+
+        <mat-form-field appearance="standard" style="width: 55px;margin-left: 15px;">
+          
+            <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                formControlName="vagas" minlength="1" maxlength="4" required name="vagas" matInput>
+            <mat-hint>nº vagas</mat-hint>
+        </mat-form-field>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- <mat-form-field appearance="standard" style="width: 55px;margin-left: 15px;">
+                
+                <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                    formControlName="trimestre" minlength="1" maxlength="4" required name="vagas" matInput>
+                <mat-hint>trimestre</mat-hint>
+            </mat-form-field> -->
+
+        <br>
+        <mat-form-field appearance="standard" style="width: 100px;">
+            <mat-label>CEP</mat-label>
+            <input mask="00.000-000"
+            
+            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                formControlName="cep" minlength="8" maxlength="10" required matInput
+                placeholder="apenas números">
+        </mat-form-field>
+
+        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button type="button" style="margin: 0px; margin: 0px;" mat-icon-button>
+                <mat-icon (click)="consultaCEP(estagioForm.get('cep').value, estagioForm)">search</mat-icon>
+            </button>
+        </i>
+        <br>
+        <mat-form-field appearance="standard" style="width: 250px;">
+            <mat-label>Logradouro</mat-label>
+            <input selected formControlName="logradouro" name="templateName" matInput placeholder="ex: rua tal...">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 250px; margin-left: 10px;">
+            <mat-label>Complemento</mat-label>
+            <input selected formControlName="complemento" name="templateName" matInput
+                placeholder="ex: nº 123... sala 10... apto 123...">
+        </mat-form-field>
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 250px;">
+            <mat-label>Cidade</mat-label>
+            <input disabled selected [value]="estagioForm.get('cidade').value" matInput
+                placeholder="digite o bairro">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 30px; margin-left: 15px;">
+            <mat-label>UF</mat-label>
+            <input disabled selected [value]="estagioForm.get('uf').value" matInput
+                placeholder="digite o bairro">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 200px; margin-left: 15px;">
+            <mat-label>Bairro</mat-label>
+            <input selected formControlName="bairro" matInput placeholder="digite o bairro">
+        </mat-form-field>
+
+        <br>
+
+        <button type="submit" mat-raised-button [disabled]="!estagioForm.valid" color="primary"
+            style="float:right;margin-bottom: 0px;margin-left: 10px;">
+            Salvar
+        </button>
+
+
+
+    </form>
+
+</div>

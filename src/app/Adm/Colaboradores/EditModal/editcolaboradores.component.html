@@ -1,0 +1,104 @@
+<div style="font-size: 1.2em;">
+    Visualizar/Editar Colaborador
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<hr>
+
+<form novalidate #form="ngForm" (ngSubmit)="submitForm(form)" style="">
+    <!-- <div class="card-body"> -->
+
+        <mat-form-field appearance="standard" style="width: 45%; ">
+            <mat-label>Nome</mat-label>
+            <input selected name="nome" matInput [(ngModel)]="editedColaborador.nome">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 45%; margin-left: 10%;">
+            <mat-label>Email</mat-label>
+            <input selected name="email" disabled matInput [(ngModel)]="editedColaborador.email">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 18%;">
+            <mat-label>CPF</mat-label>
+            <input disabled selected name="cpf" matInput [value]="cpf">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 25%;margin-left: 2%;">
+            <mat-label>celular</mat-label>
+            <input selected name="celular" matInput [(ngModel)]="editedColaborador.celular">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 25%;margin-left: 2%;">
+            <mat-label>Cargo/Função</mat-label>
+            <mat-select placeholder="cargo/função" [(ngModel)]="editedColaborador.cargo" name="cargo">
+                <mat-option></mat-option>
+                <mat-option *ngFor="let cargo of cargos" [value]="cargo.value">
+                    {{cargo.value}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-slide-toggle style="width: 15%; margin-left: 40px;" class="autoPagination-slide" #tooltip="matTooltip"
+        [(ngModel)]="editedColaborador.ativo" name="ativo" required matTooltip="ativo/inativo"
+            matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
+        </mat-slide-toggle>
+
+        <!-- <mat-form-field appearance="standard" style="width: 25%; margin-left: 2%;">
+            <mat-label>Unidade</mat-label>
+            <mat-select selected [(ngModel)]="editedColaborador.unidade" name="unidade">
+                <mat-option></mat-option>
+                <mat-option *ngFor="let item of unidades" [value]="item.value">
+                    {{ item.value }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field> -->
+        <br>
+        <mat-form-field appearance="standard" style="width: 15%;">
+            <mat-label>CEP</mat-label>
+            <input #cep selected name="cep" matInput [(ngModel)]="editedColaborador.cep">
+        </mat-form-field>
+        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <span type="button" (click)="consultaCEP(cep.value)" style="margin: 0px; margin: 0px;" mat-icon-button>
+                <mat-icon>search</mat-icon>
+            </span>
+        </i>
+        <br>
+        <mat-form-field appearance="standard" style="width: 45%;">
+            <mat-label>Logradouro</mat-label>
+            <input disabled [(ngModel)]="editedColaborador.logradouro" selected name="logradouro" matInput>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 33%; margin-left: 5%;">
+            <mat-label>Bairro</mat-label>
+            <input disabled selected name="bairro" matInput [(ngModel)]="editedColaborador.bairro">
+        </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 33%;">
+            <mat-label>Cidade</mat-label>
+            <input disabled selected name="cidade" matInput [(ngModel)]="editedColaborador.cidade">
+        </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 45%; margin-left: 15px;">
+            <mat-label>Complemento</mat-label>
+            <input selected name="complemento" matInput [(ngModel)]="editedColaborador.complemento">
+        </mat-form-field>
+
+    <!-- </div> -->
+<br>
+    <!-- <div *ngIf="showMensagem" class="alert alert-danger" role="alert"
+        style="text-align: center; vertical-align: middle; position:relative; height: 45px; float:left;margin-bottom: 20px;">
+        {{mensagem}}
+    </div> -->
+
+    <button type="submit" mat-raised-button [disabled]="formIsValid"
+        style="float:right;margin-bottom: 0px;margin-left: 10px;">
+        Salvar
+    </button>
+
+    <!-- <button style="float:right;margin-bottom: 10px;" mat-raised-button
+        [mat-dialog-close]="{clicked:'Cancel'}">Cancel</button> -->
+</form>

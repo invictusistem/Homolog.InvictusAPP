@@ -1,0 +1,82 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+    <br>
+
+    <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+        Relatórios:
+    </span>
+    <div class="form-row align-items-center divSiteForm">
+
+        <mat-form-field appearance="standard" style="transform: scale(0.85);width: 150px;">
+            <mat-label>Livro Matricula</mat-label>
+            <mat-select placeholder="">
+                <mat-option (click)="getTurmas()">livro matricula</mat-option>
+                <!-- <mat-option [value]="false">Não</mat-option> -->
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="showlivroDois" appearance="standard"
+            style="transform: scale(0.85);width: 150px;margin-left: 5px;">
+            <mat-label>Relatório</mat-label>
+            <mat-select placeholder="">
+                <mat-option style="font-size: 0.8em;" (click)="exportarCert(0)">Todas</mat-option>
+                <mat-option style="font-size: 0.8em;" (click)="exportarCert(item.id)" *ngFor="let item of turmas" [value]="item.id">
+                    Turma {{item.identificador}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="transform: scale(0.85);width: 150px;">
+
+            <mat-label>Calendário</mat-label>
+            <mat-select placeholder="">
+                <!-- <mat-option style="font-size: 0.8em;" (click)="getParam()">Unidade</mat-option> -->
+                <mat-option style="font-size: 0.8em;"></mat-option>
+                <mat-option style="font-size: 0.8em;" (click)="getParam('turma')">Turma</mat-option>
+                <mat-option style="font-size: 0.8em;" (click)="getParam('sala')">Sala</mat-option>
+                <mat-option style="font-size: 0.8em;" (click)="getParam('prof')">Professor</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <ng-container *ngIf="showlivroDois">
+
+            <ng-container *ngIf="tur">
+                <mat-form-field appearance="standard" style="transform: scale(0.85);width: 150px;margin-left: 5px;">
+                    <mat-label>Turma</mat-label>
+                    <mat-select placeholder="">
+                        <mat-option style="font-size: 0.8em;" (click)="getCalendario(0)">Todas</mat-option>
+                        <mat-option style="font-size: 0.8em;" (click)="getCalendario(item.id)"
+                            *ngFor="let item of turmasA" [value]="item.id">
+                            Turma {{item.identificador}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </ng-container>
+
+            <ng-container *ngIf="sal">
+                <mat-form-field appearance="standard" style="transform: scale(0.85);width: 150px;margin-left: 5px;">
+                    <mat-label>Sala</mat-label>
+                    <mat-select placeholder="">
+                        <mat-option style="font-size: 0.8em;" (click)="getCalendario(0)">Todas</mat-option>
+                        <mat-option style="font-size: 0.8em;" (click)="getCalendario(item.id)"
+                            *ngFor="let item of salas" [value]="item.id">
+                            {{item.descricao}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </ng-container>
+
+            <ng-container *ngIf="pro">
+                <mat-form-field appearance="standard" style="transform: scale(0.85);width: 250px;margin-left: 5px;">
+                    <mat-label>Professor</mat-label>
+                    <mat-select placeholder="">
+                        <mat-option style="font-size: 0.8em;" (click)="getCalendario(0)">Todas</mat-option>
+                        <mat-option style="font-size: 0.8em;" (click)="getCalendario(item.id)"
+                            *ngFor="let item of profs" [value]="item.id">
+                            Turma {{item.nome}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </ng-container>
+
+        </ng-container>
+    </div>
+
+</div>

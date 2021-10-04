@@ -1,0 +1,245 @@
+<div class="container">
+    <div style="font-size: 1.2em;">Matrícula
+        <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button (click)="fechar()" style="" mat-icon-button>
+                <mat-icon>close</mat-icon>
+            </button>
+        </i>
+    </div>
+    <hr>
+
+   
+    <div style="color:red; font-style: italic;" *ngIf="showMessageNoTurmas">
+        {{ mensagemNoTrumas }}
+    </div>
+
+    <div *ngIf="showTurmas" @rowHighlight class="table-responsive" style="height: auto;position: relative;">
+        <table @rowHighlight color="primary" style="margin-bottom: 0px;" class="table">
+            <thead>
+                <tr>
+                    <th style="width: 2%;height: 20px;;  
+            text-align:left; 
+            vertical-align: middle;
+            border-top: 0px;"></th>
+
+                    <th style="width: 32%;font-size:1em;
+                            vertical-align: middle;
+                            text-align:left;
+            border-top: 0px; font-weight: 400;">Descrição</th>
+
+                    <th style="width: 19%;font-size:1em;
+                    vertical-align: middle;
+                    text-align:center;
+                    border-top: 0px; font-weight: 400;">Turno</th>
+
+                    <th style="width: 15%;font-size:1em;
+            text-align:center; 
+            vertical-align: middle;
+            border-top: 0px; font-weight: 400;">Prev. início</th>
+
+                    <th style="width: 15%;font-size:1em;
+            text-align:center; 
+            vertical-align: middle;
+            border-top: 0px; font-weight: 400;">Prev. término</th>
+
+                    <th style="width: 6%;
+            border-top: 0px;"></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of turmasParaMatricular;let i = index;">
+                    <td style="text-align:center;vertical-align: middle;"></td>
+
+                    <td style="text-align:left;vertical-align: middle;">{{item.descricao}}<br>Turma
+                        {{item.identificador}}</td>
+
+                    <td style="text-align: center;vertical-align: middle;">
+                        <!-- {{item.turno}}<br>10:00 às 14:00 -->
+                    </td>
+
+                    <td style="text-align: center;vertical-align: middle;">
+                        {{ item.previsaoAtual | date: 'dd/MM/yyyy' }}
+
+                        <br>
+
+                        <span *ngIf="item.iniciada" style="color:red; font-size: 0.8em;">
+                            * turma
+                            iniciada!
+                        </span>
+
+                    </td>
+
+                    <td style="text-align: center;vertical-align: middle;">{{ item.previsaoTerminoAtual |
+                        date: 'dd/MM/yyyy' }}
+                    </td>
+
+                    <td style="position: relative;text-align: center;vertical-align: middle;">
+                        <i style="" #tooltip="matTooltip" matTooltip="matricular" matTooltipPosition="above"
+                            matTooltipHideDelay="100">
+                            <button (click)="selecionarTurma(item)" style="" mat-icon-button>
+                                <mat-icon style="">note_add</mat-icon>
+                            </button>
+                        </i>
+                    </td>
+                </tr>
+        </table>
+    </div>
+
+
+
+    <div *ngIf="showTurmaForm">
+        <form novalidate [formGroup]="matriculaTurmaForm" (ngSubmit)="submitMatricula(matriculaTurmaForm)">
+            <mat-form-field class="example-full-width" appearance="outline" style="width: 17%;margin-left: 2%;">
+                <mat-label>Código do contrato:</mat-label>
+                <input disabled name="templateName" matInput value="CGI-34534634">
+            </mat-form-field>
+
+            <div style="float: right; width: 50px;">
+                <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="voltar"
+                    matTooltipPosition="above" matTooltipHideDelay="100">
+                    <button (click)="voltar()" style="" mat-icon-button>
+                        <mat-icon>undo</mat-icon>
+                    </button>
+                </i>
+
+            </div>
+
+
+            <br>
+            <mat-form-field class="example-full-width" appearance="outline" style="width: 29%; ;margin-left: 2%;">
+                <mat-label>Curso</mat-label>
+                <input disabled name="templateName" matInput [(value)]="turmaSelecionada.descricao">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 13%; margin-left: 2%;">
+                <mat-label>Turma</mat-label>
+                <input disabled name="templateName" matInput [(value)]="turmaSelecionada.identificador">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 15%; margin-left: 2%;">
+                <mat-label>Investimento</mat-label>
+                <input disabled name="templateName" matInput value="R$ 4.190,00">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 10%; margin-left: 1%;">
+                <mat-label>código </mat-label>
+                <input disabled selected name="templateName" matInput placeholder="aplicar desconto">
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="outline" style="width: 13%; margin-left: 2%;">
+                <mat-label>Dia</mat-label>
+                <input disabled name="templateName" matInput [(value)]="turmaSelecionada.weekDayOne">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 18%; margin-left: 2%;">
+                <mat-label>Horário</mat-label>
+                <input disabled name="templateName" matInput value="10:00 às 16:00">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 15%; margin-left: 2%;">
+                <mat-label>Previsão início </mat-label>
+                <input selected name="templateName" matInput disabled [(value)]="previAtual"
+                    placeholder="aplicar desconto">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 15%; margin-left: 1%;">
+                <mat-label>Previsão término </mat-label>
+                <input selected name="templateName" matInput disabled [(value)]="previTerminoAtual"
+                    placeholder="aplicar desconto">
+            </mat-form-field>
+
+
+
+            <br>
+
+            <mat-form-field appearance="outline" style="width: 24%;margin-left: 2%;margin-top: 20px;">
+                <mat-label>Forma de pagamento</mat-label>
+                <mat-select formControlName="meioPagamento" selected name="cargo" required>
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let item of meioPagamento" [value]="item.type">
+                        {{item.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+            <mat-form-field *ngIf="shoNParcelar" appearance="outline"
+                style="width: 25%;margin-left: 2%;margin-top: 20px;">
+                <mat-label>Número de parcelas</mat-label>
+                <mat-select formControlName="parcelas" selected name="noparcelas" required>
+                    <!-- <mat-option ></mat-option> -->
+                    <mat-option *ngFor="let item of parcelas" [value]="item.type">
+                        {{item.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="shoNParcelar" appearance="outline"
+                style="width: 40%;margin-left: 2%;margin-top: 20px;">
+                <mat-label>Dia de vencimento:</mat-label>
+                <mat-select formControlName="diaVencimento" selected name="diaVencimento" required>
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let item of diaVencimento" [value]="item.type">
+                        {{item.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+
+            <br>
+
+            <!-- <span style="margin-left: 5px;margin-right: 5px">Confirmar pagamento da primeira ou única parcela (à vista): </span>
+            <mat-checkbox type="checkbox" color="primary" (click)="markPrimeiraParc()" class="example-margin" name="checked">
+            </mat-checkbox> -->
+
+            <mat-form-field appearance="outline" style="width: 25%;margin-left: 2%;">
+                <mat-label>Primeira parcela já paga:</mat-label>
+                <mat-select formControlName="primeiraParcPaga" selected name="parcela" required>
+                    <mat-option value="True">Sim</mat-option>
+                    <mat-option value="false">Não</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="fill" style="width: 38%;margin-left: 2%;margin-top: 20px;">
+                <mat-label>Como ficou sabendo dos nossos cursos?</mat-label>
+                <mat-select formControlName="cienciaCurso" selected name="cargo" required>
+                    <mat-option (click)="searchAluno('nenhuma')"></mat-option>
+                    <mat-option (click)="searchAluno(item.type)" *ngFor="let item of cienciaCurso" [value]="item.value">
+                        {{item.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <br>
+
+            <br>
+
+            <br>
+
+            <!-- <span style="margin-left: 2%;">Escolha a forma de pagamento:</span>
+            <mat-tab-group style="">
+                <mat-tab label="Cartão de Crédito"> </mat-tab>
+                <mat-tab label="Boleto"> </mat-tab>
+                <mat-tab label="Carnê"></mat-tab>
+            </mat-tab-group> -->
+
+
+            <br>
+            <button type="submit" mat-raised-button disabled="false"
+                style="bottom: 0; float:right;margin-bottom: 10px;margin-left: 10px;">
+                Confirmar matrícula
+            </button>
+
+        </form>
+    </div>
+    <br>
+
+
+</div>

@@ -1,0 +1,40 @@
+<!-- <div class="container" style="width: 80%;margin-top: 30px; border: 1px solid red">
+    comercial
+    <div class="row">
+        <div style="border: 1px solid red" class="col col1">colu</div>
+        <div style="border: 1px solid red" class="col">colu</div>
+    </div>
+</div> -->
+<div class="container" style="width: 80%;">
+    <div class="row">
+        <button style="width: 140px;margin-top: 10px;" type="button" class="btn btn-success" (click)="openExportModal()">exportar lead</button>
+
+    </div>
+    <br>
+   
+    <mat-form-field appearance="standard" style="width: 200px; ">
+        <mat-label>Total Leads Cadastradas</mat-label>
+        <input disabled [(ngModel)]="totalLeads" selected required name="templateName" matInput placeholder="Nome">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="standard" style="width: 200px; ">
+        <mat-label>Total Cadastradas (hoje)</mat-label>
+        <input disabled [(ngModel)]="totalLeadsHoje" selected required name="templateName" matInput placeholder="Nome">
+    </mat-form-field>
+    <!-- <div class="card card-plain mat-elevation-z8" style="width: 100%;
+            margin-top: 50px;
+            box-shadow: 0 0 1em rgb(172, 170, 170);
+            background-color: rgb(227, 240, 227);">
+        <div class="card-header">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Comercial</h4>
+            <p class="card-category"> </p>
+        </div>   
+        
+    </div> -->
+
+
+   
+</div>

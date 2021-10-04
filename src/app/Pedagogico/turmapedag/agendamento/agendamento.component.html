@@ -1,0 +1,278 @@
+<div style="font-size: 1.2em;">Agendamento de avaliações
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+
+<hr>
+
+<br>
+<div style="margin-bottom: 50px;">{{turma.descricao}} - Turma {{turma.identificador}}</div>
+
+<mat-form-field style="width: 25%;">
+    <mat-label>Avaliação</mat-label>
+    <mat-select selected>
+        <mat-option></mat-option>
+        <mat-option (click)="avalSelected(item.type, item.value)" *ngFor="let item of avaliacao" [value]="item.type">
+            {{item.value}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
+<div class="table-responsive" *ngIf="showListaDatas" style="height: 430px;position: relative;">
+    <table color="primary" style="margin-bottom: 0px;" class="table">
+
+        <thead>
+            <tr>
+                <th style="width: 2%; 
+                text-align:left; 
+                vertical-align: middle;
+                border-top: 0px;"></th>
+
+
+                <th style="width: 28%;font-size:1em;
+                vertical-align: middle; 
+                text-align:left;
+                 border-top: 0px; font-weight: 400;">Matéria</th>
+
+
+
+                <th style="width: 35%;font-size:1em;
+                text-align:center; border: 1px solid red;
+                vertical-align: middle;
+                border-top: 0px; font-weight: 400;">
+                    {{ headerOne }}
+                </th>
+
+                <th style="width: 35%;font-size:1em;
+                text-align:center; border: 1px solid red;
+                vertical-align: middle;
+                border-top: 0px; font-weight: 400;">
+                    2ª ch.
+                </th>
+
+                <!-- <th style="width: 12%;font-size:1em;
+                text-align:center;
+                vertical-align: middle;
+                border-top: 0px; font-weight: 400;">
+                    2ª Avaliação
+                </th>
+
+                <th style="width: 12%;font-size:1em;
+                text-align:center;
+                vertical-align: middle;
+                border-top: 0px; font-weight: 400;">
+                    2ª ch.
+                </th>
+
+                <th style="width: 12%;font-size:1em;
+                text-align:center; 
+                vertical-align: middle;
+                border-top: 0px; font-weight: 400;">3ª Avaliação</th>
+
+                <th style="width: 12%;font-size:1em;
+                text-align:center;
+                vertical-align: middle;
+                border-top: 0px; font-weight: 400;">
+                    2ª ch.
+                </th> -->
+
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr *ngFor="let mat of agendaProvas; let i = index;">
+                <td style="font-size:0.9em;text-align:center;vertical-align: middle;">{{i+1}}</td>
+
+                <td style="font-size:0.8em;text-align:left;vertical-align: middle;">
+                    {{mat.materia}}
+                </td>
+
+
+
+                <td style="text-align: center;vertical-align: middle;">
+                    <!-- <mat-form-field appearance="standard" style="width: 25%; ">
+                        
+                        <input  mask="00/00/0000" required name="aval" matInput placeholder="" 
+                        [(ngModel)]="mat.avaliacaoUm"
+                        
+                            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                    </mat-form-field> -->
+
+                    <!-- <mat-form-field style="width: 165px; transform: scale(0.85);padding: 0px;margin: 0px;"
+                        appearance="fill">
+
+                        <input [(ngModel)]="mat.avaliacaoUm" name="avalone" matInput [matDatepicker]="dp3">
+                        <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                        <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+                    </mat-form-field> -->
+
+
+
+                    <container-element [ngSwitch]="avalAtual">
+
+                        <some-element *ngSwitchCase="1">
+                            <mat-form-field style="width: 165px; transform: scale(0.85);padding: 0px;margin: 0px;"
+                                appearance="fill">
+
+                                <input [(ngModel)]="mat.avaliacaoUm" name="avalone" matInput [matDatepicker]="dp1">
+                                <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                                <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </some-element>
+
+                        <some-element *ngSwitchCase="2">
+                            <mat-form-field style="width: 165px; transform: scale(0.85);padding: 0px;margin: 0px;"
+                                appearance="fill">
+
+                                <input [(ngModel)]="mat.avaliacaoDois" name="avalone" matInput [matDatepicker]="dp2">
+                                <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                                <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </some-element>
+                        
+                        <some-other-element *ngSwitchCase="3">
+                            <mat-form-field style="width: 165px; transform: scale(0.85);padding: 0px;margin: 0px;"
+                                appearance="fill">
+
+                                <input [(ngModel)]="mat.avaliacaoTres" name="avalone" matInput [matDatepicker]="dp3">
+                                <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                                <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </some-other-element>
+
+                    </container-element>
+
+                </td>
+
+                <td style="text-align: center;vertical-align: middle;">
+
+                    <container-element [ngSwitch]="avalAtual">
+
+                        <some-element *ngSwitchCase="1">
+                            <mat-form-field style="width: 165px; transform: scale(0.85);padding: 0px;margin: 0px;"
+                                appearance="fill">
+
+                                <input [(ngModel)]="mat.segundaChamadaAvaliacaoUm" name="avalone" matInput [matDatepicker]="dp1a">
+                                <mat-datepicker-toggle matSuffix [for]="dp1a"></mat-datepicker-toggle>
+                                <mat-datepicker #dp1a disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </some-element>
+
+                        <some-element *ngSwitchCase="2">
+                            <mat-form-field style="width: 165px; transform: scale(0.85);padding: 0px;margin: 0px;"
+                                appearance="fill">
+
+                                <input [(ngModel)]="mat.segundaChamadaAvaliacaoDois" name="avalone" matInput [matDatepicker]="dp2a">
+                                <mat-datepicker-toggle matSuffix [for]="dp2a"></mat-datepicker-toggle>
+                                <mat-datepicker #dp2a disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </some-element>
+                        
+                        <some-other-element *ngSwitchCase="3">
+                            <mat-form-field style="width: 165px; transform: scale(0.85);padding: 0px;margin: 0px;"
+                                appearance="fill">
+
+                                <input [(ngModel)]="mat.segundaChamadaAvaliacaoTres" name="avalone" matInput [matDatepicker]="dp3a">
+                                <mat-datepicker-toggle matSuffix [for]="dp3a"></mat-datepicker-toggle>
+                                <mat-datepicker #dp3a disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </some-other-element>
+                        
+
+                    </container-element>
+
+                </td>
+
+                <!-- <td style="text-align: center;vertical-align: middle;">
+                    <i *ngIf="mat.avaliacaoDois == null;else mostrarDataDois" style="margin: 0px; margin: 0px;"
+                        #tooltip="matTooltip" matTooltip="agendar" matTooltipPosition="above" matTooltipHideDelay="100">
+                        <button (click)="setData(mat, '2a','create')" style="margin: 0px; margin: 0px;" mat-icon-button>
+                            <mat-icon>pending_actions</mat-icon>
+                        </button>
+                    </i>
+                    <ng-template #mostrarDataDois>
+                        {{ mat.avaliacaoDois }}
+                        <i style="margin-left: 2px; vertical-align: middle; margin-bottom: 10px;"
+                            #tooltip="matTooltip" matTooltip="editar" matTooltipPosition="above"
+                            matTooltipHideDelay="100">
+                            <button (click)="setData(mat, '2a', 'edit')" style="vertical-align: middle;margin: 0px; margin: 0px;" mat-icon-button>
+                                <mat-icon style="font-size: 1em;vertical-align: middle;">build</mat-icon>
+                            </button>
+                        </i>
+                    </ng-template>
+                </td>
+               
+                <td style="text-align: center;vertical-align: middle;">
+                    <i *ngIf="mat.segundaChamadaAvaliacaoDois == null;else mostrarData" style="margin: 0px; margin: 0px;"
+                        #tooltip="matTooltip" matTooltip="agendar" matTooltipPosition="above" matTooltipHideDelay="100">
+                        <button (click)="setData(mat, '2b','create')" style="margin: 0px; margin: 0px;" mat-icon-button>
+                            <mat-icon>pending_actions</mat-icon>
+                        </button>
+                    </i>
+                    <ng-template #mostrarData>
+                        {{ mat.segundaChamadaAvaliacaoDois }}
+                        <i style="margin-left: 2px; vertical-align: middle; margin-bottom: 10px;"
+                            #tooltip="matTooltip" matTooltip="editar" matTooltipPosition="above"
+                            matTooltipHideDelay="100">
+                            <button (click)="setData(mat, '2b', 'edit')" style="vertical-align: middle;margin: 0px; margin: 0px;" mat-icon-button>
+                                <mat-icon style="font-size: 1em;vertical-align: middle;">build</mat-icon>
+                            </button>
+                        </i>
+                    </ng-template>
+
+                </td> -->
+
+                <!-- <td style="text-align: center;vertical-align: middle;">
+                    <i *ngIf="mat.avaliacaoTres == null;else mostrarDataTres" style="margin: 0px; margin: 0px;"
+                        #tooltip="matTooltip" matTooltip="agendar" matTooltipPosition="above" matTooltipHideDelay="100">
+                        <button (click)="setData(mat, '3a','create')" style="margin: 0px; margin: 0px;" mat-icon-button>
+                            <mat-icon>pending_actions</mat-icon>
+                        </button>
+                    </i>
+                    <ng-template #mostrarDataTres>
+                        {{ mat.avaliacaoTres }}
+                        <i style="margin-left: 2px; vertical-align: middle; margin-bottom: 10px;"
+                            #tooltip="matTooltip" matTooltip="editar" matTooltipPosition="above"
+                            matTooltipHideDelay="100">
+                            <button (click)="setData(mat, '3a', 'edit')" style="vertical-align: middle;margin: 0px; margin: 0px;" mat-icon-button>
+                                <mat-icon style="font-size: 1em;vertical-align: middle;">build</mat-icon>
+                            </button>
+                        </i>
+                    </ng-template>
+                </td>
+               
+                <td style="text-align: center;vertical-align: middle;">
+                    <i *ngIf="mat.segundaChamadaAvaliacaoTres == null;else mostrarData" style="margin: 0px; margin: 0px;"
+                        #tooltip="matTooltip" matTooltip="agendar" matTooltipPosition="above" matTooltipHideDelay="100">
+                        <button (click)="setData(mat, '3b','create')" style="margin: 0px; margin: 0px;" mat-icon-button>
+                            <mat-icon>pending_actions</mat-icon>
+                        </button>
+                    </i>
+                    <ng-template #mostrarData>
+                        {{ mat.segundaChamadaAvaliacaoTres }}
+                        <i style="margin-left: 2px; vertical-align: middle; margin-bottom: 10px;"
+                            #tooltip="matTooltip" matTooltip="editar" matTooltipPosition="above"
+                            matTooltipHideDelay="100">
+                            <button (click)="setData(mat, '3b', 'edit')" style="vertical-align: middle;margin: 0px; margin: 0px;" mat-icon-button>
+                                <mat-icon style="font-size: 1em;vertical-align: middle;">build</mat-icon>
+                            </button>
+                        </i>
+                    </ng-template>
+
+                </td> -->
+
+            </tr>
+        </tbody>
+    </table>
+    <br>
+
+</div>
+<ng-container *ngIf="showListaDatas">
+    <button style="float:right;margin-top: 15px; margin-bottom: 10px;" mat-raised-button
+        (click)="saveCalendar()">Save</button>
+</ng-container>
