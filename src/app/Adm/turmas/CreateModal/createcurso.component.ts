@@ -17,7 +17,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { DisponibilidadeDto, DisponibilidadeDtoV2 } from "src/app/_shared/models/disponibilidade.model";
 import { Horarios, TurmaCommand } from "src/app/_shared/models/turmacommand.model";
 import { Sala } from "../../Adm-Models/sala.model";
-import { CreateTurmaViewModel } from "../../Adm-Models/CreateTurmaViewModel.model";
+import { CreateTurmaViewModel } from "../../Adm-Models/createturmaviewmodel.model";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { JwtHelperService } from "@auth0/angular-jwt";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
