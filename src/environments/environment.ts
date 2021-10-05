@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   //baseUrl: 'https://localhost:44370/api',
   //baseUrl: 'http://localhost:5000/api',
-  baseUrl: 'http://api.invictustemp.com.thor.hostazul.com.br/api'
+  //baseUrl: 'http://api.invictustemp.com.thor.hostazul.com.br/api'
+  baseUrl: 'https://invictus-api-hml.azurewebsites.net/api'
 };
 
 /*
