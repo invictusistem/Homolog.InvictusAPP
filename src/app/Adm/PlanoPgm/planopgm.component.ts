@@ -81,7 +81,7 @@ export class PlanoPgmComponent implements OnInit {
             });
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
-                // this.getUnidades();
+                this.GetPlanos();
             } else if (data.clicked === "Cancel") {
 
             }
@@ -102,7 +102,7 @@ export class PlanoPgmComponent implements OnInit {
             });
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
-                // this.getUnidades();
+                this.GetPlanos();
             } else if (data.clicked === "Cancel") {
 
             }

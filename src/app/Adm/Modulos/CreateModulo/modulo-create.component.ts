@@ -30,7 +30,7 @@ export class ModuloCreateComponent implements OnInit {
     public moduloForm: FormGroup;
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
-
+    public disabledSpinner = false
     constructor(
         //private service: AdmService,
         private _snackBar: MatSnackBar,
@@ -138,6 +138,7 @@ export class ModuloCreateComponent implements OnInit {
     onSubmit(form: any) {
         console.log(form.value)
         if (form.valid) {
+            this.disabledSpinner = true
             console.log(JSON.stringify(form.value))
 
             this._http.post(`${this.baseUrl}/unidade/modulo`, form.value, {})

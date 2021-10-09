@@ -57,23 +57,23 @@ export class ModuloComponent implements OnInit {
     }
 
     openDetailModal(item: any): void {
-        const dialogRef = this._modal
-            .open(DetailPacoteComponent, {
-                height: 'auto',
-                width: '1000px',
-                autoFocus: false,
-                maxHeight: '90vh',
-                data: { modulo: item },
-                hasBackdrop: true,
-                disableClose: true
-            });
-        dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "Ok") {
-                // this.getUnidades();
-            } else if (data.clicked === "Cancel") {
+        // const dialogRef = this._modal
+        //     .open(DetailPacoteComponent, {
+        //         height: 'auto',
+        //         width: '1000px',
+        //         autoFocus: false,
+        //         maxHeight: '90vh',
+        //         data: { modulo: item },
+        //         hasBackdrop: true,
+        //         disableClose: true
+        //     });
+        // dialogRef.afterClosed().subscribe((data) => {
+        //     if (data.clicked === "Ok") {
+        //         // this.getUnidades();
+        //     } else if (data.clicked === "Cancel") {
 
-            }
-        });
+        //     }
+        // });
     }
 
     createModulo(): void {
@@ -89,7 +89,7 @@ export class ModuloComponent implements OnInit {
             });
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
-                // this.getUnidades();
+                this.getModulos();
             } else if (data.clicked === "Cancel") {
 
             }

@@ -11,6 +11,7 @@ import { environment } from "src/environments/environment";
 import { Sala } from "../../Adm-Models/sala.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { UpperCasePipe } from "@angular/common";
+import { Cargo } from "../../Adm-Models/cargos.model";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Pipe({ name: 'myPipe' })
@@ -128,7 +129,22 @@ export class CreateUnidadeComponent implements OnInit {
     }
     ngOnInit() {
 
+        this.getCargos();
+    }
 
+    cargos: Cargo[] = new Array<Cargo>()
+    getCargos() {
+
+        this._http.get(`${this._baseUrl}/unidade/cargo`)
+            .subscribe(response => {
+                this.cargos = Object.assign([], response)
+            }, (err) => {
+                console.log(err)
+            },
+                () => { 
+                    console.log(this.cargos)
+                    //this.showForm = true
+                });
     }
 
     log() {
@@ -137,8 +153,8 @@ export class CreateUnidadeComponent implements OnInit {
         console.log(this.testepipe)
 
         // if (form.valid) {
-
-            this._http.post(`${this._baseUrl}/unidade`, this.unidadeForm.value, {})
+        var command = { unidade: this.unidadeForm.value, colaborador: this.colaboradorForm.value}
+            this._http.post(`${this._baseUrl}/unidade`, command, {})
                 .subscribe(resp => { },
                     (error) => { console.log(error) },
                     () => { this.dialogRef.close({ clicked: "OK" }) })

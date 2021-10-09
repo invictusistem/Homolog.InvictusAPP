@@ -31,6 +31,7 @@ export class PlanoPgmEditComponent implements OnInit {
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
     public plano: any;
+    public disabledSpinner = false
 
     constructor(
         //private service: AdmService,
@@ -59,18 +60,19 @@ export class PlanoPgmEditComponent implements OnInit {
                 (error) => { console.log(error) },
                 () => { })
     }
-
+    isDisabled = false
     onSubmit(form: any) {
         console.log(this.plano)
         if (form.valid) {
-
-
-            // this._http.post(`${this.baseUrl}/unidade/plano-pagamento`, form.value, {})
-            //     .subscribe(response => {
-            //     }, (err) => { console.log(err) },
-            //         () => {
-            //             this.dialogRef.close({ clicked: "Ok" });
-            //         });
+            this.isDisabled = true
+            this.disabledSpinner = true
+            this._http.put(`${this.baseUrl}/unidade/plano-editar`, this.plano, {})
+                .subscribe(response => {
+                }, (err) => { console.log(err) },
+                    () => {
+                        this.disabledSpinner = false
+                        this.dialogRef.close({ clicked: "OK" });
+                    });
         }
     }
 }

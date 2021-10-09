@@ -30,7 +30,7 @@ export class PlanoPgmCreateComponent implements OnInit {
     public moduloForm: FormGroup;
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
-
+    public disabledSpinner = false
     constructor(
         //private service: AdmService,
         private _snackBar: MatSnackBar,
@@ -113,7 +113,7 @@ contratoId
            // console.log(JSON.stringify(form.value))
             //this.save(novoColaborador)
             // let newTemplate = this.mapForm(tempForm)
-
+            this.disabledSpinner = true
             this._http.post(`${this.baseUrl}/unidade/plano-pagamento`, form.value, {})
             .subscribe(response => {
             }, (err) => { console.log(err) },

@@ -94,7 +94,7 @@ export class ContratoComponent implements OnInit {
             });
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
-
+                this.getContrato();
             } else if (data.clicked === "Cancel") {
 
             }

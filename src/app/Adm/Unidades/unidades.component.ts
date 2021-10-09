@@ -49,7 +49,7 @@ export class UnidadesComponent implements OnInit {
     openUnidadeCreateModal(): void {
         const dialogRef = this.unidadeCreateModal
             .open(CreateUnidadeComponent, {
-                height: '710px',
+                height: '650px',
                 width: '800px',
                 //data: {  },
                 hasBackdrop: true,

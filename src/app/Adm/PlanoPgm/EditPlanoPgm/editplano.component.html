@@ -1,4 +1,4 @@
-<div style="font-size: 1.2em;">Criar Plano de Pagamento
+<div style="font-size: 1.2em;">Editar Plano de Pagamento
     <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
         matTooltipHideDelay="100">
         <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
@@ -10,75 +10,71 @@
 
 <hr>
 <form novalidate #form="ngForm" (ngSubmit)="onSubmit(form)">
+
     <div class="card-body">
+        <fieldset [disabled]="isDisabled">
+            <mat-form-field appearance="standard" style="width: 75%;">
+                <mat-label>Tipo/Pacote</mat-label>
+                <mat-select [(ngModel)]="plano.pacoteId" name="pacoteId" placeholder="">
+                    <mat-option style="font-size: 0.8em;" [value]="type.id" *ngFor="let type of typePacotes">
+                        {{type.nome}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
 
-        <mat-form-field appearance="standard" style="width: 75%;">
-            <mat-label>Tipo/Pacote</mat-label>
-            <mat-select  [(ngModel)]="plano.pacoteId" name="pacoteId" placeholder="">
-                <mat-option style="font-size: 0.8em;" 
-                [value]="type.id"
-                *ngFor="let type of typePacotes" >
-                    {{type.nome}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
 
-       
-        <!-- <mat-slide-toggle style="width: 20%; margin-left: 5%;" class="autoPagination-slide" #tooltip="matTooltip"
+            <!-- <mat-slide-toggle style="width: 20%; margin-left: 5%;" class="autoPagination-slide" #tooltip="matTooltip"
         [(ngModel)]="plano.descricao" name="Descricao" required matTooltip="ativo/inativo"
             matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
         </mat-slide-toggle> -->
-        <br>
+            <br>
 
-        <mat-form-field appearance="standard" style="width: 75%;">
-            <mat-label>Descrição</mat-label>
-            <input  selected [(ngModel)]="plano.descricao" name="descricao" matInput placeholder="Descrição">
-        </mat-form-field>
+            <mat-form-field appearance="standard" style="width: 75%;">
+                <mat-label>Descrição</mat-label>
+                <input selected [(ngModel)]="plano.descricao" name="descricao" matInput placeholder="Descrição">
+            </mat-form-field>
 
-        
 
-        <br>
 
-        <mat-form-field appearance="standard" style="width: 30%; ">
-            <mat-label>Valor</mat-label>
-            <input selected [(ngModel)]="plano.valor" name="valor" 
-                currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
-                placeholder="R$ 00,00"
-                matInput>
+            <br>
+
+            <mat-form-field appearance="standard" style="width: 30%; ">
+                <mat-label>Valor</mat-label>
+                <input selected [(ngModel)]="plano.valor" name="valor" currencyMask
+                    [options]="{ prefix: '', thousands: '.', decimal: ',' }" placeholder="R$ 00,00" matInput>
                 <span matPrefix>R$&nbsp;</span>
-        </mat-form-field>
+            </mat-form-field>
 
-        <mat-form-field appearance="standard" style="width: 30%;margin-left: 5% ">
-            <mat-label>Taxa Matrícua</mat-label>
-            <input  [(ngModel)]="plano.taxaMatricula" name="taxaMatricula" 
-            currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }" 
-           
-                type="text" selected required matInput placeholder="R$ 00,00">
-            <span matPrefix>R$&nbsp;</span>
-        </mat-form-field>
-
-        
-        <mat-form-field appearance="standard" style="width: 30%;margin-left: 5%; ">
-            <mat-label>Bonus Pontualidade</mat-label>
-            <input currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
-            [(ngModel)]="plano.bonusMensalidade" name="bonusMensalidade"
-                type="text" selected required matInput placeholder="R$ 00,00">
-            <span matPrefix>R$&nbsp;</span>
-        </mat-form-field>
-
-       <br>
+            <mat-form-field appearance="standard" style="width: 30%;margin-left: 5% ">
+                <mat-label>Taxa Matrícua</mat-label>
+                <input [(ngModel)]="plano.taxaMatricula" name="taxaMatricula" currencyMask
+                    [options]="{ prefix: '', thousands: '.', decimal: ',' }" type="text" selected required matInput
+                    placeholder="R$ 00,00">
+                <span matPrefix>R$&nbsp;</span>
+            </mat-form-field>
 
 
-        <mat-form-field appearance="standard" style="width: 40%">
-            <mat-label>Material Gratuito</mat-label>
-            <mat-select [(ngModel)]="plano.materialGratuito" name="materialGratuito" placeholder="">
-                <mat-option [value]="true">Sim</mat-option>
-                <mat-option [value]="false">Não</mat-option>
-            </mat-select>
-        </mat-form-field>
+            <mat-form-field appearance="standard" style="width: 30%;margin-left: 5%; ">
+                <mat-label>Bonus Pontualidade</mat-label>
+                <input currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                    [(ngModel)]="plano.bonusMensalidade" name="bonusMensalidade" type="text" selected required matInput
+                    placeholder="R$ 00,00">
+                <span matPrefix>R$&nbsp;</span>
+            </mat-form-field>
+
+            <br>
 
 
-        <!-- <mat-form-field appearance="standard" style="width: 55%;margin-left: 5%;">
+            <mat-form-field appearance="standard" style="width: 40%">
+                <mat-label>Material Gratuito</mat-label>
+                <mat-select [(ngModel)]="plano.materialGratuito" name="materialGratuito" placeholder="">
+                    <mat-option [value]="true">Sim</mat-option>
+                    <mat-option [value]="false">Não</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+            <!-- <mat-form-field appearance="standard" style="width: 55%;margin-left: 5%;">
             <mat-label>Contrato</mat-label>
             <mat-select [(ngModel)]="plano.nome" name="nome" placeholder="temRecuperacao">
                 <mat-option [value]="1">CONTRATO APH / ENFERMAGEM</mat-option>
@@ -86,13 +82,22 @@
             </mat-select>
         </mat-form-field> -->
 
-      
 
+        </fieldset>
 
 
 
     </div>
-    <button color="primary" mat-raised-button  style="float:right;margin-bottom: 10px;">
-        Salvar</button>
-</form>
+    <div style="float: right;margin-top: 15px;">
+        <button color="primary" type="submit" mat-raised-button style="width: 100px; position: relative; float:right;margin-bottom: 10px;
+    margin-left: 10px;">
+            <mat-spinner *ngIf="disabledSpinner" [diameter]="33" style="margin-left: 18px;
+            
+    margin-top: 2px; position: absolute;">
+            </mat-spinner>
+            Salvar
+        </button>
+    </div>
 
+
+</form>
