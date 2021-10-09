@@ -188,11 +188,12 @@
                 background-color: rgb(227, 240, 227);
                 bottom: 0px;
                 right: 0px;" 
+                #element
                 [length]="length" 
                 [pageSize]="pageSize" 
                 hidePageSize="true" 
-                (page)="pageEvent = $event"
-                (click)="changePage(pageEvent)">
+                (page)="pageEvent = changePage($event)"
+                >
             </mat-paginator>
 
         </div>

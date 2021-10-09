@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { NonNullAssert } from "@angular/compiler";
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
@@ -30,13 +30,15 @@ export class ColaboradoresComponent implements OnInit {
     pageSize: number = 5;
     pageEvent: PageEvent;
     length: number = 0
+    public totalPages: number = 0
+    
 
 
     colaboradores: Colaborador[] = new Array<Colaborador>();
     baseUrl = environment.baseUrl;
-    
-    
-    
+
+
+
 
     formSubmitted: boolean = false;
     showTable: boolean = false;
@@ -59,6 +61,7 @@ export class ColaboradoresComponent implements OnInit {
 
 
     constructor(
+        private elementRef: ElementRef,
         private http: HttpClient,
         private _fb: FormBuilder,
         private CreateColaboradoresModal: MatDialog,
@@ -72,18 +75,18 @@ export class ColaboradoresComponent implements OnInit {
 
         this.pesquisarForm.valueChanges.subscribe(
             (form: any) => {
-               // console.log('form changed to:', form);
+                // console.log('form changed to:', form);
                 if (this.pesquisarForm.get('nome').value == '' &&
                     this.pesquisarForm.get('email').value == '' &&
                     this.pesquisarForm.get('cpf').value == '') {
-                  //  console.log('false valid')
+                    //  console.log('false valid')
 
                     this.pesquisarForm.controls['nome'].setErrors({ required: true });
                     this.pesquisarForm.controls['email'].setErrors({ required: true });
                     this.pesquisarForm.controls['cpf'].setErrors({ required: true });
                     // this.pesquisarForm.setErrors({required: true});
                 } else {
-                 //   console.log('true valid')
+                    //   console.log('true valid')
                     this.pesquisarForm.controls['nome'].setErrors(null);
 
                     this.pesquisarForm.controls['email'].setErrors(null)
@@ -102,13 +105,13 @@ export class ColaboradoresComponent implements OnInit {
 
 
     ngOnInit() {
-       // console.log('init colaboradores 123')
+        // console.log('init colaboradores 123')
         const token = localStorage.getItem('jwt')
     }
 
     pageIndex = 0
     get page() {
-       return console.log('page')
+        return console.log('page')
     }
 
     onSubmit(form?: any, event?: any) {
@@ -119,13 +122,14 @@ export class ColaboradoresComponent implements OnInit {
             this.http.get(`${this.baseUrl}/colaboradores/pesquisar/?itemsPerPage=` + this.pageSize + `&currentPage=1&paramsJson=${formJson}`)
                 .subscribe(
                     (response) => {
-                      
+
                         this.colaboradores = Object.assign([], response['data']);
-                      
+
                         this.length = response['totalItemsInDatabase']
-                      
+                        this.totalPages = Math.ceil(this.length / this.pageSize)
+                        console.log(this.totalPages)
                         if (this.colaboradores.length == 0) {
-                           // console.log("lengt zero")
+                            // console.log("lengt zero")
                             this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
                             this.showMessageNoColaborador = true
                         }
@@ -134,7 +138,7 @@ export class ColaboradoresComponent implements OnInit {
                     (err) => {
                         this.showSpinnerFirst = false
                         this.showSpinner = false
-                       // console.log(err)
+                        // console.log(err)
                         //this.openSnackBar(err)
 
                     },
@@ -142,7 +146,7 @@ export class ColaboradoresComponent implements OnInit {
                         this.showMessageNoColaborador = false
                         this.showSpinnerFirst = false
                         this.showSpinner = false
-                      //  console.log('ok get');
+                        //  console.log('ok get');
 
                         //this.pageIndexNumber = (evento.pageIndex * this.pageSize)
                     },
@@ -151,22 +155,25 @@ export class ColaboradoresComponent implements OnInit {
 
     }
 
-    changePage(event?: any) {
+    changePage(event?: any, element?: any) {
+        console.log(event)
+        //console.log(element.target)
+
         this.showSpinner = true
         this.showMessageNoColaborador = false
         var formJson = JSON.stringify(this.pesquisarForm.value)
-       var currentPage = event.pageIndex + 1
+        var currentPage = event.pageIndex + 1
         if (this.pesquisarForm.valid) {
             this.http.get(`${this.baseUrl}/colaboradores/pesquisar/?itemsPerPage=${this.pageSize}&currentPage=${currentPage}&paramsJson=${formJson}`)
                 .subscribe(
                     (response) => {
-                      
+
                         this.colaboradores = Object.assign([], response['data']);
-                      
+
                         this.length = response['totalItemsInDatabase']
-                      
+
                         if (this.colaboradores.length == 0) {
-                           // console.log("lengt zero")
+                            // console.log("lengt zero")
                             this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
                             this.showMessageNoColaborador = true
                         }
@@ -175,7 +182,7 @@ export class ColaboradoresComponent implements OnInit {
                     (err) => {
                         this.showSpinnerFirst = false
                         this.showSpinner = false
-                       // console.log(err)
+                        // console.log(err)
                         //this.openSnackBar(err)
 
                     },
@@ -183,8 +190,8 @@ export class ColaboradoresComponent implements OnInit {
                         this.showMessageNoColaborador = false
                         this.showSpinnerFirst = false
                         this.showSpinner = false
-                      //  console.log('ok get');
-                      this.pageIndexNumber = (event.pageIndex * this.pageSize)
+                        //  console.log('ok get');
+                        this.pageIndexNumber = (event.pageIndex * this.pageSize)
                         //this.pageIndexNumber = (evento.pageIndex * this.pageSize)
                     },
                 )
@@ -289,7 +296,7 @@ export class ColaboradoresComponent implements OnInit {
 
     }
 
-    
+
 
     paginationChange(pageEvt: PageEvent) {
         console.log(pageEvt)

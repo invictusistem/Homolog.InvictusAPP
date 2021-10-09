@@ -1,4 +1,4 @@
-<div style="font-size: 1.2em;">Cadastrar Produto
+<div style="font-size: 1.2em;">Editar Produto
     <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
         matTooltipHideDelay="100">
         <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
@@ -30,13 +30,13 @@
         <input selected required [(ngModel)]="produto.descricao" name="descricao" matInput placeholder="Nome">
     </mat-form-field>
 
-    <mat-form-field appearance="standard" style="width: 45%;margin-left: 10%;">
+    <!-- <mat-form-field appearance="standard" style="width: 45%;margin-left: 10%;">
         <mat-label>Categoria</mat-label>
         <mat-select  selected name="cargo" required>
             <mat-option value=""></mat-option>
             <mat-option >Blusa</mat-option>
         </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <br>
 
@@ -86,7 +86,7 @@
         {{mensagem}}
     </div> -->
 
-    <button type="submit" mat-raised-button disabled="false" style="float:right;margin-bottom: 0px;margin-left: 10px;"
+    <button color="primary" type="submit" mat-raised-button disabled="false" style="float:right;margin-bottom: 0px;margin-left: 10px;"
         >
         Salvar
     </button>
