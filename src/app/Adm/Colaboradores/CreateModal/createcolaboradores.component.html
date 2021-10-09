@@ -15,7 +15,7 @@
     <form *ngIf="showForm" novalidate [formGroup]="colaboradorForm" style="" (ngSubmit)="onSubmit(colaboradorForm)">
 
         <!-- <div class="card-body"> -->
-        <mat-form-field appearance="standard" style="width: 200px; ">
+        <mat-form-field appearance="standard" style="width: 250px; ">
             <mat-label>Nome</mat-label>
             <input selected formControlName="nome" required name="templateName" matInput placeholder="Nome">
         </mat-form-field>
@@ -25,7 +25,7 @@
             <input selected formControlName="email" name="templateName" matInput placeholder="Email">
         </mat-form-field> -->
 
-        <mat-form-field appearance="standard" style="width: 150px; margin-left: 10px;">
+        <mat-form-field appearance="standard" style="width: 220px; margin-left: 10px;">
             <mat-label>Email</mat-label>
             <input (focusout)="buscarEmail($event)" selected formControlName="email" name="email" matInput
                 placeholder="Email">
@@ -40,9 +40,9 @@
                             </button>
                         </i> -->
 
-        
 
-        <mat-form-field appearance="standard" style="width: 80px;">
+
+        <mat-form-field appearance="standard" style="width: 140px;">
             <mat-label>CPF</mat-label>
             <input (focusout)="buscarCPF(colaboradorForm.get('cpf').value)" mask="000.000.000-00"
                 onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" formControlName="cpf"
@@ -53,7 +53,7 @@
         </mat-form-field>
 
 
-
+        <br>
 
         <!-- <mat-form-field appearance="standard" style="width: 25%;margin-left: 2%;">
             <mat-label>celular</mat-label>
@@ -67,8 +67,7 @@
             onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"></example-tel-input>
     </mat-form-field> -->
 
-        <mat-form-field style="width: 21%; margin-bottom: 10px; display: block;
-    margin-left: 2%;" appearance="standard">
+        <mat-form-field style="width: 150px;" appearance="standard">
             <mat-label>Celular</mat-label>
             <input name="celular" formControlName="celular" mask="(00) 00000-0000" matInput
                 onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
@@ -81,7 +80,7 @@
 
 
 
-        <mat-form-field appearance="standard" style="width: 25%;margin-left: 2%;">
+        <mat-form-field appearance="standard" style="width: 200px;margin-left: 10px;">
             <mat-label>Cargo/Função</mat-label>
             <mat-select formControlName="cargoId" selected name="cargoId" required>
                 <mat-option value=""></mat-option>
@@ -112,7 +111,8 @@
 
             </mat-select>
         </mat-form-field> -->
-       
+        <br>
+
         <mat-form-field appearance="standard" style="width: 17%;">
             <mat-label>CEP</mat-label>
             <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" #cep
