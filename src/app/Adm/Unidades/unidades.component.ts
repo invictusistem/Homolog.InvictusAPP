@@ -67,7 +67,7 @@ export class UnidadesComponent implements OnInit {
     openEditUnidade(unidade: Unidade): void {
         const dialogRef = this.unidadeEditModal
             .open(EditUnidadeComponent, {
-                height: '5000px',
+                height: '500px',
                 width: '800px',
                 data: { unidade: unidade },
                 hasBackdrop: true,
