@@ -25,6 +25,17 @@
         <input selected required formControlName="descricao" name="templateName" matInput placeholder="Nome">
     </mat-form-field>
 
+
+    <mat-form-field appearance="standard" style="width: 100px;margin-left: 10px;">
+        <mat-label>Unidade</mat-label>
+        <mat-select formControlName="cargoId" selected name="cargoId" required>
+            <mat-option value=""></mat-option>
+            <mat-option value="">CGI</mat-option>
+            <mat-option value="">SJM</mat-option>
+            <!-- <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">{{cargo.nome}}
+            </mat-option> -->
+        </mat-select>
+    </mat-form-field>
     <!-- <mat-form-field appearance="standard" style="width: 45%;margin-left: 10%;">
         <mat-label>Categoria</mat-label>
         <mat-select  selected name="cargo" required>
