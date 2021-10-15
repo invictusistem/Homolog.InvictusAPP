@@ -307,9 +307,9 @@ export class ColaboradoresComponent implements OnInit {
         const dialogRef = this.CreateColaboradoresModal
             .open(CreateColaboradoresComponent, {
                 minHeight: '420px',
-                width: '800px',
+                width: '680px',
 
-                data: { Hello: "Hello World" },
+                //data: { Hello: "Hello World" },
                 hasBackdrop: true,
                 disableClose: true
             });
@@ -330,8 +330,8 @@ export class ColaboradoresComponent implements OnInit {
     openEditUserModal(item: Colaborador): void {
         const dialogRef = this.EditColaboradoresModal
             .open(EditColaboradoresComponent, {
-                height: '580px',
-                width: '800px',
+                height: '520px',
+                width: '680px',
 
                 data: { colaborador: item },
                 hasBackdrop: true,

@@ -17,13 +17,13 @@ import { Cargo } from "../../Adm-Models/cargos.model";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Component({
-    selector: 'createcolaboradoresrmodal',
-    templateUrl: './createcolaboradores.component.html',
-    styleUrls: ['./createcolaboradores.component.scss'],
+    selector: 'createprofessormodal',
+    templateUrl: './createprofessor.component.html',
+    styleUrls: ['./createprofessor.component.scss'],
     animations: [HighlightTrigger]
 })
 
-export class CreateColaboradoresComponent implements OnInit {
+export class CreateProfessorComponent implements OnInit {
 
     // pageSize: number = 5;
     // genericTasks: GenericTask[] = new Array<GenericTask>();
@@ -49,7 +49,7 @@ export class CreateColaboradoresComponent implements OnInit {
         private router: Router,
         private _fb: FormBuilder,
         private http: HttpClient,
-        public dialogRef: MatDialogRef<CreateColaboradoresComponent>,
+        public dialogRef: MatDialogRef<CreateProfessorComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.colaboradorForm = _fb.group({
             // templateName: ['', [Validators.required, Validators.minLength(5)]],
@@ -80,7 +80,7 @@ export class CreateColaboradoresComponent implements OnInit {
         console.log(this.tokenInfo);
         this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
         this.colaboradorForm.get('cpf').setErrors({ 'incorrect': true });
-        this.getCargos();
+        //this.getCargos();
         //this.colaboradorForm.get('unidade').setValue(this.tokenInfo.Codigo)
         // console.log("on init")
         //this.getTasks(1, this.pageSize);

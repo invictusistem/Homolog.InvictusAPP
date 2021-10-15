@@ -19,7 +19,7 @@ export const ROUTES: RouteInfo[] = [
     //{ path: '/adm/calendario', title: 'Calendário', class: '', typeIcon: 'calendar_today' },
     { path: '/adm/admcursos', title: 'Turmas', class: '', typeIcon: 'house' },
     { path: '/adm/colaboradores', title: 'Colaboradores', class: '', typeIcon: 'engineering' },
-  // { path: '', title: 'Professores', class: '', typeIcon: 'engineering' },
+    { path: '/adm/professores', title: 'Professores', class: '', typeIcon: 'engineering' },
     { path: '/adm/produtos', title: 'Produtos', class: '', typeIcon: 'fact_check' },
     { path: '/adm/unidades', title: 'Unidade', class: '', typeIcon: 'home' },
     { path: '/adm/config', title: 'Configurações', class: '', typeIcon: 'settings' },

@@ -62,6 +62,8 @@ import { DetailPacoteComponent } from './Modulos/DetalhePacote/pacote-detalhe.co
 import { EditarContratoComponent } from './Contratos/EditContrato/editcontrato.component';
 import { CargoCreateComponent } from './configuracoes/Config-Cargos/cargo-create.component';
 import { PlanoPgmEditComponent } from './PlanoPgm/EditPlanoPgm/editplano.component';
+import { CreateProfessorComponent } from './Professores/CreateModal/createprofessor.component';
+import { EditProfessorComponent } from './Professores/EditModal/editprofessor.component';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -114,6 +116,8 @@ export function tokenGetter() {
         EditarContratoComponent,
         CargoCreateComponent,
         PlanoPgmEditComponent,
+        CreateProfessorComponent,
+        EditProfessorComponent,
         MyPipe
     ],
     imports: [
@@ -175,7 +179,9 @@ export function tokenGetter() {
         DetailPacoteComponent,
         EditarContratoComponent,
         CargoCreateComponent,
-        PlanoPgmEditComponent
+        PlanoPgmEditComponent,
+        CreateProfessorComponent,
+        EditProfessorComponent
         //AddSalaComponent
     ]
 })

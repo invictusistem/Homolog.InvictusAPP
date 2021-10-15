@@ -14,12 +14,12 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Component({
-    selector: 'editcolaboradoresmodal',
-    templateUrl: './editcolaboradores.component.html',
-    styleUrls: ['./editcolaboradores.component.scss']
+    selector: 'editprofessormodal',
+    templateUrl: './editprofessor.component.html',
+    styleUrls: ['./editprofessor.component.scss']
 })
 
-export class EditColaboradoresComponent implements OnInit {
+export class EditProfessorComponent implements OnInit {
 
     // pageSize: number = 5;
     // genericTasks: GenericTask[] = new Array<GenericTask>();
@@ -40,7 +40,7 @@ export class EditColaboradoresComponent implements OnInit {
     constructor(
         private _snackBar: MatSnackBar,
         private http: HttpClient,
-        public dialogRef: MatDialogRef<EditColaboradoresComponent>,
+        public dialogRef: MatDialogRef<EditProfessorComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) { }
 
 

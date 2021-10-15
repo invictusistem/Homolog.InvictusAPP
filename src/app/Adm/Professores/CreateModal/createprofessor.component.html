@@ -1,4 +1,4 @@
-<div style="font-size: 1.2em;">Cadastrar Colaborador
+<div style="font-size: 1.2em;">Cadastrar Professor
     <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
         matTooltipHideDelay="100">
         <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
@@ -81,14 +81,14 @@
 
 
 
-        <mat-form-field appearance="standard" style="width: 200px;margin-left: 10px;">
+        <!-- <mat-form-field appearance="standard" style="width: 200px;margin-left: 10px;">
             <mat-label>Cargo/Função</mat-label>
             <mat-select formControlName="cargoId" selected name="cargoId" required>
                 <mat-option value=""></mat-option>
                 <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">{{cargo.nome}}
                 </mat-option>
             </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
 
         <mat-slide-toggle style="width: 15%; margin-left: 40px;" class="autoPagination-slide" #tooltip="matTooltip"
             formControlName="ativo" name="ativo" required matTooltip="ativo/inativo" matTooltipPosition="above"
