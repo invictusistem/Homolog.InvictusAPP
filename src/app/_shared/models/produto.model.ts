@@ -5,6 +5,7 @@ export class Produto{
         public nome?: string,
         public descricao?: string,
         public preco?: number,
+        public precoCusto?: number,
         public quantidade?: number,
         public nivelMinimo?: number,
         public unidadeId?: number,

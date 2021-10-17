@@ -48,9 +48,18 @@
 
     
     <mat-form-field appearance="standard" style="width: 20%; ">
-        <mat-label>Preço</mat-label>
-        <input currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }" formControlName="preco" type="text"
+        <mat-label>Preço venda</mat-label>
+        <input currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }" 
+        formControlName="preco" type="text"
         selected required name="preco" matInput placeholder="Nome">
+        <span matPrefix>R$&nbsp;</span>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" style="width: 20%;margin-left: 5% ">
+        <mat-label>Preço de custo</mat-label>
+        <input currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }" 
+        formControlName="precoCusto" type="text"
+        selected required name="precoCusto" matInput placeholder="Nome">
         <span matPrefix>R$&nbsp;</span>
     </mat-form-field>
 

@@ -99,6 +99,10 @@ export class FinCaixaComponent implements OnInit {
         });
     }
 
+    openVendaUnidades(){
+        
+    }
+
     openCaixaDiario(): void {
         const dialogRef = this._modal
             .open(CaixaDiarioComponent, {

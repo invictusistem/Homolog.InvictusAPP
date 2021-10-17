@@ -19,7 +19,7 @@ import { Produto } from "src/app/_shared/models/produto.model";
 @Component({
     selector: 'produto-editmodal',
     templateUrl: './produto-edit.component.html',
-    //styleUrls: ['./produto-edit.component.scss'],
+    styleUrls: ['./produto-edit.component.scss'],
     animations: [HighlightTrigger]
 })
 

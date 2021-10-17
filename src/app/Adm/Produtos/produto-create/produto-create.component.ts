@@ -57,6 +57,7 @@ export class ProdutoCreateComponent implements OnInit {
             nome: ['', [Validators.required, Validators.minLength(5)]],
             descricao: ['', [Validators.required]],
             preco: ['', [Validators.required]],
+            precoCusto: ['', [Validators.required]],
             quantidade: [, [Validators.required, Validators.min(1)]],
             nivelMinimo: [, [Validators.required]],
             //unidade: ['', [Validators.required]],
