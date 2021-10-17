@@ -199,5 +199,13 @@ export class ConfigComponent implements OnInit {
         });
     }
 
+    verificarMatriculados(){
+
+    }
+
+    editarEstagio(){
+        
+    }
+
 }
 
