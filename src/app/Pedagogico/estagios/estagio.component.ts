@@ -14,18 +14,20 @@ import { AlunoDocument, AlunoDto } from "src/app/_shared/models/document.model";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 
 import { environment } from "src/environments/environment";
+import { EstagioAlunosComponent } from "./estagio-alunos/estagio-alunos.component";
+import { EstagioEditComponent } from "./estagio-edit/estagio-edit.component";
 import { EstagioCadastroComponent } from "./estagiocadastro/estagiocadastro.component";
 
 
 @Component({
     selector: "estagio-app",
-    templateUrl: './config.component.html',
-    styleUrls: ['./config.component.scss'],
+    templateUrl: './estagio.component.html',
+    styleUrls: ['./estagio.component.scss'],
     animations: [HighlightTrigger]
 
 })
 
-export class ConfigComponent implements OnInit {
+export class EstagioComponent implements OnInit {
 
 
 
@@ -199,13 +201,56 @@ export class ConfigComponent implements OnInit {
         });
     }
 
-    verificarMatriculados(){
+    verificarMatriculados(): void {
+        const dialogRef = this._cadastroEstagioModal
+            .open(EstagioAlunosComponent, {
+                height: 'auto',
+                width: '600px',
 
+                data: { Hello: "Hello World" },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "Ok") {
+                // Reset form here
+                console.log('afte close ok')
+                //this.getColaboradores(1, this.pageSize);
+            } else if (data.clicked === "Cancel") {
+                // Do nothing. Cancel any events that navigate away from the
+                // component.
+            }
+        });
     }
 
-    editarEstagio(){
-        
+
+    editarEstagio(estagioId: number): void {
+        const dialogRef = this._cadastroEstagioModal
+            .open(EstagioEditComponent, {
+                height: 'auto',
+                width: '600px',
+
+                data: { estagioId: estagioId },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "OK") {
+                // Reset form here
+                //console.log('afte close ok')
+                this.getInfoEstagios();
+                //this.getColaboradores(1, this.pageSize);
+            } else if (data.clicked === "Cancel") {
+                // Do nothing. Cancel any events that navigate away from the
+                // component.
+            }
+        });
     }
+
 
 }
 

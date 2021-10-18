@@ -27,8 +27,7 @@ import { AgendamentoComponent, SetDataModal } from './turmapedag/agendamento/age
 import { TransferenciaExternaComponent } from './Transferencia/TransExterna/transfexterna.component';
 import { TransferenciaInternaComponent } from './Transferencia/TransfInterna/transfinterna.component';
 import { AlunoMatriculaComponent } from './Matricula/matricula/alunomatricula.component';
-import { ConfigComponent } from './configuracoes/config.component';
-import { EstagioCadastroComponent } from './configuracoes/estagiocadastro/estagiocadastro.component';
+import { EstagioCadastroComponent } from './estagios/estagiocadastro/estagiocadastro.component';
 import { InfosComponent } from './Matricula/informacoes/infos.component';
 import { DataService } from '../_services/data.service';
 import { PedagService } from './service/pedag.service';
@@ -47,6 +46,9 @@ import { TurmasInfoAlunosPedagComponent } from './turmasInfos/AlunosTurma/turmas
 import { TurmasInfoNotasComponent } from './turmasInfos/TurmasInfoNotas/turmasinfonotas.component';
 import { BoletimAlunoComponent } from './Matricula/BoletimAluno/boletimaluno.component';
 import { EstagiosDocsComponent } from './estagiosdocs/estagiosdocs.component';
+import { EstagioComponent } from './estagios/estagio.component';
+import { EstagioEditComponent } from './estagios/estagio-edit/estagio-edit.component';
+import { EstagioAlunosComponent } from './estagios/estagio-alunos/estagio-alunos.component';
 // import { CustomersComponent } from '../customers/customers.component';
 
 export const MY_DATE_FORMATS = {
@@ -84,7 +86,7 @@ const maskConfig: Partial<IConfig> = {
         TransferenciaInternaComponent,
         AlunoMatriculaComponent,
         ConfirmMatriculaComponent,
-        ConfigComponent,
+        EstagioComponent,
         SetDataModal,
         EstagioCadastroComponent,
         InfosComponent,
@@ -103,7 +105,9 @@ const maskConfig: Partial<IConfig> = {
         TurmasInfoAlunosPedagComponent,
         TurmasInfoNotasComponent,
         BoletimAlunoComponent,
-        EstagiosDocsComponent
+        EstagiosDocsComponent,
+        EstagioAlunosComponent,
+        EstagioEditComponent
     ],
     imports: [
         BrowserModule,
@@ -125,7 +129,7 @@ const maskConfig: Partial<IConfig> = {
         MatriculaComponent,
         TurmasComponent,
         TransferenciaComponent,
-        ConfigComponent,
+        EstagioComponent,
         PedagRelatorioComponent,
         TurmasPedagInfoComponent,
         ReposicoesComponent,
@@ -155,7 +159,9 @@ const maskConfig: Partial<IConfig> = {
         TurmasInfoAlunosPedagComponent,
         TurmasInfoNotasComponent,
         BoletimAlunoComponent,
-        EstagiosDocsComponent
+        EstagiosDocsComponent,
+        EstagioAlunosComponent,
+        EstagioEditComponent
         // FormFieldCustomControlExample, 
         //MyTelInput,
         //   DialogOverviewExampleDialog,

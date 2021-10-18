@@ -17,7 +17,6 @@ import { TurmasComponent } from './Pedagogico/turmapedag/turmas.component';
 import { TransferenciaComponent } from './Pedagogico/Transferencia/transferencia.component';
 import { TestandoComponent } from './Adm/testando/testando.component';
 import { AdmTurmasComponent } from './Adm/turmas/admturmas.component';
-import { ConfigComponent } from './Pedagogico/configuracoes/config.component';
 import { AlunoComponent } from './Aluno/aluno.component';
 import { AlunoEstagioComponent } from './Aluno/alunoestagios/alunoest.component';
 import { ConfiguracoesComponent } from './Adm/configuracoes/configuracoes.component';
@@ -41,6 +40,7 @@ import { NovaMatriculaComponent } from './NewMatricula/NovaMatricula/novamatricu
 import { AnaliseDocsComponent } from './Pedagogico/analise-docs/analisedocs.component';
 import { GeralComponent } from './Geral/geral.component';
 import { EstagiosDocsComponent } from './Pedagogico/estagiosdocs/estagiosdocs.component';
+import { EstagioComponent } from './Pedagogico/estagios/estagio.component';
 
 export const routes: Routes = [
   {
@@ -85,7 +85,7 @@ export const routes: Routes = [
       { path: 'turmas', component: TurmasComponent, canActivate: [AuthGuard] },
       //{ path: 'estagio', component: EstagioComponent, canActivate: [AuthGuard] },
       { path: 'pedagrel', component: PedagRelatorioComponent, canActivate: [AuthGuard] },
-      { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
+      { path: 'config', component: EstagioComponent, canActivate: [AuthGuard] },
       { path: 'turmasinfo', component:  TurmasPedagInfoComponent, canActivate: [AuthGuard] },
       { path: 'reposicoes', component:  ReposicoesComponent, canActivate: [AuthGuard] },
       { path: 'analisedocs', component:  AnaliseDocsComponent, canActivate: [AuthGuard] },
