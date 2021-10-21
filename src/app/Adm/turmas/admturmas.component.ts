@@ -172,7 +172,7 @@ export class AdmTurmasComponent implements OnInit {
                 () => {
 
                     if (this.turmas.length == 0) {
-                        this.mensagem = "Não há turmas cadastradas ou em andamento."
+                        this.mensagem = "Não há turmas cadastradas ou em andamento nesta unidade."
                         this.showTurmas = false
                         this.showMessage = true
                         this.showSpinner = false

@@ -143,7 +143,7 @@ export class ColaboradoresComponent implements OnInit {
 
                     },
                     () => {
-                        this.showMessageNoColaborador = false
+                      //  this.showMessageNoColaborador = false
                         this.showSpinnerFirst = false
                         this.showSpinner = false
                         //  console.log('ok get');

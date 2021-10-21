@@ -8,11 +8,11 @@
 
 </div>
 
-<div style="font-size: 0.9em;margin-top: 5px;">* O colaborador será salvo na unidade de {{tokenInfo.Unidade}}</div>
+<div style="font-size: 0.9em;margin-top: 5px;">* O professor será salvo na unidade de {{tokenInfo.Unidade}}</div>
 <hr>
 <div style="position: relative;">
 
-    <form *ngIf="showForm; else showSpinner" novalidate [formGroup]="colaboradorForm" style=""
+    <form  novalidate [formGroup]="colaboradorForm" style=""
         (ngSubmit)="onSubmit(colaboradorForm)">
 
 
@@ -288,13 +288,13 @@
 
 
     </form>
-    <ng-template #showSpinner>
+    <!-- <ng-template #showSpinner>
 
         <mat-spinner @rowHighlight [diameter]="100" style="margin-left: 42.5%;
     margin-top: 10%; 
     position: absolute;">
         </mat-spinner>
-    </ng-template>
+    </ng-template> -->
 </div>
 
 <!-- </div>

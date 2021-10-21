@@ -59,7 +59,7 @@ export class CreateProfessorComponent implements OnInit {
             email: ['', [Validators.required, Validators.email]],
             cpf: ['', [Validators.required, Validators.minLength(11)]],
             celular: [null, [Validators.required, Validators.minLength(5)]],
-            cargoId: ['', [Validators.required]],
+            cargoId: [0, [Validators.required]],
             ativo: [true, [Validators.required]],
             cep: ['', [Validators.required, Validators.minLength(8)]],
             logradouro: ['', [Validators.required, Validators.minLength(1)]],
@@ -87,7 +87,7 @@ export class CreateProfessorComponent implements OnInit {
         //this.colaboradorForm.get('logradouro').disable()
     }
 
-    showForm = false
+   // showForm = false
     cargos: Cargo[] = new Array<Cargo>()
     getCargos() {
 
@@ -99,7 +99,7 @@ export class CreateProfessorComponent implements OnInit {
             },
                 () => { 
                     console.log(this.cargos)
-                    this.showForm = true
+                   // this.showForm = true
                 });
     }
 
@@ -158,14 +158,8 @@ onSubmit(form: FormGroup) {
         //this.save(novoColaborador)
         // let newTemplate = this.mapForm(tempForm)
 
-        this.http.post(`${this.baseUrl}/colaboradores`, novoColaborador, {
-            //this.http.post("http://api.invictustemp.com.thor.hostazul.com.br/api/identity/login", credentials, {
-
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Authorization": "Bear "
-            })
-        }).subscribe(response => {
+        this.http.post(`${this.baseUrl}/professor`, form.value, {})
+        .subscribe(response => {
 
             console.log(response)
             // this.colaboradores = Object.assign([], response['data'])
@@ -173,6 +167,7 @@ onSubmit(form: FormGroup) {
             // this.dialogRef.close();
         }, (err) => {
             console.log(err)
+            this.disabledSpinner = false
             console.log(err['error'].mensagem)
             this.mensagem = err['error'].mensagem
             this.showMensagem = true
