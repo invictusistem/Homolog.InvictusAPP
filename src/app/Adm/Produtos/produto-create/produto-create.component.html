@@ -28,10 +28,10 @@
 
     <mat-form-field appearance="standard" style="width: 100px;margin-left: 10px;">
         <mat-label>Unidade</mat-label>
-        <mat-select formControlName="cargoId" selected name="cargoId" required>
-            <mat-option value=""></mat-option>
-            <mat-option value="">CGI</mat-option>
-            <mat-option value="">SJM</mat-option>
+        <mat-select formControlName="unidadeId" selected required>
+            <mat-option ></mat-option>
+            <mat-option [value]="uni.id" *ngFor="let uni of unidades">{{uni.sigla}}</mat-option>
+            
             <!-- <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">{{cargo.nome}}
             </mat-option> -->
         </mat-select>
@@ -100,7 +100,7 @@
         {{mensagem}}
     </div> -->
 
-    <button type="submit" mat-raised-button disabled="false" style="float:right;margin-bottom: 0px;margin-left: 10px;"
+    <button type="submit" color="primary" mat-raised-button disabled="false" style="float:right;margin-bottom: 0px;margin-left: 10px;"
         [disabled]="!produtoForm.valid">
         Salvar
     </button>

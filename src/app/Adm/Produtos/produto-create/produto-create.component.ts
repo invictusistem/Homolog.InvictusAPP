@@ -34,6 +34,7 @@ export class ProdutoCreateComponent implements OnInit {
     public produtoForm: FormGroup;
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
+    public unidades: any[];
     // public validadeEmailMsg = false
     // public validadeCPFMsg = false
     //cargos = Cargos;
@@ -47,7 +48,7 @@ export class ProdutoCreateComponent implements OnInit {
         private _snackBar: MatSnackBar,
         private router: Router,
         private _fb: FormBuilder,
-        private http: HttpClient,
+        private _http: HttpClient,
         public dialogRef: MatDialogRef<ProdutoCreateComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.produtoForm = _fb.group({
@@ -60,7 +61,7 @@ export class ProdutoCreateComponent implements OnInit {
             precoCusto: ['', [Validators.required]],
             quantidade: [, [Validators.required, Validators.min(1)]],
             nivelMinimo: [, [Validators.required]],
-            //unidade: ['', [Validators.required]],
+            unidadeId: ['', [Validators.required]],
             observacoes: [''],
 
         })
@@ -78,6 +79,20 @@ export class ProdutoCreateComponent implements OnInit {
         // console.log("on init")
         //this.getTasks(1, this.pageSize);
         //this.colaboradorForm.get('logradouro').disable()
+        this.GetUnidades()
+    }
+
+    GetUnidades(){
+
+        this._http.get(`${this.baseUrl}/unidade`)
+        .subscribe(resp => {
+            this.unidades = Object.assign([], resp)
+        },
+        (err)=> { console.log(err)},
+        () => { 
+
+        })
+
     }
     //     ngOnChanges() {
     //         logradouro
@@ -126,7 +141,7 @@ export class ProdutoCreateComponent implements OnInit {
         if (form.valid) {
 
 
-            this.http.post(`${this.baseUrl}/financeiro/produto`, produto, {
+            this._http.post(`${this.baseUrl}/financeiro/produto`, produto, {
 
             }).subscribe(response => {
 

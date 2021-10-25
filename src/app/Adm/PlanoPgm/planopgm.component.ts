@@ -52,7 +52,7 @@ export class PlanoPgmComponent implements OnInit {
                 this.planos = Object.assign([], resp);
             }, (error) => { console.log(error) },
                 () => {
-                    // console.log(this.modulos)
+                    console.log(this.planos)
                 })
 
     }

@@ -64,6 +64,7 @@ import { CargoCreateComponent } from './configuracoes/Config-Cargos/cargo-create
 import { PlanoPgmEditComponent } from './PlanoPgm/EditPlanoPgm/editplano.component';
 import { CreateProfessorComponent } from './Professores/CreateModal/createprofessor.component';
 import { EditProfessorComponent } from './Professores/EditModal/editprofessor.component';
+import { SalaEditarComponent } from './Unidades/EditarSala/sala-editar.component';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -118,7 +119,8 @@ export function tokenGetter() {
         PlanoPgmEditComponent,
         CreateProfessorComponent,
         EditProfessorComponent,
-        MyPipe
+        MyPipe,
+        SalaEditarComponent
     ],
     imports: [
         BrowserModule,
@@ -181,7 +183,8 @@ export function tokenGetter() {
         CargoCreateComponent,
         PlanoPgmEditComponent,
         CreateProfessorComponent,
-        EditProfessorComponent
+        EditProfessorComponent,
+        SalaEditarComponent
         //AddSalaComponent
     ]
 })

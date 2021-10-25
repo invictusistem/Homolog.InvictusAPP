@@ -1,0 +1,68 @@
+<div style="font-size: 1.2em;">Editar Sala
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+
+<div style="font-size: 0.9em;margin-top: 5px;">Unidade ??</div>
+<hr>
+<div style="position: relative;">
+
+    <mat-form-field appearance="standard" style="width: 200px;margin-left: 10px;">
+        <mat-label>Sala</mat-label>
+        <mat-select selected name="salaId" required>
+            <mat-option value=""></mat-option>
+            <mat-option (click)="buscar(sala.id)" *ngFor="let sala of salas" [value]="sala.id">{{sala.descricao}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+
+
+    <div *ngIf="showEditSalaForm">
+        <hr>
+        <form novalidate #form="ngForm" (ngSubmit)="onSubmit(form)">
+            <div class="card-body">
+
+                <mat-form-field appearance="standard" style="width: 17%; ">
+                    <mat-label>Sala</mat-label>
+                    <input selected [value]="sala.titulo" name="titulo" disabled matInput placeholder="Descrição">
+                </mat-form-field>
+
+                <br>
+
+                <mat-form-field appearance="standard" style="width: 40%; ">
+                    <mat-label>Descrição</mat-label>
+                    <input selected [(ngModel)]="sala.descricao" name="descricao" required matInput
+                        placeholder="Descrição">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" style="width: 18%; margin-left: 5%;">
+                    <mat-label>Capacidade</mat-label>
+                    <input selected ng-pattern="/^[a-z]*$/" disabled [value]="sala.capacidade"
+                        onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                        name="capacidade" matInput>
+                </mat-form-field>
+
+                <br>
+
+                <mat-form-field style="width: 100%" appearance="outline">
+                    <mat-label>Observações gerais</mat-label>
+                    <textarea [(ngModel)]="sala.comentarios" name="comentarios" required matInput></textarea>
+                </mat-form-field>
+
+
+
+            </div>
+            <button color="primary" [disabled]="!form.valid" mat-raised-button style="float:right;margin-bottom: 10px;">
+                Salvar</button>
+        </form>
+
+    </div>
+
+
+</div>

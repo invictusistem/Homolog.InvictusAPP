@@ -13,7 +13,7 @@
     
     <div class="card-body">
 
-        <mat-form-field appearance="standard" style="width: 75%;">
+        <mat-form-field appearance="standard" style="width: 65%;">
             <mat-label>Tipo/Pacote</mat-label>
             <mat-select formControlName="pacoteId" placeholder="">
                 <mat-option style="font-size: 0.8em;" 
@@ -24,7 +24,10 @@
             </mat-select>
         </mat-form-field>
 
-       
+        <mat-slide-toggle style="width: 8%;margin-left: 27%; " class="autoPagination-slide" #tooltip="matTooltip"
+        name="ativo" matTooltip="ativo/inativo" matTooltipPosition="above"
+       matTooltipHideDelay="250" color="primary" formControlName="ativo">
+   </mat-slide-toggle>
         <!-- <mat-slide-toggle style="width: 20%; margin-left: 5%;" class="autoPagination-slide" #tooltip="matTooltip"
         formControlName="ativo" required matTooltip="ativo/inativo"
             matTooltipPosition="above" matTooltipHideDelay="250" color="primary">

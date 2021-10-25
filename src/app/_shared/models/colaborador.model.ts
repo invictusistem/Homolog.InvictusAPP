@@ -16,6 +16,7 @@ export class Colaborador {
         public cep?: string,
         public logradouro: string = null,
         public complemento?: string,
+        public numero?: string,
         public bairro: string = null,
         public cidade: string= null,
         public uf: string= null

@@ -5,6 +5,7 @@ import { environment } from "src/environments/environment";
 import { Unidade } from "../Adm-Models/unidade.model";
 import { CreateUnidadeComponent } from "./CreateModal/createunidade.component";
 import { CreateSalaComponent } from "./CreateSalaModal/createsala.component";
+import { SalaEditarComponent } from "./EditarSala/sala-editar.component";
 import { EditUnidadeComponent } from "./EditModal/editunidade.component";
 
 @Component({
@@ -85,6 +86,24 @@ export class UnidadesComponent implements OnInit {
     addSala(unidade: Unidade): void {
         const dialogRef = this.unidadeEditModal
             .open(CreateSalaComponent, {
+                height: 'auto',
+                width: '600px',
+                data: { unidade: unidade},
+                hasBackdrop: true,
+                disableClose: true
+            });
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "Ok") {
+                this.getUnidades();
+            } else if (data.clicked === "Cancel") {
+
+            }
+        });
+    }
+
+    editSala(unidade): void {
+        const dialogRef = this.unidadeEditModal
+            .open(SalaEditarComponent, {
                 height: 'auto',
                 width: '600px',
                 data: { unidade: unidade},

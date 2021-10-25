@@ -182,7 +182,7 @@ onSubmit(form: FormGroup) {
 }
 
 openSnackBar() {
-    this._snackBar.open('Colaborador salvo com sucesso.', '', {
+    this._snackBar.open('Professor salvo com sucesso.', '', {
         horizontalPosition: 'center',
         verticalPosition: 'top',
         panelClass: 'green-snackbar',

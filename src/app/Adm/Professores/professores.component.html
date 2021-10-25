@@ -66,7 +66,7 @@
         position: absolute;">
     </mat-spinner> -->
     
-    <div @rowHighlight *ngIf="colaboradores.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
+    <div @rowHighlight *ngIf="professores.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
             position: relative;
             margin-top: 50px;
             box-shadow: 0 0 1em rgb(172, 170, 170);
@@ -122,7 +122,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of colaboradores;let i = index;" @rowHighlight>
+                        <tr *ngFor="let item of professores;let i = index;" @rowHighlight>
                             <td style="text-align:center;vertical-align: middle;">
                                 {{(i + 1)+(pageIndexNumber)}}
                             </td>

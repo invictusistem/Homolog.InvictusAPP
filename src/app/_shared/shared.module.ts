@@ -25,6 +25,7 @@ import { AuthInterceptor } from '../_Auth/auth.interceptor';
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { SanitizeHtmlPipe } from './pipes/sanitizePipe.component';
 //import { CommonModule } from '@angular/common';
 // Components:
 //import { HomeComponent } from './home/home.component';
@@ -69,7 +70,8 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     MyTimeInput,
     MyCurrencyInput,
     PhoneMaskDirective,
-    CPFMaskDirective
+    CPFMaskDirective,
+    SanitizeHtmlPipe
     //HomeComponent,
     //MainComponent,
     //ErrorMessageComponent,
@@ -101,7 +103,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     MyCurrencyInput,
     PhoneMaskDirective,
     CPFMaskDirective,
-    
+    SanitizeHtmlPipe,
     //ErrorMessageComponent,
     //ConfirmMessageComponent,
     

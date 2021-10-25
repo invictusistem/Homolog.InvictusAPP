@@ -20,7 +20,7 @@
 
     <mat-form-field appearance="standard" style="width: 25%;margin-left: 5%; ">
         <mat-label>Código</mat-label>
-        <input selected disabled [value]="produto.codigoProduto" required name="codigo" matInput placeholder="Nome">
+        <input selected disabled [value]="produto.codigoProduto" name="codigo" matInput placeholder="Nome">
     </mat-form-field>
     
     <br>
@@ -30,16 +30,14 @@
         <input selected required [(ngModel)]="produto.descricao" name="descricao" matInput placeholder="Nome">
     </mat-form-field>
 
-    <mat-form-field appearance="standard" style="width: 100px;margin-left: 10px;">
+    <!-- <mat-form-field appearance="standard" style="width: 100px;margin-left: 10px;">
         <mat-label>Unidade</mat-label>
-        <mat-select formControlName="cargoId" selected name="cargoId" required>
+        <mat-select  selected name="cargoId" required>
             <mat-option value=""></mat-option>
             <mat-option value="">CGI</mat-option>
             <mat-option value="">SJM</mat-option>
-            <!-- <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">{{cargo.nome}}
-            </mat-option> -->
         </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <br>
 
@@ -98,7 +96,7 @@
     </div> -->
 
     <button color="primary" type="submit" mat-raised-button disabled="false" style="float:right;margin-bottom: 0px;margin-left: 10px;"
-        >
+        [disabled]="!form.valid" >
         Salvar
     </button>
 

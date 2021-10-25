@@ -1,5 +1,5 @@
 <div style="font-size: 1.2em;">
-    Visualizar/Editar Colaborador
+    Visualizar/Editar Professor
     <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
         matTooltipHideDelay="100">
         <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
@@ -35,7 +35,7 @@
             <input selected name="celular" matInput [(ngModel)]="editedColaborador.celular">
         </mat-form-field>
 
-        <mat-form-field appearance="standard" style="width: 25%;margin-left: 2%;">
+        <!-- <mat-form-field appearance="standard" style="width: 25%;margin-left: 2%;">
             <mat-label>Cargo/Função</mat-label>
             <mat-select placeholder="cargo/função" [(ngModel)]="editedColaborador.cargo" name="cargo">
                 <mat-option></mat-option>
@@ -43,7 +43,7 @@
                     {{cargo.value}}
                 </mat-option>
             </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
 
         <mat-slide-toggle style="width: 15%; margin-left: 40px;" class="autoPagination-slide" #tooltip="matTooltip"
             [(ngModel)]="editedColaborador.ativo" name="ativo" required matTooltip="ativo/inativo"
@@ -105,10 +105,10 @@
 
         <div style="float: right;margin-top: 15px;">
             <button color="primary" type="submit" mat-raised-button style="width: 100px; position: relative; float:right;margin-bottom: 10px;
-margin-left: 10px;">
+                margin-left: 10px;">
                 <mat-spinner *ngIf="disabledSpinner" [diameter]="33" style="margin-left: 18px;
         
-margin-top: 2px; position: absolute;">
+                margin-top: 2px; position: absolute;">
                 </mat-spinner>
                 Salvar
             </button>

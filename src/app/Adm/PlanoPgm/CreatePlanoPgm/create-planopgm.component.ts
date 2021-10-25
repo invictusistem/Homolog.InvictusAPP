@@ -44,12 +44,12 @@ export class PlanoPgmCreateComponent implements OnInit {
             descricao: ['', [Validators.required]],
             valor: ['', [Validators.required]],
             taxaMatricula: [0.00],
-           // ativo: [true],
+           
             parcelamento: [''],
             materialGratuito: ['', [Validators.required]],
             bonusMensalidade: [0.00],
-            contratoId: ['', [Validators.required]]
-            
+            contratoId: ['', [Validators.required]],
+            ativo: [true], 
             /*
             pacoteId
 descricao

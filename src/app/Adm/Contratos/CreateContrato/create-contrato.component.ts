@@ -57,6 +57,7 @@ export class CreateContratoComponent implements OnInit {
             conteudo: ['', [Validators.required]],
            
         })
+
     }
 
     ngOnInit() {
@@ -99,6 +100,7 @@ export class CreateContratoComponent implements OnInit {
        
        
         console.log(form.value)
+        console.log(this.htmlContent)
 
         if(this.contratoForm.valid){
 

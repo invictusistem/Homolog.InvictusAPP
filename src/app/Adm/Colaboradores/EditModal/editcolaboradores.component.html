@@ -73,23 +73,40 @@
         </i>
         <br>
         <div>
-            <mat-form-field appearance="standard" style="width: 45%;">
+            <mat-form-field appearance="standard" style="width: 250px;">
                 <mat-label>Logradouro</mat-label>
                 <input disabled [(ngModel)]="editedColaborador.logradouro" selected name="logradouro" matInput>
             </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 33%; margin-left: 5%;">
-                <mat-label>Bairro</mat-label>
-                <input disabled selected name="bairro" matInput [(ngModel)]="editedColaborador.bairro">
+            <mat-form-field appearance="standard" style="width: 80px;margin-left: 10px;">
+                <mat-label>Nº</mat-label>
+                <input [(ngModel)]="editedColaborador.numero" selected name="numero" matInput placeholder="ex: rua tal...">
             </mat-form-field>
-            <mat-form-field appearance="standard" style="width: 33%;">
-                <mat-label>Cidade</mat-label>
-                <input disabled selected name="cidade" matInput [(ngModel)]="editedColaborador.cidade">
-            </mat-form-field>
-            <mat-form-field appearance="standard" style="width: 45%; margin-left: 15px;">
+
+            <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
                 <mat-label>Complemento</mat-label>
                 <input selected name="complemento" matInput [(ngModel)]="editedColaborador.complemento">
             </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="standard" style="width: 200px">
+                <mat-label>Cidade</mat-label>
+                <input disabled selected name="cidade" matInput [(ngModel)]="editedColaborador.cidade">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 40px; margin-left: 10px;">
+                <mat-label>UF</mat-label>
+                <input disabled selected [(ngModel)]="editedColaborador.uf" name="uf" matInput
+                    placeholder="digite o bairro">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
+                <mat-label>Bairro</mat-label>
+                <input disabled selected name="bairro" matInput [(ngModel)]="editedColaborador.bairro">
+            </mat-form-field>
+            
+            
         </div>
 
 
@@ -104,11 +121,12 @@
 </button> -->
 
         <div style="float: right;margin-top: 15px;">
-            <button color="primary" type="submit" mat-raised-button style="width: 100px; position: relative; float:right;margin-bottom: 10px;
-margin-left: 10px;">
+            <button color="primary" [disabled]="!form.valid" type="submit" mat-raised-button 
+            style="position: relative; float:right;
+                margin-left: 10px;">
                 <mat-spinner *ngIf="disabledSpinner" [diameter]="33" style="margin-left: 18px;
         
-margin-top: 2px; position: absolute;">
+                margin-top: 2px; position: absolute;">
                 </mat-spinner>
                 Salvar
             </button>

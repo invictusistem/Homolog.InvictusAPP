@@ -58,11 +58,14 @@ export class PlanoPgmEditComponent implements OnInit {
                 this.typePacotes = resp['types']
             },
                 (error) => { console.log(error) },
-                () => { })
+                () => {
+                   // console.log(this.typePacotes)
+                 })
     }
     isDisabled = false
     onSubmit(form: any) {
         console.log(this.plano)
+        console.log(form.valid)
         if (form.valid) {
             this.isDisabled = true
             this.disabledSpinner = true

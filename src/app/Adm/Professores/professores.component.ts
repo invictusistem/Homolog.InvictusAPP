@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { Cargos, Unidades } from "src/app/_shared/models/perfil.model";
 import { TokenInfos } from "src/app/_shared/models/token.model";
@@ -16,7 +17,8 @@ import { EditProfessorComponent } from "./EditModal/editprofessor.component";
 @Component({
     selector: "professores-app",
     templateUrl: './professores.component.html',
-    styleUrls: ['./professores.component.scss']
+    styleUrls: ['./professores.component.scss'],
+    animations: [HighlightTrigger]
 })
 
 export class ProfessoresComponent {
@@ -32,7 +34,7 @@ export class ProfessoresComponent {
     
 
 
-    colaboradores: Colaborador[] = new Array<Colaborador>();
+    professores: any[] = new Array<any>();//Colaborador[] = new Array<Colaborador>();
     baseUrl = environment.baseUrl;
 
 
@@ -117,16 +119,16 @@ export class ProfessoresComponent {
         var formJson = JSON.stringify(this.pesquisarForm.value)
         this.showSpinner = true
         if (this.pesquisarForm.valid) {
-            this.http.get(`${this.baseUrl}/colaboradores/pesquisar/?itemsPerPage=` + this.pageSize + `&currentPage=1&paramsJson=${formJson}`)
+            this.http.get(`${this.baseUrl}/professor/pesquisar/?itemsPerPage=` + this.pageSize + `&currentPage=1&paramsJson=${formJson}`)
                 .subscribe(
                     (response) => {
 
-                        this.colaboradores = Object.assign([], response['data']);
+                        this.professores = Object.assign([], response['data']);
 
                         this.length = response['totalItemsInDatabase']
                         this.totalPages = Math.ceil(this.length / this.pageSize)
                         console.log(this.totalPages)
-                        if (this.colaboradores.length == 0) {
+                        if (this.professores.length == 0) {
                             // console.log("lengt zero")
                             this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
                             this.showMessageNoColaborador = true
@@ -166,11 +168,11 @@ export class ProfessoresComponent {
                 .subscribe(
                     (response) => {
 
-                        this.colaboradores = Object.assign([], response['data']);
+                        this.professores = Object.assign([], response['data']);
 
                         this.length = response['totalItemsInDatabase']
 
-                        if (this.colaboradores.length == 0) {
+                        if (this.professores.length == 0) {
                             // console.log("lengt zero")
                             this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
                             this.showMessageNoColaborador = true
@@ -213,10 +215,10 @@ export class ProfessoresComponent {
         }).subscribe(response => {
 
             console.log(response)
-            this.colaboradores = Object.assign([], response['data'])
+            this.professores = Object.assign([], response['data'])
             this.length = response['totalItemsInDatabase']
             console.log(this.length)
-            console.log(this.colaboradores)
+            console.log(this.professores)
             // this.dialogRef.close();
         }, err => { console.log(err) },
             () => { });
@@ -226,73 +228,73 @@ export class ProfessoresComponent {
 
     params: Parametros = new Parametros()
 
-    pesquisar(nome: string, cargo: string, unidade: string) {
+    // pesquisar(nome: string, cargo: string, unidade: string) {
 
-        console.log(nome + " " + cargo + " " + unidade)
-        if (nome == "" || nome == undefined) nome = ""
-        if (cargo == "" || cargo == undefined) cargo = ""
-        if (unidade == "" || unidade == undefined) unidade = ""
+    //     console.log(nome + " " + cargo + " " + unidade)
+    //     if (nome == "" || nome == undefined) nome = ""
+    //     if (cargo == "" || cargo == undefined) cargo = ""
+    //     if (unidade == "" || unidade == undefined) unidade = ""
 
-        if ((nome == "" || nome == undefined) &&
-            (cargo == "" || cargo == undefined) &&
-            (unidade == "" || unidade == undefined)) {
-            console.log("retorno")
-            return;
-        }
-        this.showMessageNoColaborador = false
-        this.mensagem = ""
+    //     if ((nome == "" || nome == undefined) &&
+    //         (cargo == "" || cargo == undefined) &&
+    //         (unidade == "" || unidade == undefined)) {
+    //         console.log("retorno")
+    //         return;
+    //     }
+    //     this.showMessageNoColaborador = false
+    //     this.mensagem = ""
 
-        let query = { nome: nome, cargo: cargo, unidade: unidade }
-        this.params.nome = nome
-        this.params.email = cargo
-        this.params.cpf = unidade
-        //console.log(params)
-        //var itemsPerPage = 5;
-        //this.actualPage
-        //var currentPage = 1;
-        this.showSpinnerFirst = true
-        this.colaboradores = new Array<Colaborador>();
-        let paramsJson = JSON.stringify(this.params)
-        console.log(query)
+    //     let query = { nome: nome, cargo: cargo, unidade: unidade }
+    //     this.params.nome = nome
+    //     this.params.email = cargo
+    //     this.params.cpf = unidade
+    //     //console.log(params)
+    //     //var itemsPerPage = 5;
+    //     //this.actualPage
+    //     //var currentPage = 1;
+    //     this.showSpinnerFirst = true
+    //     this.professores = new Array<Colaborador>();
+    //     let paramsJson = JSON.stringify(this.params)
+    //     console.log(query)
 
-        this.http.post(`${this.baseUrl}/colaboradores/pesquisar/?itemsPerPage=` + this.pageSize + `&currentPage=1`, paramsJson, {
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem('jwt')}`
-            })
-        }).subscribe(
-            (response) => {
-                console.log(response)
-                this.colaboradores = Object.assign([], response['data']);
-                //  this.length = tasks['data'].length;
-                this.length = response['totalItemsInDatabase']
-                // if (this.length == 0) {
-                //     this.showMessageNoColaborador = true
-                //     this.mensagem = "Registro não localizado."
-                // }
-                // else
-                if (this.colaboradores.length == 0) {
-                    console.log("lengt zero")
-                    this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
-                    this.showMessageNoColaborador = true
-                }
-                // this.applyFiler()
-            },
-            (err) => {
-                this.showSpinnerFirst = false
-                console.log(err)
-                //this.openSnackBar(err)
+    //     this.http.post(`${this.baseUrl}/colaboradores/pesquisar/?itemsPerPage=` + this.pageSize + `&currentPage=1`, paramsJson, {
+    //         headers: new HttpHeaders({
+    //             "Content-Type": "application/json",
+    //             "Authorization": `Bearer ${localStorage.getItem('jwt')}`
+    //         })
+    //     }).subscribe(
+    //         (response) => {
+    //             console.log(response)
+    //             this.professores = Object.assign([], response['data']);
+    //             //  this.length = tasks['data'].length;
+    //             this.length = response['totalItemsInDatabase']
+    //             // if (this.length == 0) {
+    //             //     this.showMessageNoColaborador = true
+    //             //     this.mensagem = "Registro não localizado."
+    //             // }
+    //             // else
+    //             if (this.professores.length == 0) {
+    //                 console.log("lengt zero")
+    //                 this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
+    //                 this.showMessageNoColaborador = true
+    //             }
+    //             // this.applyFiler()
+    //         },
+    //         (err) => {
+    //             this.showSpinnerFirst = false
+    //             console.log(err)
+    //             //this.openSnackBar(err)
 
-            },
-            () => {
-                this.showSpinnerFirst = false
-                console.log('ok get');
+    //         },
+    //         () => {
+    //             this.showSpinnerFirst = false
+    //             console.log('ok get');
 
-                //this.pageIndexNumber = (evento.pageIndex * this.pageSize)
-            },
-        )
+    //             //this.pageIndexNumber = (evento.pageIndex * this.pageSize)
+    //         },
+    //     )
 
-    }
+    // }
 
 
 

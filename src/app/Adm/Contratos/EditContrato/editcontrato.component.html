@@ -39,7 +39,9 @@
            
             <angular-editor color="primary" [placeholder]="'Enter text here...'" 
             
-            [(ngModel)]="contrato.conteudo" name="conteudos"></angular-editor>
+            [(ngModel)]="contrato.conteudo" name="conteudos" 
+            [valur]="contrato.conteudo | sanitizeHtml"
+            ></angular-editor>
             <br>
             <button type="submit" color="primary" mat-raised-button disabled="false"
                 style="float:right;margin-bottom: 0px;margin-left: 10px;" >

@@ -11,12 +11,14 @@ import { CepReturn } from "src/app/_shared/models/cepreturn.model";
 import { environment } from "src/environments/environment";
 import { Cargos, Unidades } from "src/app/_shared/models/perfil.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Component({
     selector: 'editprofessormodal',
     templateUrl: './editprofessor.component.html',
-    styleUrls: ['./editprofessor.component.scss']
+    styleUrls: ['./editprofessor.component.scss'],
+    animations: [HighlightTrigger]
 })
 
 export class EditProfessorComponent implements OnInit {
@@ -80,41 +82,38 @@ export class EditProfessorComponent implements OnInit {
     }
 
     submitForm(form: NgForm) {
+        
         console.log(form.value)
+
         console.log(this.editedColaborador)
+
         if (form.valid) {
+            
             this.disabledSpinner = true
             console.log('form valid')
-            /// const novoColaborador = JSON.stringify(form.value);
-            this.edit(JSON.stringify(this.editedColaborador))
-            // this.model.saveProduct(this.product);
-            // //this.product = new Product();
-            // //form.reset();
-            // this.originalProduct = this.product;
-            // this.router.navigateByUrl("/");
+
+            this.http.put(`${this.baseUrl}/professor`, this.editedColaborador, {})
+                .subscribe(response => {
+                //console.log(response)
+            }, err => { console.log(err) },
+                () => {
+                    this.openSnackBar()
+                    this.dialogRef.close();
+
+                });
         }
     }
 
     disabledSpinner = false
     edit(form: any) {
         //const novoColaborador = JSON.stringify(form.value);
-        console.log(form)
+        console.log(form.valid)
         if (form.valid) {
 
             //this.redi(["./adm/colaboradores"]);
-            this.http.put(`${this.baseUrl}/colaboradores`, form, {
-                //this.http.post("http://api.invictustemp.com.thor.hostazul.com.br/api/identity/login", credentials, {
-
-                headers: new HttpHeaders({
-                    "Content-Type": "application/json",
-                    "Authorization": "Bear "
-                })
-            }).subscribe(response => {
-
+            this.http.put(`${this.baseUrl}/professor`, this.editedColaborador, {})
+                .subscribe(response => {
                 console.log(response)
-
-
-
             }, err => { console.log(err) },
                 () => {
                     this.openSnackBar()

@@ -330,7 +330,7 @@ export class ColaboradoresComponent implements OnInit {
     openEditUserModal(item: Colaborador): void {
         const dialogRef = this.EditColaboradoresModal
             .open(EditColaboradoresComponent, {
-                height: '520px',
+                minHeight: '420',
                 width: '680px',
 
                 data: { colaborador: item },

@@ -69,7 +69,7 @@ export class ProdutoEditComponent implements OnInit {
     ngOnInit() {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-        this.produto = Object.assign({}, this.data['produto'])
+        //this.produto = Object.assign({}, this.data['produto'])
         console.log(this.produto)
         // console.log(this.tokenInfo.Unidade);
         // console.log(this.tokenInfo.Codigo);
@@ -80,6 +80,20 @@ export class ProdutoEditComponent implements OnInit {
         // console.log("on init")
         //this.getTasks(1, this.pageSize);
         //this.colaboradorForm.get('logradouro').disable()
+        this.GetProduto(this.data['produto'].id);
+    }
+
+    GetProduto(produtoId){
+        this.http.get(`${this.baseUrl}/unidade/produto/${produtoId}`)
+        .subscribe(response => {
+                    console.log(response)
+
+                    this.produto  = Object.assign({}, response['produto'])
+        
+                }, err => { 
+                    console.log(err)
+                },
+                    () => { });
     }
     //     ngOnChanges() {
     //         logradouro
