@@ -500,7 +500,8 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
 
         // cpf = ""
 
-        this.http.get(`${this.baseUrl}/turmas/pesquisa/?curso=${item}`)
+        //this.http.get(`${this.baseUrl}/turmas/pesquisa/?curso=${item}`) // pesquisav2/{typePacoteId}
+        this.http.get(`${this.baseUrl}/turmas/pesquisav2/${item}`) // pesquisav2/{typePacoteId}
             .subscribe(response => {
 
                 console.log(response)
@@ -648,27 +649,22 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
 
     // https://viacep.com.br/ws/01001000/json/
     cursosDisponiveis: TurmaViewModel[] = new Array<TurmaViewModel>();
+    cursosType: any[] = new Array<any>()
     async getCursos(actualPage: number, pageSize: number) {
 
         var itemsPerPage = 5;
         var currentPage = 1;
 
-        await this.http.get(`${this.baseUrl}/turmas/cursosUnidade`, {
-            //this.http.post("http://api.invictustemp.com.thor.hostazul.com.br/api/identity/login", credentials, {
-
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Authorization": "Bear "
-            })
-        }).subscribe(response => {
+        //await this.http.get(`${this.baseUrl}/turmas/cursosUnidade`)
+        await this.http.get(`${this.baseUrl}/turmas/cursosUnidadev2`)
+        .subscribe(response => {
 
 
             console.log(response)
-            Object.assign(this.cursosDisponiveis, response)
+           // Object.assign(this.cursosDisponiveis, response) //cursosType
+            Object.assign(this.cursosType, response) //cursosType
             console.log(this.cursosDisponiveis)
-            // this.colaboradores = Object.assign([], response['data'])
-            //console.log(this.colaboradores)
-            // this.dialogRef.close();
+           
         }, err => { console.log(err) },
             () => {
 
@@ -680,19 +676,19 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
 
                 this.indexTab = 3;
                 console.log('metodo getCursos')
-                if (this.cursosDisponiveis.length == 0) {
+                if (this.cursosType.length == 0) {
                     this.showSelectCursoSearch = false
-                } else if (this.cursosDisponiveis.length > 0) {
+                } else if (this.cursosType.length > 0) {
                     this.showSelectCursoSearch = true
                 }
 
-                // if (this.cursos.length > 0) {
-                //     this.haTurmas = true
-                //     this.messageturmas = false
-                // } else {
-                //     this.haTurmas = false
-                //     this.messageturmas = true
-                // }
+                if (this.cursosType.length == 0) {
+                    this.showSelectCursoSearch = false
+                } else if (this.cursosType.length > 0) {
+                    this.showSelectCursoSearch = true
+                }
+
+               
 
             });
 

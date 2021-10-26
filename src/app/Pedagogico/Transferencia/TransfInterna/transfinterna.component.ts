@@ -80,10 +80,10 @@ export class TransferenciaInternaComponent implements OnInit {
             console.log(cpf)
             this._http.get(`${this.baseUrl}/pedag/transfinterna/?cpf=${cpf}`)
                 .subscribe(response => {
-                    console.log(response['message'])
-                    this.aluno = Object.assign({}, this.resposta['aluno'])
-                    this.turmas = Object.assign([], this.resposta['turmas'])
-                    this.temDebito = this.resposta['debitos']
+                    console.log(response)
+                    this.aluno = Object.assign({}, response['aluno'])
+                    this.turmas = Object.assign([], response['turmas'])
+                    this.temDebito = response['debitos']
                     this.nascimento = { dia: 10, mes: 5, ano: 2021 }
                     this.showAluno = true
                     this.showSearch = false

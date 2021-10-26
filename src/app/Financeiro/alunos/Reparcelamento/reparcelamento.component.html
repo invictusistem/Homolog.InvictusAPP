@@ -35,7 +35,7 @@
     <mat-tab [label]="tabs[0]">
 
 
-        <div class="table-responsive" *ngIf="debitos.length > 0" style="height: 630px;position: relative;">
+        <div class="table-responsive" *ngIf="debitos.length > 0" style="position: relative;">
             <table color="primary" style="margin-bottom: 0px;" class="table">
                 <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
                 <thead style="z-index: 9;
@@ -421,10 +421,10 @@
                      matInput>
             </mat-form-field>
 
-            <i style="margin-right: 5px;" #tooltip="matTooltip" matTooltip="imprimir boleto" matTooltipPosition="above"
+            <i style="margin-right: 5px;margin-bottom: 10px;" #tooltip="matTooltip" matTooltip="calcular" matTooltipPosition="above"
                 matTooltipHideDelay="100">
                 <button (click)="calcular()" style="" mat-icon-button>
-                    <mat-icon style="font-size: 1.2em;">calculate</mat-icon>
+                    <mat-icon style="font-size: 2.2em;">calculate</mat-icon>
                 </button>
             </i>
 

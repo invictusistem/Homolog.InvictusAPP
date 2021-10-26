@@ -8,6 +8,8 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
+import { TokenInfos } from "src/app/_shared/models/token.model";
+import { JwtHelperService } from "@auth0/angular-jwt";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 
@@ -24,6 +26,8 @@ export class SalaEditarComponent implements OnInit {
     // genericTasks: GenericTask[] = new Array<GenericTask>();
     // length: number;
     // pageEvent: PageEvent;
+    private jwtHelper = new JwtHelperService();
+        tokenInfo: TokenInfos = new TokenInfos();
     public salas: any[]
     public sala:any;
     private _baseUrl = environment.baseUrl
@@ -44,7 +48,10 @@ export class SalaEditarComponent implements OnInit {
 
 
     ngOnInit() {
-
+        
+        
+        const token = localStorage.getItem('jwt')
+        this.tokenInfo = this.jwtHelper.decodeToken(token)
         console.log(this.data['unidade'])
         this.GetSalas();
     }

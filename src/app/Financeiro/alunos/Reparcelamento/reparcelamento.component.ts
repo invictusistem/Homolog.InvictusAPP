@@ -62,7 +62,7 @@ export class ReparcelamentoComponent implements OnInit {
 
         this._http.get(`${this.baseUrl}/financeiro/aluno-debitos/v2/${alunoId}`)
             .subscribe(resp => {
-                this.debitos = Object.assign([], resp);
+                this.debitos = Object.assign([], resp['debitos']);
                 this.debitos.forEach(element => {
 
                     element.selected = false;
