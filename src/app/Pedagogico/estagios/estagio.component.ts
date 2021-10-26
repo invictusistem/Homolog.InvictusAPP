@@ -201,13 +201,13 @@ export class EstagioComponent implements OnInit {
         });
     }
 
-    verificarMatriculados(): void {
+    verificarMatriculados(estagio): void {
         const dialogRef = this._cadastroEstagioModal
             .open(EstagioAlunosComponent, {
                 height: 'auto',
-                width: '600px',
+                width: '720px',
 
-                data: { Hello: "Hello World" },
+                data: { estagio: estagio },
                 hasBackdrop: true,
                 disableClose: true
             });

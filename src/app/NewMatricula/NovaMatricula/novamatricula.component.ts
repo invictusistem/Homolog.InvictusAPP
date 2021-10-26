@@ -8,6 +8,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { Aluno } from "src/app/_shared/models/aluno.model";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { environment } from "src/environments/environment";
+import { CreateNovaMatriculaComponent } from "./CreateMatricula/createnovamatricula.component";
 
 
 @Component({
@@ -142,26 +143,27 @@ export class NovaMatriculaComponent implements OnInit {
     }
 
     openMatriculaModal(): void {
-        // const dialogRef = this.CreateMatriculaModal
-        //     .open(CreateMatriculaComponent, {
-        //         height: 'auto',
-        //         width: '1000px',
-        //         autoFocus: false,
-        //         maxHeight: '90vh',
+        const dialogRef = this.CreateMatriculaModal
+        .open(CreateNovaMatriculaComponent, {
+            height: 'auto',
+            width: '1000px',
+            autoFocus: false,
+            maxHeight: '90vh',
 
-        //         data: { Hello: "Hello World" },
-        //         hasBackdrop: true,
-        //         disableClose: true
-        //     });
-       
-        // dialogRef.afterClosed().subscribe((data) => {
-        //     if (data.clicked === "OK") {
-        //         this.openSnackBar()
-        //         console.log('afte close ok')
-        //     } else if (data.clicked === "Cancel") {
-                
-        //     }
-        // });
+            data: { Hello: "Hello World" },
+            hasBackdrop: true,
+            disableClose: true
+        });
+   
+    dialogRef.afterClosed().subscribe((data) => {
+        if (data.clicked === "OK") {
+            this.openSnackBar()
+            console.log('afte close ok')
+        } else if (data.clicked === "Cancel") {
+            // Do nothing. Cancel any events that navigate away from the
+            // component.
+        }
+    });
     }
 
     openInfoModal(aluno: Aluno): void {

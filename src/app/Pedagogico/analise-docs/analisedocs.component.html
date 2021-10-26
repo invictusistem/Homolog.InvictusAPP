@@ -182,7 +182,15 @@
 
                             </td>
                             <td style="text-align: center;vertical-align: middle;">
-                                <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="buscar pendência"
+                                <i #tooltip="matTooltip" matTooltip="extrair relatório de pendencias"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="extrairDocPendencias(item)" style="color: black;" type="button"
+                                        mat-icon-button>
+                                        <mat-icon>description</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i style="margin-left: 30px;" #tooltip="matTooltip" matTooltip="buscar pendência"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
                                     <button (click)="buscarDocsModal(item)" style="color: black;" type="button"
                                         mat-icon-button>

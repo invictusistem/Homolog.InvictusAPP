@@ -21,6 +21,8 @@ import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { NewMatriculaComponent } from './newmatricula.component';
 import { Servico } from '../Adm/_TESTES/testeexterno';
 import { NovaMatriculaComponent } from './NovaMatricula/novamatricula.component';
+import { CreateNovaMatriculaComponent } from './NovaMatricula/CreateMatricula/createnovamatricula.component';
+import { ConfirmNovaMatriculaComponent } from './NovaMatricula/CreateMatricula/Confirm/confirmnova.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -34,7 +36,9 @@ export function tokenGetter() {
 @NgModule({
     declarations: [
         NewMatriculaComponent,
-        NovaMatriculaComponent
+        NovaMatriculaComponent,
+        CreateNovaMatriculaComponent,
+        ConfirmNovaMatriculaComponent
     ],
     imports: [
         BrowserModule,
@@ -57,7 +61,8 @@ export function tokenGetter() {
         NovaMatriculaComponent
     ],
     entryComponents: [
-        
+        CreateNovaMatriculaComponent,
+        ConfirmNovaMatriculaComponent
     ]
 })
 export class NewMatriculaModule { }

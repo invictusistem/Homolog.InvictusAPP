@@ -9,6 +9,7 @@
 <div style="font-size: 0.8em;margin-top: 5px;">* A turma será criada na unidade de {{tokenInfo.Unidade}}</div>
 <hr>
 
+
 <div *ngIf="showmensagemErro" style="color:red; font-style: italic; font-size: 0.8em;margin-top: 5px;">
 * {{mensagemErro}}
 </div>
@@ -53,7 +54,7 @@
             </mat-form-field>
           
           
-            <mat-form-field appearance="standard" style="width: 170px;">
+            <mat-form-field appearance="standard" style="width: 140px;margin-left: 10px;">
                 <mat-label>Sala/Capacidade</mat-label>
                 <mat-select formControlName="salaId" (change)="verVar($event)" selected name="salaId" required>
                     <mat-option *ngFor="let item of createTurmaViewModel.salas" [value]="item.id">

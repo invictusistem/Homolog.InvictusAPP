@@ -65,6 +65,7 @@ import { PlanoPgmEditComponent } from './PlanoPgm/EditPlanoPgm/editplano.compone
 import { CreateProfessorComponent } from './Professores/CreateModal/createprofessor.component';
 import { EditProfessorComponent } from './Professores/EditModal/editprofessor.component';
 import { SalaEditarComponent } from './Unidades/EditarSala/sala-editar.component';
+import { ProdutoDoacaoComponent } from './Produtos/produto-doacao/produto-doacao.component';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -120,7 +121,8 @@ export function tokenGetter() {
         CreateProfessorComponent,
         EditProfessorComponent,
         MyPipe,
-        SalaEditarComponent
+        SalaEditarComponent,
+        ProdutoDoacaoComponent
     ],
     imports: [
         BrowserModule,
@@ -184,7 +186,8 @@ export function tokenGetter() {
         PlanoPgmEditComponent,
         CreateProfessorComponent,
         EditProfessorComponent,
-        SalaEditarComponent
+        SalaEditarComponent,
+        ProdutoDoacaoComponent
         //AddSalaComponent
     ]
 })

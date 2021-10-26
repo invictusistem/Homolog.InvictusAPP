@@ -39,6 +39,7 @@ export class ProdutosCommand{
         public nome?: string,
         public descricao?: string,
         public preco?: number,
+        public precoCusto?: number,
         public quantidadeComprada?: number,
         public nivelMinimo?: number,
         public unidadeId?: number,

@@ -63,42 +63,42 @@
                         <tr>
                             <th style="width: 3%; border-top: 0px;"></th>
 
-                            <th style="width: 24%;font-size:1.2em;
+                            <th style="width: 18%;font-size:1em;
                                     vertical-align: middle;
                                     text-align:left;
                                     border-top: 0px; font-weight: 400;">Descrição</th>
 
-                            <th style="width: 13%;font-size:1.2em;
+                            <th style="width: 13%;font-size:1em;
                                     vertical-align: middle;
                                     text-align:center; font-weight: 400;
                                     border-top: 0px;">Preço</th>
 
-                            <th style="width: 6%;font-size:1.2em;
+                            <th style="width: 6%;font-size:1em;
                                     vertical-align: middle;
                                     text-align:center; font-weight: 400;
                                     border-top: 0px;">med.</th>
 
-                            <th style="width: 11%;font-size:1.2em;
+                            <th style="width: 11%;font-size:1em;
                                     vertical-align: middle;
                                     text-align:center;
                                     border-top: 0px; font-weight: 400;">Qnt.<br>atual</th>
 
-                            <th style="width: 8%;font-size:1.2em;
+                            <th style="width: 8%;font-size:1em;
                                     text-align:center; 
                                     vertical-align: middle;
                                     border-top: 0px; font-weight: 400;">mínimo<br>(qnt.)</th>
 
-                            <th style="width: 19%;font-size:1.2em;
+                            <th style="width: 19%;font-size:1em;
                                     text-align:center; 
                                     vertical-align: middle;
                                     border-top: 0px; font-weight: 400;">Unidade</th>
 
-                            <th style="width: 10%;font-size:1.2em;
+                            <th style="width: 10%;font-size:1em;
                                     text-align:center; 
                                     vertical-align: middle;
                                     border-top: 0px; font-weight: 400;">Status</th>
 
-                            <th style="width: 6%;border-top: 0px;">
+                            <th style="width: 12%;border-top: 0px;">
                                 <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="criar usuário"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
                                     <button style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
@@ -182,11 +182,13 @@
 
                             <td style="position: relative;">
 
-                                <!-- <i type="submit" #tooltip="matTooltip" matTooltip="deletar tarefa" matTooltipPosition="above"
-                        matTooltipHideDelay="100" (click)="Delete(item.id)"
-                        class="material-icons md-dark">
-                        delete_outline
-                      </i> -->
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="doação" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openDoacaoProdutoModal(product)" style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>sync_alt</mat-icon>
+                                    </button>
+                                </i>
 
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
                                     matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">

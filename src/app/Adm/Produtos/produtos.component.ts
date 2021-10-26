@@ -6,6 +6,7 @@ import { Produto } from "src/app/_shared/models/produto.model";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
 import { ProdutoCreateComponent } from "./produto-create/produto-create.component";
+import { ProdutoDoacaoComponent } from "./produto-doacao/produto-doacao.component";
 import { ProdutoEditComponent } from "./produto-edit/produto-edit.component";
 
 @Component({
@@ -92,6 +93,33 @@ export class ProdutosComponent implements OnInit {
                
             }
         });
+    }
+
+    openDoacaoProdutoModal(produto: Produto): void{ //ProdutoDoacaoComponent
+        const dialogRef = this._modal
+        .open(ProdutoDoacaoComponent, {
+            height: 'auto',
+            width: '900px',
+            autoFocus: false,
+            maxHeight: '90vh',
+            maxWidth: '400vh',
+
+
+            data: { produto: produto },
+            hasBackdrop: true,
+            disableClose: true
+        });
+    
+
+    dialogRef.afterClosed().subscribe(result => {
+        if (result.clicked === "Ok") {
+
+            this.GetProdutos();
+           
+        } else if (result.clicked === "Cancel") {
+           
+        }
+    });
     }
 
 

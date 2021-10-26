@@ -24,6 +24,7 @@ export class EstagioAlunosComponent implements OnInit {
     tokenInfo: TokenInfos = new TokenInfos();
     //public cepReturn: CepReturn = new CepReturn();
     estagioForm: FormGroup
+    public alunos: any[] = new Array<any>();
 
     constructor(
         private _snackBar: MatSnackBar,
@@ -58,29 +59,23 @@ export class EstagioAlunosComponent implements OnInit {
 
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
+        this.alunos = Object.assign([], this.data['estagio'].inscritos)
+        //this.GetAlunosEstagio(this.data['estagio']);
     }
 
+    GetAlunosEstagio(estagio){
 
-    consultaCEP(CEP: string, form) {
-        console.log(CEP);
-        console.log(form.controls['cep'].valid);
-        console.log(form.controls['cep'].value)
-        if (form.controls['cep'].valid) {
-
-            this._http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
+        this._http.get(`${this.baseUrl}/estagios/alunos/${estagio.id}`)
                 .subscribe(response => {
-
-                    // console.log(response)
-                    form.get('logradouro').setValue(response["logradouro"]);
-                    form.get('bairro').setValue(response["bairro"]);
-                    form.get('cidade').setValue(response["localidade"]);
-                    form.get('uf').setValue(response["uf"]);
+                    this.alunos = Object.assign([], response['alunos'])
                 }, err => { console.log(err) },
                     () => {
                         // console.log('finaly') 
                     });
-        }
+        
     }
+
+    
 
     onSubmit(form: any) {
 

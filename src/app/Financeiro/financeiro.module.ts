@@ -37,6 +37,7 @@ import { FornecedorCompraComponent } from './fornecedores/cadastrocompra/fornece
 import { ReparcelamentoComponent } from './alunos/Reparcelamento/reparcelamento.component';
 import { ConfirmarParcelamento } from './alunos/Reparcelamento/Confirmar/reapconfirmar.component';
 import { CaixaDiarioComponent } from './caixa/caixadiario/caixadiario.component';
+import { VendaUnidadeComponent } from './caixa/vendaUnidade/vendaunidade.component';
 
 // import { CustomersComponent } from '../customers/customers.component';
 
@@ -68,7 +69,8 @@ const maskConfig: Partial<IConfig> = {
         FornecedorCompraComponent,
         ReparcelamentoComponent,
         ConfirmarParcelamento,
-        CaixaDiarioComponent
+        CaixaDiarioComponent,
+        VendaUnidadeComponent
     ],
     imports: [
         BrowserModule,
@@ -114,7 +116,8 @@ const maskConfig: Partial<IConfig> = {
         FornecedorCompraComponent,
         ReparcelamentoComponent,
         ConfirmarParcelamento,
-        CaixaDiarioComponent
+        CaixaDiarioComponent,
+        VendaUnidadeComponent
         // CreateMatriculaComponent,
         // ConfirmModalComponent,
         // NotasComponent,

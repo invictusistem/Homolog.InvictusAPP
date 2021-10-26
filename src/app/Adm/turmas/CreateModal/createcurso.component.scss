@@ -16,10 +16,11 @@ mat-dialog-container{
 
 
   ::ng-deep .mat-form-field {
-    border-top-width: 0;
-    margin: 0px;
+    //border-top-width: 0;
+    //margin: 0px;
     //transform: translateY(-1.1em) scale(.75);
-    transform: scale(0.9);
+    //transform: scale(0.9);
+    font-size: 0.9em; 
   }
 
   ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {

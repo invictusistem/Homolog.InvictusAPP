@@ -13,6 +13,7 @@ import { environment } from "src/environments/environment";
 import { BalancoProdutos } from "../FinanceiroModels/balancoproduto.model";
 import { CaixaDiarioComponent } from "./caixadiario/caixadiario.component";
 import { VendaCaixaComponent } from "./venda/vendacaixa.component";
+import { VendaUnidadeComponent } from "./vendaUnidade/vendaunidade.component";
 
 @Component({
     selector: "fincaixa-app",
@@ -99,8 +100,31 @@ export class FinCaixaComponent implements OnInit {
         });
     }
 
-    openVendaUnidades(){
-        
+    openVendaUnidades(): void {
+        const dialogRef = this._modal
+            .open(VendaUnidadeComponent, {
+                height: 'auto',
+                width: '900px',
+                autoFocus: false,
+                maxHeight: '90vh',
+                maxWidth: '400vh',
+
+                data: { Hello: "Hello World" },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "Ok") {
+                // Reset form here
+                console.log('afte close ok')
+                //this.getColaboradores(1, this.pageSize);
+            } else if (data.clicked === "Cancel") {
+                // Do nothing. Cancel any events that navigate away from the
+                // component.
+            }
+        });
     }
 
     openCaixaDiario(): void {

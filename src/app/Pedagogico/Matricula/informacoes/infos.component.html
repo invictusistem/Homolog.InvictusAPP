@@ -19,9 +19,8 @@
     <input value="000213" selected disabled required name="nome" matInput placeholder="Nome">
 </mat-form-field>
 <br>
-<div style="color:red; margin-bottom: 10px; font-size: 0.8em; font-style: italic;"
-*ngIf="!isMatriculado"
->* O aluno não se encontra matriculado
+<div style="color:red; margin-bottom: 10px; font-size: 0.8em; font-style: italic;" *ngIf="!isMatriculado">* O aluno não
+    se encontra matriculado
     em nenhuma
     turma.</div>
 
@@ -51,7 +50,7 @@
                 <div style="position: absolute;  display:flex;padding: 0px; margin-left: 88%; display: inline-block;
                 overflow: hidden;margin-top: 5px; width: 100px; height: 133px; border: 1px solid black; ">
 
-                    <img src="../../../../assets/img/belchior-fotografia-3x4-700x390.jpg" style="display: block;
+                    <img src="" style="display: block;
                 margin-left: auto;
                 margin-right: auto;width:50%
                 ">
@@ -585,86 +584,111 @@
     <!--                             TAB DOCUMENTACAO             -->
 
 
-<ng-container *ngIf="documentoAluno.length > 0">
+    <ng-container>
 
-    <mat-tab [label]="tabs[3]">
+        <mat-tab [label]="tabs[3]">
 
-        
-        <div *ngFor="let doc of documentoAluno">
+            <form [formGroup]="documentoForm" (ngSubmit)="addDocumentos(documentoForm)">
+                <mat-form-field appearance="standard" style="width: 250px;">
+                    <mat-label>Descrição</mat-label>
+                    <input selected formControlName="descricao" matInput placeholder="ex: RG">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" style="width: 250px;margin-left: 5px;">
+                    <mat-label>Comentário</mat-label>
+                    <input selected formControlName="comentario" matInput placeholder="ex: RG do aluno...">
+                </mat-form-field>
 
 
-            <span style="font-size: 0.9em;">
+                <!-- <mat-form-field appearance="standard" style="width: 200px;margin-left: 5px;">
+                    <mat-label>Titular</mat-label>
+                    <mat-select placeholder="Titular">
+                        <mat-option value="Aluno">Aluno</mat-option>
+                        <mat-option value="Responsável menor">Responsável menor</mat-option>
+                        <mat-option value="Responsável financeiro">Responsável financeiro</mat-option>
+                    </mat-select>
+                </mat-form-field> -->
 
-                <ng-container *ngIf="doc.docEnviado == true">
-                    <mat-icon (click)="baixar(doc)" type="button" style="vertical-align: middle; 
+                <button mat-icon-button type="submit">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </form>
+
+            <ng-container *ngIf="documentoAluno.length > 0">
+                <div *ngFor="let doc of documentoAluno">
+
+
+                    <span style="font-size: 0.9em;">
+
+                        <ng-container *ngIf="doc.docEnviado == true">
+                            <mat-icon (click)="baixar(doc)" type="button" style="vertical-align: middle; 
                     margin: 0px; margin-bottom: 5px;">save_alt</mat-icon>
-                </ng-container>
+                        </ng-container>
 
-                {{doc.nome}} ({{doc.comentario}})
-            </span>
-            <!-- <span type="button" style="margin-left: 10px; color: blue;
-                        text-decoration: underline;">aprovar</span><br> -->
-
-            <span *ngIf="doc.analisado;else analisar">
-
-                <mat-icon [style.color]="doc.validado? 'green':'red'" style="vertical-align: middle; 
-                    margin: 0px;color: green; margin-bottom: 5px;">
-                    {{doc.validado? 'done' : 'close'}}
-                </mat-icon>
-
-
-            </span>
-            <ng-container *ngIf="doc.docEnviado == true;else docNaoEnviado">
-
-                <ng-template #analisar>
-                    <button style="" class="analisar" mat-button [matMenuTriggerFor]="menu">
-                        analisar
-                    </button>
-                    <mat-menu #menu="matMenu">
-                        <button (click)="aprovar(doc)" mat-menu-item>
-                            <mat-icon style="vertical-align: middle; 
-                    margin: 0px;color: green; margin-bottom: 5px;">
-                                done
-                            </mat-icon>
-                            aprovar
-                        </button>
-                        <button (click)="reprovar(doc)" mat-menu-item>
-                            <mat-icon style="vertical-align: middle; 
-                    margin: 0px;color: red; margin-bottom: 5px;">
-                                close
-                            </mat-icon>
-                            reprovar
-                        </button>
-                    </mat-menu>
-                </ng-template>
-            </ng-container>
-            <ng-template #docNaoEnviado>
-
-                <span style="font-size: 0.9em;">
-                    * documentção ainda não enviada
-                    <input type="file" class="file-input" (change)="exportar($event, doc)" [popper]="popover" #fileUpload >
-
-                    <span class="file-upload">
-
-                        <!-- {{fileName || "No file uploaded yet."}} -->
-
-                        <button mat-icon-button class="upload-btn" (click)="fileUpload.click()">
-                            <mat-icon>link</mat-icon>
-                        </button>
+                        {{doc.nome}} ({{doc.comentario}})
                     </span>
-                </span>
 
-            </ng-template>
-            <br>
+                    <span *ngIf="doc.analisado;else analisar">
 
-
-
-        </div>
-
+                        <mat-icon [style.color]="doc.validado? 'green':'red'" style="vertical-align: middle; 
+                    margin: 0px;color: green; margin-bottom: 5px;">
+                            {{doc.validado? 'done' : 'close'}}
+                        </mat-icon>
 
 
-    </mat-tab>
-</ng-container>
+                    </span>
+                    <ng-container *ngIf="doc.docEnviado == true;else docNaoEnviado">
+
+                        <ng-template #analisar>
+                            <button style="" class="analisar" mat-button [matMenuTriggerFor]="menu">
+                                analisar
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button (click)="aprovar(doc)" mat-menu-item>
+                                    <mat-icon style="vertical-align: middle; 
+                    margin: 0px;color: green; margin-bottom: 5px;">
+                                        done
+                                    </mat-icon>
+                                    aprovar
+                                </button>
+                                <button (click)="reprovar(doc)" mat-menu-item>
+                                    <mat-icon style="vertical-align: middle; 
+                    margin: 0px;color: red; margin-bottom: 5px;">
+                                        close
+                                    </mat-icon>
+                                    reprovar
+                                </button>
+                            </mat-menu>
+                        </ng-template>
+                    </ng-container>
+                    <ng-template #docNaoEnviado>
+
+                        <span style="font-size: 0.9em;">
+                            * documentção ainda não enviada
+                            <input type="file" class="file-input" (change)="exportar($event, doc)" [popper]="popover"
+                                #fileUpload>
+
+                            <span class="file-upload">
+
+
+
+                                <button mat-icon-button class="upload-btn" (click)="fileUpload.click()">
+                                    <mat-icon>link</mat-icon>
+                                </button>
+                            </span>
+                        </span>
+
+                    </ng-template>
+                    <br>
+
+
+
+                </div>
+            </ng-container>
+
+
+        </mat-tab>
+    </ng-container>
 
     <!-- <mat-tab [label]="tabs[4]">
 

@@ -95,7 +95,7 @@ export class AnaliseDocsComponent implements OnInit {
     qntPendencias: number = 0;
 
     private GetQntPendencias() {
-        this._http.get(`${this.baseUrl}/pedag/pendencias-doc`)
+        this._http.get(`${this.baseUrl}/pedag/pendencias-docv2`)
             .subscribe((response) => {
                 this.qntPendencias = response['qntDocs']
             },
@@ -223,7 +223,7 @@ export class AnaliseDocsComponent implements OnInit {
                 });
     }
 
-    matricular(aluno) {
+    extrairDocPendencias(aluno) {
         //     const dialogRef = this.CreateMatriculaModal
         //     .open(AlunoMatriculaComponent, {
         //         height: 'auto',

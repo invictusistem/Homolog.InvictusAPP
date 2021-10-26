@@ -40,9 +40,11 @@ export class InfosComponent implements OnInit {
     public originalRespFin: any
     public originalRespMenor: any
 
+    public documentoForm: FormGroup
+
     private respFinId: number = 0;
     private respMenorId: number = 0;
-    
+
     public alunoForm: FormGroup;
     public respFinancForm: FormGroup;
     public respMenorForm: FormGroup;
@@ -53,6 +55,11 @@ export class InfosComponent implements OnInit {
         private _service: PedagService,
         public dialogRef: MatDialogRef<InfosComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
+
+        this.documentoForm = _fb.group({
+            descricao: ['', [Validators.required]],
+            comentario: ['', [Validators.required]],
+        })
 
         this.alunoForm = _fb.group({
             id: [''],
@@ -146,36 +153,54 @@ export class InfosComponent implements OnInit {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.getInfoDocs(this.data['aluno'].id);
-       // this.getInfoFinancAlunos(this.data['aluno'].id)
+        // this.getInfoFinancAlunos(this.data['aluno'].id)
     }
-    getInfoFinancAlunos(alunoId: number){
+    getInfoFinancAlunos(alunoId: number) {
 
         this._http.get(`${this.baseUrl}/financeiro/aluno-debitos/${alunoId}`)
-        .subscribe(resp => {
-            this.debitos = Object.assign({}, resp);
-        },
-        (error)=> { console.log(error)},
-        () => {
-            console.log(this.debitos);
-        })
+            .subscribe(resp => {
+                this.debitos = Object.assign({}, resp);
+            },
+                (error) => { console.log(error) },
+                () => {
+                    console.log(this.debitos);
+                })
+    }
+
+    addDocumentos(form: any) {  // pendencia-criar/{alunoId}
+        console.log(form.value)
+
+        if (form.valid) {
+            this._http.post(`${this.baseUrl}/document/pendencia-criar/${this.data['aluno'].id}`, form.value, {
+
+            })
+                .subscribe(resp => {
+                    // this.debitos = Object.assign({}, resp);
+                },
+                    (error) => { console.log(error) },
+                    () => {
+                        //console.log(this.debitos);
+                        this.documentoForm.reset()
+                    })
+        }
     }
 
 
     isMatriculado = true
-    getInfoDocs(alunoId){
+    getInfoDocs(alunoId) {
 
         this._http.get(`${this.baseUrl}/document/documentacao-aluno/${alunoId}`)
-        .subscribe(resp => {
-            //this.debitos = Object.assign({}, resp);
-            this.documentoAluno = Object.assign([], resp['docs'])
-            this.isMatriculado = resp['matriculado']
-        },
-        (error)=> { console.log(error)},
-        () => {
-            console.log(this.documentoAluno);
-        })
+            .subscribe(resp => {
+                //this.debitos = Object.assign({}, resp);
+                this.documentoAluno = Object.assign([], resp['docs'])
+                this.isMatriculado = resp['matriculado']
+            },
+                (error) => { console.log(error) },
+                () => {
+                    console.log(this.documentoAluno);
+                })
     }
-    
+
     getInfoAlunos(alunoId: number) {
 
         this._service.getAlunos(alunoId)
@@ -207,7 +232,7 @@ export class InfosComponent implements OnInit {
                             })
 
                             this.originalRespFin = this.respFinancForm.value
-                            
+
                             this.showRespFinanc = true
                         }
 
@@ -232,7 +257,7 @@ export class InfosComponent implements OnInit {
                 }
 
                 // Object.keys(this.alunoForm.value).forEach((key) => {
-                    
+
                 //     console.log(this.alunoForm[key])
                 // })
 
@@ -252,7 +277,7 @@ export class InfosComponent implements OnInit {
                         }
                     })
                 })
-                
+
             },
                 (error) => { console.log(error) },
                 () => {
@@ -304,14 +329,14 @@ export class InfosComponent implements OnInit {
     }
 
     get Equals() {
-          return JSON.stringify(this.alunoForm.value) === JSON.stringify(this.originalAluno)
+        return JSON.stringify(this.alunoForm.value) === JSON.stringify(this.originalAluno)
     }
 
-    get EqualsFin(){
+    get EqualsFin() {
         return JSON.stringify(this.respFinancForm.value) === JSON.stringify(this.originalRespFin)
     }
 
-    get EqualsMenor(){
+    get EqualsMenor() {
         return JSON.stringify(this.respMenorForm.value) === JSON.stringify(this.originalRespMenor)
     }
 
@@ -320,7 +345,7 @@ export class InfosComponent implements OnInit {
     //public bairro = ''
     public localidade = ''
     public uf = ''
-    
+
     consultaCEP(CEP: string) {
         console.log(CEP);
 
@@ -336,8 +361,8 @@ export class InfosComponent implements OnInit {
                     response["bairro"],
                     response["localidade"],
                     response["uf"]);
-                
-               // console.log(this.cepReturn)
+
+                // console.log(this.cepReturn)
                 this.alunoForm.get('logradouro').setValue(response["logradouro"]);
                 this.alunoForm.get('bairro').setValue(response["bairro"]);
                 this.alunoForm.get('cidade').setValue(response["localidade"]);
@@ -360,14 +385,14 @@ export class InfosComponent implements OnInit {
 
         //this.alunoForm.value
 
-        
+
 
     }
 
     onSubmit(form: FormGroup) {
         let alunoUpdate = JSON.stringify(this.alunoForm.value)
         console.log(alunoUpdate)
-        this._http.put(`${this.baseUrl}/adm/aluno/1`,alunoUpdate ,{
+        this._http.put(`${this.baseUrl}/adm/aluno/1`, alunoUpdate, {
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
                 "Authorization": "Bear "
@@ -376,19 +401,19 @@ export class InfosComponent implements OnInit {
         }).subscribe(resp => {
 
         },
-        (error) => { console.log(error)},
-        () => { 
-            this.originalAluno = this.alunoForm.value
-        })
+            (error) => { console.log(error) },
+            () => {
+                this.originalAluno = this.alunoForm.value
+            })
     }
 
-    onSubmitMenor(form: FormGroup){
+    onSubmitMenor(form: FormGroup) {
 
     }
 
-    
 
-    clicou(){
+
+    clicou() {
         console.log('clicou')
 
 
@@ -396,7 +421,7 @@ export class InfosComponent implements OnInit {
 
     /*                           DOCS                   */
 
-    
+
 
     formDatas = new FormData();
 
@@ -450,7 +475,7 @@ export class InfosComponent implements OnInit {
         this.fileHCGViewName = `${fileToUpload.name}`
         this.fileHCG.push(fileToUpload)
     }
-   
+
 
     verificar() {
 
@@ -475,9 +500,9 @@ export class InfosComponent implements OnInit {
         this._http.post(`${this.baseUrl}/estagios/arquivos`, this.formDatas, {
             reportProgress: true, observe: 'events',
             headers: new HttpHeaders({
-                
+
                 "Authorization": Bearer
-              })
+            })
         })
             .subscribe(event => {
                 if (event.type === HttpEventType.UploadProgress)
@@ -499,7 +524,7 @@ export class InfosComponent implements OnInit {
 
 
     aprovar(doc: DocumentoAlunoDto) {
-       
+
         // var param = { alunoId: aluno.id, docId: doc.docId, validado: true }
 
         // this._http.put(`${this.baseUrl}/estagios`, param, {
@@ -516,7 +541,7 @@ export class InfosComponent implements OnInit {
 
         //     })
 
-       
+
     }
 
     reprovar(doc: DocumentoAlunoDto) {
@@ -538,86 +563,86 @@ export class InfosComponent implements OnInit {
     }
 
     fileName = '';
-    exportar(event,doc) {
+    exportar(event, doc) {
 
         const file: File = event.target.files[0];
-    
+
         if (file) {
-    
-          this.fileName = file.name;
-    
-          const formData = new FormData();
-    
-          formData.append("file", file);
-    
-          const upload$ = this._http.post(`${this.baseUrl}/testando/upload-arqaluno/${doc.id}`, formData, {
-            reportProgress: true, observe: 'events',
-            headers: new HttpHeaders({
-    
-              "Authorization": ""
+
+            this.fileName = file.name;
+
+            const formData = new FormData();
+
+            formData.append("file", file);
+
+            const upload$ = this._http.post(`${this.baseUrl}/testando/upload-arqaluno/${doc.id}`, formData, {
+                reportProgress: true, observe: 'events',
+                headers: new HttpHeaders({
+
+                    "Authorization": ""
+                })
             })
-          })
-            .subscribe(event => {
-              if (event.type === HttpEventType.UploadProgress)
-                this.progress = Math.round(100 * event.loaded / event.total);
-              else if (event.type === HttpEventType.Response) {
-                this.message = 'Upload success.';
-                this.onUploadFinished.emit(event.body);
-              }
-            },
-              (error) => { console.log(error) },
-              () => {
-                console.log('finally')
-                // this.dialogRef.close({ clicked: "Ok" });
-                // this.refresh()
-                //this.onUploadFinished.unsubscribe;
-                //files = null
-                this.getInfoDocs(this.data['aluno'].id);
-              });
-    
-        }
-      }
-
-      baixar(doc){
-       
-            //..console.log(doc:Document)
-            var file = doc.nome;// "Modelo LEAD.xlsx";// this.createFileName("EXCEL");
-            // this.showSpinner = true;
-            // this.testehabilitar = false
-    
-            this.download(doc.alunoId, doc.id).subscribe(data => {
-                //console.log(data)
-                switch (data.type) {
-                    case HttpEventType.Response:
-                        // this.showSpinner = false;
-                        //this.downloadStatus.emit( {status: ProgressStatusEnum.COMPLETE});
-                        const downloadedFile = new Blob([data.body], { type: data.body.type });
-                        const a = document.createElement('a');
-                        a.setAttribute('style', 'display:none;');
-                        document.body.appendChild(a);
-                        a.download = file;
-                        a.href = URL.createObjectURL(downloadedFile);
-                        a.target = '_blank';
-                        a.click();
-                        document.body.removeChild(a);
-                        break;
-                }
-            },
-                (err) => {
-                    //this.showSpinner = false;
-                    //this.testehabilitar = true;
+                .subscribe(event => {
+                    if (event.type === HttpEventType.UploadProgress)
+                        this.progress = Math.round(100 * event.loaded / event.total);
+                    else if (event.type === HttpEventType.Response) {
+                        this.message = 'Upload success.';
+                        this.onUploadFinished.emit(event.body);
+                    }
                 },
-                () => {
-                    //this.showSpinner = false;
-                    // this.testehabilitar = true;
-                }
-            );
-        
-      }
+                    (error) => { console.log(error) },
+                    () => {
+                        console.log('finally')
+                        // this.dialogRef.close({ clicked: "Ok" });
+                        // this.refresh()
+                        //this.onUploadFinished.unsubscribe;
+                        //files = null
+                        this.getInfoDocs(this.data['aluno'].id);
+                    });
 
-    exportarCert(){
+        }
+    }
 
-          //..console.log(doc:Document)
+    baixar(doc) {
+
+        //..console.log(doc:Document)
+        var file = doc.nome;// "Modelo LEAD.xlsx";// this.createFileName("EXCEL");
+        // this.showSpinner = true;
+        // this.testehabilitar = false
+
+        this.download(doc.alunoId, doc.id).subscribe(data => {
+            //console.log(data)
+            switch (data.type) {
+                case HttpEventType.Response:
+                    // this.showSpinner = false;
+                    //this.downloadStatus.emit( {status: ProgressStatusEnum.COMPLETE});
+                    const downloadedFile = new Blob([data.body], { type: data.body.type });
+                    const a = document.createElement('a');
+                    a.setAttribute('style', 'display:none;');
+                    document.body.appendChild(a);
+                    a.download = file;
+                    a.href = URL.createObjectURL(downloadedFile);
+                    a.target = '_blank';
+                    a.click();
+                    document.body.removeChild(a);
+                    break;
+            }
+        },
+            (err) => {
+                //this.showSpinner = false;
+                //this.testehabilitar = true;
+            },
+            () => {
+                //this.showSpinner = false;
+                // this.testehabilitar = true;
+            }
+        );
+
+    }
+
+    exportarCert() {
+
+        //..console.log(doc:Document)
         var file = "Certificado conclusão.pdf";// this.createFileName("EXCEL");
         // this.showSpinner = true;
         // this.testehabilitar = false

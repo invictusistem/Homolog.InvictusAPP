@@ -70,6 +70,7 @@ export class TransferenciaTurmaComponent implements OnInit {
     HasMessage: any
     nascimento: any
     idTurmaAntiga: number
+    turma: any
     consulta(form: FormGroup) {
 
         console.log(this.pesquisaForm.get('cpf').value)
@@ -105,6 +106,7 @@ export class TransferenciaTurmaComponent implements OnInit {
                             this.turmas = Object.assign([], this.resposta['turmas'])
                             this.idTurmaAntiga = this.resposta['turmaAtualId']
                             this.temDebito = this.resposta['debitos']
+                            this.turma = this.resposta['turma']
                             this.nascimento = { dia: 10, mes: 5, ano: 2021 }
                             this.showAluno = true
                             this.showSearch = false
