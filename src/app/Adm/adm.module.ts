@@ -66,6 +66,7 @@ import { CreateProfessorComponent } from './Professores/CreateModal/createprofes
 import { EditProfessorComponent } from './Professores/EditModal/editprofessor.component';
 import { SalaEditarComponent } from './Unidades/EditarSala/sala-editar.component';
 import { ProdutoDoacaoComponent } from './Produtos/produto-doacao/produto-doacao.component';
+import { ProfMateriasComponent } from './Professores/Materias/prof-materias.component';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -122,7 +123,8 @@ export function tokenGetter() {
         EditProfessorComponent,
         MyPipe,
         SalaEditarComponent,
-        ProdutoDoacaoComponent
+        ProdutoDoacaoComponent,
+        ProfMateriasComponent
     ],
     imports: [
         BrowserModule,
@@ -187,7 +189,8 @@ export function tokenGetter() {
         CreateProfessorComponent,
         EditProfessorComponent,
         SalaEditarComponent,
-        ProdutoDoacaoComponent
+        ProdutoDoacaoComponent,
+        ProfMateriasComponent
         //AddSalaComponent
     ]
 })

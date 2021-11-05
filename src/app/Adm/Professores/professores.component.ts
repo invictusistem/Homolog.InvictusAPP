@@ -11,6 +11,7 @@ import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
 import { CreateProfessorComponent } from "./CreateModal/createprofessor.component";
 import { EditProfessorComponent } from "./EditModal/editprofessor.component";
+import { ProfMateriasComponent } from "./Materias/prof-materias.component";
 // import { CreateUserComponent } from "./CreateModal/createuser.component";
 // import { EditUserComponent } from "./EditModal/edituser.component";
 
@@ -301,6 +302,30 @@ export class ProfessoresComponent {
     paginationChange(pageEvt: PageEvent) {
         console.log(pageEvt)
 
+    }
+
+    openProfMateriasModal():void{
+        const dialogRef = this.CreateColaboradoresModal
+            .open(ProfMateriasComponent, {
+                minHeight: '420px',
+                width: '680px',
+
+                //data: { Hello: "Hello World" },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "Ok") {
+                // Reset form here
+                console.log('afte close ok')
+                this.getColaboradores(1, this.pageSize);
+            } else if (data.clicked === "Cancel") {
+                // Do nothing. Cancel any events that navigate away from the
+                // component.
+            }
+        });
     }
 
     openCreateUserModal(): void {

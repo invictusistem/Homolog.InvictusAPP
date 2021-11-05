@@ -12,7 +12,8 @@
     <br>
 
 
-    <form [formGroup]="pesquisarForm" (ngSubmit)="onSubmit()" class="form-inline siteForm" style="margin-top: 5px;display: inline-block">
+    <form [formGroup]="pesquisarForm" (ngSubmit)="onSubmit()" class="form-inline siteForm"
+        style="margin-top: 5px;display: inline-block">
 
         <span color="primary" style="margin-left: 10px;font-size: 0.9em;font-style: italic;">Digite ao menos um dos
             campos para
@@ -23,7 +24,7 @@
 
             <mat-form-field appearance="standard" style="transform: scale(0.85);">
                 <mat-label>Nome</mat-label>
-                <input formControlName="nome" selected  matInput placeholder="digite o nome">
+                <input formControlName="nome" selected matInput placeholder="digite o nome">
             </mat-form-field>
 
             <mat-form-field class="siteForm-select" style="margin-left: 2px;transform: scale(0.85);">
@@ -33,7 +34,7 @@
 
             <mat-form-field class="siteForm-select" style="margin-left: 2px;transform: scale(0.85);">
                 <mat-label>CPF</mat-label>
-                <input mask="000.000.000-00" formControlName="cpf" selected  matInput placeholder="digite o CPF">
+                <input mask="000.000.000-00" formControlName="cpf" selected matInput placeholder="digite o CPF">
             </mat-form-field>
 
             <span>
@@ -48,9 +49,7 @@
             <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
                 incluir inativos:
             </span>
-            <mat-checkbox 
-            formControlName="ativo"
-            color="primary" ></mat-checkbox>
+            <mat-checkbox formControlName="ativo" color="primary"></mat-checkbox>
 
         </div>
 
@@ -65,7 +64,7 @@
         top: 46.5%; 
         position: absolute;">
     </mat-spinner> -->
-    
+
     <div @rowHighlight *ngIf="professores.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
             position: relative;
             margin-top: 50px;
@@ -157,6 +156,15 @@
 
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
                                     matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="showSpinner" (click)="openProfMateriasModal(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>import_contacts</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
                                     <button [disabled]="showSpinner" (click)="openEditUserModal(item)"
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
@@ -187,13 +195,8 @@
             <mat-paginator *ngIf="length > 5" style="
                 background-color: rgb(227, 240, 227);
                 bottom: 0px;
-                right: 0px;" 
-                #element
-                [length]="length" 
-                [pageSize]="pageSize" 
-                hidePageSize="true" 
-                (page)="pageEvent = changePage($event)"
-                >
+                right: 0px;" #element [length]="length" [pageSize]="pageSize" hidePageSize="true"
+                (page)="pageEvent = changePage($event)">
             </mat-paginator>
 
         </div>
