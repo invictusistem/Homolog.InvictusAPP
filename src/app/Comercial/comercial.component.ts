@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ExportLeadComponent } from './ExportarLead/exportar.component';
+
 
 
 declare interface RouteInfo {
@@ -16,13 +16,13 @@ declare interface RouteInfo {
   typeIcon: string;
 }
 
-// export const ROUTES: RouteInfo[] = [
-//     { path: '/adm/usuarios', title: 'Usuários', class: '', typeIcon: 'manage_accounts' },
-//     { path: '/adm/unidades', title: 'Unidades', class: '', typeIcon: 'house' },
-//     { path: '/adm/cursos', title:'cursos', class:'', typeIcon: 'house'},
-//     { path: '/adm/colaboradores', title: 'Colaboradores', class: '', typeIcon: 'engineering' },
-//     { path: '/adm/produtos', title: 'Produtos', class: '', typeIcon: 'fact_check' },
-// ]
+export const ROUTES: RouteInfo[] = [
+    { path: '/comercial/leads', title: 'Lead', class: '', typeIcon: 'query_stats' },
+    { path: '/comercial/addlead', title: 'Exportar Lead', class: '', typeIcon: 'table_chart' }
+    // { path: '/adm/cursos', title:'cursos', class:'', typeIcon: 'house'},
+    // { path: '/adm/colaboradores', title: 'Colaboradores', class: '', typeIcon: 'engineering' },
+    // { path: '/adm/produtos', title: 'Produtos', class: '', typeIcon: 'fact_check' },
+]
 
 @Component({
   selector: 'comericial-app',
@@ -49,8 +49,8 @@ export class ComercialComponent implements OnInit {
 
   ngOnInit() {
     // this.isUserAuthenticated();
-    // this.menu = ROUTES.filter(menu => menu);
-    this.getLeads();
+    this.menu = ROUTES.filter(menu => menu);
+   // this.getLeads();
   }
 
   getLeads(){
@@ -64,21 +64,21 @@ export class ComercialComponent implements OnInit {
     () => { })
   }
 
-  openExportModal(): void {
-    const dialogRef = this.exportLeadModal
-      .open(ExportLeadComponent, {
-        height: 'auto',
-        width: 'auto',
+  // openExportModal(): void {
+  //   const dialogRef = this.exportLeadModal
+  //     .open(ExportLeadComponent, {
+  //       height: 'auto',
+  //       width: 'auto',
 
-        data: { colaborador: 'hello' },
-        hasBackdrop: true,
-        disableClose: true
-      });
+  //       data: { colaborador: 'hello' },
+  //       hasBackdrop: true,
+  //       disableClose: true
+  //     });
 
-    dialogRef.afterClosed().subscribe(result => {
+  //   dialogRef.afterClosed().subscribe(result => {
 
-    });
-  }
+  //   });
+  // }
 
   // isUserAuthenticated() {
   //     const token: string = localStorage.getItem("jwt");

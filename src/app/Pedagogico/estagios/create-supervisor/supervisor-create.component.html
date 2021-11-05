@@ -1,4 +1,4 @@
-<div style="font-size: 1.2em;">Cadastrar Colaborador
+<div style="font-size: 1.2em;">Cadastrar Supervisor
     <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
         matTooltipHideDelay="100">
         <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
@@ -8,11 +8,11 @@
 
 </div>
 
-<div style="font-size: 0.9em;margin-top: 5px;">* O colaborador será salvo na unidade de {{tokenInfo.Unidade}}</div>
+<div style="font-size: 0.9em;margin-top: 5px;">* Hospiral TODO?</div>
 <hr>
 <div style="position: relative;">
 
-    <form *ngIf="showForm; else showSpinner" novalidate [formGroup]="colaboradorForm" style=""
+    <form  novalidate [formGroup]="colaboradorForm" style=""
         (ngSubmit)="onSubmit(colaboradorForm)">
 
 
@@ -81,7 +81,7 @@
 
 
 
-        <mat-form-field appearance="standard" style="width: 200px;margin-left: 10px;">
+        <!-- <mat-form-field appearance="standard" style="width: 200px;margin-left: 10px;">
             <mat-label>Cargo/Função</mat-label>
             <mat-select formControlName="cargoId" selected name="cargoId" required>
                 <mat-option value=""></mat-option>
@@ -93,7 +93,7 @@
         <mat-slide-toggle style="width: 15%; margin-left: 40px;" class="autoPagination-slide" #tooltip="matTooltip"
             formControlName="ativo" name="ativo" required matTooltip="ativo/inativo" matTooltipPosition="above"
             matTooltipHideDelay="250" color="primary">
-        </mat-slide-toggle>
+        </mat-slide-toggle> -->
 
         <!-- <mat-form-field appearance="standard" style="width: 25%;margin-left: 2%;">
             <mat-label>Disciplina</mat-label>
@@ -288,15 +288,13 @@
 
 
     </form>
-    <ng-template #showSpinner>
+    <!-- <ng-template #showSpinner>
 
         <mat-spinner @rowHighlight [diameter]="100" style="margin-left: 42.5%;
     margin-top: 10%; 
     position: absolute;">
         </mat-spinner>
-    </ng-template>
-
-    
+    </ng-template> -->
 </div>
 
 <!-- </div>

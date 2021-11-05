@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { DEFAULT_CURRENCY_CODE, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,18 +10,31 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from "@auth0/angular-jwt";
 
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe, UpperCasePipe } from '@angular/common';
 //import { HomeComponent } from './home.component';
 import { SharedModule } from '../_shared/shared.module';
 
 import { MaterialModule } from '../_shared/material/material.module';
 
 import { ComercialComponent } from './comercial.component';
-import { ExportLeadComponent } from './ExportarLead/exportar.component';
+
+import { AddLeadComponent } from './AddLead/addlead.component';
+import { Servico } from '../Adm/_TESTES/testeexterno';
+import { LeadsComponent } from './Leads/leads.component';
+
+
+import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { LeadIndividualCriarComponent } from './AddLead/criarlead/criar-lead.component';
+import { LeadExportComponent } from './AddLead/leadexport/lead-export.component';
+
 
 
 // import { CustomersComponent } from '../customers/customers.component';
-
+const maskConfig: Partial<IConfig> = {
+    validation: false,
+  };
 export function tokenGetter() {
     return localStorage.getItem("jwt");
 }
@@ -29,7 +42,11 @@ export function tokenGetter() {
 @NgModule({
     declarations: [
         ComercialComponent,
-        ExportLeadComponent,
+        
+        AddLeadComponent,
+        LeadsComponent,
+        LeadIndividualCriarComponent,
+        LeadExportComponent
         //LoginComponent,
         //CustomersComponent,
         //AppComponent
@@ -41,28 +58,26 @@ export function tokenGetter() {
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
-
-        //HttpClientModule,
-        //BrowserModule,
-        //CommonModule,
-        //FormsModule,
-        //ReactiveFormsModule,
-
         SharedModule,
-        //MaterialModule,
-        //AppRoutingModule,
-        //BrowserAnimationsModule,    
+        MaterialModule,
+        AngularEditorModule,
+        NgxMaskModule.forRoot(maskConfig),
+        CurrencyMaskModule   
     ],
     // providers: [AuthGuard],
-    providers: [],
-    //bootstrap: [AppComponent]
+    providers: [CurrencyPipe, UpperCasePipe,DatePipe, { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
+    {provide: 'IServicoToken', useClass: Servico}
+    ],
     exports: [
-        ComercialComponent
+        ComercialComponent,
+        AddLeadComponent,
+        LeadsComponent
         //SharedModule
         //, CustomersComponent
     ],
     entryComponents: [
-        ExportLeadComponent
+        LeadIndividualCriarComponent,
+        LeadExportComponent
         // FormFieldCustomControlExample, 
         //MyTelInput,
         // CreateUserComponent,

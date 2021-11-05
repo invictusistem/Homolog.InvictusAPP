@@ -49,6 +49,8 @@ import { EstagiosDocsComponent } from './estagiosdocs/estagiosdocs.component';
 import { EstagioComponent } from './estagios/estagio.component';
 import { EstagioEditComponent } from './estagios/estagio-edit/estagio-edit.component';
 import { EstagioAlunosComponent } from './estagios/estagio-alunos/estagio-alunos.component';
+import { EstagioSupervisaoComponent } from './estagios/estagio-supervisores/estagio-supervisao.component';
+import { SupervisorCreateComponent } from './estagios/create-supervisor/supervisor-create.component';
 // import { CustomersComponent } from '../customers/customers.component';
 
 export const MY_DATE_FORMATS = {
@@ -107,7 +109,9 @@ const maskConfig: Partial<IConfig> = {
         BoletimAlunoComponent,
         EstagiosDocsComponent,
         EstagioAlunosComponent,
-        EstagioEditComponent
+        EstagioEditComponent,
+        EstagioSupervisaoComponent,
+        SupervisorCreateComponent
     ],
     imports: [
         BrowserModule,
@@ -161,7 +165,9 @@ const maskConfig: Partial<IConfig> = {
         BoletimAlunoComponent,
         EstagiosDocsComponent,
         EstagioAlunosComponent,
-        EstagioEditComponent
+        EstagioEditComponent,
+        EstagioSupervisaoComponent,
+        SupervisorCreateComponent
         // FormFieldCustomControlExample, 
         //MyTelInput,
         //   DialogOverviewExampleDialog,
