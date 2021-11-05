@@ -9,107 +9,73 @@
 </div>
 
 <div style="font-size: 0.9em;margin-top: 5px;">* Materias habilitadas para o professor lecionar</div>
+<div style="font-size: 0.9em;margin-top: 5px;color:red">OBS: Desabilitações apenas ocorrerão para futuras marcações</div>
 <hr>
 <div style="position: relative;">
 
-    <div class="table-responsive" style="height: 430px;position: relative;">
-        <table color="primary" style="margin-bottom: 0px;" class="table">
-            <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
-            <thead>
-                <tr>
-                    <th style="width: 2%; 
-                text-align:left; 
-                vertical-align: middle;
-                border-top: 0px;"></th>
+    <mat-tab-group>
+        <mat-tab label="Matérias">  
+
+            <div class="table-responsive" style="height: 430px;position: relative;">
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+                   
+                    <thead>
+                        <tr>
+                            <th style="width: 2%; 
+                        text-align:left; 
+                        vertical-align: middle;
+                        border-top: 0px;"></th>
+        
+        
+                            <th style="width: 40%;font-size:1em;
+                        vertical-align: middle; 
+                        text-align:left;
+                         border-top: 0px; font-weight: 400;">Materia</th>
+        
+                            <th style="width: 29%;font-size:1em;
+                        vertical-align: middle;
+                        text-align:center;
+                        border-top: 0px; font-weight: 400;">Curso</th>
+        
+                            <th style="width: 29%;font-size:1em;
+                        text-align:center; 
+                        vertical-align: middle;
+                        border-top: 0px; font-weight: 400;">Desabilitar</th>
+        
+                         
+                        </tr>
+                    </thead>
+                    <tbody>
+        
+                        <tr >
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;"></td>
+        
+                            <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                               Ética
+                            </td>
+        
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                APH/ENFERMAGEM
+                            </td>
+        
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                <mat-checkbox style="margin-right: 5px;" type="checkbox"
+                                value="true" color="primary" class="example-margin" name="checked">
+                              </mat-checkbox>
+                            </td>
+        
+                           
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </mat-tab>
+       <mat-tab label="Disponibilidades"> Content 2 </mat-tab>
+         <!-- <mat-tab label="Third"> Content 3 </mat-tab> -->
+      </mat-tab-group>
 
 
-                    <th style="width: 40%;font-size:1em;
-                vertical-align: middle; 
-                text-align:left;
-                 border-top: 0px; font-weight: 400;">Materia</th>
-
-                    <th style="width: 29%;font-size:1em;
-                vertical-align: middle;
-                text-align:center;
-                border-top: 0px; font-weight: 400;">Curso</th>
-
-                    <th style="width: 29%;font-size:1em;
-                text-align:center; 
-                vertical-align: middle;
-                border-top: 0px; font-weight: 400;"></th>
-
-                    <!--<th style="width: 12%;font-size:1em;
-                text-align:center; 
-                vertical-align: middle;
-                border-top: 0px; font-weight: 400;">Matriculados</th>
-
-                <th style="width: 13%;font-size:1em;
-                text-align:center; 
-                vertical-align: middle;
-                border-top: 0px; font-weight: 400;">Status</th> -->
-
-                    <!-- <th style="width: 34%;font-size:1em;
-                text-align:center; 
-                vertical-align: middle;
-                border-top: 0px; font-weight: 400;">
-
-                </th> -->
-                </tr>
-            </thead>
-            <tbody>
-
-                <tr >
-                    <td style="font-size:0.9em;text-align:center;vertical-align: middle;">{{i + 1}}</td>
-
-                    <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
-                       Ética
-                    </td>
-
-                    <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
-                        APH/ENFERMAGEM
-                    </td>
-
-                    <td style="font-size:0.9em;text-align: center;vertical-align: middle;">{{aluno.cpf}}</td>
-
-                    <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;"></td> -->
-                    <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;">Não iniciada</td>
-                <td style="text-align: center;vertical-align: middle;"> -->
-                    <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
-                        matTooltip="adiar a tumra para a próxima data" matTooltipPosition="above"
-                        matTooltipHideDelay="100">
-                        <button 
-                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                            mat-icon-button>
-                            <mat-icon style="font-size: 1.5em;" class="material-icons-outlined">watch_later</mat-icon>
-                        </button>
-                    </i>
-
-                    <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
-                        matTooltip="iniciar as aulas" matTooltipPosition="above"
-                        matTooltipHideDelay="100">
-                        <button 
-                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                            mat-icon-button>
-                            <mat-icon style="font-size: 1.5em;" class="material-icons-outlined">play_arrow</mat-icon>
-                        </button>
-                    </i>-->
-
-                    <!-- update_disabled -->
-
-                    <!--<i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="detalhes/editar"
-                        matTooltipPosition="above" matTooltipHideDelay="100">
-                        <button (click)="openEditCursoModal(item)"
-                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                            mat-icon-button>
-                            <mat-icon>description</mat-icon>
-                        </button>
-                    </i> 
-                </td>  
-                <td style="font-size:0.9em;text-align: center;vertical-align: middle;"></td>     
-                -->
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    
 
 </div>

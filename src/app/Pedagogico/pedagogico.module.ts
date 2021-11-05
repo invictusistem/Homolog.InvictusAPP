@@ -51,19 +51,22 @@ import { EstagioEditComponent } from './estagios/estagio-edit/estagio-edit.compo
 import { EstagioAlunosComponent } from './estagios/estagio-alunos/estagio-alunos.component';
 import { EstagioSupervisaoComponent } from './estagios/estagio-supervisores/estagio-supervisao.component';
 import { SupervisorCreateComponent } from './estagios/create-supervisor/supervisor-create.component';
+import { EstagioAlunosListComponent } from './estagiosalunos/estagioalunos.component';
+import { LiberarEstagioComponent } from './estagiosalunos/liberar-estagio/liberarestagio.component';
+import { VerEstagiosComponent } from './estagiosalunos/estagio-list/estagio-list.component';
 // import { CustomersComponent } from '../customers/customers.component';
 
 export const MY_DATE_FORMATS = {
     parse: {
-      dateInput: 'DD-MM-YYYY',
+        dateInput: 'DD-MM-YYYY',
     },
     display: {
-      dateInput: 'MMM DD, YYYY',
-      monthYearLabel: 'MMMM YYYY',
-      dateA11yLabel: 'LL',
-      monthYearA11yLabel: 'MMMM YYYY'
+        dateInput: 'MMM DD, YYYY',
+        monthYearLabel: 'MMMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'MMMM YYYY'
     },
-}; 
+};
 
 export function tokenGetter() {
     return localStorage.getItem("jwt");
@@ -71,7 +74,7 @@ export function tokenGetter() {
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
-  };
+};
 
 @NgModule({
     declarations: [
@@ -111,7 +114,10 @@ const maskConfig: Partial<IConfig> = {
         EstagioAlunosComponent,
         EstagioEditComponent,
         EstagioSupervisaoComponent,
-        SupervisorCreateComponent
+        SupervisorCreateComponent,
+        EstagioAlunosListComponent,
+        LiberarEstagioComponent,
+        VerEstagiosComponent
     ],
     imports: [
         BrowserModule,
@@ -125,8 +131,8 @@ const maskConfig: Partial<IConfig> = {
         NgxMaskModule.forRoot(maskConfig),
     ],
     //     providers: [AuthGuard],
-    providers: [DataService, PedagService, {provide: 'ValidateForms', useClass: ValidateFormsService},
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
+    providers: [DataService, PedagService, { provide: 'ValidateForms', useClass: ValidateFormsService },
+        { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
     //bootstrap: [AppComponent]
     exports: [
         PedagogicoComponent,
@@ -137,7 +143,8 @@ const maskConfig: Partial<IConfig> = {
         PedagRelatorioComponent,
         TurmasPedagInfoComponent,
         ReposicoesComponent,
-        AnaliseDocsComponent
+        AnaliseDocsComponent,
+        EstagioAlunosListComponent
     ],
     entryComponents: [
         CreateMatriculaComponent,
@@ -167,13 +174,15 @@ const maskConfig: Partial<IConfig> = {
         EstagioAlunosComponent,
         EstagioEditComponent,
         EstagioSupervisaoComponent,
-        SupervisorCreateComponent
+        SupervisorCreateComponent,
+        LiberarEstagioComponent,
+        VerEstagiosComponent
         // FormFieldCustomControlExample, 
         //MyTelInput,
         //   DialogOverviewExampleDialog,
         //   EditTemplateModel
     ]
-    
+
 })
 export class PedagogicoModule { }
 
