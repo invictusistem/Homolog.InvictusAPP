@@ -10,9 +10,9 @@
 
 <hr>
 
-<div style="position: relative;">
+<div *ngIf="showTable" style="position: relative;">
 
-    <form novalidate #form="ngForm" (ngSubmit)="submitForm(form)" style="">
+    <form novalidate #form="ngForm" (ngSubmit)="edit(form)" style="">
         <!-- <div class="card-body"> -->
 
         <mat-form-field appearance="standard" style="width: 45%; ">
@@ -37,16 +37,16 @@
 
         <mat-form-field appearance="standard" style="width: 25%;margin-left: 2%;">
             <mat-label>Cargo/Função</mat-label>
-            <mat-select placeholder="cargo/função" [(ngModel)]="editedColaborador.cargo" name="cargo">
-                <mat-option></mat-option>
-                <mat-option *ngFor="let cargo of cargos" [value]="cargo.value">
-                    {{cargo.value}}
+            <mat-select placeholder="cargo/função" [(ngModel)]="editedColaborador.cargoId" name="cargo">
+               
+                <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">
+                    {{cargo.nome}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
 
         <mat-slide-toggle style="width: 15%; margin-left: 40px;" class="autoPagination-slide" #tooltip="matTooltip"
-            [(ngModel)]="editedColaborador.ativo" name="ativo" required matTooltip="ativo/inativo"
+            [(ngModel)]="editedColaborador.ativo" name="ativo" required matTooltip="ativo/inativo" [required]="false"
             matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
         </mat-slide-toggle>
 

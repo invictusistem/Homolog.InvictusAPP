@@ -17,7 +17,7 @@ import { EditarContratoComponent } from "./EditContrato/editcontrato.component";
 @Component({
     selector: "contrato-app",
     templateUrl: './contrato.component.html',
-    // styleUrls: ['./colaboradores.component.scss'],
+    styleUrls: ['./contrato.component.scss'],
     animations: [HighlightTrigger]
 })
 

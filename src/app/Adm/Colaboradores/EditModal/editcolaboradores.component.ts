@@ -35,7 +35,8 @@ export class EditColaboradoresComponent implements OnInit {
     cpf = ''
 
     public cepReturn: CepReturn = new CepReturn();
-    cargos = Cargos;
+    //cargos = Cargos;
+    cargos: any[] = new Array<any>()
     ativo = true;
     constructor(
         private _snackBar: MatSnackBar,
@@ -52,8 +53,22 @@ export class EditColaboradoresComponent implements OnInit {
         //console.log(this.data['colaborador'])
         Object.assign(this.editedColaborador, this.data['colaborador'])
         this.cpf = this.onInputChange(this.editedColaborador.cpf)
-        // console.log("on init")
-        //this.getTasks(1, this.pageSize);
+        console.log(this.data['colaborador'])
+        this.getCargos()
+    }
+
+    showTable = false
+    getCargos() {
+        this.http.get(`${this.baseUrl}/unidade/cargo`)
+            .subscribe(response => {
+
+                this.cargos = Object.assign([], response)
+
+            }, err => { console.log(err) },
+                () => {
+                    this.showTable = true
+
+                });
     }
 
     onInputChange(event) {
@@ -102,25 +117,19 @@ export class EditColaboradoresComponent implements OnInit {
         if (form.valid) {
 
             //this.redi(["./adm/colaboradores"]);
-            this.http.put(`${this.baseUrl}/colaboradores`, form, {
-                //this.http.post("http://api.invictustemp.com.thor.hostazul.com.br/api/identity/login", credentials, {
+            this.http.put(`${this.baseUrl}/colaboradores`, this.editedColaborador, {})
+                .subscribe(response => {
 
-                headers: new HttpHeaders({
-                    "Content-Type": "application/json",
-                    "Authorization": "Bear "
-                })
-            }).subscribe(response => {
-
-                console.log(response)
+                    console.log(response)
 
 
 
-            }, err => { console.log(err) },
-                () => {
-                    this.openSnackBar()
-                    this.dialogRef.close();
+                }, err => { console.log(err) },
+                    () => {
+                        this.openSnackBar()
+                        this.dialogRef.close();
 
-                });
+                    });
         }
     }
 

@@ -91,7 +91,7 @@
         </mat-form-field>
 
         <mat-slide-toggle style="width: 15%; margin-left: 40px;" class="autoPagination-slide" #tooltip="matTooltip"
-            formControlName="ativo" name="ativo" required matTooltip="ativo/inativo" matTooltipPosition="above"
+            formControlName="ativo" name="ativo" required matTooltip="ativo/inativo" matTooltipPosition="above" [required]="false"
             matTooltipHideDelay="250" color="primary">
         </mat-slide-toggle>
 

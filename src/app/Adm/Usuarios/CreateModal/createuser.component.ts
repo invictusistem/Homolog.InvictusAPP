@@ -43,7 +43,7 @@ export class CreateUserComponent implements OnInit {
             nome: ['', [Validators.required, Validators.minLength(2)]],
             perfil: ['', [Validators.required]],
             email: ['', [Validators.required, Validators.email]],
-            perfilAtivo: [true, [Validators.required]]
+            perfilAtivo: [true]
         })
     }
 

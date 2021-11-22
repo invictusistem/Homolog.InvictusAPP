@@ -8,7 +8,7 @@ export class Colaborador {
         public email?: string,
         public cpf?: string,
         public celular?: string,
-        public cargo?: string,
+        public cargoId?: string,
         public unidade?: string,
         public perfil?: string,
         public perfilAtivo?: boolean,

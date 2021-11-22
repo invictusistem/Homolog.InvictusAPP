@@ -1,6 +1,7 @@
 
 
 export const PerfilEnum: string[] = [
+    "MasterAdm",
     "SuperAdm",
     "Professor",
     "Administrador"
