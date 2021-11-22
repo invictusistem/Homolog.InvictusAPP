@@ -672,24 +672,25 @@ export class CreateCursoComponent implements OnInit {
             //command.horarios.horarioIni_2= this.cursoForm.get('horarioIni_2').value
             //command.horarios.horarioFim_2= this.cursoForm.get('horarioFim_2').value
             var verify = JSON.stringify(command);
-            console.log(verify)
+           // console.log(verify)
             console.log(command)
-                this._http.post(`${this.baseUrl}/turmas`, command, {
-                }).subscribe(response => {
 
-                },
-                    (error) => {
-                        console.log(error)
-                        this.disabledSpinner = false
-                    },
-                    () => {
+                // this._http.post(`${this.baseUrl}/turmas`, command, {
+                // }).subscribe(response => {
 
-                        this.openSnackBar()
-                        this.disabledSpinner = false
-                        this.cursoForm.reset();
-                        this.dialogRef.close({ clicked: "OK" });
-                    }
-                )
+                // },
+                //     (error) => {
+                //         console.log(error)
+                //         this.disabledSpinner = false
+                //     },
+                //     () => {
+
+                //         this.openSnackBar()
+                //         this.disabledSpinner = false
+                //         this.cursoForm.reset();
+                //         this.dialogRef.close({ clicked: "OK" });
+                //     }
+                // )
         }
 
 
