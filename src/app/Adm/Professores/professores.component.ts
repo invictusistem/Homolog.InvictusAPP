@@ -32,7 +32,7 @@ export class ProfessoresComponent {
     pageEvent: PageEvent;
     length: number = 0
     public totalPages: number = 0
-    
+    disableCreateProf = true
 
 
     professores: any[] = new Array<any>();//Colaborador[] = new Array<Colaborador>();
