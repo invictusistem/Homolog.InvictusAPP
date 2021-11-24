@@ -14,10 +14,8 @@ import { AlunoDocument, AlunoDto } from "src/app/_shared/models/document.model";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 
 import { environment } from "src/environments/environment";
-import { SupervisorCreateComponent } from "./create-supervisor/supervisor-create.component";
 import { EstagioAlunosComponent } from "./estagio-alunos/estagio-alunos.component";
 import { EstagioEditComponent } from "./estagio-edit/estagio-edit.component";
-import { EstagioSupervisaoComponent } from "./estagio-supervisores/estagio-supervisao.component";
 import { EstagioCadastroComponent } from "./estagiocadastro/estagiocadastro.component";
 
 
@@ -227,55 +225,6 @@ export class EstagioComponent implements OnInit {
         });
     }
 
-    // EstagioSupervisaoComponent
-
-    verEstagioSupervisao(estagio): void {
-        const dialogRef = this._cadastroEstagioModal
-            .open(EstagioSupervisaoComponent, {
-                height: 'auto',
-                width: '720px',
-
-                data: { estagio: estagio },
-                hasBackdrop: true,
-                disableClose: true
-            });
-
-
-        dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "Ok") {
-                // Reset form here
-                console.log('afte close ok')
-                //this.getColaboradores(1, this.pageSize);
-            } else if (data.clicked === "Cancel") {
-                // Do nothing. Cancel any events that navigate away from the
-                // component.
-            }
-        });
-    }
-
-    addSupervisor(estagio): void {
-        const dialogRef = this._cadastroEstagioModal
-            .open(SupervisorCreateComponent, {
-                    minHeight: '420px',
-                    width: '680px',
-    
-                    data: { estagio: estagio },
-                    hasBackdrop: true,
-                    disableClose: true
-                });
-    
-    
-            dialogRef.afterClosed().subscribe((data) => {
-                if (data.clicked === "Ok") {
-                    // Reset form here
-                    console.log('afte close ok')
-                   
-                } else if (data.clicked === "Cancel") {
-                    // Do nothing. Cancel any events that navigate away from the
-                    // component.
-                }
-            });
-    }
 
     editarEstagio(estagioId: number): void {
         const dialogRef = this._cadastroEstagioModal

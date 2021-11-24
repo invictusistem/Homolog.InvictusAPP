@@ -28,7 +28,7 @@ export class AdmTurmasComponent implements OnInit {
     pageIndexNumber: number = 0;
     cursos: Turma[] = new Array<Turma>();
     baseUrl = environment.baseUrl;
-    turmas: TurmaViewModel[] = new Array<TurmaViewModel>()
+    turmas: any[] = new Array<any>();// TurmaViewModel[] = new Array<TurmaViewModel>()
     private jwtHelper = new JwtHelperService();
     tokenInfo: TokenInfos = new TokenInfos();
     // colaboradores: Colaborador[] = new Array<Colaborador>();
@@ -71,14 +71,14 @@ export class AdmTurmasComponent implements OnInit {
             if (result.clicked === "Sim") {
 
                 console.log(turmaId)
-                this.http.put(`${this.baseUrl}/turmas/turma/${turmaId}`, {
+                this.http.put(`${this.baseUrl}/turma/iniciar/${turmaId}`, {
 
                 }).subscribe(result => {
 
                 },
                     (error) => { console.log(error) },
                     () => {
-                        this.atualizar();
+                        this.getCursos();
                     }
                 )
 
@@ -89,9 +89,9 @@ export class AdmTurmasComponent implements OnInit {
         });
     }
 
-    PodeAdiar(turma: TurmaViewModel) {
-        if (turma.statusDaTurma == 'Aguardando início' &&
-            turma.previsao != '3ª previsão') {
+    PodeAdiar(turma: any) {
+        if (turma.statusAndamento == 'Aguardando início' &&
+            turma.previsaoInfo != '3ª previsão') {
             return false
         } else {
             return true
@@ -101,45 +101,45 @@ export class AdmTurmasComponent implements OnInit {
     adiar(turmaId: number) {
         console.log('adiar')
 
-        this.http.put(`${this.baseUrl}/turmas/turma/adiar/${turmaId}`, {}).subscribe(response => {
+        this.http.put(`${this.baseUrl}/turma/adiar/${turmaId}`, {}).subscribe(response => {
 
         },
             (error) => { console.log(error) },
             () => {
-                this.atualizar();
+                this.getCursos();
             }
         )
     }
 
-    atualizar() {
-        var itemsPerPage = 0;
-        var actualPage = 0;
+    // atualizar() {
+    //     var itemsPerPage = 0;
+    //     var actualPage = 0;
 
-        this.http.get(`${this.baseUrl}/turmas/?itemsPerPage=` + itemsPerPage + `&currentPage=` + actualPage, {
-            //this.http.post("http://api.invictustemp.com.thor.hostazul.com.br/api/identity/login", credentials, {
+    //     this.http.get(`${this.baseUrl}/turmas/?itemsPerPage=` + itemsPerPage + `&currentPage=` + actualPage, {
+           
 
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Authorization": "Bear "
-            })
-        }).subscribe(response => {
-
-
-            console.log(response)
-            Object.assign(this.turmas, response['data'])
-            Object.assign(this.turmas, response)
-            console.log(this.turmas)
-
-        }, (err) => {
-            console.log(err)
-            this.mensagem = "Ocorreu um erro! Contate o Administrador!"
-
-        },
-            () => {
+    //         headers: new HttpHeaders({
+    //             "Content-Type": "application/json",
+    //             "Authorization": "Bear "
+    //         })
+    //     }).subscribe(response => {
 
 
-            });
-    }
+    //         console.log(response)
+    //         Object.assign(this.turmas, response['data'])
+    //         Object.assign(this.turmas, response)
+    //         console.log(this.turmas)
+
+    //     }, (err) => {
+    //         console.log(err)
+    //         this.mensagem = "Ocorreu um erro! Contate o Administrador!"
+
+    //     },
+    //         () => {
+
+
+    //         });
+    // }
 
     getCursos() {
 
@@ -153,34 +153,31 @@ export class AdmTurmasComponent implements OnInit {
         console.log('get cursos 1234')
         //this.http.get(`${this.baseUrl}/turmas/?itemsPerPage=` + itemsPerPage + `&currentPage=` + actualPage, {
         //this.http.post("http://api.invictustemp.com.thor.hostazul.com.br/api/identity/login", credentials, {
-        this.http.get(`${this.baseUrl}/turmas`)
+        this.http.get(`${this.baseUrl}/turma`)
             .subscribe(response => {
 
 
                 console.log(response)
                 //Object.assign(this.turmas, response['data'])
-                Object.assign(this.turmas, response)
+                Object.assign(this.turmas, response['turmas'])
                 console.log(this.turmas)
                 // this.colaboradores = Object.assign([], response['data'])
                 //console.log(this.colaboradores)
                 // this.dialogRef.close();
             }, (err) => {
                 console.log(err)
-                this.mensagem = "Ocorreu um erro! Contate o Administrador!"
-
-            },
-                () => {
-
-                    if (this.turmas.length == 0) {
-                        this.mensagem = "Não há turmas cadastradas ou em andamento nesta unidade."
+                this.mensagem = "Não há turmas cadastradas ou em andamento nesta unidade."
                         this.showTurmas = false
                         this.showMessage = true
                         this.showSpinner = false
-                    } else {
+                //this.mensagem = "Ocorreu um erro! Contate o Administrador!"
+
+            },
+                () => {                 
                         this.showTurmas = true
                         this.showMessage = false
                         this.showSpinner = false
-                    }
+                    
                 });
 
     }

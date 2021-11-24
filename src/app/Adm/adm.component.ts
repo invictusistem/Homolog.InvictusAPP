@@ -22,7 +22,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/adm/professores', title: 'Professores', class: '', typeIcon: 'engineering' },
     { path: '/adm/produtos', title: 'Produtos', class: '', typeIcon: 'fact_check' },
     { path: '/adm/unidades', title: 'Unidade', class: '', typeIcon: 'home' },
-    //{ path: '/adm/config', title: 'Configurações', class: '', typeIcon: 'settings' },
+    { path: '/adm/config', title: 'Configurações', class: '', typeIcon: 'settings' },
     { path: '/adm/modulo', title: 'Pacotes', class: '', typeIcon: 'school' },
     { path: '/adm/planopgm', title: 'Planos', class: '', typeIcon: 'request_quote' },
     { path: '/adm/contrato', title: 'Contratos', class: '', typeIcon: 'gavel' }

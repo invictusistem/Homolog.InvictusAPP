@@ -11,12 +11,19 @@
 
 <ng-container *ngIf="showForm">
     <form novalidate #form="ngForm" (ngSubmit)="onSubmit(form)">
-      
+
+        <mat-form-field appearance="standard" style="width: 100px; ">
+            <mat-label>Código</mat-label>
+            <input selected [value]="contrato.codigoContrato" disabled required matInput placeholder="Nome">
+        </mat-form-field>
+
+        <br>
+
         <mat-form-field appearance="standard" style="width: 250px; ">
             <mat-label>Título</mat-label>
             <input selected [(ngModel)]="contrato.titulo" required name="titulo" matInput placeholder="Nome">
         </mat-form-field>
-    
+
         <!-- <mat-form-field appearance="standard" style="width: 350px;margin-left: 10px;">
             <mat-label>Pacote</mat-label>
             <mat-select [(ngModel)]="contrato.titulo" placeholder="">
@@ -27,24 +34,21 @@
                 </mat-option>
             </mat-select>
         </mat-form-field> -->
-    
+
         <mat-slide-toggle style="width: 70px; margin-left: 40px;" class="autoPagination-slide" #tooltip="matTooltip"
-        [(ngModel)]="contrato.ativo" name="ativo" required matTooltip="ativo/inativo"
-                matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
-            </mat-slide-toggle>
+            [(ngModel)]="contrato.ativo" name="ativo" required matTooltip="ativo/inativo" [required]="false"
+            matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
+        </mat-slide-toggle>
         <br>
-     
-    
+
+
         <div>
-           
-            <angular-editor color="primary" [placeholder]="'Enter text here...'" 
-            
-            [(ngModel)]="contrato.conteudo" name="conteudos" 
-            [valur]="contrato.conteudo | sanitizeHtml"
-            ></angular-editor>
+
+            <angular-editor color="primary" [placeholder]="'Enter text here...'" [(ngModel)]="contrato.conteudo"
+                name="conteudo" ></angular-editor>
             <br>
             <button type="submit" color="primary" mat-raised-button disabled="false"
-                style="float:right;margin-bottom: 0px;margin-left: 10px;" >
+                style="float:right;margin-bottom: 0px;margin-left: 10px;">
                 Salvar
             </button>
             <br>

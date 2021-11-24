@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { AuthService } from "src/app/_Auth/auth.service";
+import { TrocaSenhaComponent } from "src/app/_Auth/user/trocaSenha/troca-senha.component";
 
 declare interface RouteInfo {
     path: string;
@@ -11,7 +14,7 @@ declare interface RouteInfo {
 
 export const ROUTES: RouteInfo[] = [
     { path: './adm', title: 'Administrativo', class: '' },
-    //{ path: './newmat', title: 'Matrícula', class: '', },
+    { path: './newmat', title: 'Matrícula', class: '', },
     { path: './pedag', title: 'Pedagógico', class: '', },
     { path: './comercial', title: 'Comercial', class: '', },
     { path: './financeiro', title: 'Financeiro', class: '', },
@@ -32,32 +35,44 @@ export class NavBarComponent implements OnInit {
 
     menu: any;
     constructor(
-        public authService: AuthService
-        //private jwtHelper: JwtHelperService
-        ) { }
+        private _router: Router,
+        public authService: AuthService,
+        private _modal: MatDialog,
+    ) { }
 
     ngOnInit() {
-         this.menu = ROUTES.filter(menu => menu);
+        this.menu = ROUTES.filter(menu => menu);
         //this.isUserAuthenticated();
     }
 
-    // isUserAuthenticated() {
-    //     const token: string = localStorage.getItem("jwt");
-    //     console.log(token)
-    //     if (token == null) {
-           
+    trocarSenha() {
+        const dialogRef = this._modal
+            .open(TrocaSenhaComponent, {
+                height: '610px',
+                width: '1000px',
+                autoFocus: false,
+                maxHeight: '400vh',
 
-    //     }
-    //     else if (this.jwtHelper.isTokenExpired(token)) {
-           
-    //         console.log('expired')
-    //     } else {
-    //         console.log('routed')
-    //         this.menu = ROUTES.filter(menu => menu);
-    //     }
-    // }
-    // public logOut = () => {
-    //     localStorage.removeItem("jwt");
-    // }
+                data: {},
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "OK") {
+
+                console.log('afte close ok')
+            } else if (data.clicked === "Cancel") {
+                // Do nothing. Cancel any events that navigate away from the
+                // component.
+            }
+        });
+
+    }
+
+    logout() {
+        localStorage.removeItem("jwt");
+        this._router.navigateByUrl('user/login');
+    }
 
 }

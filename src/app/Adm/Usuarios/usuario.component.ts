@@ -24,7 +24,7 @@ export class UsuarioComponent implements OnInit {
     pageSize: number = 5;
     length: number = 0
     pageIndexNumber: number = 0;
-    usuarios: Colaborador[] = new Array<Colaborador>()
+    usuarios: any[] = new Array<any>();// Colaborador[] = new Array<Colaborador>()
     private jwtHelper = new JwtHelperService();
     tokenInfo: TokenInfos = new TokenInfos();
 
@@ -138,7 +138,7 @@ export class UsuarioComponent implements OnInit {
         console.log(query)
 
 
-        this.http.get(`${this.baseUrl}/colaboradores/users/?query={"nome":"${nome}","email":"${email}","cpf":"${cpf}"}&itemsPerPage=` + this.pageSize + `&currentPage=1`
+        this.http.get(`${this.baseUrl}/usuario/?paramsJson={"nome":"${nome}","email":"${email}","cpf":"${cpf}"}&itemsPerPage=` + this.pageSize + `&currentPage=1`
             //this.http.post(`${this.baseUrl}/colaboradores/pesquisar/?itemsPerPage=` + this.pageSize + `&currentPage=1`, paramsJson, {
             // headers: new HttpHeaders({
             //     "Content-Type": "application/json",
@@ -147,23 +147,25 @@ export class UsuarioComponent implements OnInit {
         ).subscribe(
             (response) => {
                 console.log(response)
-                this.usuarios = Object.assign([], response['data']);
+                this.usuarios = Object.assign([], response['usuarios'].data);
 
-                this.length = response['totalItemsInDatabase']
-                if (this.length == 0) {
-                    this.showMessageNoColaborador = true
-                    this.mensagem = "Registro não localizado."
-                }
-                else if (this.usuarios.length == 0) {
-                    console.log("lengt zero")
-                    this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
-                    this.showMessageNoColaborador = true
-                }
+                //this.length = response['totalItemsInDatabase']
+                // if (this.length == 0) {
+                //     this.showMessageNoColaborador = true
+                //     this.mensagem = "Registro não localizado."
+                // }
+                // else if (this.usuarios.length == 0) {
+                //     console.log("lengt zero")
+                //     this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
+                //     this.showMessageNoColaborador = true
+                // }
 
             },
             (err) => {
                 this.showSpinnerFirst = false
                 console.log(err)
+                this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
+                this.showMessageNoColaborador = true
 
             },
             () => {

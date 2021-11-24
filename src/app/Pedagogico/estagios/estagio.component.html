@@ -20,7 +20,7 @@
             <h4 class="card-title" style="text-align:left;margin-top: 10px; 
             vertical-align: middle;font-size:1.2em; font-weight: 400;">
                 Estágios</h4>
-            Unidade {{tokenInfo.Unidade}}
+                Unidade {{tokenInfo.Unidade}}
             <!-- <p class="card-category"> </p> -->
         </div>
         <div class="card-body">
@@ -66,7 +66,7 @@
                             border-top: 0px; font-weight: 400;">
 
                             </th>
-
+                           
                         </tr>
                     </thead>
                     <tbody>
@@ -75,9 +75,9 @@
                             <td style="font-size:0.9em;text-align:center;vertical-align: middle;">{{i+1}}</td>
 
                             <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
-                                {{item.nome}}<br><span style="font-size: 0.8em;" >Hospital</span></td>
+                                {{item.nome}}</td>
 
-                            <td @rowHighlight style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                            <td  @rowHighlight style="font-size:0.9em;text-align: center;vertical-align: middle;">
                                 {{item.dataInicio | date:"dd/MM/yyyy"}}<br>
                                 <!-- <span @rowHighlight style="font-size: 0.8em;color: red;">
                                     {{item.previsao}}
@@ -85,32 +85,14 @@
                             </td>
 
                             <td style="font-size:0.9em;text-align: center;vertical-align: middle;">{{item.vagas}}</td>
-
+                                
                             <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
                                 {{item.inscritos.length}}
                             </td>
                             <td @rowHighlight style="font-size:0.9em;text-align: center;vertical-align: middle;"></td>
                             <td style="text-align: center;vertical-align: middle;">
 
-                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="add supervisor"
-                                    matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="addSupervisor(item)"
-                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                                        mat-icon-button>
-                                        <mat-icon>person_add</mat-icon>
-                                    </button>
-                                </i>
-
-                                <i style="margin: 0px; " #tooltip="matTooltip" matTooltip="supervisor"
-                                    matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="verEstagioSupervisao(item)"
-                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                                        mat-icon-button>
-                                        <mat-icon>group</mat-icon>
-                                    </button>
-                                </i>
-
-                                <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="editar estágio"
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="editar estágio"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
                                     <button (click)="editarEstagio(item.id)"
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
@@ -120,7 +102,7 @@
                                 </i>
 
 
-                                <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="inscritos"
+                                 <i style="margin: 0px; margin: 100px;" #tooltip="matTooltip" matTooltip="inscritos"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
                                     <button (click)="verificarMatriculados(item)"
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
@@ -129,10 +111,10 @@
                                     </button>
                                 </i>
 
+                                
 
-
-
-                                <!--
+                               
+<!--
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
                                     matTooltip="adiar a tumra para a próxima previsão" matTooltipPosition="above"
                                     matTooltipHideDelay="100">
@@ -164,14 +146,14 @@
                                         <mat-icon>settings</mat-icon>
                                     </button>
                                 </i> -->
-                            </td>
-                        </tr>
+                            </td>                            
+                        </tr>                        
                     </tbody>
                 </table>
-            </div>
+            </div>            
 
         </div>
     </div>
 
-
+   
 </div>

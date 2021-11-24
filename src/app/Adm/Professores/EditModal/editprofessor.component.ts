@@ -35,6 +35,7 @@ export class EditProfessorComponent implements OnInit {
     showMensagem = false
     mensagem = ''
     cpf = ''
+    showForm = false
 
     public cepReturn: CepReturn = new CepReturn();
     cargos = Cargos;
@@ -53,54 +54,44 @@ export class EditProfessorComponent implements OnInit {
         this.ativo = true;
         //console.log(this.data['colaborador'])
         Object.assign(this.editedColaborador, this.data['colaborador'])
-        this.cpf = this.onInputChange(this.editedColaborador.cpf)
-        // console.log("on init")
-        //this.getTasks(1, this.pageSize);
+        console.log(this.data['colaborador'].id)
+        this.GetProfessor()
+
     }
 
-    onInputChange(event) {
-        console.log(event)
-        let newVal = event.replace(/\D/g, '');
-        // if (backspace && newVal.length <= 6) {
-        //   newVal = newVal.substring(0, newVal.length - 1);
-        // }
-        if (newVal.length === 0) {
-            newVal = '';
-        } else if (newVal.length <= 3) {
-            newVal = newVal.replace(/^(\d{0,3})/, '$1');
-        } else if (newVal.length <= 6) {
-            newVal = newVal.replace(/^(\d{0,3})(\d{0,3})/, '$1.$2');
-        } else if (newVal.length <= 9) {
-            newVal = newVal.replace(/^(\d{0,3})(\d{0,3})(\d{0,3})/, '$1.$2.$3');
-        } else if (newVal.length <= 11) {
-            newVal = newVal.replace(/^(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/, '$1.$2.$3-$4');
-        } else {
-            newVal = newVal.substring(0, 11);
-            newVal = newVal.replace(/^(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/, '$1.$2.$3-$4');
-        }
-        return newVal;
+    GetProfessor() {
+
+        this.http.get(`${this.baseUrl}/professor/${this.data['colaborador'].id}`)
+            .subscribe(response => {
+
+                this.editedColaborador = response['result']
+
+            }, err => { console.log(err) },
+                () => { this.showForm = true });
     }
+
+
 
     submitForm(form: NgForm) {
-        
+
         console.log(form.value)
 
         console.log(this.editedColaborador)
 
         if (form.valid) {
-            
+
             this.disabledSpinner = true
             console.log('form valid')
 
             this.http.put(`${this.baseUrl}/professor`, this.editedColaborador, {})
                 .subscribe(response => {
-                //console.log(response)
-            }, err => { console.log(err) },
-                () => {
-                    this.openSnackBar()
-                    this.dialogRef.close();
+                    //console.log(response)
+                }, err => { console.log(err) },
+                    () => {
+                        this.openSnackBar()
+                        this.dialogRef.close();
 
-                });
+                    });
         }
     }
 
@@ -113,18 +104,18 @@ export class EditProfessorComponent implements OnInit {
             //this.redi(["./adm/colaboradores"]);
             this.http.put(`${this.baseUrl}/professor`, this.editedColaborador, {})
                 .subscribe(response => {
-                console.log(response)
-            }, err => { console.log(err) },
-                () => {
-                    this.openSnackBar()
-                    this.dialogRef.close();
+                    console.log(response)
+                }, err => { console.log(err) },
+                    () => {
+                        this.openSnackBar()
+                        this.dialogRef.close();
 
-                });
+                    });
         }
     }
 
     openSnackBar() {
-        this._snackBar.open('Colaborador editado com sucesso.', '', {
+        this._snackBar.open('Professor editado com sucesso.', '', {
             horizontalPosition: 'center',
             verticalPosition: 'top',
             panelClass: 'green-snackbar',
@@ -162,17 +153,7 @@ export class EditProfessorComponent implements OnInit {
                 this.editedColaborador.bairro = this.cepReturn.bairro
                 this.editedColaborador.cidade = this.cepReturn.localidade
                 this.editedColaborador.uf = this.cepReturn.uf
-
-                // this.colaboradorForm.get('logradouro').setValue(response["logradouro"]);
-                // this.colaboradorForm.get('bairro').setValue(response["bairro"]);
-                // this.colaboradorForm.get('cidade').setValue(response["localidade"]);
-                // this.colaboradorForm.get('uf').setValue(response["uf"]);
-                //this.bairro = this.cepReturn.bairro
-                // const token = (<any>response).accessToken;
-                // console.log(response)
-                // localStorage.setItem("jwt", token);
-                // this.invalidLogin = false;
-                // this.router.navigate(["/main"]);
+               
             }, err => { console.log("erros") },
                 () => { console.log('finaly') });
     }

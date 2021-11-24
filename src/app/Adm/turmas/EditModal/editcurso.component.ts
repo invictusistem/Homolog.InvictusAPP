@@ -56,13 +56,41 @@ export class EditCursoComponent implements OnInit {
         this.ativo = true;
         console.log(this.data['turma'])
 
+       // this.getAlunosDaTurma(this.data['turma'].id)
+        //this.getCursoById(this.data['turma'].id)
+        //this.getProfessores(this.data['turma'].id)
+       
+       this.GetInformacoesDaTurma(this.data['turma'].id);
+    }
 
-        this.getAlunosDaTurma(this.data['turma'].id)
-        this.getCursoById(this.data['turma'].id)
-        this.getProfessores(this.data['turma'].id)
-        //  Object.assign(this.editedColaborador, this.data['colaborador'])
-        // console.log("on init")
-        //this.getTasks(1, this.pageSize);
+    GetInformacoesDaTurma(turmaId){
+
+        this._http.get(`${this.BaseUrl}/turma/info/${turmaId}`)
+        .subscribe(
+            (response) => {
+                // console.log(response)
+                // this.professores = new Array<Professor>();
+                // Object.assign(this.professores, response)
+                this.alunos = response['alunos']
+
+            },
+            (error) => { 
+                console.log(error)
+            },
+            () => {
+                // console.log(this.professores)
+                // this.length = this.professores.length
+                // console.log(this.length)
+                
+                // if(this.length == 0){
+                //     this.mensagemSemProfessores = true
+                // }else{
+                //     this.mensagemSemProfessores = false
+                // }
+
+                // console.log(this.length)
+            }
+        )
     }
 
     get professoresSlice(): Professor[] {

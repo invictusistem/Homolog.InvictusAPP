@@ -10,14 +10,14 @@
 
 <hr>
 
-<div *ngIf="showTable" style="position: relative;">
+<div *ngIf="showForm" style="position: relative;">
 
     <form novalidate #form="ngForm" (ngSubmit)="edit(form)" style="">
         <!-- <div class="card-body"> -->
 
         <mat-form-field appearance="standard" style="width: 45%; ">
             <mat-label>Nome</mat-label>
-            <input selected name="nome" matInput [(ngModel)]="editedColaborador.nome">
+            <input selected name="nome" matInput required [(ngModel)]="editedColaborador.nome">
         </mat-form-field>
 
         <mat-form-field appearance="standard" style="width: 45%; margin-left: 10%;">
@@ -32,21 +32,22 @@
 
         <mat-form-field appearance="standard" style="width: 25%;margin-left: 2%;">
             <mat-label>celular</mat-label>
-            <input selected name="celular" matInput [(ngModel)]="editedColaborador.celular">
+            <input selected name="celular" required mask="(00) 00000-0000" matInput [(ngModel)]="editedColaborador.celular">
         </mat-form-field>
 
         <mat-form-field appearance="standard" style="width: 25%;margin-left: 2%;">
             <mat-label>Cargo/Função</mat-label>
             <mat-select placeholder="cargo/função" [(ngModel)]="editedColaborador.cargoId" name="cargo">
-               
+                
                 <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">
-                    {{cargo.nome}}
+                    {{cargo.value}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
 
         <mat-slide-toggle style="width: 15%; margin-left: 40px;" class="autoPagination-slide" #tooltip="matTooltip"
-            [(ngModel)]="editedColaborador.ativo" name="ativo" required matTooltip="ativo/inativo" [required]="false"
+            [(ngModel)]="editedColaborador.ativo" name="ativo" required matTooltip="ativo/inativo" 
+            [required]="false"
             matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
         </mat-slide-toggle>
 
@@ -63,7 +64,7 @@
 
         <mat-form-field appearance="standard" style="width: 15%;">
             <mat-label>CEP</mat-label>
-            <input #cep selected name="cep" matInput [(ngModel)]="editedColaborador.cep">
+            <input required #cep selected name="cep" matInput [(ngModel)]="editedColaborador.cep">
         </mat-form-field>
         <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP" matTooltipPosition="above"
             matTooltipHideDelay="100">
@@ -80,7 +81,7 @@
 
             <mat-form-field appearance="standard" style="width: 80px;margin-left: 10px;">
                 <mat-label>Nº</mat-label>
-                <input [(ngModel)]="editedColaborador.numero" selected name="numero" matInput placeholder="ex: rua tal...">
+                <input [(ngModel)]="editedColaborador.numero" required selected name="numero" matInput placeholder="ex: rua tal...">
             </mat-form-field>
 
             <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">

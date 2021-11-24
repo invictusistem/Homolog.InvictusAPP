@@ -319,7 +319,7 @@ export class ColaboradoresComponent implements OnInit {
             if (data.clicked === "Ok") {
                 // Reset form here
                 console.log('afte close ok')
-                this.getColaboradores(1, this.pageSize);
+                //this.getColaboradores(1, this.pageSize);
             } else if (data.clicked === "Cancel") {
                 // Do nothing. Cancel any events that navigate away from the
                 // component.

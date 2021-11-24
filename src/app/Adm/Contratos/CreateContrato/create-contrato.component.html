@@ -20,8 +20,8 @@
 
     <mat-form-field appearance="standard" style="width: 350px;margin-left: 10px;">
         <mat-label>Pacote</mat-label>
-        <mat-select formControlName="pacoteId" placeholder="">
-            <mat-option style="font-size: 0.8em;" 
+        <mat-select formControlName="typePacoteId" placeholder="">
+            <mat-option 
             [value]="type.id"
             *ngFor="let type of typePacotes" >
                 {{type.nome}}
@@ -30,7 +30,7 @@
     </mat-form-field>
 
     <mat-slide-toggle style="width: 70px; margin-left: 40px;" class="autoPagination-slide" #tooltip="matTooltip"
-            formControlName="ativo" required matTooltip="ativo/inativo"
+            formControlName="ativo" required matTooltip="ativo/inativo" [required]="false"
             matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
         </mat-slide-toggle>
     <br>

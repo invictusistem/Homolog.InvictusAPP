@@ -70,7 +70,7 @@ export class ProdutoEditComponent implements OnInit {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         //this.produto = Object.assign({}, this.data['produto'])
-        console.log(this.produto)
+       
         // console.log(this.tokenInfo.Unidade);
         // console.log(this.tokenInfo.Codigo);
         // console.log(this.tokenInfo);
@@ -84,7 +84,7 @@ export class ProdutoEditComponent implements OnInit {
     }
 
     GetProduto(produtoId){
-        this.http.get(`${this.baseUrl}/unidade/produto/${produtoId}`)
+        this.http.get(`${this.baseUrl}/produto/${produtoId}`)
         .subscribe(response => {
                     console.log(response)
 
@@ -125,33 +125,33 @@ export class ProdutoEditComponent implements OnInit {
     //         () => { });
     // }
 
-    onSubmit(form: FormGroup) {
+    // onSubmit(form: FormGroup) {
         
-        var produto = new Produto();
-        produto = form.value
+    //     var produto = new Produto();
+    //     produto = form.value
 
-        console.log(produto)
+    //     console.log(produto)
 
 
-        if (form.valid) {
+    //     if (form.valid) {
            
 
-            this.http.post(`${this.baseUrl}/financeiro/produto`, produto, {
+    //         this.http.post(`${this.baseUrl}/produto`, produto, {
                
-            }).subscribe(response => {
+    //         }).subscribe(response => {
 
-                console.log(response)
+    //             console.log(response)
                 
-            }, (err) => {
-                console.log(err)
+    //         }, (err) => {
+    //             console.log(err)
                
-            },
-                () => {
+    //         },
+    //             () => {
                    
-                    this.dialogRef.close({ clicked: "Ok" });
-                });
-        }
-    }
+    //                 this.dialogRef.close({ clicked: "Ok" });
+    //             });
+    //     }
+    // }
 
     openSnackBar() {
         this._snackBar.open('Colaborador salvo com sucesso.', '', {
@@ -174,7 +174,7 @@ export class ProdutoEditComponent implements OnInit {
         if (form.valid) {
            
 
-            this.http.put(`${this.baseUrl}/financeiro/produto`, this.produto, {
+            this.http.put(`${this.baseUrl}/produto`, this.produto, {
                
             }).subscribe(response => {
 

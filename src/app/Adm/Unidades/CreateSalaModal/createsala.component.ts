@@ -12,8 +12,8 @@ import { environment } from "src/environments/environment";
 
 @Component({
     selector: 'createsalamodal',
-    templateUrl: './createsala.component.html'
-   // styleUrls: ['./createsala.component.scss']
+    templateUrl: './createsala.component.html',
+    styleUrls: ['./createsala.component.scss']
 })
 
 export class CreateSalaComponent implements OnInit {
@@ -34,6 +34,8 @@ export class CreateSalaComponent implements OnInit {
             descricao: ['',[Validators.required]],
             capacidade:[,[Validators.required, Validators.min(1)]],
             comentarios: ['',[Validators.required, Validators.maxLength(200)]],
+            ativo: [true],
+            unidadeId: [this.data["unidade"].id],
         })
     }
 
@@ -43,12 +45,14 @@ export class CreateSalaComponent implements OnInit {
 
     }
 
+    
+
     onSubmit(form: any){
-        console.log(form)
+       // console.log(this.data["unidade"].id)
 
-        if(form.valid){
+        if(this.salaForm.valid){
 
-            this._http.post(`${this._baseUrl}/unidade/sala-create/${this.data["unidade"].id}`, form.value,{})
+            this._http.post(`${this._baseUrl}/unidade/sala-create`, this.salaForm.value,{})
                 .subscribe(resp => { },
                     (error) => { console.log(error)},
                     () => { this.dialogRef.close({clicked: "Ok"})})

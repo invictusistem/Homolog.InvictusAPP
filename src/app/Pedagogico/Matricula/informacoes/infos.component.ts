@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest } from "@angular/common/http";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { environment } from "src/environments/environment";
@@ -12,6 +12,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { DocumentoAlunoDto } from "../../Pedag-Models/documentoaluno.model";
 import { Observable } from "rxjs";
+import { AddAnotacaoComponent } from "./Anotacao/add-anotacao.component";
 
 @Component({
     selector: 'infosmodal',
@@ -41,7 +42,7 @@ export class InfosComponent implements OnInit {
     public originalRespMenor: any
 
     public documentoForm: FormGroup
-
+    public anotacaoForm: FormGroup
     private respFinId: number = 0;
     private respMenorId: number = 0;
 
@@ -53,6 +54,7 @@ export class InfosComponent implements OnInit {
         private _fb: FormBuilder,
         private _http: HttpClient,
         private _service: PedagService,
+        private _modal: MatDialog,
         public dialogRef: MatDialogRef<InfosComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
 
@@ -61,82 +63,58 @@ export class InfosComponent implements OnInit {
             comentario: ['', [Validators.required]],
         })
 
-        this.alunoForm = _fb.group({
-            id: [''],
-            nome: ['', [Validators.required, Validators.minLength(5)]],
-            nomeSocial: [''],
-            cpf: ['', [Validators.required, Validators.minLength(5)]],
-            rg: ['', [Validators.required, Validators.minLength(5)]],
-            nascimento: ['', [Validators.required, Validators.minLength(5)]],
-            naturalidade: ['', [Validators.required, Validators.minLength(5)]],
-            naturalidadeUF: ['', [Validators.required, Validators.minLength(5)]],
-            email: ['', [Validators.required, Validators.minLength(5)]],
-            telReferencia: ['', [Validators.required, Validators.minLength(5)]],
-            nomeContatoReferencia: ['', [Validators.required, Validators.minLength(5)]],
-            cienciaCurso: [''],
-            telCelular: ['', [Validators.required, Validators.minLength(5)]],
-            telResidencial: [''],
-            telWhatsapp: [''],
-            cep: ['', [Validators.required, Validators.minLength(5)]],
-            logradouro: ['', [Validators.required, Validators.minLength(5)]],
-            //logradouro: ['', [Validators.required, Validators.minLength(5)]],
-            complemento: ['', [Validators.required, Validators.minLength(5)]],
-            cidade: ['', [Validators.required, Validators.minLength(5)]],
-            uf: ['', [Validators.required, Validators.minLength(2)]],
-            bairro: ['', [Validators.required, Validators.minLength(1)]],
-            //cienciaCurso: [''],
-            observacoes: [''],
-            unidadeCadastrada: [''],
-            // responsaveis: ['']
-            //temRespFin: ['', [Validators.required,Validators.minLength(5)]],
-
+        this.anotacaoForm = _fb.group({
+            comentario: ['', [Validators.required]],
+            matriculaId: ['']
         })
 
-        this.respFinancForm = _fb.group({
-            id: [''],
-            nome: ['', [Validators.required, Validators.minLength(2)]],
-            cpf: ['', [Validators.required, Validators.minLength(11)]],
-            rg: ['', [Validators.required, Validators.minLength(9)]],
-            nascimento: ['', [Validators.required]],
-            parentesco: ['', [Validators.required]],
-            naturalidade: ['', [Validators.required]],
-            naturalidadeUF: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.minLength(5)]],
-            telCelular: [null, [Validators.minLength(0)]],
-            telWhatsapp: [null, [Validators.minLength(10)]],
-            telResidencial: [null, [Validators.minLength(9)]],
-            cep: ['', [Validators.required, Validators.minLength(8)]],
-            logradouro: ['', [Validators.required, Validators.minLength(1)]],
-            complemento: [''],
-            cidade: ['', [Validators.required, Validators.minLength(1)]],
-            uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
-            bairro: ['', [Validators.required, Validators.minLength(1)]],
-            observacoes: ['', [Validators.minLength(1), Validators.maxLength(300)]],
-            TipoResponsavel: ['', [Validators.minLength(1), Validators.maxLength(300)]],
-        })
 
-        this.respMenorForm = _fb.group({
-            id: [''],
-            nome: ['', [Validators.required, Validators.minLength(2)]],
-            cpf: ['', [Validators.required, Validators.minLength(11)]],
-            rg: ['', [Validators.required, Validators.minLength(9)]],
-            nascimento: ['', [Validators.required]],
-            parentesco: ['', [Validators.required]],
-            naturalidade: ['', [Validators.required]],
-            naturalidadeUF: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.minLength(5)]],
-            telCelular: [null, [Validators.minLength(0)]],
-            telWhatsapp: [null, [Validators.minLength(10)]],
-            telResidencial: [null, [Validators.minLength(9)]],
-            cep: ['', [Validators.required, Validators.minLength(8)]],
-            logradouro: ['', [Validators.required, Validators.minLength(1)]],
-            complemento: [''],
-            cidade: ['', [Validators.required, Validators.minLength(1)]],
-            uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
-            bairro: ['', [Validators.required, Validators.minLength(1)]],
-            observacoes: ['', [Validators.minLength(1), Validators.maxLength(300)]],
-            TipoResponsavel: ['', [Validators.minLength(1), Validators.maxLength(300)]],
-        })
+
+        // this.respFinancForm = _fb.group({
+        //     id: [''],
+        //     nome: ['', [Validators.required, Validators.minLength(2)]],
+        //     cpf: ['', [Validators.required, Validators.minLength(11)]],
+        //     rg: ['', [Validators.required, Validators.minLength(9)]],
+        //     nascimento: ['', [Validators.required]],
+        //     parentesco: ['', [Validators.required]],
+        //     naturalidade: ['', [Validators.required]],
+        //     naturalidadeUF: ['', [Validators.required]],
+        //     email: ['', [Validators.required, Validators.minLength(5)]],
+        //     telCelular: [null, [Validators.minLength(0)]],
+        //     telWhatsapp: [null, [Validators.minLength(10)]],
+        //     telResidencial: [null, [Validators.minLength(9)]],
+        //     cep: ['', [Validators.required, Validators.minLength(8)]],
+        //     logradouro: ['', [Validators.required, Validators.minLength(1)]],
+        //     complemento: [''],
+        //     cidade: ['', [Validators.required, Validators.minLength(1)]],
+        //     uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
+        //     bairro: ['', [Validators.required, Validators.minLength(1)]],
+        //     observacoes: ['', [Validators.minLength(1), Validators.maxLength(300)]],
+        //     TipoResponsavel: ['', [Validators.minLength(1), Validators.maxLength(300)]],
+        // })
+
+        // this.respMenorForm = _fb.group({
+        //     id: [''],
+        //     nome: ['', [Validators.required, Validators.minLength(2)]],
+        //     cpf: ['', [Validators.required, Validators.minLength(11)]],
+        //     rg: ['', [Validators.required, Validators.minLength(9)]],
+        //     nascimento: ['', [Validators.required]],
+        //     parentesco: ['', [Validators.required]],
+        //     naturalidade: ['', [Validators.required]],
+        //     naturalidadeUF: ['', [Validators.required]],
+        //     email: ['', [Validators.required, Validators.minLength(5)]],
+        //     telCelular: [null, [Validators.minLength(0)]],
+        //     telWhatsapp: [null, [Validators.minLength(10)]],
+        //     telResidencial: [null, [Validators.minLength(9)]],
+        //     cep: ['', [Validators.required, Validators.minLength(8)]],
+        //     logradouro: ['', [Validators.required, Validators.minLength(1)]],
+        //     complemento: [''],
+        //     cidade: ['', [Validators.required, Validators.minLength(1)]],
+        //     uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
+        //     bairro: ['', [Validators.required, Validators.minLength(1)]],
+        //     observacoes: ['', [Validators.minLength(1), Validators.maxLength(300)]],
+        //     TipoResponsavel: ['', [Validators.minLength(1), Validators.maxLength(300)]],
+        // })
 
 
         //this.alunoForm.get('logradouro').disable()
@@ -147,14 +125,156 @@ export class InfosComponent implements OnInit {
 
     ngOnInit() {
 
-        this.nome = this.data['aluno'].nome
-        //console.log(this.aluno)
-        this.getInfoAlunos(this.data['aluno'].id)
-        const token = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token)
-        this.getInfoDocs(this.data['aluno'].id);
+        // this.nome = this.data['aluno']
+        console.log(this.data['aluno'])
+        this.anotacaoForm.get('matriculaId').setValue(this.data['aluno'].matriculaId)
+        // this.getInfoAlunos(this.data['aluno'].id)
+        // const token = localStorage.getItem('jwt')
+        // this.tokenInfo = this.jwtHelper.decodeToken(token)
+        // this.getInfoDocs(this.data['aluno'].id);
         // this.getInfoFinancAlunos(this.data['aluno'].id)
+        this.GetInformacoesMatricula(this.data['aluno'].matriculaId)
     }
+
+    alunoInfo: any;
+    respFin: any;
+    respMenor: any;
+    anotacoes: any[] = new Array<any>()
+    GetInformacoesMatricula(matriculaId) {
+
+        this._http.get(`${this.baseUrl}/pedag/aluno/${matriculaId}`)
+            .subscribe(resp => {
+                console.log(resp)
+                this.alunoInfo = Object.assign({}, resp['aluno']);
+                this.respFin = resp['respFin'];
+                this.respMenor = resp['respMenor'];
+                this.anotacoes = resp['anotacoes'];
+
+                console.log(this.respMenor)
+
+            },
+                (error) => { console.log(error) },
+                () => {
+                    this.showAluno = true
+                })
+
+    }
+
+    saveAluno(form: any) {
+
+        form.disable
+
+    }
+
+    consultaCEP(CEP: string, item) {
+        // console.log(CEP);
+
+        this._http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
+            .subscribe(response => {
+
+                //  console.log(response)
+
+                //  this.alunoInfo.logradouro = response["logradouro"];
+                //  this.alunoInfo.bairro = response["bairro"];
+                //  this.alunoInfo.cidade = response["localidade"];
+                //  this.alunoInfo.uf = response["uf"];
+
+                item.logradouro = response["logradouro"];
+                item.bairro = response["bairro"];
+                item.cidade = response["localidade"];
+                item.uf = response["uf"];
+
+
+            }, err => { console.log(err) },
+                () => { });
+
+
+
+    }
+
+    submitAnotacao(){
+       
+        console.log(this.anotacaoForm.valid)
+        console.log(this.anotacaoForm.value)
+        if(this.anotacaoForm.valid){
+
+            this._http.post(`${this.baseUrl}/pedag/matricula/anotacao`,this.anotacaoForm.value, {})
+            .subscribe(response => {
+               
+            }, err => { console.log(err) },
+                () => {
+                    this.GetAnotacoes();
+                 });
+
+
+
+        }
+    }
+
+    openAddComentarioModal(): void {
+        const dialogRef = this._modal
+            .open(AddAnotacaoComponent, {
+                height: '310px',
+                width: '500px',
+                autoFocus: false,
+               
+
+                data: {  },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "OK") {
+                console.log('afte close ok')
+                this.anotacaoForm.get('comentario').setValue(data.comentario)
+               // this.anotacaoForm.get('comentario').setValue(data.comentario)
+                this.submitAnotacao();
+                
+            } else if (data.clicked === "Cancel") {
+               
+            }
+        });
+    }
+
+    GetAnotacoes() {
+
+        this._http.get(`${this.baseUrl}/pedag/matricula/anotacao/${this.data['aluno'].matriculaId}`)
+            .subscribe(resp => {
+                console.log(resp)
+                
+                this.anotacoes = resp['anotacoes'];
+
+                console.log(this.respMenor)
+
+            },
+                (error) => { console.log(error) },
+                () => {
+                   // this.showAluno = true
+                })
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     getInfoFinancAlunos(alunoId: number) {
 
         this._http.get(`${this.baseUrl}/financeiro/aluno-debitos/${alunoId}`)
@@ -346,38 +466,7 @@ export class InfosComponent implements OnInit {
     public localidade = ''
     public uf = ''
 
-    consultaCEP(CEP: string) {
-        console.log(CEP);
 
-        this._http.get(`https://viacep.com.br/ws/${CEP}/json/`, {
-
-        }
-        )
-            .subscribe(response => {
-
-                //console.log(response)
-                this.cepReturn = new CepReturn(
-                    response["logradouro"],
-                    response["bairro"],
-                    response["localidade"],
-                    response["uf"]);
-
-                // console.log(this.cepReturn)
-                this.alunoForm.get('logradouro').setValue(response["logradouro"]);
-                this.alunoForm.get('bairro').setValue(response["bairro"]);
-                this.alunoForm.get('cidade').setValue(response["localidade"]);
-                this.localidade = this.alunoForm.get('cidade').value
-                this.alunoForm.get('uf').setValue(response["uf"]);
-                this.uf = this.alunoForm.get('uf').value
-                //this.bairro = this.cepReturn.bairro
-                // const token = (<any>response).accessToken;
-                // console.log(response)
-                // localStorage.setItem("jwt", token);
-                // this.invalidLogin = false;
-                // this.router.navigate(["/main"]);
-            }, err => { console.log(err) },
-                () => { console.log('finaly') });
-    }
 
     saveEditAluno() {
 

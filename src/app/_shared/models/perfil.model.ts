@@ -31,7 +31,7 @@ export const MeioPagamento = [
     { value: 'debito', viewValue: 'Débito' },
     { value: 'credito', viewValue: 'Crédito' },
     { value: 'pix', viewValue: 'Pix' },
-    
+
 ];
 
 export const Unidades = [
@@ -61,3 +61,29 @@ export const DiasSemana = [
     { value: 'quinta', viewValue: '5ª feira' },
     { value: 'sexta', viewValue: '6ª feira' }
 ]
+
+export const Modalidade = [
+    { value: 'On-line', viewValue: 'On-line' },
+    { value: 'Presencial', viewValue: 'Presencial' },
+    { value: 'Estágio', viewValue: 'Estágio' }
+];
+
+export const TitularDoc = [
+    { value: 'Aluno', viewValue: 'On-line' },
+    { value: 'Responsável menor', viewValue: 'Responsável menor' },
+    { value: 'Responsável financeiro', viewValue: 'Responsável financeiro' }
+];
+
+
+export const DiaSemana = [
+    { value: 'Segunda-feira' },
+    { value: 'Terça-feira' },
+    { value: 'Quarta-feira' },
+    { value: 'Quinta-feira' },
+    { value: 'Sexta-feira' },
+    { value: 'Sábado' },
+    { value: 'Domingo' }
+]
+
+
+

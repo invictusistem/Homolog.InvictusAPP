@@ -41,9 +41,6 @@ import { AnaliseDocsComponent } from './Pedagogico/analise-docs/analisedocs.comp
 import { GeralComponent } from './Geral/geral.component';
 import { EstagiosDocsComponent } from './Pedagogico/estagiosdocs/estagiosdocs.component';
 import { EstagioComponent } from './Pedagogico/estagios/estagio.component';
-import { AddLeadComponent } from './Comercial/AddLead/addlead.component';
-import { LeadsComponent } from './Comercial/Leads/leads.component';
-import { EstagioAlunosListComponent } from './Pedagogico/estagiosalunos/estagioalunos.component';
 
 export const routes: Routes = [
   {
@@ -88,12 +85,11 @@ export const routes: Routes = [
       { path: 'turmas', component: TurmasComponent, canActivate: [AuthGuard] },
       //{ path: 'estagio', component: EstagioComponent, canActivate: [AuthGuard] },
       { path: 'pedagrel', component: PedagRelatorioComponent, canActivate: [AuthGuard] },
-      { path: 'estagio', component: EstagioComponent, canActivate: [AuthGuard] },
+      { path: 'config', component: EstagioComponent, canActivate: [AuthGuard] },
       { path: 'turmasinfo', component:  TurmasPedagInfoComponent, canActivate: [AuthGuard] },
       { path: 'reposicoes', component:  ReposicoesComponent, canActivate: [AuthGuard] },
       { path: 'analisedocs', component:  AnaliseDocsComponent, canActivate: [AuthGuard] },
       { path: 'estagiosdoc', component:  EstagiosDocsComponent, canActivate: [AuthGuard] },
-      { path: 'alunos', component:  EstagioAlunosListComponent, canActivate: [AuthGuard] },
     ]
   },
   {
@@ -127,16 +123,7 @@ export const routes: Routes = [
   },
   
 
-  { path: 'comercial', component: ComercialComponent, canActivate: [AuthGuard], 
-  children: [
-    { path: 'addlead', component: AddLeadComponent, canActivate: [AuthGuard] },
-    { path: 'leads', component: LeadsComponent, canActivate: [AuthGuard] }
-    // { path: 'unidadebalanco', component: UnidadeBalancoComponent, canActivate: [AuthGuard] },
-    // { path: 'fincaixa', component: FinCaixaComponent, canActivate: [AuthGuard] },
-    // { path: 'fornecedor', component: FornecedoresComponent, canActivate: [AuthGuard] },
-    // { path: 'relatorio', component: FinRelatorioComponent, canActivate: [AuthGuard] }
-  ]
-},
+  { path: 'comercial', component: ComercialComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'adm', pathMatch: 'full' },
   { path: '**', redirectTo: 'adm', pathMatch: 'full' }
 ];

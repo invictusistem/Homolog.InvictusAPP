@@ -18,7 +18,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 @Component({
     selector: 'createcontratomodal',
     templateUrl: './create-contrato.component.html',
-   // styleUrls: ['./create-contrato.component.scss'],
+    styleUrls: ['./create-contrato.component.scss'],
     animations: [HighlightTrigger]
 })
 
@@ -52,10 +52,10 @@ export class CreateContratoComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.contratoForm = _fb.group({
             titulo: ['', [Validators.required]],
-            pacoteId: ['', [Validators.required]],
+            typePacoteId: ['', [Validators.required]],
             ativo: [true],
             conteudo: ['', [Validators.required]],
-           
+
         })
 
     }
@@ -64,19 +64,28 @@ export class CreateContratoComponent implements OnInit {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.GetTypes()
-       
+
     }
 
     private GetTypes() {
 
-        this._http.get(`${this.baseUrl}/unidade/typepacote`)
+        this._http.get(`${this.baseUrl}/typepacote`)
             .subscribe(resp => {
-                this.typePacotes = resp['types']
+                this.typePacotes = resp['typePacotes']
             },
-                (error) => { console.log(error) },
+                (error) => {
+                    // this.CapturarErro()
+                    console.log(error)
+                    console.log(error['status'])
+                    if (error['status'] == 404) {
+
+                    }
+
+
+                },
                 () => { })
     }
-   
+
     // salvar(){
     //    // console.log(form.value)
     //     console.log(JSON.stringify(this.htmlContent))
@@ -97,23 +106,23 @@ export class CreateContratoComponent implements OnInit {
     // }
 
     onSubmit(form: FormGroup) {
-       
-       
+
+
         console.log(form.value)
         console.log(this.htmlContent)
 
-        if(this.contratoForm.valid){
+        if (this.contratoForm.valid) {
 
-            this._http.post(`${this.baseUrl}/unidade/contrato`,form.value, {})
-            .subscribe(resp => { 
-    
-            }, (error) => { console.log(error)},
-            () => {
-                this.dialogRef.close({ clicked: "Ok" });
-            })
+            this._http.post(`${this.baseUrl}/contrato`, form.value, {})
+                .subscribe(resp => {
+
+                }, (error) => { console.log(error) },
+                    () => {
+                        this.dialogRef.close({ clicked: "OK" });
+                    })
 
         }
-       
+
     }
 
 

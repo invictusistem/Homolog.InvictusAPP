@@ -21,17 +21,17 @@
 
         <div class="form-row align-items-center divSiteForm">
 
-            <mat-form-field appearance="standard" style="transform: scale(0.85);">
+            <mat-form-field appearance="standard" >
                 <mat-label>Nome</mat-label>
                 <input formControlName="nome" selected  matInput placeholder="digite o nome">
             </mat-form-field>
 
-            <mat-form-field class="siteForm-select" style="margin-left: 2px;transform: scale(0.85);">
+            <mat-form-field class="siteForm-select" style="margin-left: 10px;">
                 <mat-label>E-mail</mat-label>
                 <input formControlName="email" selected matInput placeholder="digite o E-mail">
             </mat-form-field>
 
-            <mat-form-field class="siteForm-select" style="margin-left: 2px;transform: scale(0.85);">
+            <mat-form-field class="siteForm-select" style="margin-left: 10px;">
                 <mat-label>CPF</mat-label>
                 <input mask="000.000.000-00" formControlName="cpf" selected  matInput placeholder="digite o CPF">
             </mat-form-field>
@@ -89,7 +89,7 @@
                     vertical-align: middle;
                     border-top: 0px;"></th>
 
-                            <th style="width: 32%;font-size:1em;
+                            <th style="width: 42%;font-size:1em;
                                     vertical-align: middle;
                                     text-align:left;
                     border-top: 0px; font-weight: 400;">Nome</th>
@@ -99,19 +99,19 @@
                             text-align:center;
                             border-top: 0px; font-weight: 400;">Email</th>
 
-                            <th style="width: 20%;font-size:1em;
+                            <!-- <th style="width: 20%;font-size:1em;
                     text-align:center; 
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">Acesso
                                 ao sistema
-                            </th>
+                            </th> -->
 
                             <th style="width: 6%;font-size:1em;
                     text-align:center; 
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">Ativo</th>
 
-                            <th style="width: 20%;
+                            <th style="width: 30%;
                     border-top: 0px;
                     text-align:center; 
                     vertical-align: middle;"></th>
@@ -131,7 +131,7 @@
 
                             <td style="text-align: center;vertical-align: middle;">{{item.email}}</td>
 
-                            <td style="text-align: center;vertical-align: middle;">{{item.perfil || 'Sem acesso'}}</td>
+                            <!-- <td style="text-align: center;vertical-align: middle;">{{item.perfil || 'Sem acesso'}}</td> -->
 
                             <td style="text-align: center;vertical-align: middle;">
                                 <div *ngIf="item.ativo == true;else inativo">

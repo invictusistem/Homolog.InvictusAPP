@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { DEFAULT_CURRENCY_CODE, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,7 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from "@auth0/angular-jwt";
 
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 //import { HomeComponent } from './home.component';
 import { SharedModule } from '../_shared/shared.module';
 
@@ -49,24 +49,21 @@ import { EstagiosDocsComponent } from './estagiosdocs/estagiosdocs.component';
 import { EstagioComponent } from './estagios/estagio.component';
 import { EstagioEditComponent } from './estagios/estagio-edit/estagio-edit.component';
 import { EstagioAlunosComponent } from './estagios/estagio-alunos/estagio-alunos.component';
-import { EstagioSupervisaoComponent } from './estagios/estagio-supervisores/estagio-supervisao.component';
-import { SupervisorCreateComponent } from './estagios/create-supervisor/supervisor-create.component';
-import { EstagioAlunosListComponent } from './estagiosalunos/estagioalunos.component';
-import { LiberarEstagioComponent } from './estagiosalunos/liberar-estagio/liberarestagio.component';
-import { VerEstagiosComponent } from './estagiosalunos/estagio-list/estagio-list.component';
+import { InfoCadastraisComponent } from './Matricula/InfoCad/info-cadastrais.component';
+import { AddAnotacaoComponent } from './Matricula/informacoes/Anotacao/add-anotacao.component';
 // import { CustomersComponent } from '../customers/customers.component';
 
 export const MY_DATE_FORMATS = {
     parse: {
-        dateInput: 'DD-MM-YYYY',
+      dateInput: 'DD-MM-YYYY',
     },
     display: {
-        dateInput: 'MMM DD, YYYY',
-        monthYearLabel: 'MMMM YYYY',
-        dateA11yLabel: 'LL',
-        monthYearA11yLabel: 'MMMM YYYY'
+      dateInput: 'MMM DD, YYYY',
+      monthYearLabel: 'MMMM YYYY',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'MMMM YYYY'
     },
-};
+}; 
 
 export function tokenGetter() {
     return localStorage.getItem("jwt");
@@ -74,7 +71,7 @@ export function tokenGetter() {
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
-};
+  };
 
 @NgModule({
     declarations: [
@@ -113,11 +110,8 @@ const maskConfig: Partial<IConfig> = {
         EstagiosDocsComponent,
         EstagioAlunosComponent,
         EstagioEditComponent,
-        EstagioSupervisaoComponent,
-        SupervisorCreateComponent,
-        EstagioAlunosListComponent,
-        LiberarEstagioComponent,
-        VerEstagiosComponent
+        InfoCadastraisComponent,
+        AddAnotacaoComponent
     ],
     imports: [
         BrowserModule,
@@ -131,8 +125,8 @@ const maskConfig: Partial<IConfig> = {
         NgxMaskModule.forRoot(maskConfig),
     ],
     //     providers: [AuthGuard],
-    providers: [DataService, PedagService, { provide: 'ValidateForms', useClass: ValidateFormsService },
-        { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
+    providers: [CurrencyPipe, DataService, { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },PedagService, {provide: 'ValidateForms', useClass: ValidateFormsService},
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
     //bootstrap: [AppComponent]
     exports: [
         PedagogicoComponent,
@@ -143,8 +137,7 @@ const maskConfig: Partial<IConfig> = {
         PedagRelatorioComponent,
         TurmasPedagInfoComponent,
         ReposicoesComponent,
-        AnaliseDocsComponent,
-        EstagioAlunosListComponent
+        AnaliseDocsComponent
     ],
     entryComponents: [
         CreateMatriculaComponent,
@@ -173,16 +166,14 @@ const maskConfig: Partial<IConfig> = {
         EstagiosDocsComponent,
         EstagioAlunosComponent,
         EstagioEditComponent,
-        EstagioSupervisaoComponent,
-        SupervisorCreateComponent,
-        LiberarEstagioComponent,
-        VerEstagiosComponent
+        InfoCadastraisComponent,
+        AddAnotacaoComponent
         // FormFieldCustomControlExample, 
         //MyTelInput,
         //   DialogOverviewExampleDialog,
         //   EditTemplateModel
     ]
-
+    
 })
 export class PedagogicoModule { }
 

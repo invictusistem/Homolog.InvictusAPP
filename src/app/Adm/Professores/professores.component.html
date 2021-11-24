@@ -1,9 +1,9 @@
 <div class="container" style="width: 95%; padding-top: 20px;">
 
     <div>
-        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="cadastrar professor" matTooltipPosition="above"
+        <i style="" #tooltip="matTooltip" matTooltip="cadastrar professor" matTooltipPosition="above"
             matTooltipHideDelay="100">
-            <button [disabled]="disableCreateProf" (click)="openCreateUserModal()" mat-icon-button>
+            <button (click)="openCreateUserModal()" mat-icon-button>
                 <mat-icon>person_add_alt</mat-icon>
             </button>
         </i>
@@ -15,24 +15,24 @@
     <form [formGroup]="pesquisarForm" (ngSubmit)="onSubmit()" class="form-inline siteForm"
         style="margin-top: 5px;display: inline-block">
 
-        <span color="primary" style="margin-left: 10px;font-size: 0.9em;font-style: italic;">Digite ao menos um dos
+        <span color="primary" style="font-size: 0.9em;font-style: italic;">Digite ao menos um dos
             campos para
             pesquisar pelo professor:
         </span>
 
         <div class="form-row align-items-center divSiteForm">
 
-            <mat-form-field appearance="standard" style="transform: scale(0.85);">
+            <mat-form-field appearance="standard" style="">
                 <mat-label>Nome</mat-label>
                 <input formControlName="nome" selected matInput placeholder="digite o nome">
             </mat-form-field>
 
-            <mat-form-field class="siteForm-select" style="margin-left: 2px;transform: scale(0.85);">
+            <mat-form-field class="siteForm-select" style="margin-left: 10px;">
                 <mat-label>E-mail</mat-label>
                 <input formControlName="email" selected matInput placeholder="digite o E-mail">
             </mat-form-field>
 
-            <mat-form-field class="siteForm-select" style="margin-left: 2px;transform: scale(0.85);">
+            <mat-form-field class="siteForm-select" style="width: 120px;margin-left: 10px;">
                 <mat-label>CPF</mat-label>
                 <input mask="000.000.000-00" formControlName="cpf" selected matInput placeholder="digite o CPF">
             </mat-form-field>

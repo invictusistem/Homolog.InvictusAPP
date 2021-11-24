@@ -15,8 +15,8 @@
 
         <mat-form-field appearance="standard" style="width: 65%;">
             <mat-label>Tipo/Pacote</mat-label>
-            <mat-select formControlName="pacoteId" placeholder="">
-                <mat-option style="font-size: 0.8em;" 
+            <mat-select formControlName="typePacoteId" placeholder="">
+                <mat-option (click)="getContratos(type.id)"
                 [value]="type.id"
                 *ngFor="let type of typePacotes" >
                     {{type.nome}}
@@ -65,7 +65,7 @@
         <mat-form-field appearance="standard" style="width: 30%;margin-left: 5%; ">
             <mat-label>Bonus Pontualidade</mat-label>
             <input currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
-            formControlName="bonusMensalidade"
+            formControlName="bonusPontualidade"
                 type="text" selected required matInput placeholder="R$ 00,00">
             <span matPrefix>R$&nbsp;</span>
         </mat-form-field>
@@ -73,7 +73,7 @@
        <br>
 
 
-        <mat-form-field appearance="standard" style="width: 40%">
+        <mat-form-field appearance="standard" style="width: 45%">
             <mat-label>Material Gratuito</mat-label>
             <mat-select formControlName="materialGratuito" placeholder="">
                 <mat-option [value]="true">Sim</mat-option>
@@ -81,19 +81,26 @@
             </mat-select>
         </mat-form-field>
 
-
-        <mat-form-field appearance="standard" style="width: 55%;margin-left: 5%;">
-            <mat-label>Contrato</mat-label>
-            <mat-select formControlName="contratoId" placeholder="temRecuperacao">
-                <mat-option [value]="1">CONTRATO APH / ENFERMAGEM</mat-option>
-                <!-- <mat-option [value]="false">Não</mat-option> -->
-            </mat-select>
+        <mat-form-field appearance="standard" style="width: 30%;margin-left: 5%; ">
+            <mat-label>Valor Material</mat-label>
+            <input selected formControlName="valorMaterial" 
+                currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                placeholder="R$ 00,00"
+                matInput>
+                <span matPrefix>R$&nbsp;</span>
         </mat-form-field>
 
-      
+        <br>
 
 
-
+        <mat-form-field appearance="standard" style="width: 55%;" *ngIf="contratos.length > 0" >
+            <mat-label>Contrato</mat-label>
+            <mat-select formControlName="contratoId" placeholder="temRecuperacao">
+                <mat-option></mat-option>
+                <mat-option [value]="cont.id"
+                *ngFor="let cont of contratos">{{cont.titulo}}</mat-option>
+            </mat-select>
+        </mat-form-field>
 
     </div>
     <div style="float: right;margin-top: 15px;">

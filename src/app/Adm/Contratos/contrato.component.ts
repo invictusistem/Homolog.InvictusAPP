@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { JwtHelperService } from "@auth0/angular-jwt";
@@ -24,16 +25,22 @@ import { EditarContratoComponent } from "./EditContrato/editcontrato.component";
 export class ContratoComponent implements OnInit {
 
     baseUrl = environment.baseUrl;
-    public modulos: Modulo[] = new Array<Modulo>();
-
-    public contratos: Contrato[] = new Array<Contrato>();
-
+   // public modulos: Modulo[] = new Array<Modulo>();
+    public typesPacotes: any = new Array<any>();
+    public contratos: any[] = new Array<any>()
+   // contratosView: 
     public tokenInfo: TokenInfos = new TokenInfos();
     private jwtHelper = new JwtHelperService();
+    public pesquisarForm: FormGroup
 
     constructor(
         private _http: HttpClient,
-        private _modal: MatDialog) { }
+        private _fb: FormBuilder,
+        private _modal: MatDialog) {
+        this.pesquisarForm = _fb.group({
+            typePacoteId: ['', [Validators.required]]
+        });
+    }
 
     ngOnInit() {
         //console.log('init colaboradores 123')
@@ -44,22 +51,58 @@ export class ContratoComponent implements OnInit {
         // console.log(this.tokenInfo.Codigo);
         // console.log(this.tokenInfo);
         //this.getColaboradores(1, this.pageSize);
-        this.getContrato();
+        this.getTypePacotes();
     }
 
-    contratosView: any[] = new Array<any>()
-    getContrato() {
+    Pesquisar() {
 
-        this._http.get(`${this.baseUrl}/unidade/contrato-info`)
+        if (this.pesquisarForm.valid) {
+            
+            let typePacoteId = this.pesquisarForm.get('typePacoteId').value
+           // console.log(typePacoteId)
+            this._http.get(`${this.baseUrl}/contrato/type-pacote/${typePacoteId}`)
+                .subscribe(resp => {
+                    console.log(resp)
+
+                    this.contratos = Object.assign([], resp['contratos']);
+
+                }, (error) => { console.log(error) },
+                    () => {
+
+                    })
+        }
+    }
+
+    getTypePacotes() {
+
+        //if(this.pesquisarForm.valid){
+        this._http.get(`${this.baseUrl}/typepacote`)
             .subscribe(resp => {
                 console.log(resp)
-                //this.contratos = Object.assign([], resp['contratos']);
-                this.contratosView = Object.assign([], resp['contratos']);
+
+                this.typesPacotes = Object.assign([], resp['typePacotes']);
+
             }, (error) => { console.log(error) },
                 () => {
-                  //  console.log(this.contratos)
+
                 })
+        // }
     }
+
+    
+    // getContrato() {
+
+    //     this._http.get(`${this.baseUrl}/contrato`)
+    //         .subscribe(resp => {
+    //             console.log(resp)
+
+    //             this.contratosView = Object.assign([], resp['contratos']);
+
+    //         }, (error) => { console.log(error) },
+    //             () => {
+
+    //             })
+    // }
 
     openCreateContratoModal(): void {
         const dialogRef = this._modal
@@ -73,8 +116,8 @@ export class ContratoComponent implements OnInit {
                 disableClose: true
             });
         dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "Ok") {
-
+            if (data.clicked === "OK") {
+                //  this.getContrato();
             } else if (data.clicked === "Cancel") {
 
             }
@@ -94,7 +137,7 @@ export class ContratoComponent implements OnInit {
             });
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
-                this.getContrato();
+                this.getTypePacotes();
             } else if (data.clicked === "Cancel") {
 
             }

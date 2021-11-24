@@ -11,233 +11,305 @@
 
 
 <div *ngIf="showmensagemErro" style="color:red; font-style: italic; font-size: 0.8em;margin-top: 5px;">
-* {{mensagemErro}}
+    * {{mensagemErro}}
 </div>
 
-<ng-container *ngIf="showForm">
+<div *ngIf="showForm" style="position: relative;">
     <form novalidate [formGroup]="cursoForm" (ngSubmit)="onSubmit(cursoForm)" style="margin: 0px">
 
-        <div class="card-body">
-            <mat-form-field appearance="standard" style="width: 250px; ">
-                <mat-label>Pacote</mat-label>
-                <mat-select formControlName="curso" selected name="curso" required>
-                   
-                    <mat-option *ngFor="let curso of createTurmaViewModel.modulos" [value]="curso.id">
-                        {{ curso.descricao}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 175px; ">
+            <mat-label>Tipo do Pacote</mat-label>
+            <mat-select selected required>
+                <mat-option></mat-option>
+                <mat-option (click)="pesquisarPacotes(pac.id)" *ngFor="let pac of typePacotes" [value]="pac.id">
+                    {{ pac.nome}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
-            <br>
+        <mat-form-field *ngIf="pacotes.length > 0" appearance="standard" style="width: 200px;margin-left: 10px; ">
+            <mat-label>Pacote</mat-label>
+            <mat-select formControlName="pacoteId" selected>
+                <mat-option *ngFor="let pac of pacotes" [value]="pac.id">
+                    {{ pac.descricao}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
-            <!-- <mat-form-field appearance="standard" style="width: 250px; ">
-                <mat-label>Descrição</mat-label>
-                <mat-select formControlName="curso" selected name="curso" required>
-                   
-                    <mat-option *ngFor="let curso of createTurmaViewModel.modulos" [value]="curso.id">
-                        {{ curso.descricao}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field> -->
+        <span *ngIf="showNoPacote" style="color: red; font-size: 0.9;">* Não há pacotes cadastrados para o tipo.</span>
 
-            <mat-form-field appearance="standard" style="width: 250px; ">
-                <mat-label>Descricao</mat-label>
-                <input selected formControlName="descricao" matInput placeholder="Descricao">
-            </mat-form-field>
+        <br>
 
+        <mat-form-field appearance="standard" style="width: 250px; ">
+            <mat-label>Descrição</mat-label>
+            <input selected formControlName="descricao" matInput placeholder="Ex: Curso Técnico...">
+        </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 110px;margin-left: 10px;">
-                <mat-label style="color: green">Preço: </mat-label>
+        <mat-form-field appearance="standard" style="width: 140px;margin-left: 10px;">
+            <mat-label>Sala/Capacidade</mat-label>
+            <mat-select formControlName="salaId" (change)="verVar($event)" selected required>
+                <mat-option *ngFor="let item of salas" [value]="item.id">
+                    {{item.titulo}}/{{ item.capacidade }} alunos
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
-                <input style="color:rgb(59, 57, 57)" [value]="cursoPreco" disabled type="text" required name="valor" matInput>
-               
-            </mat-form-field>
-          
-          
-            <mat-form-field appearance="standard" style="width: 140px;margin-left: 10px;">
-                <mat-label>Sala/Capacidade</mat-label>
-                <mat-select formControlName="salaId" (change)="verVar($event)" selected name="salaId" required>
-                    <mat-option *ngFor="let item of createTurmaViewModel.salas" [value]="item.id">
-                        {{item.titulo}}/{{ item.capacidade }} alunos
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field appearance="standard" style="width: 120px;margin-left: 10px;">
-                <mat-label>Mínimo Vagas</mat-label>
-                <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
-                    formControlName="minVagas" minlength="1" maxlength="4" required name="minVagas" matInput>
-               
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 120px;margin-left: 10px;">
+            <mat-label>Mínimo Vagas</mat-label>
+            <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                formControlName="minVagas" minlength="1" maxlength="4" required name="minVagas" matInput>
+        </mat-form-field>
 
 
 
-           
-            <br>
-            <div style="margin-left: 10px; font-size: 0.9em;">Previsões:</div>
-            <hr>
-            <ng-container>
+        <mat-tab-group>
+            <mat-tab label="Previsões">
+                <ng-container>
 
-                <mat-form-field (focusout)="onFocusOutDateEvent($event, 'iniUm')" appearance="standard"
-                    style="width: 145px; ">
-                    <mat-label>Previsão 1</mat-label>
-                    <input mask="00/00/0000" required name="prevInicio_1" matInput [value]="previIniOne"
-                        formControlName="prevInicio_1"
-                        onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-                    <mat-hint>Previsão de início 1</mat-hint>
-                </mat-form-field>
+                    <mat-form-field (focusout)="onFocusOutDateEvent($event, 'iniUm')" appearance="standard"
+                        style="width: 145px; ">
+                        <mat-label>Previsão 1</mat-label>
+                        <input mask="00/00/0000" required name="prevInicio_1" matInput [value]="previIniOne"
+                            formControlName="prevInicio_1"
+                            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                        <mat-hint>Previsão de início 1</mat-hint>
+                    </mat-form-field>
 
-                <mat-form-field (focusout)="onFocusOutDateEvent($event, 'iniDois')" appearance="standard"
-                    style="width: 145px;margin-left: 20px; ">
+                    <mat-form-field (focusout)="onFocusOutDateEvent($event, 'iniDois')" appearance="standard"
+                        style="width: 145px;margin-left: 20px; ">
 
-                    <mat-label>Previsão 2</mat-label>
+                        <mat-label>Previsão 2</mat-label>
 
-                    <input mask="00/00/0000" required name="prevInicio_2" matInput [value]="previIniDois"
-                        formControlName="prevInicio_2"
-                        onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                        <input mask="00/00/0000" required name="prevInicio_2" matInput [value]="previIniDois"
+                            formControlName="prevInicio_2"
+                            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
 
-                    <mat-hint>Previsão de início 2</mat-hint>
+                        <mat-hint>Previsão de início 2</mat-hint>
 
-                </mat-form-field>
+                    </mat-form-field>
 
-                <mat-form-field (focusout)="onFocusOutDateEvent($event, 'iniTres')" appearance="standard"
-                    style="width: 145px;margin-left: 20px; ">
-                    <mat-label>Previsão 3</mat-label>
-                    <input mask="00/00/0000" required name="prevInicio_3" matInput [value]="previIniTres"
-                        formControlName="prevInicio_3"
-                        onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-                    <mat-hint>Previsão de início 3</mat-hint>
-                </mat-form-field>
+                    <mat-form-field (focusout)="onFocusOutDateEvent($event, 'iniTres')" appearance="standard"
+                        style="width: 145px;margin-left: 20px; ">
+                        <mat-label>Previsão 3</mat-label>
+                        <input mask="00/00/0000" required name="prevInicio_3" matInput [value]="previIniTres"
+                            formControlName="prevInicio_3"
+                            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                        <mat-hint>Previsão de início 3</mat-hint>
+                    </mat-form-field>
+
+                    <br>
+
+                    <!-- <div style="font-style: italic; font-size: 0.8em;margin-left: 10px;margin-top: 10px;">data mínimo para término: 05/10/2023</div> -->
+
+                    <mat-form-field (focusout)="onFocusOutDateFinalEvent($event, 'iniUm')" appearance="standard"
+                        style="width: 145px; ">
+                        <mat-label>Término 1</mat-label>
+                        <input mask="00/00/0000" required name="prevTermino_1" matInput [value]="previTerminoOne"
+                            formControleName="prevTermino_1"
+                            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                        <mat-hint>Previsão de término 1</mat-hint>
+                    </mat-form-field>
+
+                    <mat-form-field (focusout)="onFocusOutDateFinalEvent($event, 'iniDois')" appearance="standard"
+                        style="width: 145px;margin-left: 20px; ">
+                        <mat-label>Término 2</mat-label>
+                        <input mask="00/00/0000" required name="prevTermino_2" matInput [value]="previTerminoDois"
+                            formControleName="prevTermino_2"
+                            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                        <mat-hint>Previsão de término 2</mat-hint>
+                    </mat-form-field>
+
+                    <mat-form-field (focusout)="onFocusOutDateFinalEvent($event, 'iniTres')" appearance="standard"
+                        style="width: 145px;margin-left: 20px; ">
+                        <mat-label>Término 3</mat-label>
+                        <input mask="00/00/0000" required name="prevTermino_3" matInput [value]="previTerminoTres"
+                            formControleName="prevTermino_3"
+                            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                        <mat-hint>Previsão de término 3</mat-hint>
+                    </mat-form-field>
+
+
+                </ng-container>
+
+
+            </mat-tab>
+            <mat-tab label="Dias da semana">
 
                 <br>
 
-                <div style="font-style: italic; font-size: 0.8em;margin-left: 10px;margin-top: 10px;">data mínimo para término: 05/10/2023</div>
-
-                <mat-form-field (focusout)="onFocusOutDateFinalEvent($event, 'iniUm')" appearance="standard"
-                    style="width: 145px; ">
-                    <mat-label>Término 1</mat-label>
-                    <input mask="00/00/0000" required name="prevTermino_1" matInput [value]="previTerminoOne"
-                        formControleName="prevTermino_1"
-                        onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-                    <mat-hint>Previsão de término 1</mat-hint>
-                </mat-form-field>
-
-                <mat-form-field (focusout)="onFocusOutDateFinalEvent($event, 'iniDois')" appearance="standard"
-                    style="width: 145px;margin-left: 20px; ">
-                    <mat-label>Término 2</mat-label>
-                    <input mask="00/00/0000" required name="prevTermino_2" matInput [value]="previTerminoDois"
-                        formControleName="prevTermino_2"
-                        onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-                    <mat-hint>Previsão de término 2</mat-hint>
-                </mat-form-field>
-
-                <mat-form-field (focusout)="onFocusOutDateFinalEvent($event, 'iniTres')" appearance="standard"
-                    style="width: 145px;margin-left: 20px; ">
-                    <mat-label>Término 3</mat-label>
-                    <input mask="00/00/0000" required name="prevTermino_3" matInput [value]="previTerminoTres"
-                        formControleName="prevTermino_3"
-                        onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-                    <mat-hint>Previsão de término 3</mat-hint>
-                </mat-form-field>
-
-              
-            </ng-container>
-            <br>
-            <br>
-            <br>
-
-            <span *ngIf="getDatasValid;else alertMsg" style="margin-top: 20%;">
-                <i #tooltip="matTooltip" matTooltip="verificar diponibilidade" matTooltipPosition="above"
-                    matTooltipHideDelay="100">
-
-                    <mat-icon type="button" (click)="pesquisar()">search</mat-icon>
-
-                </i>
-            </span>
-            <ng-template #alertMsg>
-                <div style="font-size: 0.8em;font-style: italic;color: red;">
-                    Preencha as datas de previsão de início para verificar as disponibilidades dos horários!
-                </div>
-            </ng-template>
-
-            <br>
-
-
-            <ng-container *ngIf="showHorarioTurno">
-
-            </ng-container>
-
-
-            <br>
-
-            <ng-container *ngIf="showGridDias;">
-               
-
-                <div @rowHighlight>
-                    <div style="">Disponibilidades:</div>
-                    <span style="font-size: 0.8em;">
-                        {{ disponibilidades.horarioDisponivelView }}
-                    </span>
-                    <hr>
-
-                    <div style="font-size: 0.8em;font-style: italic;color: red;">
-                        {{primeiroDia.horarioDisponivelView}}
-                    </div>
-                    <mat-form-field appearance="standard" style="width: 110px">
-                        <mat-label>1º dia da semana</mat-label>
-                        <input style="color:rgb(59, 57, 57)" required name="minVagas" [(value)]="primeiroDia.diaSemanaView" disabled matInput>
-                        <!-- <mat-hint>1º dia da semana</mat-hint> -->
-                    </mat-form-field>                  
-
-                    <mat-form-field style="width: 80px; margin-left: 10px;" appearance="standard">
-                        <mat-label>horário</mat-label>
-                        <mytime-input formControlName="horarioIni_1" required></mytime-input>
-                        <mat-hint></mat-hint>
-                    </mat-form-field>
-                    <span style="font-size: 0.8em;margin-left: 1%;">às</span>
-
-                    <mat-form-field style="width: 80px; margin-left: 10px;" appearance="standard">
-                        <mat-label>horário</mat-label>
-                        <mytime-input formControlName="horarioFim_1" required></mytime-input>
-                        <mat-hint></mat-hint>
-                    </mat-form-field>
-                    <br>
-
+                <div style="font-size: 0.9em;font-style: italic;">
+                    Adicione ao menos um dia da semana:
                 </div>
 
-
-                <div @rowHighlight >                  
-
-                    <mat-form-field appearance="standard" style="width: 110px;">
-                         <mat-label>2º dia</mat-label>
-                        <mat-select selected name="diaSemana" required>
-                            <mat-option (click)="setSegundoDiaSemana()"></mat-option>
-                            <mat-option (click)="setSegundoDiaSemana(item.item2)"
-                                *ngFor="let item of disponibilidades.availabilityTwo" [value]="item">
-                                {{item.diaSemanaView}}</mat-option>
+                <!-- <form novalidate [formGroup]="addMateriaForm" (ngSubmit)="addMateria(addMateriaForm)">
+                   <mat-form-field appearance="standard" style="width: 175px;">
+                        <mat-label>Matéria</mat-label>
+                        <mat-select formControlName="pacote" placeholder="">
+                            <mat-option></mat-option>
+                            <mat-option [value]="type" *ngFor="let type of materiasTemplate">
+                                {{type.nome}}
+                            </mat-option>
                         </mat-select>
-                        <!-- <mat-hint>2º dia da semana</mat-hint> -->
-                    </mat-form-field>
+        
+                    </mat-form-field> 
+                    <button mat-icon-button type="submit" #tooltip="matTooltip" matTooltip="adicionar matéria"
+                        matTooltipPosition="above" matTooltipHideDelay="100">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </form> -->
 
-                    <mat-form-field style="width: 80px; margin-left: 10px;" appearance="standard">
-                        <mat-label>horário</mat-label>
-                        <mytime-input formControlName="horarioIni_2" required></mytime-input>
-                        <mat-hint></mat-hint>
-                    </mat-form-field>
-                    <span style="margin-left: 1%;">às</span>
+                <button (click)="addDiaSemana()" mat-icon-button type="button" #tooltip="matTooltip"
+                    matTooltip="adicionar matéria" matTooltipPosition="above" matTooltipHideDelay="100">
+                    <mat-icon>add</mat-icon>
+                </button>
 
-                    <mat-form-field style="width: 80px; margin-left: 10px;" appearance="standard">
-                        <mat-label>horário</mat-label>
-                        <mytime-input formControlName="horarioFim_2" required></mytime-input>
-                        <mat-hint></mat-hint>
-                    </mat-form-field>
+                <ng-container formArrayName="diasSemana">
+
+                    <ng-container *ngFor="let diaSemanaForm of diasSemana.controls; let i = index;">
+                        <div [formGroup]="diaSemanaForm">
+                           
+
+                            <mat-form-field appearance="standard" style="width: 140px;margin-left: 10px;">
+                                <mat-label>Dia</mat-label>
+                                <mat-select formControlName="diaSemana" selected required>
+                                    <mat-option *ngFor="let item of diasSemanaView" [value]="item.value">
+                                        {{item.value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field style="width: 80px; margin-left: 10px;" appearance="standard">
+                                <mat-label>horário</mat-label>
+                                <mytime-input formControlName="horarioInicio" required></mytime-input>
+                                <mat-hint></mat-hint>
+                            </mat-form-field>
+                            <span style="margin-left: 10px;">
+                            às
+                        </span>
+                            <mat-form-field style="width: 80px; margin-left: 10px;" appearance="standard">
+                                <mat-label>horário</mat-label>
+                                <mytime-input formControlName="horarioFim" required></mytime-input>
+                                <mat-hint></mat-hint>
+                            </mat-form-field>
+                           
+
+                            <button mat-icon-button (click)="removeDiaSemana(i)" type="button" style="margin-left:10px ;"
+                                #tooltip="matTooltip" matTooltip="remover" matTooltipPosition="above"
+                                matTooltipHideDelay="100">
+
+                                <mat-icon style="vertical-align: middle;" class="delete-btn">
+                                    delete_forever</mat-icon>
+                            </button>
+
+                        </div>
+                    </ng-container>
+
+                </ng-container>
+
+
+
+
+            </mat-tab>
+
+           
+
+        </mat-tab-group>
+        <!-- <br>
+        <br>
+        <br>
+
+        <span *ngIf="getDatasValid;else alertMsg" style="margin-top: 20%;">
+            <i #tooltip="matTooltip" matTooltip="verificar diponibilidade" matTooltipPosition="above"
+                matTooltipHideDelay="100">
+
+                <mat-icon type="button" (click)="pesquisar()">search</mat-icon>
+
+            </i>
+        </span>
+        <ng-template #alertMsg>
+            <div style="font-size: 0.8em;font-style: italic;color: red;">
+                Preencha as datas de previsão de início para verificar as disponibilidades dos horários!
+            </div>
+        </ng-template>
+
+        <br>
+
+
+        <ng-container *ngIf="showHorarioTurno">
+
+        </ng-container>
+
+
+        <br> -->
+
+        <!-- <ng-container *ngIf="showGridDias;">
+
+
+            <div @rowHighlight>
+                <div style="">Disponibilidades:</div>
+                <span style="font-size: 0.8em;">
+                    {{ disponibilidades.horarioDisponivelView }}
+                </span>
+                <hr>
+
+                <div style="font-size: 0.8em;font-style: italic;color: red;">
+                    {{primeiroDia.horarioDisponivelView}}
                 </div>
+                <mat-form-field appearance="standard" style="width: 110px">
+                    <mat-label>1º dia da semana</mat-label>
+                    <input style="color:rgb(59, 57, 57)" required name="minVagas" [(value)]="primeiroDia.diaSemanaView"
+                        disabled matInput>
+                   
+                </mat-form-field>
+
+                <mat-form-field style="width: 80px; margin-left: 10px;" appearance="standard">
+                    <mat-label>horário</mat-label>
+                    <mytime-input formControlName="horarioIni_1" required></mytime-input>
+                    <mat-hint></mat-hint>
+                </mat-form-field>
+                <span style="font-size: 0.8em;margin-left: 1%;">às</span>
+
+                <mat-form-field style="width: 80px; margin-left: 10px;" appearance="standard">
+                    <mat-label>horário</mat-label>
+                    <mytime-input formControlName="horarioFim_1" required></mytime-input>
+                    <mat-hint></mat-hint>
+                </mat-form-field>
+                <br>
+
+            </div>
+
+
+            <div @rowHighlight>
+
+                <mat-form-field appearance="standard" style="width: 110px;">
+                    <mat-label>2º dia</mat-label>
+                    <mat-select selected name="diaSemana" required>
+                        <mat-option (click)="setSegundoDiaSemana()"></mat-option>
+                        <mat-option (click)="setSegundoDiaSemana(item.item2)"
+                            *ngFor="let item of disponibilidades.availabilityTwo" [value]="item">
+                            {{item.diaSemanaView}}</mat-option>
+                    </mat-select>
+                   
+                </mat-form-field>
+
+                <mat-form-field style="width: 80px; margin-left: 10px;" appearance="standard">
+                    <mat-label>horário</mat-label>
+                    <mytime-input formControlName="horarioIni_2" required></mytime-input>
+                    <mat-hint></mat-hint>
+                </mat-form-field>
+                <span style="margin-left: 1%;">às</span>
+
+                <mat-form-field style="width: 80px; margin-left: 10px;" appearance="standard">
+                    <mat-label>horário</mat-label>
+                    <mytime-input formControlName="horarioFim_2" required></mytime-input>
+                    <mat-hint></mat-hint>
+                </mat-form-field>
+            </div>
 
 
 
-            </ng-container>
+        </ng-container> -->
 
-        </div>
+
 
         <br>
 
@@ -245,15 +317,16 @@
 
             <button type="submit" mat-raised-button color="primary" [disabled]="!cursoForm.valid" style="width: 100px; position: relative; float:right;margin-bottom: 10px;
                 margin-left: 10px;">
-                <mat-spinner *ngIf="disabledSpinner" [diameter]="33" style="margin-left: 18px;
+                <!-- <mat-spinner *ngIf="disabledSpinner" [diameter]="33" style="margin-left: 18px;
             
             margin-top: 2px; position: absolute;">
-                </mat-spinner>Salvar
+                </mat-spinner> -->
+                Salvar
             </button>
 
-            <!-- <button [mat-dialog-close]="{clicked:'Cancel'}" mat-raised-button [disabled]="disabledSpinner"
-                style="width: 100px; position: relative; float:right;margin-bottom: 10px;">
-                Cancel</button> -->
+          
         </div>
     </form>
-</ng-container>
+
+    
+</div>

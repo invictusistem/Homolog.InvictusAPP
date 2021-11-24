@@ -10,6 +10,7 @@ import { ConfirmMatriculaComponent } from "../confirmmatricula/confirmamat.compo
 import { Observable } from "rxjs";
 import { DiaVencimento, Parcelas } from "src/app/_shared/models/utils.model";
 import { CienciaCurso, submitMatriculaForm } from "../CreateModal/creatematricula.component";
+import { SpinnerParams } from "src/app/_shared/models/spinner.model";
 
 export const MeioPagamento = [
     { type: 'boleto', value: 'Boleto' },
@@ -30,6 +31,12 @@ export class AlunoMatriculaComponent implements OnInit {
 
     baseUrl = environment.baseUrl;
 
+    infoSpinner: SpinnerParams= {
+        diameter: 100,
+        marginleft: 42.5,
+        margintop: 10
+    }
+    
     cursosDisponiveis: TurmaViewModel[] = new Array<TurmaViewModel>();
     turmasParaMatricular: TurmaViewModel[] = new Array<TurmaViewModel>();
     turmaSelecionada: TurmaViewModel = new TurmaViewModel();
@@ -45,6 +52,10 @@ export class AlunoMatriculaComponent implements OnInit {
     parcelas = Parcelas
 
     public matriculaTurmaForm: FormGroup;
+    public respMenor: FormGroup;
+    public respFinForm: FormGroup;
+    public temRespFinm: FormGroup;
+    public planoPgmAluno: FormGroup
 
     constructor(
         private _fb: FormBuilder,
@@ -53,22 +64,103 @@ export class AlunoMatriculaComponent implements OnInit {
         public dialogRef: MatDialogRef<AlunoMatriculaComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
 
+        this.planoPgmAluno = _fb.group({
+            //descricao: ['', [Validators.required]],
+            valor: [0, [Validators.required]],
+            taxaMatricula: [0, [Validators.required]],
+            confirmacaoPagmMat: [false, [Validators.required]],
+            bonusPontualidade: [0, [Validators.required]],
+            parcelas: [20, [Validators.required]],
+            planoId: ['', [Validators.required]],
+            // temRespFin: [false]
+            /*
+            
+             
+            */
+
+        })
+
+
+        this.temRespFinm = _fb.group({
+            temRespFin: [false]
+        })
+
+
+
+
+        this.respFinForm = _fb.group({
+            nome: ['', [Validators.required, Validators.minLength(2)]],
+            tipo: ['Responsável financeiro'],
+            cpf: ['', [Validators.required, Validators.minLength(11)]],
+            rg: ['', [Validators.required]],
+            nascimento: ['', [Validators.required]],
+            parentesco: ['', [Validators.required]],
+            naturalidade: ['', [Validators.required]],
+            naturalidadeUF: ['', [Validators.required]],
+            email: ['', [Validators.required, Validators.minLength(5)]],
+            telCelular: [null, [Validators.minLength(0)]],
+            telWhatsapp: [null, [Validators.minLength(10)]],
+            telResidencial: [null, [Validators.minLength(9)]],
+            cep: ['', [Validators.required, Validators.minLength(8)]],
+            logradouro: ['', [Validators.required, Validators.minLength(1)]],
+            numero: [''],
+            complemento: [''],
+            cidade: ['', [Validators.required, Validators.minLength(1)]],
+            uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
+            bairro: ['', [Validators.required, Validators.minLength(1)]],
+            // observacoes: ['', [Validators.minLength(1), Validators.maxLength(300)]]
+
+        })
+
+
+        this.respMenor = _fb.group({
+            
+            nome: ['', [Validators.required, Validators.minLength(2)]],
+            tipo: ['Responsável menor'],
+            cpf: ['', [Validators.required, Validators.minLength(11)]],
+            rg: ['', [Validators.required]],
+            nascimento: ['', [Validators.required]],
+            parentesco: ['', [Validators.required]],
+            naturalidade: ['', [Validators.required]],
+            naturalidadeUF: ['', [Validators.required]],
+            email: ['', [Validators.required, Validators.minLength(5)]],
+            telCelular: [null, [Validators.minLength(0)]],
+            telWhatsapp: [null, [Validators.minLength(10)]],
+            telResidencial: [null, [Validators.minLength(9)]],
+            cep: ['', [Validators.required, Validators.minLength(8)]],
+            logradouro: ['', [Validators.required, Validators.minLength(1)]],
+            numero: [''],
+            complemento: [''],
+            cidade: ['', [Validators.required, Validators.minLength(1)]],
+            uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
+            bairro: ['', [Validators.required, Validators.minLength(1)]],
+            // observacoes: ['', [Validators.minLength(1), Validators.maxLength(300)]],
+
+            //temRespFin: [false]
+
+        })
         this.matriculaTurmaForm = _fb.group({
-            cienciaCurso: ['', [Validators.required]],
-            meioPagamento: [, [Validators.required]],
-            //aVista: [false, [Validators.required]],
-            primeiraParcPaga: [, [Validators.required]],
-            parcelas: ['', [Validators.required, Validators.min(1)]],
-            idAlunoIndicacao: [,[Validators.required]],
-            diaVencimento:[,Validators.required]
+            responsave: []
+            // cienciaCurso: ['', [Validators.required]],
+            // meioPagamento: [, [Validators.required]],
+            // primeiraParcPaga: [, [Validators.required]],
+            // parcelas: ['', [Validators.required, Validators.min(1)]],
+            // idAlunoIndicacao: [, [Validators.required]],
+            // diaVencimento: [, Validators.required]
         })
 
     }
 
     ngOnInit() {
-        this.data['alunoId']
+        this.data['aluno']
+        console.log(this.data['aluno'])
         //this.getCursos(0,0)
         this.consultarCursos()
+    }
+
+    modelChanged(newObj) {
+        // console.log(newObj.checked)
+        this.temRespFinm.get('temRespFin').setValue(newObj.checked);
     }
 
     getCursos(actualPage: number, pageSize: number) {
@@ -88,7 +180,7 @@ export class AlunoMatriculaComponent implements OnInit {
 
             console.log(response)
             Object.assign(this.cursosDisponiveis, response)
-            console.log(this.cursosDisponiveis)           
+            console.log(this.cursosDisponiveis)
         }, err => { console.log(err) },
             () => {
 
@@ -97,7 +189,7 @@ export class AlunoMatriculaComponent implements OnInit {
                     //  this.showSelectCursoSearch = false
                     this.message = 'Não turmas com vagas ou disponíveis.'
                 } else if (this.cursosDisponiveis.length > 0) {
-                    
+
                 }
 
             });
@@ -107,44 +199,258 @@ export class AlunoMatriculaComponent implements OnInit {
     // // consultarCursos(item: any){
     mensagemNoTrumas = "";
     showMessageNoTurmas = false;
+    typePacotes: any[] = new Array<any>()
+    showSelectedTypes = false
+    showMessageNoTypes = false
+    mensagemNoType = ""
+    consultarCursos() {
 
-    consultarCursos() {      
-
-        let item = "Curso Técnico em Enfermagem"
-
-        this.http.get(`${this.baseUrl}/turmas/pesquisa/${this.data['alunoId']}/?curso=${item}`)
+        this.http.get(`${this.baseUrl}/pedag/matricula/${this.data['aluno'].id}`)
             .subscribe(response => {
-
-                console.log(response)
-                this.turmasParaMatricular = Object.assign([], response)
-
+                this.typePacotes = Object.assign([], response)['types']
 
             }, err => {
                 console.log(err)
-                
+
+                if (err['error'].status == 404) {
+                    this.mensagemNoType = "Não há cursos disponíveis para o aluno.";
+                }
+                this.showMessageNoTypes = true
+            },
+                () => {
+
+                    this.showSelectedTypes = true
+
+                });
+    }
+
+    turmas: any[] = new Array<any>()
+    showTurmasEncontradas = false
+
+    pesquisarTurmas(typeId) {
+        //console.log(typeId)
+        this.showTurmasEncontradas = false
+        this.http.get(`${this.baseUrl}/turma/${typeId}`)
+            .subscribe(response => {
+                this.turmas = Object.assign([], response['turmas'])
+
+            }, err => {
+                console.log(err['error'].status)
+
+                if (err['error'].status == 404) {
+                    this.mensagemNoTrumas = "Não há turmas disponíveis para o tipo de curso nesta unidade";
+                }
+
+                // this.mensagemNoTrumas = err['error'].message
+                this.showMessageNoTurmas = true
+            },
+                () => {
+
+                    this.showTurmasEncontradas = true
+
+                });
+
+
+    }
+
+    turma: any
+    showMatriculaContainer = false
+    planos: any[]
+    menorIdade = false
+    buscar(turmaId) {
+
+        this.http.get(`${this.baseUrl}/turma/get/${turmaId}/${this.data['aluno'].id}`)
+            .subscribe(response => {
+
+                this.turma = Object.assign({}, response['turma'])
+                this.planosPgm = Object.assign([], response['planos'])
+                this.menorIdade = response['menor']
+                console.log(this.menorIdade)
+                if (!this.menorIdade) {
+                    this.respMenor.disable()
+                }
+
+            }, err => {
+                console.log(err)
+
                 this.mensagemNoTrumas = err['error'].message
                 this.showMessageNoTurmas = true
             },
                 () => {
 
-                    //this.showTurmaSearch =true
-                    // this.showTurmas = true
-
-                    console.log(this.turmasParaMatricular)
-                    if (this.turmasParaMatricular.length == 0) {
-                        // show form vazia
-
-                        // this.dialogRef.updateSize('900px','630px')
-                    } else {
-                        //this.showTurmaSearch =false
-                        this.showTurmas = true
-                        // this.dialogRef.updateSize('900px','630px')
-                        // atribuir valores ao formControl
-                    }
-
+                    this.showSelectedTypes = false
+                    this.showMatriculaContainer = true
                 });
 
     }
+
+    voltar() {
+        this.showSelectedTypes = true
+        this.showMatriculaContainer = false
+        this.respFinForm.reset()
+        this.respFinForm.reset()
+    }
+
+
+
+
+
+
+    consultaCEPFin(cep) {
+        // console.log(CEP);
+
+        if (this.respFinForm.get('cep').valid) {
+            this.http.get(`https://viacep.com.br/ws/${cep}/json/`, {})
+                .subscribe(response => {
+
+                    this.respFinForm.get('logradouro').setValue(response["logradouro"]);
+                    this.respFinForm.get('bairro').setValue(response["bairro"]);
+                    this.respFinForm.get('cidade').setValue(response["localidade"]);
+                    this.respFinForm.get('uf').setValue(response["uf"]);
+
+                }, err => { console.log(err) },
+                    () => {
+                        console.log('finaly')
+                        //this.showDivEndereco = true
+                    });
+        }
+    }
+
+    get respFinvalid() {
+        // console.log(this.respFinForm.valid)
+        return true
+    }
+
+    consultaCEPRespMenor(cep) {
+        // console.log(CEP);
+
+        if (this.respMenor.get('cep').valid) {
+            this.http.get(`https://viacep.com.br/ws/${cep}/json/`, {})
+                .subscribe(response => {
+
+                    this.respMenor.get('logradouro').setValue(response["logradouro"]);
+                    this.respMenor.get('bairro').setValue(response["bairro"]);
+                    this.respMenor.get('cidade').setValue(response["localidade"]);
+                    this.respMenor.get('uf').setValue(response["uf"]);
+
+                }, err => { console.log(err) },
+                    () => {
+                        console.log('finaly')
+                        //this.showDivEndereco = true
+                    });
+        }
+    }
+
+    get respmenorvalid() {
+        // console.log(this.respMenor.valid)
+        return true
+    }
+
+    planosPgm: any[] = new Array<any>();
+    verPlano = false
+    buscaPlanoPgm(planoId) {
+        this.verPlano = false
+        this.http.get(`${this.baseUrl}/plano-pagamento/${planoId}`)
+            .subscribe(response => {
+
+                this.planoSelecionado = Object.assign([], response)['plano']
+
+            }, err => {
+                console.log(err)
+
+                //this.mensagemNoTrumas = err['error'].message
+                //this.showMessageNoTurmas = true
+            },
+                () => {
+                    this.verPlano = true
+                    //console.log(this.planoSelecion ado)   
+                    console.log(this.planoSelecionado)
+
+                    this.planoPgmAluno.get('valor').setValue(this.planoSelecionado.valor)
+                    this.planoPgmAluno.get('taxaMatricula').setValue(this.planoSelecionado.taxaMatricula)
+                    this.planoPgmAluno.get('bonusPontualidade').setValue(this.planoSelecionado.bonusPontualidade)
+                    this.planoPgmAluno.get('parcelas').setValue(this.planoSelecionado.parcelas)
+                    this.planoPgmAluno.get('planoId').setValue(this.planoSelecionado.id)
+                    /*
+                                        valor
+                    taxaMatricula
+                    bonusPontualidade
+                    parcelas
+                    planoId
+                    */
+
+                });
+    }
+
+    get verValidPln() {
+        // console.log(this.planoPgmAluno.valid)
+        return true
+    }
+
+    submeter() {
+        console.log(this.respMenor.value)
+    }
+
+
+    planoSelecionado: any
+    // get verPlano() {
+    //     console.log(this.planoSelecionado)
+
+    //     if (this.planoSelecionado == undefined) {
+    //         return false
+    //     } else {
+    //         return true
+    //     }
+
+    // }
+
+    salvarMat() {
+
+        if (!this.planoPgmAluno.valid) return
+        if (this.menorIdade) {
+            if (!this.respMenor.valid) return
+        }
+
+        if (this.temRespFinm.get('temRespFin').value) {
+            if (!this.respFinForm.valid) return
+        }
+        console.log('salvar')
+        let form = {
+            plano: this.planoPgmAluno.value,
+            menorIdade: this.menorIdade,
+            respMenor: this.respMenor.value,
+            temRespFin: this.temRespFinm.get('temRespFin').value,
+            respFin: this.respFinForm.value,
+        }
+
+        this.http.post(`${this.baseUrl}/pedag/matricula/${this.turma.id}/${this.data['aluno'].id}`, form, {})
+            .subscribe(response => {
+
+            }, err => {
+                console.log(err)
+
+
+            },
+                () => {
+
+                    this.dialogRef.close({ clicked: "Ok" });
+                });
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     get shoNParcelar() {
@@ -153,41 +459,41 @@ export class AlunoMatriculaComponent implements OnInit {
         // console.log(this.matriculaTurmaForm.get('parcelas').value)
         // console.log(this.matriculaTurmaForm.get('parcelas').valid)
         // console.log(this.parcelas[0])
-        if (value == "cartaoDébito" || 
-        value == "pix" || 
-         value == "dinheiro" ||
-        //value == "boleto" ||
-        value == null) {
+        if (value == "cartaoDébito" ||
+            value == "pix" ||
+            value == "dinheiro" ||
+            //value == "boleto" ||
+            value == null) {
             return false
-        }else{
+        } else {
             return true
         }
 
-        
+
     }
 
-    ValidateFormasPagamento(){
-        if(this.matriculaTurmaForm.get('meioPagamento').valid){
+    ValidateFormasPagamento() {
+        if (this.matriculaTurmaForm.get('meioPagamento').valid) {
 
             var meioPag = this.matriculaTurmaForm.get('meioPagamento').value
-            if(meioPag == "cartaoCredito" || meioPag == "boleto"){
+            if (meioPag == "cartaoCredito" || meioPag == "boleto") {
 
-                if(this.matriculaTurmaForm.get('parcelas').valid && 
-                this.matriculaTurmaForm.get('diaVencimento').valid){
-                    
+                if (this.matriculaTurmaForm.get('parcelas').valid &&
+                    this.matriculaTurmaForm.get('diaVencimento').valid) {
+
                     return true
 
-                }else{
+                } else {
                     return false
                 }
-            }else{
+            } else {
                 return true
             }
 
-        }else{
+        } else {
             return false
         }
-        
+
     }
 
     searchAluno(value) {
@@ -205,43 +511,43 @@ export class AlunoMatriculaComponent implements OnInit {
 
         console.log(this.matriculaTurmaForm.get('primeiraParcPaga').valid)
 
-        if(!this.ValidateFormasPagamento()){
+        if (!this.ValidateFormasPagamento()) {
             return
-        }   
+        }
 
         this.matriculaTurmaForm.get('primeiraParcPaga').valid
         console.log(this.matriculaTurmaForm.get('cienciaCurso').valid)
 
 
-        if(!this.matriculaTurmaForm.get('cienciaCurso').valid)return 
+        if (!this.matriculaTurmaForm.get('cienciaCurso').valid) return
 
 
         var submitForm = new submitMatriculaForm()
 
-            // TODO CONTRATOID
-            submitForm.idAluno = this.data['alunoId']
-            submitForm.idTurma = this.turmaSelecionada.id
-            submitForm.ciencia = this.matriculaTurmaForm.get('cienciaCurso').value
-            submitForm.meioPagamento = this.matriculaTurmaForm.get('meioPagamento').value
-            submitForm.parcelas = this.matriculaTurmaForm.get('parcelas').value
-            submitForm.primeiraParceJaPaga = this.matriculaTurmaForm.get('primeiraParcPaga').value
-            submitForm.diaVencimento = this.matriculaTurmaForm.get('diaVencimento').value
-            console.log(submitForm)
-            console.log(this.matriculaTurmaForm.get('diaVencimento').value)
+        // TODO CONTRATOID
+        submitForm.idAluno = this.data['alunoId']
+        submitForm.idTurma = this.turmaSelecionada.id
+        submitForm.ciencia = this.matriculaTurmaForm.get('cienciaCurso').value
+        submitForm.meioPagamento = this.matriculaTurmaForm.get('meioPagamento').value
+        submitForm.parcelas = this.matriculaTurmaForm.get('parcelas').value
+        submitForm.primeiraParceJaPaga = this.matriculaTurmaForm.get('primeiraParcPaga').value
+        submitForm.diaVencimento = this.matriculaTurmaForm.get('diaVencimento').value
+        console.log(submitForm)
+        console.log(this.matriculaTurmaForm.get('diaVencimento').value)
 
 
-            //this.http.post(`${this.baseUrl}/turmas/turma/?idAluno=${this.data['alunoId']}&idTurma=${this.turmaSelecionada.id}&ciencia=${ciencia}`, {
-                this.http.post(`${this.baseUrl}/turmas/turma`, submitForm, {
-            }).subscribe(
-                () => { },
-                (error) => { },
-                () => {
+        //this.http.post(`${this.baseUrl}/turmas/turma/?idAluno=${this.data['alunoId']}&idTurma=${this.turmaSelecionada.id}&ciencia=${ciencia}`, {
+        this.http.post(`${this.baseUrl}/turmas/turma`, submitForm, {
+        }).subscribe(
+            () => { },
+            (error) => { },
+            () => {
 
-                    this.confirmMatriculaModal()
-                    //this.dialogRef.close({ clicked: "OK" });
-                }
-            )
-       // }
+                this.confirmMatriculaModal()
+                //this.dialogRef.close({ clicked: "OK" });
+            }
+        )
+        // }
     }
 
 
@@ -334,11 +640,7 @@ export class AlunoMatriculaComponent implements OnInit {
         this.showTurmaForm = true
     }
 
-    voltar() {
-        this.showTurmas = true
-        //showTurmaSearch: boolean = true
-        this.showTurmaForm = false
-    }
+
 
     fechar() {
         this.dialogRef.close({ clicked: "Ok" });

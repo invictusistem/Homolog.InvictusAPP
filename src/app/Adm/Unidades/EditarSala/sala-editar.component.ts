@@ -57,7 +57,7 @@ export class SalaEditarComponent implements OnInit {
     }
 
     GetSalas() {
-        this._http.get(`${this._baseUrl}/unidade/unidade-salas/${this.data["unidade"].id}`)
+        this._http.get(`${this._baseUrl}/unidade/salas/${this.data["unidade"].id}`)
             .subscribe(resp => {
                 this.salas = resp['salas']
             },
@@ -87,7 +87,7 @@ export class SalaEditarComponent implements OnInit {
                 .subscribe(resp => { },
                     (error) => { console.log(error) },
                     () => { 
-                        
+                        this.dialogRef.close({clicked: "OK"})
                     })
 
         }

@@ -55,11 +55,12 @@ export class CreateUnidadeComponent implements OnInit {
             cnpj: ['', [Validators.required]],
             cep: ['', [Validators.required, Validators.maxLength(8), Validators.minLength(8)]],
             complemento: [''],
+            numero: ['', [Validators.required]],
             logradouro: ['', [Validators.required]],
             bairro: ['', [Validators.required]],
             cidade: ['', [Validators.required]],
-            uf: ['', [Validators.required]]
-            //salas: this._fb.array([])
+            uf: ['', [Validators.required]],
+            ativo: [true],
         })
 
         this.unidadeForm.valueChanges.subscribe(form => {
@@ -129,7 +130,7 @@ export class CreateUnidadeComponent implements OnInit {
     }
     ngOnInit() {
 
-        this.getCargos();
+       // this.getCargos();
     }
 
     cargos: Cargo[] = new Array<Cargo>()
@@ -164,17 +165,17 @@ export class CreateUnidadeComponent implements OnInit {
 
     onSubmit(form: any) {
         console.log(this.unidadeForm.value)
-        console.log(this.colaboradorForm.value)
-        console.log(this.testepipe)
+        //console.log(this.colaboradorForm.value)
+        //console.log(this.testepipe)
 
-        // if (form.valid) {
+        if (form.valid) {
 
-        //     this._http.post(`${this._baseUrl}/unidade`, form.value, {})
-        //         .subscribe(resp => { },
-        //             (error) => { console.log(error) },
-        //             () => { this.dialogRef.close({ clicked: "OK" }) })
+            this._http.post(`${this._baseUrl}/unidade`, this.unidadeForm.value, {})
+                .subscribe(resp => { },
+                    (error) => { console.log(error) },
+                    () => { this.dialogRef.close({ clicked: "Ok" }) })
 
-        // }
+        }
     }
 
     consultaCEP(CEP: string, form) {

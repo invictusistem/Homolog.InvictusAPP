@@ -5,7 +5,7 @@ import { CepReturn } from "src/app/_shared/models/cepreturn.model";
 import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { environment } from "src/environments/environment";
-import { Cursos, DiasSemana, Turnos } from "src/app/_shared/models/perfil.model";
+import { Cursos, DiaSemana, DiasSemana, Turnos } from "src/app/_shared/models/perfil.model";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { Turma } from "src/app/_shared/models/Turma.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -43,12 +43,15 @@ export class CreateCursoComponent implements OnInit {
 
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
-    
+
     item = { value: 0 }
     cursos: Modulo = new Modulo();
-    public salas: Sala[] = new Array<Sala>();
+    //public salas: Sala[] = new Array<Sala>();
+    public salas: any[] = new Array<any>();
+    public typePacotes: any[] = new Array<any>();
+    public pacotes: any[] = new Array<any>();
     tempoExemplo: MyTime = new MyTime("09", "13")
-   
+    diasSemanaView = DiaSemana
     public cursoForm: FormGroup;
     baseUrl = environment.baseUrl;
     profes = ["Joao", "jose", "Mario"]
@@ -56,10 +59,10 @@ export class CreateCursoComponent implements OnInit {
     showProflist: boolean = false
     turma: Turma = new Turma();
     turnos = Turnos;
-    diasSemana = DiasSemana   
+    //diasSemana = DiasSemana   
     minDate: Date;
     nimDateTemino: Date;
-    disabledSpinner = false
+    disabledSpinner = true
     testando = "testando"
     termino1 = ""
     termino2 = ""
@@ -68,10 +71,10 @@ export class CreateCursoComponent implements OnInit {
     showHorarioTurno = false
     valorx = '4,900'
     cursoPreco = ''
-    public createTurmaViewModel = new CreateTurmaViewModel();    
+    public createTurmaViewModel = new CreateTurmaViewModel();
     listaprofessores = new FormArray([])
     profResp: ProfResponse[] = new Array<ProfResponse>();
-    constructor(        
+    constructor(
         private _datepipe: DatePipe,
         private _currencyPipe: CurrencyPipe,
         private _snackBar: MatSnackBar,
@@ -81,12 +84,22 @@ export class CreateCursoComponent implements OnInit {
         private _http: HttpClient,
         public dialogRef: MatDialogRef<CreateCursoComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
-    ) {      
-        this.cursoForm = _fb.group({           
-            curso: ['', [Validators.required]],           
-            minVagas: [, [Validators.required]],
-            //pacoteId: [, [Validators.required]],
+    ) {
+        this.cursoForm = _fb.group({
+
+
+            pacoteId: ['', [Validators.required]],
             descricao: ['', [Validators.required]],
+            salaId: ['', [Validators.required]],
+            minVagas: [, [Validators.required]],
+
+            // OLD
+            //curso: ['', [Validators.required]],
+            
+            
+            
+
+
             prevInicio_1: ['', [Validators.required, Validators.minLength(10)]],
             prevTermino_1: ['', [Validators.required, Validators.minLength(10)]],
             prevInicio_2: ['', [Validators.required, Validators.minLength(10)]],
@@ -94,35 +107,37 @@ export class CreateCursoComponent implements OnInit {
             prevInicio_3: ['', [Validators.required, Validators.minLength(10)]],
             prevTermino_3: ['', [Validators.required, Validators.minLength(10)]],
 
-            horarioIni_1: ['', [Validators.required]],
-            horarioFim_1: ['', [Validators.required]],
-            horarioIni_2: [''],
-            horarioFim_2: [''],
 
-            dia1: ['', [Validators.required]],
-            dia2: [''],
+            // horarioIni_1: ['', [Validators.required]],
+            // horarioFim_1: ['', [Validators.required]],
+            // horarioIni_2: [''],
+            // horarioFim_2: [''],
+            // dia1: ['', [Validators.required]],
+            // dia2: [''],
 
-            salaId: ['', [Validators.required]],
+            
 
-           // planoId:['', [Validators.required]]
+            diasSemana: this._fb.array([], [Validators.required]),
+
+            // planoId:['', [Validators.required]]
 
         });
 
-        this.cursoForm.valueChanges.subscribe(form => {
-            if (form.curso) {
-                console.log(this.cursoForm.get('curso').value)
-                var valor = this.createTurmaViewModel.modulos.find(item =>
-                    item.id == this.cursoForm.get('curso').value
-                )
+        // this.cursoForm.valueChanges.subscribe(form => {
+        //     if (form.curso) {
+        //         console.log(this.cursoForm.get('curso').value)
+        //         var valor = this.createTurmaViewModel.modulos.find(item =>
+        //             item.id == this.cursoForm.get('curso').value
+        //         )
 
-                console.log(valor)
+        //         console.log(valor)
 
-                this.cursoPreco = this._currencyPipe.transform(valor.preco, 'BRL', 'R$  ', '1.2-2')
-             
-            }
-        }
-           
-        );
+        //         this.cursoPreco = this._currencyPipe.transform(valor.preco, 'BRL', 'R$  ', '1.2-2')
+
+        //     }
+        // }
+
+        // );
 
     }
 
@@ -140,9 +155,37 @@ export class CreateCursoComponent implements OnInit {
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         console.log(this.tokenInfo)
         this.showProflist = false
-      
+
         this.getCreateTurmaViewModel();
-       
+
+    }
+
+    get diasSemana() {
+        return this.cursoForm.controls["diasSemana"] as FormArray;
+    }
+
+    addDiaSemana() {
+
+        // let pacote = form.value['pacote']
+
+        // if (form.valid) {
+        //     let pacotId = this.diasSemana.value.find(element =>
+        //         element.materiaId == pacote.id);
+
+        //     if (pacotId != undefined) return;
+
+        const matForm = this._fb.group({
+            diaSemana: [''],
+            horarioInicio: [''],
+            horarioFim: ['']
+        });
+
+        this.diasSemana.push(matForm);
+        // }
+    }
+
+    removeDiaSemana(index: number) {
+        this.diasSemana.removeAt(index);
     }
 
     showForm = false
@@ -151,16 +194,17 @@ export class CreateCursoComponent implements OnInit {
     getCreateTurmaViewModel() {
 
 
-        this._http.get(`${this.baseUrl}/adm/turma-create`)
+        this._http.get(`${this.baseUrl}/turma/create`)
             .subscribe(
                 response => {
                     console.log(response)
-                    this.createTurmaViewModel = Object.assign({}, response)
+                    this.salas = Object.assign([], response['salas'])
+                    this.typePacotes = Object.assign([], response['typePacotes'])
                     console.log(this.createTurmaViewModel)
                 },
-                (error) => { 
-                    console.log(error) 
-                    this.mensagemErro = error['error'].mensagem
+                (error) => {
+                    console.log(error)
+                    this.mensagemErro = "Não há salas cadastradas para esta unidade ou não há tipos de pacotes cadastrados"
                     this.showmensagemErro = true
                 },
                 () => {
@@ -174,6 +218,68 @@ export class CreateCursoComponent implements OnInit {
                 }
             )
     }
+
+    showNoPacote = false
+    pesquisarPacotes(typePacoteId) {
+        this._http.get(`${this.baseUrl}/pacote/lista/${typePacoteId}`)
+            .subscribe(
+                response => {
+                    this.pacotes = Object.assign([], response['pacotes'])
+                    //console.log(this.createTurmaViewModel)
+                },
+                (error) => {
+                    console.log(error)
+                },
+                () => { this.showCapacidadeDropDown = true }
+            )
+    }
+
+    onSubmit(form){
+
+        if(this.cursoForm.valid){
+            console.log('submit')
+            this.disabledSpinner = false
+            this._http.post(`${this.baseUrl}/turma/`,this.cursoForm.value ,{})
+            .subscribe(
+                response => { },
+                (error) => {
+                    console.log(error)
+                    this.disabledSpinner = true
+                },
+                () => { 
+                    this.dialogRef.close({ clicked: "OK" });
+                 }
+            )
+
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     showCapacidadeDropDown = false
     getSalasDisponiveis() {
@@ -253,7 +359,7 @@ export class CreateCursoComponent implements OnInit {
     //V2
     disponibilidades: DisponibilidadeDtoV2 = new DisponibilidadeDtoV2();
     pesquisar() {
-     
+
         this.showHorarioTurno = false
         this.showGridDias = false
 
@@ -273,7 +379,7 @@ export class CreateCursoComponent implements OnInit {
 
                     //v2
                     this.disponibilidades = Object.assign({}, response)
-                    
+
                     console.log(this.disponibilidades)
                 },
                 (error) => {
@@ -309,7 +415,7 @@ export class CreateCursoComponent implements OnInit {
     }
 
     onCheckboxChange(e, profId) {
-       
+
         console.log(e.checked)
         console.log(e)
         console.log(profId)
@@ -342,8 +448,8 @@ export class CreateCursoComponent implements OnInit {
 
             this.showGridDias = false
             this.showGridFDS = true
-           
-        } else if (turno.value == '') {            
+
+        } else if (turno.value == '') {
             this.showGridDias = false
             this.showGridFDS = false
         } else if (turno.turno == 'Manhã') {
@@ -359,7 +465,7 @@ export class CreateCursoComponent implements OnInit {
             this.cursoForm.get('dia1').enable();
             this.cursoForm.get('dia2').enable();
             this.cursoForm.get('dia1').setValue(turno.primeiroDiaSemana.item2);
-          
+
             this.showGridDias = true
             this.showGridFDS = false
         } else if (turno.turno == 'Tarde') {
@@ -500,7 +606,7 @@ export class CreateCursoComponent implements OnInit {
                     this.showProflist = true
                 }
             )
-    }  
+    }
 
     getFirst() {
         // return this.formArray.get(0);
@@ -587,119 +693,87 @@ export class CreateCursoComponent implements OnInit {
 
 
 
-    onSubmit(form: any) {
+    // onSubmit(form: any) {
+
+      
+
+    //     if (form.valid) {
+    //         this.turma = Object.assign({}, form.value);
+           
+    //         const turma = JSON.stringify(this.turma);
+    //         this.disabledSpinner = true
+    //         console.log(this.turma)
 
 
-        // console.log(this.cursoForm.get('salaId').value)
+    //         // test new
+    //         console.log(this.cursoForm.get('curso').value)
+    //         var command: TurmaCommand = new TurmaCommand();
+    //         command.modulo = this.cursoForm.get('curso').value
+           
 
-        // console.log(this.cursoForm.get('prevInicio_1').value)
-       
+    //         //command.vagas = this.cursoForm.get('vagas').value
+    //         command.salaId = this.cursoForm.get('salaId').value
+    //         command.minVagas = this.cursoForm.get('minVagas').value
+    //         command.prevInicio_1 = this.cursoForm.get('prevInicio_1').value
+    //         command.prevInicio_2 = this.cursoForm.get('prevInicio_2').value
+    //         command.prevInicio_3 = this.cursoForm.get('prevInicio_3').value
 
+    //         command.prevTermino_1 = this.cursoForm.get('prevTermino_1').value
+    //         command.prevTermino_2 = this.cursoForm.get('prevTermino_2').value
+    //         command.prevTermino_3 = this.cursoForm.get('prevTermino_3').value
+    //         // temp
+    //         command.horarioIni_1 = this.cursoForm.get('horarioIni_1').value
+    //         command.horarioFim_1 = this.cursoForm.get('horarioFim_1').value
 
-        // console.log(form.value)
-        // console.log(form.valid)
-        
-        // console.log(this.cursoForm.get('dia2').value)
-        // console.log(this.cursoForm.get('horarioIni_2').value)
-        // console.log(this.cursoForm.get('horarioFim_2').value)
+    //         command.horarioIni_2 = this.cursoForm.get('horarioIni_2').value
+    //         command.horarioFim_2 = this.cursoForm.get('horarioFim_2').value
 
-        // if ((this.cursoForm.get('dia2').value == "") ||
-        //     (this.cursoForm.get('horarioIni_2').value == null) ||
-        //     (this.cursoForm.get('horarioIni_2').value == '') ||
-        //     (this.cursoForm.get('horarioFim_2').value) == null ||
-        //     (this.cursoForm.get('horarioFim_2').value) == '') {
-        //     console.log('set null all')
-        //     this.cursoForm.get('dia2').setValue('')
-        //     this.cursoForm.get('horarioIni_2').setValue('')
-        //     this.cursoForm.get('horarioFim_2').setValue('')
+    //         command.segundoDiaAula = this.outrosDias[0].diaData
 
-        //     this.cursoForm.get('dia2').disable()
-        //     this.cursoForm.get('horarioIni_2').disable()
-        //     this.cursoForm.get('horarioFim_2').disable()
-        // }
+    //         command.descricao = this.cursoForm.get('descricao').value
 
+    //         //console.log(command)
 
+    //         let horarios: Horarios = new Horarios()
+    //         horarios.dia1 = this.cursoForm.get('dia1').value
+    //         horarios.horarioIni_1 = this.cursoForm.get('horarioIni_1').value
+    //         horarios.horarioFim_1 = this.cursoForm.get('horarioFim_1').value
+    //         //command.horarios.dia1= this.cursoForm.get('dia1').value
+    //         //command.horarios.dia2= this.cursoForm.get('dia2').value
 
-        if (form.valid) {
-            this.turma = Object.assign({}, form.value);
-            // this.cursoForm.disable()
-            const turma = JSON.stringify(this.turma);
-            this.disabledSpinner = true
-            console.log(this.turma)
+    //         //command.horarios.horarioIni_1= this.cursoForm.get('horarioIni_1').value
+    //         //command.horarios.horarioFim_1= this.cursoForm.get('horarioFim_1').value
+    //         command.horarios = horarios
+    //         //command.horarios.horarioIni_2= this.cursoForm.get('horarioIni_2').value
+    //         //command.horarios.horarioFim_2= this.cursoForm.get('horarioFim_2').value
+    //         var verify = JSON.stringify(command);
+    //         console.log(verify)
+    //         console.log(command)
+    //         this._http.post(`${this.baseUrl}/turmas`, command, {
+    //         }).subscribe(response => {
 
+    //         },
+    //             (error) => {
+    //                 console.log(error)
+    //                 this.disabledSpinner = false
+    //             },
+    //             () => {
 
-            // test new
-            console.log(this.cursoForm.get('curso').value)
-            var command: TurmaCommand = new TurmaCommand();
-            command.modulo = this.cursoForm.get('curso').value//.id = this.cursos.id
-            //command.modulo.descricao = this.cursos.descricao
-            //command.modulo.duracaoMeses = this.cursos.duracaoMeses
-            //command.modulo.unidadeId = this.cursos.unidadeId
-
-            //command.vagas = this.cursoForm.get('vagas').value
-            command.salaId = this.cursoForm.get('salaId').value
-            command.minVagas = this.cursoForm.get('minVagas').value
-            command.prevInicio_1 = this.cursoForm.get('prevInicio_1').value
-            command.prevInicio_2 = this.cursoForm.get('prevInicio_2').value
-            command.prevInicio_3 = this.cursoForm.get('prevInicio_3').value
-
-            command.prevTermino_1 = this.cursoForm.get('prevTermino_1').value
-            command.prevTermino_2 = this.cursoForm.get('prevTermino_2').value
-            command.prevTermino_3 = this.cursoForm.get('prevTermino_3').value
-            // temp
-            command.horarioIni_1 = this.cursoForm.get('horarioIni_1').value
-            command.horarioFim_1 = this.cursoForm.get('horarioFim_1').value
-
-            command.horarioIni_2 = this.cursoForm.get('horarioIni_2').value
-            command.horarioFim_2 = this.cursoForm.get('horarioFim_2').value
-
-            command.segundoDiaAula = this.outrosDias[0].diaData
-
-            command.descricao = this.cursoForm.get('descricao').value
-
-            //console.log(command)
-
-            let horarios: Horarios = new Horarios()
-            horarios.dia1 = this.cursoForm.get('dia1').value
-            horarios.horarioIni_1 = this.cursoForm.get('horarioIni_1').value
-            horarios.horarioFim_1 = this.cursoForm.get('horarioFim_1').value
-            //command.horarios.dia1= this.cursoForm.get('dia1').value
-            //command.horarios.dia2= this.cursoForm.get('dia2').value
-
-            //command.horarios.horarioIni_1= this.cursoForm.get('horarioIni_1').value
-            //command.horarios.horarioFim_1= this.cursoForm.get('horarioFim_1').value
-            command.horarios = horarios
-            //command.horarios.horarioIni_2= this.cursoForm.get('horarioIni_2').value
-            //command.horarios.horarioFim_2= this.cursoForm.get('horarioFim_2').value
-            var verify = JSON.stringify(command);
-           // console.log(verify)
-            console.log(command)
-
-                // this._http.post(`${this.baseUrl}/turmas`, command, {
-                // }).subscribe(response => {
-
-                // },
-                //     (error) => {
-                //         console.log(error)
-                //         this.disabledSpinner = false
-                //     },
-                //     () => {
-
-                //         this.openSnackBar()
-                //         this.disabledSpinner = false
-                //         this.cursoForm.reset();
-                //         this.dialogRef.close({ clicked: "OK" });
-                //     }
-                // )
-        }
+    //                 this.openSnackBar()
+    //                 this.disabledSpinner = false
+    //                 this.cursoForm.reset();
+    //                 this.dialogRef.close({ clicked: "OK" });
+    //             }
+    //         )
+    //     }
 
 
-        // console.log(this.turma)
-        // if (form.valid) {
-        //     console.log('form valid')
-        //     const novoColaborador = JSON.stringify(form.value);
-        // }
-    }
+    //     // console.log(this.turma)
+    //     // if (form.valid) {
+    //     //     console.log('form valid')
+    //     //     const novoColaborador = JSON.stringify(form.value);
+    //     // }
+    // }
 
     valor: any
     previIniOne: any

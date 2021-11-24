@@ -26,6 +26,9 @@ import { AuthInterceptor } from '../_Auth/auth.interceptor';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { SanitizeHtmlPipe } from './pipes/sanitizePipe.component';
+import { CNPJPipe } from './pipes/cnpjPipe';
+import { CPFPipe } from './pipes/cpfPipe';
+import { SpinnerComponent } from './components/spinner.component';
 //import { CommonModule } from '@angular/common';
 // Components:
 //import { HomeComponent } from './home/home.component';
@@ -71,7 +74,10 @@ import { SanitizeHtmlPipe } from './pipes/sanitizePipe.component';
     MyCurrencyInput,
     PhoneMaskDirective,
     CPFMaskDirective,
-    SanitizeHtmlPipe
+    SanitizeHtmlPipe,
+    CNPJPipe,
+    CPFPipe,
+    SpinnerComponent
     //HomeComponent,
     //MainComponent,
     //ErrorMessageComponent,
@@ -104,6 +110,9 @@ import { SanitizeHtmlPipe } from './pipes/sanitizePipe.component';
     PhoneMaskDirective,
     CPFMaskDirective,
     SanitizeHtmlPipe,
+    CNPJPipe,
+    CPFPipe,
+    SpinnerComponent,
     //ErrorMessageComponent,
     //ConfirmMessageComponent,
     

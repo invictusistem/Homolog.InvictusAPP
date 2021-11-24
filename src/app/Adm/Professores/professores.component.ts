@@ -12,8 +12,7 @@ import { environment } from "src/environments/environment";
 import { CreateProfessorComponent } from "./CreateModal/createprofessor.component";
 import { EditProfessorComponent } from "./EditModal/editprofessor.component";
 import { ProfMateriasComponent } from "./Materias/prof-materias.component";
-// import { CreateUserComponent } from "./CreateModal/createuser.component";
-// import { EditUserComponent } from "./EditModal/edituser.component";
+
 
 @Component({
     selector: "professores-app",
@@ -32,7 +31,7 @@ export class ProfessoresComponent {
     pageEvent: PageEvent;
     length: number = 0
     public totalPages: number = 0
-    disableCreateProf = true
+    
 
 
     professores: any[] = new Array<any>();//Colaborador[] = new Array<Colaborador>();
@@ -120,11 +119,11 @@ export class ProfessoresComponent {
         var formJson = JSON.stringify(this.pesquisarForm.value)
         this.showSpinner = true
         if (this.pesquisarForm.valid) {
-            this.http.get(`${this.baseUrl}/professor/pesquisar/?itemsPerPage=` + this.pageSize + `&currentPage=1&paramsJson=${formJson}`)
+            this.http.get(`${this.baseUrl}/professor/?itemsPerPage=` + this.pageSize + `&currentPage=1&paramsJson=${formJson}`)
                 .subscribe(
                     (response) => {
 
-                        this.professores = Object.assign([], response['data']);
+                        this.professores = Object.assign([], response['results'].data);
 
                         this.length = response['totalItemsInDatabase']
                         this.totalPages = Math.ceil(this.length / this.pageSize)
@@ -139,7 +138,7 @@ export class ProfessoresComponent {
                     (err) => {
                         this.showSpinnerFirst = false
                         this.showSpinner = false
-                        // console.log(err)
+                         console.log(err)
                         //this.openSnackBar(err)
 
                     },
@@ -229,75 +228,6 @@ export class ProfessoresComponent {
 
     params: Parametros = new Parametros()
 
-    // pesquisar(nome: string, cargo: string, unidade: string) {
-
-    //     console.log(nome + " " + cargo + " " + unidade)
-    //     if (nome == "" || nome == undefined) nome = ""
-    //     if (cargo == "" || cargo == undefined) cargo = ""
-    //     if (unidade == "" || unidade == undefined) unidade = ""
-
-    //     if ((nome == "" || nome == undefined) &&
-    //         (cargo == "" || cargo == undefined) &&
-    //         (unidade == "" || unidade == undefined)) {
-    //         console.log("retorno")
-    //         return;
-    //     }
-    //     this.showMessageNoColaborador = false
-    //     this.mensagem = ""
-
-    //     let query = { nome: nome, cargo: cargo, unidade: unidade }
-    //     this.params.nome = nome
-    //     this.params.email = cargo
-    //     this.params.cpf = unidade
-    //     //console.log(params)
-    //     //var itemsPerPage = 5;
-    //     //this.actualPage
-    //     //var currentPage = 1;
-    //     this.showSpinnerFirst = true
-    //     this.professores = new Array<Colaborador>();
-    //     let paramsJson = JSON.stringify(this.params)
-    //     console.log(query)
-
-    //     this.http.post(`${this.baseUrl}/colaboradores/pesquisar/?itemsPerPage=` + this.pageSize + `&currentPage=1`, paramsJson, {
-    //         headers: new HttpHeaders({
-    //             "Content-Type": "application/json",
-    //             "Authorization": `Bearer ${localStorage.getItem('jwt')}`
-    //         })
-    //     }).subscribe(
-    //         (response) => {
-    //             console.log(response)
-    //             this.professores = Object.assign([], response['data']);
-    //             //  this.length = tasks['data'].length;
-    //             this.length = response['totalItemsInDatabase']
-    //             // if (this.length == 0) {
-    //             //     this.showMessageNoColaborador = true
-    //             //     this.mensagem = "Registro não localizado."
-    //             // }
-    //             // else
-    //             if (this.professores.length == 0) {
-    //                 console.log("lengt zero")
-    //                 this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
-    //                 this.showMessageNoColaborador = true
-    //             }
-    //             // this.applyFiler()
-    //         },
-    //         (err) => {
-    //             this.showSpinnerFirst = false
-    //             console.log(err)
-    //             //this.openSnackBar(err)
-
-    //         },
-    //         () => {
-    //             this.showSpinnerFirst = false
-    //             console.log('ok get');
-
-    //             //this.pageIndexNumber = (evento.pageIndex * this.pageSize)
-    //         },
-    //     )
-
-    // }
-
-
 
     paginationChange(pageEvt: PageEvent) {
         console.log(pageEvt)
@@ -309,8 +239,6 @@ export class ProfessoresComponent {
             .open(ProfMateriasComponent, {
                 minHeight: '420px',
                 width: '680px',
-
-                //data: { Hello: "Hello World" },
                 hasBackdrop: true,
                 disableClose: true
             });
@@ -318,12 +246,11 @@ export class ProfessoresComponent {
 
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
-                // Reset form here
+                
                 console.log('afte close ok')
                 this.getColaboradores(1, this.pageSize);
             } else if (data.clicked === "Cancel") {
-                // Do nothing. Cancel any events that navigate away from the
-                // component.
+               
             }
         });
     }

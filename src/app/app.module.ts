@@ -26,6 +26,7 @@ import { AlunoModule } from './Aluno/aluno.module';
 import { FinanceiroModule } from './Financeiro/financeiro.module';
 import { NewMatriculaModule } from './NewMatricula/newmatricula.module';
 import { GeralModule } from './Geral/geral.module';
+import { TrocaSenhaComponent } from './_Auth/user/trocaSenha/troca-senha.component';
 
 
 export function tokenGetter() {
@@ -40,6 +41,7 @@ console.log('app module')
     LoginComponent,
     //CustomersComponent,
     UserComponent,
+    TrocaSenhaComponent,
     AppComponent
   ],
   imports: [
@@ -79,6 +81,9 @@ console.log('app module')
     //    multi: true
     // }
  ],
+ entryComponents: [
+  TrocaSenhaComponent  
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

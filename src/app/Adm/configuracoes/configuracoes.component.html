@@ -1,14 +1,33 @@
 <div class="container" style="width: 95%; padding-top: 20px;">
 
-    <div>
+    <span>
         <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="criar cargo" matTooltipPosition="above"
             matTooltipHideDelay="100">
             <button (click)="openCreateCargoModal()" mat-icon-button>
                 <mat-icon>engineering</mat-icon>
             </button>
         </i>
-    </div>
+    </span>
 
+    <span>
+        <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar documento" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button (click)="openCreateDocModal()" mat-icon-button>
+                <mat-icon>assignment_ind</mat-icon>
+            </button>
+        </i>
+    </span>
+
+    <span>
+        <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar materia" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button (click)="openCreateMateriaModal()" mat-icon-button>
+                <mat-icon>school</mat-icon>
+            </button>
+        </i>
+    </span>
+
+    <br>
     <br>
 
     <span color="primary" style="display: block; margin-left: 10px;font-size: 0.9em;font-style: italic;">
@@ -20,12 +39,15 @@
         <mat-select placeholder="">
             <mat-option ></mat-option>
             <mat-option (click)="getCargos()" value="Cargos" >Cargos</mat-option>
+            <mat-option (click)="getMaterias()" value="Cargos" >Cargos</mat-option>
+            <mat-option (click)="getDocumentacao()" value="Cargos" >Matérias</mat-option>
         </mat-select>
     </mat-form-field>
 
     <br>
     <!-- <iframe width="600" height="450" src="https://datastudio.google.com/embed/reporting/74abb58e-0310-4aa0-bdca-3fffc0b36df3/page/Jh3aC" frameborder="0" style="border:0" allowfullscreen></iframe> -->
     
+
     <div @rowHighlight *ngIf="cargos.length > 0 && showTableCargos" class="card card-plain mat-elevation-z8" 
         style="width: 100%;
         position: relative;

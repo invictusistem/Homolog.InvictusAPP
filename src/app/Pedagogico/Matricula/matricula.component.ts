@@ -11,6 +11,7 @@ import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { environment } from "src/environments/environment";
 import { BoletimAlunoComponent } from "./BoletimAluno/boletimaluno.component";
 import { CreateMatriculaComponent } from "./CreateModal/creatematricula.component";
+import { InfoCadastraisComponent } from "./InfoCad/info-cadastrais.component";
 import { InfoFinancPedagComponent } from "./infoFinancas/infofinanc.component";
 import { InfosComponent } from "./informacoes/infos.component";
 import { AlunoMatriculaComponent } from "./matricula/alunomatricula.component";
@@ -39,8 +40,8 @@ export class MatriculaComponent implements OnInit {
     // showTable: boolean = false;
     // paginationInfo: IPager;
     // showMessage: boolean = false;
-    
-    
+
+
     public pesquisarForm: FormGroup
 
     constructor(
@@ -48,7 +49,7 @@ export class MatriculaComponent implements OnInit {
         private CreateMatriculaModal: MatDialog,
         private _fb: FormBuilder,
         private _http: HttpClient
-    ) { 
+    ) {
         this.pesquisarForm = _fb.group({
             nome: ['', [Validators.required]],
             email: ['', [Validators.required]],
@@ -59,18 +60,18 @@ export class MatriculaComponent implements OnInit {
 
         this.pesquisarForm.valueChanges.subscribe(
             (form: any) => {
-               // console.log('form changed to:', form);
+                // console.log('form changed to:', form);
                 if (this.pesquisarForm.get('nome').value == '' &&
                     this.pesquisarForm.get('email').value == '' &&
                     this.pesquisarForm.get('cpf').value == '') {
-                  //  console.log('false valid')
+                    //  console.log('false valid')
 
                     this.pesquisarForm.controls['nome'].setErrors({ required: true });
                     this.pesquisarForm.controls['email'].setErrors({ required: true });
                     this.pesquisarForm.controls['cpf'].setErrors({ required: true });
                     // this.pesquisarForm.setErrors({required: true});
                 } else {
-                 //   console.log('true valid')
+                    //   console.log('true valid')
                     this.pesquisarForm.controls['nome'].setErrors(null);
 
                     this.pesquisarForm.controls['email'].setErrors(null)
@@ -94,7 +95,7 @@ export class MatriculaComponent implements OnInit {
         //this.getColaboradores(1, this.pageSize);
     }
     // pageIndex = 0
-    
+
 
     getColaboradores(actualPage: number, pageSize: number) {
 
@@ -112,101 +113,109 @@ export class MatriculaComponent implements OnInit {
 
     params: Parametros = new Parametros()
     listAlunos: Aluno[] = new Array<Aluno>();
-    onSubmit(form?: any, event?: any) {
+    pesquisar(form?: any, event?: any) {
 
         this.showMessageNoAluno = false
         var formJson = JSON.stringify(this.pesquisarForm.value)
 
         if (this.pesquisarForm.valid) {
-        this._http.get(`${this.baseUrl}/matricula/alunos/?itemsPerPage=` + this.pageSize + `&currentPage=1&paramsJson=${formJson}`)
-            .subscribe(
-                (response) => {
-                    console.log(response)
-                    this.listAlunos = Object.assign([], response['data'])
-                   
-                    this.length = response['totalItemsInDatabase']
-                      
+            this.listAlunos = new Array<Aluno>();
+
+            this._http.get(`${this.baseUrl}/alunos/pesquisar/?itemsPerPage=` + this.pageSize + `&currentPage=1&paramsJson=${formJson}`)
+                .subscribe(
+                    (response) => {
+                        console.log(response)
+                        this.listAlunos = Object.assign([], response['data'])
+
+                        this.length = response['totalItemsInDatabase']
+
                         if (this.listAlunos.length == 0) {
-                           // console.log("lengt zero")
+                            // console.log("lengt zero")
                             this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
                             this.showMessageNoAluno = true
                         }
 
-                },
-                (err) => {
-                    //this.showSpinnerFirst = false
-                    console.log(err)
-                    //this.openSnackBar(err)
+                    },
+                    (err) => {
+                        //this.showSpinnerFirst = false
+                        console.log(err)
+                        //this.openSnackBar(err)
 
-                },
-                () => {
-                    //this.showSpinnerFirst = false
-                    this.showMessageNoAluno = false
-                    console.log('ok get');
-                    //this.pageIndexNumber = (evento.pageIndex * this.pageSize)
-                },
-            )
+                    },
+                    () => {
+                        this.showMessageNoAluno = false
+                        console.log('ok get');
+                    },
+                )
         }
-
     }
 
-    consulta(nome: string) {
 
-        if (nome == "") {
-            // TODO: sendo form alert: selecionar ao menos um
-            return;
-        }
 
-        this._http.get(`${this.baseUrl}/matricula/alunos/?email=&cpf=&nome=${nome}`)
-            .subscribe(response => {
-
-                console.log(response)
-                this.listAlunos = Object.assign([], response)
-
-            }, err => { console.log(err) },
-                () => {
-                   
-                });
-    }
-
-    matricular(aluno){
+    matricular(aluno) {
         const dialogRef = this.CreateMatriculaModal
-        .open(AlunoMatriculaComponent, {
-            height: 'auto',
-            width: '1000px',
-            autoFocus: false,
-            maxHeight: '90vh',
+            .open(AlunoMatriculaComponent, {
+                minHeight: '610px',
+                width: '1000px',
+               // autoFocus: false,
+                //maxHeight: '400vh',
 
-            data: { alunoId: aluno.id },
-            hasBackdrop: true,
-            disableClose: true
+                data: { aluno: aluno },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "Ok") {
+                //clicked: "Ok"
+                this.openSnackBar()
+                this.pesquisar();
+                console.log('afte close ok')
+            } else if (data.clicked === "Cancel") {
+                // Do nothing. Cancel any events that navigate away from the
+                // component.
+            }
         });
-   
-    dialogRef.afterClosed().subscribe((data) => {
-        if (data.clicked === "OK") {
-            this.openSnackBar()
-            console.log('afte close ok')
-        } else if (data.clicked === "Cancel") {
-            // Do nothing. Cancel any events that navigate away from the
-            // component.
-        }
-    });
 
+    }
+
+    viewInfoCadastrais(aluno): void {
+        const dialogRef = this.CreateMatriculaModal
+            .open(InfoCadastraisComponent, {
+                height: 'auto',
+                width: '1000px',
+                autoFocus: false,
+                maxHeight: '400vhvh',
+
+                data: { aluno: aluno },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "OK") {
+               this.pesquisar();
+                console.log(JSON.stringify(this.pesquisarForm.value))
+            } else if (data.clicked === "Cancel") {
+                // Do nothing. Cancel any events that navigate away from the
+                // component.
+            }
+        });
     }
 
     openMatriculaModal(): void {
         const dialogRef = this.CreateMatriculaModal
             .open(CreateMatriculaComponent, {
-                height: 'auto',
+                height: '90vh',
                 width: '1000px',
                 autoFocus: false,
-                maxHeight: '90vh',
+                maxHeight: '400vhvh',
 
                 data: { Hello: "Hello World" },
                 hasBackdrop: true,
                 disableClose: true
             });
-       
+
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "OK") {
                 this.openSnackBar()
@@ -224,13 +233,13 @@ export class MatriculaComponent implements OnInit {
                 height: '90vh',
                 width: '1000px',
                 autoFocus: false,
-               // maxHeight: '90vh',
+                // maxHeight: '90vh',
 
                 data: { aluno: aluno },
                 hasBackdrop: true,
                 disableClose: true
             });
-       
+
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "OK") {
                 this.openSnackBar()
@@ -248,19 +257,19 @@ export class MatriculaComponent implements OnInit {
                 height: '90vh',
                 width: '1000px',
                 autoFocus: false,
-               
+
 
                 data: { aluno: aluno },
                 hasBackdrop: true,
                 disableClose: true
             });
-       
+
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "OK") {
                 this.openSnackBar()
                 console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
-                
+
             }
         });
     }
@@ -271,24 +280,24 @@ export class MatriculaComponent implements OnInit {
                 height: '90vh',
                 width: '1000px',
                 autoFocus: false,
-               
+
 
                 data: { aluno: aluno },
                 hasBackdrop: true,
                 disableClose: true
             });
-       
+
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "OK") {
                 this.openSnackBar()
                 console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
-                
+
             }
         });
     }
 
-    
+
     openSnackBar() {
         this._snackBar.open('Aluno matriculado com sucesso', '', {
             horizontalPosition: 'center',
@@ -300,7 +309,7 @@ export class MatriculaComponent implements OnInit {
 
     deleteColaborador(id: number) {
 
-       
+
     }
 
 }

@@ -27,10 +27,12 @@ export class PlanoPgmCreateComponent implements OnInit {
 
     baseUrl = environment.baseUrl;
     public typePacotes: any
+    //public contratos: any
     public moduloForm: FormGroup;
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
     public disabledSpinner = false
+    public contratos: any[] = new Array<any>();
     constructor(
         //private service: AdmService,
         private _snackBar: MatSnackBar,
@@ -40,16 +42,18 @@ export class PlanoPgmCreateComponent implements OnInit {
         public dialogRef: MatDialogRef<PlanoPgmCreateComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.moduloForm = _fb.group({
-            pacoteId: ['', [Validators.required]],
+            typePacoteId: ['', [Validators.required]],
             descricao: ['', [Validators.required]],
             valor: ['', [Validators.required]],
             taxaMatricula: [0.00],
-           
-            parcelamento: [''],
+
+           // parcelamento: [''],
             materialGratuito: ['', [Validators.required]],
-            bonusMensalidade: [0.00],
+            valorMaterial: [0.00],
+            bonusPontualidade: [0.00],
             contratoId: ['', [Validators.required]],
-            ativo: [true], 
+            ativo: [true],
+            //typePacoteId: ['', [Validators.required]]
             /*
             pacoteId
 descricao
@@ -99,27 +103,41 @@ contratoId
 
     private GetTypes() {
 
-        this._http.get(`${this.baseUrl}/unidade/typepacote`)
+        this._http.get(`${this.baseUrl}/typepacote`)
             .subscribe(resp => {
-                this.typePacotes = resp['types']
+                this.typePacotes = resp['typePacotes']
+                // this.contratos = resp['contratos']
             },
                 (error) => { console.log(error) },
                 () => { })
     }
 
+    getContratos(typePacoteId) {
+
+        this.contratos = new Array<any>();
+        this._http.get(`${this.baseUrl}/contrato/type-pacote/${typePacoteId}`)
+            .subscribe(resp => {
+
+                this.contratos = resp['contratos']
+            },
+                (error) => { console.log(error) },
+                () => { })
+
+    }
+
     onSubmit(form: any) {
         console.log(form.value)
         if (form.valid) {
-           // console.log(JSON.stringify(form.value))
+            // console.log(JSON.stringify(form.value))
             //this.save(novoColaborador)
             // let newTemplate = this.mapForm(tempForm)
             this.disabledSpinner = true
-            this._http.post(`${this.baseUrl}/unidade/plano-pagamento`, form.value, {})
-            .subscribe(response => {
-            }, (err) => { console.log(err) },
-                () => {
-                    this.dialogRef.close({ clicked: "Ok" });
-                });
+            this._http.post(`${this.baseUrl}/plano-pagamento`, form.value, {})
+                .subscribe(response => {
+                }, (err) => { console.log(err) },
+                    () => {
+                        this.dialogRef.close({ clicked: "Ok" });
+                    });
         }
     }
 }

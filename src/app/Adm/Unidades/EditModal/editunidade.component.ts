@@ -30,16 +30,16 @@ export class EditUnidadeComponent implements OnInit {
 
     ngOnInit() {
         Object.assign(this.unidade, this.data["unidade"])
-        //console.log(this.data["unidade"])
+        console.log(this.data["unidade"])
         //console.log(this.unidade)
         this.showForm = true
-        
+
     }
 
     consultaCEP(CEP: string) {
         console.log(CEP);
 
-        this._http.get(`https://viacep.com.br/ws/${CEP}/json/`, { })
+        this._http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
             .subscribe(response => {
 
                 console.log(response)
@@ -48,35 +48,35 @@ export class EditUnidadeComponent implements OnInit {
                 this.unidade.bairro = response['bairro']
                 this.unidade.cidade = response['localidade']
                 this.unidade.uf = response['uf']
-                
+
             }, err => { console.log(err) },
-                () => { 
-                
+                () => {
+
                 });
     }
 
-    saveEdit(event) {
+    saveEdit(form) {
         //console.log(form)
-        var buttonName = event.submitter.name
+        //var buttonName = event.submitter.name
 
         //console.log(buttonName)
 
-        if(event.submitter.name != "submeter") return false;
+        // if(event.submitter.name != "submeter") return false;
         console.log('submeter')
         console.log(this.unidade)
         // this.formSubmitted = true;
-      // if (buttonType == 'saveEdit') {
-
+        console.log(form.valid)
+        if (form.valid) {
+            console.log(form.valid)
             this._http.put(`${this._baseUrl}/unidade`, this.unidade)
-            .subscribe(resp => 
-                {},
-                (error) => { console.log(error)},
-                () => this._dialogRef.close() )
+                .subscribe(resp => { },
+                    (error) => { console.log(error) },
+                    () => this._dialogRef.close({clicked: "OK"}))
 
-      // }
+        }
 
     }
 
-    
+
 
 }

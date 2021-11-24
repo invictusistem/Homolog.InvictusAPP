@@ -16,8 +16,6 @@ import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { ConfirmMatriculaComponent } from "../confirmmatricula/confirmamat.component";
 import { Observable } from "rxjs";
 import { DiaVencimento, Parcelas } from "src/app/_shared/models/utils.model";
-//import { CheckedRespFinanc, CheckedRespMenor, CienciaCurso, Parentesco, RespostaResFinanceiro } from "src/app/_shared/models/utils.model";
-//import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 export const Parentesco = [
     { type: 'pais', value: 'Pai/Mãe' },
@@ -75,7 +73,7 @@ export const CheckedRespMenor = {
 export class CreateMatriculaComponent implements OnInit, OnDestroy {
 
 
-    /*           show tabs  CLENA WITH DESTROY  */
+  
     showSerch = true
     showAlunoResponseList = false
     showFormCadastro = false
@@ -96,10 +94,10 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
     mensagem = "";
     showMensagem = false
 
-    idAlunoCadastradoRetorno: number = 0; //mudar depois pra GUID
+    idAlunoCadastradoRetorno: number = 0; 
 
     showEndercoField = false
-    /*           END */
+   
     alunoCriadoId: number = null;
     dataTrans: DataTrans = new DataTrans();
     alunoSelecionadoDoCadastro: Aluno = new Aluno()
@@ -108,7 +106,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
     dataHoje: Date;
     parentesco = Parentesco
     cursoPesquisa = Cursos
-    //tabspayment: any
+   
     haTurmas = false
     dataTeste: Date = new Date();
     indexTab: number = 0
@@ -128,18 +126,13 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
 
 
     cursos: Turma[] = new Array<Turma>()
-    // turmaAndamento: Turma[] = new Array<Turma>();
+    
     turmaAndamento: TurmaViewModel[] = new Array<TurmaViewModel>();
     messageturmas: boolean = false
-    //public bairro: string = null;
-    //@Input() disabled = true;
+   
     selectedForm: FormGroup
-    unidades = Unidades;//: string[] = new Array("Campo Grande II", "Jacarepaguá");
-    // @Output() newItemEvent = new EventEmitter<string>();
-    // addNewItem(value: string) {
-    //     this.newItemEvent.emit(value);
-    //     console.log(value)
-    //   }
+    unidades = Unidades;
+   
     public cpfForm: FormGroup;
     public colaboradorForm: FormGroup;
     public responsavelFinancForm: FormGroup;
@@ -147,7 +140,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
     public matriculaTurmaForm: FormGroup;
 
     constructor(
-        //private service: AdmService,
+       
         @Inject('ValidateForms') private _validateFomService: IValidateForms,
 
         private CreateMatriculaModal: MatDialog,
@@ -247,12 +240,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
 
     }
 
-    // markAvista() {
-    //     let value: boolean = this.matriculaTurmaForm.get('aVista').value
-    //     this.matriculaTurmaForm.get('aVista').setValue(!value)
-    //     console.log(this.matriculaTurmaForm.get('aVista').value)
-    //     this.showParcelas = !this.matriculaTurmaForm.get('aVista').value
-    // }
+    
 
     markPrimeiraParc() {
         let value: boolean = this.matriculaTurmaForm.get('primeiraParcPaga').value
@@ -261,12 +249,9 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
         this.showParcelas = !this.matriculaTurmaForm.get('primeiraParcPaga').value
     }
 
-    // let fileToUpload = <File>files[0];
-    //    const formData = new FormData();
-    //    formData.append('file', fileToUpload, fileToUpload.name);
-
+    
     getValue() {
-        //console.log(this.colaboradorForm.get('nascimento').value)
+       
         return new MyDate('', '', '')
     }
     ngOnDestroy() {
@@ -276,10 +261,10 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
         this.showFormCadastro = false
         this.showFormCadastroTab = false
         this.showPerguntaRespFinanc = true
-        this.checkedRespFinanc.sim = true// = CheckedRespFinanc
-        this.checkedRespFinanc.nao = false// = CheckedRespFinanc
-        this.checkedRespMenor.sim = true// CheckedRespMenor
-        this.checkedRespMenor.nao = false// = CheckedRespMenor
+        this.checkedRespFinanc.sim = true
+        this.checkedRespFinanc.nao = false
+        this.checkedRespMenor.sim = true
+        this.checkedRespMenor.nao = false
         this.showFormRespFinanc = false
         this.showTabMenorIdade = false
         this.showMatricula = false
@@ -290,14 +275,12 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
 
     get shoNParcelar() {
         var value = this.matriculaTurmaForm.get('meioPagamento').value
-        // console.log(this.matriculaTurmaForm.get('meioPagamento').value)
-        // console.log(this.matriculaTurmaForm.get('parcelas').value)
-        // console.log(this.matriculaTurmaForm.get('parcelas').valid)
-        // console.log(this.parcelas[0])
+      
+        
         if (value == "cartaoDébito" || 
         value == "pix" || 
          value == "dinheiro" ||
-        //value == "boleto" ||
+       
         value == null) {
             return false
         }else{
@@ -308,12 +291,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        //this.showFormCadastro = false;
-        //this.tabspayment = Tabs.filter(tabs => tabs);
-        //this.temRespFinanceiro = true;
-        //this.colaboradorForm.get['temRespFinanceiro'].set(false)
-        //this.dataHoje = new Date()
-        //console.log(this.dataHoje)
+       
         this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
     }
 
@@ -321,9 +299,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
     onInputChange(event) {
         console.log(event)
         let newVal = event.replace(/\D/g, '');
-        // if (backspace && newVal.length <= 6) {
-        //   newVal = newVal.substring(0, newVal.length - 1);
-        // }
+      
         if (newVal.length === 0) {
             newVal = '';
         } else if (newVal.length <= 3) {
@@ -345,26 +321,26 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
     resposta: any
     HasMessage: any
     consulta(form: FormGroup) {
-        //console.log(`${email}+${cpf}+${nome}`)
+        
         console.log(this.cpfForm.value)
         console.log(this.cpfForm.valid)
         if (!this.cpfForm.valid) {
-            // TODO: sendo form alert: selecionar ao menos um
+            
             return;
         }
         this.showMensagem = false
 
         let cpf = this.cpfForm.get('cpf').value
         console.log(cpf)
-        //this.atualCPF = cpf
+        
         this.http.get(`${this.baseUrl}/matricula/?query=${cpf}`)
-            //this.http.get(`${this.baseUrl}/matricula/?email=${email}&cpf=${cpf}&nome=${nome}`)
+            
             .subscribe(response => {
-                //console.log(response['message'])
+                
                 this.resposta = response
-                // console.log(this.resposta['message'] == null)
+                
                 this.HasMessage = response['message']
-                //this.alunoResponse = Object.assign([], response)
+                
 
             }, err => { console.log(err) },
                 () => {
@@ -376,10 +352,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
                         this.mensagem = this.resposta['message']
                         console.log(this.mensagem)
                     } else {
-                        //if (this.alunoResponse.length == 0) {
-                        // show form vazia
-
-                        //this.atualCPF = cpf
+                       
                         this.atualCPF = this.onInputChange(this.cpfForm.get('cpf').value);
                         console.log(this.atualCPF)
                         this.colaboradorForm.get('cpf').setValue(this.cpfForm.get('cpf').value)
@@ -388,17 +361,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
                         this.showFormCadastro = true
                         this.showFormCadastroTab = true
 
-                        // this.dialogRef.updateSize('900px','630px')
-                        // } else if (this.alunoResponse.length == 1) {
-                        // this.showSerch = false
-                        // this.showFormCadastro = true
-                        // this.showFormCadastroTab = true
-                        // this.dialogRef.updateSize('900px','630px')
-                        // atribuir valores ao formControl
-                        // } else if (this.alunoResponse.length > 1) {
-                        //this.showAlunoResponseList = true
-                        //this.dialogRef.updateSize('900px','auto')
-                        //}
+                       
                     }
 
                 });
@@ -424,7 +387,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
     searchAluno(value) {
 
         if (value == "Indicação Aluno") {
-            // TOdo search aluno
+            
         }
     }
 
@@ -432,10 +395,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
         console.log(event.target.value);
         console.log(this.colaboradorForm.get('nascimento').value)
         var dataForm: Date = new Date(this.colaboradorForm.get('nascimento').value)
-        //console.log(dataForm)
-        // console.log(dataForm.dia)
-        //var nascimento = new Date(parseInt(dataForm?.ano), parseInt(dataForm?.mes) - 1, parseInt(dataForm?.dia));
-        //console.log(nascimento)
+        
         let timeDiff = Math.abs(Date.now() - dataForm.getTime());
         let age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
         console.log(age)
@@ -459,7 +419,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
         if (boleano) {
             this.showFormRespFinanc = !boleano
             this.showPerguntaRespFinanc = false
-            // set tru in form
+            
             this.responsavelMenorForm.get('eRespFinanc').setValue(true)
             this.colaboradorForm.get('temRespFin').setValue(false)
         } else {
@@ -473,7 +433,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
     }
 
     eHRespFinan(boleano: boolean) {
-        // console.log(boleano)
+      
         if (boleano) {
             this.showFormRespFinanc = !boleano
             this.checkedRespFinanc.sim = true
@@ -494,14 +454,12 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
         console.log(item)
         console.log('consultarCursos')
         if (item == "") {
-            // TODO: sendo form alert: selecionar ao menos um
+          
             return;
         }
 
-        // cpf = ""
-
-        //this.http.get(`${this.baseUrl}/turmas/pesquisa/?curso=${item}`) // pesquisav2/{typePacoteId}
-        this.http.get(`${this.baseUrl}/turmas/pesquisav2/${item}`) // pesquisav2/{typePacoteId}
+       
+        this.http.get(`${this.baseUrl}/turmas/pesquisav2/${item}`) 
             .subscribe(response => {
 
                 console.log(response)
@@ -515,21 +473,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
 
                     this.showTableCursosAndamento = true
 
-                    console.log(this.turmasParaMatricular)
-                    // if (this.alunoResponse.length == 0) {
-                    //     // show form vazia
-                    //     this.showForm = true
-                    //     this.showSerch = false
-                    //     // this.dialogRef.updateSize('900px','630px')
-                    // } else if (this.alunoResponse.length == 1) {
-                    //     this.showForm = true
-                    //     this.showSerch = false
-                    //     // this.dialogRef.updateSize('900px','630px')
-                    //     // atribuir valores ao formControl
-                    // } else if (this.alunoResponse.length > 1) {
-                    //     this.showAlunoResponseList = true
-                    //     //this.dialogRef.updateSize('900px','auto')
-                    // }
+                    console.log(this.turmasParaMatricular)                   
 
                 });
 
@@ -570,7 +514,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
     showRespFinanceiro = false
     testeinvalid() {
         this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
-        // .setErrors({'incorrect': true});
+        
     }
 
     validadeEmailMsg = false
@@ -594,7 +538,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
                     this.colaboradorForm.get('email').setErrors(null);
                 });
 
-            //this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
+            
 
         }
     }
@@ -602,9 +546,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
     onSubmit(form: FormGroup) {
 
 
-        // console.log(form.value)
-        // console.log(form)
-        // console.log(form.valid)
+       
         console.log(this.colaboradorForm.value)
         console.log(this.colaboradorForm.valid)
         console.log(this.responsavelFinancForm.value)
@@ -612,8 +554,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
         console.log(this.responsavelMenorForm.value)
         console.log(this.responsavelMenorForm.valid)
 
-        //var unidade = 'CGI'
-        //this.colaboradorForm.get('unidadeCadastrada').setValue(unidade)
+      
         var validar = this._validateFomService.ValidarForms(
             form,
             this.responsavelFinancForm,
@@ -647,7 +588,7 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
 
 
 
-    // https://viacep.com.br/ws/01001000/json/
+    
     cursosDisponiveis: TurmaViewModel[] = new Array<TurmaViewModel>();
     cursosType: any[] = new Array<any>()
     async getCursos(actualPage: number, pageSize: number) {
@@ -655,14 +596,14 @@ export class CreateMatriculaComponent implements OnInit, OnDestroy {
         var itemsPerPage = 5;
         var currentPage = 1;
 
-        //await this.http.get(`${this.baseUrl}/turmas/cursosUnidade`)
+       
         await this.http.get(`${this.baseUrl}/turmas/cursosUnidadev2`)
         .subscribe(response => {
 
 
             console.log(response)
-           // Object.assign(this.cursosDisponiveis, response) //cursosType
-            Object.assign(this.cursosType, response) //cursosType
+          
+            Object.assign(this.cursosType, response) 
             console.log(this.cursosDisponiveis)
            
         }, err => { console.log(err) },

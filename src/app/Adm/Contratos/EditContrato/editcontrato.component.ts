@@ -21,7 +21,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 @Component({
     selector: 'editcontratomodal',
     templateUrl: './editcontrato.component.html',
-   // styleUrls: ['./create-contrato.component.scss'],
+    // styleUrls: ['./create-contrato.component.scss'],
     animations: [HighlightTrigger]
 })
 
@@ -59,36 +59,37 @@ export class EditarContratoComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.contratoForm = _fb.group({
             titulo: ['', [Validators.required]],
-           // pacoteId: ['', [Validators.required]],
+            // pacoteId: ['', [Validators.required]],
             conteudo: ['', [Validators.required]],
-           
+
         })
     }
 
     ngOnInit() {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-       this.GetContrato(this.data['contrato'].id)
+        this.GetContrato(this.data['contrato'].id)
     }
 
-    private GetContrato(contratoId: number){
+    private GetContrato(contratoId: number) {
 
-        this._http.get(`${this.baseUrl}/unidade/contrato/${contratoId}`)
-                .subscribe(resp => { 
-                    this.contrato = resp['contrato']
-                    console.log(this.contrato)
-                }, (error) => { console.log(error)
-                
-                },
+        this._http.get(`${this.baseUrl}/contrato/${contratoId}`)
+            .subscribe(resp => {
+                this.contrato = resp['contrato']
+                console.log(this.contrato)
+            }, (error) => {
+                console.log(error)
+
+            },
                 () => {
                     this.showForm = true
                 })
     }
 
-    saveEdit(form:any){
+    saveEdit(form: any) {
 
     }
-   
+
     // salvar(){
     //    // console.log(form.value)
     //     console.log(JSON.stringify(this.htmlContent))
@@ -109,29 +110,29 @@ export class EditarContratoComponent implements OnInit {
     // }
 
     onSubmit(form: any) {
-       
-        console.log(form.value)
+
+        console.log(form.valid)
         //this.dangerousVideoUrl = 'https://www.youtube.com/embed/' + id;
-       // let conteudo = this.safeHTML(this.contrato.conteudo)
+        // let conteudo = this.safeHTML(this.contrato.conteudo)
 
-           // this.contrato.conteudo =  conteudo
+        // this.contrato.conteudo =  conteudo
         //if(this.contratoForm.valid){
+        if (form.valid) {
+            this._http.put(`${this.baseUrl}/contrato`, this.contrato, {})
+                .subscribe(resp => {
 
-            this._http.put(`${this.baseUrl}/unidade/contrato-edit`,this.contrato, {})
-            .subscribe(resp => { 
-    
-            }, (error) => { console.log(error)},
-            () => {
-                this.dialogRef.close({ clicked: "Ok" });
-            })
+                }, (error) => { console.log(error) },
+                    () => {
+                        this.dialogRef.close({ clicked: "Ok" });
+                    })
 
-        //}
-       
+        }
+
     }
 
     safeHTML(unsafe: string) {
         return this.sanitizer.bypassSecurityTrustHtml(unsafe);
-      }
+    }
 
 
 }

@@ -34,7 +34,7 @@ export class ProdutoCreateComponent implements OnInit {
     public produtoForm: FormGroup;
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
-    public unidades: any[];
+    public unidades: any[] = new Array<any>();
     // public validadeEmailMsg = false
     // public validadeCPFMsg = false
     //cargos = Cargos;
@@ -86,7 +86,7 @@ export class ProdutoCreateComponent implements OnInit {
 
         this._http.get(`${this.baseUrl}/unidade`)
         .subscribe(resp => {
-            this.unidades = Object.assign([], resp)
+            this.unidades = Object.assign([], resp['unidades'])
         },
         (err)=> { console.log(err)},
         () => { 
@@ -141,7 +141,7 @@ export class ProdutoCreateComponent implements OnInit {
         if (form.valid) {
 
 
-            this._http.post(`${this.baseUrl}/financeiro/produto`, produto, {
+            this._http.post(`${this.baseUrl}/produto`, produto, {
 
             }).subscribe(response => {
 

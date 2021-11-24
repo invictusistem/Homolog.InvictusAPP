@@ -1,7 +1,7 @@
 <div class="container" style="width: 95%;padding-top: 20px;">
 
     <div>
-        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="cadastrar/matricular" matTooltipPosition="above"
+        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="pré-cadastro" matTooltipPosition="above"
             matTooltipHideDelay="100">
             <button style="" (click)="openMatriculaModal()" mat-icon-button>
                 <mat-icon>person_add_alt</mat-icon>
@@ -13,24 +13,24 @@
         cadastrar/matricular aluno
     </button> -->
     <br>
-    <form class="form-inline siteForm" style="margin-top: 5px;display: inline-block">
+    <form *ngIf="false" class="form-inline siteForm" style="margin-top: 5px;display: inline-block">
         <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">Digite ao menos um dos campos para
             pesquisar pelo aluno:</span>
         <div class="form-row align-items-center divSiteForm">
 
             <mat-form-field appearance="standard" style="transform: scale(0.85);">
                 <mat-label>Nome</mat-label>
-                <input #nome selected name="templateName" matInput placeholder="digite um nome">
+                <input #nome selected name="templateName" disabled matInput placeholder="digite um nome">
             </mat-form-field>
 
             <mat-form-field class="siteForm-select" style="margin-left: 2px;transform: scale(0.85);">
                 <mat-label>E-mail</mat-label>
-                <input #email selected name="templateName" matInput placeholder="digite um nome">
+                <input #email selected name="templateName" matInput disabled placeholder="digite um nome">
             </mat-form-field>
 
             <mat-form-field class="siteForm-select" style="margin-left: 2px;transform: scale(0.85);">
                 <mat-label>CPF</mat-label>
-                <input #cpf selected name="templateName" matInput placeholder="digite um nome">
+                <input #cpf selected name="templateName" disabled matInput placeholder="digite um nome">
             </mat-form-field>
 
             <span>

@@ -12,22 +12,19 @@
 //     transform: scale(0.85);
 //   }
 
-::ng-deep .mat-form-field {
-    border-top-width: 0;
-    margin: 0px;
-    //transform: translateY(-1.1em) scale(.75);
-    transform: scale(0.9);
-  }
+::ng-deep .mat-form-field {  
+  font-size: 0.9em;
+}
 //   ::ng-deep .mat-form-field-underline .mat-form-field-ripple{
 //     transform: translateY(-1.1em) scale(.75);
 //   }
-  
+
 //   ::ng-deep .mat-form-field-wrapper {
 //     padding-bottom: 0px;
 //     margin-bottom: 0px;
 //     margin-top: 0px;
 //   }
-  
+
 //   ::ng-deep .mat-form-field-label-wrapper {
 //     padding-top: 0px;
 //   }

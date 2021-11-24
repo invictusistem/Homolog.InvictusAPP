@@ -30,8 +30,9 @@ export class CargoCreateComponent implements OnInit {
         public dialogRef: MatDialogRef<CargoCreateComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.cargoForm = _fb.group({
-            nome: ['', [Validators.required]],
-            descricao: ['', [Validators.required]],
+            value: ['', [Validators.required]],
+            descricao: [''],
+            comentario: ['', [Validators.required]],
             ativo:[true]
         })
     }
@@ -45,10 +46,10 @@ export class CargoCreateComponent implements OnInit {
 
     onSubmit(form: FormGroup) {
 
-        if (form.valid) {
+        if (this.cargoForm.valid) {
 
             this.progress = true
-            this._http.post(`${this.baseUrl}/unidade/cargo`, form.value, {})
+            this._http.post(`${this.baseUrl}/parametro/value/Cargo`, this.cargoForm.value, {})
                 .subscribe(response => {
 
                 }, (err) => {

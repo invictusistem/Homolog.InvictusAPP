@@ -33,10 +33,10 @@ export class EditColaboradoresComponent implements OnInit {
     showMensagem = false
     mensagem = ''
     cpf = ''
+    showForm = false
 
     public cepReturn: CepReturn = new CepReturn();
-    //cargos = Cargos;
-    cargos: any[] = new Array<any>()
+    cargos: any[] = new Array<any>();// Cargos;
     ativo = true;
     constructor(
         private _snackBar: MatSnackBar,
@@ -53,20 +53,19 @@ export class EditColaboradoresComponent implements OnInit {
         //console.log(this.data['colaborador'])
         Object.assign(this.editedColaborador, this.data['colaborador'])
         this.cpf = this.onInputChange(this.editedColaborador.cpf)
-        console.log(this.data['colaborador'])
-        this.getCargos()
+        // console.log("on init")
+        this.getCargos();
     }
 
-    showTable = false
-    getCargos() {
-        this.http.get(`${this.baseUrl}/unidade/cargo`)
+    getCargos(){
+        this.http.get(`${this.baseUrl}/parametro/value/Cargo`)
             .subscribe(response => {
 
-                this.cargos = Object.assign([], response)
+                this.cargos = Object.assign([], response['values'])
 
             }, err => { console.log(err) },
                 () => {
-                    this.showTable = true
+                    this.showForm = true
 
                 });
     }
@@ -114,22 +113,19 @@ export class EditColaboradoresComponent implements OnInit {
     edit(form: any) {
         //const novoColaborador = JSON.stringify(form.value);
         console.log(form)
+        console.log(form.valid)
         if (form.valid) {
 
             //this.redi(["./adm/colaboradores"]);
             this.http.put(`${this.baseUrl}/colaboradores`, this.editedColaborador, {})
-                .subscribe(response => {
+            .subscribe(response => {
 
-                    console.log(response)
+            }, err => { console.log(err) },
+                () => {
+                    this.openSnackBar()
+                    this.dialogRef.close();
 
-
-
-                }, err => { console.log(err) },
-                    () => {
-                        this.openSnackBar()
-                        this.dialogRef.close();
-
-                    });
+                });
         }
     }
 

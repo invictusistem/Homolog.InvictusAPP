@@ -12,20 +12,20 @@
 
     <mat-form-field appearance="standard" style="width: 40%;">
         <mat-label>Email</mat-label>
-        <input #email formControlName="email" required selected name="email" matInput placeholder="Email">
+        <input #email required selected name="email" matInput placeholder="Email">
     </mat-form-field>
 
 
-    <i style="width: 10%;margin-left: 10px;" #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
-        matTooltipHideDelay="100">
+    <i style="width: 10%;margin-left: 10px;" #tooltip="matTooltip" matTooltip="pesquisar"
+        matTooltipPosition="above" matTooltipHideDelay="100">
 
         <button (click)="consultaUsuario(email.value)" style="margin: 0px; margin: 0px;" mat-icon-button>
             <mat-icon>search</mat-icon>
-        </button>
+        </button>       
 
     </i>
 
-    <!-- <mat-spinner @rowHighlight  [diameter]="50" >
+   <!-- <mat-spinner @rowHighlight  [diameter]="50" >
         </mat-spinner> -->
 
     <!-- style="margin-left: 46.5%;
@@ -48,21 +48,17 @@
 
         <mat-form-field appearance="standard" style="width: 25%;margin-left: 40px;">
             <mat-label>Perfil</mat-label>
-            <mat-select formControlName="perfil" selected name="perfil" required>
-                <mat-option value=""></mat-option>
+            <mat-select formControlName="perfil" selected required>
+                <mat-option ></mat-option>
                 <mat-option *ngFor="let perfil of perfisArray" [value]="perfil">
                     {{perfil}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
 
-        <!-- <mat-slide-toggle style="width: 30%; margin-left: 10%;" class="autoPagination-slide" #tooltip="matTooltip"
-            (change)="onCheckboxChange($event)" name="perfilAtivo" required matTooltip="ativo/inativo"
-            matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
-        </mat-slide-toggle> -->
-
         <mat-slide-toggle style="width: 30%; margin-left: 40px;" class="autoPagination-slide" #tooltip="matTooltip"
-            formControlName="perfilAtivo" name="perfilAtivo" required matTooltip="ativo/inativo" [required]="false"
+            formControlName="perfilAtivo" required matTooltip="ativo/inativo"
+            [required]="false"
             matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
         </mat-slide-toggle>
 
@@ -73,8 +69,7 @@
         {{mensagem}}
     </div>
     <br>
-    <button *ngIf="showForm" mat-raised-button disabled="false" color="primary"
-    [disabled]="!usuarioForm.valid"
+    <button color="primary" *ngIf="showForm" mat-raised-button [disabled]="!usuarioForm.valid"
         style="float:right;margin-bottom: 10px; margin-left: 10px;">
         Salvar</button>
     <!-- <button style="float:right;margin-bottom: 10px;" mat-raised-button

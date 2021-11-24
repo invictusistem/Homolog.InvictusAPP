@@ -18,7 +18,7 @@ import { ProdutoEditComponent } from "./produto-edit/produto-edit.component";
 export class ProdutosComponent implements OnInit {
 
     private baseUrl = environment.baseUrl;
-    public produtos: any[];//Produto[] = new Array<Produto>();
+    public produtos: any[] = new Array<Produto>();
     public tokenInfo: TokenInfos = new TokenInfos();
     private jwtHelper = new JwtHelperService();
 
@@ -36,9 +36,9 @@ export class ProdutosComponent implements OnInit {
 
     GetProdutos(){
 
-        this._http.get(`${this.baseUrl}/financeiro/produtos`)
+        this._http.get(`${this.baseUrl}/produto`)
         .subscribe(resp => {
-            this.produtos = Object.assign([], resp)
+            this.produtos = Object.assign([], resp['produtos'])
             console.log(this.produtos)
         }, (error) => { console.log(error) })
 

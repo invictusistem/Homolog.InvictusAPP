@@ -37,6 +37,11 @@ export class ProdutoDoacaoComponent implements OnInit {
     public unidades: any;
     public unidadeId: number = 0;
     public produtos: Produto[] = new Array<Produto>();
+    public produto: any;
+    public doacaoForm: FormGroup
+    public qntProduto: number = 1
+
+
     constructor(
         //private service: AdmService,
         private _snackBar: MatSnackBar,
@@ -46,77 +51,73 @@ export class ProdutoDoacaoComponent implements OnInit {
         private _modal: MatDialog,
         public dialogRef: MatDialogRef<ProdutoDoacaoComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-        //this.colaboradorForm = _fb.group({
-        // templateName: ['', [Validators.required, Validators.minLength(5)]],
+        this.doacaoForm = _fb.group({
+            produtoId: [''],
+            unidadeDonatariaId: ['', [Validators.required]],
+            qntDoada: ['']
+        })
 
-        //})
+        // produtoId, UnidadeDonatariaId, Qnt Doada
     }
 
 
-
+    showForm = false
     ngOnInit() {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         console.log(this.tokenInfo.Unidade);
         console.log(this.tokenInfo.Codigo);
         console.log(this.tokenInfo);
-        this.GetOutrasUnidades();
+        console.log(this.data['produto'])
+        this.GetProdutoDoacao();
+        this.produtos = Object.assign([], this.data['produto'])
         this.productCommand = Object.assign({}, this.data['produto'])
         this.productCommand.quantidadeComprada = 1;
         this.compraProdutoCommand.produtos.push(this.productCommand)
         //this.produtos.push(this.data['produto'] as Produto)
     }
 
-    GetOutrasUnidades() {
+   // messageError = ""
+    showeMsgError = false
+    GetProdutoDoacao() {
 
-        this._http.get(`${this.baseUrl}/unidade/outras`)
+        this._http.get(`${this.baseUrl}/produto/doacao/${this.data['produto'].id}/${this.data['produto'].observacoes}`)
             .subscribe(resp => {
                 this.unidades = Object.assign([], resp['unidades'])
+                this.produto = Object.assign({}, resp['produto'])
             },
-                (err) => { console.log(err) },
+                (err) => {
+                    console.log(err)
+                   // this.messageError = "Não há unidade outras cadastradas"
+                    this.showeMsgError = true
+                },
                 () => {
-
+                    this.showForm = true
                 })
     }
 
 
     onSubmit(form: FormGroup) {
-        // this.showMensagem = false
-        console.log(form)
-        console.log(form.value)
-        console.log(form.valid)
-        //var cel = `${form['celular'].value}`
-        //console.log(cel)
-        // this.dialogRef.close();
+
         if (form.valid) {
-            console.log('form valid')
-            const novoColaborador = JSON.stringify(form.value);
-            //this.save(novoColaborador)
-            // let newTemplate = this.mapForm(tempForm)
-
-            this._http.post(`${this.baseUrl}/colaboradores`, novoColaborador, {
-                //this.http.post("http://api.invictustemp.com.thor.hostazul.com.br/api/identity/login", credentials, {
-
-                headers: new HttpHeaders({
-                    "Content-Type": "application/json",
-                    "Authorization": "Bear "
-                })
-            }).subscribe(response => {
+           
+            this.doacaoForm.get('produtoId').setValue(this.produto.id)
+            this.doacaoForm.get('qntDoada').setValue(this.qntProduto)
+            
+            this._http.post(`${this.baseUrl}/produto/doacao`, this.doacaoForm.value, {})
+            .subscribe(response => {
 
                 console.log(response)
-                // this.colaboradores = Object.assign([], response['data'])
-                // console.log(this.colaboradores)
-                // this.dialogRef.close();
+             
             }, (err) => {
                 console.log(err)
                 console.log(err['error'].mensagem)
-                //this.mensagem = err['error'].mensagem
-                //this.showMensagem = true
+               
             },
                 () => {
-                    //console.log(response)
+                   
                     this.openSnackBar()
-                    //this.showMensagem = false
+                   
                     this.dialogRef.close({ clicked: "Ok" });
                 });
         }
@@ -132,87 +133,31 @@ export class ProdutoDoacaoComponent implements OnInit {
     }
 
 
+    add() {
 
-    meioPagamentoSelect(meioPag) {
+        this.qntProduto++
 
-        this.compraProdutoCommand.meioPagamento = meioPag
-
-        console.log(meioPag)
-
-        if (meioPag != "credito") {
-            this.showParcelas = false
-        } else {
-            this.showParcelas = true
-        }
-
-
+        // var index = this.compraProdutoCommand.produtos.indexOf(product)
+        // var qntAtual = this.compraProdutoCommand.produtos[index].quantidadeComprada
+        // this.compraProdutoCommand.produtos[index].quantidadeComprada = qntAtual + 1
     }
 
-    onOkClick() {
+    remove() {
 
-        this.dialogRef.close({ clicked: "Ok" });
-
-    }
-
-    fechar() {
-
-        this.dialogRef.close({ clicked: "Ok" });
-
-    }
-
-    pesquisaItem(nome: string) {
-        this.showMgs = false
-        if (nome == "") return
-
-        console.log(nome)
-
-        this._http.get(`${this.baseUrl}/financeiro/produtos-buscar/${nome}`)
-            .subscribe(resp => {
-                this.produtos = Object.assign([], resp)
-            },
-                (erro) => { console.log(erro) },
-                () => {
-
-                    if (this.produtos.length == 0) {
-
-                        this.msg = "nenhum produto com esse nome foi localizado"
-                        this.showMgs = true
-                    } else {
-
-                        // this.openPesquisaResult()
-
-                    }
-
-                })
-    }
-
-    add(product: Produto) {
-        var index = this.compraProdutoCommand.produtos.indexOf(product)
-        var qntAtual = this.compraProdutoCommand.produtos[index].quantidadeComprada
-        this.compraProdutoCommand.produtos[index].quantidadeComprada = qntAtual + 1
-    }
-
-    remove(product: Produto) {
-        var index = this.compraProdutoCommand.produtos.indexOf(product)
-        var qntAtual = this.compraProdutoCommand.produtos[index].quantidadeComprada
-        if (qntAtual == 1) {
+        
+        // var index = this.compraProdutoCommand.produtos.indexOf(product)
+        // var qntAtual = this.compraProdutoCommand.produtos[index].quantidadeComprada
+        if (this.qntProduto == 1) {
 
         } else {
-            this.compraProdutoCommand.produtos[index].quantidadeComprada = qntAtual - 1
+            this.qntProduto--
         }
 
     }
 
     get valorTotalVenda() {
 
-        /*
-                var preco = parseFloat(form.value["preco"])
-                var precoFloat = preco.toFixed(2)
-                console.log(precoFloat)
-                produto.preco =  parseFloat(preco.toFixed(2))
-                console.log(produto)
-                */
-        //var array = [1, 2, 3, 4, 5];
+       
         var sum = 0
         this.compraProdutoCommand.produtos.forEach(element => {
             sum += element.quantidadeComprada * element.preco
@@ -223,9 +168,10 @@ export class ProdutoDoacaoComponent implements OnInit {
         // console.log(sum);
         // console.log(this.compraProdutoCommand.valorTotal)
 
+        var valorTotal = this.produto.preco * this.qntProduto
         var sum2 = sum.toFixed(2)
 
-        return `R$ ${sum2}`
+        return `R$ ${valorTotal.toFixed(2)}`
     }
 
     deletar(product: Produto) {
@@ -242,75 +188,32 @@ export class ProdutoDoacaoComponent implements OnInit {
     public compraProdutoCommand: CompraProdutoCommand = new CompraProdutoCommand();
 
 
-    // openPesquisaResult(): void {
-    //     const dialogRef = this._modal
-    //         .open(VendaPesquisaComponent, {
-    //             height: 'auto',
-    //             width: '700px',
-    //             autoFocus: false,
-    //             maxHeight: '90vh',
-    //             maxWidth: '400vh',
-
-    //             data: { produtos: this.produtos },
-    //             hasBackdrop: true,
-    //             disableClose: true
-    //         });
-
-
-    //     dialogRef.afterClosed().subscribe((data) => {
-    //         if (data.clicked === "Ok") {
-    //             // Reset form here
-    //             console.log('afte close ok')
-    //             //this.getColaboradores(1, this.pageSize);
-    //         } else if (data.clicked === "Ok-ADD") {
-
-    //             //this.produtosCesta.push(data.produto)
-    //             console.log(data.produto)
-    //             this.productCommand = Object.assign({}, data.produto)
-    //             this.productCommand.quantidadeComprada = 1;
-    //             this.compraProdutoCommand.produtos.push(this.productCommand)
-
-    //             console.log(this.compraProdutoCommand)
-
-    //         }
-    //     });
-    // }
     parcelasTotais: any
-    saveEdit(form: any) {
-        console.log(form.value['totalParcelas'])
-        console.log(this.compraProdutoCommand)
+    // saveEdit(form: any) {
+    //     console.log(form.value['totalParcelas'])
+    //     console.log(this.compraProdutoCommand)
 
-        this.compraProdutoCommand.parcelas = this.parcelasTotais
-        //this.compraProdutoCommand.cpf_comprador = 
-        console.log(this.compraProdutoCommand.meioPagamento)
-        // if (this.compraProdutoCommand.meioPagamento == undefined ||
-        //     this.compraProdutoCommand.meioPagamento == "") return
-        console.log(this.meioPagamento)
-        if (this.compraProdutoCommand.produtos.length == 0) return
+    //     this.compraProdutoCommand.parcelas = this.parcelasTotais
+       
+    //     console.log(this.compraProdutoCommand.meioPagamento)
+       
+    //     console.log(this.meioPagamento)
+    //     if (this.compraProdutoCommand.produtos.length == 0) return
 
-        // if (this.compraProdutoCommand.meioPagamento != "dinherio") {
-        //     if (form.valid && form.value['totalParcelas'] != 0) {
-        //         console.log()
+    //     var sendForm = JSON.stringify(this.compraProdutoCommand)
+    //     console.log(sendForm)
 
-        //     }
-        // }
+    //     this._http.post(`${this.baseUrl}/financeiro/produto-doacao-unidades/${this.unidadeId}`,
+    //         this.compraProdutoCommand, {
+    //     })
+    //         .subscribe(resp => { },
+    //             (error) => { console.log(error) },
+    //             () => {
+    //                 this.dialogRef.close({ clicked: "Ok" });
+    //             })
 
-        // this.compraProdutoCommand.parcelas = form.value['totalParcelas']
+    //     console.log(this.compraProdutoCommand)
 
-        var sendForm = JSON.stringify(this.compraProdutoCommand)
-        console.log(sendForm)
-
-        this._http.post(`${this.baseUrl}/financeiro/produto-doacao-unidades/${this.unidadeId}`,
-            this.compraProdutoCommand, {
-        })
-            .subscribe(resp => { },
-                (error) => { console.log(error) },
-                () => {
-                    this.dialogRef.close({ clicked: "Ok" });
-                })
-
-        console.log(this.compraProdutoCommand)
-
-    }
+    // }
 
 }

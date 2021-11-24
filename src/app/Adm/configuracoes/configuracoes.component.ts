@@ -6,14 +6,17 @@ import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { environment } from "src/environments/environment";
 import { Cargo } from "../Adm-Models/cargos.model";
 import { CargoCreateComponent } from "./Config-Cargos/cargo-create.component";
+import { DocTemplateComponent } from "./Doc-create/doctemplate.component";
+import { MateriaTemplateComponent } from "./Mat-create/mat-create.component";
 
 declare var $: any;
 
 @Component({
     selector: "configuracoes-app",
     templateUrl: './configuracoes.component.html',
+    styleUrls: ['./configuracoes.component.scss'],
     animations: [HighlightTrigger]
-    //, styleUrls: ['./usuario.component.scss']
+
 })
 
 export class ConfiguracoesComponent implements OnInit {
@@ -26,58 +29,30 @@ export class ConfiguracoesComponent implements OnInit {
         private _modal: MatDialog
     ) { }
 
-    _toasts: Array<any> = [
-        { title: "1st Toast", message: "This is the second message", date: new Date(), isShow: true }
-    ]
 
-    get toasts() {
-        return this._toasts.filter(f => f.isShow)
-    }
 
     ngOnInit() {
-        $(".showtoast").click(function () {
-            $('.toast').toast('show');
-        })
-        this.pegarMesg();
+        // $(".showtoast").click(function () {
+        //     $('.toast').toast('show');
+        // })
+       // this.pegarMesg();
     }
 
-    reset() {
-        this._toasts.forEach(f => {
-            f.isShow = true
-        })
-    }
 
-    salvar() {
-        console.log(this.htmlContent)
-        console.log(JSON.stringify(this.htmlContent))
-
-        let content = { content: JSON.stringify(this.htmlContent) }
-        console.log(content)
-
-        this._http.post(`${this.baseUrl}/mensagem`, content, {
-            headers: new HttpHeaders({
-                "Content-Type": "application/json"
-            })
-
-        })
-            .subscribe(resp => {
-
-            }, (error) => { console.log(error) },
-                () => { })
-    }
 
     showTableCargos = false
 
-    getCargos(){
+    getCargos() {
         this.showTableCargos = false
         this._http.get(`${this.baseUrl}/unidade/cargo`)
-        .subscribe(resp => {
-            this.cargos = Object.assign([], resp)
-        }, (error) => { 
-            console.log(error) },
-            () => {
-                this.showTableCargos = true
-            })
+            .subscribe(resp => {
+                this.cargos = Object.assign([], resp)
+            }, (error) => {
+                console.log(error)
+            },
+                () => {
+                    this.showTableCargos = true
+                })
     }
 
     mensagem: any;
@@ -94,17 +69,59 @@ export class ConfiguracoesComponent implements OnInit {
                 })
     }
 
-    // openToast() {
-    //     var toastTrigger = document.getElementById('liveToastBtn')
-    //     var toastLiveExample = document.getElementById('liveToast')
-    //     if (toastTrigger) {
-    //         toastTrigger.addEventListener('click', function () {
-    //             var toast = new bootstrap.Toast(toastLiveExample)
+    
 
-    //             toast.show()
-    //         })
-    //     }
-    // }
+    getDocumentacao() {
+
+    }
+
+    getMaterias(){
+        
+    }
+
+    openCreateMateriaModal(): void { // MateriaTemplateComponent
+        const dialogRef = this._modal
+        .open(MateriaTemplateComponent, {
+            height: 'auto',
+            width: '850px',
+            autoFocus: false,
+            maxHeight: '90vh',
+            data: { Hello: "Hello World" },
+            hasBackdrop: true,
+            disableClose: true
+        });
+
+
+    dialogRef.afterClosed().subscribe((data) => {
+        if (data.clicked === "Ok") {
+
+        } else if (data.clicked === "Cancel") {
+
+        }
+    });
+    }
+
+    openCreateDocModal(): void { //DocTemplateComponent
+        const dialogRef = this._modal
+            .open(DocTemplateComponent, {
+                height: 'auto',
+                width: '700px',
+                autoFocus: false,
+                maxHeight: '90vh',
+                data: { Hello: "Hello World" },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "Ok") {
+
+            } else if (data.clicked === "Cancel") {
+
+            }
+        });
+    }
 
     openCreateCargoModal(): void {
         const dialogRef = this._modal

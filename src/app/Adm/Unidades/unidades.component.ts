@@ -37,7 +37,7 @@ export class UnidadesComponent implements OnInit {
         this._http.get(`${this._baseUrl}/unidade`)
             .subscribe(response => {
 
-                Object.assign(this.unidades, response)
+                Object.assign(this.unidades, response['unidades'])
             },
                 (error) => { console.log(error) },
                 () => {
@@ -50,8 +50,8 @@ export class UnidadesComponent implements OnInit {
     openUnidadeCreateModal(): void {
         const dialogRef = this.unidadeCreateModal
             .open(CreateUnidadeComponent, {
-                height: '650px',
-                width: '800px',
+                height: '450px',
+                width: '650px',
                 //data: {  },
                 hasBackdrop: true,
                 disableClose: true
@@ -68,14 +68,14 @@ export class UnidadesComponent implements OnInit {
     openEditUnidade(unidade: Unidade): void {
         const dialogRef = this.unidadeEditModal
             .open(EditUnidadeComponent, {
-                height: '500px',
-                width: '800px',
+                height: '450px',
+                width: '650px',
                 data: { unidade: unidade },
                 hasBackdrop: true,
                 disableClose: true
             });
         dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "Ok") {
+            if (data.clicked === "OK") {
                 this.getUnidades();
             } else if (data.clicked === "Cancel") {
 
@@ -111,7 +111,7 @@ export class UnidadesComponent implements OnInit {
                 disableClose: true
             });
         dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "Ok") {
+            if (data.clicked === "OK") {
                 this.getUnidades();
             } else if (data.clicked === "Cancel") {
 

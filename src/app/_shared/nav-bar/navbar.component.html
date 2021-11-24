@@ -11,31 +11,40 @@ box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.2),
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div  class="collapse navbar-collapse" id="navbarCollapse">
-
-            <ul style="margin-left: 45px;overflow:auto; " class="navbar-nav me-auto mb-2 mb-md-0">
-                <li *ngFor="let item of menu" routerLinkActive="active" class="nav-item {{item.class}}">
-                    <a class="nav-link active" style="margin-right: 30px; font-size: 1em;color: aliceblue;"
-                        aria-current="page" [routerLink]=[item.path]>{{item.title}}</a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <!-- <ul style="margin-left: 45px;"
+            class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <a class="nav-link active" style="color: aliceblue;" aria-current="page"
+                        routerLink='/adm'>Administrativo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" style="color: aliceblue;" aria-current="page"
+                        routerLink='/pedag'>Pedagógico</a>
                 </li>
 
-                
+            </ul> -->
+
+            <ul  style="margin-left: 45px;"
+                class="navbar-nav me-auto mb-2 mb-md-0">
+                <li *ngFor="let item of menu" routerLinkActive="active" 
+                class="nav-item {{item.class}}">
+                    <a class="nav-link active" style="margin-right: 30px; font-size: 1em;color: aliceblue;" aria-current="page"
+                        [routerLink]=[item.path]>{{item.title}}</a>
+                </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
 				<li>
-				
-                    <button mat-button [matMenuTriggerFor]="afterMenu"><img src="" alt="" width="32" height="32" class="rounded-circle me-2"></button>
+					<button mat-button [matMenuTriggerFor]="afterMenu"><img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2"></button>
                     <mat-menu #afterMenu="matMenu" xPosition="after">
-                      <button  mat-menu-item>trocar senha</button>
-                      <button mat-menu-item>Perfil</button>
+                      <button style="height: 30px;" type="button" (click)="trocarSenha()" mat-menu-item>trocar senha</button>
+                      <button style="height: 30px;" mat-menu-item>perfil</button>                      
+                      <button style="height: 30px;" (click)="logout()" mat-menu-item>sair</button>
                     </mat-menu>
 				</li>
 				
 			</ul>
-
-           
-
         </div>
     </div>
 </nav>

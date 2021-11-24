@@ -150,7 +150,7 @@ export class NovaMatriculaComponent implements OnInit {
             autoFocus: false,
             maxHeight: '90vh',
 
-            data: { Hello: "Hello World" },
+            //data: { Hello: "Hello World" },
             hasBackdrop: true,
             disableClose: true
         });

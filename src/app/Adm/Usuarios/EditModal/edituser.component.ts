@@ -26,11 +26,12 @@ export class EditUserComponent implements OnInit {
     private baseUrl = environment.baseUrl
     public usuarioForm: FormGroup
     perfis = Perfis;
-    usuario: Colaborador = new Colaborador();
+    usuario: any;// = new any();// Colaborador = new Colaborador();
     ativo = true;
     selected: any
     perfilAtivo: boolean = true
     isChecked = true;
+    showForm = false
     constructor(
         private fb: FormBuilder,
         private http: HttpClient,
@@ -48,12 +49,13 @@ export class EditUserComponent implements OnInit {
     ngOnInit() {
         this.ativo = true;
         console.log(this.data['colaborador'])
-        Object.assign(this.usuario, this.data['colaborador'] as Colaborador)
+        this.usuario = this.data['colaborador']
         //this.getTasks(1, this.pageSize);
         this.selected = this.usuario.perfil
         this.perfilAtivo = this.usuario.perfilAtivo
         console.log(this.usuario)
         this.isChecked = this.usuario.perfilAtivo
+        this.showForm = true
     }
     changePerfil(perfil: string) {
         this.usuario.perfil = perfil
