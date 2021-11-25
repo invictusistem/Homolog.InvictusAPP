@@ -162,7 +162,26 @@ export class InfosComponent implements OnInit {
 
     saveAluno(form: any) {
 
-        form.disable
+        if(form.valid){
+
+            this._http.put(`${this.baseUrl}/alunos`,this.alunoInfo, {})
+            .subscribe(response => {
+               
+            }, err => { console.log(err) },
+                () => {
+                    this.GetAluno(this.alunoInfo.id);
+                 });
+        }
+    }
+
+    GetAluno(alunoId){
+
+        this._http.get(`${this.baseUrl}/alunos/cadastro/${alunoId}`)
+        .subscribe(response => {
+            this.alunoInfo = response["aluno"];
+
+        }, err => { console.log(err) },
+            () => { });
 
     }
 
