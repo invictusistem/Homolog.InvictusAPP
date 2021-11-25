@@ -84,34 +84,13 @@ export class EditarContratoComponent implements OnInit {
                 () => {
                     this.showForm = true
                 })
-    }
-
-    saveEdit(form: any) {
-
-    }
-
-    // salvar(){
-    //    // console.log(form.value)
-    //     console.log(JSON.stringify(this.htmlContent))
-
-    //     let content = { content: JSON.stringify(this.htmlContent) }
-    //     console.log(content)
-
-    //     this._http.post(`${this.baseUrl}/mensagem`,content, {
-    //         headers: new HttpHeaders({
-    //                         "Content-Type": "application/json"
-    //                     })
-
-    //     })
-    //     .subscribe(resp => { 
-
-    //     }, (error) => { console.log(error)},
-    //     () => {})
-    // }
+    }   
 
     onSubmit(form: any) {
 
         console.log(form.valid)
+        console.log(form.value)
+        console.log(this.contrato)
         //this.dangerousVideoUrl = 'https://www.youtube.com/embed/' + id;
         // let conteudo = this.safeHTML(this.contrato.conteudo)
 

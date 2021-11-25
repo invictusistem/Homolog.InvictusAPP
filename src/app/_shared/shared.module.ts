@@ -29,19 +29,7 @@ import { SanitizeHtmlPipe } from './pipes/sanitizePipe.component';
 import { CNPJPipe } from './pipes/cnpjPipe';
 import { CPFPipe } from './pipes/cpfPipe';
 import { SpinnerComponent } from './components/spinner.component';
-//import { CommonModule } from '@angular/common';
-// Components:
-//import { HomeComponent } from './home/home.component';
-// import { SideBarComponent } from './sidebar/sidebar.component';
-//import { NavBarComponent } from './navbar/navbar.component';
-//import { DataService } from './data.service';
-
-//import { MainComponent } from './main/main.component';
-
-//import { MaterialModule } from './material/material.module';
-//import { ErrorMessageComponent } from './components/errorMessage/message.component';
-//import { ConfirmMessageComponent } from './components/errorMessage/confirmDialog/confirm.component';
-
+import { SafePipe } from './pipes/safe.pipe';
 
 
 
@@ -77,7 +65,8 @@ import { SpinnerComponent } from './components/spinner.component';
     SanitizeHtmlPipe,
     CNPJPipe,
     CPFPipe,
-    SpinnerComponent
+    SpinnerComponent,
+    SafePipe
     //HomeComponent,
     //MainComponent,
     //ErrorMessageComponent,
@@ -113,6 +102,7 @@ import { SpinnerComponent } from './components/spinner.component';
     CNPJPipe,
     CPFPipe,
     SpinnerComponent,
+    SafePipe,
     //ErrorMessageComponent,
     //ConfirmMessageComponent,
     
