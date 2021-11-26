@@ -9,6 +9,8 @@
 <hr>
 
 
+<div @rowHighlight style="position: relative;" *ngIf="showtablePrinciple;else showSpinner">
+
 <mat-form-field appearance="standard" style="width: 35%; ">
     <mat-label>Aluno</mat-label>
     <input [value]="data['aluno'].nome" selected disabled required matInput placeholder="Nome">
@@ -516,7 +518,7 @@
 
         <mat-tab  label="Documentação">
 
-            <form [formGroup]="documentoForm" (ngSubmit)="addDocumentos(documentoForm)">
+            <!-- <form [formGroup]="documentoForm" (ngSubmit)="addDocumentos(documentoForm)"> -->
                
                 <!-- <mat-form-field appearance="standard" style="width: 250px;">
                     <mat-label>Descrição</mat-label>
@@ -541,7 +543,7 @@
                 <!-- <button mat-icon-button type="submit">
                     <mat-icon>add</mat-icon>
                 </button> -->
-            </form>
+            <!-- </form> -->
 
             <!-- <ng-container *ngIf="documentoAluno.length > 0">
                 <div *ngFor="let doc of documentoAluno">
@@ -644,15 +646,26 @@
             <input [value]="ano.dataRegistro | date: 'dd/MM/yyy'" selected disabled required matInput placeholder="Nome">
         </mat-form-field>
         <br>
-        <mat-form-field class="Obs" style="width: 50%; border: 1px solid black" appearance="outline">
+        <!-- <mat-form-field class="Obs" style="width: 50%; border: 1px solid black" appearance="outline">
             <mat-label>Anotações</mat-label>
             <textarea [value]="ano.comentario" maxlength="400" style="color:black; height: auto;" disabled
             formControlName="Anotações" name="anotacao" matInput></textarea>
-        </mat-form-field>
+        </mat-form-field> -->
 
+        <mat-form-field class="Obs" style="width: 50%; border: 1px solid black" appearance="outline">
+            <mat-label>Anotações</mat-label>
+            <textarea [value]="ano.comentario" maxlength="400" style="color:black; height: auto;" disabled
+            name="anotacao" matInput></textarea>
+        </mat-form-field>
         <hr>
     </div>
        
     </mat-tab> 
 
 </mat-tab-group>
+
+</div>
+<ng-template #showSpinner @rowHighlight>
+
+    <spinner @rowHighlight [SpinnerParam]="infoSpinner"></spinner>
+</ng-template>

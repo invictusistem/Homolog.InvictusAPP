@@ -13,6 +13,7 @@ import { TokenInfos } from "src/app/_shared/models/token.model";
 import { DocumentoAlunoDto } from "../../Pedag-Models/documentoaluno.model";
 import { Observable } from "rxjs";
 import { AddAnotacaoComponent } from "./Anotacao/add-anotacao.component";
+import { SpinnerParams } from "src/app/_shared/models/spinner.model";
 
 @Component({
     selector: 'infosmodal',
@@ -26,7 +27,12 @@ export class InfosComponent implements OnInit {
     baseUrl = environment.baseUrl;
     tabs = ['Cadastro', 'Responsável Financeiro', 'Responsável (menor)'
        /* , 'Financeiro'*/, 'Documentação', 'Certificados'];
-
+       infoSpinner: SpinnerParams= {
+        diameter: 150,
+        marginleft: 21,
+        margintop: 12
+    }
+    public showtablePrinciple = false
     public showAluno: boolean = false
     public showRespFinanc: boolean = false
     public showRespMenor: boolean = false
@@ -159,6 +165,8 @@ export class InfosComponent implements OnInit {
                 (error) => { console.log(error) },
                 () => {
                     this.showAluno = true
+                    this.showtablePrinciple = true
+                    console.log(this.turma)
                 })
 
     }
