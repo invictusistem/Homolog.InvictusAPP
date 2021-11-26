@@ -640,7 +640,7 @@
         <mat-tab label="Anotações">
 
 
-            <div style="font-size: 1.2em;">
+            <div style="font-size: 1.0em;">
                 <i style="float: left;" #tooltip="matTooltip" matTooltip="adicionar anotação" matTooltipPosition="above"
                     matTooltipHideDelay="100">
                     <button type="button" (click)="openAddComentarioModal()" style="" mat-icon-button>
@@ -648,10 +648,14 @@
                     </button>
                 </i>
             </div>
-            <br>
+            
+            
             <br>
 
-            <div *ngFor="let ano of anotacoes">
+            <mat-progress-bar *ngIf="ShowAnotSpinner" style="margin-bottom: 3px" mode="query"></mat-progress-bar>
+            <br>
+
+            <!-- <div *ngFor="let ano of anotacoes">
                 <mat-form-field appearance="standard" style="width: 35%; ">
                     <mat-label>Autor</mat-label>
                     <input value="Fulano" selected disabled required matInput placeholder="Nome">
@@ -663,11 +667,6 @@
                         placeholder="Nome">
                 </mat-form-field>
                 <br>
-                <!-- <mat-form-field class="Obs" style="width: 50%; border: 1px solid black" appearance="outline">
-            <mat-label>Anotações</mat-label>
-            <textarea [value]="ano.comentario" maxlength="400" style="color:black; height: auto;" disabled
-            formControlName="Anotações" name="anotacao" matInput></textarea>
-        </mat-form-field> -->
 
                 <mat-form-field class="Obs" style="width: 50%; border: 1px solid black" appearance="outline">
                     <mat-label>Anotações</mat-label>
@@ -675,14 +674,38 @@
                         name="anotacao" matInput></textarea>
                 </mat-form-field>
                 <hr>
-            </div>
+            </div> -->
+            <ng-container *ngIf="anotacoes.length > 0" >
+            <div *ngFor="let info of anotacoes" style="border: 1px solid rgb(201, 198, 209); padding: 10px;margin-bottom: 10px;margin-top: 5px;">
+                <div style="font-size: 0.8em; font-style: italic;" >Autor: {{ info.titulo }}</div>
+                <div style="font-size: 0.8em; font-style: italic;">Data: {{ info.dataRegistro | date: 'dd/MM/yyy' }}</div>
+                <div style="font-size: 0.8em; font-style: italic;">* {{ info.comentario }}</div>
+                <!-- <mat-form-field appearance="standard" style="width: 35%; ">
+                    <mat-label>Autor</mat-label>
+                    <input value="Fulano" selected disabled required matInput placeholder="Nome">
+                </mat-form-field>
+                <br>
+                <mat-form-field appearance="standard" style="width: 120px; ">
+                    <mat-label>Data</mat-label>
+                    <input [value]="ano.dataRegistro | date: 'dd/MM/yyy'" selected disabled required matInput
+                        placeholder="Nome">
+                </mat-form-field>
+                <br>
 
+                <mat-form-field class="Obs" style="width: 50%; border: 1px solid black" appearance="outline">
+                    <mat-label>Anotações</mat-label>
+                    <textarea [value]="ano.comentario" maxlength="400" style="color:black; height: auto;" disabled
+                        name="anotacao" matInput></textarea>
+                </mat-form-field> -->
+               
+            </div>
+        </ng-container>
         </mat-tab>
 
     </mat-tab-group>
 
 </div>
-<ng-template #showSpinner @rowHighlight>
+<ng-template #showSpinner >
 
     <spinner @rowHighlight [SpinnerParam]="infoSpinner"></spinner>
 </ng-template>

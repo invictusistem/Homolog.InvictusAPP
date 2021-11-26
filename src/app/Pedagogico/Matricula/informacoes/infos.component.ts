@@ -238,6 +238,7 @@ export class InfosComponent implements OnInit {
                 }, err => { console.log(err) },
                     () => {
                         this.GetAnotacoes();
+                        this.ShowAnotSpinner = false
                     });
 
 
@@ -245,6 +246,7 @@ export class InfosComponent implements OnInit {
         }
     }
 
+    ShowAnotSpinner = false
     openAddComentarioModal(): void {
         const dialogRef = this._modal
             .open(AddAnotacaoComponent, {
@@ -263,6 +265,7 @@ export class InfosComponent implements OnInit {
                 console.log('afte close ok')
                 this.anotacaoForm.get('comentario').setValue(data.comentario)
                 // this.anotacaoForm.get('comentario').setValue(data.comentario)
+                this.ShowAnotSpinner = true
                 this.submitAnotacao();
 
             } else if (data.clicked === "Cancel") {
