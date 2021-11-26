@@ -50,7 +50,7 @@
                     </button>
                 </i>
             </span>
-<br>
+            <br>
             <span style="font-size: 0.9em;font-style: italic;">
                 incluir inativos:
             </span>
@@ -64,6 +64,7 @@
 
     </form>
 
+<br>
 
 
     <div *ngIf="listAlunos.length > 0" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
@@ -108,7 +109,7 @@
                 vertical-align: middle;
                 border-top: 0px; font-weight: 400;">UNIDADE</th>
 
-                        <th style="width: 5%;font-size:1em;
+                            <th style="width: 5%;font-size:1em;
                         vertical-align: middle;
                         text-align:center;
                         border-top: 0px; font-weight: 400;">ATIVO</th>
@@ -142,7 +143,8 @@
 
                             <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
 
-                            <td style="text-align:center;vertical-align: middle;">{{item.numeroMatricula || 'não matriculado'}}</td>
+                            <td style="text-align:center;vertical-align: middle;">{{item.numeroMatricula || 'não
+                                matriculado'}}</td>
 
                             <td style="text-align: center;vertical-align: middle;">{{item.cpf}}</td>
 
@@ -209,14 +211,14 @@
                                     </i>
 
                                     <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
-                                    matTooltip="matricular aluno em um curso" matTooltipPosition="above"
-                                    matTooltipHideDelay="100">
-                                    <button (click)="matricular(item)" [disabled]="!item.ativo"
-                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                                        mat-icon-button>
-                                        <mat-icon>read_more</mat-icon>
-                                    </button>
-                                </i>
+                                        matTooltip="matricular aluno em um curso" matTooltipPosition="above"
+                                        matTooltipHideDelay="100">
+                                        <button (click)="matricular(item)" [disabled]="!item.ativo"
+                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                            mat-icon-button>
+                                            <mat-icon>read_more</mat-icon>
+                                        </button>
+                                    </i>
                                 </ng-template>
 
 

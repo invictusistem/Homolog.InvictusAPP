@@ -27,7 +27,7 @@ export class InfosComponent implements OnInit {
     baseUrl = environment.baseUrl;
     tabs = ['Cadastro', 'Responsável Financeiro', 'Responsável (menor)'
        /* , 'Financeiro'*/, 'Documentação', 'Certificados'];
-       infoSpinner: SpinnerParams= {
+    infoSpinner: SpinnerParams = {
         diameter: 150,
         marginleft: 21,
         margintop: 12
@@ -171,28 +171,32 @@ export class InfosComponent implements OnInit {
 
     }
 
+    spinnerSave = false
     saveAluno(form: any) {
-
+       
         if(form.valid){
-
+            this.spinnerSave = true
             this._http.put(`${this.baseUrl}/alunos`,this.alunoInfo, {})
             .subscribe(response => {
-               
-            }, err => { console.log(err) },
+
+            }, err => { console.log(err)
+                this.spinnerSave = true
+             },
                 () => {
+                    this.spinnerSave = false
                     this.GetAluno(this.alunoInfo.id);
                  });
         }
     }
 
-    GetAluno(alunoId){
+    GetAluno(alunoId) {
 
         this._http.get(`${this.baseUrl}/alunos/cadastro/${alunoId}`)
-        .subscribe(response => {
-            this.alunoInfo = response["aluno"];
+            .subscribe(response => {
+                this.alunoInfo = response["aluno"];
 
-        }, err => { console.log(err) },
-            () => { });
+            }, err => { console.log(err) },
+                () => { });
 
     }
 
@@ -222,19 +226,19 @@ export class InfosComponent implements OnInit {
 
     }
 
-    submitAnotacao(){
-       
+    submitAnotacao() {
+
         console.log(this.anotacaoForm.valid)
         console.log(this.anotacaoForm.value)
-        if(this.anotacaoForm.valid){
+        if (this.anotacaoForm.valid) {
 
-            this._http.post(`${this.baseUrl}/pedag/matricula/anotacao`,this.anotacaoForm.value, {})
-            .subscribe(response => {
-               
-            }, err => { console.log(err) },
-                () => {
-                    this.GetAnotacoes();
-                 });
+            this._http.post(`${this.baseUrl}/pedag/matricula/anotacao`, this.anotacaoForm.value, {})
+                .subscribe(response => {
+
+                }, err => { console.log(err) },
+                    () => {
+                        this.GetAnotacoes();
+                    });
 
 
 
@@ -247,9 +251,9 @@ export class InfosComponent implements OnInit {
                 height: '310px',
                 width: '500px',
                 autoFocus: false,
-               
 
-                data: {  },
+
+                data: {},
                 hasBackdrop: true,
                 disableClose: true
             });
@@ -258,11 +262,11 @@ export class InfosComponent implements OnInit {
             if (data.clicked === "OK") {
                 console.log('afte close ok')
                 this.anotacaoForm.get('comentario').setValue(data.comentario)
-               // this.anotacaoForm.get('comentario').setValue(data.comentario)
+                // this.anotacaoForm.get('comentario').setValue(data.comentario)
                 this.submitAnotacao();
-                
+
             } else if (data.clicked === "Cancel") {
-               
+
             }
         });
     }
@@ -272,7 +276,7 @@ export class InfosComponent implements OnInit {
         this._http.get(`${this.baseUrl}/pedag/matricula/anotacao/${this.data['aluno'].matriculaId}`)
             .subscribe(resp => {
                 console.log(resp)
-                
+
                 this.anotacoes = resp['anotacoes'];
 
                 console.log(this.respMenor)
@@ -280,7 +284,7 @@ export class InfosComponent implements OnInit {
             },
                 (error) => { console.log(error) },
                 () => {
-                   // this.showAluno = true
+                    // this.showAluno = true
                 })
 
     }
