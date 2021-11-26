@@ -23,7 +23,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 })
 
 export class CreateContratoComponent implements OnInit {
-    public htmlContent: any;
+    public htmlContent: string = "";
     public typePacotes: any
     // pageSize: number = 5;
     // genericTasks: GenericTask[] = new Array<GenericTask>();
@@ -86,42 +86,29 @@ export class CreateContratoComponent implements OnInit {
                 () => { })
     }
 
-    // salvar(){
-    //    // console.log(form.value)
-    //     console.log(JSON.stringify(this.htmlContent))
+    showConteudo(valor){
 
-    //     let content = { content: JSON.stringify(this.htmlContent) }
-    //     console.log(content)
+        console.log(valor['textArea'].nativeElement)
 
-    //     this._http.post(`${this.baseUrl}/mensagem`,content, {
-    //         headers: new HttpHeaders({
-    //                         "Content-Type": "application/json"
-    //                     })
-
-    //     })
-    //     .subscribe(resp => { 
-
-    //     }, (error) => { console.log(error)},
-    //     () => {})
-    // }
+    }
 
     onSubmit(form: FormGroup) {
-
-
-        console.log(form.value)
         console.log(this.htmlContent)
 
-        if (this.contratoForm.valid) {
+        console.log(form.value)
+        // console.log(this.htmlContent)
 
-            this._http.post(`${this.baseUrl}/contrato`, form.value, {})
-                .subscribe(resp => {
+        // if (this.contratoForm.valid) {
 
-                }, (error) => { console.log(error) },
-                    () => {
-                        this.dialogRef.close({ clicked: "OK" });
-                    })
+        //     this._http.post(`${this.baseUrl}/contrato`, form.value, {})
+        //         .subscribe(resp => {
 
-        }
+        //         }, (error) => { console.log(error) },
+        //             () => {
+        //                 this.dialogRef.close({ clicked: "OK" });
+        //             })
+
+        // }
 
     }
 

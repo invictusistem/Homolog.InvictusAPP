@@ -19,10 +19,19 @@
     <input [value]="data['aluno'].numeroMatricula" selected disabled required matInput placeholder="Nome">
 </mat-form-field>
 
-<mat-form-field appearance="standard" style="width: 45%;">
+<br>
+
+<mat-form-field appearance="standard" style="width: 10%;">
     <mat-label>Turma</mat-label>
-    <input value="Turma tal Curso etc" selected disabled required matInput placeholder="Nome">
+    <input [value]="turma.identificador" selected disabled required matInput placeholder="Nome">
 </mat-form-field>
+
+<mat-form-field appearance="standard" style="width: 35%;margin-left: 5%;">
+    <mat-label>Curso</mat-label>
+    <input [value]="turma.descricao || 'loading...'" selected disabled required matInput placeholder="Nome">
+</mat-form-field>
+
+
 <br>
 <!-- <div style="color:red; margin-bottom: 10px; font-size: 0.8em; font-style: italic;" *ngIf="!isMatriculado">* O aluno não
     se encontra matriculado

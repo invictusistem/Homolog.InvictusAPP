@@ -29,6 +29,7 @@ export class EditCursoComponent implements OnInit {
     // pageEvent: PageEvent;
     //editedColaborador: Colaborador = new Colaborador();
     turma: TurmaViewModel = new TurmaViewModel()
+    turmaView: any;
     view: Views = new Views();
     alunos: Aluno[] = new Array<Aluno>();
     professores: Professor[] = new Array<Professor>();

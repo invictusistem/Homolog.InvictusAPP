@@ -40,6 +40,7 @@ export class InfosComponent implements OnInit {
     public originalAluno: any
     public originalRespFin: any
     public originalRespMenor: any
+    public turma: any
 
     public documentoForm: FormGroup
     public anotacaoForm: FormGroup
@@ -145,10 +146,12 @@ export class InfosComponent implements OnInit {
         this._http.get(`${this.baseUrl}/pedag/aluno/${matriculaId}`)
             .subscribe(resp => {
                 console.log(resp)
+                this.turma = resp['turma'];
                 this.alunoInfo = Object.assign({}, resp['aluno']);
                 this.respFin = resp['respFin'];
                 this.respMenor = resp['respMenor'];
                 this.anotacoes = resp['anotacoes'];
+
 
                 console.log(this.respMenor)
 

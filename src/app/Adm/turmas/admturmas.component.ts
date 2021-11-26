@@ -90,25 +90,27 @@ export class AdmTurmasComponent implements OnInit {
     }
 
     PodeAdiar(turma: any) {
-        if (turma.statusAndamento == 'Aguardando início' &&
-            turma.previsaoInfo != '3ª previsão') {
-            return false
-        } else {
-            return true
-        }
+        return true
+        // if (turma.statusAndamento == 'Aguardando início' &&
+        //     turma.previsaoInfo != '3ª previsão') {
+        //     return false
+        // } else {
+        //     return true
+        // }
+
     }
 
     adiar(turmaId: number) {
         console.log('adiar')
+        return true
+        // this.http.put(`${this.baseUrl}/turma/adiar/${turmaId}`, {}).subscribe(response => {
 
-        this.http.put(`${this.baseUrl}/turma/adiar/${turmaId}`, {}).subscribe(response => {
-
-        },
-            (error) => { console.log(error) },
-            () => {
-                this.getCursos();
-            }
-        )
+        // },
+        //     (error) => { console.log(error) },
+        //     () => {
+        //         this.getCursos();
+        //     }
+        // )
     }
 
     // atualizar() {
@@ -116,7 +118,7 @@ export class AdmTurmasComponent implements OnInit {
     //     var actualPage = 0;
 
     //     this.http.get(`${this.baseUrl}/turmas/?itemsPerPage=` + itemsPerPage + `&currentPage=` + actualPage, {
-           
+
 
     //         headers: new HttpHeaders({
     //             "Content-Type": "application/json",
@@ -167,17 +169,17 @@ export class AdmTurmasComponent implements OnInit {
             }, (err) => {
                 console.log(err)
                 this.mensagem = "Não há turmas cadastradas ou em andamento nesta unidade."
-                        this.showTurmas = false
-                        this.showMessage = true
-                        this.showSpinner = false
+                this.showTurmas = false
+                this.showMessage = true
+                this.showSpinner = false
                 //this.mensagem = "Ocorreu um erro! Contate o Administrador!"
 
             },
-                () => {                 
-                        this.showTurmas = true
-                        this.showMessage = false
-                        this.showSpinner = false
-                    
+                () => {
+                    this.showTurmas = true
+                    this.showMessage = false
+                    this.showSpinner = false
+
                 });
 
     }
