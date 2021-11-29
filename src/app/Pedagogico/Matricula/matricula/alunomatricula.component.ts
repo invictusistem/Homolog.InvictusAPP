@@ -404,6 +404,13 @@ export class AlunoMatriculaComponent implements OnInit {
 
     // }
 
+    disabldSaveButton = false
+    // get disabledButton(){
+
+
+    //     return disabldSaveButton
+    // }
+
     salvarMat() {
 
         if (!this.planoPgmAluno.valid) return
@@ -414,6 +421,7 @@ export class AlunoMatriculaComponent implements OnInit {
         if (this.temRespFinm.get('temRespFin').value) {
             if (!this.respFinForm.valid) return
         }
+        this.disabldSaveButton = true
         console.log('salvar')
         let form = {
             plano: this.planoPgmAluno.value,

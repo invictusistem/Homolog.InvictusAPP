@@ -7,10 +7,11 @@
     </i>
 </div>
 
-<hr>
+<mat-progress-bar @rowHighlight *ngIf="showSpinnerSearch" style="margin:0px" mode="query"></mat-progress-bar>
 
 <ng-container *ngIf="showForm">
-    <form novalidate #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <hr>
+    <form @rowHighlight novalidate #form="ngForm" (ngSubmit)="onSubmit(form)">
 
         <mat-form-field appearance="standard" style="width: 100px; ">
             <mat-label>Código</mat-label>
@@ -24,16 +25,6 @@
             <input selected [(ngModel)]="contrato.titulo" required name="titulo" matInput placeholder="Nome">
         </mat-form-field>
 
-        <!-- <mat-form-field appearance="standard" style="width: 350px;margin-left: 10px;">
-            <mat-label>Pacote</mat-label>
-            <mat-select [(ngModel)]="contrato.titulo" placeholder="">
-                <mat-option style="font-size: 0.8em;" 
-                [value]="type.id"
-                *ngFor="let type of typePacotes" >
-                    {{type.nome}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field> -->
 
         <mat-slide-toggle style="width: 70px; margin-left: 40px;" class="autoPagination-slide" #tooltip="matTooltip"
             [(ngModel)]="contrato.ativo" name="ativo" required matTooltip="ativo/inativo" [required]="false"
@@ -41,17 +32,20 @@
         </mat-slide-toggle>
         <br>
 
-
         <div>
 
-            <angular-editor color="primary" [placeholder]="'Enter text here...'" [(ngModel)]="contrato.conteudo"
-                name="conteudo" ></angular-editor>
+            <angular-editor color="primary" [placeholder]="'Enter text here...'" [(ngModel)]="contrato.conteudo" required
+                name="conteudo"></angular-editor>
+
             <br>
-            <button type="submit" color="primary" mat-raised-button disabled="false"
+
+            <button type="submit" color="primary" mat-raised-button [disabled]="disabledButton(form)"
                 style="float:right;margin-bottom: 0px;margin-left: 10px;">
                 Salvar
             </button>
+
             <br>
+
         </div>
 
 

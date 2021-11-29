@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { CepReturn } from "src/app/_shared/models/cepreturn.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -10,7 +10,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Contrato } from "../contrato.component";
+//import { Contrato } from "../contrato.component";
 import { DomSanitizer } from "@angular/platform-browser";
 
 
@@ -21,17 +21,13 @@ import { DomSanitizer } from "@angular/platform-browser";
 @Component({
     selector: 'editcontratomodal',
     templateUrl: './editcontrato.component.html',
-    // styleUrls: ['./create-contrato.component.scss'],
+    styleUrls: ['./editcontrato.component.scss'],
     animations: [HighlightTrigger]
 })
 
 export class EditarContratoComponent implements OnInit {
     public htmlContent: any;
-
-    // pageSize: number = 5;
-    // genericTasks: GenericTask[] = new Array<GenericTask>();
-    // length: number;
-    // pageEvent: PageEvent;
+    showSpinnerSearch = true
     baseUrl = environment.baseUrl;
     public cepReturn: CepReturn = new CepReturn();
     public contratoForm: FormGroup;
@@ -42,15 +38,13 @@ export class EditarContratoComponent implements OnInit {
     cargos = Cargos;
     mensagem = "";
     showMensagem = false
-    public contrato: Contrato = new Contrato();
+    public contrato: any;
+    public originalContrato: any;
     public showForm = false
 
-    //public bairro: string = null;
-    //@Input() disabled = true;
-    unidades = Unidades;//: string[] = new Array("Campo Grande II", "Jacarepaguá");
+    unidades = Unidades;
     constructor(
         private sanitizer: DomSanitizer,
-        //private service: AdmService,
         private _snackBar: MatSnackBar,
         private router: Router,
         private _fb: FormBuilder,
@@ -59,7 +53,6 @@ export class EditarContratoComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.contratoForm = _fb.group({
             titulo: ['', [Validators.required]],
-            // pacoteId: ['', [Validators.required]],
             conteudo: ['', [Validators.required]],
 
         })
@@ -75,27 +68,26 @@ export class EditarContratoComponent implements OnInit {
 
         this._http.get(`${this.baseUrl}/contrato/${contratoId}`)
             .subscribe(resp => {
-                this.contrato = resp['contrato']
+                this.contrato = Object.assign({}, resp['contrato'])
+                this.originalContrato = Object.assign({}, resp['contrato'])
                 console.log(this.contrato)
             }, (error) => {
                 console.log(error)
+                this.showSpinnerSearch = false
 
             },
                 () => {
                     this.showForm = true
+                    this.showSpinnerSearch = false
                 })
-    }   
+    }
 
     onSubmit(form: any) {
 
         console.log(form.valid)
         console.log(form.value)
         console.log(this.contrato)
-        //this.dangerousVideoUrl = 'https://www.youtube.com/embed/' + id;
-        // let conteudo = this.safeHTML(this.contrato.conteudo)
 
-        // this.contrato.conteudo =  conteudo
-        //if(this.contratoForm.valid){
         if (form.valid) {
             this._http.put(`${this.baseUrl}/contrato`, this.contrato, {})
                 .subscribe(resp => {
@@ -109,9 +101,30 @@ export class EditarContratoComponent implements OnInit {
 
     }
 
-    safeHTML(unsafe: string) {
-        return this.sanitizer.bypassSecurityTrustHtml(unsafe);
+    disabledButton(form: any) {
+       // console.log(form.valid)
+       //angular.equals(obj1, obj2)
+
+       if (form.valid) {
+        
+            return false
+        } else {
+        
+            return true
+        }
+        // if ((JSON.stringify(this.contrato) !== JSON.stringify(this.originalContrato)) && 
+        // form.valid) {
+        
+        //     return false
+        // } else {
+        
+        //     return true
+        // }
     }
+
+    // safeHTML(unsafe: string) {
+    //     return this.sanitizer.bypassSecurityTrustHtml(unsafe);
+    // }
 
 
 }

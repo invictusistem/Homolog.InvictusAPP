@@ -53,8 +53,8 @@ export class CreateNovaMatriculaComponent implements OnInit {
             nomeSocial: [''],
             cpf: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
             rg: ['', [Validators.required]],
-            nomePai: ['', [Validators.required]],
-            nomeMae: ['', [Validators.required]],
+            nomePai: [''],
+            nomeMae: [''],
             nascimento: ['', [Validators.required]],
             naturalidade: ['', [Validators.required]],
             naturalidadeUF: ['', [Validators.required]],
@@ -115,47 +115,63 @@ export class CreateNovaMatriculaComponent implements OnInit {
 
 
     }
+    disabledSaveButton = false
+    get disabledButton() {
+console.log()
+        if (this.alunoForm.valid) {
+            if (this.disabledSaveButton) {
+                return true
+            } else {
+                return false
+            }
+            // return false
+        } else {
 
+            return true
+        }
+
+
+    }
     showDivEndereco = false
     consultaCEP(CEP: string) {
         console.log(CEP);
-    
-        if(this.alunoForm.get('cep').valid){
-        this.http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
-            .subscribe(response => {
-    
-                this.alunoForm.get('logradouro').setValue(response["logradouro"]);
-                this.alunoForm.get('bairro').setValue(response["bairro"]);
-                this.alunoForm.get('cidade').setValue(response["localidade"]);
-                this.alunoForm.get('uf').setValue(response["uf"]);
-               
-            }, err => { console.log(err) },
-                () => {
-                    console.log('finaly')
-                    this.showDivEndereco = true
-                });
-            }
+
+        if (this.alunoForm.get('cep').valid) {
+            this.http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
+                .subscribe(response => {
+
+                    this.alunoForm.get('logradouro').setValue(response["logradouro"].toUpperCase());
+                    this.alunoForm.get('bairro').setValue(response["bairro"].toUpperCase());
+                    this.alunoForm.get('cidade').setValue(response["localidade"].toUpperCase());
+                    this.alunoForm.get('uf').setValue(response["uf"].toUpperCase());
+
+                }, err => { console.log(err) },
+                    () => {
+                        console.log('finaly')
+                        this.showDivEndereco = true
+                    });
+        }
     }
 
     onFocusOutDateEvent(event: any) {
         console.log(event.target.value);
         console.log(this.alunoForm.get('nascimento').value)
         var dataForm: Date = new Date(this.alunoForm.get('nascimento').value)
-        
+
         //let timeDiff = Math.abs(Date.now() - dataForm.getTime());
-       // let age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
+        // let age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
         //console.log(age)
-       
+
     }
 
 
     messageConflit = false
-    onSubmit(alunoForm){
+    onSubmit(alunoForm) {
 
-        //console.log(this.alunoForm.value)
+        console.log(this.alunoForm.value)
         if (this.alunoForm.valid) {
-        
-    
+            this.disabledSaveButton = true
+
             this.http.post(`${this.baseUrl}/alunos`, this.alunoForm.value, {
             }).subscribe(response => {
             }, (err) => {
@@ -164,6 +180,7 @@ export class CreateNovaMatriculaComponent implements OnInit {
                 this.mensagem = err['error'].mensagem
                 this.showMensagem = true
                 this.messageConflit = true
+                this.disabledSaveButton = false
             },
                 () => {
                     //console.log(response)
