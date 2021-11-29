@@ -312,10 +312,10 @@
 
 
         <br>
-
+        <mat-progress-bar *ngIf="disabledSaveButton" @rowHighlight  style="margin:0px"  mode="query"></mat-progress-bar>
         <div style="float: right;margin-top: 15px;">
-
-            <button type="submit" mat-raised-button color="primary" [disabled]="!cursoForm.valid" style="width: 100px; position: relative; float:right;margin-bottom: 10px;
+            
+            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" style="width: 100px; position: relative; float:right;margin-bottom: 10px;
                 margin-left: 10px;">
                 <!-- <mat-spinner *ngIf="disabledSpinner" [diameter]="33" style="margin-left: 18px;
             

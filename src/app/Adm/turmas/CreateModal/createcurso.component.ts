@@ -237,6 +237,7 @@ export class CreateCursoComponent implements OnInit {
     onSubmit(form){
 
         if(this.cursoForm.valid){
+            this.disabledSaveButton = true
             console.log('submit')
             this.disabledSpinner = false
             this._http.post(`${this.baseUrl}/turma/`,this.cursoForm.value ,{})
@@ -245,6 +246,7 @@ export class CreateCursoComponent implements OnInit {
                 (error) => {
                     console.log(error)
                     this.disabledSpinner = true
+                    this.disabledSaveButton = false
                 },
                 () => { 
                     this.dialogRef.close({ clicked: "OK" });
@@ -253,6 +255,19 @@ export class CreateCursoComponent implements OnInit {
 
         }
 
+    }
+disabledSaveButton = false
+    get disabledButton(){
+        if(this.cursoForm.valid){
+
+
+
+            return this.disabledSaveButton //disabledSaveButton
+        }else{
+            return true
+        }
+        //!cursoForm.valid
+        return !this.cursoForm.valid
     }
 
 
