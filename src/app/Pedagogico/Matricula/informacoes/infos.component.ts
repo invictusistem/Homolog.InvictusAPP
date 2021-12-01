@@ -346,13 +346,13 @@ export class InfosComponent implements OnInit {
 
 
     isMatriculado = true
-    getInfoDocs(alunoId) {
+    getInfoDocs() {
 
-        this._http.get(`${this.baseUrl}/document/documentacao-aluno/${alunoId}`)
+        this._http.get(`${this.baseUrl}/pedag/doc/lista/${this.data['aluno'].matriculaId}`)
             .subscribe(resp => {
                 //this.debitos = Object.assign({}, resp);
-                this.documentoAluno = Object.assign([], resp['docs'])
-                this.isMatriculado = resp['matriculado']
+                this.documentos = Object.assign([], resp['docs'])
+                //this.isMatriculado = resp['matriculado']
             },
                 (error) => { console.log(error) },
                 () => {
@@ -724,7 +724,7 @@ export class InfosComponent implements OnInit {
                         // this.refresh()
                         //this.onUploadFinished.unsubscribe;
                         //files = null
-                        this.getInfoDocs(this.data['aluno'].id);
+                        this.getInfoDocs();
                     });
 
         }

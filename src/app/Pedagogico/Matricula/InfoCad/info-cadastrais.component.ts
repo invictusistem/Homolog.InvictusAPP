@@ -47,20 +47,25 @@ export class InfoCadastraisComponent implements OnInit {
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.getAluno(this.data['aluno'].id);
     }
-
+    alunoOriginal:any
     aluno: any
     showForm = false
     getAluno(alunoId) {
 
         this._http.get(`${this.baseUrl}/alunos/cadastro/${alunoId}`)
             .subscribe(resp => {
-
-                this.aluno = resp['aluno']
+                this.alunoOriginal = Object.assign({}, resp['aluno'])
+                this.aluno = Object.assign({}, resp['aluno'])
 
             }, () => { },
                 () => {
                     this.showForm = true
                 })
+    }
+
+    get podeSalvar(){
+
+        return JSON.stringify(this.aluno) === JSON.stringify(this.alunoOriginal)
     }
 
     onFocusOutDateEvent($event) {

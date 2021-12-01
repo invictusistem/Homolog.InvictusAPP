@@ -57,12 +57,12 @@
 
             <mat-form-field appearance="standard" style="width: 35%; ">
                 <mat-label>Nome Pai</mat-label>
-                <input selected [(ngModel)]="aluno.nomePai" name="nomePai" required matInput placeholder="Nome">
+                <input selected [(ngModel)]="aluno.nomePai" name="nomePai" matInput placeholder="Nome">
             </mat-form-field>
 
             <mat-form-field appearance="standard" style="width: 35%;margin-left: 2%;">
                 <mat-label>Nome Mãe</mat-label>
-                <input selected [(ngModel)]="aluno.nomeMae" name="nomeMae" required matInput placeholder="Nome">
+                <input selected [(ngModel)]="aluno.nomeMae" name="nomeMae" matInput placeholder="Nome">
             </mat-form-field>
 
             <br>
@@ -192,7 +192,8 @@
 
         </div>
 
-        <button type="submit" color="primary" mat-raised-button
+        <button type="submit" color="primary" mat-raised-button 
+        [disabled]="podeSalvar"
             style="float:right;margin-bottom: 10px;margin-left: 10px;">
             Salvar
         </button>

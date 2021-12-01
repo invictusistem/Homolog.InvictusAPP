@@ -302,6 +302,7 @@ export class AlunoMatriculaComponent implements OnInit {
         if (this.respFinForm.get('cep').valid) {
             this.http.get(`https://viacep.com.br/ws/${cep}/json/`, {})
                 .subscribe(response => {
+                    console.log(response["logradouro"])
 
                     this.respFinForm.get('logradouro').setValue(response["logradouro"].toUpperCase());
                     this.respFinForm.get('bairro').setValue(response["bairro"].toUpperCase());
