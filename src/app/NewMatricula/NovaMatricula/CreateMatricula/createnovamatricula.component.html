@@ -67,11 +67,14 @@
                     matInput placeholder="digite o RG">
             </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 17%; margin-left: 5%;">
+            <mat-form-field appearance="standard" style="width: 17%; margin-left: 2%;">
                 <mat-label>Nascimento</mat-label>
                 <date-input formControlName="nascimento" (focusout)="onFocusOutDateEvent($event)" 
                     matInput required></date-input>
             </mat-form-field>
+
+            <span style="font-style: italic; margin-left: 2%; font-size: 0.9em;">idade: {{ idade || '-'}} anos </span> 
+
 
             <br>
 

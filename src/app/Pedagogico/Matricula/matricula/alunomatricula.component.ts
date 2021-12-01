@@ -303,10 +303,10 @@ export class AlunoMatriculaComponent implements OnInit {
             this.http.get(`https://viacep.com.br/ws/${cep}/json/`, {})
                 .subscribe(response => {
 
-                    this.respFinForm.get('logradouro').setValue(response["logradouro"]);
-                    this.respFinForm.get('bairro').setValue(response["bairro"]);
-                    this.respFinForm.get('cidade').setValue(response["localidade"]);
-                    this.respFinForm.get('uf').setValue(response["uf"]);
+                    this.respFinForm.get('logradouro').setValue(response["logradouro"].toUpperCase());
+                    this.respFinForm.get('bairro').setValue(response["bairro"].toUpperCase());
+                    this.respFinForm.get('cidade').setValue(response["localidade"].toUpperCase());
+                    this.respFinForm.get('uf').setValue(response["uf"].toUpperCase());
 
                 }, err => { console.log(err) },
                     () => {
@@ -328,10 +328,10 @@ export class AlunoMatriculaComponent implements OnInit {
             this.http.get(`https://viacep.com.br/ws/${cep}/json/`, {})
                 .subscribe(response => {
 
-                    this.respMenor.get('logradouro').setValue(response["logradouro"]);
-                    this.respMenor.get('bairro').setValue(response["bairro"]);
-                    this.respMenor.get('cidade').setValue(response["localidade"]);
-                    this.respMenor.get('uf').setValue(response["uf"]);
+                    this.respMenor.get('logradouro').setValue(response["logradouro"].toUpperCase());
+                    this.respMenor.get('bairro').setValue(response["bairro"].toUpperCase());
+                    this.respMenor.get('cidade').setValue(response["localidade"].toUpperCase());
+                    this.respMenor.get('uf').setValue(response["uf"].toUpperCase());
 
                 }, err => { console.log(err) },
                     () => {

@@ -11,10 +11,6 @@ import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
-
-
-//import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
-
 @Component({
     selector: 'modulocreatemodal',
     templateUrl: './modulo-create.component.html',

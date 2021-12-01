@@ -95,9 +95,9 @@ export class CreateCursoComponent implements OnInit {
 
             // OLD
             //curso: ['', [Validators.required]],
-            
-            
-            
+
+
+
 
 
             prevInicio_1: ['', [Validators.required, Validators.minLength(10)]],
@@ -115,7 +115,7 @@ export class CreateCursoComponent implements OnInit {
             // dia1: ['', [Validators.required]],
             // dia2: [''],
 
-            
+
 
             diasSemana: this._fb.array([], [Validators.required]),
 
@@ -234,40 +234,37 @@ export class CreateCursoComponent implements OnInit {
             )
     }
 
-    onSubmit(form){
+    onSubmit(form) {
 
-        if(this.cursoForm.valid){
+        if (this.cursoForm.valid) {
             this.disabledSaveButton = true
             console.log('submit')
             this.disabledSpinner = false
-            this._http.post(`${this.baseUrl}/turma/`,this.cursoForm.value ,{})
-            .subscribe(
-                response => { },
-                (error) => {
-                    console.log(error)
-                    this.disabledSpinner = true
-                    this.disabledSaveButton = false
-                },
-                () => { 
-                    this.dialogRef.close({ clicked: "OK" });
-                 }
-            )
+            this._http.post(`${this.baseUrl}/turma/`, this.cursoForm.value, {})
+                .subscribe(
+                    response => { },
+                    (error) => {
+                        console.log(error)
+                        this.disabledSpinner = true
+                        this.disabledSaveButton = false
+                    },
+                    () => {
+                        this.dialogRef.close({ clicked: "OK" });
+                    }
+                )
 
         }
 
     }
-disabledSaveButton = false
-    get disabledButton(){
-        if(this.cursoForm.valid){
 
 
-
-            return this.disabledSaveButton //disabledSaveButton
-        }else{
+    disabledSaveButton = false
+    get disabledButton() {
+        if (this.cursoForm.valid) {
+            return this.disabledSaveButton
+        } else {
             return true
         }
-        //!cursoForm.valid
-        return !this.cursoForm.valid
     }
 
 
@@ -710,11 +707,11 @@ disabledSaveButton = false
 
     // onSubmit(form: any) {
 
-      
+
 
     //     if (form.valid) {
     //         this.turma = Object.assign({}, form.value);
-           
+
     //         const turma = JSON.stringify(this.turma);
     //         this.disabledSpinner = true
     //         console.log(this.turma)
@@ -724,7 +721,7 @@ disabledSaveButton = false
     //         console.log(this.cursoForm.get('curso').value)
     //         var command: TurmaCommand = new TurmaCommand();
     //         command.modulo = this.cursoForm.get('curso').value
-           
+
 
     //         //command.vagas = this.cursoForm.get('vagas').value
     //         command.salaId = this.cursoForm.get('salaId').value

@@ -145,7 +145,7 @@ export class ModuloComponent implements OnInit {
                 width: '1000px',
                 autoFocus: false,
                 maxHeight: '90vh',
-                data: { modulo: modulo },
+                data: { moduloId: modulo.id },
                 hasBackdrop: true,
                 disableClose: true
             });

@@ -47,6 +47,7 @@ export class InfosComponent implements OnInit {
     public originalRespFin: any
     public originalRespMenor: any
     public turma: any
+    public documentos:any
 
     public documentoForm: FormGroup
     public anotacaoForm: FormGroup
@@ -157,6 +158,7 @@ export class InfosComponent implements OnInit {
                 this.respFin = resp['respFin'];
                 this.respMenor = resp['respMenor'];
                 this.anotacoes = resp['anotacoes'];
+                this.documentos = resp['docs'];
 
 
                 console.log(this.respMenor)
@@ -699,14 +701,13 @@ export class InfosComponent implements OnInit {
 
             const formData = new FormData();
 
+            
+
             formData.append("file", file);
-
-            const upload$ = this._http.post(`${this.baseUrl}/testando/upload-arqaluno/${doc.id}`, formData, {
+            console.log(formData);
+            const upload$ = this._http.put(`${this.baseUrl}/pedag/doc/${doc.id}`, formData, {
                 reportProgress: true, observe: 'events',
-                headers: new HttpHeaders({
-
-                    "Authorization": ""
-                })
+                
             })
                 .subscribe(event => {
                     if (event.type === HttpEventType.UploadProgress)
@@ -731,13 +732,12 @@ export class InfosComponent implements OnInit {
 
     baixar(doc) {
 
-        //..console.log(doc:Document)
+       
         var file = doc.nome;// "Modelo LEAD.xlsx";// this.createFileName("EXCEL");
-        // this.showSpinner = true;
-        // this.testehabilitar = false
+      
 
-        this.download(doc.alunoId, doc.id).subscribe(data => {
-            //console.log(data)
+        this.download(doc.id).subscribe(data => {
+          
             switch (data.type) {
                 case HttpEventType.Response:
                     // this.showSpinner = false;
@@ -755,12 +755,10 @@ export class InfosComponent implements OnInit {
             }
         },
             (err) => {
-                //this.showSpinner = false;
-                //this.testehabilitar = true;
+              
             },
             () => {
-                //this.showSpinner = false;
-                // this.testehabilitar = true;
+               
             }
         );
 
@@ -802,9 +800,9 @@ export class InfosComponent implements OnInit {
         );
     }
 
-    public download(alunoid: number, docId: number): Observable<HttpEvent<Blob>> {
+    public download(docId: any): Observable<HttpEvent<Blob>> {
         return this._http.request(new HttpRequest(
-            'GET', `${this.baseUrl}/document/aluno-docs/?alunoid=${alunoid}&docid=${docId}`, null, {
+            'GET', `${this.baseUrl}/pedag/doc/${docId}`, null, {
             reportProgress: true,
             responseType: 'blob'
         }));

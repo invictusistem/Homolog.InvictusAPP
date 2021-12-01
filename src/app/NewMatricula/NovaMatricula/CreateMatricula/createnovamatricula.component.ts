@@ -153,14 +153,20 @@ console.log()
         }
     }
 
+    idade: number
     onFocusOutDateEvent(event: any) {
         console.log(event.target.value);
         console.log(this.alunoForm.get('nascimento').value)
         var dataForm: Date = new Date(this.alunoForm.get('nascimento').value)
 
-        //let timeDiff = Math.abs(Date.now() - dataForm.getTime());
-        // let age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
-        //console.log(age)
+        if(this.alunoForm.get('nascimento').value != null){
+        let timeDiff = Math.abs(Date.now() - dataForm.getTime());
+        this.idade = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
+        console.log('idade:')
+        console.log(this.idade)
+        }else{
+            this.idade = null
+        }
 
     }
 
