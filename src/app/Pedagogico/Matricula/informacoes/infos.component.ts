@@ -14,6 +14,7 @@ import { DocumentoAlunoDto } from "../../Pedag-Models/documentoaluno.model";
 import { Observable } from "rxjs";
 import { AddAnotacaoComponent } from "./Anotacao/add-anotacao.component";
 import { SpinnerParams } from "src/app/_shared/models/spinner.model";
+import { ConfirmModalComponent } from "src/app/_shared/components/ConfirmModal/confirm-modal.component";
 
 @Component({
     selector: 'infosmodal',
@@ -293,6 +294,53 @@ export class InfosComponent implements OnInit {
                 })
 
     }
+
+    excluirArquivo(docId) {// ConfirmModalComponent
+        const dialogRef = this._modal
+            .open(ConfirmModalComponent, {
+                minHeight: '150px',
+                width: '400px',
+               // autoFocus: false,
+                //maxHeight: '400vh',
+
+                //data: { aluno: aluno },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "sim") {
+                //clicked: "Ok"
+               // this.openSnackBar()
+               // this.pesquisar();
+               this.remover(docId)
+            } else {
+                console.log('nao deletar')
+            }
+        });
+
+    }
+
+    remover(docId){
+        this._http.put(`${this.baseUrl}/pedag/doc/excluir/${docId}`,{},)
+        .subscribe(resp => {
+        },
+            (error) => { console.log(error) },
+            () => {
+                this.getInfoDocs();
+            })
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

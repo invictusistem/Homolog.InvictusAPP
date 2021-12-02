@@ -87,12 +87,21 @@ export class CreateUserComponent implements OnInit {
 
     }  
 
+    disabledSaveButton = false
+    get disabledButton() {
+        if (this.usuarioForm.valid) {
+            return this.disabledSaveButton
+        } else {
+            return true
+        }
+    }
+
     SaveUser(form: FormGroup) {
         
         console.log(form.valid)
        
         if (this.usuarioForm.valid) {
-        
+            this.disabledSaveButton = true
             let perfil = this.usuarioForm.get('perfil').value
             let perfilAtivo = this.usuarioForm.get('perfilAtivo').value
 

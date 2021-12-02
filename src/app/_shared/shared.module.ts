@@ -30,6 +30,7 @@ import { CNPJPipe } from './pipes/cnpjPipe';
 import { CPFPipe } from './pipes/cpfPipe';
 import { SpinnerComponent } from './components/spinner.component';
 import { SafePipe } from './pipes/safe.pipe';
+import { ConfirmModalComponent } from './components/ConfirmModal/confirm-modal.component';
 
 
 
@@ -43,7 +44,7 @@ import { SafePipe } from './pipes/safe.pipe';
     RouterModule,
     //routing,
     BrowserModule
-    
+
     //TemplateModule,
     // No need to export as these modules don't expose any components/directive etc'
     //HttpClientModule,
@@ -66,7 +67,8 @@ import { SafePipe } from './pipes/safe.pipe';
     CNPJPipe,
     CPFPipe,
     SpinnerComponent,
-    SafePipe
+    SafePipe,
+    ConfirmModalComponent
     //HomeComponent,
     //MainComponent,
     //ErrorMessageComponent,
@@ -74,15 +76,15 @@ import { SafePipe } from './pipes/safe.pipe';
 
 
   ],
-   //providers: [AuthGuard],
+  //providers: [AuthGuard],
   providers: [
-   // UnsavedGuard
-  //   DataService,
+    // UnsavedGuard
+    //   DataService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-   }
+    }
   ],
   exports: [
     CommonModule,
@@ -105,7 +107,7 @@ import { SafePipe } from './pipes/safe.pipe';
     SafePipe,
     //ErrorMessageComponent,
     //ConfirmMessageComponent,
-    
+
     //FormsModule,
     BrowserModule,
     //TemplateModule,
@@ -113,10 +115,13 @@ import { SafePipe } from './pipes/safe.pipe';
     FooterComponent,
     //MainComponent,
     HomeComponent,
-        //RouterModule,
+    //RouterModule,
     //HomeComponent,
     NavBarComponent
   ],
+  entryComponents: [
+    ConfirmModalComponent
+  ]
 
 })
 

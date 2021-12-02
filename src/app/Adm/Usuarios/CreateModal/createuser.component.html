@@ -69,10 +69,21 @@
         {{mensagem}}
     </div>
     <br>
-    <button color="primary" *ngIf="showForm" mat-raised-button [disabled]="!usuarioForm.valid"
+    <!-- <button color="primary" *ngIf="showForm" mat-raised-button [disabled]="!usuarioForm.valid"
         style="float:right;margin-bottom: 10px; margin-left: 10px;">
-        Salvar</button>
+        Salvar</button> -->
     <!-- <button style="float:right;margin-bottom: 10px;" mat-raised-button
         [mat-dialog-close]="{clicked:'Cancel'}">Cancel</button> -->
+
+        <mat-progress-bar *ngIf="disabledSaveButton" @rowHighlight  style="margin:0px"  mode="query"></mat-progress-bar>
+        <div style="float: right;margin-top: 15px;">
+            
+            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" style="width: 100px; position: relative; float:right;margin-bottom: 10px;
+                margin-left: 10px;">
+                Salvar
+            </button>
+
+          
+        </div>
 
 </form>
