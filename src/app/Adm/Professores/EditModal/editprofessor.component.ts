@@ -113,14 +113,10 @@ export class EditProfessorComponent implements OnInit {
                     });
         }
     }
+    
 
     openSnackBar() {
-        this._snackBar.open('Professor editado com sucesso.', '', {
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: 'green-snackbar',
-            duration: 3 * 1000,
-        });
+        this.openSnackBar()
     }
 
     isEqual = true

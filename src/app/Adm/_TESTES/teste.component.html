@@ -104,6 +104,35 @@
     </div>
 </div> -->
 <!-- <input type="file" class="file-upload" onchange="console.log(event.target.files)"> -->
+
+<!-- <li>
+  <button mat-button [matMenuTriggerFor]="afterMenu">
+    <img src="../../../assets/img/nophoto.png" alt="" width="32" height="32" class="rounded-circle me-2"></button>
+            <mat-menu #afterMenu="matMenu" xPosition="after">
+              
+              <button  style="height: 30px;" (click)="logout()" mat-menu-item>sair</button>
+            </mat-menu>
+</li> -->
+
+<div style="border: 1px solid black;height: 100%;position: relative ">
+
+<div style="z-index: 1;border: 1px solid red;text-align: center;float: right; width:200px; height: 50px;">
+<span>SISTEMA DE ENSINO INVICTUS</span><br>
+  FICHA DE MATRÍCULA
+</div>
+
+  <div style="margin-top: 50px;border: 1px solid red;width:100px;height: 50px;"></div>
+
+  <div style="position: absolute;top:0;
+  position: absolute;
+   
+  border: 1px solid red;width:100px;height: 50px;">
+  <img src="../../../assets/img/nophoto.png" alt="" width="32" height="32" class="rounded-circle me-2"></div>
+
+
+</div>
+
+
 <input multiple type="file" #fileAP placeholder="Choose file" (change)="onFileSelected(fileAP.files)"
             style="display:none;">
         

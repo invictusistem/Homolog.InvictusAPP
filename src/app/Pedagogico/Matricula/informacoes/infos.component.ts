@@ -310,9 +310,7 @@ export class InfosComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "sim") {
-                //clicked: "Ok"
-               // this.openSnackBar()
-               // this.pesquisar();
+              
                this.remover(docId)
             } else {
                 console.log('nao deletar')

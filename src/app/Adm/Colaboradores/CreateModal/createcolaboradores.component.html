@@ -8,143 +8,145 @@
 
 </div>
 
-<div style="font-size: 0.9em;margin-top: 5px;">* O colaborador será salvo na unidade de {{tokenInfo.Unidade}}</div>
-<hr>
-<div style="position: relative;">
-
-    <form *ngIf="showForm; else showSpinner" novalidate [formGroup]="colaboradorForm" style=""
-        (ngSubmit)="onSubmit(colaboradorForm)">
+<mat-progress-bar style="margin-top: 20px;" *ngIf="mostrarModalPrincipal;else mostraPrincipal" @rowHighlight style="margin:0px" mode="query"></mat-progress-bar>
+<ng-template #mostraPrincipal>
 
 
-        <mat-form-field appearance="standard" style="width: 250px;">
-            <mat-label>Nome</mat-label>
-            <input formControlName="nome" matInput placeholder="Nome">
-        </mat-form-field>
+    <div style="font-size: 0.9em;margin-top: 5px;">* O colaborador será salvo na unidade de {{tokenInfo.Unidade}}</div>
+    <hr>
+    <div style="position: relative;">
 
-        <mat-form-field appearance="standard" style="width: 220px; margin-left: 10px;">
-            <mat-label>Email</mat-label>
-            <input selected formControlName="email" matInput
-                placeholder="Email">
-            <mat-hint @rowHighlight *ngIf="validadeEmailMsg" style="color: red;">
-                O email informado já existe
-            </mat-hint>
-        </mat-form-field> 
+        <form *ngIf="showForm; else showSpinner" novalidate [formGroup]="colaboradorForm" style=""
+            (ngSubmit)="onSubmit(colaboradorForm)">
 
-        <mat-form-field appearance="standard" style="width: 140px;margin-left: 10px;">
-            <mat-label>CPF</mat-label>
-            <input  mask="000.000.000-00"
-                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" formControlName="cpf"
-                minlength="11" maxlength="14" selected  matInput placeholder="digite o CPF">
-            <mat-hint @rowHighlight *ngIf="validadeCPFMsg" style="color: red;">
-                O CPF informado já existe
-            </mat-hint>
-        </mat-form-field>
 
-        <br>
-
-        <mat-form-field style="width: 150px;" appearance="standard">
-            <mat-label>Celular</mat-label>
-            <input formControlName="celular" mask="(00) 00000-0000" matInput
-                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-        </mat-form-field>
-
-        <mat-form-field appearance="standard" style="width: 200px;margin-left: 10px;">
-            <mat-label>Cargo/Função</mat-label>
-            <mat-select formControlName="cargoId" selected required>
-                <mat-option ></mat-option>
-                <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">{{cargo.value}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-slide-toggle style="width: 15%; margin-left: 40px;" class="autoPagination-slide" #tooltip="matTooltip"
-            formControlName="ativo" name="ativo" required matTooltip="ativo/inativo" matTooltipPosition="above"
-            matTooltipHideDelay="250" color="primary" [required]="false" >
-        </mat-slide-toggle>
-
-        <br>
-
-        <mat-form-field appearance="standard" style="width: 150px;">
-            <mat-label>CEP</mat-label>
-            <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" #cep
-                formControlName="cep" minlength="8" maxlength="8" required matInput
-                placeholder="apenas números">
-        </mat-form-field>
-        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP" matTooltipPosition="above"
-            matTooltipHideDelay="100">
-            <button type="button" (click)="consultaCEP(cep.value)" style="margin: 0px; margin: 0px;" mat-icon-button>
-                <mat-icon>search</mat-icon>
-            </button>
-        </i>
-
-        <br>
-
-        <div *ngIf="showEndereco" @rowHighlight>
             <mat-form-field appearance="standard" style="width: 250px;">
-                <mat-label>Logradouro</mat-label>
-                <input selected formControlName="logradouro" name="templateName" matInput placeholder="ex: rua tal...">
+                <mat-label>Nome</mat-label>
+                <input oninput="this.value = this.value.toUpperCase()" formControlName="nome" matInput
+                    placeholder="Nome">
             </mat-form-field>
 
-
-            <mat-form-field appearance="standard" style="width: 80px;margin-left: 10px;">
-                <mat-label>Nº</mat-label>
-                <input formControlName="numero" selected name="templateName" matInput placeholder="ex: rua tal...">
+            <mat-form-field appearance="standard" style="width: 220px; margin-left: 10px;">
+                <mat-label>Email</mat-label>
+                <input selected formControlName="email" matInput oninput="this.value = this.value.toLowerCase()"
+                    placeholder="Email">
             </mat-form-field>
 
-
-            <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
-                <mat-label>Complemento</mat-label>
-                <input selected formControlName="complemento" name="templateName" matInput
-                    placeholder="ex: nº 123... sala 10... apto 123...">
+            <mat-form-field appearance="standard" style="width: 140px;margin-left: 10px;">
+                <mat-label>CPF</mat-label>
+                <input mask="000.000.000-00"
+                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                    formControlName="cpf" minlength="11" maxlength="14" selected matInput placeholder="digite o CPF">
             </mat-form-field>
 
             <br>
 
-            <mat-form-field appearance="standard" style="width: 200px;">
-                <mat-label>Cidade</mat-label>
-                <input disabled selected [value]="colaboradorForm.get('cidade').value" name="templateName" matInput
-                    placeholder="digite o bairro">
+            <mat-form-field style="width: 150px;" appearance="standard">
+                <mat-label>Celular</mat-label>
+                <input formControlName="celular" mask="(00) 00000-0000" matInput
+                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
             </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 40px; margin-left: 10px;">
-                <mat-label>UF</mat-label>
-                <input disabled selected [value]="colaboradorForm.get('uf').value" name="templateName" matInput
-                    placeholder="digite o bairro">
+            <mat-form-field appearance="standard" style="width: 200px;margin-left: 10px;">
+                <mat-label>Cargo/Função</mat-label>
+                <mat-select formControlName="cargoId" selected required>
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">{{cargo.value}}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
-                <mat-label>Bairro</mat-label>
-                <input selected formControlName="bairro" name="templateName" matInput placeholder="digite o bairro">
+            <mat-slide-toggle style="width: 15%; margin-left: 40px;" class="autoPagination-slide" #tooltip="matTooltip"
+                formControlName="ativo" name="ativo" required matTooltip="ativo/inativo" matTooltipPosition="above"
+                matTooltipHideDelay="250" color="primary" [required]="false">
+            </mat-slide-toggle>
+
+            <br>
+
+            <mat-form-field appearance="standard" style="width: 100px;">
+                <mat-label>CEP</mat-label>
+                <input mask="00.000-000"
+                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" #cep
+                    formControlName="cep" minlength="8" maxlength="10" required matInput placeholder="apenas números">
             </mat-form-field>
-        </div>
+            <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP"
+                matTooltipPosition="above" matTooltipHideDelay="100">
+                <button type="button" (click)="consultaCEP(cep.value)" style="margin: 0px; margin: 0px;"
+                    mat-icon-button>
+                    <mat-icon>search</mat-icon>
+                </button>
+            </i>
+
+            <br>
+
+            <div *ngIf="showEndereco" @rowHighlight>
+                <mat-form-field appearance="standard" style="width: 250px;">
+                    <mat-label>Logradouro</mat-label>
+                    <input selected formControlName="logradouro" oninput="this.value = this.value.toUpperCase()"
+                        name="templateName" matInput placeholder="ex: rua tal...">
+                </mat-form-field>
 
 
-        <div *ngIf="showMensagem" class="alert alert-danger" role="alert"
-            style="text-align: center; vertical-align: middle; position:relative; height: 45px; float:left;margin-bottom: 20px;">
-            {{mensagem}}
-        </div>
+                <mat-form-field appearance="standard" style="width: 80px;margin-left: 10px;">
+                    <mat-label>Nº</mat-label>
+                    <input formControlName="numero" oninput="this.value = this.value.toUpperCase()" selected
+                        name="templateName" matInput placeholder="ex: rua tal...">
+                </mat-form-field>
 
-        <div style="float: right;margin-top: 15px;">
-            <button color="primary" type="submit" [disabled]="disabledSaveButton" mat-raised-button
-             style="width: 100px; position: relative; float:right;margin-bottom: 10px;
-        margin-left: 10px;">
-                <mat-spinner *ngIf="disabledSpinner" [diameter]="33" style="margin-left: 18px;
-                
-        margin-top: 2px; position: absolute;">
-                </mat-spinner>
-                Salvar
-            </button>
-        </div>
 
-    </form>
-    <ng-template #showSpinner>
+                <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
+                    <mat-label>Complemento</mat-label>
+                    <input selected formControlName="complemento" oninput="this.value = this.value.toUpperCase()"
+                        name="templateName" matInput placeholder="ex: nº 123... sala 10... apto 123...">
+                </mat-form-field>
 
-        <!-- <mat-spinner @rowHighlight [diameter]="100" style="margin-left: 42.5%;
-    margin-top: 10%; 
-    position: absolute;">
-        </mat-spinner> -->
+                <br>
 
+                <mat-form-field appearance="standard" style="width: 200px;">
+                    <mat-label>Cidade</mat-label>
+                    <input disabled selected [value]="colaboradorForm.get('cidade').value" name="templateName" matInput
+                        placeholder="digite o bairro">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" style="width: 40px; margin-left: 10px;">
+                    <mat-label>UF</mat-label>
+                    <input disabled selected [value]="colaboradorForm.get('uf').value" name="templateName" matInput
+                        placeholder="digite o bairro">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
+                    <mat-label>Bairro</mat-label>
+                    <input selected formControlName="bairro" oninput="this.value = this.value.toUpperCase()"
+                        name="templateName" matInput placeholder="digite o bairro">
+                </mat-form-field>
+            </div>
+
+
+            <div *ngIf="showMensagem" class="alert alert-danger" role="alert"
+                style="text-align: left; vertical-align: middle; position:relative;  float:left;margin-bottom: 0px;
+                padding: 5px;">
+                <div *ngFor="let erro of msgErros; " style="font-size: 0.8em;">
+                    * {{ erro }}
+
+                </div>
+
+            </div>
+
+
+            <mat-progress-bar *ngIf="disabledSaveButton" @rowHighlight style="margin:0px" mode="query">
+            </mat-progress-bar>
+            <div style="float: right;margin-top: 15px;">
+
+                <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" style="width: 100px; position: relative; float:right;margin-bottom: 10px;
+                margin-left: 10px;">
+                    Salvar
+                </button>
+            </div>
+
+        </form>
+        <!-- <ng-template #showSpinner>
+        
         <spinner [SpinnerParam]="infoSpinner"></spinner>
-    </ng-template>
-</div>
-
+    </ng-template> -->
+    </div>
+</ng-template>

@@ -6,14 +6,13 @@
 // div{
 //     border: 1px solid red;
 // }
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 @include mat-core();
 
 $my-app-primary: mat-palette($mat-green);
-$my-app-accent:  mat-palette($mat-pink, 500, 900, A100);
+$my-app-accent: mat-palette($mat-pink, 500, 900, A100);
 
-
-$my-app-warn:    mat-palette($mat-deep-orange);
+$my-app-warn: mat-palette($mat-deep-orange);
 
 $my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
 
@@ -30,22 +29,31 @@ body {
     bottom: 30px;
     left: 0;
     right: 0;
-    background: url(./assets/img/background.jpeg) no-repeat center center fixed; 
-    //background-size:cover; //width:auto;
-   // background-image:url(../../assets/img/invictus1080.jpg); //no-repeat center center fixed;
+    background: url(./assets/img/background.jpeg) no-repeat center center fixed;
     background-position: right bottom 20px;
+    //background-size:cover; //width:auto;
+    // background-image:url(../../assets/img/invictus1080.jpg); //no-repeat center center fixed;
+
     //border: 1px solid red;
-    
-    }
+}
 
+// mat-dialog-container{
+//     margin:0px;
+//     padding:0px;
+//     background-color: rgb(227, 240, 227) !important;
+// }
 
-    // mat-dialog-container{
-    //     margin:0px;
-    //     padding:0px;
-    //     background-color: rgb(227, 240, 227) !important;
-    // }
+* {
+    font-family: "Glory", sans-serif;
+}
 
-    *{
-        font-family: 'Glory', sans-serif;
-    }
-    
+// ::ng-deep .mat-snack-bar-container{
+//     top: 50%!important;
+//     color: #155724 !important;
+//     background-color: #a6f0b7 !important;
+//     border-color:  #a6f0b7 !important;
+//   }
+//   ::ng-deep .mat-simple-snackbar-action {
+//     color: rgb(15, 15, 15);
+//   }
+

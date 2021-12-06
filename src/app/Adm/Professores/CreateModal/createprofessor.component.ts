@@ -71,7 +71,7 @@ export class CreateProfessorComponent implements OnInit {
         console.log(this.tokenInfo.Codigo);
         console.log(this.tokenInfo);       
     }
-
+    showForm = false
     // showForm = false
     cargos: Cargo[] = new Array<Cargo>()
     getCargos() {
@@ -87,15 +87,15 @@ export class CreateProfessorComponent implements OnInit {
                     // this.showForm = true
                 });
     }
+   
 
-    get disabledSaveButton() {
-
-        //let disabled = true
-        if (!this.colaboradorForm.valid) return true
-
-        if (this.disabledSpinner) return true
-
-        return false
+    disabledSaveButton = false
+    get disabledButton() {
+        if (this.colaboradorForm.valid) {
+            return this.disabledSaveButton
+        } else {
+            return true
+        }
     }
 
     onSubmit(form: FormGroup) {
@@ -112,7 +112,7 @@ export class CreateProfessorComponent implements OnInit {
            // const novoColaborador = JSON.stringify(form.value);
             //this.save(novoColaborador)
             // let newTemplate = this.mapForm(tempForm)
-
+this.disabledSaveButton = true
             this.http.post(`${this.baseUrl}/professor`, this.colaboradorForm.value, {})
                 .subscribe(response => {
 
@@ -126,12 +126,15 @@ export class CreateProfessorComponent implements OnInit {
                     console.log(err['error'].mensagem)
                     this.mensagem = err['error'].mensagem
                     this.showMensagem = true
+                    this.disabledSaveButton = true 
                 },
                     () => {
                         //console.log(response)
                         this.openSnackBar()
+                        
                         //this.showMensagem = false
                         this.dialogRef.close({ clicked: "Ok" });
+                        this.disabledSaveButton = true 
                     });
         }
     }

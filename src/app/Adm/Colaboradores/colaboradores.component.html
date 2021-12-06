@@ -1,7 +1,7 @@
 <div class="container" style="width: 95%; padding-top: 20px;">
 
     <div>
-        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="cadastrar colaborador" matTooltipPosition="above"
+        <i #tooltip="matTooltip" matTooltip="cadastrar colaborador" matTooltipPosition="above"
             matTooltipHideDelay="100">
             <button (click)="openCreateUserModal()" mat-icon-button>
                 <mat-icon>person_add_alt</mat-icon>
@@ -14,7 +14,7 @@
 
     <form [formGroup]="pesquisarForm" (ngSubmit)="onSubmit()" class="form-inline siteForm" style="margin-top: 5px;display: inline-block">
 
-        <span color="primary" style="margin-left: 10px;font-size: 0.9em;font-style: italic;">Digite ao menos um dos
+        <span color="primary" style="font-size: 0.9em;font-style: italic;">Digite ao menos um dos
             campos para
             pesquisar pelo colaborador:
         </span>
@@ -65,10 +65,11 @@
         top: 46.5%; 
         position: absolute;">
     </mat-spinner> -->
+    <mat-progress-bar style="margin-top: 20px;" *ngIf="spinnerSearch" @rowHighlight style="margin:0px" mode="query"></mat-progress-bar>
     
     <div @rowHighlight *ngIf="colaboradores.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
             position: relative;
-            margin-top: 50px;
+            margin-top: 20px;
             box-shadow: 0 0 1em rgb(172, 170, 170);
             background-color: rgb(227, 240, 227);">
 

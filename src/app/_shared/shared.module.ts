@@ -31,7 +31,8 @@ import { CPFPipe } from './pipes/cpfPipe';
 import { SpinnerComponent } from './components/spinner.component';
 import { SafePipe } from './pipes/safe.pipe';
 import { ConfirmModalComponent } from './components/ConfirmModal/confirm-modal.component';
-
+import { HelpersService } from './components/helpers/helpers.component';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 
 
@@ -43,8 +44,8 @@ import { ConfirmModalComponent } from './components/ConfirmModal/confirm-modal.c
     MaterialModule,
     RouterModule,
     //routing,
-    BrowserModule
-
+    BrowserModule,
+    AlertModule.forRoot()
     //TemplateModule,
     // No need to export as these modules don't expose any components/directive etc'
     //HttpClientModule,
@@ -78,6 +79,7 @@ import { ConfirmModalComponent } from './components/ConfirmModal/confirm-modal.c
   ],
   //providers: [AuthGuard],
   providers: [
+    HelpersService,
     // UnsavedGuard
     //   DataService,
     {

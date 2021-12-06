@@ -25,7 +25,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/adm/config', title: 'Configurações', class: '', typeIcon: 'settings' },
     { path: '/adm/modulo', title: 'Pacotes', class: '', typeIcon: 'school' },
     { path: '/adm/planopgm', title: 'Planos', class: '', typeIcon: 'request_quote' },
-    { path: '/adm/contrato', title: 'Contratos', class: '', typeIcon: 'gavel' }
+    { path: '/adm/contrato', title: 'Contratos', class: '', typeIcon: 'gavel' },
    // { path: '/adm/teste', title: 'TESTE', class: '', typeIcon: 'fact_check' },
 ]
 

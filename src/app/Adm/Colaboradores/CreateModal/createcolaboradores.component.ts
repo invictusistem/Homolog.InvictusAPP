@@ -10,12 +10,8 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Cargo } from "../../Adm-Models/cargos.model";
 import { SpinnerParams } from "src/app/_shared/models/spinner.model";
-
-
-
-//import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 
 @Component({
     selector: 'createcolaboradoresrmodal',
@@ -26,15 +22,16 @@ import { SpinnerParams } from "src/app/_shared/models/spinner.model";
 
 export class CreateColaboradoresComponent implements OnInit {
 
-    // pageSize: number = 5;
-    // genericTasks: GenericTask[] = new Array<GenericTask>();
-    // length: number;
-    // pageEvent: PageEvent;
-    infoSpinner: SpinnerParams= {
-        diameter: 100,
-        marginleft: 42.5,
-        margintop: 10
-    }
+    // infoSpinner: SpinnerParams = {
+    //     diameter: 100,
+    //     marginleft: 42.5,
+    //     margintop: 10
+    // }
+
+    //spinners
+    mostrarModalPrincipal = true
+
+
     baseUrl = environment.baseUrl;
     public cepReturn: CepReturn = new CepReturn();
     public colaboradorForm: FormGroup;
@@ -43,22 +40,19 @@ export class CreateColaboradoresComponent implements OnInit {
     public validadeEmailMsg = false
     public validadeCPFMsg = false
     public disabledSpinner = false
-    //cargos = Cargos;
+    showForm = false
+    cargos: any[] = new Array<any>()
     mensagem = "";
     showMensagem = false
-    //public bairro: string = null;
-    //@Input() disabled = true;
-    unidades = Unidades;//: string[] = new Array("Campo Grande II", "Jacarepaguá");
-    constructor(
+    msgErros: any
 
-        //private service: AdmService,
+    constructor(
         private _snackBar: MatSnackBar,
-        private router: Router,
+        private _helper: HelpersService,
         private _fb: FormBuilder,
         private http: HttpClient,
         public dialogRef: MatDialogRef<CreateColaboradoresComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-
 
         this.colaboradorForm = _fb.group({
             nome: ['', [Validators.required, Validators.minLength(5)]],
@@ -78,17 +72,15 @@ export class CreateColaboradoresComponent implements OnInit {
         })
     }
 
+   
+
     ngOnInit() {
-        
+
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-
         this.getCargos();
-
     }
 
-    showForm = false
-    cargos: any[] = new Array<any>()
     getCargos() {
 
         this.http.get(`${this.baseUrl}/parametro/value/Cargo`)
@@ -99,250 +91,102 @@ export class CreateColaboradoresComponent implements OnInit {
             },
                 () => {
                     console.log(this.cargos)
+                    this.mostrarModalPrincipal = false
                     this.showForm = true
+
                 });
-    }
-
-    //     ngOnChanges() {
-    //         logradouro
-    // cidade
-    // uf
-    // bairro
-
-    //     }
-
-    // save(form: any) {
-    //     //const novoColaborador = JSON.stringify(form.value);
-    //     console.log(form)
-
-    //     //this.redi(["./adm/colaboradores"]);
-    //     this.http.post(`${this.baseUrl}/colaboradores`, form, {
-    //         //this.http.post("http://api.invictustemp.com.thor.hostazul.com.br/api/identity/login", credentials, {
-
-    //         headers: new HttpHeaders({
-    //             "Content-Type": "application/json",
-    //             "Authorization": "Bear "
-    //         })
-    //     }).subscribe(response => {
-
-    //         console.log(response)
-
-
-    //         this.dialogRef.close();
-    //     }, err => { },
-    //         () => { });
-    // }
-
-    get disabledSaveButton() {
-
-        //let disabled = true
-        if (!this.colaboradorForm.valid) return true
-
-        if (this.disabledSpinner) return true
-
-        return false
     }
 
     onSubmit(form: FormGroup) {
         this.showMensagem = false
-        console.log(form)
-        console.log(form.value)
-        console.log(form.valid)
-        //var cel = `${form['celular'].value}`
-        //console.log(cel)
-        // this.dialogRef.close();
+
         if (this.colaboradorForm.valid) {
             this.disabledSpinner = true
-            // console.log('form valid')
-            //const novoColaborador = JSON.stringify(form.value);
-            //this.save(novoColaborador)
-            // let newTemplate = this.mapForm(tempForm)
 
+            this.disabledSaveButton = true
             this.http.post(`${this.baseUrl}/colaboradores`, this.colaboradorForm.value, {
             }).subscribe(response => {
             }, (err) => {
-                console.log(err)
-                console.log(err['error'].mensagem)
-                this.mensagem = err['error'].mensagem
+                if (err['status'] == 409) {
+
+                }
+                console.log(err['error'].msg)
+                this.msgErros = err['error'].msg
                 this.showMensagem = true
+                this.disabledSaveButton = false
+                this.disabledSaveButton = false
             },
                 () => {
-                    //console.log(response)
-                    this.openSnackBar()
-                    //this.showMensagem = false
+
+                    this._helper.openSnackBar('Colaborador salvo com sucesso')
+                   // this._helper.CloseModalWithOK();
                     this.dialogRef.close({ clicked: "Ok" });
+                    this.disabledSaveButton = false
                 });
         }
     }
 
-    openSnackBar() {
-        this._snackBar.open('Colaborador salvo com sucesso.', '', {
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: 'green-snackbar',
-            duration: 3 * 1000,
-        });
-    }
+    // openSnackBar() {
+    //     this._snackBar.open('Colaborador salvo com sucesso.', '', {
+    //         horizontalPosition: 'center',
+    //         verticalPosition: 'top',
+    //         panelClass: 'green-snackbar',
+    //         duration: 3 * 1000,
+    //     });
+    // }
 
-    buscarEmail(event: any) {
-        if (this.colaboradorForm.get('email').valid) {
-            this.validadeEmailMsg = false
-            this.http.get(`${this.baseUrl}/adm/aluno/email/${event.target.value}`, {
-                headers: new HttpHeaders({
-                    "Content-Type": "application/json",
-                    "Authorization": "Bear "
-                })
-            }).subscribe(response => {
 
-            }, (err) => {
-                if (err['status'] == 409) {
-                    this.validadeEmailMsg = true
-                    this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
-                }
-            },
-                () => {
-                    this.colaboradorForm.get('email').setErrors(null);
-                });
-
-            //this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
-
-        }
-    }
-
-    buscarCPF(event: any) {
-        // console.log(event.target.value)
-        console.log(this.colaboradorForm.get('cpf').value)
-        console.log(this.colaboradorForm.get('cpf').valid)
-        console.log(this.colaboradorForm.get('cpf').value.length)
-        if (this.colaboradorForm.get('cpf').valid) {
-            this.validadeCPFMsg = false
-            let cpf = this.colaboradorForm.get('cpf').value
-            //this.http.get(`${this.baseUrl}/adm/aluno/cpf/${event.target.value}`, {
-            this.http.get(`${this.baseUrl}/adm/aluno/cpf/${cpf}`, {
-                headers: new HttpHeaders({
-                    "Content-Type": "application/json",
-                    "Authorization": "Bear "
-                })
-            }).subscribe(response => {
-
-            }, (err) => {
-                if (err['status'] == 409) {
-                    this.validadeCPFMsg = true
-                    this.colaboradorForm.get('cpf').setErrors({ 'incorrect': true });
-                }
-            },
-                () => {
-                    this.colaboradorForm.get('cpf').setErrors(null);
-                });
-
-            //this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
-
-        }
-    }
-    // https://viacep.com.br/ws/01001000/json/
     showEndereco = false
     consultaCEP(CEP: string) {
         console.log(CEP);
+        if (CEP.length == 10) {
 
-        this.http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
-            .subscribe(response => {
 
-                console.log(response)
-                // this.cepReturn = new CepReturn(
-                //     response["logradouro"],
-                //     response["bairro"],
-                //     response["localidade"],
-                //     response["uf"]);
-                //console.log(this.cepReturn)
-                this.colaboradorForm.get('logradouro').setValue(response["logradouro"]);
-                this.colaboradorForm.get('bairro').setValue(response["bairro"]);
-                this.colaboradorForm.get('cidade').setValue(response["localidade"]);
-                this.colaboradorForm.get('uf').setValue(response["uf"]);
-                //this.bairro = this.cepReturn.bairro
-                // const token = (<any>response).accessToken;
-                // console.log(response)
-                // localStorage.setItem("jwt", token);
-                // this.invalidLogin = false;
-                // this.router.navigate(["/main"]);
-            }, err => { console.log(err) },
-                () => {
-                    console.log('finaly')
-                    this.showEndereco = true
-                });
+            //var mystring = "crt/r2002_2";
+            CEP = CEP.replace('-', '');
+            CEP = CEP.replace('.', '');
+            console.log(CEP);
+            this.http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
+                .subscribe(response => {
+
+                    //  console.log(response)
+                    // this.cepReturn = new CepReturn(
+                    //     response["logradouro"],
+                    //     response["bairro"],
+                    //     response["localidade"],
+                    //     response["uf"]);
+                    //console.log(this.cepReturn)
+                    this.colaboradorForm.get('logradouro').setValue(response["logradouro"].toUpperCase());
+                    this.colaboradorForm.get('bairro').setValue(response["bairro"].toUpperCase());
+                    this.colaboradorForm.get('cidade').setValue(response["localidade"].toUpperCase());
+                    this.colaboradorForm.get('uf').setValue(response["uf"].toUpperCase());
+                    //this.bairro = this.cepReturn.bairro
+                    // const token = (<any>response).accessToken;
+                    // console.log(response)
+                    // localStorage.setItem("jwt", token);
+                    // this.invalidLogin = false;
+                    // this.router.navigate(["/main"]);
+                }, err => { console.log(err) },
+                    () => {
+                        //  console.log('finaly')
+                        this.showEndereco = true
+                    });
+        }
     }
 
     onOkClick() {
         //console.log("I do nothing");
         this.dialogRef.close({ clicked: "Ok" });
     }
-    // login(form: NgForm) {
-    //     const credentials = JSON.stringify(form.value);
-    //     console.log(credentials)
-    //     this.http.post("https://localhost:44370/api/identity/login", credentials, {
-    //     //this.http.post("http://api.invictustemp.com.thor.hostazul.com.br/api/identity/login", credentials, {
 
-    //         headers: new HttpHeaders({
-    //             "Content-Type": "application/json"
-    //         })
-    //     }).subscribe(response => {
-    //         const token = (<any>response).accessToken;
-    //         console.log(response)
-    //         localStorage.setItem("jwt", token);
-    //         this.invalidLogin = false;
-    //         this.router.navigate(["/main"]);
-    //     }, err => {
-    //         this.invalidLogin = true;
-    //     });
-    // }
-    // getTasks(actualPage: number, pageSize: number) {
-    //     this.service.getTasks(actualPage, pageSize)
-    //         .subscribe(
-    //             tasks => {
-    //                 console.log(tasks)
-    //                 this.genericTasks =  Object.assign([],tasks["data"]);
-    //                 this.length = tasks["totalItemsInDatabase"];
-
-    //             },
-    //             (err) => {
-    //                 console.log("err erro")
+    disabledSaveButton = false
+    get disabledButton() {
+        if (this.colaboradorForm.valid) {
+            return this.disabledSaveButton
+        } else {
+            return true
+        }
+    }
 
 
-    //             },
-    //             () => { console.log('ok get') },
-    //         )
-
-    // }
-
-    // addNewItem(value: string) {
-    //     console.log(value)
-    //     this.newItemEvent.emit(value);
-    // }
-
-    // adicionar(taskAded: GenericTask) {
-    //     console.log(taskAded)
-    //     let templateTask:TemplateTasks = new TemplateTasks()
-    //     templateTask.genericTaskId = taskAded.id
-    //     templateTask.name = taskAded.name
-    //     templateTask.hour = taskAded.hour
-    //     templateTask.minute = taskAded.minute
-    //     console.log(templateTask)
-
-    //     this.data.templateTasks.push(templateTask)
-
-    //     console.log(this.data.templateTasks)
-    //     console.log('adicionar task')
-    // }
-
-
-    // //mat-dialog-container
-    // onNoClick(): void {
-    //     this.dialogRef.close();
-    // }
-    // pageIndexNumber: number = 0;
-    // clicar(evento: any) {
-    //     console.log(evento)
-
-    //     this.pageIndexNumber = (evento.pageIndex * this.pageSize)
-    //     this.getTasks(evento.pageIndex + 1, this.pageSize);
-    // }
 }

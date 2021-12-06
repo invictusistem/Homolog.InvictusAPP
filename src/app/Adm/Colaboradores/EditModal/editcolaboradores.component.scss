@@ -3,18 +3,23 @@ mat-dialog-container{
     padding:0px;
 }
 
-::ng-deep .mat-snack-bar-container{
-    top: 50%!important;
-    color: #155724 !important;
-    background-color: #a6f0b7 !important;
-    border-color:  #a6f0b7 !important;
-  }
-  ::ng-deep .mat-simple-snackbar-action {
-    color: rgb(15, 15, 15);
-  }
+// ::ng-deep .mat-snack-bar-container, .green-snackbar{
+//     top: 50%!important;
+//     color: #155724 !important;
+//     background-color: #a6f0b7 !important;
+//     border-color:  #a6f0b7 !important;
+//   }
+//   ::ng-deep .mat-simple-snackbar-action {
+//     color: rgb(15, 15, 15);
+//   }
 
   ::ng-deep .mat-form-field {
     //transform: scale(0.85) !important ;
     //padding: 0px !important;
     font-size: 0.9em; 
   }
+
+
+  // ::ng-deep .green-snackbar{
+  //   background: #e45941;
+  // }

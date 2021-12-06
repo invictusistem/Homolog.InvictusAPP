@@ -234,11 +234,13 @@ export class ProfessoresComponent {
 
     }
 
-    openProfMateriasModal():void{
+    openProfMateriasModal(prof):void{
         const dialogRef = this.CreateColaboradoresModal
             .open(ProfMateriasComponent, {
-                minHeight: '420px',
-                width: '680px',
+                //minHeight: '520px',
+                width: '880px',
+              //  panelClass: 'my-class',
+                data: { prof: prof },
                 hasBackdrop: true,
                 disableClose: true
             });

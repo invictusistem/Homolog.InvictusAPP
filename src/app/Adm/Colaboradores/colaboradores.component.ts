@@ -39,7 +39,7 @@ export class ColaboradoresComponent implements OnInit {
 
 
 
-
+    spinnerSearch = false
     formSubmitted: boolean = false;
     showTable: boolean = false;
     showSpinner = false
@@ -119,6 +119,7 @@ export class ColaboradoresComponent implements OnInit {
         var formJson = JSON.stringify(this.pesquisarForm.value)
         this.showSpinner = true
         if (this.pesquisarForm.valid) {
+            this.spinnerSearch = true
             this.http.get(`${this.baseUrl}/colaboradores/pesquisar/?itemsPerPage=` + this.pageSize + `&currentPage=1&paramsJson=${formJson}`)
                 .subscribe(
                     (response) => {
@@ -138,6 +139,7 @@ export class ColaboradoresComponent implements OnInit {
                     (err) => {
                         this.showSpinnerFirst = false
                         this.showSpinner = false
+                        this.spinnerSearch = false
                         // console.log(err)
                         //this.openSnackBar(err)
 
@@ -146,6 +148,7 @@ export class ColaboradoresComponent implements OnInit {
                       //  this.showMessageNoColaborador = false
                         this.showSpinnerFirst = false
                         this.showSpinner = false
+                        this.spinnerSearch = false
                         //  console.log('ok get');
 
                         //this.pageIndexNumber = (evento.pageIndex * this.pageSize)
@@ -306,7 +309,7 @@ export class ColaboradoresComponent implements OnInit {
     openCreateUserModal(): void {
         const dialogRef = this.CreateColaboradoresModal
             .open(CreateColaboradoresComponent, {
-                minHeight: '420px',
+               // minHeight: '420px',
                 width: '680px',
 
                 //data: { Hello: "Hello World" },

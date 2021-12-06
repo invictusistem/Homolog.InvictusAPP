@@ -69,6 +69,7 @@ import { ProdutoDoacaoComponent } from './Produtos/produto-doacao/produto-doacao
 import { ProfMateriasComponent } from './Professores/Materias/prof-materias.component';
 import { DocTemplateComponent } from './configuracoes/Doc-create/doctemplate.component';
 import { MateriaTemplateComponent } from './configuracoes/Mat-create/mat-create.component';
+import { AddDispoComponent } from './Professores/Materias/AddDisponibilidade/add-dispo.component';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -110,6 +111,7 @@ export function tokenGetter() {
         ProdutoEditComponent,
         CreateSalaComponent,
         ModuloComponent,
+        AddDispoComponent,
         //AddSalaComponent,
         ModuloCreateComponent,
        // PacoteCreateComponent,
@@ -196,7 +198,8 @@ export function tokenGetter() {
         ProdutoDoacaoComponent,
         ProfMateriasComponent,
         DocTemplateComponent,
-        MateriaTemplateComponent
+        MateriaTemplateComponent,
+        AddDispoComponent
         //AddSalaComponent
     ]
 })
