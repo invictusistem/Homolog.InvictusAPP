@@ -15,7 +15,7 @@ import { ProfResponse } from "../CreateModal/createcurso.component";
 export class AddPMateriaModalComponent implements OnInit {
 
     private baseUrl = environment.baseUrl
-    materias: Materias[] = new Array<Materias>();
+    materias: any[] = new Array<any>();// Materias[] = new Array<Materias>();
 
     constructor(
         private _http: HttpClient,
@@ -34,40 +34,25 @@ export class AddPMateriaModalComponent implements OnInit {
     getMateria() {
 
         //this.http.get(`${this.baseUrl}/colaboradores/professores/?unidade=Campo Grande&itemsPerPage=${itemsPerPage}&currentPage=${currentPage}`)
-        this._http.get(`${this.baseUrl}/turmas/materias/${this.data['turmaId']}/${this.data['professor'].id}`)
+        this._http.get(`${this.baseUrl}/pedag/turma/materias/${this.data['turmaId']}/${this.data['professor'].id}`)
             .subscribe(
                 (result) => {
 
-                    console.log(result)
-
-                    //this.profResp = Object.assign([], result)
-                    this.materias = Object.assign([], result)
-                    // this.profResp.forEach(element => {
-                    //     element.checked = false
-                    // });
-
-                    //this.showProflist = true
-                    //this.profResp = result['data']
-                    //this.professores = result['data']
+                    console.log(result['matsView'])
+                    this.materias = Object.assign([], result['matsView'])
+                  
                     console.log(this.materias)
-                    //  this.profResp.length > 0 ? this.showProflist = true :
-                    //  this.showProflist = false
+                  
 
                 },
                 (error) => { console.log(error) },
                 () => {
-                    this.materias.forEach(element => {
-                        console.log(element.profId)
-                        // if(element.profId == 0){
-                        //     element.temProfessor = false
-                        // }else{
-                        //     element.temProfessor = true
-                        // }
+                    // this.materias.forEach(element => {
+                    //     console.log(element.profId)
                         
-                        
-                    });
+                    // });
 
-                    //this.showProflist = true
+                    
                 }
             )
     }
@@ -80,18 +65,18 @@ export class AddPMateriaModalComponent implements OnInit {
         console.log(this.listProfId)
         console.log(this.data['turmaId'])
         console.log(this.data['professor'])
-        this.materias.forEach(element => {
-            console.log(element.temProfessor)
-            if(element.temProfessor){
-                element.profId = this.data['professor'].id
-            }else{
-                element.profId = 0
-            }
-        });
+        // this.materias.forEach(element => {
+        //     console.log(element.temProfessor)
+        //     if(element.temProfessor){
+        //         element.profId = this.data['professor'].id
+        //     }else{
+        //         element.profId = 0
+        //     }
+        // });
 
         console.log(this.materias)
 
-        this._http.put(`${this.baseUrl}/turmas/materias/${this.data['turmaId']}/${this.data['professor'].id}`, this.materias,{
+        this._http.put(`${this.baseUrl}/pedag/turma/materias/${this.data['turmaId']}/${this.data['professor'].id}`, this.materias,{
 
         })
         .subscribe(
@@ -117,7 +102,7 @@ export class AddPMateriaModalComponent implements OnInit {
         //console.log(profId)
         console.log(event.checked)
         console.log(this.materias)
-        console.log(this.data['professor'])
+       // console.log(this.data['professor'])
         // if (event.checked) {
         //     this.listProfId.push(profId)
         // } else {

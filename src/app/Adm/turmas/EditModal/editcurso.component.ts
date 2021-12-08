@@ -12,6 +12,9 @@ import { AddProfessorModalComponent } from "../ModalAddProf/addprof.component";
 import { TurmaViewModel } from "src/app/_shared/models/Turma.model";
 import { Aluno } from "src/app/_shared/models/aluno.model";
 import { AddPMateriaModalComponent } from "../ModalAddMateria/addmateria.component";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
+import { ConfirmModalComponent } from "src/app/_shared/components/ConfirmModal/confirm-modal.component";
+
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Component({
@@ -41,11 +44,11 @@ export class EditCursoComponent implements OnInit {
     pageSize = 5;
     selectedPage = 1
     mensagemSemProfessores = false
-    
+    mostrarModalPrincipal = true
 
     constructor(
         private _http: HttpClient,
-        //private service: AdmService,
+        private _helper: HelpersService,
         public dialog: MatDialog,
         public dialogRef: MatDialogRef<EditCursoComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -57,41 +60,44 @@ export class EditCursoComponent implements OnInit {
         this.ativo = true;
         console.log(this.data['turma'])
 
-       // this.getAlunosDaTurma(this.data['turma'].id)
+        // this.getAlunosDaTurma(this.data['turma'].id)
         //this.getCursoById(this.data['turma'].id)
         //this.getProfessores(this.data['turma'].id)
-       
-       this.GetInformacoesDaTurma(this.data['turma'].id);
+
+        this.GetInformacoesDaTurma(this.data['turma'].id);
     }
 
-    GetInformacoesDaTurma(turmaId){
+    GetInformacoesDaTurma(turmaId) {
 
         this._http.get(`${this.BaseUrl}/turma/info/${turmaId}`)
-        .subscribe(
-            (response) => {
-                // console.log(response)
-                // this.professores = new Array<Professor>();
-                // Object.assign(this.professores, response)
-                this.alunos = response['alunos']
+            .subscribe(
+                (response) => {
+                    // console.log(response)
+                    // this.professores = new Array<Professor>();
+                    // Object.assign(this.professores, response)
+                    this.alunos = response['alunos']
+                     this.professores = response['professores']
 
-            },
-            (error) => { 
-                console.log(error)
-            },
-            () => {
-                // console.log(this.professores)
-                // this.length = this.professores.length
-                // console.log(this.length)
-                
-                // if(this.length == 0){
-                //     this.mensagemSemProfessores = true
-                // }else{
-                //     this.mensagemSemProfessores = false
-                // }
+                },
+                (error) => {
+                    console.log(error)
+                },
+                () => {
+                    this.disabledDeletProf = false
+                    this.mostrarModalPrincipal = false
+                    // console.log(this.professores)
+                    // this.length = this.professores.length
+                    // console.log(this.length)
 
-                // console.log(this.length)
-            }
-        )
+                    // if(this.length == 0){
+                    //     this.mensagemSemProfessores = true
+                    // }else{
+                    //     this.mensagemSemProfessores = false
+                    // }
+
+                    // console.log(this.length)
+                }
+            )
     }
 
     get professoresSlice(): Professor[] {
@@ -101,12 +107,12 @@ export class EditCursoComponent implements OnInit {
     }
 
     changePage(evento: any) {
-         console.log(evento["pageIndex"])
-         this.selectedPage = evento["pageIndex"] + 1//newPage;
+        console.log(evento["pageIndex"])
+        this.selectedPage = evento["pageIndex"] + 1//newPage;
         //             console.log('ok get');
         //             this.showSpinner = false
         //             this.pageIndexNumber = (evento.pageIndex * this.pageSize)
-       
+
     }
 
 
@@ -138,17 +144,17 @@ export class EditCursoComponent implements OnInit {
                     Object.assign(this.professores, response)
 
                 },
-                (error) => { 
+                (error) => {
                     console.log(error)
                 },
                 () => {
                     console.log(this.professores)
                     this.length = this.professores.length
                     console.log(this.length)
-                    
-                    if(this.length == 0){
+
+                    if (this.length == 0) {
                         this.mensagemSemProfessores = true
-                    }else{
+                    } else {
                         this.mensagemSemProfessores = false
                     }
 
@@ -157,40 +163,58 @@ export class EditCursoComponent implements OnInit {
             )
     }
 
-    get vagasMatriculados(){
+    get vagasMatriculados() {
 
         return `${this.data['turma'].vagas}/${this.data['turma'].totalAlunos}`
     }
 
-    get duracaomsg(){
+    get duracaomsg() {
 
         return `Turma iniciada em ${new Date(this.data['turma'].previsaoAtual).toLocaleString('pt-BR', {
             day: 'numeric', // numeric, 2-digit
             year: 'numeric', // numeric, 2-digit
-            month: 'numeric'})} com previsão de término em ${new Date(this.data['turma'].previsaoTerminoAtual).toLocaleString('pt-BR', {
-                day: 'numeric', // numeric, 2-digit
-                year: 'numeric', // numeric, 2-digit
-                month: 'numeric'})}`
+            month: 'numeric'
+        })} com previsão de término em ${new Date(this.data['turma'].previsaoTerminoAtual).toLocaleString('pt-BR', {
+            day: 'numeric', // numeric, 2-digit
+            year: 'numeric', // numeric, 2-digit
+            month: 'numeric'
+        })}`
     }
 
     excluirProfessorDaTurma(profId) {
 
-        // ("excluir/{profId}/{turmaId}")]
-        this._http.delete(`${this.BaseUrl}/turmas/excluir/${profId}/${this.data['turma'].id}`)
-            .subscribe(
-                result => { },
-                (error) => { },
-                () => {
+        
 
-                    // let index = this.professores.indexOf(profId);
-                    // this.professores.splice(index, 1)
-                    this.getProfessores(this.data['turma'].id)
-                }
-            )
-
-
+        
     }
-    
+
+    disabledDeletProf = false
+    confirmModal(prof?: any): void {
+        const dialogRef = this.dialog
+            .open(ConfirmModalComponent, {
+                height: 'auto',
+                width: '400px',
+
+                data: { msg: "Confirmar exclusão do professor da turma?", 
+                url:`${this.BaseUrl}/pedag/turma/professor/${prof.id}/${this.data['turma'].id}` },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+        dialogRef.afterClosed().subscribe((data) => {
+            console.log(data)
+            if (data.clicked == true) {
+                this.disabledDeletProf = true
+                this._helper.openSnackBar('Professor excluído com sucesso')
+                //let profIndex = this.professores.findIndex(prof)
+                //this.professores.splice(profIndex, 1)
+                this.GetInformacoesDaTurma(this.data['turma'].id);
+               
+
+            } 
+        });
+    }
+
 
     getCursoById(id) {
         console.log(id)
@@ -267,7 +291,7 @@ export class EditCursoComponent implements OnInit {
                     Object.assign(this.alunos, response)
 
                 },
-                (error) => {console.log(error) },
+                (error) => { console.log(error) },
                 () => {
                     console.log(this.alunos)
 
@@ -324,7 +348,7 @@ export class EditCursoComponent implements OnInit {
             console.log(result);
             if (result["clicked"] == "OK") {
                 console.log(result["profsIds"])
-                this.saveProfs(result["profsIds"])
+                //this.saveProfs(result["profsIds"])
 
 
             }
@@ -341,8 +365,8 @@ export class EditCursoComponent implements OnInit {
         var saveProfs: SaveProfsCommand = new SaveProfsCommand();
         saveProfs.turmaId = this.data['turma'].id
         saveProfs.listProfsIds = profIds
-
-        this._http.post(`${this.BaseUrl}/turmas/professores`, saveProfs, {
+        console.log(saveProfs)
+        this._http.post(`${this.BaseUrl}/pedag/turma/professores`, saveProfs, {
 
         })
             .subscribe(
@@ -352,10 +376,10 @@ export class EditCursoComponent implements OnInit {
                     //
 
                 },
-                (error) => { },
+                (error) => { console.log(error) },
                 () => {
 
-                    this.getProfessores(this.data['turma'].id)
+                    this.GetInformacoesDaTurma(this.data['turma'].id);
                     //console.log(this.alunos)
 
                 }

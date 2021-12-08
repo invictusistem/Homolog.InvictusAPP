@@ -35,8 +35,12 @@ export class HelpersService {
         });
     }
 
+    public OpenConfirmModal(){
 
-    public CloseModalWithOK<TDialogRef>() {
+        return 'alou'
+    }
+
+    private CloseModalWithOK<TDialogRef>() {
         this.modal as MatDialogRef<TDialogRef>
         this.modal.close({ clicked: "Ok" });
     }

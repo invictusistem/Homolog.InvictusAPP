@@ -12,6 +12,7 @@ import { environment } from "src/environments/environment";
 import { Cargos, Unidades } from "src/app/_shared/models/perfil.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Component({
@@ -42,6 +43,7 @@ export class EditProfessorComponent implements OnInit {
     ativo = true;
     constructor(
         private _snackBar: MatSnackBar,
+        private _helper: HelpersService,
         private http: HttpClient,
         public dialogRef: MatDialogRef<EditProfessorComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -88,7 +90,8 @@ export class EditProfessorComponent implements OnInit {
                     //console.log(response)
                 }, err => { console.log(err) },
                     () => {
-                        this.openSnackBar()
+                        //this.openSnackBar()
+                        this._helper.openSnackBar('Professor editado com sucesso!')
                         this.dialogRef.close();
 
                     });
@@ -96,28 +99,28 @@ export class EditProfessorComponent implements OnInit {
     }
 
     disabledSpinner = false
-    edit(form: any) {
-        //const novoColaborador = JSON.stringify(form.value);
-        console.log(form.valid)
-        if (form.valid) {
+    // edit(form: any) {
+    //     //const novoColaborador = JSON.stringify(form.value);
+    //     console.log(form.valid)
+    //     if (form.valid) {
 
-            //this.redi(["./adm/colaboradores"]);
-            this.http.put(`${this.baseUrl}/professor`, this.editedColaborador, {})
-                .subscribe(response => {
-                    console.log(response)
-                }, err => { console.log(err) },
-                    () => {
-                        this.openSnackBar()
-                        this.dialogRef.close();
+    //         //this.redi(["./adm/colaboradores"]);
+    //         this.http.put(`${this.baseUrl}/professor`, this.editedColaborador, {})
+    //             .subscribe(response => {
+    //                 console.log(response)
+    //             }, err => { console.log(err) },
+    //                 () => {
+    //                     this.openSnackBar()
+    //                     this.dialogRef.close();
 
-                    });
-        }
-    }
+    //                 });
+    //     }
+    // }
     
 
-    openSnackBar() {
-        this.openSnackBar()
-    }
+    // openSnackBar() {
+    //     this.openSnackBar()
+    // }
 
     isEqual = true
     get formIsValid() {

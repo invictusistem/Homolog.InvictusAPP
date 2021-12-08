@@ -35,6 +35,7 @@ export class SpinnerComponent implements OnInit {
             "position": `absolute`,
         };
     }
+    
 
 }
 

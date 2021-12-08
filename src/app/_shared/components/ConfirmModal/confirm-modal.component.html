@@ -2,7 +2,7 @@
 
     <div class="row" style="margin-bottom: 10px;">
       
-        <div style="font-size: 1.2em;">Deseja realmente deletar o arquivo?</div>
+        <div style="font-size: 1.2em;">{{msg}}</div>
        
   
         <!-- <div >
@@ -11,7 +11,18 @@
   
     </div>
     <div class="row" style="">
-        <button style="width: 30px;" [mat-dialog-close]="{clicked:'sim'}" mat-button>SIM</button>
-        <button style="width: 30px;" [mat-dialog-close]="{clicked:'cancel'}" mat-button>NÃO</button>
+        <mat-progress-bar *ngIf="disabledSaveButton" @rowHighlight  style="margin:0px"  mode="query"></mat-progress-bar>
+        <!-- <div style="float: right;margin-top: 15px;">
+            
+            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" style="width: 100px; position: relative; float:right;margin-bottom: 10px;
+                margin-left: 10px;">
+                Salvar
+            </button>
+
+          
+        </div> -->
+
+        <button type="button" mat-raised-button color="primary" style="width: 30px;" (click)="confirmar()" color="primary" [disabled]="disabledSaveButton" >SIM</button>
+        <button type="button" mat-raised-button color="warn" style="width: 30px;margin-left: 10px;" (click)="cancelar()" [disabled]="disabledSaveButton">NÃO</button>
     </div>
   </div>

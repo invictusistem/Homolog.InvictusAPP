@@ -10,6 +10,7 @@
     
 </div>
 
+
 <!-- <div style="font-size: 0.8em;margin-top: 5px;">* O colaborador será salvo na unidade de {{tokenInfo.Unidade}}</div> -->
 <hr>
 <div style="padding-bottom: 20px;">
@@ -229,7 +230,7 @@
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
                                     matTooltip="adicionar professor" matTooltipPosition="above"
                                     matTooltipHideDelay="100">
-                                    <button (click)="openAddProfModal()" disabled style="margin: 0px;" mat-icon-button>
+                                    <button (click)="openAddProfModal()" style="margin: 0px;" mat-icon-button>
                                         <mat-icon>person_add</mat-icon>
                                     </button>
                                 </i>
@@ -238,7 +239,7 @@
                     </thead>
                     <tbody>
 
-                        <tr *ngFor="let profs of professoresSlice; let i = index;">
+                        <tr *ngFor="let profs of professores; let i = index;">
                             <td style="font-size:0.9em;text-align:center;vertical-align: middle;">{{i + 1}}</td>
 
                             <td style="font-size:0.9em;text-align:left;vertical-align: middle;">{{profs.nome}}
@@ -263,7 +264,7 @@
                             <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
                                 <div *ngIf="profs.materias.length  > 0">
                                     <div *ngFor="let mat of profs.materias">
-                                        {{mat.descricao || '-'}}
+                                        {{mat.nome || '-'}}
                                     </div>
                                 </div>
                                 <!-- Anatomia e Fisiologia<br>Fundamentos de Enfermagem<br>
@@ -300,7 +301,9 @@
 
                                 <i style="float: right;margin-left: 0px; margin: 0px;" #tooltip="matTooltip"
                                     matTooltip="excluir" matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="excluirProfessorDaTurma(profs.id)" style="margin: 0px;"
+                                    <button (click)="confirmModal(profs)" 
+                                    [disabled]="disabledDeletProf"
+                                    style="margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>delete_outline</mat-icon>
                                     </button>
