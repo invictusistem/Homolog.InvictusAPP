@@ -45,11 +45,11 @@ export class CalendarioTurmaComponent implements OnInit {
 
     private GetCalendarioTurma(turmaId: number) {
 
-        this._http.get(`${this._baseUrl}/turmas/calendario/${turmaId}`)
+        this._http.get(`${this._baseUrl}/pedag/turma/calendario/${turmaId}`)
             .subscribe(resp => {
 
                 console.log(resp)
-                this.calendarios = Object.assign([], resp['calendarioTurmaView'])
+                this.calendarios = Object.assign([], resp['calends'])
                 console.log(this.calendarios)
 
             },

@@ -91,6 +91,8 @@
             <ng-container *ngFor="let matForm of materias.controls; let i = index;">
                 <div [formGroup]="matForm">
 
+                    <span>{{ i + 1 }}  -  </span>
+
                     <mat-form-field appearance="standard" style="width: 245px;">
                         <mat-label>Nome</mat-label>
                         <input selected [value]="matForm.value.nome" disabled matInput placeholder="Descrição">

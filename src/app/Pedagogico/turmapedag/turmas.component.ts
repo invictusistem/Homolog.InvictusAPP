@@ -20,7 +20,7 @@ export class TurmasComponent implements OnInit {
 
     private BaseUrl = environment.baseUrl;
     showPresencaIcon = false
-    turmas: TurmaViewModel[] = new Array<TurmaViewModel>();
+    turmas: any[] = new Array<any>();// TurmaViewModel[] = new Array<TurmaViewModel>();
     showTurmas = false
     showMessage = false
     showSpinner = false
@@ -48,27 +48,23 @@ export class TurmasComponent implements OnInit {
         this.showMessage = false
         this.showSpinner = true
 
-        this._http.get(`${this.BaseUrl}/pedag`)
+        this._http.get(`${this.BaseUrl}/pedag/turma`)
             .subscribe(response => {
                 this.turmas = Object.assign([], response['turmas']);
                 console.log(this.turmas)
             },
                 (error) => {
-                    this.mensagem = "Ocorreu um erro! Contate o Administrador!"
+                   // this.mensagem = "Ocorreu um erro! Contate o Administrador!"
                     console.log(error)
-                    this.showSpinner = false
-                },
-                () => {
-                    if (this.turmas.length == 0) {
-                        this.mensagem = "Não há turmas cadastradas ou em andamento."
+                    this.mensagem = "Não há turmas cadastradas ou em andamento."
                         this.showTurmas = false
                         this.showMessage = true
                         this.showSpinner = false
-                    } else {
+                },
+                () => {                    
                         this.showTurmas = true
                         this.showMessage = false
-                        this.showSpinner = false
-                    }
+                        this.showSpinner = false                    
                 })
     }
 

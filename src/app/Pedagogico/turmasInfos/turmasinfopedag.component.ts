@@ -23,7 +23,7 @@ export class TurmasPedagInfoComponent implements OnInit {
     pageSize: number = 5;
     pageEvent: PageEvent;
     pageIndexNumber: number = 0;
-    cursos: Turma[] = new Array<Turma>();
+    cursos: any[] = new Array<any>();// Turma[] = new Array<Turma>();
     baseUrl = environment.baseUrl;
     turmas: TurmaViewModel[] = new Array<TurmaViewModel>()
     // colaboradores: Colaborador[] = new Array<Colaborador>();
@@ -132,6 +132,32 @@ export class TurmasPedagInfoComponent implements OnInit {
             });
     }
 
+    getTurmas() {
+
+        // this.showTurmas = false
+        // this.showMessage = false
+        // this.showSpinner = true
+
+        // this._http.get(`${this.BaseUrl}/pedag/turma`)
+        //     .subscribe(response => {
+        //         this.turmas = Object.assign([], response['turmas']);
+        //         console.log(this.turmas)
+        //     },
+        //         (error) => {
+        //            // this.mensagem = "Ocorreu um erro! Contate o Administrador!"
+        //             console.log(error)
+        //             this.mensagem = "Não há turmas cadastradas ou em andamento."
+        //                 this.showTurmas = false
+        //                 this.showMessage = true
+        //                 this.showSpinner = false
+        //         },
+        //         () => {                    
+        //                 this.showTurmas = true
+        //                 this.showMessage = false
+        //                 this.showSpinner = false                    
+        //         })
+    }
+
     getCursos() {
 
         var itemsPerPage = 0;
@@ -144,13 +170,13 @@ export class TurmasPedagInfoComponent implements OnInit {
         console.log('get cursos 1234')
         //this.http.get(`${this.baseUrl}/turmas/?itemsPerPage=` + itemsPerPage + `&currentPage=` + actualPage, {
         //this.http.post("http://api.invictustemp.com.thor.hostazul.com.br/api/identity/login", credentials, {
-        this.http.get(`${this.baseUrl}/turmas`)
+        this.http.get(`${this.baseUrl}/pedag/turma`)
             .subscribe(response => {
 
 
                 console.log(response)
                 //Object.assign(this.turmas, response['data'])
-                Object.assign(this.turmas, response)
+                this.turmas = Object.assign([], response['turmas']);
                 console.log(this.turmas)
                 // this.colaboradores = Object.assign([], response['data'])
                 //console.log(this.colaboradores)
@@ -159,19 +185,17 @@ export class TurmasPedagInfoComponent implements OnInit {
                 console.log(err)
                 this.mensagem = "Ocorreu um erro! Contate o Administrador!"
 
+                this.mensagem = "Não há turmas cadastradas ou em andamento."
+                this.showTurmas = false
+                this.showMessage = true
+                this.showSpinner = false
+
             },
                 () => {
-
-                    if (this.turmas.length == 0) {
-                        this.mensagem = "Não há turmas cadastradas ou em andamento."
-                        this.showTurmas = false
-                        this.showMessage = true
-                        this.showSpinner = false
-                    } else {
                         this.showTurmas = true
                         this.showMessage = false
                         this.showSpinner = false
-                    }
+                    
                 });
 
     }
