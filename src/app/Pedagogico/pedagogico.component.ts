@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { TokenInfos } from '../_shared/models/token.model';
 
 
 
@@ -34,58 +36,23 @@ export class PedagogicoComponent implements OnInit{
 
     
     menu: any;
+    private jwtHelper = new JwtHelperService();
+    public tokenInfo: TokenInfos = new TokenInfos();
+    
     constructor(
-        //private jwtHelper: JwtHelperService, 
         private router: Router, 
         private http: HttpClient
         ) { 
             
         }
     ngOnInit(){
-       // this.isUserAuthenticated();
+        const token = localStorage.getItem('jwt')
+        this.tokenInfo = this.jwtHelper.decodeToken(token)
        this.menu = ROUTES.filter(menu => menu);
-       console.log('pedaga modulo comp')
-    }    
-
-    
+    }      
 
 
-  //shouldRun = [/(^|\.)plnkr\.co$/, /(^|\.)stackblitz\.io$/].some(h => h.test(window.location.host));
-    // isUserAuthenticated() {
-    //     const token: string = localStorage.getItem("jwt");
-    //     if (token && !this.jwtHelper.isTokenExpired(token)) {
-    //         this.router.navigate(["/customers"]);
-    //         return true;
-    //     }
-    //     else {
-    //         return false;
-    //     }
-    // }
-    // public logOut = () => {
-    //     localStorage.removeItem("jwt");
-    // }
-
-    invalidLogin: boolean;
-
-    //constructor(private router: Router, private http: HttpClient) { }
-
-    // login(form: NgForm) {
-    //     const credentials = JSON.stringify(form.value);
-    //     console.log(credentials)
-    //     this.http.post("https://localhost:44370/api/identity/login", credentials, {
-    //         headers: new HttpHeaders({
-    //             "Content-Type": "application/json"
-    //         })
-    //     }).subscribe(response => {
-    //         const token = (<any>response).accessToken;
-    //         console.log(response)
-    //         localStorage.setItem("jwt", token);
-    //         this.invalidLogin = false;
-    //         this.router.navigate(["/"]);
-    //     }, err => {
-    //         this.invalidLogin = true;
-    //     });
-    // }
+    invalidLogin: boolean;  
 
     logOut() {
         localStorage.removeItem("jwt");

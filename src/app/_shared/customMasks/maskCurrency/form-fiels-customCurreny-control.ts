@@ -96,7 +96,7 @@ export class MyCurrencyInput
 
   @Input()
   get value(): any | null {
-      console.log(this.parts.value)
+    //  console.log(this.parts.value)
     if (this.parts.valid) {
       const value  = `${this.parts} + s`;
       return value;

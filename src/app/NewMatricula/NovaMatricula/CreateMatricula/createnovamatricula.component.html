@@ -146,13 +146,13 @@
             </mat-form-field>
 
             <br>
-            
+
             <mat-form-field appearance="standard" style="width: 17%;">
                 <mat-label>Tel referência</mat-label>
-                <example-tel-input formControlName="telReferencia" 
+                <input formControlName="telReferencia" mask="(00) 00000-0000" matInput
                     onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-                </example-tel-input>
-            </mat-form-field>
+            </mat-form-field>             
+            
 
             <mat-form-field appearance="standard" style="width: 35%;margin-left: 5%; ">
                 <mat-label>Nome do contato</mat-label>

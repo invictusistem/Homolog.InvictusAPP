@@ -4,7 +4,6 @@ import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest } from "
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { environment } from "src/environments/environment";
 import { Turma, TurmaViewModel } from "src/app/_shared/models/Turma.model";
-
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { ConfirmMatriculaComponent } from "../confirmmatricula/confirmamat.component";
 import { Observable } from "rxjs";
@@ -31,12 +30,12 @@ export class AlunoMatriculaComponent implements OnInit {
 
     baseUrl = environment.baseUrl;
 
-    infoSpinner: SpinnerParams= {
+    infoSpinner: SpinnerParams = {
         diameter: 100,
         marginleft: 42.5,
         margintop: 10
     }
-    
+
     cursosDisponiveis: TurmaViewModel[] = new Array<TurmaViewModel>();
     turmasParaMatricular: TurmaViewModel[] = new Array<TurmaViewModel>();
     turmaSelecionada: TurmaViewModel = new TurmaViewModel();
@@ -66,12 +65,15 @@ export class AlunoMatriculaComponent implements OnInit {
 
         this.planoPgmAluno = _fb.group({
             //descricao: ['', [Validators.required]],
-            valor: [0, [Validators.required]],
-            taxaMatricula: [0, [Validators.required]],
+            valor: [0.00, [Validators.required]],
+            taxaMatricula: [0.00, [Validators.required]],
             confirmacaoPagmMat: [false, [Validators.required]],
-            bonusPontualidade: [0, [Validators.required]],
-            parcelas: [20, [Validators.required]],
+            bonusPontualidade: [0.00, [Validators.required]],
+            parcelas: [22, [Validators.required]],
             planoId: ['', [Validators.required]],
+            diaDefault: [''],
+            valorParcela: [0, [Validators.required, Validators.min(1)]],
+            infoParcelas: ['']
             // temRespFin: [false]
             /*
             
@@ -114,7 +116,7 @@ export class AlunoMatriculaComponent implements OnInit {
 
 
         this.respMenor = _fb.group({
-            
+
             nome: ['', [Validators.required, Validators.minLength(2)]],
             tipo: ['Responsável menor'],
             cpf: ['', [Validators.required, Validators.minLength(11)]],
@@ -153,7 +155,9 @@ export class AlunoMatriculaComponent implements OnInit {
 
     ngOnInit() {
         this.data['aluno']
-        console.log(this.data['aluno'])
+        // console.log(this.data['aluno'])
+
+        this.hidden = 'visible'
         //this.getCursos(0,0)
         this.consultarCursos()
     }
@@ -178,13 +182,13 @@ export class AlunoMatriculaComponent implements OnInit {
         }).subscribe(response => {
 
 
-            console.log(response)
+            //   console.log(response)
             Object.assign(this.cursosDisponiveis, response)
-            console.log(this.cursosDisponiveis)
+            //console.log(this.cursosDisponiveis)
         }, err => { console.log(err) },
             () => {
 
-                console.log('metodo getCursos')
+                //  console.log('metodo getCursos')
                 if (this.cursosDisponiveis.length == 0) {
                     //  this.showSelectCursoSearch = false
                     this.message = 'Não turmas com vagas ou disponíveis.'
@@ -203,6 +207,7 @@ export class AlunoMatriculaComponent implements OnInit {
     showSelectedTypes = false
     showMessageNoTypes = false
     mensagemNoType = ""
+    mostrarModalPrincipal = true
     consultarCursos() {
 
         this.http.get(`${this.baseUrl}/pedag/matricula/${this.data['aluno'].id}`)
@@ -210,33 +215,58 @@ export class AlunoMatriculaComponent implements OnInit {
                 this.typePacotes = Object.assign([], response)['types']
 
             }, err => {
-                console.log(err)
-
+                //  console.log(err)
+                this.hidden = 'hidden'
                 if (err['error'].status == 404) {
                     this.mensagemNoType = "Não há cursos disponíveis para o aluno.";
                 }
                 this.showMessageNoTypes = true
             },
                 () => {
-
+                    this.planoPgmAluno.get('valorParcela').setValue(1000.50)
+                    this.planoPgmAluno.get('valorParcela').disable()
+                    this.GetDefaultDay()
+                    this.mostrarModalPrincipal = false
                     this.showSelectedTypes = true
+                    this.hidden = 'hidden'
 
                 });
     }
 
+
+
+    get valorParcela() {
+
+        var preco = parseFloat('1000')
+        // var precoFloat = preco.toFixed(2)
+        //console.log(precoFloat)
+        let precofinal = preco.toFixed(2)
+
+        let parcelas = this.planoPgmAluno.get('parcelas').value
+
+        let valorTotal = this.planoPgmAluno.get('valor').value
+
+        let valorParcela = parseFloat(valorTotal) / parseFloat(parcelas)
+
+        let parcela = valorParcela.toFixed(2)
+
+        return parcela
+    }
+
     turmas: any[] = new Array<any>()
     showTurmasEncontradas = false
-
+    hidden = 'hidden'
     pesquisarTurmas(typeId) {
         //console.log(typeId)
+        this.hidden = 'visible'
         this.showTurmasEncontradas = false
         this.http.get(`${this.baseUrl}/turma/${typeId}`)
             .subscribe(response => {
                 this.turmas = Object.assign([], response['turmas'])
 
             }, err => {
-                console.log(err['error'].status)
-
+                //  console.log(err['error'].status)
+                this.hidden = 'hidden'
                 if (err['error'].status == 404) {
                     this.mensagemNoTrumas = "Não há turmas disponíveis para o tipo de curso nesta unidade";
                 }
@@ -245,9 +275,9 @@ export class AlunoMatriculaComponent implements OnInit {
                 this.showMessageNoTurmas = true
             },
                 () => {
-
+                    this.hidden = 'hidden'
                     this.showTurmasEncontradas = true
-
+                    // this.dialogRef.addPanelClass('myalunomat-class')
                 });
 
 
@@ -257,29 +287,33 @@ export class AlunoMatriculaComponent implements OnInit {
     showMatriculaContainer = false
     planos: any[]
     menorIdade = false
+    showContent = false
     buscar(turmaId) {
-
+        this.hidden = 'visible'
         this.http.get(`${this.baseUrl}/turma/get/${turmaId}/${this.data['aluno'].id}`)
             .subscribe(response => {
 
                 this.turma = Object.assign({}, response['turma'])
                 this.planosPgm = Object.assign([], response['planos'])
                 this.menorIdade = response['menor']
-                console.log(this.menorIdade)
+                // console.log(this.menorIdade)
                 if (!this.menorIdade) {
                     this.respMenor.disable()
                 }
 
             }, err => {
-                console.log(err)
-
+                // console.log(err)
+                this.hidden = 'hidden'
                 this.mensagemNoTrumas = err['error'].message
                 this.showMessageNoTurmas = true
             },
                 () => {
+                    this.hidden = 'hidden'
 
-                    this.showSelectedTypes = false
-                    this.showMatriculaContainer = true
+                    this.dialogRef.addPanelClass('myalunomat-class')
+                    this.showContent = true
+                    // this.showSelectedTypes = false
+                    //this.showMatriculaContainer = true
                 });
 
     }
@@ -302,16 +336,18 @@ export class AlunoMatriculaComponent implements OnInit {
         if (this.respFinForm.get('cep').valid) {
             this.http.get(`https://viacep.com.br/ws/${cep}/json/`, {})
                 .subscribe(response => {
-                    console.log(response["logradouro"])
+                    //   console.log(response["logradouro"])
 
                     this.respFinForm.get('logradouro').setValue(response["logradouro"].toUpperCase());
                     this.respFinForm.get('bairro').setValue(response["bairro"].toUpperCase());
                     this.respFinForm.get('cidade').setValue(response["localidade"].toUpperCase());
                     this.respFinForm.get('uf').setValue(response["uf"].toUpperCase());
 
-                }, err => { console.log(err) },
+                }, err => {
+                    //  console.log(err)
+                },
                     () => {
-                        console.log('finaly')
+                        // console.log('finaly')
                         //this.showDivEndereco = true
                     });
         }
@@ -334,9 +370,11 @@ export class AlunoMatriculaComponent implements OnInit {
                     this.respMenor.get('cidade').setValue(response["localidade"].toUpperCase());
                     this.respMenor.get('uf').setValue(response["uf"].toUpperCase());
 
-                }, err => { console.log(err) },
+                }, err => {
+                    //console.log(err)
+                },
                     () => {
-                        console.log('finaly')
+                        // console.log('finaly')
                         //this.showDivEndereco = true
                     });
         }
@@ -349,6 +387,48 @@ export class AlunoMatriculaComponent implements OnInit {
 
     planosPgm: any[] = new Array<any>();
     verPlano = false
+    showPlano = false
+    //todasparcelas: any[] = new Array<any>();
+
+    get todasparcelas() {
+
+        let parcelas = new Array<any>()
+        let qntParcelas = this.planoPgmAluno.get('parcelas').value
+        for (let index = 0; index < qntParcelas; index++) {
+
+            parcelas.push({
+                parcelaNo: index + 1,
+                vencimento: this.setData(index),
+                valor: this.valorParcela
+            })
+        }
+
+
+        return parcelas
+
+    }
+
+    setData(number) {
+
+        // let dateNow = new Date();
+        // let initialDate = new Date()
+        // initialDate.setDate(10)
+
+        // if (dateNow.getDate() > 10) {
+        //     initialDate.setMonth(initialDate.getMonth() + 1)
+        // } else {
+
+        // }
+
+        // console.log(initialDate)
+        // this.planoPgmAluno.get('diaDefault').setValue(initialDate)
+        let data = new Date(this.planoPgmAluno.get('diaDefault').value)
+        data.setMonth(data.getMonth() + number)
+        return data
+
+    }
+
+
     buscaPlanoPgm(planoId) {
         this.verPlano = false
         this.http.get(`${this.baseUrl}/plano-pagamento/${planoId}`)
@@ -357,7 +437,7 @@ export class AlunoMatriculaComponent implements OnInit {
                 this.planoSelecionado = Object.assign([], response)['plano']
 
             }, err => {
-                console.log(err)
+                // console.log(err)
 
                 //this.mensagemNoTrumas = err['error'].message
                 //this.showMessageNoTurmas = true
@@ -370,8 +450,9 @@ export class AlunoMatriculaComponent implements OnInit {
                     this.planoPgmAluno.get('valor').setValue(this.planoSelecionado.valor)
                     this.planoPgmAluno.get('taxaMatricula').setValue(this.planoSelecionado.taxaMatricula)
                     this.planoPgmAluno.get('bonusPontualidade').setValue(this.planoSelecionado.bonusPontualidade)
-                    this.planoPgmAluno.get('parcelas').setValue(this.planoSelecionado.parcelas)
+                    //  this.planoPgmAluno.get('parcelas').setValue(this.planoSelecionado.parcelas)
                     this.planoPgmAluno.get('planoId').setValue(this.planoSelecionado.id)
+                    this.showPlano = true
                     /*
                                         valor
                     taxaMatricula
@@ -383,6 +464,10 @@ export class AlunoMatriculaComponent implements OnInit {
                 });
     }
 
+    visPrevia() {
+
+    }
+
     get verValidPln() {
         // console.log(this.planoPgmAluno.valid)
         return true
@@ -391,6 +476,15 @@ export class AlunoMatriculaComponent implements OnInit {
     submeter() {
         console.log(this.respMenor.value)
     }
+
+    // onFocusEvent(event){
+
+    //     console.log(this.planoPgmAluno.get('parcelas').value)
+
+    //     let parcelas = this.planoPgmAluno.get('parcelas').value
+
+    //     let valorTotal = this.planoPgmAl uno.get('parcelas').value
+    // }
 
 
     planoSelecionado: any
@@ -413,7 +507,8 @@ export class AlunoMatriculaComponent implements OnInit {
     // }
 
     salvarMat() {
-
+        this.planoPgmAluno.get('infoParcelas').setValue(this.todasparcelas)
+        console.log(this.planoPgmAluno.value)
         if (!this.planoPgmAluno.valid) return
         if (this.menorIdade) {
             if (!this.respMenor.valid) return
@@ -423,7 +518,7 @@ export class AlunoMatriculaComponent implements OnInit {
             if (!this.respFinForm.valid) return
         }
         this.disabldSaveButton = true
-        console.log('salvar')
+        console.log(this.planoPgmAluno.value)
         let form = {
             plano: this.planoPgmAluno.value,
             menorIdade: this.menorIdade,
@@ -444,6 +539,26 @@ export class AlunoMatriculaComponent implements OnInit {
 
                     this.dialogRef.close({ clicked: "Ok" });
                 });
+
+    }
+
+
+
+    diaDefault
+    GetDefaultDay() {
+
+        let dateNow = new Date();
+        let initialDate = new Date()
+        initialDate.setDate(10)
+
+        if (dateNow.getDate() > 10) {
+            initialDate.setMonth(initialDate.getMonth() + 1)
+        } else {
+
+        }
+
+        console.log(initialDate)
+        this.planoPgmAluno.get('diaDefault').setValue(initialDate)
 
     }
 

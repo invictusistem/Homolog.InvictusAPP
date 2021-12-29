@@ -1,3 +1,4 @@
+
 <div style="font-size: 1.2em;">Matrícula
     <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
         matTooltipHideDelay="100">
@@ -7,123 +8,75 @@
     </i>
 </div>
 
+<!-- <mat-progress-bar style="margin-top: 20px;" *ngIf="mostrarModalPrincipal;else mostraPrincipal" @rowHighlight
+    style="margin:0px" mode="query">
+</mat-progress-bar>
+
+<ng-template #mostraPrincipal> -->
 <hr>
+<span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+    Selecione o tipo do curso:</span>
 
-<!-- <mat-progress-bar style="margin:0px"  mode="query"></mat-progress-bar> -->
-<div *ngIf="showSelectedTypes;else showSpinner" style="position: relative;">
+<br>
 
+<mat-form-field appearance="standard" style="width: 200px;margin-left: 10px;">
+    <mat-label>Tipo do pacote</mat-label>
+    <mat-select [disabled]="typePacotes.length == 0" selected required>
+        <mat-option></mat-option>
+        <mat-option (click)="pesquisarTurmas(type.id)" *ngFor="let type of typePacotes" [value]="type.id">
+            {{type.nome}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
 
-    <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
-        Selecione o tipo do curso:</span>
-    <div class="form-row align-items-center divSiteForm">
+<mat-form-field *ngIf="showTurmasEncontradas" appearance="standard" style="width: 320px;margin-left: 10px;">
+    <mat-label>Turmas Encontradas nesta unidade:</mat-label>
+    <mat-select selected required>
+        <mat-option></mat-option>
+        <mat-option (click)="buscar(turma.id)" *ngFor="let turma of turmas" [value]="turma.id">
+            {{turma.descricao}} - {{turma.identificador}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
 
-        <mat-form-field appearance="standard" style="width: 200px;margin-left: 10px;">
-            <mat-label>Tipo do pacote</mat-label>
-            <mat-select selected required>
-                <mat-option></mat-option>
-                <mat-option (click)="pesquisarTurmas(type.id)" *ngFor="let type of typePacotes" [value]="type.id">
-                    {{type.nome}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+<mat-progress-bar [style.visibility]="hidden" @rowHighlight mode="query">
+</mat-progress-bar>
 
-        <mat-form-field *ngIf="showTurmasEncontradas" appearance="standard" style="width: 320px;margin-left: 10px;">
-            <mat-label>Turmas Encontradas nesta unidade:</mat-label>
-            <mat-select selected required>
-                <mat-option></mat-option>
-                <mat-option (click)="buscar(turma.id)" *ngFor="let turma of turmas" [value]="turma.id">
-                    {{turma.descricao}} - {{turma.identificador}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <!-- <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
-                incluir inativos:
-            </span>
-            <mat-checkbox formControlName="ativo" color="primary"></mat-checkbox>
-            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
-                todas unidades:
-            </span>
-            <mat-checkbox formControlName="todasUnidades" color="primary"></mat-checkbox> -->
-
-    </div>
-
-    <span @rowHighlight *ngIf="showMessageNoTypes"
-        style="font-size: 0.9em; color:red; font-style: italic;">{{mensagemNoType}} </span>
+<!-- <ng-container *ngIf="showContent">
+<span style="font-size: 0.9em;margin-left: 10px;">Segunda-feira 09:00 às 12:00</span>
 
 
-    <span @rowHighlight *ngIf="showMessageNoTurmas"
-        style="font-size: 0.9em; color:red; font-style: italic;">{{mensagemNoTrumas}} </span>
-</div>
+</ng-container> -->
 
-<ng-template #showSpinner>
-
-    <!-- <mat-progress-bar style="margin:0px"  mode="query"></mat-progress-bar> -->
-</ng-template>
+<div @rowHighlight *ngIf="showContent">
 
 
+    <mat-tab-group>
 
-<div *ngIf="showMatriculaContainer">
-
-
-
-    <div>
-        <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
-            matTooltipHideDelay="100">
-            <button type="button" (click)="voltar()" style="" mat-icon-button>
-                <mat-icon>undo</mat-icon>
-            </button>
-        </i>
-    </div>
-
-    <mat-form-field appearance="standard" style="width: 35%; ">
-        <mat-label>Turma</mat-label>
-        <input selected [value]="turma.descricao" disabled required matInput placeholder="Nome">
-    </mat-form-field>
-    <mat-form-field appearance="standard" style="width: 15%; ">
-        <mat-label></mat-label>
-        <input selected [value]="turma.identificador" disabled required matInput placeholder="Nome">
-    </mat-form-field>
-
-    <div style="font-size: 0.8em;" *ngFor="let turma of turma.horarios">
-        * {{ turma.diaSemanada }} - {{turma.horarioInicio }} às {{turma.horarioFim}}
-    </div>
-
-
-
-
-    <mat-tab-group [dynamicHeight]="false" style="height: 100%">
-
-        <mat-tab style="height: 400px;" *ngIf="respmenorvalid" label="Aluno">
+        <mat-tab label="Aluno">
 
             <br>
 
             <form novalidate [formGroup]="temRespFinm">
-              
+
                 <ng-container *ngIf="!menorIdade">
-                
-                <span>
-                    Tem responsável financeiro: <mat-checkbox formControlName="temRespFin" class="example-margin">
-                    </mat-checkbox>
-                </span>
-            </ng-container>
+
+                    <span style="font-style: italic; font-size: 0.9em;">
+                        Tem responsável financeiro: <mat-checkbox formControlName="temRespFin" class="example-margin">
+                        </mat-checkbox>
+                    </span>
+                </ng-container>
             </form>
 
             <form style="" novalidate [formGroup]="temRespFinm">
 
-             
-
-                <!-- <span style="font-size: 0.9em;">
-                    Tem responsável financeiro: <mat-checkbox formControlName="temRespFin" class="example-margin">
-                    </mat-checkbox>
-                </span> -->
 
                 <br>
 
 
-                <mat-form-field appearance="standard" style="width: 200px; ">
+                <mat-form-field appearance="standard" style="width: 350px; ">
                     <mat-label>Nome completo</mat-label>
-                    <input selected [value]="data['aluno'].nome" disabled required matInput placeholder="Nome">
+                    <input selected [value]="data['aluno'].nome" disabled required matInput>
                 </mat-form-field>
 
                 <br>
@@ -133,34 +86,57 @@
                     <input disabled selected [value]="data['aluno'].cpf" disabled matInput>
                 </mat-form-field>
 
-                <br>
-
                 <mat-form-field appearance="standard" style="width: 120px;">
                     <mat-label>RG</mat-label>
-                    <input selected matInput [value]="data['aluno'].rg" disabled placeholder="digite o RG">
+                    <input selected matInput [value]="data['aluno'].rg" disabled >
                 </mat-form-field>
 
                 <br>
-                <mat-progress-bar *ngIf="disabldSaveButton" style="margin:0px"  mode="query"></mat-progress-bar>
+                
+
+                <!-- <mat-form-field  appearance="standard" style="width: 200px;">
+                    <mat-label>Ciência do curso:</mat-label>
+                    <mat-select formControlName="cienciaCurso" selected required>
+                        <mat-option></mat-option>
+                        <mat-option *ngFor="let item of cienciaCurso" [value]="turma.id">
+                            {{item.value}} 
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field> -->
+
+               
+                
+                
+               
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <mat-progress-bar *ngIf="disabldSaveButton" style="margin:0px" mode="query"></mat-progress-bar>
                 <div style="bottom: 0; float:right;">
-                    <button type="button" (click)="salvarMat()" 
-                    [disabled]="disabldSaveButton"
-                    mat-raised-button color="primary"
-                        style="bottom: 0; float:right;margin-bottom: 10px;margin-left: 10px;">
+                    <button type="button" (click)="salvarMat()" [disabled]="disabldSaveButton" mat-raised-button
+                        color="primary" style="bottom: 0; float:right;margin-bottom: 10px;margin-left: 10px;">
                         Confirmar matrícula
                     </button>
                 </div>
 
             </form>
 
-        </mat-tab>
 
+        </mat-tab>
 
         <mat-tab *ngIf="menorIdade" label="Responsável menor">
 
             <form novalidate [formGroup]="respMenor">
+                
+                <br>
 
-                <span style="font-size: 0.9em; margin-top: 10px;">
+                <span style="font-style: italic;font-size: 0.9em;">
                     Possui responsável financeiro: <mat-checkbox (change)="modelChanged($event)" class="example-margin">
                     </mat-checkbox>
                 </span>
@@ -304,16 +280,10 @@
 
                 <br>
 
-                <!-- <mat-form-field style="width: 100%" appearance="outline">
-                    <mat-label>Observações gerais</mat-label>
-                    <textarea formControlName="observacoes" name="observacoes" matInput></textarea>
-                </mat-form-field> -->
-
             </form>
 
 
         </mat-tab>
-
 
 
         <mat-tab *ngIf="temRespFinm.get('temRespFin').value" label="Responsável financeiro">
@@ -453,17 +423,16 @@
 
                 <br>
 
-                <!-- <mat-form-field style="width: 100%" appearance="outline">
-                    <mat-label>Observações gerais</mat-label>
-                    <textarea formControlName="observacoes" name="observacoes" matInput></textarea>
-                </mat-form-field> -->
-
             </form>
 
         </mat-tab>
+
+
         <mat-tab label="plano pagamento">
 
             <form novalidate [formGroup]="planoPgmAluno">
+
+                <br>
 
                 <mat-form-field appearance="standard" style="width: 200px;">
                     <mat-label>Plano pagamento</mat-label>
@@ -475,64 +444,113 @@
                     </mat-select>
                 </mat-form-field>
 
-                <br>
+                <ng-container *ngIf="showPlano">
 
-                <ng-container *ngIf="verPlano">
-
-                    <mat-form-field appearance="standard" style="width: 90px;">
-                        <mat-label>Valor</mat-label>
-                        <input selected formControlName="valor" currencyMask disabled
-                            [options]="{ prefix: '', thousands: '.', decimal: ',' }" disabled matInput
-                            placeholder="R$ 00,00">
-                        <span matPrefix>R$&nbsp;</span>
+                    <mat-form-field appearance="outline" style="width: 70px; margin-left: 15px;">
+                        <mat-label>parcelas</mat-label>
+                        <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" min="1"
+                            formControlName="parcelas" selected matInput>
                     </mat-form-field>
 
-                    <mat-form-field appearance="standard" style="width: 90px; margin-left: 5%;">
-                        <mat-label>Taxa matrícula</mat-label>
-                        <input selected formControlName="taxaMatricula" currencyMask disabled
-                            [options]="{ prefix: '', thousands: '.', decimal: ',' }" placeholder="R$ 00,00" disabled
-                            matInput>
-                        <span matPrefix>R$&nbsp;</span>
-                    </mat-form-field>
-
-
-                    <mat-form-field appearance="standard" style="width: 90px; margin-left: 5%;">
-                        <mat-label>Bônus Pontualidade</mat-label>
-                        <input selected formControlName="bonusPontualidade" currencyMask disabled
-                            [options]="{ prefix: '', thousands: '.', decimal: ',' }" placeholder="R$ 00,00" disabled
-                            matInput>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="standard" style="width: 90px; margin-left: 5%;">
-                        <mat-label>Qnt parcelas</mat-label>
-                        <input selected formControlName="parcelas"  disabled matInput>
+                    <mat-form-field appearance="outline" style="width: 190px;margin-left: 15px;">
+                        <mat-label>Parcelas a partir de</mat-label>
+                        <input matInput [matDatepicker]="dp3" formControlName="diaDefault" disabled>
+                        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                     </mat-form-field>
 
                     <br>
 
-                    <div style="font-size: 0.9em;" class="example-section">
-                        confirmar matrícula apenas após o pagamento: <mat-checkbox formControlName="confirmacaoPagmMat"
-                            class="example-margin">
-                        </mat-checkbox>
+                    <mat-form-field appearance="outline" style="width: 130px;">
+                        <mat-label>Valor do pacote</mat-label>
+                        <input selected formControlName="valor" currencyMask
+                            [options]="{ prefix: '', thousands: '.', decimal: ',' }" matInput>
+                        <span matPrefix>R$&nbsp;</span>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" style="width: 130px; margin-left: 45px;">
+                        <mat-label>Valor da parcela</mat-label>
+                        <input selected [value]="valorParcela | currency:'BRL':true:'1.2-2'" disabled matInput>
+                        <!-- <span matPrefix>R$&nbsp;</span> -->
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" style="width: 140px; margin-left: 45px;">
+                        <mat-label>Bônus pontualidade</mat-label>
+                        <input selected formControlName="bonusPontualidade" currencyMask
+                            [options]="{ prefix: '', thousands: '.', decimal: ',' }" matInput placeholder="00,00">
+                        <span matPrefix>R$&nbsp;</span>
+                    </mat-form-field>
+
+                    <br>
+
+                    <!-- <i style="margin-left: 5px;float: left;" #tooltip="matTooltip" matTooltip="visualização prévia"
+                        matTooltipPosition="above" matTooltipHideDelay="100">
+                        <button (click)="visPrevia()" style="" mat-icon-button>
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </i> -->
+
+                    <div class="table-responsive" style="">
+                        <table color="primary" style="margin-bottom: 0px;" class="table">
+                            <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
+                            <thead>
+                                <tr>
+                                    <!-- <th style="width: 2%; 
+                                text-align:left; 
+                                vertical-align: middle;
+                                border-top: 0px;"></th> -->
+        
+        
+                                    <th style="width: 40%;font-size:0.9em;
+                                vertical-align: middle; 
+                                text-align:left;
+                                 border-top: 0px; font-weight: 400;">PARCELA</th>
+        
+                                    <th style="width: 29%;font-size:0.9em;
+                                vertical-align: middle;
+                                text-align:center;
+                                border-top: 0px; font-weight: 400;">VENCIMENTO</th>
+        
+                                    <th style="width: 29%;font-size:0.9em;
+                                text-align:center; 
+                                vertical-align: middle;
+                                border-top: 0px; font-weight: 400;">VALOR</th>
+        
+
+                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+        
+                                <tr *ngFor="let parc of todasparcelas">
+                                    <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                                      {{ parc.parcelaNo }}/{{ todasparcelas.length }} MENSALIDADE
+                                    </td>
+        
+                                    <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                                        {{ parc.vencimento | date:'dd/MM/yyyy'}} 
+                                    </td>
+        
+                                    <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                        {{ parc.valor | currency:'BRL':true:'1.2-2'}} 
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
                     </div>
 
-
                 </ng-container>
-
-                <div *ngIf="verValidPln"></div>
+                <br>
 
             </form>
 
-
         </mat-tab>
+
     </mat-tab-group>
-    <ng-template #showSpinner>
 
-        <!-- <mat-spinner @rowHighlight [diameter]="100" style="margin-left: 42.5%;
-    margin-top: 10%; 
-    position: absolute;">
-        </mat-spinner> -->
+   
 
-        <spinner [SpinnerParam]="infoSpinner"></spinner>
-    </ng-template>
 </div>
+
+<!-- </ng-template> -->

@@ -1,20 +1,13 @@
-// Metas:
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule, HttpClientJsonpModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from './material/material.module';
 import { NavBarComponent } from './nav-bar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
-
 import { HomeComponent } from './home/home.component';
-
-
-import { AuthGuard } from '../_Auth/auth.guard';
-//import { AuthInterceptor } from '../_Auth/auth.interceptor';
-import { DataService } from '../_services/data.service';
 import { MyTelInput } from './customMasks/maskTelBr/form-field-custom-control-example';
 import { MyDateInput } from './customMasks/maskDate/form-field-customDate-control';
 import { MyTimeInput } from './customMasks/maskTimeStan/form-field-customTime-control';
@@ -22,9 +15,6 @@ import { MyCurrencyInput } from './customMasks/maskCurrency/form-fiels-customCur
 import { PhoneMaskDirective } from './directives/phone-mask.directive';
 import { CPFMaskDirective } from './directives/cpf-mask.directive';
 import { AuthInterceptor } from '../_Auth/auth.interceptor';
-
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { SanitizeHtmlPipe } from './pipes/sanitizePipe.component';
 import { CNPJPipe } from './pipes/cnpjPipe';
 import { CPFPipe } from './pipes/cpfPipe';
@@ -33,30 +23,26 @@ import { SafePipe } from './pipes/safe.pipe';
 import { ConfirmModalComponent } from './components/ConfirmModal/confirm-modal.component';
 import { HelpersService } from './components/helpers/helpers.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
-
+import { MyCurrencyPipe } from './pipes/mycurrencypipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SelectUnidadeComponent } from '../_Auth/user/login/selecionarUnidade/selectunidade.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,
-    //routing,
     BrowserModule,
     AlertModule.forRoot()
-    //TemplateModule,
-    // No need to export as these modules don't expose any components/directive etc'
-    //HttpClientModule,
-    // HttpClientJsonpModule
-    // ReactiveFormsModule
   ],
 
   declarations: [
     NavBarComponent
     , FooterComponent
-    //, MainComponent
     , HomeComponent,
     MyTelInput,
     MyDateInput,
@@ -67,21 +53,14 @@ import { AlertModule } from 'ngx-bootstrap/alert';
     SanitizeHtmlPipe,
     CNPJPipe,
     CPFPipe,
+    MyCurrencyPipe,
     SpinnerComponent,
     SafePipe,
     ConfirmModalComponent
-    //HomeComponent,
-    //MainComponent,
-    //ErrorMessageComponent,
-    //ConfirmMessageComponent
-
-
+    //SelectUnidadeComponent
   ],
-  //providers: [AuthGuard],
   providers: [
-    HelpersService,
-    // UnsavedGuard
-    //   DataService,
+    HelpersService,   
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
@@ -93,8 +72,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    RouterModule,// Modules
-    //MainComponent,
+    RouterModule,
     CommonModule,
     MyTelInput,
     MyDateInput,
@@ -105,24 +83,18 @@ import { AlertModule } from 'ngx-bootstrap/alert';
     SanitizeHtmlPipe,
     CNPJPipe,
     CPFPipe,
+    MyCurrencyPipe,
     SpinnerComponent,
     SafePipe,
-    //ErrorMessageComponent,
-    //ConfirmMessageComponent,
-
-    //FormsModule,
     BrowserModule,
-    //TemplateModule,
     ReactiveFormsModule,
     FooterComponent,
-    //MainComponent,
     HomeComponent,
-    //RouterModule,
-    //HomeComponent,
     NavBarComponent
   ],
   entryComponents: [
     ConfirmModalComponent
+    //SelectUnidadeComponent
   ]
 
 })

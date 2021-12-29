@@ -8,7 +8,8 @@
 
 </div>
 
-<mat-progress-bar style="margin-top: 20px;" *ngIf="mostrarModalPrincipal;else mostraPrincipal" @rowHighlight style="margin:0px" mode="query"></mat-progress-bar>
+<mat-progress-bar style="margin-top: 20px;" *ngIf="mostrarModalPrincipal;else mostraPrincipal" @rowHighlight
+    style="margin:0px" mode="query"></mat-progress-bar>
 <ng-template #mostraPrincipal>
 
 
@@ -122,8 +123,7 @@
             </div>
 
 
-            <div *ngIf="showMensagem" class="alert alert-danger" role="alert"
-                style="text-align: left; vertical-align: middle; position:relative;  float:left;margin-bottom: 0px;
+            <div *ngIf="showMensagem" class="alert alert-danger" role="alert" style="text-align: left; vertical-align: middle; position:relative;  float:left;margin-bottom: 0px;
                 padding: 5px;">
                 <div *ngFor="let erro of msgErros; " style="font-size: 0.8em;">
                     * {{ erro }}
@@ -137,7 +137,8 @@
             </mat-progress-bar>
             <div style="float: right;margin-top: 15px;">
 
-                <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" style="width: 100px; position: relative; float:right;margin-bottom: 10px;
+                <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" 
+                style="width: 100px; position: relative; float:right;margin-bottom: 10px;
                 margin-left: 10px;">
                     Salvar
                 </button>

@@ -70,6 +70,9 @@ import { ProfMateriasComponent } from './Professores/Materias/prof-materias.comp
 import { DocTemplateComponent } from './configuracoes/Doc-create/doctemplate.component';
 import { MateriaTemplateComponent } from './configuracoes/Mat-create/mat-create.component';
 import { AddDispoComponent } from './Professores/Materias/AddDisponibilidade/add-dispo.component';
+import { AdmService } from './services/adm.services';
+import { AddMatComponent } from './Professores/Materias/AddMateria/add-mat.component';
+import { EditDispoComponent } from './Professores/Materias/EditDisponibilidade/edit-dispo.component';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -130,7 +133,9 @@ export function tokenGetter() {
         ProdutoDoacaoComponent,
         ProfMateriasComponent,
         DocTemplateComponent,
-        MateriaTemplateComponent
+        MateriaTemplateComponent,
+        AddMatComponent,
+        EditDispoComponent
     ],
     imports: [
         BrowserModule,
@@ -146,7 +151,7 @@ export function tokenGetter() {
         CurrencyMaskModule
     ],
     //providers: [AuthGuard],
-    providers: [CurrencyPipe, UpperCasePipe,DatePipe, { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
+    providers: [AdmService,CurrencyPipe, UpperCasePipe,DatePipe, { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
     {provide: 'IServicoToken', useClass: Servico}
     ],
     exports: [
@@ -199,7 +204,9 @@ export function tokenGetter() {
         ProfMateriasComponent,
         DocTemplateComponent,
         MateriaTemplateComponent,
-        AddDispoComponent
+        AddDispoComponent,
+        AddMatComponent,
+        EditDispoComponent
         //AddSalaComponent
     ]
 })

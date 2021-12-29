@@ -138,7 +138,7 @@ export class MyTimeInput
         } catch {
 
             this.sliceItem = time.split(':')
-            console.log(this.sliceItem[0])
+           // console.log(this.sliceItem[0])
             hora = this.sliceItem[0]
             minuto = this.sliceItem[1]
             this.parts.setValue({ hora, minuto });

@@ -60,7 +60,8 @@ export class ComercialComponent implements OnInit {
       this.totalLeadsHoje = resp['totalLeadsHoje']
       this.totalLeads = resp['totalLeads']
     }, 
-    (error) => { console.log(error)},
+    (error) => { console.log(error)
+    },
     () => { })
   }
 

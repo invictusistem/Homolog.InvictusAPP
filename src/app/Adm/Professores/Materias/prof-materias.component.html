@@ -1,4 +1,4 @@
-<div style="font-size: 1.2em;">Materias habilitadas
+<div style="font-size: 1.2em;">Matérias habilitadas
     <i *ngIf="!mostrarModalPrincipal;" style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar"
         matTooltipPosition="above" matTooltipHideDelay="100">
         <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
@@ -12,56 +12,34 @@
     style="margin:0px" mode="query"></mat-progress-bar>
 <ng-template #mostraPrincipal>
 
-    <div @rowHighlight style="font-size: 0.9em;margin-top: 5px;">* Materias habilitadas para o professor lecionar</div>
+    <mat-form-field appearance="standard" style="width: 350px;">
+        <mat-label>Nome</mat-label>
+        <input [value]="data['prof'].nome"  disabled selected matInput >
+    </mat-form-field>
+
+    <mat-form-field style="width: 350px; margin-left: 15px" appearance="standard">
+        <mat-label>Email</mat-label>
+        <input [value]="data['prof'].email" selected matInput disabled >
+    </mat-form-field>
+
+    <br>
+
+    <!-- <div @rowHighlight style="font-size: 0.9em;margin-top: 5px;">* Materias habilitadas para o professor lecionar</div>
     <div @rowHighlight style="font-size: 0.9em;margin-top: 5px;color:red">OBS: Desabilitações apenas ocorrerão para
         futuras marcações
-    </div>
+    </div> -->
     <hr>
     <div @rowHighlight>
 
         <mat-tab-group>
             <mat-tab label="Matérias" style="">
 
-                <div style="height: 450px;">
+                <div style="height: 480px;">
 
-                    <form [formGroup]="materiaForm" (ngSubmit)="adicionar()">
-                        <mat-form-field appearance="standard" style="width: 200px;">
-                            <mat-label>Seleciona pacote</mat-label>
-                            <mat-select selected required>
-                                <mat-option (click)="clearFilter('')"></mat-option>
-                                <mat-option (click)="clearFilter(type.id)" *ngFor="let type of typePacotes"
-                                    [value]="type.id">
-                                    {{ type.nome }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <!-- <span style="border: 1px solid red; position: relative;"> -->
-                        <mat-form-field *ngIf="materias.length > 0" appearance="standard"
-                            style="width: 320px;margin-left: 15px;">
-                            <mat-label>Matéria</mat-label>
-                            <mat-select formControlName="materiaId" selected required>
-                                <mat-option></mat-option>
-                                <mat-option *ngFor="let mat of materias" [value]="mat.id">
-                                    {{ mat.nome }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <i #tooltip="matTooltip" matTooltip="adicionar" matTooltipPosition="above"
-                            matTooltipHideDelay="100">
-                            <button [disabled]="!materiaForm.valid" style="" mat-icon-button>
-                                <mat-icon>add</mat-icon>
-                            </button>
-                        </i>
-                    </form>
-                    <!-- <span style="margin-left: 30%;">
-                            <mat-spinner @rowHighlight [diameter]="30">
-                            </mat-spinner>
-                        </span> -->
-                    <!-- <spinner [SpinnerParam]="SpinnerParam" ></spinner> -->
-                    <!-- </span> -->
-                    <div class="table-responsive">
+                  
+                    <br>
+                    <mat-progress-bar *ngIf="disableDeleteButton"  @rowHighlight  style="margin:0px"  mode="query"></mat-progress-bar>
+                    <div class="table-responsive" style="position: relative;height: 350px;">
                         <table color="primary" style="margin-bottom: 0px;" class="table">
 
                             <thead>
@@ -72,28 +50,35 @@
                         border-top: 0px;"></th>
 
 
-                                    <th style="width: 40%;font-size:1em;
+                                    <th style="width: 40%;font-size:0.9em;
                         vertical-align: middle; 
                         text-align:left;
-                         border-top: 0px; font-weight: 400;">Materia</th>
+                         border-top: 0px; font-weight: 400;">MATÉRIA</th>
 
-                                    <th style="width: 29%;font-size:1em;
+                                    <th style="width: 29%;font-size:0.9em;
                         vertical-align: middle;
                         text-align:center;
-                        border-top: 0px; font-weight: 400;">Pacote</th>
+                        border-top: 0px; font-weight: 400;">PACOTE</th>
 
                                     <th style="width: 29%;font-size:1em;
                         text-align:center; 
                         vertical-align: middle;
-                        border-top: 0px; font-weight: 400;"></th>
+                        border-top: 0px; font-weight: 400;">
+                                        <i style="float: right;" #tooltip="matTooltip" matTooltip="adicionar matéria"
+                                            matTooltipPosition="above" matTooltipHideDelay="100">
+                                            <button color="primary" (click)="openAddMatModal()" style="" mat-icon-button>
+                                                <mat-icon>add_circle_outline</mat-icon>
+                                            </button>
+                                        </i>
+                                    </th>
 
 
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr *ngFor="let mat of profMaterias;let i = index;">
+                            <tbody  >
+                                <tr  @rowHighlight *ngFor="let mat of profMateriasSlice;let i = index;">
                                     <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
-                                        {{ i + 1 }}
+                                        {{(i + 1)+(pageIndex * pageSize)}}
                                     </td>
 
                                     <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
@@ -110,9 +95,11 @@
                                         </mat-checkbox> -->
                                         <i style="" #tooltip="matTooltip" matTooltip="excluir"
                                             matTooltipPosition="above" matTooltipHideDelay="100">
-                                            <button (click)="removeMateria(mat.id)" type="button" style=""
-                                                mat-icon-button>
+                                            <button color="primary" (click)="removeMateria(mat.id)" type="button" 
+                                            style="position: relative;" [disabled]="disableDeleteButton" mat-icon-button>
                                                 <mat-icon>delete_forever</mat-icon>
+                                                <mat-spinner *ngIf="disableDeleteButton" @rowHighlight [diameter]="23" style="position: absolute;top: 10px;left:9px">
+                                                </mat-spinner>
                                             </button>
                                         </i>
 
@@ -122,6 +109,14 @@
                             </tbody>
                         </table>
                     </div>
+                    <mat-paginator 
+                    *ngIf="profMaterias.length > 5"
+                    style="
+                       
+                        bottom: 0px;
+                        right: 0px;" [length]="length" [pageSize]="pageSize" hidePageSize="true"
+                        (page)="pageEvent = changePage($event)">
+                    </mat-paginator>
                 </div>
             </mat-tab>
             <mat-tab label="Disponibilidades">
@@ -129,7 +124,7 @@
                     <br>
                     <i #tooltip="matTooltip" matTooltip="adicionar" matTooltipPosition="above"
                         matTooltipHideDelay="100">
-                        <button [disabled]="unidades.length == 0" (click)="openAddDispoModal()" style=""
+                        <button [disabled]="unidades.length == 0" (click)="openAddDispoModal()" style="position:relative"
                             mat-icon-button>
                             <mat-icon>add</mat-icon>
                         </button>
@@ -139,11 +134,12 @@
 
                     <ng-container *ngIf="disponibilidades.length > 0">
 
-                        <div style="font-size: 0.9em; font-style: italic;">Disponibilidades:</div>
-
-                        <mat-form-field *ngFor="let item of disponibilidades" class="example-chip-list" style="width: 100%;" appearance="fill">
+                        <!-- <div style="font-size: 0.9em; font-style: italic;">Disponibilidades:</div> -->
+                        <br>
+                        <mat-form-field *ngFor="let item of disponibilidades" class="example-chip-list"
+                            style="width: 100%;" appearance="fill">
                             <mat-label>{{ item.descricao }}</mat-label>
-                            <mat-chip-list aria-label="Video keywords" multiple [formControl]="formControl">
+                            <mat-chip-list disalbed aria-label="Video keywords" multiple [formControl]="formControl">
                                 <mat-chip *ngIf="item.domingo">Domingo</mat-chip>
                                 <mat-chip *ngIf="item.segunda">Segunda-feira</mat-chip>
                                 <mat-chip *ngIf="item.terca">Terça-feira</mat-chip>
@@ -152,6 +148,10 @@
                                 <mat-chip *ngIf="item.sexta">Sexta-feira</mat-chip>
                                 <mat-chip *ngIf="item.sabado">Sábado</mat-chip>
                             </mat-chip-list>
+                            <button mat-icon-button matSuffix #tooltip="matTooltip" matTooltip="editar"
+                                matTooltipPosition="above" matTooltipHideDelay="100" (click)="opeEditDispoModal(item)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
                         </mat-form-field>
 
                     </ng-container>

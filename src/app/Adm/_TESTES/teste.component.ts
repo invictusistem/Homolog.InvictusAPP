@@ -12,6 +12,7 @@ import { IServico } from './testeexterno';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { SignalRService } from 'src/app/_shared/services/signalr.component';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
@@ -71,6 +72,7 @@ export class TestesComponent implements OnInit {
   resume = new Resume();
   degrees = ['B.E.', 'M.E.', 'B.Com', 'M.Com'];
   constructor(
+    public signalRService: SignalRService, 
     @Inject('IServicoToken') public servico: IServico,
     private TesteModal: MatDialog,
     private http: HttpClient,
@@ -141,9 +143,48 @@ export class TestesComponent implements OnInit {
 
   @ViewChild('file') myFileInput;
   @ViewChild('file2') myFileInput2;
+  
   ngOnInit() {
     this.valor = '05/10/2021'
+
+    // this.signalRService.startConnection();
+    // this.signalRService.addTransferChartDataListener();   
+    // this.startHttpRequest();
+
   }
+
+  private startHttpRequest = () => {
+    this.http.get('https://localhost:5001/api/teste/hubtest')
+      .subscribe(res => {
+        console.log(res);
+      })
+  }
+
+  public chartClicked = (event) => {
+    console.log(event);
+    this.signalRService.broadcastChartData();
+  }
+  // CHART
+
+  public chartOptions: any = {
+    scaleShowVerticalLines: true,
+    responsive: true,
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  };
+  public chartLabels: string[] = ['Real time data for the chart'];
+  public chartType: string = 'bar';
+  public chartLegend: boolean = true;
+  public colors: any[] = [{ backgroundColor: '#5491DA' }, { backgroundColor: '#E74C3C' }, { backgroundColor: '#82E0AA' }, { backgroundColor: '#E5E7E9' }]
+
+
+
+
   verformdisable() {
     console.log(this.formDisabled.value)
   }

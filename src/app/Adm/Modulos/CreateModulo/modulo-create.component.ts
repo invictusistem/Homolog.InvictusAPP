@@ -1,15 +1,12 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { CepReturn } from "src/app/_shared/models/cepreturn.model";
+import { HttpClient } from "@angular/common/http";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { environment } from "src/environments/environment";
-import { Cargos, TitularDoc, Unidades } from "src/app/_shared/models/perfil.model";
+import { TitularDoc } from "src/app/_shared/models/perfil.model";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { AdmService } from "../../services/adm.services";
 
 @Component({
     selector: 'modulocreatemodal',
@@ -21,25 +18,32 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 export class ModuloCreateComponent implements OnInit {
 
 
-    baseUrl = environment.baseUrl;
+    //baseUrl = environment.baseUrl;
+    public initProgressBar = 'visible'
+    public saveProgressBar = 'hidden'
+    
+    public showContent = false
+    public addMateriasForm = false
 
     public moduloForm: FormGroup;
     public addMateriaForm: FormGroup;
     public addDocForm: FormGroup;
+    
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
-    public disabledSpinner = false
+   
+    public errorMsg: any[] = new Array<any>()
     public unidadesAutorizadas: any[] = new Array<any>();
     public materiasTemplate: any[] = new Array<any>();
     public documentosTemplate: any[] = new Array<any>();
+    
     public typePacotes: any
     public docTemplates: any
+    
     public titularDoc = TitularDoc
 
     constructor(
-        //private service: AdmService,
-        private _snackBar: MatSnackBar,
-        private router: Router,
+        private _admService: AdmService,
         private _fb: FormBuilder,
         private _http: HttpClient,
         public dialogRef: MatDialogRef<ModuloCreateComponent>,
@@ -55,9 +59,7 @@ export class ModuloCreateComponent implements OnInit {
 
         this.moduloForm = _fb.group({
             descricao: ['', [Validators.required]],
-           // duracaoMeses: ['', [Validators.required]],
             totalHoras: [''],
-           // preco: ['', [Validators.required]],
             typePacoteId: ['', [Validators.required]],
             unidadeId: ['', [Validators.required]],
             ativo: [true],
@@ -112,31 +114,20 @@ export class ModuloCreateComponent implements OnInit {
 
         let documento = form.value['documento']
 
-         if (form.valid) {
-        //     let documentoId = this.documentos.value.find(element =>
-        //         element.documentoId == documento.id);
+        if (form.valid) {
+            // let documentoId = this.documentos.value.find(element =>
+            //     element.documentoId == documento.id);
 
-        //     if (documentoId != undefined) return;
+            // if (documentoId != undefined) return;
 
             const docsForm = this._fb.group({
                 obrigatorioParaMatricula: [false],
                 descricao: [documento.nome],
-                comentario: ['',[Validators.required]],
-                titular: ['',[Validators.required]],
-                validadeDias: [documento.validadeDias],
-               // ObrigatorioParaMatricula: [false]
+                comentario: ['', [Validators.required]],
+                titular: ['', [Validators.required]],
+                validadeDias: [documento.validadeDias]
 
             });
-
-            /*
-            Descricao
-Comentario
-Titular
-ValidadeDias
-ObrigatorioParaMatricula
-
-            
-            */
 
             this.documentos.push(docsForm);
         }
@@ -147,10 +138,6 @@ ObrigatorioParaMatricula
     }
     deleteDocumento(index: number) {
         this.documentos.removeAt(index);
-    }
-
-    setMateria(index, typePacote) {
-
     }
 
     get totalHoras() {
@@ -173,43 +160,82 @@ ObrigatorioParaMatricula
         return total
     }
 
-    private GetViewModels() {
+    
+    get disabledSaveButton() {
 
-        this._http.get(`${this.baseUrl}/pacote/create`)
-            .subscribe(resp => {
-                this.typePacotes = resp['typePacotes']
-                this.docTemplates = resp['documentos']
-            },
-                (error) => { console.log(error) },
-                () => {
-                    console.log(this.typePacotes)
-                    console.log(this.docTemplates)
+        if (this.saveProgressBar == 'visible') return true
 
-                })
+        if (this.moduloForm.valid) return false
+
+        return true
     }
 
-    buscarMaterias(typePacoteId) { // filtro/{typePacoteId}
+    GetViewModels() {
 
-        this._http.get(`${this.baseUrl}/materia-template/filtro/${typePacoteId}`)
-            .subscribe(resp => {
-                this.materiasTemplate = resp['materias']
-            },
-                (error) => { console.log(error) },
-                () => { })
+        this._admService.GetCreateModuleViewModel()
+            .subscribe(
+                sucesso => { this.GetViewModelsSucesso(sucesso) },
+                erro => { this.GetViewModelsErro(erro) })
+    }
+
+    GetViewModelsSucesso(response: any) {
+        this.typePacotes = response['typePacotes']
+        this.docTemplates = response['documentos']
+        this.initProgressBar = 'hidden'
+        this.dialogRef.addPanelClass('mymodulocreate-class')
+        this.showContent = true
+
+    }
+
+    GetViewModelsErro(error) {
+        this.initProgressBar = 'hidden'
+       // console.log(error)
+    }
+
+    buscarMaterias(typePacoteId) {
+        this.materias.clear()
+        this.initProgressBar = 'visible'
+        console.log('buscar')
+        this._admService.getMateriasByTypeId(typePacoteId)
+            .subscribe(
+                sucesso => { this.buscarMateriasSucesso(sucesso) },
+                erro => { this.buscarMateriasErro(erro) })
+    }
+
+    buscarMateriasSucesso(resposta) {
+        this.materiasTemplate = resposta['materias']
+        this.initProgressBar = 'hidden'
+        this.addMateriasForm = true
+    }
+
+    buscarMateriasErro(error) {
+        this.initProgressBar = 'hidden'
+        console.log(error)
     }
 
     onSubmit(form: any) {
-        // console.log(form.value)
+        console.log(this.moduloForm.value)
         if (form.valid) {
-            this.disabledSpinner = true
-            //console.log(JSON.stringify(form.value))
-
-            this._http.post(`${this.baseUrl}/pacote`, this.moduloForm.value, {})
-                .subscribe(response => {
-                }, (err) => { console.log(err) },
-                    () => {
-                        this.dialogRef.close({ clicked: "Ok" });
-                    });
+            this.saveProgressBar = 'visible'
+            this._admService.savePacote(this.moduloForm.value)
+                .subscribe(
+                    sucesso => { this.onSubmitSucesso(sucesso) },
+                    erro => { this.onSubmitErro(erro) })
         }
     }
+
+    onSubmitSucesso(resposta) {
+        this.dialogRef.close({ clicked: true });
+        this.saveProgressBar = 'hidden'
+    }
+    
+    onSubmitErro(error) {
+        console.log(error)
+        if (error['status'] == 409) {
+            this.errorMsg = error['error'].erros
+        }
+        this.saveProgressBar = 'hidden'
+
+    }
+
 }

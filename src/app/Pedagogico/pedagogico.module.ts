@@ -2,17 +2,10 @@ import { DEFAULT_CURRENCY_CODE, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-//import { CustomersComponent } from './customers/customers.component';
-import { RouterModule, Routes } from '@angular/router';
-
+import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { JwtModule } from "@auth0/angular-jwt";
-
 import { CommonModule, CurrencyPipe } from '@angular/common';
-//import { HomeComponent } from './home.component';
 import { SharedModule } from '../_shared/shared.module';
-
 import { MaterialModule } from '../_shared/material/material.module';
 import { PedagogicoComponent } from './pedagogico.component';
 import { MatriculaComponent } from './Matricula/matricula.component';
@@ -51,7 +44,11 @@ import { EstagioEditComponent } from './estagios/estagio-edit/estagio-edit.compo
 import { EstagioAlunosComponent } from './estagios/estagio-alunos/estagio-alunos.component';
 import { InfoCadastraisComponent } from './Matricula/InfoCad/info-cadastrais.component';
 import { AddAnotacaoComponent } from './Matricula/informacoes/Anotacao/add-anotacao.component';
-// import { CustomersComponent } from '../customers/customers.component';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { PedagogicoService } from './service/pedagogico.service';
+registerLocaleData(localeFr, 'fr');
 
 export const MY_DATE_FORMATS = {
     parse: {
@@ -123,11 +120,11 @@ const maskConfig: Partial<IConfig> = {
         MaterialModule,
         SharedModule,
         NgxMaskModule.forRoot(maskConfig),
+        CurrencyMaskModule
     ],
-    //     providers: [AuthGuard],
-    providers: [CurrencyPipe, DataService, { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },PedagService, {provide: 'ValidateForms', useClass: ValidateFormsService},
+    providers: [PedagogicoService, CurrencyPipe, DataService, { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
+    PedagService, {provide: 'ValidateForms', useClass: ValidateFormsService},
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
-    //bootstrap: [AppComponent]
     exports: [
         PedagogicoComponent,
         MatriculaComponent,
@@ -168,10 +165,6 @@ const maskConfig: Partial<IConfig> = {
         EstagioEditComponent,
         InfoCadastraisComponent,
         AddAnotacaoComponent
-        // FormFieldCustomControlExample, 
-        //MyTelInput,
-        //   DialogOverviewExampleDialog,
-        //   EditTemplateModel
     ]
     
 })

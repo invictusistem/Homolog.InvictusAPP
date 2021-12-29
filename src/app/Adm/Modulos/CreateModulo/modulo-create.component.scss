@@ -15,6 +15,17 @@
 ::ng-deep .mat-form-field {  
   font-size: 0.9em;
 }
+
+::ng-deep .mymodulocreate-class .mat-dialog-container {
+  
+  height: 70vh;
+  width: 850px;
+
+}
+
+::ng-deep .mat-tab-group{
+  height: 360px !important;
+}
 //   ::ng-deep .mat-form-field-underline .mat-form-field-ripple{
 //     transform: translateY(-1.1em) scale(.75);
 //   }

@@ -34,6 +34,7 @@ export const RespostaResFinanceiro = [
 ]
 
 export const CienciaCurso = [
+    { type: 'Aluno', value: 'Aluno' },
     { type: 'Balcão', value: 'Balcão' },
     { type: 'Indicação Aluno', value: 'Indicação Aluno' },
     { type: 'Rádio', value: 'Rádio' },

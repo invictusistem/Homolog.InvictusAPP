@@ -74,7 +74,7 @@ export class DataService {
     // OLD
 
     getData(url: string): Observable<Object[]> {
-        console.log(url)
+        //console.log(url)
         return this.sendRequest<Object[]>("GET", url);
     }
     private sendRequest<T>(verb: string, url: string, body?: any)
@@ -143,7 +143,7 @@ export class DataService {
     }
 
     private doPut(url: string, data: any, needId: boolean, params?: any): Observable<Response> {
-        console.log(`do put ${url}`)
+        //console.log(`do put ${url}`)
         let options = {};
         this.setHeaders(options, needId);
 

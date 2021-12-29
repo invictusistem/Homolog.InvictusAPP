@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
+import { TokenInfos } from '../_shared/models/token.model';
 import { MessageModalComponent } from './messageModal/messagemodal.component';
 
 declare interface RouteInfo {
@@ -25,8 +26,8 @@ export const ROUTES: RouteInfo[] = [
     { path: '/adm/config', title: 'Configurações', class: '', typeIcon: 'settings' },
     { path: '/adm/modulo', title: 'Pacotes', class: '', typeIcon: 'school' },
     { path: '/adm/planopgm', title: 'Planos', class: '', typeIcon: 'request_quote' },
-    { path: '/adm/contrato', title: 'Contratos', class: '', typeIcon: 'gavel' },
-   // { path: '/adm/teste', title: 'TESTE', class: '', typeIcon: 'fact_check' },
+    { path: '/adm/contrato', title: 'Contratos', class: '', typeIcon: 'gavel' }
+    //{ path: '/adm/teste', title: 'TESTE', class: '', typeIcon: 'fact_check' },
 ]
 
 @Component({
@@ -41,6 +42,8 @@ export class AdmComponent implements OnInit {
     private baseUrl = environment.baseUrl;
     mensagem: any;
     public htmlContent: any;
+    private jwtHelper = new JwtHelperService();
+    public tokenInfo: TokenInfos = new TokenInfos();
     
     constructor(
         //private jwtHelper: JwtHelperService, 
@@ -57,6 +60,8 @@ export class AdmComponent implements OnInit {
     }
     ngOnInit() {
         // this.isUserAuthenticated();
+        const token = localStorage.getItem('jwt')
+        this.tokenInfo = this.jwtHelper.decodeToken(token)
         console.log(this.data != "")
         if(this.data != ""){ 
             this.getMessage();    

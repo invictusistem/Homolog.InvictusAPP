@@ -1,7 +1,7 @@
 <div class="container" style="width: 95%; padding-top: 20px;">
 
     <div>
-        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="criar contrato" matTooltipPosition="above"
+        <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar contrato" matTooltipPosition="above"
             matTooltipHideDelay="100">
             <button (click)="openCreateContratoModal()" mat-icon-button>
                 <mat-icon>description</mat-icon>
@@ -21,8 +21,8 @@
         <div class="form-row align-items-center divSiteForm">
 
             <mat-form-field appearance="standard" style="width: 200px;">
+
                 <mat-label></mat-label>
-        
                 <mat-select formControlName="typePacoteId"  placeholder="type pacote">
                     <mat-option ></mat-option>
                     <mat-option *ngFor="let pac of typesPacotes"

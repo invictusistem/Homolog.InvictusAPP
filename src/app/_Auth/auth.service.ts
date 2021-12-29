@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,17 +11,20 @@ import { environment } from 'src/environments/environment';
 export class AuthService {
 
 
-  baseURL = environment.baseUrl;// 'https://localhost:44370/api/identity/login/';
-  //https://localhost:44370/api/identity/login", credentials, {
+  baseURL = environment.baseUrl;
   jwtHelper = new JwtHelperService();
   decodedToken: any;
 
   constructor(private http: HttpClient) { }
 
-  login(model: any) {
+  login(model: any, unidadeId:any) {
+
+    let url = `${this.baseURL}/identity/login/${unidadeId}`
+
+   
     return this.http
-      .post(`${this.baseURL}/identity/login`, model,{
-        
+      .post(url, model, {
+
       }).pipe(
         map((response: any) => {
           const user = response;
@@ -34,10 +38,39 @@ export class AuthService {
       );
   }
 
-//   register(model: any) {
-//     return this.http.post(`${this.baseURL}register`, model);
-//   }
+  public extractData(response: any) {
+    return response || {};
+  }
 
+  preLogin(model: any) {
+
+    //let url = `${this.baseURL}/identity/login`
+    let url = `${this.baseURL}/identity/pre-login`
+   
+    let response = this.http
+      .post(url, model, {
+
+      }).pipe(
+        map(this.extractData),
+        catchError(this.serviceError));
+
+    return response;
+  }
+
+  public serviceError(response: Response | any) {
+    let customError: string[] = [];
+
+    if (response instanceof HttpErrorResponse) {
+
+      if (response.statusText === "Unknown Error") {
+        customError.push("Ocorreu um erro desconhecido");
+        response.error.errors = customError;
+      }
+    }
+
+    // console.error(response);
+    return throwError(response);
+  }
   loggedIn() {
     const token = localStorage.getItem('jwt');
     return !this.jwtHelper.isTokenExpired(token);

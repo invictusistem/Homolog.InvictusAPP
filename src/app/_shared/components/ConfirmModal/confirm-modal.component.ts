@@ -37,7 +37,7 @@ export class ConfirmModalComponent implements OnInit {
 
             },
                 (error) => { 
-                    console.log(error)
+                    //console.log(error)
                     this.dialogRef.close({ clicked: false });
                  },
                 () => {

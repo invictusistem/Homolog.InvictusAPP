@@ -9,6 +9,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { Aluno } from "src/app/_shared/models/aluno.model";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { environment } from "src/environments/environment";
+import { InfoFinancComponentModal } from "../service/modal.config";
 import { BoletimAlunoComponent } from "./BoletimAluno/boletimaluno.component";
 import { CreateMatriculaComponent } from "./CreateModal/creatematricula.component";
 import { InfoCadastraisComponent } from "./InfoCad/info-cadastrais.component";
@@ -45,8 +46,8 @@ export class MatriculaComponent implements OnInit {
     public pesquisarForm: FormGroup
 
     constructor(
-        private _snackBar: MatSnackBar,
-        private CreateMatriculaModal: MatDialog,
+        //private _snackBar: MatSnackBar,
+        private _modal: MatDialog,
         private _fb: FormBuilder,
         private _http: HttpClient
     ) {
@@ -153,10 +154,10 @@ export class MatriculaComponent implements OnInit {
 
 
     matricular(aluno) {
-        const dialogRef = this.CreateMatriculaModal
+        const dialogRef = this._modal
             .open(AlunoMatriculaComponent, {
-                minHeight: '610px',
-                width: '1000px',
+               // minHeight: '610px',
+                width: '850px',
                // autoFocus: false,
                 //maxHeight: '400vh',
 
@@ -168,7 +169,7 @@ export class MatriculaComponent implements OnInit {
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
                 //clicked: "Ok"
-                this.openSnackBar()
+              //  this.openSnackBar()
                 this.pesquisar();
                 console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
@@ -180,7 +181,7 @@ export class MatriculaComponent implements OnInit {
     }
 
     viewInfoCadastrais(aluno): void {
-        const dialogRef = this.CreateMatriculaModal
+        const dialogRef = this._modal
             .open(InfoCadastraisComponent, {
                 height: 'auto',
                 width: '1000px',
@@ -204,12 +205,12 @@ export class MatriculaComponent implements OnInit {
     }
 
     openMatriculaModal(): void {
-        const dialogRef = this.CreateMatriculaModal
+        const dialogRef = this._modal
             .open(CreateMatriculaComponent, {
-                height: '90vh',
+               // height: '90vh',
                 width: '1000px',
-                autoFocus: false,
-                maxHeight: '400vhvh',
+               // autoFocus: false,
+               // maxHeight: '400vhvh',
 
                 data: { Hello: "Hello World" },
                 hasBackdrop: true,
@@ -218,7 +219,7 @@ export class MatriculaComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "OK") {
-                this.openSnackBar()
+                //this.openSnackBar()
                 console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
                 // Do nothing. Cancel any events that navigate away from the
@@ -228,7 +229,7 @@ export class MatriculaComponent implements OnInit {
     }
 
     openInfoModal(aluno: Aluno): void {
-        const dialogRef = this.CreateMatriculaModal
+        const dialogRef = this._modal
             .open(InfosComponent, {
                 height: '90vh',
                 width: '1000px',
@@ -242,7 +243,7 @@ export class MatriculaComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "OK") {
-                this.openSnackBar()
+                //this.openSnackBar()
                 console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
                 // Do nothing. Cancel any events that navigate away from the
@@ -252,30 +253,36 @@ export class MatriculaComponent implements OnInit {
     }
 
     openInfoFinancModal(aluno: Aluno): void {
-        const dialogRef = this.CreateMatriculaModal
-            .open(InfoFinancPedagComponent, {
-                height: '90vh',
-                width: '1000px',
-                autoFocus: false,
+        const dialogRef = this._modal
+            .open(InfoFinancPedagComponent, InfoFinancComponentModal(aluno));
+        dialogRef.afterClosed().subscribe(
+            data => { });
 
 
-                data: { aluno: aluno },
-                hasBackdrop: true,
-                disableClose: true
-            });
+        // const dialogRef = this.CreateMatriculaModal
+        //     .open(InfoFinancPedagComponent, {
+        //         height: '90vh',
+        //         width: '1050px',
+        //         autoFocus: false,
 
-        dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "OK") {
-                this.openSnackBar()
-                console.log('afte close ok')
-            } else if (data.clicked === "Cancel") {
 
-            }
-        });
+        //         data: { aluno: aluno },
+        //         hasBackdrop: true,
+        //         disableClose: true
+        //     });
+
+        // dialogRef.afterClosed().subscribe((data) => {
+        //     if (data.clicked === "OK") {
+        //         this.openSnackBar()
+        //         console.log('afte close ok')
+        //     } else if (data.clicked === "Cancel") {
+
+        //     }
+        // });
     }
 
     openBoletimodal(aluno: Aluno): void {
-        const dialogRef = this.CreateMatriculaModal
+        const dialogRef = this._modal
             .open(BoletimAlunoComponent, {
                 height: '90vh',
                 width: '1000px',
@@ -289,7 +296,7 @@ export class MatriculaComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "OK") {
-                this.openSnackBar()
+               // this.openSnackBar()
                 console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
 
@@ -298,14 +305,14 @@ export class MatriculaComponent implements OnInit {
     }
 
 
-    openSnackBar() {
-        this._snackBar.open('Aluno matriculado com sucesso', '', {
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: 'green-snackbar',
-            duration: 3 * 1000,
-        });
-    }
+    // openSnackBar() {
+    //     this._snackBar.open('Aluno matriculado com sucesso', '', {
+    //         horizontalPosition: 'center',
+    //         verticalPosition: 'top',
+    //         panelClass: 'green-snackbar',
+    //         duration: 3 * 1000,
+    //     });
+    // }
 
     deleteColaborador(id: number) {
 

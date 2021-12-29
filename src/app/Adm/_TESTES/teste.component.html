@@ -114,6 +114,27 @@
             </mat-menu>
 </li> -->
 
+<div class="container">
+
+<div style="display: block" *ngIf="signalRService.data">
+  <canvas baseChart
+          [datasets]="signalRService.data"
+          [labels]="chartLabels"
+          [options]="chartOptions"
+          [legend]="chartLegend"
+          [chartType]="chartType"
+          [colors]="colors"
+          (chartClick)="chartClicked($event)"></canvas>
+</div>
+<br><br>
+<ul>
+  <li *ngFor='let data of signalRService.bradcastedData'>
+    <strong>Label: </strong> {{data.label}} - <strong>Value: </strong> {{data.data[0]}}
+  </li>
+</ul>
+
+<br>
+</div>
 <div style="border: 1px solid black;height: 100%;position: relative ">
 
 <div style="z-index: 1;border: 1px solid red;text-align: center;float: right; width:200px; height: 50px;">

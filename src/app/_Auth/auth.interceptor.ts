@@ -12,10 +12,7 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private router: Router) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        //console.log("interceptor")
-        //console.log(req.url.includes(this.baseUrl))
-        //console.log(req.url)
-        //console.log(req)
+        
         if (req.url.includes(this.baseUrl)) {
             if (localStorage.getItem('jwt') !== null) {
                 const cloneReq = req.clone({

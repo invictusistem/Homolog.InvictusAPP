@@ -70,10 +70,6 @@ export const routes: Routes = [
     path: 'newmat', component: NewMatriculaComponent, canActivate: [AuthGuard],
     children: [
       { path: 'novamatricula', component: NovaMatriculaComponent, canActivate: [AuthGuard] }
-      //{ path: 'transf', component: TransferenciaComponent, canActivate: [AuthGuard] },
-      //{ path: 'turmas', component: TurmasComponent, canActivate: [AuthGuard] },
-      //{ path: 'estagio', component: EstagioComponent, canActivate: [AuthGuard] },
-      //{ path: 'config', component: ConfigComponent, canActivate: [AuthGuard] }
     ]
   },  
   {
@@ -83,7 +79,6 @@ export const routes: Routes = [
       { path: 'pedagalunos', component: PedagAlunosComponent, canActivate: [AuthGuard] },
       { path: 'transf', component: TransferenciaComponent, canActivate: [AuthGuard] },
       { path: 'turmas', component: TurmasComponent, canActivate: [AuthGuard] },
-      //{ path: 'estagio', component: EstagioComponent, canActivate: [AuthGuard] },
       { path: 'pedagrel', component: PedagRelatorioComponent, canActivate: [AuthGuard] },
       { path: 'config', component: EstagioComponent, canActivate: [AuthGuard] },
       { path: 'turmasinfo', component:  TurmasPedagInfoComponent, canActivate: [AuthGuard] },
@@ -113,12 +108,6 @@ export const routes: Routes = [
   {
     path: 'geral', component: GeralComponent, canActivate: [AuthGuard],
     children: [
-      // { path: 'alunofin', component: AlunoFinancComponent, canActivate: [AuthGuard] },
-      // { path: 'balanco', component: BalancoComponent, canActivate: [AuthGuard] },
-      // { path: 'unidadebalanco', component: UnidadeBalancoComponent, canActivate: [AuthGuard] },
-      // { path: 'fincaixa', component: FinCaixaComponent, canActivate: [AuthGuard] },
-      // { path: 'fornecedor', component: FornecedoresComponent, canActivate: [AuthGuard] },
-      // { path: 'relatorio', component: FinRelatorioComponent, canActivate: [AuthGuard] }
     ]
   },
   
@@ -136,8 +125,3 @@ export const routes: Routes = [
 
 
 export class AppRoutingModule { }
-
-/*UnidadesComponent,
-        ProfessoresComponent,
-        ProdutosComponent,
-        CursosComponent,*/

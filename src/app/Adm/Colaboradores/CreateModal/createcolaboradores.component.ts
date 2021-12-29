@@ -126,14 +126,7 @@ export class CreateColaboradoresComponent implements OnInit {
         }
     }
 
-    // openSnackBar() {
-    //     this._snackBar.open('Colaborador salvo com sucesso.', '', {
-    //         horizontalPosition: 'center',
-    //         verticalPosition: 'top',
-    //         panelClass: 'green-snackbar',
-    //         duration: 3 * 1000,
-    //     });
-    // }
+   
 
 
     showEndereco = false

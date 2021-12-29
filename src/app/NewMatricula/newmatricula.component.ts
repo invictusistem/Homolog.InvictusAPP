@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
+import { TokenInfos } from '../_shared/models/token.model';
 
 declare interface RouteInfo {
     path: string;
@@ -36,6 +37,8 @@ export class NewMatriculaComponent implements OnInit {
     private baseUrl = environment.baseUrl;
     mensagem: any;
     public htmlContent: any;
+    private jwtHelper = new JwtHelperService();
+    public tokenInfo: TokenInfos = new TokenInfos();
     
     constructor(
         //private jwtHelper: JwtHelperService, 
@@ -43,7 +46,7 @@ export class NewMatriculaComponent implements OnInit {
         private _modal: MatDialog,
         private _http: HttpClient) {
         const navigation = this._router.getCurrentNavigation();
-        console.log(navigation.extras['state'])
+       // console.log(navigation.extras['state'])
         if (navigation.extras['state'] != undefined) {
             const state = navigation.extras.state as { data: string };
             this.data = state.data;
@@ -52,7 +55,9 @@ export class NewMatriculaComponent implements OnInit {
     }
     ngOnInit() {
         // this.isUserAuthenticated();
-        console.log(this.data != "")        
+        const token = localStorage.getItem('jwt')
+        this.tokenInfo = this.jwtHelper.decodeToken(token)
+        //console.log(this.data != "")        
         this.menu = ROUTES.filter(menu => menu);
     }
 
