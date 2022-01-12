@@ -16,9 +16,9 @@ export const ROUTES: RouteInfo[] = [
     { path: './adm', title: 'Administrativo', class: '' },
     { path: './newmat', title: 'Matrícula', class: '', },
     { path: './pedag', title: 'Pedagógico', class: '', },
-   // { path: './comercial', title: 'Comercial', class: '', },
-   // { path: './financeiro', title: 'Financeiro', class: '', },
-    { path: './aluno', title: 'Aluno', class: '', },
+    //{ path: './comercial', title: 'Comercial', class: '', },
+    { path: './financeiro', title: 'Financeiro', class: '', },
+    { path: './aluno', title: 'Aluno', class: '', }
    // { path: './geral', title: 'Master', class: '', },
     //{ path:'./operadorUP', title:'Painel Técnicos Externos', class:''},
     //{ path: '/adm/colaboradores', title: 'Colaboradores', class: '', typeIcon: 'engineering' },
@@ -41,6 +41,7 @@ export class NavBarComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        console.log('enter navBar')
         this.menu = ROUTES.filter(menu => menu);
         //this.isUserAuthenticated();
     }

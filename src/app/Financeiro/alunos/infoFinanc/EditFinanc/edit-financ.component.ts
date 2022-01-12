@@ -18,11 +18,10 @@ import { Debito, InfoFinanceiras } from "src/app/_shared/models/InfoFinanceiras.
 export class EditFinancComponent implements OnInit {
 
     baseUrl = environment.baseUrl;
-    
-    public aluno: Aluno = new Aluno();
-     
-    public debito: Debito = new Debito();
-   
+
+    public aluno: any;// = new Aluno();
+    public debito: any;//Debito = new Debito();
+    public turma: any
 
     constructor(
         private _fb: FormBuilder,
@@ -31,37 +30,31 @@ export class EditFinancComponent implements OnInit {
         // private _service: PedagService,
         public dialogRef: MatDialogRef<EditFinancComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-
-     
-
-
-        //this.alunoForm.get('logradouro').disable()
-        //this.alunoForm.get('cidade').disable()
-        //this.alunoForm.get('uf').disable()
-
     }
 
     ngOnInit() {
 
         this.aluno = Object.assign({}, this.data['aluno'])
         this.debito = Object.assign({}, this.data['debito'])
+        this.turma = Object.assign({}, this.data['turma'])
         // this.nome = this.data['aluno'].nome
-        console.log( this.aluno)
+        console.log(this.aluno)
         console.log(this.debito)
+        console.log(this.turma)
         //this.getInfoFinancAlunos(this.data['aluno'].id)
     }
 
-    
-    quitar(debitoId){
+
+    quitar(debitoId) {
 
         this._http.put(`${this.baseUrl}/financeiro/boleto-pagar/${debitoId}`, {})
-        .subscribe(resp => {
+            .subscribe(resp => {
 
-        },
-        (error) => { console.log(error) },
-        () => {
-            this.dialogRef.close({ clicked: "PAGO"})
-        })
+            },
+                (error) => { console.log(error) },
+                () => {
+                    this.dialogRef.close({ clicked: "PAGO" })
+                })
         //boleto-pagar/{idDebito}
 
     }
@@ -71,7 +64,7 @@ export class EditFinancComponent implements OnInit {
     //public bairro = ''
     public localidade = ''
     public uf = ''
-    
+
 
     saveEditAluno() {
 
@@ -84,11 +77,11 @@ export class EditFinancComponent implements OnInit {
     }
 
     onSubmit(form: FormGroup) {
-       
-        
+
+
     }
 
-   
+
 
 
 }

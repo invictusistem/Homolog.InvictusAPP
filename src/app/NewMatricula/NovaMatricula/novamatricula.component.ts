@@ -1,13 +1,21 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
-import { PageEvent } from "@angular/material/paginator";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Parametros } from "src/app/Adm/Colaboradores/colaboradores.component";
+import { BoletimAlunoComponent } from "src/app/Pedagogico/Matricula/BoletimAluno/boletimaluno.component";
+import { InfoCadastraisComponent } from "src/app/Pedagogico/Matricula/InfoCad/info-cadastrais.component";
+import { InfoFinancPedagComponent } from "src/app/Pedagogico/Matricula/infoFinancas/infofinanc.component";
+import { InfosComponent } from "src/app/Pedagogico/Matricula/informacoes/infos.component";
+import { AlunoMatriculaComponent } from "src/app/Pedagogico/Matricula/matricula/alunomatricula.component";
+import { InfoFinancComponentModal } from "src/app/Pedagogico/service/modal.config";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { Aluno } from "src/app/_shared/models/aluno.model";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { environment } from "src/environments/environment";
+import { NewMatriculaService } from "../services/newmatricula.service";
 import { CreateNovaMatriculaComponent } from "./CreateMatricula/createnovamatricula.component";
 
 
@@ -19,131 +27,142 @@ import { CreateNovaMatriculaComponent } from "./CreateMatricula/createnovamatric
 })
 
 export class NovaMatriculaComponent implements OnInit {
-
-
-    // colaboradores: Colaborador[] = new Array<Colaborador>();
-    baseUrl = environment.baseUrl;
+    
+    showMessageNoAluno = false
+    length: number = 0
+    //mensagem: string = "";
     // length: number;
-    // pageSize: number = 5;
-    // pageEvent: PageEvent;
-    // pageIndexNumber: number = 0;
+    pageSize: number = 5;
+    pageEvent: PageEvent;
+    pageIndexNumber: number = 0;
     // formSubmitted: boolean = false;
     // showTable: boolean = false;
     // paginationInfo: IPager;
     // showMessage: boolean = false;
-    
-    listAlunos: Aluno[] = new Array<Aluno>();
+    spinnerSearch = false 
+    showMessageNoColaborador = false
+    params: Parametros = new Parametros()
+    alunos: any[] = new Array<any>();
+    currentPage = 1
+
+    public pesquisarForm: FormGroup
+
+    @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(
-        private _snackBar: MatSnackBar,
-        private CreateMatriculaModal: MatDialog,
-        private http: HttpClient,
-        //private CreateColaboradoresModal: MatDialog,
-        //private EditColaboradoresModal: MatDialog
-    ) { }
-    ngOnInit() {
-        console.log('init matricula')
-        //this.getColaboradores(1, this.pageSize);
+        //private _snackBar: MatSnackBar,
+        private _newMatService: NewMatriculaService,
+        private _modal: MatDialog,
+        private _fb: FormBuilder,
+        private _http: HttpClient
+    ) {
+        this.pesquisarForm = _fb.group({
+            nome: ['', [Validators.required]],
+            email: ['', [Validators.required]],
+            cpf: ['', [Validators.required]],
+            ativo: [false],
+            todasUnidades: [false],
+        });
+
+        this.pesquisarForm.valueChanges.subscribe(
+            (form: any) => {
+                // console.log('form changed to:', form);
+                if (this.pesquisarForm.get('nome').value == '' &&
+                    this.pesquisarForm.get('email').value == '' &&
+                    this.pesquisarForm.get('cpf').value == '') {
+                    //  console.log('false valid')
+
+                    this.pesquisarForm.controls['nome'].setErrors({ required: true });
+                    this.pesquisarForm.controls['email'].setErrors({ required: true });
+                    this.pesquisarForm.controls['cpf'].setErrors({ required: true });
+                    // this.pesquisarForm.setErrors({required: true});
+                } else {
+                    //   console.log('true valid')
+                    this.pesquisarForm.controls['nome'].setErrors(null);
+
+                    this.pesquisarForm.controls['email'].setErrors(null)
+
+                    this.pesquisarForm.controls['cpf'].setErrors(null);
+
+                    //this.pesquisarForm.setErrors({required: false});
+
+
+                }
+
+
+            }
+
+
+        );
+
     }
-    // pageIndex = 0
+
+
+
+    ngOnInit() {        
+    }    
+    
+    submitPesquisa(event?: any) {
+
+        this.showMessageNoColaborador = false
+
+        if (this.pesquisarForm.valid) {
+            this.spinnerSearch = true
+
+            if (event != undefined) {
+                this.currentPage = event.pageIndex + 1
+            } else {
+                this.currentPage = 1
+            }
+
+
+            this._newMatService.getAlunos(this.pageSize, this.currentPage, this.pesquisarForm.value)
+                .subscribe(
+                    sucesso => { this.processarSucesso(sucesso, event) },
+                    falha => { this.processarFalha(falha) }
+                );
+
+        }
+
+    }
+
     
 
-    getColaboradores(actualPage: number, pageSize: number) {
+    processarSucesso(response: any, event?: any) {
+       
+        this.alunos = Object.assign([], response['data']);
 
-    }
+        this.length = response['totalItemsInDatabase']
 
-    clicar(evento: any) {
-
-    }
-
-    paginationChange(pageEvt: PageEvent) {
-        console.log(pageEvt)
-
-    }
-
-
-    params: Parametros = new Parametros()
-    pesquisar(nome: string, email: string, cpf: string) {
-
-        console.log(nome + " " + email + " " + cpf)
-        if (nome == "" || nome == undefined) nome = ""
-        if (email == "" || email == undefined) email = ""
-        if (cpf == "" || cpf == undefined) cpf = ""
-
-        if ((nome == "" || nome == undefined) &&
-            (email == "" || email == undefined) &&
-            (cpf == "" || cpf == undefined)) {
-            console.log("retorno")
-            return;
+        this.spinnerSearch = false
+        if (event != undefined){
+            this.pageIndexNumber = (event.pageIndex * this.pageSize)
+        }else{
+            this.pageIndexNumber = 0
+          
+            this.paginator.firstPage();
         }
 
-        this.http.get(`${this.baseUrl}/matricula/alunos/?query={"nome":"${nome}","email":"${email}","cpf":"${cpf}"}`)
-            .subscribe(
-                (response) => {
-                    console.log(response)
-                    this.listAlunos = Object.assign([], response)
-                   
-                },
-                (err) => {
-                    //this.showSpinnerFirst = false
-                    console.log(err)
-                    //this.openSnackBar(err)
-
-                },
-                () => {
-                    //this.showSpinnerFirst = false
-                    console.log('ok get');
-                    //this.pageIndexNumber = (evento.pageIndex * this.pageSize)
-                },
-            )
-
     }
 
-    consulta(nome: string) {
+    processarFalha(fail: any) {
 
-        if (nome == "") {
-            // TODO: sendo form alert: selecionar ao menos um
-            return;
-        }
+        // if (fail['status'] == 404) {
+        //     this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
+        //     this.showMessageNoColaborador = true
+        //     this.colaboradores = new Array<any>();
+        // }
+        // if (fail['status'] != 404) {
+        //     this.mensagem = "Ocorreu um erro desconhecido, por favor, procure o administrador do sistema"
+        //     this.showMessageNoColaborador = true
+        //     this.colaboradores = new Array<any>();
+        // }
 
-        this.http.get(`${this.baseUrl}/matricula/alunos/?email=&cpf=&nome=${nome}`)
-            .subscribe(response => {
-
-                console.log(response)
-                this.listAlunos = Object.assign([], response)
-
-            }, err => { console.log(err) },
-                () => {
-                   
-                });
-    }
-
-    matricular(aluno){
-    //     const dialogRef = this.CreateMatriculaModal
-    //     .open(AlunoMatriculaComponent, {
-    //         height: 'auto',
-    //         width: '1000px',
-    //         autoFocus: false,
-    //         maxHeight: '90vh',
-
-    //         data: { alunoId: aluno.id },
-    //         hasBackdrop: true,
-    //         disableClose: true
-    //     });
-   
-    // dialogRef.afterClosed().subscribe((data) => {
-    //     if (data.clicked === "OK") {
-    //         this.openSnackBar()
-    //         console.log('afte close ok')
-    //     } else if (data.clicked === "Cancel") {
-           
-    //     }
-    // });
-
+        // this.spinnerSearch = false
     }
 
     openMatriculaModal(): void {
-        const dialogRef = this.CreateMatriculaModal
+        const dialogRef = this._modal
         .open(CreateNovaMatriculaComponent, {
             height: 'auto',
             width: '1000px',
@@ -157,7 +176,7 @@ export class NovaMatriculaComponent implements OnInit {
    
     dialogRef.afterClosed().subscribe((data) => {
         if (data.clicked === "OK") {
-            this.openSnackBar()
+           // this.openSnackBar()
             console.log('afte close ok')
         } else if (data.clicked === "Cancel") {
             // Do nothing. Cancel any events that navigate away from the
@@ -166,54 +185,132 @@ export class NovaMatriculaComponent implements OnInit {
     });
     }
 
+    matricular(aluno) {
+        const dialogRef = this._modal
+            .open(AlunoMatriculaComponent, {
+               // minHeight: '610px',
+                width: '850px',
+               // autoFocus: false,
+                //maxHeight: '400vh',
+
+                data: { aluno: aluno },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "Ok") {
+                //clicked: "Ok"
+              //  this.openSnackBar()
+                this.submitPesquisa();
+                console.log('afte close ok')
+            } else if (data.clicked === "Cancel") {
+                // Do nothing. Cancel any events that navigate away from the
+                // component.
+            }
+        });
+
+    }
+
+    viewInfoCadastrais(aluno): void {
+        const dialogRef = this._modal
+            .open(InfoCadastraisComponent, {
+                height: 'auto',
+                width: '1000px',
+                autoFocus: false,
+                maxHeight: '400vhvh',
+
+                data: { aluno: aluno },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "OK") {
+               this.submitPesquisa();
+                console.log(JSON.stringify(this.pesquisarForm.value))
+            } else if (data.clicked === "Cancel") {
+                // Do nothing. Cancel any events that navigate away from the
+                // component.
+            }
+        });
+    }
+
+
     openInfoModal(aluno: Aluno): void {
+        const dialogRef = this._modal
+            .open(InfosComponent, {
+                height: '90vh',
+                width: '1000px',
+                autoFocus: false,
+                // maxHeight: '90vh',
+
+                data: { aluno: aluno },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "OK") {
+                //this.openSnackBar()
+                console.log('afte close ok')
+            } else if (data.clicked === "Cancel") {
+                // Do nothing. Cancel any events that navigate away from the
+                // component.
+            }
+        });
+    }
+
+    openInfoFinancModal(aluno: Aluno): void {
+        const dialogRef = this._modal
+            .open(InfoFinancPedagComponent, InfoFinancComponentModal(aluno));
+        dialogRef.afterClosed().subscribe(
+            data => { });
+
+
         // const dialogRef = this.CreateMatriculaModal
-        //     .open(InfosComponent, {
+        //     .open(InfoFinancPedagComponent, {
         //         height: '90vh',
-        //         width: '1000px',
+        //         width: '1050px',
         //         autoFocus: false,
-              
+
 
         //         data: { aluno: aluno },
         //         hasBackdrop: true,
         //         disableClose: true
         //     });
-       
+
         // dialogRef.afterClosed().subscribe((data) => {
         //     if (data.clicked === "OK") {
         //         this.openSnackBar()
         //         console.log('afte close ok')
         //     } else if (data.clicked === "Cancel") {
-              
+
         //     }
         // });
     }
 
-    openSnackBar() {
-        this._snackBar.open('Aluno matriculado com sucesso', '', {
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: 'green-snackbar',
-            duration: 3 * 1000,
+    openBoletimodal(aluno: Aluno): void {
+        const dialogRef = this._modal
+            .open(BoletimAlunoComponent, {
+                height: '90vh',
+                width: '1000px',
+                autoFocus: false,
+
+
+                data: { aluno: aluno },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "OK") {
+               // this.openSnackBar()
+                console.log('afte close ok')
+            } else if (data.clicked === "Cancel") {
+
+            }
         });
     }
 
-    deleteColaborador(id: number) {
-
-       
-    }
-
-}
-
-
-export interface IPager {
-    itemsPerPage?: number;
-    totalItemsInDatabase?: number;
-    currentPage?: number;
-    totalPages?: number;
-    items?: number;
-}
-
-function InfoComponent(InfoComponent: any, arg1: { height: string; width: string; autoFocus: false; maxHeight: string; data: { Hello: string; }; hasBackdrop: true; disableClose: true; }) {
-    throw new Error("Function not implemented.");
 }

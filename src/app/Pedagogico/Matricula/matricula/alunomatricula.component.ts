@@ -63,8 +63,7 @@ export class AlunoMatriculaComponent implements OnInit {
         public dialogRef: MatDialogRef<AlunoMatriculaComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
 
-        this.planoPgmAluno = _fb.group({
-            //descricao: ['', [Validators.required]],
+        this.planoPgmAluno = _fb.group({           
             valor: [0.00, [Validators.required]],
             taxaMatricula: [0.00, [Validators.required]],
             confirmacaoPagmMat: [false, [Validators.required]],
@@ -73,12 +72,7 @@ export class AlunoMatriculaComponent implements OnInit {
             planoId: ['', [Validators.required]],
             diaDefault: [''],
             valorParcela: [0, [Validators.required, Validators.min(1)]],
-            infoParcelas: ['']
-            // temRespFin: [false]
-            /*
-            
-             
-            */
+            infoParcelas: ['']          
 
         })
 
@@ -86,8 +80,6 @@ export class AlunoMatriculaComponent implements OnInit {
         this.temRespFinm = _fb.group({
             temRespFin: [false]
         })
-
-
 
 
         this.respFinForm = _fb.group({
@@ -110,7 +102,6 @@ export class AlunoMatriculaComponent implements OnInit {
             cidade: ['', [Validators.required, Validators.minLength(1)]],
             uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
             bairro: ['', [Validators.required, Validators.minLength(1)]],
-            // observacoes: ['', [Validators.minLength(1), Validators.maxLength(300)]]
 
         })
 
@@ -135,35 +126,26 @@ export class AlunoMatriculaComponent implements OnInit {
             complemento: [''],
             cidade: ['', [Validators.required, Validators.minLength(1)]],
             uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
-            bairro: ['', [Validators.required, Validators.minLength(1)]],
-            // observacoes: ['', [Validators.minLength(1), Validators.maxLength(300)]],
-
-            //temRespFin: [false]
+            bairro: ['', [Validators.required, Validators.minLength(1)]]
 
         })
         this.matriculaTurmaForm = _fb.group({
             responsave: []
-            // cienciaCurso: ['', [Validators.required]],
-            // meioPagamento: [, [Validators.required]],
-            // primeiraParcPaga: [, [Validators.required]],
-            // parcelas: ['', [Validators.required, Validators.min(1)]],
-            // idAlunoIndicacao: [, [Validators.required]],
-            // diaVencimento: [, Validators.required]
+           
         })
 
     }
 
     ngOnInit() {
         this.data['aluno']
-        // console.log(this.data['aluno'])
 
         this.hidden = 'visible'
-        //this.getCursos(0,0)
+       
         this.consultarCursos()
     }
 
     modelChanged(newObj) {
-        // console.log(newObj.checked)
+       
         this.temRespFinm.get('temRespFin').setValue(newObj.checked);
     }
 
@@ -173,8 +155,7 @@ export class AlunoMatriculaComponent implements OnInit {
         var currentPage = 1;
 
         this.http.get(`${this.baseUrl}/turmas/cursosUnidade`, {
-            //this.http.post("http://api.invictustemp.com.thor.hostazul.com.br/api/identity/login", credentials, {
-
+            
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
                 "Authorization": "Bear "
@@ -424,6 +405,9 @@ export class AlunoMatriculaComponent implements OnInit {
         // this.planoPgmAluno.get('diaDefault').setValue(initialDate)
         let data = new Date(this.planoPgmAluno.get('diaDefault').value)
         data.setMonth(data.getMonth() + number)
+        data.setHours(0)
+        data.setMinutes(0)
+        data.setSeconds(0)
         return data
 
     }

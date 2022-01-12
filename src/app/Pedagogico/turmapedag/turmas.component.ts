@@ -1,7 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
+import { TokenInfos } from "src/app/_shared/models/token.model";
 import { TurmaViewModel } from "src/app/_shared/models/Turma.model";
 import { environment } from "src/environments/environment";
 import { AgendamentoComponent } from "./agendamento/agendamento.component";
@@ -25,6 +27,12 @@ export class TurmasComponent implements OnInit {
     showMessage = false
     showSpinner = false
     mensagem: string;
+    private jwtHelper = new JwtHelperService();
+    tokenInfo: TokenInfos = new TokenInfos();
+
+
+
+
 
     constructor(
         private _http: HttpClient,
@@ -33,7 +41,10 @@ export class TurmasComponent implements OnInit {
 
     }
     ngOnInit() {
+        const token = localStorage.getItem('jwt')
+        this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.getTurmas();
+
     }
 
     agendarProvas() {
@@ -54,17 +65,17 @@ export class TurmasComponent implements OnInit {
                 console.log(this.turmas)
             },
                 (error) => {
-                   // this.mensagem = "Ocorreu um erro! Contate o Administrador!"
+                    // this.mensagem = "Ocorreu um erro! Contate o Administrador!"
                     console.log(error)
                     this.mensagem = "Não há turmas cadastradas ou em andamento."
-                        this.showTurmas = false
-                        this.showMessage = true
-                        this.showSpinner = false
+                    this.showTurmas = false
+                    this.showMessage = true
+                    this.showSpinner = false
                 },
-                () => {                    
-                        this.showTurmas = true
-                        this.showMessage = false
-                        this.showSpinner = false                    
+                () => {
+                    this.showTurmas = true
+                    this.showMessage = false
+                    this.showSpinner = false
                 })
     }
 
@@ -85,6 +96,16 @@ export class TurmasComponent implements OnInit {
             console.log('The dialog was closed');
             // this.animal = result;
         });
+    }
+
+    podeIniciarAula(turma) {
+        //console.log('pode iniciar')
+        if (this.tokenInfo.role == 'MasterAdm') {
+            return false
+        }
+
+
+        return !turma.podeIniciar
     }
 
     openAgendamento(turma): void {
@@ -112,7 +133,7 @@ export class TurmasComponent implements OnInit {
             height: 'auto',
             width: '1030px',
             autoFocus: false,
-           // maxHeight: '90vh',
+            // maxHeight: '90vh',
             maxWidth: '400vh',
             data: { turma: turma },
             hasBackdrop: true,
@@ -170,8 +191,10 @@ export class TurmasComponent implements OnInit {
         <div style="font-size: 1.2em;">
             Professor! Tem certeza que deseja inicar a aula?
         </div>
-        <div>
-            A aula será iniciada e só poderá ser encerrada ao final da aula após o preenchimento das lista de presença.
+        <br>
+        <div style="text-align: justify; margin-top: 10px">
+            A aula será iniciada e só poderá ser encerrada ao final da aula após o preenchimento da lista de presença e do 
+            conteúdo programático.
         </div>
     </div>
     <div class="row">
@@ -192,23 +215,23 @@ export class ConfirmarIniciarAulaModal implements OnInit {
 
     ngOnInit() {
         console.log(this.data['turma'].calendarioId)
-        
+
     }
 
     iniciarAula() {
-            // calendario/{calendarioId}
-            this._http.put(`${this.BaseUrl}/turmas/calendario/${this.data['turma'].calendarioId}`, {})
-            .subscribe(resp => { 
+        // calendario/{calendarioId}
+        this._http.put(`${this.BaseUrl}/turmas/calendario/${this.data['turma'].calendarioId}`, {})
+            .subscribe(resp => {
 
-            },(error) => { 
+            }, (error) => {
                 console.log(error)
                 this.dialogRef.close({ clicked: "Sim" })
             },
-            () => { 
-                this.dialogRef.close({ clicked: "Sim" })
-            })
+                () => {
+                    this.dialogRef.close({ clicked: "Sim" })
+                })
 
 
-        
+
     }
 }

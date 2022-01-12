@@ -41,6 +41,7 @@ import { AnaliseDocsComponent } from './Pedagogico/analise-docs/analisedocs.comp
 import { GeralComponent } from './Geral/geral.component';
 import { EstagiosDocsComponent } from './Pedagogico/estagiosdocs/estagiosdocs.component';
 import { EstagioComponent } from './Pedagogico/estagios/estagio.component';
+import { PDFTesteComponent } from './Adm/PdfTeste/pdfteste.component';
 
 export const routes: Routes = [
   {
@@ -63,7 +64,8 @@ export const routes: Routes = [
       { path: 'config', component: ConfiguracoesComponent, canActivate: [AuthGuard] },
       { path: 'modulo', component:ModuloComponent, canActivate: [AuthGuard] },
       { path: 'contrato', component:ContratoComponent, canActivate: [AuthGuard] },
-      { path: 'planopgm', component:PlanoPgmComponent, canActivate: [AuthGuard] }
+      { path: 'planopgm', component:PlanoPgmComponent, canActivate: [AuthGuard] },
+      { path: 'pdf', component:PDFTesteComponent, canActivate: [AuthGuard] }
     ]
   },
   {

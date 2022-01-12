@@ -24,6 +24,21 @@ export class PedagogicoService extends BaseService {
             return response;
     }
 
+    getAlunos(pageSize?: number, currentPage?: number, jsonParam?: any) : Observable<any> {       
+
+        var formJson = JSON.stringify(jsonParam)
+
+        let path = `/alunos/pesquisar/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson=${formJson}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
 /*
     getColaboradores(pageSize?: number, currentPage?: number, jsonParam?: any) : Observable<any> {       
         

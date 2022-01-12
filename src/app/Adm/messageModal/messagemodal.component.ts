@@ -27,8 +27,7 @@ export class MessageModalComponent implements OnInit {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         console.log(this.data['message'])
-        this.mensagem = this.data['message'].message
-
+        this.mensagem = this.data['message']
     }
 
 }

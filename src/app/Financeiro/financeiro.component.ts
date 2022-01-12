@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { TokenInfos } from '../_shared/models/token.model';
 
 
 
@@ -30,6 +32,9 @@ export class FinanceiroComponent implements OnInit{
 
     
     menu: any;
+    private jwtHelper = new JwtHelperService();
+    public tokenInfo: TokenInfos = new TokenInfos();
+    
     constructor(
         //private jwtHelper: JwtHelperService, 
         private router: Router, 
@@ -38,6 +43,8 @@ export class FinanceiroComponent implements OnInit{
             
         }
     ngOnInit(){
+        const token = localStorage.getItem('jwt')
+        this.tokenInfo = this.jwtHelper.decodeToken(token)
        // this.isUserAuthenticated();
        this.menu = ROUTES.filter(menu => menu);
     }    

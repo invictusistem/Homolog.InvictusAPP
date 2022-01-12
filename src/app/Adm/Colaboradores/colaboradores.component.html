@@ -93,6 +93,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of colaboradores;let i = index;" @rowHighlight>
+                           
                             <td style="text-align:center;vertical-align: middle;">
                                 {{(i + 1)+(pageIndexNumber)}}
                             </td>
@@ -144,7 +145,7 @@
                 background-color: rgb(227, 240, 227);
                 bottom: 0px;
                 right: 0px;" 
-                disabled
+                
                 [length]="length"
                  [pageSize]="pageSize" hidePageSize="true"
                 (page)="pageEvent = onSubmit($event)">

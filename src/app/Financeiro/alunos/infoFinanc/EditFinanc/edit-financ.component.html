@@ -10,12 +10,12 @@
 
 
 <ng-container *ngIf="debito.status != 'Pago'">
-    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="quitar" matTooltipPosition="above"
+    <!-- <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="quitar" matTooltipPosition="above"
         matTooltipHideDelay="100">
         <button (click)="quitar(debito.id)" style="" mat-icon-button>
             <mat-icon style="color:green">paid</mat-icon>
         </button>
-    </i>
+    </i> -->
 </ng-container>
 
 <mat-form-field appearance="standard" style="width: 35%; ">
@@ -25,11 +25,11 @@
 
 <mat-form-field appearance="standard" style="width: 12%; margin-left: 5%; ">
     <mat-label>Nº matrícula</mat-label>
-    <input value="000213" selected disabled required name="nome" matInput placeholder="Nome">
+    <input [value]="aluno.numeroMatricula" selected disabled required name="nome" matInput placeholder="Nome">
 </mat-form-field>
 <br>
 
-<div *ngIf="debito.status != 'Pago';else naoPago" style="vertical-align: middle;">
+<div *ngIf="debito.statusBoleto != 'Pago';else naoPago" style="vertical-align: middle;">
     <i style="vertical-align: middle;margin-left: 5px;float: left;">
 
         <mat-icon style="font-size: 1em;color:red">warning</mat-icon>
@@ -37,23 +37,23 @@
     </i>
 
     <span style="font-size: 0.9em;">
-        Pagamento {{debito.status}} - competência {{ debito.competencia | date:'M/y'}}
+        Status: {{debito.statusBoleto}} - vencimento {{ debito.vencimento | date:'dd/MM/y'}}
     </span>
 </div>
 
 
 <ng-template #naoPago>
     <div style="vertical-align: middle;">
-    <i style="vertical-align: middle;margin-left: 5px;float: left;">
+        <i style="vertical-align: middle;margin-left: 5px;float: left;">
 
-        <mat-icon style="font-size: 1em;color:green">paid</mat-icon>
+            <mat-icon style="font-size: 1em;color:green">paid</mat-icon>
 
-    </i>
+        </i>
 
-    <span style="font-size: 0.9em;">
-        Pagamento efetuado em {{ debito.dataPagamento | date:'M/y'}}
-    </span>
-</div>
+        <span style="font-size: 0.9em;">
+            Pagamento efetuado em {{ debito.dataPagamento | date:'dd/MM/y'}}
+        </span>
+    </div>
 </ng-template>
 
 
@@ -63,16 +63,16 @@
 
 <mat-form-field *ngIf="debito.status != 'Pago';else recebido" appearance="standard" style="width: 100px; ">
     <mat-label>Valor a receber</mat-label>
-    <input [value]="debito.valorTitulo" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
-        selected disabled required name="nome" matInput placeholder="Nome">
+    <input [value]="debito.valor" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" selected
+        disabled required name="nome" matInput placeholder="Nome">
 </mat-form-field>
 
 <ng-template #recebido appearance="standard" style="width: 15%; ">
 
-    <mat-form-field appearance="standard" style="width: 15%; ">
+    <mat-form-field appearance="standard" style="width: 17%; ">
         <mat-label>Valor a receber</mat-label>
-        <input [value]="debito.valorPago" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
-            selected disabled required name="nome" matInput placeholder="Nome">
+        <input [value]="debito.valor" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" selected
+            disabled required name="nome" matInput placeholder="Nome">
     </mat-form-field>
 
 </ng-template>
@@ -80,10 +80,10 @@
 <br>
 
 <span style="font-size: 0.9em;">
-    Código da transação: 6DA980C6-9FD6-41B5-8DC2-81FEFBE7302F
+    Linha Digitável: {{ debito.linhaDigitavel }}
 </span>
 <!-- <div style="font-weight: 400;font-size: 0.9;margin-left: 30px;">débito gerado em </div> -->
 <br>
 <span style="font-size: 0.9em;">
-    parcela pagamento Curso Técnico em Enfermagem
+    pagamento {{ debito.subConta }} 
 </span>

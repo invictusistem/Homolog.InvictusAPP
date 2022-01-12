@@ -50,6 +50,19 @@ export class AdmService extends BaseService {
             return response;
     }
 
+    getSystemRoles() : Observable<any> {  
+
+        let path = `/usuario/roles`
+        
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
     getMateriasByTypeId(typePacoteId: any) : Observable<any>{
         // /materia-template/filtro/${typeId}
         let path = `/materia-template/filtro/${typePacoteId}`
@@ -82,6 +95,19 @@ export class AdmService extends BaseService {
         
         let response = this.http
             .put(this.BaseUrl + path, dispo, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
+    editUsuario(usuario: any) : Observable<any>{
+
+        let path = `/usuario`
+        
+        let response = this.http
+            .put(this.BaseUrl + path, usuario, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
@@ -135,6 +161,21 @@ export class AdmService extends BaseService {
     GetEditModuleViewModel(pacoteId): Observable<any>{
 
         let path = `/pacote/edit/${pacoteId}`
+        
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+
+    }
+
+
+    GetUsuarioAcessos(userId): Observable<any>{
+
+        let path = `/pacote/edit/${userId}`
         
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())

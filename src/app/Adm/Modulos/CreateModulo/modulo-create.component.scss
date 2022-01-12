@@ -12,18 +12,16 @@
 //     transform: scale(0.85);
 //   }
 
-::ng-deep .mat-form-field {  
+::ng-deep .mat-form-field {
   font-size: 0.9em;
 }
 
 ::ng-deep .mymodulocreate-class .mat-dialog-container {
-  
   height: 70vh;
   width: 850px;
-
 }
 
-::ng-deep .mat-tab-group{
+::ng-deep .mat-tab-group.matcreatemodulo {
   height: 360px !important;
 }
 //   ::ng-deep .mat-form-field-underline .mat-form-field-ripple{

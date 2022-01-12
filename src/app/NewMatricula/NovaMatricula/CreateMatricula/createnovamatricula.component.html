@@ -135,7 +135,8 @@
 
             <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
                 <mat-label>WhatsApp</mat-label>
-                <input formControlName="telWhatsapp" mask="(00) 00000-0000" matInput
+                <input formControlName="telWhatsapp" mask="(00) 00000-0000" matInput 
+                
                     onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
             </mat-form-field>
 
@@ -227,5 +228,7 @@
             Salvar
         </button>     
     </form>
+
+    <div *ngIf="pegarform"></div>
 
 </div>

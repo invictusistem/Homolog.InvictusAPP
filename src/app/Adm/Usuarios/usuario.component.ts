@@ -7,7 +7,9 @@ import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
 import { Parametros } from "../Colaboradores/colaboradores.component";
+import { EditAcessoModal } from "../services/modal.config";
 import { CreateUserComponent } from "./CreateModal/createuser.component";
+import { EditAcessoComponent } from "./EditAcesso/editacesso.component";
 import { EditUserComponent } from "./EditModal/edituser.component";
 
 @Component({
@@ -31,13 +33,17 @@ export class UsuarioComponent implements OnInit {
 
     constructor(
         private http: HttpClient,
-        private userCreateModal: MatDialog,
-        private editCreateModal: MatDialog) { }
+        private _modal: MatDialog) { }
     ngOnInit() {
         //this.getUsers(1, this.pageSize)
 
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
+    }
+
+    get disabledEdit(){
+
+        return false
     }
 
     /*
@@ -57,7 +63,7 @@ export class UsuarioComponent implements OnInit {
         }
     */
     openCreateUserModal(): void {
-        const dialogRef = this.userCreateModal
+        const dialogRef = this._modal
             .open(CreateUserComponent, {
                 height: 'auto',
                 width: '700px',
@@ -82,7 +88,7 @@ export class UsuarioComponent implements OnInit {
     }
 
     openEditUserModal(item: Colaborador): void {
-        const dialogRef = this.editCreateModal
+        const dialogRef = this._modal
             .open(EditUserComponent, {
                 height: '300px',
                 width: '600px',
@@ -104,6 +110,14 @@ export class UsuarioComponent implements OnInit {
             //this.newtasks. = this.templateTasks
             // this.templateTasks = result;
         });
+    }
+
+    openAcessoModal(usuario){
+        const dialogRef = this._modal
+        .open(EditAcessoComponent, EditAcessoModal(usuario));
+    dialogRef.afterClosed().subscribe((data) => {
+
+    });
     }
 
     showMessageNoColaborador = false

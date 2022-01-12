@@ -23,6 +23,7 @@ import { Servico } from '../Adm/_TESTES/testeexterno';
 import { NovaMatriculaComponent } from './NovaMatricula/novamatricula.component';
 import { CreateNovaMatriculaComponent } from './NovaMatricula/CreateMatricula/createnovamatricula.component';
 import { ConfirmNovaMatriculaComponent } from './NovaMatricula/CreateMatricula/Confirm/confirmnova.component';
+import { NewMatriculaService } from './services/newmatricula.service';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -53,7 +54,7 @@ export function tokenGetter() {
         NgxMaskModule.forRoot(maskConfig),
     ],
     //providers: [AuthGuard],
-    providers: [CurrencyPipe, DatePipe, { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
+    providers: [NewMatriculaService, CurrencyPipe, DatePipe, { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
     {provide: 'IServicoToken', useClass: Servico}
     ],
     exports: [

@@ -15,6 +15,43 @@
 
 
     <br>
+    <!-- <div style="bottom: 0; float:right;">
+       
+    </div>
+    <form [formGroup]="testeForm" class="form-inline siteForm"
+        style="margin-top: 5px;display: inline-block">       
+
+            <mat-form-field  appearance="standard">
+                <mat-label>Nome</mat-label>
+                <input selected formControlName="nome" matInput placeholder="digite um nome">
+            </mat-form-field>
+
+            <mat-form-field formGroupName="child" class="siteForm-select" style="margin-left: 10px;">
+                <mat-label>E-mail</mat-label>
+                <input selected formControlName="nome" matInput placeholder="digite um nome"
+                value="testando"
+                >
+            </mat-form-field>
+
+            <button type="button"  [disabled]="disabledTest" mat-raised-button (click)="salvarTeste()"
+            color="primary" style="bottom: 0; float:right;margin-bottom: 0px;margin-left: 10px;">
+            Confirmar matrícula
+        </button>
+
+    </form>
+
+
+    <div> {{ testeForm.value | json }}</div> -->
+
+
+    <!-- <form [formGroup]="myForm" (ngSubmit)="send()">
+        <input type="text" name="name" formControlName="name">
+        <div formGroupName="child">
+           <input type="text" name="id" formControlName="id">
+           <input type="text" name="name" formControlName="name">
+        </div>
+        <button class="btn btn-primary">send</button>
+      </form> -->
 
 
     <div>
@@ -64,7 +101,11 @@
 
     </form>
 
-<br>
+    <div class="card-header card-msg-response" unselectable="on"
+    onselectstart="return false;" *ngIf="showMessageNoAluno">{{mensagem}}</div>
+
+<mat-progress-bar style="margin-top: 20px;" *ngIf="spinnerSearch" @rowHighlight style="margin:0px" mode="query">
+</mat-progress-bar>
 
 
     <div *ngIf="listAlunos.length > 0" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
@@ -77,7 +118,7 @@
             <p class="card-category">{{listAlunos.length}} alunos localizados.</p>
         </div>
         <div class="card-body">
-            <div class="table-responsive" style="height: 430px;position: relative;">
+            <div class="table-responsive" style="height: 380px;position: relative;">
                 <table @rowHighlight color="primary" style="margin-bottom: 0px;" class="table">
                     <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
                     <thead>
@@ -119,21 +160,7 @@
                 vertical-align: middle;
                 border-top: 0px; font-weight: 400;"></th>
 
-                            <!-- <th style="width: 6%;
-                border-top: 0px;"></th> -->
-
-                            <!-- <th style="width: 6%;
-                border-top: 0px;">
                             
-                            <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="criar usuário"
-                                matTooltipPosition="above" matTooltipHideDelay="100">
-                                <button 
-                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                                    mat-icon-button>
-                                    <mat-icon>plus_one</mat-icon>
-                                </button>
-                            </i>
-                        </th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -235,18 +262,18 @@
 
 
             </div>
-            <!-- <mat-paginator style=" 
+            <mat-paginator *ngIf="length > 5"
+            style=" 
             background-color: rgb(227, 240, 227);
             bottom: 0px;
             right: 0px;" 
-            *ngIf="colaboradores.length > 0" 
+            
             [length]="length" 
-            [pageSize]="pageSize" 
-            hidePageSize="true"
-            (page)="pageEvent = $event" 
-            (click)="clicar(pageEvent)"
+            [pageSize]="pageSize" hidePageSize="true"
+            (page)="pageEvent = pesquisar($event)" 
+            
             >
-          </mat-paginator> -->
+          </mat-paginator>
 
         </div>
     </div>

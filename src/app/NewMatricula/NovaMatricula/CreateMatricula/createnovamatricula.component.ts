@@ -58,13 +58,12 @@ export class CreateNovaMatriculaComponent implements OnInit {
             nascimento: ['', [Validators.required]],
             naturalidade: ['', [Validators.required]],
             naturalidadeUF: ['', [Validators.required]],
-            // temRespFin: [false, [Validators.required]],
             email: ['', [Validators.required, Validators.minLength(5), Validators.email]],
-            telReferencia: [null, [Validators.minLength(0)]],
+            telReferencia: [null, [Validators.required, Validators.minLength(10)]],
             nomeContatoReferencia: ['', [Validators.required, Validators.minLength(2)]],
-            telCelular: [null, [Validators.minLength(0)]],
-            telWhatsapp: [null, [Validators.minLength(10)]],
-            telResidencial: [null, [Validators.minLength(9)]],
+            telCelular: ['', [Validators.minLength(11)]],
+            telWhatsapp: ['', [Validators.minLength(11)]],
+            telResidencial: ['', [Validators.minLength(10)]],
             cep: ['', [Validators.required, Validators.minLength(8)]],
             logradouro: ['', [Validators.required, Validators.minLength(1)]],
             numero: ['', [Validators.required, Validators.minLength(1)]],
@@ -75,7 +74,58 @@ export class CreateNovaMatriculaComponent implements OnInit {
             ativo: [true]
         })
 
+        // this.alunoForm.valueChanges.subscribe(
+        //     (form: any) => {
 
+        //         console.log('form')
+        //         if ((this.alunoForm.get('telCelular').value == '' || this.alunoForm.get('telCelular').value == null) &&
+        //             (this.alunoForm.get('telWhatsapp').value == '' || this.alunoForm.get('telWhatsapp').value == null) &&
+        //             (this.alunoForm.get('telResidencial').value == '' || this.alunoForm.get('telResidencial').value == null)) {
+
+        //             this.alunoForm.get('telCelular').setValidators(this.telCel.concat(Validators.required))
+        //             this.alunoForm.get('telWhatsapp').setValidators(this.telWhats.concat(Validators.required))
+        //             this.alunoForm.get('telResidencial').setValidators(this.telResid.concat(Validators.required))
+
+        //             //this.alunoForm.controls['telCelular'].setErrors({ required: true });
+        //             // this.alunoForm.controls['telWhatsapp'].setErrors({ required: true });
+        //             // this.alunoForm.controls['telResidencial'].setErrors({ required: true });
+        //         } else {
+        //             this.alunoForm.get('telCelular').setValidators(this.telCel)
+        //             this.alunoForm.get('telWhatsapp').setValidators(this.telWhats)
+        //             this.alunoForm.get('telCelular').setValidators(this.telResid)
+        //             //this.alunoForm.telResidencial['telCelular'].setErrors(null);
+        //             // this.alunoForm.controls['telWhatsapp'].setErrors(null);
+        //             // this.alunoForm.controls['telResidencial'].setErrors(null);
+
+        //         }
+        //     }
+        // );
+
+
+    }
+
+    private telWhats = [
+        Validators.minLength(11)
+
+    ];
+
+    private telCel = [
+        Validators.minLength(11)
+
+    ];
+
+    private telResid = [
+        Validators.minLength(11)
+
+    ];
+
+    asd: string = ''
+
+    get pegarform() {
+
+         console.log(this.alunoForm.get('telCelular').value)
+
+        return true
     }
 
     ngOnInit() {
@@ -117,14 +167,14 @@ export class CreateNovaMatriculaComponent implements OnInit {
     }
     disabledSaveButton = false
     get disabledButton() {
-console.log()
+        console.log()
         if (this.alunoForm.valid) {
             if (this.disabledSaveButton) {
                 return true
             } else {
                 return false
             }
-          
+
         } else {
 
             return true
@@ -159,12 +209,12 @@ console.log()
         console.log(this.alunoForm.get('nascimento').value)
         var dataForm: Date = new Date(this.alunoForm.get('nascimento').value)
 
-        if(this.alunoForm.get('nascimento').value != null){
-        let timeDiff = Math.abs(Date.now() - dataForm.getTime());
-        this.idade = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
-        console.log('idade:')
-        console.log(this.idade)
-        }else{
+        if (this.alunoForm.get('nascimento').value != null) {
+            let timeDiff = Math.abs(Date.now() - dataForm.getTime());
+            this.idade = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
+            console.log('idade:')
+            console.log(this.idade)
+        } else {
             this.idade = null
         }
 

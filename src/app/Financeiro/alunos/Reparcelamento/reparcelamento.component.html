@@ -49,14 +49,14 @@
                     border-top: 0px;"></th> -->
 
 
-                        <th style="width: 8%;font-size:0.8em;
+                        <!-- <th style="width: 8%;font-size:0.8em;
                     vertical-align: middle; 
                     text-align:left;
-                     border-top: 0px; font-weight: 400;">Compet.</th>
+                     border-top: 0px; font-weight: 400;">Compet.</th> -->
 
                         <th style="width: 24%;font-size:0.8em;
                     vertical-align: middle;
-                    text-align:center;
+                    text-align:left;
                     border-top: 0px; font-weight: 400;">Curso/Turma</th>
 
                         <th style="width: 10%;font-size:0.8em;
@@ -104,37 +104,45 @@
                 <tbody>
 
                     <tr *ngFor="let debs of debitos;let i = index;">
-                        <td style="font-size:0.8em;font-weight: 400;text-align:center;vertical-align: middle;">
+                        <!-- <td style="font-size:0.8em;font-weight: 400;text-align:center;vertical-align: middle;">
                             {{debs.competencia | date:'M/y' }}
-                        </td>
+                        </td> -->
 
                         <td style="font-size:0.8em;font-weight: 400;text-align:left;vertical-align: middle;">
-                            Curso Técnico em enfermagem<br>
-                            Turma 002
+                            {{turma.descricao}}<br>
+                            {{turma.identificador}}
                         </td>
 
                         <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
-                            {{debs.dataVencimento | date:'dd/MM/y' }}
+                            {{debs.vencimento | date:'dd/MM/y' }}
                         </td>
 
                         <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
-                            {{debs.valorTitulo | currency:'BRL':true:'1.2-2' }}
+                            {{debs.valor | currency:'BRL':'R$ ' }}
                         </td>
 
                         <td style="font-size:0.8em;font-weight: 400;;text-align: center;vertical-align: middle;">
-                            <ng-container *ngIf="debs.status == 'Pago'">
+                            <ng-container *ngIf="debs.statusBoleto == 'Pago';else semData">
                                 {{debs.dataPagamento | date:'dd/MM/y' }}
                             </ng-container>
+                            <ng-template #semData>
+                                -
+                            </ng-template>
                         </td>
 
                         <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
-                            {{debs.valorPago | currency:'BRL':true:'1.2-2' || '-' }}
+                            <ng-container *ngIf="debs.valorPago != 0;else semValorPago">
+                                {{ debs.valorPago | currency:'BRL':'R$ ' }}
+                            </ng-container>
+                            <ng-template #semValorPago>
+                                -
+                            </ng-template>
                         </td>
 
                         <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
 
 
-                            <mat-checkbox *ngIf="debs.status != 'Pago'" style="margin-right: 3px;width: 50px;" type="checkbox" color="primary"
+                            <mat-checkbox *ngIf="debs.statusBoleto == 'Em aberto'" style="margin-right: 3px;width: 50px;" type="checkbox" color="primary"
                                 [(ngModel)]="debs.selected" class="example-margin" name="checked">
                             </mat-checkbox>
 

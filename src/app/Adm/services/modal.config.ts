@@ -33,3 +33,12 @@ export function ModuloEditComponentModal(data?:any){
         disableClose: true
     }
 }
+
+export function EditAcessoModal(data?:any){
+    return {      
+        width: '850px',
+        data: { moduloId: data },        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}

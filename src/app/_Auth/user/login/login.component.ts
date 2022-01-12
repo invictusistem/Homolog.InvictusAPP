@@ -86,7 +86,17 @@ export class LoginComponent implements OnInit {
   
 
   preLoginError(error) {
+    console.log(error['status'])
 
+    if (error['status'] == 401) {
+      this.progress = false
+      this.errorMsg = 'Usuário não autorizado.'
+      this.showErrorMsg = 'visible'
+    } else {
+      this.progress = false
+      this.errorMsg = error['error'].errors.Mensagens[0]
+      this.showErrorMsg = 'visible'
+    }
   }
 
   login(unidadeId) {
@@ -112,7 +122,7 @@ export class LoginComponent implements OnInit {
 
   loginError(error) {
 
-    
+    console.log(error['status'])
 
     if (error['status'] != 0) {
       this.progress = false

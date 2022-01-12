@@ -1,0 +1,82 @@
+<div style="font-size: 1.2em;">Editar/Conceder Acesso
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+
+<mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+
+<div @rowHighlight *ngIf="showContent">
+    
+    <hr>
+    <div style="position: relative;">
+
+        <form *ngIf="showForm; else showSpinner" novalidate [formGroup]="myrForm" style=""
+            (ngSubmit)="onSubmit(myrForm)">
+            
+            <div class="table-responsive" style="height: 430px;position: relative;">
+                <table color="primary" style="margin-bottom: 0px;" class="table">                    
+                    <thead>
+                        <tr>   
+                            <th style="width: 40%;font-size:1em;
+                        vertical-align: middle; 
+                        text-align:left;
+                         border-top: 0px; font-weight: 400;">UNIDADE</th>
+
+                            <th style="width: 30%;font-size:1em;
+                        vertical-align: middle;
+                        text-align:center;
+                        border-top: 0px; font-weight: 400;">sigla</th>
+
+                            <th style="width: 30%;font-size:1em;
+                        text-align:center; 
+                        vertical-align: middle;
+                        border-top: 0px; font-weight: 400;"></th>
+
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let aluno of alunos; let i = index;">
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                            Unidade Tal
+                            </td>
+
+                            <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                             TST
+                            </td>
+
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                <mat-checkbox style="margin-right: 5px;"  type="checkbox"
+                                    [(ngModel)]="mat.isProfessor" color="primary" class="example-margin" name="checked">
+                                </mat-checkbox>
+                            </td>
+
+                           
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <mat-progress-bar *ngIf="disabledSaveButton" @rowHighlight style="margin:0px" mode="query">
+            </mat-progress-bar>
+            <div style="float: right;margin-top: 15px;">
+
+                <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" 
+                style="width: 100px; position: relative; float:right;margin-bottom: 10px;
+                margin-left: 10px;">
+                    Salvar
+                </button>
+            </div>
+
+        </form>       
+    </div>
+</div>

@@ -28,6 +28,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/adm/planopgm', title: 'Planos', class: '', typeIcon: 'request_quote' },
     { path: '/adm/contrato', title: 'Contratos', class: '', typeIcon: 'gavel' }
     //{ path: '/adm/teste', title: 'TESTE', class: '', typeIcon: 'fact_check' },
+    //{ path: '/adm/pdf', title: 'PDF', class: '', typeIcon: 'gavel' }
 ]
 
 @Component({
@@ -76,8 +77,8 @@ export class AdmComponent implements OnInit {
         this._http.get(`${this.baseUrl}/mensagem`)
         .subscribe(resp => { 
                 console.log(resp)
-                this.mensagem = resp
-                this.htmlContent = resp
+                this.mensagem = resp['mensagem']
+                this.htmlContent = resp['mensagem']
         }, (error) => { console.log(error)},
         () => {
             this.openMessageModal()

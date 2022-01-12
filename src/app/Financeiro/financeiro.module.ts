@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,7 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from "@auth0/angular-jwt";
 
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 //import { HomeComponent } from './home.component';
 import { SharedModule } from '../_shared/shared.module';
 
@@ -38,9 +38,10 @@ import { ReparcelamentoComponent } from './alunos/Reparcelamento/reparcelamento.
 import { ConfirmarParcelamento } from './alunos/Reparcelamento/Confirmar/reapconfirmar.component';
 import { CaixaDiarioComponent } from './caixa/caixadiario/caixadiario.component';
 import { VendaUnidadeComponent } from './caixa/vendaUnidade/vendaunidade.component';
-
+import localePt from '@angular/common/locales/pt';
+import { ReceberComponent } from './alunos/infoFinanc/Receber/receber.component';
 // import { CustomersComponent } from '../customers/customers.component';
-
+registerLocaleData(localePt)
 export function tokenGetter() {
     return localStorage.getItem("jwt");
 }
@@ -70,7 +71,8 @@ const maskConfig: Partial<IConfig> = {
         ReparcelamentoComponent,
         ConfirmarParcelamento,
         CaixaDiarioComponent,
-        VendaUnidadeComponent
+        VendaUnidadeComponent,
+        ReceberComponent
     ],
     imports: [
         BrowserModule,
@@ -86,8 +88,9 @@ const maskConfig: Partial<IConfig> = {
     ],
     //     providers: [AuthGuard],
     providers: [
+        {provide: LOCALE_ID, useValue: "pt-BR"},
         {provide: 'ValidateForms', useClass: ValidateFormsService},
-        { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+       // { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
         {provide: 'IServicoToken', useClass: Servico}
     ],
     //bootstrap: [AppComponent]
@@ -117,7 +120,8 @@ const maskConfig: Partial<IConfig> = {
         ReparcelamentoComponent,
         ConfirmarParcelamento,
         CaixaDiarioComponent,
-        VendaUnidadeComponent
+        VendaUnidadeComponent,
+        ReceberComponent
         // CreateMatriculaComponent,
         // ConfirmModalComponent,
         // NotasComponent,

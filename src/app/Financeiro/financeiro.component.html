@@ -1,10 +1,8 @@
-
 <ng-container>
 
     <mat-sidenav-container class="example-container" style="
     background-color: rgba(250, 245, 245, 0); ">
-        <mat-sidenav style="
-         " #sidenav mode="side" opened class="example-sidenav mat-elevation-z8">
+        <mat-sidenav style="" #sidenav mode="side" opened class="example-sidenav mat-elevation-z8">
             <div class="d-flex flex-column text-white " 
             style="position: absolute;
             width: auto;
@@ -13,10 +11,11 @@
             left: 0;
             background-color: rgb(109, 218, 109);
             right: 0;">
-              <a href="/" class="d-flex align-items-center  mb-md-0 me-md-auto text-white text-decoration-none">
-                <!-- <svg class="bi" width="40" height="32"><use xlink:href="#bootstrap"></use></svg> -->
+              <a class="d-flex align-items-center  mb-md-0 me-md-auto text-white text-decoration-none">
                 <span  style="width: 190px;
-                text-align: center;margin-top: 15px;font-size: 1em;">FINANCEIRO</span>
+                text-align: center;margin-top: 15px;font-size: 1em;">
+                FINANCEIRO<br>Unidade {{tokenInfo.Unidade}}
+              </span>
               </a>
               <hr>
               <ul class="nav nav-pills flex-column mb-auto">

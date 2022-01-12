@@ -112,7 +112,16 @@
 
                                 <i style="margin-left: 50px;" #tooltip="matTooltip" matTooltip="alunos"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="getAlunosFromTurma(item)" disabled
+                                    <button (click)="getAlunosFromTurma(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>groups</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i style="margin-left: 50px;" #tooltip="matTooltip" matTooltip="lista presenças"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>groups</mat-icon>

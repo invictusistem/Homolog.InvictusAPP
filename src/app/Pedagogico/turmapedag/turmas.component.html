@@ -69,7 +69,7 @@
 
                                 <i style="margin: 0px; margin-left: 15%;" #tooltip="matTooltip"
                                     matTooltip="lançar notas" matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="openNotas(turma)" disabled
+                                    <button (click)="openNotas(turma)"
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>assignment</mat-icon>
@@ -89,10 +89,10 @@
                                 <!-- TEMP-->
                                 <i style="margin: 0px; margin-left: 15%;" #tooltip="matTooltip"
                                     matTooltip="iniciar a aula" matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="iniciarAula(turma)" [disabled]="!turma.podeIniciar"
+                                    <button (click)="iniciarAula(turma)" [disabled]="podeIniciarAula(turma)" 
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
-                                        <mat-icon [style.color]="!turma.podeIniciar ? 'gray': 'green'"
+                                        <mat-icon [style.color]="podeIniciarAula(turma) ? 'gray': 'green'"
                                             style="font-size: 1.5em;font-weight: 200;" class="material-icons-outlined">
                                             play_arrow</mat-icon>
                                     </button>

@@ -30,7 +30,7 @@ export class ReparcelamentoComponent implements OnInit {
     public aluno: Aluno = new Aluno();
     // public debitos: Debito[] = new Array<Debito>();
     public debitos: ReparcelamentoDebito[] = new Array<ReparcelamentoDebito>();
-
+    public turma: any
     public originalAluno: any
     public originalRespFin: any
     public originalRespMenor: any
@@ -55,14 +55,15 @@ export class ReparcelamentoComponent implements OnInit {
 
         this.nome = this.data['aluno'].nome
         console.log(this.data['aluno'])
-        this.getInfoFinancAlunos(this.data['aluno'].id)
+        this.getInfoFinancAlunos(this.data['aluno'].matriculaId)
     }
 
-    getInfoFinancAlunos(alunoId: number) {
+    getInfoFinancAlunos(matriculaId) {
 
-        this._http.get(`${this.baseUrl}/financeiro/aluno-debitos/v2/${alunoId}`)
+        this._http.get(`${this.baseUrl}/financeiro/debitos/${matriculaId}`)
             .subscribe(resp => {
                 this.debitos = Object.assign([], resp['debitos']);
+                this.turma = Object.assign({}, resp['turma']);
                 this.debitos.forEach(element => {
 
                     element.selected = false;
@@ -102,10 +103,10 @@ export class ReparcelamentoComponent implements OnInit {
         this.totalValor = 0
         this.debitos.forEach(element => {
             if (element.selected == true) {
-                this.totalValor += element.valorTitulo
+                this.totalValor += element.valor
             }
         });
-        console.log(`R$ ${this.totalValor.toFixed(2)}`)
+        //console.log(`R$ ${this.totalValor.toFixed(2)}`)
         return `R$ ${this.totalValor.toFixed(2)}`
     }
 
@@ -137,12 +138,12 @@ export class ReparcelamentoComponent implements OnInit {
 
     }
 
-    debitosIds: number[] = new Array<number>()
+    debitosIds: any[] = new Array<any>()
 
     calcular(): void {
         this.debitos.forEach(element => {
             if (element.selected == true) {
-                this.totalValor += element.valorTitulo
+                this.totalValor += element.valor
                 this.debitosIds.push(element.id)
             }
         });
@@ -186,15 +187,34 @@ export class ReparcelamentoComponent implements OnInit {
 
 export class ReparcelamentoDebito {
     constructor(
-        public id?: number,
-        public competencia?: Date,
-        public status?: string,
-        public valorTitulo?: number,
-        public valorPago?: number,
-        public dataVencimento?: Date,
+        public id?: string,
+        public vencimento?: Date,
         public dataPagamento?: Date,
-        public descricao?: string,
-        public boletoId?: number,
+        public valor?: number,
+        public valorPago?: number,
+        public juros?: number,
+        public jurosFixo?: number,
+        public multa?: string,
+        public multaFixo?: string,
+        public desconto?: string,
+        public diasDesconto?: string,
+        public statusBoleto?: string,
+        public reparcelamentoId?: string,
+        public centroCustoUnidadeId?: string,
+        public informacaoDebitoId?: string,
+        //public BoletoResponseInfo InfoBoletos { get; private set; }
+        public  id_unico?: string,
+        public id_unico_original?: string,
+        public status?: string,
+        public msg?: string,
+        public nossonumero?: string,
+        public linkBoleto?: string,
+        public linkGrupo?: string,
+        public linhaDigitavel?: string,
+        public pedido_numero?: string,
+        public banco_numero?: string,
+        public token_facilitador?: string,
+        public credencial?: string,
         public selected?: boolean
     ) {
 

@@ -73,6 +73,8 @@ import { AddDispoComponent } from './Professores/Materias/AddDisponibilidade/add
 import { AdmService } from './services/adm.services';
 import { AddMatComponent } from './Professores/Materias/AddMateria/add-mat.component';
 import { EditDispoComponent } from './Professores/Materias/EditDisponibilidade/edit-dispo.component';
+import { PDFTesteComponent } from './PdfTeste/pdfteste.component';
+import { EditAcessoComponent } from './Usuarios/EditAcesso/editacesso.component';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -135,7 +137,9 @@ export function tokenGetter() {
         DocTemplateComponent,
         MateriaTemplateComponent,
         AddMatComponent,
-        EditDispoComponent
+        EditDispoComponent,
+        PDFTesteComponent,
+        EditAcessoComponent
     ],
     imports: [
         BrowserModule,
@@ -168,7 +172,8 @@ export function tokenGetter() {
         ConfiguracoesComponent,
         ModuloComponent,
         PlanoPgmComponent,
-        ContratoComponent
+        ContratoComponent,
+        PDFTesteComponent
     ],
     entryComponents: [
         CreateUserComponent,
@@ -206,7 +211,8 @@ export function tokenGetter() {
         MateriaTemplateComponent,
         AddDispoComponent,
         AddMatComponent,
-        EditDispoComponent
+        EditDispoComponent,
+        EditAcessoComponent
         //AddSalaComponent
     ]
 })

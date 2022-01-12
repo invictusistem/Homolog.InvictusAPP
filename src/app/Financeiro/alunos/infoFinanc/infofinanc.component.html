@@ -11,12 +11,12 @@
 
 <mat-form-field appearance="standard" style="width: 35%; ">
     <mat-label>Aluno</mat-label>
-    <input [value]="nome" selected disabled required name="nome" matInput placeholder="Nome">
+    <input [value]="aluno.nome" selected disabled required name="nome" matInput placeholder="Nome">
 </mat-form-field>
 
 <mat-form-field appearance="standard" style="width: 12%; margin-left: 5%; ">
     <mat-label>Nº matrícula</mat-label>
-    <input value="000213" selected disabled required name="nome" matInput placeholder="Nome">
+    <input [value]="aluno.numeroMatricula" selected disabled required name="nome" matInput placeholder="Nome">
 </mat-form-field>
 <br>
 <!-- <div style="color:red; margin-bottom: 10px; font-size: 0.8em; font-style: italic;">* O aluno não se encontra matriculado
@@ -49,14 +49,14 @@
                     border-top: 0px;"></th> -->
 
 
-                        <th style="width: 8%;font-size:0.8em;
+                        <!-- <th style="width: 8%;font-size:0.8em;
                     vertical-align: middle; 
                     text-align:left;
-                     border-top: 0px; font-weight: 400;">Compet.</th>
+                     border-top: 0px; font-weight: 400;">Compet.</th> -->
 
-                        <th style="width: 24%;font-size:0.8em;
+                        <th style="width: 22%;font-size:0.8em;
                     vertical-align: middle;
-                    text-align:center;
+                    text-align:left;
                     border-top: 0px; font-weight: 400;">Curso/Turma</th>
 
                         <th style="width: 10%;font-size:0.8em;
@@ -69,7 +69,7 @@
                         vertical-align: middle;
                         border-top: 0px; font-weight: 400;">Val. Título</th>
 
-                        <th style="width: 13%;font-size:0.8em;
+                        <th style="width: 10%;font-size:0.8em;
                         text-align:center; 
                         vertical-align: middle;
                         border-top: 0px; font-weight: 400;">Data Pagto.</th>
@@ -79,10 +79,19 @@
                         vertical-align: middle;
                         border-top: 0px; font-weight: 400;">Val. Pago</th>
 
-                        <th style="width: 21%;font-size:0.8em;
+                        <th style="width: 26%;font-size:0.8em;
                         text-align:center; 
                         vertical-align: middle;
-                        border-top: 0px; font-weight: 400;"></th>
+                        border-top: 0px; font-weight: 400;">
+                            <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="adicionar parcela"
+                                matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button mat-icon-button>
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                            </i>
+
+
+                        </th>
                         <!--<th style="width: 12%;font-size:1em;
                     text-align:center; 
                     vertical-align: middle;
@@ -104,41 +113,56 @@
                 <tbody>
 
                     <tr *ngFor="let debs of debitos;let i = index;">
-                        <td style="font-size:0.8em;font-weight: 400;text-align:center;vertical-align: middle;">
+                        <!-- <td style="font-size:0.8em;font-weight: 400;text-align:center;vertical-align: middle;">
                             {{debs.competencia | date:'M/y' }}
-                        </td>
+                        </td> -->
 
                         <td style="font-size:0.8em;font-weight: 400;text-align:left;vertical-align: middle;">
-                            Curso Técnico em enfermagem<br>
-                            Turma 002
+                            {{turma.descricao}}<br>
+                            {{turma.identificador}}
                         </td>
 
                         <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
-                            {{debs.dataVencimento | date:'dd/MM/y' }}
+                            {{debs.vencimento | date:'dd/MM/y' }}
                         </td>
 
                         <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
-                            {{debs.valorTitulo | currency:'BRL':true:'1.2-2' }}
+                            {{debs.valor | currency:'BRL':'R$ ' }}
                         </td>
 
                         <td style="font-size:0.8em;font-weight: 400;;text-align: center;vertical-align: middle;">
-                            <ng-container *ngIf="debs.status == 'Pago'">
+                            <ng-container *ngIf="debs.statusBoleto == 'Pago';else semData">
                                 {{debs.dataPagamento | date:'dd/MM/y' }}
                             </ng-container>
+                            <ng-template #semData>
+                                -
+                            </ng-template>
                         </td>
 
                         <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
-                            {{debs.valorPago | currency:'BRL':true:'1.2-2' || '-' }}
+                            <ng-container *ngIf="debs.valorPago != 0;else semValorPago">
+                                {{ debs.valorPago | currency:'BRL':'R$ ' }}
+                            </ng-container>
+                            <ng-template #semValorPago>
+                                -
+                            </ng-template>
                         </td>
 
                         <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
-                            <ng-container *ngIf="debs.status != 'Pago'">
+                            
+                            <i style="" #tooltip="matTooltip" matTooltip="ver"
+                                matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button (click)="openEdit(debs)" style="" mat-icon-button>
+                                    <mat-icon style="font-size: 1.2em;">search</mat-icon>
+                                </button>
+                            </i>
 
+                            <ng-container *ngIf="debs.statusBoleto == 'Em aberto'">
 
                                 <i style="margin-right: 5px;" #tooltip="matTooltip" matTooltip="enviar por email"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button  style="" mat-icon-button>
-                                        <mat-icon (click)="sendByEmail(debs)" style="font-size: 1.2em;">send</mat-icon>
+                                    <button (click)="sendByEmail(debs)" disabled style="" mat-icon-button>
+                                        <mat-icon style="font-size: 1.2em;">send</mat-icon>
                                     </button>
                                 </i>
 
@@ -149,14 +173,17 @@
                                         <mat-icon style="font-size: 1.2em;">description</mat-icon>
                                     </button>
                                 </i>
+
+                                <i style="margin-right: 5px;" #tooltip="matTooltip" matTooltip="receber"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="receber(debs)" disabled style="" mat-icon-button>
+                                        <mat-icon style="font-size: 1.2em;">paid</mat-icon>
+                                    </button>
+                                </i>
+
                             </ng-container>
 
-                            <i style="float: right;" #tooltip="matTooltip" matTooltip="visualizar"
-                                matTooltipPosition="above" matTooltipHideDelay="100">
-                                <button (click)="openEdit(debs)" style="" mat-icon-button>
-                                    <mat-icon style="font-size: 1.2em;">edit</mat-icon>
-                                </button>
-                            </i>
+                            
                         </td>
 
                         <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;" >

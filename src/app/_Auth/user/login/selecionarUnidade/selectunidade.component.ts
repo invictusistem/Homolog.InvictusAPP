@@ -94,7 +94,7 @@ export class SelectUnidadeComponent implements OnInit {
       }
 
       loginError(erro){
-
+        this.dialogRef.close();
       }
 
     

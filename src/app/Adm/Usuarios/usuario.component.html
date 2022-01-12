@@ -1,7 +1,7 @@
 <div class="container" style="width: 95%; padding-top: 20px;">
 
     <div>
-        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="Conceder acesso" matTooltipPosition="above"
+        <i style="" #tooltip="matTooltip" matTooltip="Conceder acesso" matTooltipPosition="above"
             matTooltipHideDelay="100">
             <button (click)="openCreateUserModal()" disabled mat-icon-button>
                 <mat-icon>person_add_alt</mat-icon>
@@ -20,17 +20,17 @@
 
         <div class="form-row align-items-center divSiteForm">
 
-            <mat-form-field appearance="standard" style="transform: scale(0.85);">
+            <mat-form-field appearance="standard" >
                 <mat-label>Nome</mat-label>
                 <input #nome selected name="templateName" matInput placeholder="digite o nome">
             </mat-form-field>
 
-            <mat-form-field class="siteForm-select" style="margin-left: 2px;transform: scale(0.85);">
+            <mat-form-field  appearance="standard" style="margin-left:10px;">
                 <mat-label>E-mail</mat-label>
                 <input #email selected name="templateName" matInput placeholder="digite o E-mail">
             </mat-form-field>
 
-            <mat-form-field class="siteForm-select" style="margin-left: 2px;transform: scale(0.85);">
+            <mat-form-field appearance="standard" style="margin-left: 10px;">
                 <mat-label>CPF</mat-label>
                 <input #cpf selected name="templateName" matInput placeholder="digite o CPF">
             </mat-form-field>
@@ -96,12 +96,10 @@
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">Autorizado</th>
 
-                            <th style="width: 10%;
+                            <th style="width: 20%;
                     border-top: 0px;"></th>
 
-                            <th style="width: 10%;
-                    border-top: 0px;">                                
-                            </th>
+                           
                         </tr>
                     </thead>
                     <tbody>
@@ -112,7 +110,7 @@
 
                             <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
 
-                            <td style="text-align: center;vertical-align: middle;">{{item.perfil || 'sem perfil'}}</td>
+                            <td style="text-align: center;vertical-align: middle;">{{item.roleName || 'sem perfil'}}</td>
 
                             <td style="text-align: center;vertical-align: middle;">
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="ativo"
@@ -126,7 +124,7 @@
                                 </i>
                             </td>
 
-                            <td style="position: relative;">
+                            <td >
 
                                 <!-- <i type="submit" #tooltip="matTooltip" matTooltip="deletar tarefa" matTooltipPosition="above"
                         matTooltipHideDelay="100" (click)="Delete(item.id)"
@@ -136,28 +134,25 @@
 
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
                                     matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button disabled (click)="openEditUserModal(item)"
+                                    <button [disabled]="disabledEdit" (click)="openEditUserModal(item)"
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>settings</mat-icon>
                                     </button>
                                 </i>
 
-
-                            </td>
-                            <td style="position: relative;">
-
-
-                                <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="deletar"
-                                    matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                <i style="margin: 0px; margin: 20px;" #tooltip="matTooltip"
+                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button disabled (click)="openAcessoModal(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
-                                        <mat-icon>delete_outline</mat-icon>
+                                        <mat-icon>key</mat-icon>
                                     </button>
-                                </i> -->
+                                </i>
 
 
                             </td>
+                            
                         </tr>
 
                         <!-- <tr>

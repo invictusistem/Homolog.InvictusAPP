@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
-import { PageEvent } from "@angular/material/paginator";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Parametros } from "src/app/Adm/Colaboradores/colaboradores.component";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
@@ -10,6 +10,7 @@ import { Aluno } from "src/app/_shared/models/aluno.model";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { environment } from "src/environments/environment";
 import { InfoFinancComponentModal } from "../service/modal.config";
+import { PedagogicoService } from "../service/pedagogico.service";
 import { BoletimAlunoComponent } from "./BoletimAluno/boletimaluno.component";
 import { CreateMatriculaComponent } from "./CreateModal/creatematricula.component";
 import { InfoCadastraisComponent } from "./InfoCad/info-cadastrais.component";
@@ -27,26 +28,33 @@ import { AlunoMatriculaComponent } from "./matricula/alunomatricula.component";
 
 export class MatriculaComponent implements OnInit {
 
+    baseUrl = environment.baseUrl
 
-    // colaboradores: Colaborador[] = new Array<Colaborador>();
-    baseUrl = environment.baseUrl;
     showMessageNoAluno = false
     length: number = 0
     mensagem: string = "";
     // length: number;
     pageSize: number = 5;
-    // pageEvent: PageEvent;
-    // pageIndexNumber: number = 0;
+    pageEvent: PageEvent;
+    pageIndexNumber: number = 0;
+    currentPage = 1
     // formSubmitted: boolean = false;
     // showTable: boolean = false;
     // paginationInfo: IPager;
     // showMessage: boolean = false;
-
+    spinnerSearch = false
+    params: Parametros = new Parametros()
+    listAlunos: any[] = new Array<any>();
 
     public pesquisarForm: FormGroup
 
+    public testeForm: FormGroup
+
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+
     constructor(
         //private _snackBar: MatSnackBar,
+        private _pedagService: PedagogicoService,
         private _modal: MatDialog,
         private _fb: FormBuilder,
         private _http: HttpClient
@@ -90,9 +98,32 @@ export class MatriculaComponent implements OnInit {
 
         );
 
+        this.testeForm = _fb.group({
+            nome: ['', [Validators.required]],
+            child: this._fb.group({
+                nome: ['', [Validators.required]]
+            })
+        });
+
+    }
+
+    get disabledTest() {
+
+        return !this.testeForm.valid
+
+    }
+
+    salvarTeste(){
+
+        this._http.post(`${this.baseUrl}/teste/salvarteste`, this.testeForm.value , {})
+        .subscribe(resp => {
+
+        },
+        (error) => { })
     }
     ngOnInit() {
         console.log('init matricula')
+        this.testeForm.get('child').disable()
         //this.getColaboradores(1, this.pageSize);
     }
     // pageIndex = 0
@@ -112,53 +143,69 @@ export class MatriculaComponent implements OnInit {
     }
 
 
-    params: Parametros = new Parametros()
-    listAlunos: Aluno[] = new Array<Aluno>();
-    pesquisar(form?: any, event?: any) {
+
+    pesquisar(event?: any) {
+
 
         this.showMessageNoAluno = false
-        var formJson = JSON.stringify(this.pesquisarForm.value)
 
         if (this.pesquisarForm.valid) {
-            this.listAlunos = new Array<Aluno>();
+            this.spinnerSearch = true
 
-            this._http.get(`${this.baseUrl}/alunos/pesquisar/?itemsPerPage=` + this.pageSize + `&currentPage=1&paramsJson=${formJson}`)
+            if (event != undefined) {
+                this.currentPage = event.pageIndex + 1
+            } else {
+                this.currentPage = 1
+            }
+
+
+            this._pedagService.getAlunos(this.pageSize, this.currentPage, this.pesquisarForm.value)
                 .subscribe(
-                    (response) => {
-                        console.log(response)
-                        this.listAlunos = Object.assign([], response['data'])
-
-                        this.length = response['totalItemsInDatabase']
-
-                        if (this.listAlunos.length == 0) {
-                            // console.log("lengt zero")
-                            this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
-                            this.showMessageNoAluno = true
-                        }
-
-                    },
-                    (err) => {
-                        //this.showSpinnerFirst = false
-                        console.log(err)
-                        //this.openSnackBar(err)
-
-                    },
-                    () => {
-                        this.showMessageNoAluno = false
-                        console.log('ok get');
-                    },
-                )
+                    sucesso => { this.processarSucesso(sucesso, event) },
+                    falha => { this.processarFalha(falha) }
+                );
         }
     }
 
+    processarSucesso(response: any, event?: any) {
 
+        this.listAlunos = Object.assign([], response['data']);
+
+        this.length = response['totalItemsInDatabase']
+
+        this.spinnerSearch = false
+        if (event != undefined) {
+            this.pageIndexNumber = (event.pageIndex * this.pageSize)
+        } else {
+            this.pageIndexNumber = 0
+
+            this.paginator.firstPage();
+        }
+
+    }
+
+    processarFalha(fail: any) {
+
+        if (fail['status'] == 404) {
+            this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
+            this.showMessageNoAluno = true
+            this.listAlunos = new Array<any>();
+        }
+        if (fail['status'] != 404) {
+            this.mensagem = "Ocorreu um erro desconhecido, por favor, procure o administrador do sistema"
+            this.showMessageNoAluno = true
+            this.listAlunos = new Array<any>();
+        }
+
+        this.spinnerSearch = false
+    }
 
     matricular(aluno) {
         const dialogRef = this._modal
             .open(AlunoMatriculaComponent, {
-               // minHeight: '610px',
+                // minHeight: '610px',
                 width: '850px',
-               // autoFocus: false,
+                // autoFocus: false,
                 //maxHeight: '400vh',
 
                 data: { aluno: aluno },
@@ -169,7 +216,7 @@ export class MatriculaComponent implements OnInit {
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
                 //clicked: "Ok"
-              //  this.openSnackBar()
+                //  this.openSnackBar()
                 this.pesquisar();
                 console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
@@ -195,7 +242,7 @@ export class MatriculaComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "OK") {
-               this.pesquisar();
+                this.pesquisar();
                 console.log(JSON.stringify(this.pesquisarForm.value))
             } else if (data.clicked === "Cancel") {
                 // Do nothing. Cancel any events that navigate away from the
@@ -207,10 +254,10 @@ export class MatriculaComponent implements OnInit {
     openMatriculaModal(): void {
         const dialogRef = this._modal
             .open(CreateMatriculaComponent, {
-               // height: '90vh',
+                // height: '90vh',
                 width: '1000px',
-               // autoFocus: false,
-               // maxHeight: '400vhvh',
+                // autoFocus: false,
+                // maxHeight: '400vhvh',
 
                 data: { Hello: "Hello World" },
                 hasBackdrop: true,
@@ -296,7 +343,7 @@ export class MatriculaComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "OK") {
-               // this.openSnackBar()
+                // this.openSnackBar()
                 console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
 

@@ -46,11 +46,11 @@ export class TurmasInfoAlunosPedagComponent implements OnInit {
     alunos: any[] = new Array<any>();
     private GetAlunosTurma(turmaId: number) {
 
-        this._http.get(`${this._baseUrl}/turmas/alunosturma/?turmaId=${turmaId}`)
+        this._http.get(`${this._baseUrl}/pedag/aluno/alunos/${turmaId}`)
             .subscribe(resp => {
 
                 console.log(resp)
-                this.alunos = Object.assign([], resp)
+                this.alunos = Object.assign([], resp['alunos'])
                 console.log(this.calendarios)
 
             },
