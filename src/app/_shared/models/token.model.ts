@@ -1,6 +1,6 @@
 export class TokenInfos {
     constructor(
-        public Name?: string,
+        public Nome?: string,
         public Unidade?: string,
         public Codigo?: string,
         public UnidadeBairro?: string,

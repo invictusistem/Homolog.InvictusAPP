@@ -34,10 +34,10 @@ export function ModuloEditComponentModal(data?:any){
     }
 }
 
-export function EditAcessoModal(data?:any){
+export function EditAcessoModal(usuario?:any){
     return {      
-        width: '850px',
-        data: { moduloId: data },        
+        width: '600px',
+        data: { usuario: usuario },        
         hasBackdrop: true,
         disableClose: true
     }

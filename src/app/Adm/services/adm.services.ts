@@ -172,10 +172,10 @@ export class AdmService extends BaseService {
 
     }
 
-
+    // ABA USUARIOS
     GetUsuarioAcessos(userId): Observable<any>{
 
-        let path = `/pacote/edit/${userId}`
+        let path = `/usuario/acessos/${userId}`
         
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
@@ -185,6 +185,34 @@ export class AdmService extends BaseService {
             
             return response;
 
+    }
+
+    editAcessos(acessos): Observable<any>{
+
+        let path = `/usuario/acessos`
+        
+        let response = this.http
+            .put(this.BaseUrl + path, acessos, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
+    getUsuarios(pageSize?: number, currentPage?: number, jsonParam?: any) : Observable<any> {       
+        
+        var formJson = JSON.stringify(jsonParam)
+
+        let path = `/usuario/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson=${formJson}`
+        
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
     }
 
     savePacote(newPacote): Observable<any>{

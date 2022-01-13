@@ -27,56 +27,110 @@ export class EditAcessoComponent implements OnInit {
     public myrForm: FormGroup;
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
-    mostrarModalPrincipal = true    
-    
+    public mostrarModalPrincipal = true
     public initProgressBar = 'visible'
+    public saveProgressBar = 'hidden'
     public showContent = false
 
-    constructor(        
+    acessoView: any[] = new Array<any>()
+    editedAcessoView: any[] = new Array<any>()
+
+    constructor(
         private _admService: AdmService,
         private _helper: HelpersService,
-        private _fb: FormBuilder,        
+        private _fb: FormBuilder,
         public dialogRef: MatDialogRef<EditAcessoComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
 
         this.myrForm = _fb.group({
             nome: ['', [Validators.required, Validators.minLength(5)]],
-            
+
         })
     }
-   
+
 
     ngOnInit() {
         const token = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token) 
+        this.tokenInfo = this.jwtHelper.decodeToken(token)
+        console.log(this.data['usuario'])
+        this.getAcessos()
+    }
+
+    getAcessos() {
+
+        this._admService.GetUsuarioAcessos(this.data['usuario'].id)
+            .subscribe(
+                sucesso => { this.getAcessosSucesso(sucesso) },
+                falha => { this.getAcessosFalha(falha) }
+            )
+    }
+    varJson
+    getAcessosSucesso(sucesso) {
+        Object.assign(this.acessoView, sucesso['acessos'])
+        this.varJson = JSON.parse(JSON.stringify(sucesso['acessos']))
+        Object.assign(this.editedAcessoView, sucesso['acessos'])
+        this.dialogRef.addPanelClass('editacesso-class')
         this.initProgressBar = 'hidden'
         this.showContent = true
-        this.dialogRef.addPanelClass('editacesso-class')       
+        
+        
+        
+    }
+
+    getAcessosFalha(error) {
+
 
     }
 
-    onSubmit(form: any){
+    saveAcesso() {
+        this.saveProgressBar = 'visible'
+        this._admService.editAcessos(this.editedAcessoView)
+            .subscribe(
+                sucesso => { this.saveAcessoSucesso(sucesso) },
+                falha => { this.saveAcessoError(falha) }
+            )
+    }
 
+    saveAcessoSucesso(sucesso) {
+        this.saveProgressBar = 'hidden'
+        this.dialogRef.close({ close: true })
+    }
+
+    saveAcessoError(falha) {
+        this.saveProgressBar = 'hidden'
     }
 
     disabledSaveButton = false
     get disabledButton() {
-        // setUserAcess
-        if (this.myrForm.valid) {
-            return this.disabledSaveButton
-        } else {
+
+        // console.log(JSON.stringify(this.varJson))
+        // console.log(JSON.stringify(this.editedAcessoView))
+        if (this.saveProgressBar == 'visible') return true
+
+        if (JSON.stringify(this.varJson) ===
+            JSON.stringify(this.editedAcessoView)) {
             return true
+        } else {
+            return false
         }
+
+
+
+        // if (this.myrForm.valid) {
+        //     return this.disabledSaveButton
+        // } else {
+        //     return true
+        // }
     }
 
 
 }
-export class UnidadesAcessoViewModel{
-    constructor(
-        public id?: string,
-        public descricao?: string,
-        public sigla?: string,
-        public unidadeId?: string,
-        public acesso?: Boolean
-    ){}
-}
+// export class UnidadesAcessoViewModel{
+//     constructor(
+//         public id?: string,
+//         public descricao?: string,
+//         public sigla?: string,
+//         public unidadeId?: string,
+//         public acesso?: Boolean
+//     ){}
+// }
