@@ -9,7 +9,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { Aluno } from "src/app/_shared/models/aluno.model";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { environment } from "src/environments/environment";
-import { InfoFinancComponentModal } from "../service/modal.config";
+import { InfoFinancComponentModal, OpenInfoComponentModal } from "../service/modal.config";
 import { PedagogicoService } from "../service/pedagogico.service";
 import { BoletimAlunoComponent } from "./BoletimAluno/boletimaluno.component";
 import { CreateMatriculaComponent } from "./CreateModal/creatematricula.component";
@@ -275,29 +275,40 @@ export class MatriculaComponent implements OnInit {
         });
     }
 
-    openInfoModal(aluno: Aluno): void {
+
+    openInfoModal(aluno): void {
         const dialogRef = this._modal
-            .open(InfosComponent, {
-                height: '90vh',
-                width: '1000px',
-                autoFocus: false,
-                // maxHeight: '90vh',
-
-                data: { aluno: aluno },
-                hasBackdrop: true,
-                disableClose: true
-            });
-
+            .open(InfosComponent, OpenInfoComponentModal(aluno));
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "OK") {
-                //this.openSnackBar()
-                console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
-                // Do nothing. Cancel any events that navigate away from the
-                // component.
             }
         });
     }
+
+    // openInfoModal(aluno: Aluno): void {
+    //     const dialogRef = this._modal
+    //         .open(InfosComponent, {
+    //             height: '90vh',
+    //             width: '1000px',
+    //             autoFocus: false,
+    //             // maxHeight: '90vh',
+
+    //             data: { aluno: aluno },
+    //             hasBackdrop: true,
+    //             disableClose: true
+    //         });
+
+    //     dialogRef.afterClosed().subscribe((data) => {
+    //         if (data.clicked === "OK") {
+    //             //this.openSnackBar()
+    //             console.log('afte close ok')
+    //         } else if (data.clicked === "Cancel") {
+    //             // Do nothing. Cancel any events that navigate away from the
+    //             // component.
+    //         }
+    //     });
+    // }
 
     openInfoFinancModal(aluno: Aluno): void {
         const dialogRef = this._modal

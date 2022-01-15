@@ -12,9 +12,16 @@
 // }
 
 
-.myForm{
-
-  //border:1px solid red
- 
-  
+::ng-deep .infoscomponent-class .mat-dialog-container {
+  height: 70vh;
+  width: 1000px;
 }
+
+
+::ng-deep .mat-tab-group.infoscomponent {
+  height: 500px !important;
+}
+
+//@media (max-width: 1366px) {
+
+  //@media (min-width: 1367px) {

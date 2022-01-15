@@ -42,6 +42,7 @@ import { GeralComponent } from './Geral/geral.component';
 import { EstagiosDocsComponent } from './Pedagogico/estagiosdocs/estagiosdocs.component';
 import { EstagioComponent } from './Pedagogico/estagios/estagio.component';
 import { PDFTesteComponent } from './Adm/PdfTeste/pdfteste.component';
+import { HomeComponent } from './_shared/home/home.component';
 
 export const routes: Routes = [
   {
@@ -113,7 +114,11 @@ export const routes: Routes = [
     ]
   },
   
-
+  {
+    path: 'home', component: HomeComponent, canActivate: [AuthGuard],
+    children: [
+    ]
+  },
   { path: 'comercial', component: ComercialComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'adm', pathMatch: 'full' },
   { path: '**', redirectTo: 'adm', pathMatch: 'full' }

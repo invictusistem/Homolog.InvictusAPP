@@ -7,3 +7,15 @@ export function InfoFinancComponentModal(data?:any){
         disableClose: true
     }
 }
+
+
+export function OpenInfoComponentModal(aluno?){
+    return {      
+        width: '1000px',
+        data: { aluno: aluno },        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+

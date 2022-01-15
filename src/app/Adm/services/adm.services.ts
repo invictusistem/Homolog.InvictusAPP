@@ -128,6 +128,33 @@ export class AdmService extends BaseService {
             return response;
     }
 
+    // CepConsultaV2(CEP?: any, endereco?:any) : Observable<any> {       
+        
+    //     let url = `https://viacep.com.br/ws/${CEP}/json/`
+        
+    //     let response = this.http
+    //         .get(url)
+    //         .pipe(
+    //             map(this.extractData),
+    //             catchError(this.serviceError));
+            
+    //             var endereco = this.mappingEndereco(response);
+            
+    //             return response;
+    // }
+
+    // mappingEndereco(response){
+
+    //     return { logradouro: response['logradouro'],
+    //         complemento: response[''],
+    //         numero: response[''],
+    //         cidade: response[''],
+    //         uf: response[''],
+    //         bairro:
+    //     }
+
+    // }
+
     // MODULOS
 
     pesquisarPacote(typePacoteId:any, unidadeId:any): Observable<any>{

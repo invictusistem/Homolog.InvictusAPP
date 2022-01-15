@@ -26,13 +26,9 @@ import { ConfirmModalComponent } from "src/app/_shared/components/ConfirmModal/c
 export class InfosComponent implements OnInit {
 
     baseUrl = environment.baseUrl;
-    tabs = ['Cadastro', 'Responsável Financeiro', 'Responsável (menor)'
-       /* , 'Financeiro'*/, 'Documentação', 'Certificados'];
-    infoSpinner: SpinnerParams = {
-        diameter: 150,
-        marginleft: 21,
-        margintop: 12
-    }
+
+
+    public initProgressBar = 'visible'
     public showtablePrinciple = false
     public showAluno: boolean = false
     public showRespFinanc: boolean = false
@@ -48,7 +44,7 @@ export class InfosComponent implements OnInit {
     public originalRespFin: any
     public originalRespMenor: any
     public turma: any
-    public documentos:any
+    public documentos: any
 
     public documentoForm: FormGroup
     public anotacaoForm: FormGroup
@@ -77,7 +73,35 @@ export class InfosComponent implements OnInit {
             matriculaId: ['']
         })
 
-
+        this.alunoForm = _fb.group({
+            id: [''],
+            ativo: [''],
+            nome: ['', [Validators.required]],
+            cpf: ['', [Validators.required, Validators.minLength(11)]],
+            rg: ['', [Validators.required]],
+            nascimento: ['', [Validators.required]],
+            nomeMae: ['', [Validators.required]],
+            nomePai: ['', [Validators.required]],
+            nomeSocial: [''],
+            telReferencia: ['', [Validators.required]],
+            nomeContatoReferencia: ['', [Validators.required]],
+            naturalidade: ['', [Validators.required]],
+            naturalidadeUF: ['', [Validators.required]],
+            email: ['', [Validators.required, Validators.minLength(5)]],
+            telCelular: [null],
+            telWhatsapp: [null],
+            telResidencial: [null],
+            cep: ['', [Validators.required, Validators.minLength(8)]],
+            logradouro: ['', [Validators.required, Validators.minLength(1)]],
+            complemento: [''],
+            cidade: ['', [Validators.required, Validators.minLength(1)]],
+            uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
+            bairro: ['', [Validators.required, Validators.minLength(1)]],
+            //observacoes: ['', [Validators.minLength(1), Validators.maxLength(300)]],
+            dataCadastro: [''],
+            numero: ['', [Validators.required]],
+            unidadeId: [''],
+        })
 
         // this.respFinancForm = _fb.group({
         //     id: [''],
@@ -133,62 +157,86 @@ export class InfosComponent implements OnInit {
     }
 
     ngOnInit() {
-
-        // this.nome = this.data['aluno']
         console.log(this.data['aluno'])
         this.anotacaoForm.get('matriculaId').setValue(this.data['aluno'].matriculaId)
-        // this.getInfoAlunos(this.data['aluno'].id)
-        // const token = localStorage.getItem('jwt')
-        // this.tokenInfo = this.jwtHelper.decodeToken(token)
-        // this.getInfoDocs(this.data['aluno'].id);
-        // this.getInfoFinancAlunos(this.data['aluno'].id)
+
         this.GetInformacoesMatricula(this.data['aluno'].matriculaId)
     }
 
-    alunoInfo: any;
+   // alunoInfo: any;
     respFin: any;
     respMenor: any;
     anotacoes: any[] = new Array<any>()
+    alunoOriginal: any;
+
     GetInformacoesMatricula(matriculaId) {
 
         this._http.get(`${this.baseUrl}/pedag/aluno/${matriculaId}`)
             .subscribe(resp => {
                 console.log(resp)
                 this.turma = resp['turma'];
-                this.alunoInfo = Object.assign({}, resp['aluno']);
+               // this.alunoInfo = Object.assign({}, resp['aluno']);
                 this.respFin = resp['respFin'];
                 this.respMenor = resp['respMenor'];
                 this.anotacoes = resp['anotacoes'];
                 this.documentos = resp['docs'];
+                //this.alunoForm.gr = resp['aluno'] as FormGroup
+               // Object.assign(this.acessoView, sucesso['acessos'])
+        this.alunoOriginal = JSON.parse(JSON.stringify(resp['aluno']))
+       // Object.assign(this.editedAcessoView, sucesso['acessos'])
 
-
-                console.log(this.respMenor)
-
+                //this.alunoOriginal = Object.assign({}, resp['aluno'])
+                this.alunoForm.patchValue(resp['aluno']); //resp['aluno'] as FormGroup
+                this.alunoOriginal = JSON.parse(JSON.stringify(this.alunoForm.value))
+                console.log(this.alunoForm.value)
             },
                 (error) => { console.log(error) },
                 () => {
                     this.showAluno = true
                     this.showtablePrinciple = true
-                    console.log(this.turma)
+                    this.initProgressBar = 'hidden'
+                    //  console.log(this.turma)
                 })
 
     }
 
     spinnerSave = false
     saveAluno(form: any) {
-       
-        if(form.valid){
-            this.spinnerSave = true
-            this._http.put(`${this.baseUrl}/alunos`,this.alunoInfo, {})
-            .subscribe(response => {
 
-            }, err => { console.log(err)
-                this.spinnerSave = true
-             },
-                () => {
-                    this.spinnerSave = false
-                    this.GetAluno(this.alunoInfo.id);
-                 });
+        if (this.alunoForm.valid) {
+            this.saveAlunoProgressBar = 'visible'
+            this.spinnerSave = true
+            this._http.put(`${this.baseUrl}/alunos`, this.alunoForm.value, {})
+                .subscribe(response => {
+
+                }, err => {
+                    console.log(err)
+                    this.saveAlunoProgressBar = 'hidden'
+                    this.spinnerSave = true
+                },
+                    () => {
+                        this.spinnerSave = false
+                        this.saveAlunoProgressBar = 'hidden'
+                        this.GetAluno(this.alunoForm.get('id').value);
+                    });
+        }
+    }
+
+    saveAlunoProgressBar = 'hidden'
+    get saveAlunoButton() {
+        console.log(this.alunoOriginal)
+        console.log(this.alunoForm.value)
+        console.log(JSON.stringify(this.alunoOriginal) ==
+                JSON.stringify(this.alunoForm.value))
+        if (this.alunoForm.valid
+            &&
+            JSON.stringify(this.alunoOriginal) !=
+                JSON.stringify(this.alunoForm.value)) 
+                {
+            //return this.saveAlunoProgressBar != 'hidden'
+            return this.saveAlunoProgressBar != 'hidden'
+        } else {
+            return true
         }
     }
 
@@ -196,35 +244,25 @@ export class InfosComponent implements OnInit {
 
         this._http.get(`${this.baseUrl}/alunos/cadastro/${alunoId}`)
             .subscribe(response => {
-                this.alunoInfo = response["aluno"];
+               // this.alunoInfo = response["aluno"];
 
             }, err => { console.log(err) },
                 () => { });
 
     }
 
-    consultaCEP(CEP: string, item) {
-        // console.log(CEP);
+    consultaCEP(CEP: string, form) {
 
         this._http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
             .subscribe(response => {
 
-                //  console.log(response)
-
-                //  this.alunoInfo.logradouro = response["logradouro"];
-                //  this.alunoInfo.bairro = response["bairro"];
-                //  this.alunoInfo.cidade = response["localidade"];
-                //  this.alunoInfo.uf = response["uf"];
-
-                item.logradouro = response["logradouro"];
-                item.bairro = response["bairro"];
-                item.cidade = response["localidade"];
-                item.uf = response["uf"];
-
+                form.get('logradouro').setValue(response["logradouro"]);
+                form.get('bairro').setValue(response["bairro"]);
+                form.get('cidade').setValue(response["localidade"]);
+                form.get('uf').setValue(response["uf"]);
 
             }, err => { console.log(err) },
                 () => { });
-
 
 
     }
@@ -267,7 +305,6 @@ export class InfosComponent implements OnInit {
             if (data.clicked === "OK") {
                 console.log('afte close ok')
                 this.anotacaoForm.get('comentario').setValue(data.comentario)
-                // this.anotacaoForm.get('comentario').setValue(data.comentario)
                 this.ShowAnotSpinner = true
                 this.submitAnotacao();
 
@@ -290,28 +327,25 @@ export class InfosComponent implements OnInit {
             },
                 (error) => { console.log(error) },
                 () => {
-                    // this.showAluno = true
+
                 })
 
     }
 
-    excluirArquivo(docId) {// ConfirmModalComponent
+    excluirArquivo(docId) {
         const dialogRef = this._modal
             .open(ConfirmModalComponent, {
                 minHeight: '150px',
                 width: '400px',
-               // autoFocus: false,
-                //maxHeight: '400vh',
 
-                //data: { aluno: aluno },
                 hasBackdrop: true,
                 disableClose: true
             });
 
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "sim") {
-              
-               this.remover(docId)
+
+                this.remover(docId)
             } else {
                 console.log('nao deletar')
             }
@@ -319,14 +353,14 @@ export class InfosComponent implements OnInit {
 
     }
 
-    remover(docId){
-        this._http.put(`${this.baseUrl}/pedag/doc/excluir/${docId}`,{},)
-        .subscribe(resp => {
-        },
-            (error) => { console.log(error) },
-            () => {
-                this.getInfoDocs();
-            })
+    remover(docId) {
+        this._http.put(`${this.baseUrl}/pedag/doc/excluir/${docId}`, {},)
+            .subscribe(resp => {
+            },
+                (error) => { console.log(error) },
+                () => {
+                    this.getInfoDocs();
+                })
     }
 
 
@@ -747,13 +781,13 @@ export class InfosComponent implements OnInit {
 
             const formData = new FormData();
 
-            
+
 
             formData.append("file", file);
             console.log(formData);
             const upload$ = this._http.put(`${this.baseUrl}/pedag/doc/${doc.id}`, formData, {
                 reportProgress: true, observe: 'events',
-                
+
             })
                 .subscribe(event => {
                     if (event.type === HttpEventType.UploadProgress)
@@ -778,12 +812,12 @@ export class InfosComponent implements OnInit {
 
     baixar(doc) {
 
-       
+
         var file = doc.nome;// "Modelo LEAD.xlsx";// this.createFileName("EXCEL");
-      
+
 
         this.download(doc.id).subscribe(data => {
-          
+
             switch (data.type) {
                 case HttpEventType.Response:
                     // this.showSpinner = false;
@@ -801,10 +835,10 @@ export class InfosComponent implements OnInit {
             }
         },
             (err) => {
-              
+
             },
             () => {
-               
+
             }
         );
 
