@@ -17,8 +17,8 @@ export const ROUTES: RouteInfo[] = [
     { path: './newmat', title: 'Matrícula', class: '', },
     { path: './pedag', title: 'Pedagógico', class: '', },
     //{ path: './comercial', title: 'Comercial', class: '', },
-    { path: './financeiro', title: 'Financeiro', class: '', },
-    { path: './aluno', title: 'Aluno', class: '', }
+    { path: './financeiro', title: 'Financeiro', class: '', }
+   // { path: './aluno', title: 'Aluno', class: '', }
    // { path: './geral', title: 'Master', class: '', },
     //{ path:'./operadorUP', title:'Painel Técnicos Externos', class:''},
     //{ path: '/adm/colaboradores', title: 'Colaboradores', class: '', typeIcon: 'engineering' },
