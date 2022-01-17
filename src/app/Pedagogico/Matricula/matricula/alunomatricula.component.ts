@@ -10,6 +10,9 @@ import { Observable } from "rxjs";
 import { DiaVencimento, Parcelas } from "src/app/_shared/models/utils.model";
 import { CienciaCurso, submitMatriculaForm } from "../CreateModal/creatematricula.component";
 import { SpinnerParams } from "src/app/_shared/models/spinner.model";
+import { AdmService } from "src/app/Adm/services/adm.services";
+import { PedagogicoService } from "../../service/pedagogico.service";
+import { ConfirmMatriculaModalConfig } from "../../service/modal.config";
 
 export const MeioPagamento = [
     { type: 'boleto', value: 'Boleto' },
@@ -43,27 +46,30 @@ export class AlunoMatriculaComponent implements OnInit {
     previTerminoAtual: string
     cienciaCurso = CienciaCurso
     showTurmas: boolean = false
+    showAlunosIndicacao = false
     //showTurmaSearch: boolean = true
     showTurmaForm: boolean = false
     message: string = ''
     meioPagamento = MeioPagamento
     diaVencimento = DiaVencimento
     parcelas = Parcelas
+    private bolsa: any
 
     public matriculaTurmaForm: FormGroup;
     public respMenor: FormGroup;
     public respFinForm: FormGroup;
     public temRespFinm: FormGroup;
     public planoPgmAluno: FormGroup
-
+    public showSearchAlunoIndicacao = false
     constructor(
         private _fb: FormBuilder,
         private http: HttpClient,
+        private _pedagService: PedagogicoService,
         public _modal: MatDialog,
         public dialogRef: MatDialogRef<AlunoMatriculaComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
 
-        this.planoPgmAluno = _fb.group({           
+        this.planoPgmAluno = _fb.group({
             valor: [0.00, [Validators.required]],
             taxaMatricula: [0.00, [Validators.required]],
             confirmacaoPagmMat: [false, [Validators.required]],
@@ -71,8 +77,13 @@ export class AlunoMatriculaComponent implements OnInit {
             parcelas: [22, [Validators.required]],
             planoId: ['', [Validators.required]],
             diaDefault: [''],
-            valorParcela: [0, [Validators.required, Validators.min(1)]],
-            infoParcelas: ['']          
+           // valorParcela: [1, [Validators.required, Validators.min(1)]],
+            infoParcelas: [''],
+            //new
+            codigoDesconto: [''],
+            bolsaId:[''],
+            ciencia:['',[Validators.required]],
+            cienciaAlunoId:['']
 
         })
 
@@ -131,21 +142,54 @@ export class AlunoMatriculaComponent implements OnInit {
         })
         this.matriculaTurmaForm = _fb.group({
             responsave: []
-           
+
         })
 
     }
+
+    chanceCiencia(ciencia){
+        
+            if (this.planoPgmAluno.get('ciencia').value == 'Indicação Aluno') {
+
+               // this.planoPgmAluno.get('cienciaAlunoId').enable()
+                console.log('trazer alunos')
+                this.TrazerAlunos()
+                
+            } else {
+                this.planoPgmAluno.get('cienciaAlunoId').setValue('')
+              //  this.planoPgmAluno.get('cienciaAlunoId').disable()
+                this.showAlunosIndicacao = false
+                
+            }
+        
+
+    }
+
 
     ngOnInit() {
         this.data['aluno']
 
         this.hidden = 'visible'
-       
+
         this.consultarCursos()
+    }
+    alunosIndicacao: any[] = new Array<any>()
+    TrazerAlunos(){
+
+        this._pedagService.GetAlunosIndicacao()
+            .subscribe(
+                sucesso => { 
+                    this.alunosIndicacao = sucesso['alunos'] 
+                    this.showAlunosIndicacao = true
+                    
+                },
+                falha => { }
+            )
+
     }
 
     modelChanged(newObj) {
-       
+
         this.temRespFinm.get('temRespFin').setValue(newObj.checked);
     }
 
@@ -155,7 +199,7 @@ export class AlunoMatriculaComponent implements OnInit {
         var currentPage = 1;
 
         this.http.get(`${this.baseUrl}/turmas/cursosUnidade`, {
-            
+
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
                 "Authorization": "Bear "
@@ -181,6 +225,10 @@ export class AlunoMatriculaComponent implements OnInit {
 
     }
 
+    setCienciaCurso(ciencia){
+        console.log(this.planoPgmAluno.get('ciencia').value)
+    }
+
     // // consultarCursos(item: any){
     mensagemNoTrumas = "";
     showMessageNoTurmas = false;
@@ -204,8 +252,8 @@ export class AlunoMatriculaComponent implements OnInit {
                 this.showMessageNoTypes = true
             },
                 () => {
-                    this.planoPgmAluno.get('valorParcela').setValue(1000.50)
-                    this.planoPgmAluno.get('valorParcela').disable()
+                  //  this.planoPgmAluno.get('valorParcela').setValue(1000.50)
+                  //  this.planoPgmAluno.get('valorParcela').disable()
                     this.GetDefaultDay()
                     this.mostrarModalPrincipal = false
                     this.showSelectedTypes = true
@@ -214,8 +262,41 @@ export class AlunoMatriculaComponent implements OnInit {
                 });
     }
 
+    BuscarBolsa(codigo) {
+        console.log(this.planoPgmAluno.get('codigoDesconto').value)
 
+        if (this.planoPgmAluno.get('codigoDesconto').value != null && this.planoPgmAluno.get('codigoDesconto').value != '') {
 
+            this._pedagService.GetBolsa(this.planoPgmAluno.get('codigoDesconto').value)
+                .subscribe(
+                    sucesso => { this.BuscaBolsaSucesso(sucesso) },
+                    falha => { this.BuscaBolsaErro(falha) }
+                )
+        }
+    }
+    percentualDesconto = 0
+    BuscaBolsaSucesso(resp) {
+
+        this.planoPgmAluno.get('valor').setValue(this.valorPlanoOriginal)
+        this.bolsa = resp['bolsa']
+        this.percentualDesconto = this.bolsa.percentualDesconto
+        let valorTotal = this.planoPgmAluno.get('valor').value
+
+        let per = (valorTotal / 100) * this.bolsa.percentualDesconto
+
+        let valorComDesconto = valorTotal - per
+
+        console.log(valorComDesconto)
+
+        this.planoPgmAluno.get('valor').setValue(valorComDesconto)
+        this.planoPgmAluno.get('bolsaId').setValue(this.bolsa.id)
+        this.temBolsa = true
+
+    }
+
+    BuscaBolsaErro(error) {
+
+    }
     get valorParcela() {
 
         var preco = parseFloat('1000')
@@ -232,6 +313,14 @@ export class AlunoMatriculaComponent implements OnInit {
         let parcela = valorParcela.toFixed(2)
 
         return parcela
+    }
+
+    RemoverBolsa(){
+        this.planoPgmAluno.get('bolsaId').setValue('')
+        this.planoPgmAluno.get('codigoDesconto').setValue('')
+        this.planoPgmAluno.get('valor').setValue(this.valorPlanoOriginal)
+        this.bolsa = {}
+        this.temBolsa = false
     }
 
     turmas: any[] = new Array<any>()
@@ -412,7 +501,8 @@ export class AlunoMatriculaComponent implements OnInit {
 
     }
 
-
+    public valorPlanoOriginal
+    public temBolsa = false
     buscaPlanoPgm(planoId) {
         this.verPlano = false
         this.http.get(`${this.baseUrl}/plano-pagamento/${planoId}`)
@@ -430,7 +520,7 @@ export class AlunoMatriculaComponent implements OnInit {
                     this.verPlano = true
                     //console.log(this.planoSelecion ado)   
                     console.log(this.planoSelecionado)
-
+                    this.valorPlanoOriginal = this.planoSelecionado.valor
                     this.planoPgmAluno.get('valor').setValue(this.planoSelecionado.valor)
                     this.planoPgmAluno.get('taxaMatricula').setValue(this.planoSelecionado.taxaMatricula)
                     this.planoPgmAluno.get('bonusPontualidade').setValue(this.planoSelecionado.bonusPontualidade)
@@ -493,6 +583,7 @@ export class AlunoMatriculaComponent implements OnInit {
     salvarMat() {
         this.planoPgmAluno.get('infoParcelas').setValue(this.todasparcelas)
         console.log(this.planoPgmAluno.value)
+        console.log(this.planoPgmAluno.valid)
         if (!this.planoPgmAluno.valid) return
         if (this.menorIdade) {
             if (!this.respMenor.valid) return
@@ -513,17 +604,27 @@ export class AlunoMatriculaComponent implements OnInit {
 
         this.http.post(`${this.baseUrl}/pedag/matricula/${this.turma.id}/${this.data['aluno'].id}`, form, {})
             .subscribe(response => {
-
+                this.OpenModalSucesso(response['matriculaId'])
             }, err => {
                 console.log(err)
 
 
             },
                 () => {
-
-                    this.dialogRef.close({ clicked: "Ok" });
+                    // msg aluno matriculado com sucesso! Deseja imprimir a ficha de matrícula 
+                    // e o contrato ?
+                    
+                   // this.dialogRef.close({ clicked: "Ok" });
                 });
 
+    }
+
+    OpenModalSucesso(matriculaId?): void {
+        const dialogRef = this._modal
+            .open(ConfirmMatriculaComponent, ConfirmMatriculaModalConfig(matriculaId));
+        dialogRef.afterClosed().subscribe((data) => {
+            this.dialogRef.close();
+        });
     }
 
 

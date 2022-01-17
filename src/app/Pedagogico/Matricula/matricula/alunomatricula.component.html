@@ -1,4 +1,3 @@
-
 <div style="font-size: 1.2em;">Matrícula
     <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
         matTooltipHideDelay="100">
@@ -37,8 +36,6 @@
 
 <mat-progress-bar [style.visibility]="hidden" @rowHighlight mode="query">
 </mat-progress-bar>
-
-
 
 <div @rowHighlight *ngIf="showContent">
 
@@ -80,11 +77,30 @@
 
                 <mat-form-field appearance="standard" style="width: 120px;">
                     <mat-label>RG</mat-label>
-                    <input selected matInput [value]="data['aluno'].rg" disabled >
+                    <input selected matInput [value]="data['aluno'].rg" disabled>
                 </mat-form-field>
 
-              
-                <!-- <mat-progress-bar *ngIf="disabldSaveButton" style="margin:0px" mode="query"></mat-progress-bar>
+                <br>
+            </form>
+
+            <form style="" novalidate [formGroup]="planoPgmAluno">
+                <mat-form-field appearance="standard" style="width: 200px;">
+                    <mat-label>Forma de conhecimento</mat-label>
+                    <mat-select formControlName="ciencia" selected >
+                        <mat-option (click)="chanceCiencia(cie.value)" [value]="cie.value" *ngFor="let cie of cienciaCurso">{{cie.value}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="showAlunosIndicacao" appearance="standard" style="width: 280px;margin-left: 10px;">
+                    <mat-label>Forma de conhecimento</mat-label>
+                    <mat-select formControlName="cienciaAlunoId" selected >
+                        <mat-option [value]="aluno.id" *ngFor="let aluno of alunosIndicacao">
+                        {{aluno.nome}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+            <!-- <mat-progress-bar *ngIf="disabldSaveButton" style="margin:0px" mode="query"></mat-progress-bar>
                 <div style="bottom: 0; float:right;">
                     <button type="button" (click)="salvarMat()" [disabled]="disabldSaveButton" mat-raised-button
                         color="primary" style="bottom: 0; float:right;margin-bottom: 10px;margin-left: 10px;">
@@ -92,7 +108,7 @@
                     </button>
                 </div> -->
 
-            </form>
+
 
 
         </mat-tab>
@@ -100,7 +116,7 @@
         <mat-tab *ngIf="menorIdade" label="Responsável menor">
 
             <form novalidate [formGroup]="respMenor">
-                
+
                 <br>
 
                 <span style="font-style: italic;font-size: 0.9em;">
@@ -110,7 +126,8 @@
                 <br>
                 <mat-form-field appearance="standard" style="width: 35%; ">
                     <mat-label>Nome completo</mat-label>
-                    <input selected formControlName="nome" oninput="this.value = this.value.toUpperCase()" required name="nome" matInput placeholder="Nome">
+                    <input selected formControlName="nome" oninput="this.value = this.value.toUpperCase()" required
+                        name="nome" matInput placeholder="Nome">
                 </mat-form-field>
 
                 <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
@@ -138,28 +155,28 @@
 
                 <mat-form-field appearance="standard" style="width: 20%;">
                     <mat-label>Grau de parentesco</mat-label>
-                    <input formControlName="parentesco" oninput="this.value = this.value.toUpperCase()" required name="naturalidadeUF" matInput
-                        placeholder="Grau de parentesco">
+                    <input formControlName="parentesco" oninput="this.value = this.value.toUpperCase()" required
+                        name="naturalidadeUF" matInput placeholder="Grau de parentesco">
                 </mat-form-field>
 
                 <mat-form-field appearance="standard" style="width: 20%; margin-left: 2%;">
                     <mat-label>Naturalidade</mat-label>
-                    <input selected formControlName="naturalidade" oninput="this.value = this.value.toUpperCase()" required name="naturalidade" matInput
-                        placeholder="Nome">
+                    <input selected formControlName="naturalidade" oninput="this.value = this.value.toUpperCase()"
+                        required name="naturalidade" matInput placeholder="Nome">
                 </mat-form-field>
 
                 <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
                     <mat-label>UF</mat-label>
-                    <input onkeypress="return String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null" oninput="this.value = this.value.toUpperCase()"
-                        minlength="2" maxlength="2" selected formControlName="naturalidadeUF" required
-                        name="naturalidadeUF" matInput placeholder="UF">
+                    <input onkeypress="return String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
+                        oninput="this.value = this.value.toUpperCase()" minlength="2" maxlength="2" selected
+                        formControlName="naturalidadeUF" required name="naturalidadeUF" matInput placeholder="UF">
                 </mat-form-field>
 
                 <br>
                 <mat-form-field appearance="standard" style="width: 25%;">
                     <mat-label>Email</mat-label>
-                    <input selected formControlName="email" name="email" oninput="this.value = this.value.toLowerCase()" 
-                    matInput placeholder="Email">
+                    <input selected formControlName="email" name="email" oninput="this.value = this.value.toLowerCase()"
+                        matInput placeholder="Email">
                 </mat-form-field>
 
 
@@ -221,7 +238,8 @@
 
                 <mat-form-field appearance="standard" style="width: 30%; margin-left: 5%;">
                     <mat-label>Complemento</mat-label>
-                    <input selected formControlName="complemento" name="templateName" matInput oninput="this.value = this.value.toUpperCase()"
+                    <input selected formControlName="complemento" name="templateName" matInput
+                        oninput="this.value = this.value.toUpperCase()"
                         placeholder="ex: nº 123... sala 10... apto 123...">
                 </mat-form-field>
 
@@ -259,7 +277,8 @@
 
                 <mat-form-field appearance="standard" style="width: 35%; ">
                     <mat-label>Nome completo</mat-label>
-                    <input selected formControlName="nome" required name="nome" oninput="this.value = this.value.toUpperCase()" matInput placeholder="Nome">
+                    <input selected formControlName="nome" required name="nome"
+                        oninput="this.value = this.value.toUpperCase()" matInput placeholder="Nome">
                 </mat-form-field>
 
                 <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
@@ -287,27 +306,28 @@
 
                 <mat-form-field appearance="standard" style="width: 20%;">
                     <mat-label>Grau de parentesco</mat-label>
-                    <input formControlName="parentesco" required name="naturalidadeUF" oninput="this.value = this.value.toUpperCase()" matInput
-                        placeholder="Grau de parentesco">
+                    <input formControlName="parentesco" required name="naturalidadeUF"
+                        oninput="this.value = this.value.toUpperCase()" matInput placeholder="Grau de parentesco">
                 </mat-form-field>
 
                 <mat-form-field appearance="standard" style="width: 20%; margin-left: 2%;">
                     <mat-label>Naturalidade</mat-label>
-                    <input selected formControlName="naturalidade" oninput="this.value = this.value.toUpperCase()" required name="naturalidade" matInput
-                        placeholder="Nome">
+                    <input selected formControlName="naturalidade" oninput="this.value = this.value.toUpperCase()"
+                        required name="naturalidade" matInput placeholder="Nome">
                 </mat-form-field>
 
                 <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
                     <mat-label>UF</mat-label>
-                    <input onkeypress="return String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null" oninput="this.value = this.value.toUpperCase()"
-                        minlength="2" maxlength="2" selected formControlName="naturalidadeUF" required
-                        name="naturalidadeUF" matInput placeholder="UF">
+                    <input onkeypress="return String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
+                        oninput="this.value = this.value.toUpperCase()" minlength="2" maxlength="2" selected
+                        formControlName="naturalidadeUF" required name="naturalidadeUF" matInput placeholder="UF">
                 </mat-form-field>
 
                 <br>
                 <mat-form-field appearance="standard" style="width: 25%;">
                     <mat-label>Email</mat-label>
-                    <input selected formControlName="email" name="email" oninput="this.value = this.value.toLowerCase()" matInput placeholder="Email">
+                    <input selected formControlName="email" name="email" oninput="this.value = this.value.toLowerCase()"
+                        matInput placeholder="Email">
                 </mat-form-field>
 
 
@@ -361,12 +381,14 @@
 
                 <mat-form-field appearance="standard" style="width: 15%; margin-left: 5%;">
                     <mat-label>Número</mat-label>
-                    <input selected formControlName="numero" oninput="this.value = this.value.toUpperCase()" matInput placeholder="ex: rua tal...">
+                    <input selected formControlName="numero" oninput="this.value = this.value.toUpperCase()" matInput
+                        placeholder="ex: rua tal...">
                 </mat-form-field>
 
                 <mat-form-field appearance="standard" style="width: 40%; margin-left: 5%;">
                     <mat-label>Complemento</mat-label>
-                    <input selected formControlName="complemento" name="templateName" oninput="this.value = this.value.toUpperCase()" matInput
+                    <input selected formControlName="complemento" name="templateName"
+                        oninput="this.value = this.value.toUpperCase()" matInput
                         placeholder="ex: nº 123... sala 10... apto 123...">
                 </mat-form-field>
                 <br>
@@ -426,19 +448,42 @@
                         <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                     </mat-form-field>
 
+                    <div style="float: right;">
+
+                        <mat-form-field appearance="outline" style="width: 120px; margin-left: 15px;">
+                            <mat-label>Bolsa/Desconto?</mat-label>
+                            <input disabled="false" formControlName="codigoDesconto" placeholder="código" onblur=""
+                                selected matInput>
+                        </mat-form-field>
+
+                        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="buscar"
+                            matTooltipPosition="above" matTooltipHideDelay="100">
+                            <button style="" type="button" (click)="BuscarBolsa()" mat-icon-button>
+                                <mat-icon>search</mat-icon>
+                            </button>
+                        </i>
+
+
+                        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="retirar bolsa/desconto"
+                            matTooltipPosition="above" matTooltipHideDelay="100">
+                            <button type="button" (click)="RemoverBolsa()" mat-icon-button>
+                                <mat-icon>highlight_off</mat-icon>
+                            </button>
+                        </i>
+                    </div>
+
                     <br>
 
                     <mat-form-field appearance="outline" style="width: 130px;">
-                        <mat-label>Valor do pacote</mat-label>
-                        <input selected formControlName="valor" currencyMask
-                            [options]="{ prefix: '', thousands: '.', decimal: ',' }" matInput>
-                        <span matPrefix>R$&nbsp;</span>
+                        <mat-label>Valor <span *ngIf="temBolsa">(desconto {{percentualDesconto}}%)</span></mat-label>
+                        <input selected currencyMask [value]="planoPgmAluno.get('valor').value | currency:'BRL':'R$ '"
+                            disabled matInput>
                     </mat-form-field>
 
                     <mat-form-field appearance="outline" style="width: 130px; margin-left: 45px;">
                         <mat-label>Valor da parcela</mat-label>
-                        <input selected [value]="valorParcela | currency:'BRL':true:'1.2-2'" disabled matInput>
-                        
+                        <input selected [value]="valorParcela | currency:'BRL':'R$ '" disabled matInput>
+
                     </mat-form-field>
 
                     <mat-form-field appearance="outline" style="width: 140px; margin-left: 45px;">
@@ -450,45 +495,51 @@
 
                     <br>
 
-                 
+                    <span style="font-style: italic; font-size: 0.9em;">
+                        Confirmar matrícula apenas após o pagamento da primeira parcela?: <mat-checkbox disabled [value]="planoPgmAluno.get('confirmacaoPagmMat').value"
+                            class="example-margin">
+                        </mat-checkbox>
+                    </span>
+
+
                     <div class="table-responsive" style="">
                         <table color="primary" style="margin-bottom: 0px;" class="table">
-                           
+
                             <thead>
-                                <tr>                                  
-        
+                                <tr>
+
                                     <th style="width: 40%;font-size:0.9em;
                                 vertical-align: middle; 
                                 text-align:left;
                                  border-top: 0px; font-weight: 400;">PARCELA</th>
-        
+
                                     <th style="width: 29%;font-size:0.9em;
                                 vertical-align: middle;
                                 text-align:center;
                                 border-top: 0px; font-weight: 400;">VENCIMENTO</th>
-        
+
                                     <th style="width: 29%;font-size:0.9em;
                                 text-align:center; 
                                 vertical-align: middle;
                                 border-top: 0px; font-weight: 400;">VALOR</th>
-        
 
-                                   
+
+
                                 </tr>
                             </thead>
                             <tbody>
-        
+
                                 <tr *ngFor="let parc of todasparcelas">
                                     <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
-                                      {{ parc.parcelaNo }}/{{ todasparcelas.length }} MENSALIDADE
+                                        {{ parc.parcelaNo }}/{{ todasparcelas.length }} MENSALIDADE
                                     </td>
-        
+
                                     <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
-                                        {{ parc.vencimento | date:'dd/MM/yyyy'}} 
+                                        {{ parc.vencimento | date:'dd/MM/yyyy'}}
                                     </td>
-        
+
                                     <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
-                                        {{ parc.valor | currency:'BRL':true:'1.2-2'}} 
+                                        {{ parc.valor | currency:'BRL':'R$ '}}
                                     </td>
                                 </tr>
 
@@ -505,7 +556,7 @@
 
     </mat-tab-group>
 
-   
+
     <!-- <mat-progress-bar [style.visibility]="saveProgressBar" mode="query"></mat-progress-bar>
 
     <span *ngFor="let msg of errorMsg" style="margin-top: 20px; font-size: 0.8em;color: red;width: 350px;">
@@ -513,18 +564,18 @@
 
     </span> -->
 
+    <mat-progress-bar *ngIf="disabldSaveButton" style="margin:0px" mode="query"></mat-progress-bar>
+    <span>
+        <form novalidate style="float: right;">
 
-    <span  >
-        <form novalidate  style="width: 200px; float: right;">
+            
+            <div style="bottom: 0; float:right;">
+                <button type="button" (click)="salvarMat()" [disabled]="disabldSaveButton" mat-raised-button
+                    color="primary" style="bottom: 0; float:right;margin-bottom: 0px;margin-left: 10px;">
+                    Confirmar matrícula
+                </button>
+            </div>
 
-            <mat-progress-bar *ngIf="disabldSaveButton" style="margin:0px" mode="query"></mat-progress-bar>
-                <div style="bottom: 0; float:right;">
-                    <button type="button" (click)="salvarMat()" [disabled]="disabldSaveButton" mat-raised-button
-                        color="primary" style="bottom: 0; float:right;margin-bottom: 0px;margin-left: 10px;">
-                        Confirmar matrícula
-                    </button>
-                </div>
-                
 
 
             <!-- <button type="submit"  mat-raised-button color="primary"

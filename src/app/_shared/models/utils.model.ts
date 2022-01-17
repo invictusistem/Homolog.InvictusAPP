@@ -23,8 +23,9 @@ export const CienciaCurso = [
     { type: 'Balcão', value: 'Balcão' },
     { type: 'Indicação Aluno', value: 'Indicação Aluno' },
     { type: 'Rádio', value: 'Rádio' },
-    { type: 'Vendendor Externo', value: 'Vendendor Externo' },
-    { type: 'Outros', value: 'Outros' }
+    { type: 'Facebook', value: 'Facebook' },
+    { type: 'Internet', value: 'Internet' },
+    { type: 'Site', value: 'Site' }
 ]
 
 export const Parcelas = [

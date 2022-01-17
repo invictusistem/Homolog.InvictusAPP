@@ -43,6 +43,7 @@ import { EstagiosDocsComponent } from './Pedagogico/estagiosdocs/estagiosdocs.co
 import { EstagioComponent } from './Pedagogico/estagios/estagio.component';
 import { PDFTesteComponent } from './Adm/PdfTeste/pdfteste.component';
 import { HomeComponent } from './_shared/home/home.component';
+import { BolsasComponent } from './Adm/Bolsas/bolsas.component';
 
 export const routes: Routes = [
   {
@@ -65,6 +66,7 @@ export const routes: Routes = [
       { path: 'config', component: ConfiguracoesComponent, canActivate: [AuthGuard] },
       { path: 'modulo', component:ModuloComponent, canActivate: [AuthGuard] },
       { path: 'contrato', component:ContratoComponent, canActivate: [AuthGuard] },
+      { path: 'bolsas', component:BolsasComponent, canActivate: [AuthGuard] },
       { path: 'planopgm', component:PlanoPgmComponent, canActivate: [AuthGuard] },
       { path: 'pdf', component:PDFTesteComponent, canActivate: [AuthGuard] }
     ]

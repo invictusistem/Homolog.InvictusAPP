@@ -42,3 +42,21 @@ export function EditAcessoModal(usuario?:any){
         disableClose: true
     }
 }
+
+export function CreateBolsaModalConfig(usuario?:any){
+    return {      
+        width: '600px',
+        data: { usuario: usuario },        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function ShowSenhaModalConfig(senha?:any){
+    return {      
+        height:'100px',
+        width: '130px',
+        data: { senha: senha },        
+    }
+}
+

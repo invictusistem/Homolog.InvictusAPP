@@ -26,9 +26,10 @@ export const ROUTES: RouteInfo[] = [
     { path: '/adm/config', title: 'Configurações', class: '', typeIcon: 'settings' },
     { path: '/adm/modulo', title: 'Pacotes', class: '', typeIcon: 'school' },
     { path: '/adm/planopgm', title: 'Planos', class: '', typeIcon: 'request_quote' },
-    { path: '/adm/contrato', title: 'Contratos', class: '', typeIcon: 'gavel' }
+    { path: '/adm/contrato', title: 'Contratos', class: '', typeIcon: 'gavel' },
+    { path: '/adm/bolsas', title: 'Bolsas', class: '', typeIcon: 'local_offer' },
     //{ path: '/adm/teste', title: 'TESTE', class: '', typeIcon: 'fact_check' },
-    //{ path: '/adm/pdf', title: 'PDF', class: '', typeIcon: 'gavel' }
+   // { path: '/adm/pdf', title: 'PDF', class: '', typeIcon: 'gavel' }
 ]
 
 @Component({

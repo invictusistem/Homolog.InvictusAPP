@@ -18,4 +18,14 @@ export function OpenInfoComponentModal(aluno?){
     }
 }
 
+export function ConfirmMatriculaModalConfig(matriculaId?){
+    return {  
+        height: '180px',    
+        width: '500px',
+        data: { matriculaId: matriculaId },        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
 

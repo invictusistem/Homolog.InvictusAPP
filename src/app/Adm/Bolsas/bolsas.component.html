@@ -1,0 +1,165 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+    <div>
+        <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar bolsa" disabled matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button mat-icon-button (click)="openCreateBolsaModal()">
+                <mat-icon>description</mat-icon>
+            </button>
+        </i>
+    </div>
+
+    <br>
+
+    <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm"
+        style="margin-top: 5px;display: inline-block">
+
+        <span style="font-size: 0.9em;font-style: italic;">
+            Selecione o tipo do pacote para pesquisar pela bolsa:
+        </span>
+
+        <div class="form-row align-items-center divSiteForm">
+
+            <mat-form-field appearance="standard" style="width: 200px;">
+
+                <mat-label></mat-label>
+                <mat-select [disabled]="typesPacotes.length == 0" formControlName="typePacoteId">
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let pac of typesPacotes" [value]="pac.id">{{pac.nome}}</mat-option>
+                </mat-select>
+
+            </mat-form-field>
+
+            <span>
+                <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
+                    matTooltipHideDelay="100">
+                    <button style="" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+        </div>
+
+    </form>
+
+
+    <mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
+    </mat-progress-bar>
+
+    <div class="card-header card-msg-response" unselectable="on" onselectstart="return false;"
+        *ngIf="showMessageNoBolsas">Não foram localizadas bolsas cadastradas para esse tipo.</div>
+
+
+    <div @rowHighlight *ngIf="bolsas.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
+        position: relative;
+       
+        box-shadow: 0 0 1em rgb(172, 170, 170);
+        background-color: rgb(227, 240, 227);">
+
+        <div class="card-header">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Contratos</h4>
+            <p class="card-category">Contratos cadastrados no sistema:</p>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive" style="height: 430px;position: relative;">
+
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 2%; 
+                text-align:left; 
+                vertical-align: middle;
+                border-top: 0px;"></th>
+
+                            <th style="width: 20%;font-size:1em;
+                                vertical-align: middle;
+                                text-align:left;
+                border-top: 0px; font-weight: 400;">NOME</th>
+
+                            <th style="width: 10%;font-size:1em;
+                        vertical-align: middle;
+                        text-align:center;
+                        border-top: 0px; font-weight: 400;">DESCONTO</th>
+
+                            <th style="width: 15%;font-size:1em;
+                        vertical-align: middle;
+                        text-align:center;
+                        border-top: 0px; font-weight: 400;">CRIAÇÃO</th>
+
+                            <th style="width: 15%;font-size:1em;
+                text-align:center; 
+                vertical-align: middle;
+                border-top: 0px; font-weight: 400;">DATA EXPIRAÇÃO</th>
+
+                            <th style="width: 20%;font-size:1em;
+                            text-align:center; 
+                            vertical-align: middle;
+                            border-top: 0px; font-weight: 400;">CÓDIGO</th>
+
+                            <th style="width: 18%;font-size:1em;
+                text-align:center; 
+                vertical-align: middle;
+                border-top: 0px; font-weight: 400;"></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of bolsas;let i = index;" @rowHighlight>
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{i + 1}}
+                            </td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.percentualDesconto }} %</td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+                                {{item.dataCriacao |
+                                date:'dd/M/yyyy'}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.dataExpiracao |
+                                date:'dd/M/yyyy'}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+                                <i style="margin: 0px; margin: 0px;"  #tooltip="matTooltip"
+                                matTooltip="visualizar código" matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button (click)="verCodigoBolsa(item.id)" [disabled]="disabledCodigo"
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon>visibility</mat-icon>
+                                </button>
+                            </i>
+                            </td>
+
+                            <td style="position: relative;">
+
+                                <!-- <i style="margin: 0px; margin: 0px;" *ngIf="item.podeEditar" #tooltip="matTooltip"
+                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openEditContratoModal(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>settings</mat-icon>
+                                    </button>
+                                </i> -->
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+</div>

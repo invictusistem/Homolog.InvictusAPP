@@ -15,6 +15,7 @@ import { Observable } from "rxjs";
 import { AddAnotacaoComponent } from "./Anotacao/add-anotacao.component";
 import { SpinnerParams } from "src/app/_shared/models/spinner.model";
 import { ConfirmModalComponent } from "src/app/_shared/components/ConfirmModal/confirm-modal.component";
+import { PedagogicoService } from "../../service/pedagogico.service";
 
 @Component({
     selector: 'infosmodal',
@@ -58,7 +59,7 @@ export class InfosComponent implements OnInit {
     constructor(
         private _fb: FormBuilder,
         private _http: HttpClient,
-        private _service: PedagService,
+        private _service: PedagogicoService,
         private _modal: MatDialog,
         public dialogRef: MatDialogRef<InfosComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -103,51 +104,55 @@ export class InfosComponent implements OnInit {
             unidadeId: [''],
         })
 
-        // this.respFinancForm = _fb.group({
-        //     id: [''],
-        //     nome: ['', [Validators.required, Validators.minLength(2)]],
-        //     cpf: ['', [Validators.required, Validators.minLength(11)]],
-        //     rg: ['', [Validators.required, Validators.minLength(9)]],
-        //     nascimento: ['', [Validators.required]],
-        //     parentesco: ['', [Validators.required]],
-        //     naturalidade: ['', [Validators.required]],
-        //     naturalidadeUF: ['', [Validators.required]],
-        //     email: ['', [Validators.required, Validators.minLength(5)]],
-        //     telCelular: [null, [Validators.minLength(0)]],
-        //     telWhatsapp: [null, [Validators.minLength(10)]],
-        //     telResidencial: [null, [Validators.minLength(9)]],
-        //     cep: ['', [Validators.required, Validators.minLength(8)]],
-        //     logradouro: ['', [Validators.required, Validators.minLength(1)]],
-        //     complemento: [''],
-        //     cidade: ['', [Validators.required, Validators.minLength(1)]],
-        //     uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
-        //     bairro: ['', [Validators.required, Validators.minLength(1)]],
-        //     observacoes: ['', [Validators.minLength(1), Validators.maxLength(300)]],
-        //     TipoResponsavel: ['', [Validators.minLength(1), Validators.maxLength(300)]],
-        // })
+        this.respFinancForm = _fb.group({
+            id: [''],
+            nome: ['', [Validators.required, Validators.minLength(2)]],
+            cpf: ['', [Validators.required, Validators.minLength(11)]],
+            rg: ['', [Validators.required, Validators.minLength(9)]],
+            nascimento: ['', [Validators.required]],
+            naturalidade: ['', [Validators.required]],
+            naturalidadeUF: ['', [Validators.required]],
+            email: ['', [Validators.required, Validators.minLength(5)]],
+            telCelular: [null],
+            telWhatsapp: [null],
+            telResidencial: [null],
+            cep: ['', [Validators.required, Validators.minLength(8)]],
+            logradouro: ['', [Validators.required, Validators.minLength(1)]],
+            complemento: [''],
+            cidade: ['', [Validators.required, Validators.minLength(1)]],
+            uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
+            bairro: ['', [Validators.required, Validators.minLength(1)]],
+            numero: ['', [Validators.required]],
+            TipoResponsavel: [''],
+            matriculaId: [''],
+            temRespFin: [''],
+            tipo: ['']
+        })
 
-        // this.respMenorForm = _fb.group({
-        //     id: [''],
-        //     nome: ['', [Validators.required, Validators.minLength(2)]],
-        //     cpf: ['', [Validators.required, Validators.minLength(11)]],
-        //     rg: ['', [Validators.required, Validators.minLength(9)]],
-        //     nascimento: ['', [Validators.required]],
-        //     parentesco: ['', [Validators.required]],
-        //     naturalidade: ['', [Validators.required]],
-        //     naturalidadeUF: ['', [Validators.required]],
-        //     email: ['', [Validators.required, Validators.minLength(5)]],
-        //     telCelular: [null, [Validators.minLength(0)]],
-        //     telWhatsapp: [null, [Validators.minLength(10)]],
-        //     telResidencial: [null, [Validators.minLength(9)]],
-        //     cep: ['', [Validators.required, Validators.minLength(8)]],
-        //     logradouro: ['', [Validators.required, Validators.minLength(1)]],
-        //     complemento: [''],
-        //     cidade: ['', [Validators.required, Validators.minLength(1)]],
-        //     uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
-        //     bairro: ['', [Validators.required, Validators.minLength(1)]],
-        //     observacoes: ['', [Validators.minLength(1), Validators.maxLength(300)]],
-        //     TipoResponsavel: ['', [Validators.minLength(1), Validators.maxLength(300)]],
-        // })
+        this.respMenorForm = _fb.group({
+            id: [''],
+            nome: ['', [Validators.required, Validators.minLength(2)]],
+            cpf: ['', [Validators.required, Validators.minLength(11)]],
+            rg: ['', [Validators.required, Validators.minLength(9)]],
+            nascimento: ['', [Validators.required]],
+            naturalidade: ['', [Validators.required]],
+            naturalidadeUF: ['', [Validators.required]],
+            email: ['', [Validators.required, Validators.minLength(5)]],
+            telCelular: [null],
+            telWhatsapp: [null],
+            telResidencial: [null],
+            cep: ['', [Validators.required, Validators.minLength(8)]],
+            logradouro: ['', [Validators.required, Validators.minLength(1)]],
+            complemento: [''],
+            cidade: ['', [Validators.required, Validators.minLength(1)]],
+            uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
+            bairro: ['', [Validators.required, Validators.minLength(1)]],
+            numero: ['', [Validators.required]],
+            TipoResponsavel: [''],
+            matriculaId: [''],
+            temRespFin: [''],
+            tipo: ['']
+        })
 
 
         //this.alunoForm.get('logradouro').disable()
@@ -163,11 +168,13 @@ export class InfosComponent implements OnInit {
         this.GetInformacoesMatricula(this.data['aluno'].matriculaId)
     }
 
-   // alunoInfo: any;
+    // alunoInfo: any;
     respFin: any;
     respMenor: any;
     anotacoes: any[] = new Array<any>()
-    alunoOriginal: any;
+    private alunoOriginal: any;
+    private respFinOriginal: any;
+    private respMenorOriginal: any;
 
     GetInformacoesMatricula(matriculaId) {
 
@@ -175,20 +182,22 @@ export class InfosComponent implements OnInit {
             .subscribe(resp => {
                 console.log(resp)
                 this.turma = resp['turma'];
-               // this.alunoInfo = Object.assign({}, resp['aluno']);
-                this.respFin = resp['respFin'];
-                this.respMenor = resp['respMenor'];
+                //this.respFin = resp['respFin'];
+                //this.respMenor = resp['respMenor'];
                 this.anotacoes = resp['anotacoes'];
-                this.documentos = resp['docs'];
-                //this.alunoForm.gr = resp['aluno'] as FormGroup
-               // Object.assign(this.acessoView, sucesso['acessos'])
-        this.alunoOriginal = JSON.parse(JSON.stringify(resp['aluno']))
-       // Object.assign(this.editedAcessoView, sucesso['acessos'])
-
-                //this.alunoOriginal = Object.assign({}, resp['aluno'])
-                this.alunoForm.patchValue(resp['aluno']); //resp['aluno'] as FormGroup
+                this.documentoAluno = resp['docs'];
+                // this.alunoOriginal = JSON.parse(JSON.stringify(resp['aluno']))
+                // Aluno
+                this.alunoForm.patchValue(resp['aluno']);
                 this.alunoOriginal = JSON.parse(JSON.stringify(this.alunoForm.value))
-                console.log(this.alunoForm.value)
+                // RespFin
+                this.respFin = resp['respFin']
+                this.respFinancForm.patchValue(resp['respFin'])
+                this.respFinOriginal = JSON.parse(JSON.stringify(this.respFinancForm.value))
+                // respMenor
+                this.respMenorForm.patchValue(resp['respMenor'])
+                this.respMenor = resp['respMenor']
+                this.respMenorOriginal = JSON.parse(JSON.stringify(this.respMenorForm.value))
             },
                 (error) => { console.log(error) },
                 () => {
@@ -200,66 +209,193 @@ export class InfosComponent implements OnInit {
 
     }
 
-    spinnerSave = false
+    //#region Saves
+
+    // ALUNO SAVE
     saveAluno(form: any) {
 
         if (this.alunoForm.valid) {
             this.saveAlunoProgressBar = 'visible'
-            this.spinnerSave = true
-            this._http.put(`${this.baseUrl}/alunos`, this.alunoForm.value, {})
-                .subscribe(response => {
 
-                }, err => {
-                    console.log(err)
-                    this.saveAlunoProgressBar = 'hidden'
-                    this.spinnerSave = true
-                },
-                    () => {
-                        this.spinnerSave = false
-                        this.saveAlunoProgressBar = 'hidden'
-                        this.GetAluno(this.alunoForm.get('id').value);
-                    });
+            this._service.saveAluno(this.alunoForm.value)
+                .subscribe(
+                    sucesso => { this.saveAlunoSucesso(sucesso) },
+                    falha => { this.saveAlunoFalha(falha) }
+                )
         }
     }
 
+    saveAlunoSucesso(resposta) {
+        //this.saveAlunoProgressBar = 'hidden'
+        this.GetAluno(this.alunoForm.get('id').value);
+    }
+
+    saveAlunoFalha(erro) {
+        console.log(erro)
+        this.saveAlunoProgressBar = 'hidden'
+    }
+
+    GetAluno(alunoId) {
+
+        this._service.getAlunobyId(alunoId)
+            .subscribe(
+                sucesso => { this.getAlunoSucesso(sucesso) },
+                falha => { this.getAlunoFalha(falha) }
+                )
+    }
+
+    getAlunoSucesso(resposta){
+        this.alunoForm.patchValue(resposta['aluno']);
+        this.alunoOriginal = JSON.parse(JSON.stringify(this.alunoForm.value))
+        this.saveAlunoProgressBar = 'hidden'
+    }
+
+    getAlunoFalha(erro){
+        this.saveAlunoProgressBar = 'hidden'
+    }
+
+    // RESP FIN SAVE
+
+    saveRespFin(form: any) {
+
+        if (this.respFinancForm.valid) {
+            this.saveRespFinProgressBar = 'visible'
+
+            this._service.saveResponsavel(this.respFinancForm.value)
+                .subscribe(
+                    sucesso => { this.saveRespFinSucesso(sucesso) },
+                    falha => { this.saveRespFinFalha(falha) }
+                )
+        }
+    }
+
+    saveRespFinSucesso(resposta) {
+        this.GetResponsavel(this.respFinancForm.get('id').value);
+    }
+
+    saveRespFinFalha(erro) {
+        console.log(erro)
+        this.saveRespFinProgressBar = 'hidden'
+    }
+
+    GetResponsavel(respId) {
+
+        this._service.GetResponsavelById(respId)
+            .subscribe(
+                sucesso => { this.GetResponsavelSucesso(sucesso) },
+                falha => { this.GetResponsavelFalha(falha) }
+                )
+    }
+
+    GetResponsavelSucesso(resposta){
+        this.respFinancForm.patchValue(resposta['resp']);
+        this.respFinOriginal = JSON.parse(JSON.stringify(this.respFinancForm.value))
+        this.saveRespFinProgressBar = 'hidden'
+    }
+
+    GetResponsavelFalha(erro){
+        this.saveRespFinProgressBar = 'hidden'
+    }
+
+     // RESP MENOR SAVE
+
+     saveRespMenor(form: any) {
+
+        if (this.respMenorForm.valid) {
+            this.saveRespMenorProgressBar = 'visible'
+
+            this._service.saveResponsavel(this.respMenorForm.value)
+                .subscribe(
+                    sucesso => { this.saveRespMenorSucesso(sucesso) },
+                    falha => { this.saveRespMenorFalha(falha) }
+                )
+        }
+    }
+
+    saveRespMenorSucesso(resposta) {
+        this.GetResponsavelMenor(this.respMenorForm.get('id').value);
+    }
+
+    saveRespMenorFalha(erro) {
+        console.log(erro)
+        this.saveRespMenorProgressBar = 'hidden'
+    }
+
+    GetResponsavelMenor(respId) {
+
+        this._service.GetResponsavelById(respId)
+            .subscribe(
+                sucesso => { this.GetResponsavelMenorSucesso(sucesso) },
+                falha => { this.GetResponsavelMenorlFalha(falha) }
+                )
+    }
+
+    GetResponsavelMenorSucesso(resposta){
+        this.respMenorForm.patchValue(resposta['resp']);
+        this.respMenorOriginal = JSON.parse(JSON.stringify(this.respMenorForm.value))
+        this.saveRespMenorProgressBar = 'hidden'
+    }
+
+    GetResponsavelMenorlFalha(erro){
+        this.saveRespMenorProgressBar = 'hidden'
+    }
+
+
+    //#endregion
+
+    //#region SAVE BUTTONS
     saveAlunoProgressBar = 'hidden'
     get saveAlunoButton() {
-        console.log(this.alunoOriginal)
-        console.log(this.alunoForm.value)
-        console.log(JSON.stringify(this.alunoOriginal) ==
-                JSON.stringify(this.alunoForm.value))
-        if (this.alunoForm.valid
-            &&
+
+        if (this.alunoForm.valid &&
             JSON.stringify(this.alunoOriginal) !=
-                JSON.stringify(this.alunoForm.value)) 
-                {
-            //return this.saveAlunoProgressBar != 'hidden'
+            JSON.stringify(this.alunoForm.value)) {
+
             return this.saveAlunoProgressBar != 'hidden'
         } else {
             return true
         }
     }
 
-    GetAluno(alunoId) {
+    saveRespFinProgressBar = 'hidden'
+    get saveRespFinButton() {
 
-        this._http.get(`${this.baseUrl}/alunos/cadastro/${alunoId}`)
-            .subscribe(response => {
-               // this.alunoInfo = response["aluno"];
+        if (this.respFinancForm.valid &&
+            JSON.stringify(this.respFinOriginal) !=
+            JSON.stringify(this.respFinancForm.value)) {
 
-            }, err => { console.log(err) },
-                () => { });
-
+            return this.saveRespFinProgressBar != 'hidden'
+        } else {
+            return true
+        }
     }
+
+    saveRespMenorProgressBar = 'hidden'
+    get saveRespMenorButton() {
+
+        if (this.respMenorForm.valid &&
+            JSON.stringify(this.respMenorOriginal) !=
+            JSON.stringify(this.respMenorForm.value)) {
+
+            return this.saveRespMenorProgressBar != 'hidden'
+        } else {
+            return true
+        }
+    }
+
+    //#endregion
+
+   
 
     consultaCEP(CEP: string, form) {
 
         this._http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
             .subscribe(response => {
 
-                form.get('logradouro').setValue(response["logradouro"]);
-                form.get('bairro').setValue(response["bairro"]);
-                form.get('cidade').setValue(response["localidade"]);
-                form.get('uf').setValue(response["uf"]);
+                form.get('logradouro').setValue(response["logradouro"].toUpperCase());
+                form.get('bairro').setValue(response["bairro"].toUpperCase());
+                form.get('cidade').setValue(response["localidade"].toUpperCase());
+                form.get('uf').setValue(response["uf"].toUpperCase());
 
             }, err => { console.log(err) },
                 () => { });
@@ -279,7 +415,7 @@ export class InfosComponent implements OnInit {
                 }, err => { console.log(err) },
                     () => {
                         this.GetAnotacoes();
-                        this.ShowAnotSpinner = false
+                        
                     });
 
 
@@ -287,7 +423,7 @@ export class InfosComponent implements OnInit {
         }
     }
 
-    ShowAnotSpinner = false
+    ShowAnotSpinner = 'hidden'
     openAddComentarioModal(): void {
         const dialogRef = this._modal
             .open(AddAnotacaoComponent, {
@@ -305,7 +441,7 @@ export class InfosComponent implements OnInit {
             if (data.clicked === "OK") {
                 console.log('afte close ok')
                 this.anotacaoForm.get('comentario').setValue(data.comentario)
-                this.ShowAnotSpinner = true
+                this.ShowAnotSpinner = 'visible'
                 this.submitAnotacao();
 
             } else if (data.clicked === "Cancel") {
@@ -325,14 +461,16 @@ export class InfosComponent implements OnInit {
                 console.log(this.respMenor)
 
             },
-                (error) => { console.log(error) },
+                (error) => { console.log(error) 
+                    this.ShowAnotSpinner = 'hidden'
+                },
                 () => {
-
+                    this.ShowAnotSpinner = 'hidden'
                 })
 
     }
 
-    excluirArquivo(docId) {
+    excluirArquivo(doc) {
         const dialogRef = this._modal
             .open(ConfirmModalComponent, {
                 minHeight: '150px',
@@ -344,8 +482,8 @@ export class InfosComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "sim") {
-
-                this.remover(docId)
+                doc.salvando = true
+                this.remover(doc)
             } else {
                 console.log('nao deletar')
             }
@@ -353,13 +491,18 @@ export class InfosComponent implements OnInit {
 
     }
 
-    remover(docId) {
-        this._http.put(`${this.baseUrl}/pedag/doc/excluir/${docId}`, {},)
+    remover(doc) {
+        doc.salvando = true
+        this._http.put(`${this.baseUrl}/pedag/doc/excluir/${doc.id}`, {},)
             .subscribe(resp => {
+                
             },
-                (error) => { console.log(error) },
+                (error) => { console.log(error)
+                    doc.salvando = false
+                },
                 () => {
-                    this.getInfoDocs();
+                    
+                    this.getInfoDocs(doc);
                 })
     }
 
@@ -426,146 +569,24 @@ export class InfosComponent implements OnInit {
 
 
     isMatriculado = true
-    getInfoDocs() {
+    getInfoDocs(doc) {
 
         this._http.get(`${this.baseUrl}/pedag/doc/lista/${this.data['aluno'].matriculaId}`)
             .subscribe(resp => {
                 //this.debitos = Object.assign({}, resp);
-                this.documentos = Object.assign([], resp['docs'])
+                this.documentoAluno = Object.assign([], resp['docs'])
                 //this.isMatriculado = resp['matriculado']
             },
-                (error) => { console.log(error) },
+                (error) => { console.log(error)
+                    doc.salvando = false
+                },
                 () => {
+                    doc.salvando = false
                     console.log(this.documentoAluno);
                 })
     }
 
-    getInfoAlunos(alunoId: number) {
 
-        this._service.getAlunos(alunoId)
-            .subscribe(response => {
-                console.log(response)
-                //Object.preventExtensions(this.aluno)
-                //this.telCel = {area:21, exchange:9999, subscriber:5555 }
-                //Object.assign(this.aluno, response)
-                // this.aluno = response as Aluno
-                //this.aluno
-
-                console.log(response)
-                console.log(response['responsaveis'].length)
-
-                if (response['responsaveis'].length > 0) {
-                    response['responsaveis'].forEach(element => {
-
-                        if (element.tipoResponsavel == 0) {
-                            this.respFinId = element.id
-                            //this.originalRespFin = element
-
-                            Object.keys(element).forEach((key) => {
-                                Object.keys(this.respFinancForm.value).forEach((key1) => {
-                                    if (key.toString() == key1.toString()) {
-                                        this.respFinancForm.get(key1).setValue(element[key])
-                                        //this.aluno[key1] = response[key]
-                                    }
-                                })
-                            })
-
-                            this.originalRespFin = this.respFinancForm.value
-
-                            this.showRespFinanc = true
-                        }
-
-                        if (element.tipoResponsavel == 1) {
-                            this.respMenorId = element.id
-
-                            Object.keys(element).forEach((key) => {
-                                Object.keys(this.respMenorForm.value).forEach((key1) => {
-                                    if (key.toString() == key1.toString()) {
-                                        this.respMenorForm.get(key1).setValue(element[key])
-                                        //this.aluno[key1] = response[key]
-                                    }
-                                })
-                            })
-
-                            this.originalRespMenor = this.respMenorForm.value
-
-                            this.showRespMenor = true
-                        }
-
-                    });
-                }
-
-                // Object.keys(this.alunoForm.value).forEach((key) => {
-
-                //     console.log(this.alunoForm[key])
-                // })
-
-                // Object.keys(response).forEach((key) => {
-                //     Object.keys(this.aluno).forEach((key1) => {
-                //         if (key.toString() == key1.toString()) {
-                //             this.aluno[key1] = response[key]
-                //         }
-                //     })
-                // })
-
-                Object.keys(response).forEach((key) => {
-                    Object.keys(this.alunoForm.value).forEach((key1) => {
-                        if (key.toString() == key1.toString()) {
-                            this.alunoForm.get(key1).setValue(response[key])
-                            //this.aluno[key1] = response[key]
-                        }
-                    })
-                })
-
-            },
-                (error) => { console.log(error) },
-                () => {
-                    console.log(this.aluno)
-                    //this.alunoForm.setValue(this.aluno)
-                    // this.showRespFinanc = this.aluno.temRespFin
-                    this.originalAluno = this.alunoForm.value
-                    //this.settelcel(this.aluno.telCelular)
-                    //this.alunoForm.get('cpf').disable()
-                    // this.alunoForm.get('logradouro').disable()
-                    // this.alunoForm.get('cidade').disable()
-                    // this.alunoForm.get('uf').disable()
-                    this.respFinancForm.disable()
-                    this.respMenorForm.disable()
-                    this.localidade = this.alunoForm.get('cidade').value
-                    this.uf = this.alunoForm.get('uf').value
-                    this.showAluno = true
-                    //console.log(this.alunoForm.value)
-                    //console.log(JSON.stringify(this.alunoForm.value))
-                    //console.log(JSON.stringify(this.aluno))
-
-                    //console.log(JSON.stringify(this.alunoForm.value) === JSON.stringify(this.aluno))
-                    //console.log(JSON.stringify(this.alunoForm.value) === JSON.stringify(this.originalAluno))
-                })
-        // this._http.get(`${this.baseUrl}/adm/aluno/${alunoId}`, {
-
-        // }).subscribe(response => {
-        //     console.log(response)
-        //     //this.telCel = {area:21, exchange:9999, subscriber:5555 }
-        //     Object.assign(this.aluno, response as Aluno)
-        //     //this.testando = Object.assign({}, response as Aluno)
-        //     //this.aluno.telCelular = this.aluno.Maskx()
-        // },
-        // (error) => { console.log(error) },
-        // () => { 
-        //     console.log(this.aluno)
-        //     this.alunoForm.setValue(this.aluno)
-        //    // this.showRespFinanc = this.aluno.temRespFin
-
-        //     //this.settelcel(this.aluno.telCelular)
-        //     this.showAluno = true
-        //     console.log(this.alunoForm.value)
-
-        //     console.log(JSON.stringify(this.alunoForm.value) === JSON.stringify(this.testando))
-
-        // })
-
-
-    }
 
     get Equals() {
         return JSON.stringify(this.alunoForm.value) === JSON.stringify(this.originalAluno)
@@ -770,8 +791,14 @@ export class InfosComponent implements OnInit {
         //     })
     }
 
+    disabled(){
+
+    }
+
     fileName = '';
     exportar(event, doc) {
+
+
 
         const file: File = event.target.files[0];
 
@@ -785,6 +812,8 @@ export class InfosComponent implements OnInit {
 
             formData.append("file", file);
             console.log(formData);
+
+            doc.salvando = true
             const upload$ = this._http.put(`${this.baseUrl}/pedag/doc/${doc.id}`, formData, {
                 reportProgress: true, observe: 'events',
 
@@ -804,7 +833,7 @@ export class InfosComponent implements OnInit {
                         // this.refresh()
                         //this.onUploadFinished.unsubscribe;
                         //files = null
-                        this.getInfoDocs();
+                        this.getInfoDocs(doc);
                     });
 
         }

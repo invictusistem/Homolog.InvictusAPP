@@ -8,12 +8,16 @@
         <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
   
         <div >
-            Deseja imprimir o contrato?
+            Deseja imprimir o contrato e a ficha de matrícula?
         </div>
   
     </div>
+    <span [style.visibility]="msgSpan" style="font-size: 0.8em;" >{{msg}}</span>
+    <mat-progress-bar [style.visibility]="hidden" @rowHighlight mode="query">
+    </mat-progress-bar>
+
     <div class="row">
-        <button style="width: 30px;" [mat-dialog-close]="{clicked:'Sim'}" mat-button>SIM</button>
-        <button style="width: 30px;" [mat-dialog-close]="{clicked:'Cancel'}" mat-button>NÃO</button>
+        <button style="width: 30px;" (click)="Confirm(true)" mat-button>SIM</button>
+        <button style="width: 30px;" (click)="Confirm(false)" mat-button>NÃO</button>
     </div>
   </div>

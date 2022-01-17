@@ -39,6 +39,92 @@ export class PedagogicoService extends BaseService {
         return response;
     }
 
+    // infos.component
+
+    saveAluno(form): Observable<any>{
+
+        let path = `/alunos`
+        
+        let response = this.http
+            .put(this.BaseUrl + path, form, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+    
+
+    getAlunobyId(id) : Observable<any> {    
+
+        let path = `/alunos/cadastro/${id}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    saveResponsavel(form): Observable<any>{
+
+        let path = `/pedag/aluno/responsavel`
+        console.log(form)
+        let response = this.http
+            .put(this.BaseUrl + path, form, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
+    GetResponsavelById(id) : Observable<any> {       
+
+        let path = `/pedag/aluno/responsavel-aluno/${id}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    // Matricula Modal
+
+    GetBolsa(senha) : Observable<any> {       
+
+        let path = `/bolsa/senha-validar/${senha}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    GetAlunosIndicacao() : Observable<any> {       
+
+        let path = `/pedag/matricula/aluno-indicacao`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+
+
+
 /*
     getColaboradores(pageSize?: number, currentPage?: number, jsonParam?: any) : Observable<any> {       
         

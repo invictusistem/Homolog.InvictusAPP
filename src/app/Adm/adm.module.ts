@@ -75,6 +75,9 @@ import { AddMatComponent } from './Professores/Materias/AddMateria/add-mat.compo
 import { EditDispoComponent } from './Professores/Materias/EditDisponibilidade/edit-dispo.component';
 import { PDFTesteComponent } from './PdfTeste/pdfteste.component';
 import { EditAcessoComponent } from './Usuarios/EditAcesso/editacesso.component';
+import { BolsasComponent } from './Bolsas/bolsas.component';
+import { CreateBolsaComponent } from './Bolsas/CreateBolsa/createbolsa.component';
+import { ShowSenhaComponent } from './Bolsas/ShowSenha/showsenha.component';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -139,7 +142,10 @@ export function tokenGetter() {
         AddMatComponent,
         EditDispoComponent,
         PDFTesteComponent,
-        EditAcessoComponent
+        EditAcessoComponent,
+        BolsasComponent,
+        CreateBolsaComponent,
+        ShowSenhaComponent
     ],
     imports: [
         BrowserModule,
@@ -173,7 +179,8 @@ export function tokenGetter() {
         ModuloComponent,
         PlanoPgmComponent,
         ContratoComponent,
-        PDFTesteComponent
+        PDFTesteComponent,
+        BolsasComponent
     ],
     entryComponents: [
         CreateUserComponent,
@@ -212,7 +219,9 @@ export function tokenGetter() {
         AddDispoComponent,
         AddMatComponent,
         EditDispoComponent,
-        EditAcessoComponent
+        EditAcessoComponent,
+        CreateBolsaComponent,
+        ShowSenhaComponent
         //AddSalaComponent
     ]
 })

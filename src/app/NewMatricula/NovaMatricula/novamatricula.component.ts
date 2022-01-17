@@ -10,7 +10,7 @@ import { InfoCadastraisComponent } from "src/app/Pedagogico/Matricula/InfoCad/in
 import { InfoFinancPedagComponent } from "src/app/Pedagogico/Matricula/infoFinancas/infofinanc.component";
 import { InfosComponent } from "src/app/Pedagogico/Matricula/informacoes/infos.component";
 import { AlunoMatriculaComponent } from "src/app/Pedagogico/Matricula/matricula/alunomatricula.component";
-import { InfoFinancComponentModal } from "src/app/Pedagogico/service/modal.config";
+import { InfoFinancComponentModal, OpenInfoComponentModal } from "src/app/Pedagogico/service/modal.config";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { Aluno } from "src/app/_shared/models/aluno.model";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
@@ -237,29 +237,16 @@ export class NovaMatriculaComponent implements OnInit {
     }
 
 
-    openInfoModal(aluno: Aluno): void {
+    openInfoModal(aluno): void {
         const dialogRef = this._modal
-            .open(InfosComponent, {
-                height: '90vh',
-                width: '1000px',
-                autoFocus: false,
-                // maxHeight: '90vh',
-
-                data: { aluno: aluno },
-                hasBackdrop: true,
-                disableClose: true
-            });
-
+            .open(InfosComponent, OpenInfoComponentModal(aluno));
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "OK") {
-                //this.openSnackBar()
-                console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
-                // Do nothing. Cancel any events that navigate away from the
-                // component.
             }
         });
     }
+
 
     openInfoFinancModal(aluno: Aluno): void {
         const dialogRef = this._modal

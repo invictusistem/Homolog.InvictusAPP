@@ -155,6 +155,50 @@ export class AdmService extends BaseService {
 
     // }
 
+    // BOLSAS
+
+    GetBolsas(typePacoteId): Observable<any>{
+
+        let path = `/bolsa/${typePacoteId}`
+        
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+
+    }
+
+    GetBolsaSenha(senhaId): Observable<any>{
+
+        let path = `/bolsa/senha/${senhaId}`
+        
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+
+    }
+
+    SaveBolsa(bolsa): Observable<any>{
+
+        let path = `/bolsa`
+        
+        let response = this.http
+            .post(this.BaseUrl + path, bolsa, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
+
     // MODULOS
 
     pesquisarPacote(typePacoteId:any, unidadeId:any): Observable<any>{
