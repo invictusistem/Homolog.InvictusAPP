@@ -16,6 +16,7 @@ export class ConfirmModalComponent implements OnInit {
 
     public msg: string = ''
     public url: string = ''
+    public hidden = 'hidden'
     constructor(
         //private _modal: MatDialog,
         private _helper: HelpersService,
