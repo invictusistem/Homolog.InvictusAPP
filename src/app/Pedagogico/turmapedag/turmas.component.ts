@@ -98,15 +98,15 @@ export class TurmasComponent implements OnInit {
         });
     }
 
-    podeIniciarAula(turma) {
+    podeIniciarAula(turma:Boolean) {
         //console.log('pode iniciar')
-        return true
-        if (this.tokenInfo.role == 'MasterAdm') {
-            return false
-        }
+        return !turma
+        // if (this.tokenInfo.role == 'MasterAdm') {
+        //     return false
+        // }
 
 
-        return !turma.podeIniciar
+        // return !turma.podeIniciar
     }
 
     openAgendamento(turma): void {
@@ -221,12 +221,12 @@ export class ConfirmarIniciarAulaModal implements OnInit {
 
     iniciarAula() {
         // calendario/{calendarioId}
-        this._http.put(`${this.BaseUrl}/turmas/calendario/${this.data['turma'].calendarioId}`, {})
+        this._http.put(`${this.BaseUrl}/pedag/turma/calendario/${this.data['turma'].calendarioId}`, {})
             .subscribe(resp => {
 
             }, (error) => {
                 console.log(error)
-                this.dialogRef.close({ clicked: "Sim" })
+               // this.dialogRef.close({ clicked: "Sim" })
             },
                 () => {
                     this.dialogRef.close({ clicked: "Sim" })

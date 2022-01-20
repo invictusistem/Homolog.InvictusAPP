@@ -1,28 +1,46 @@
 <div class="container">
 
     <div class="row" style="margin-bottom: 10px;">
-      
-        <div style="font-size: 1.2em;">{{msg}}</div>
-       
-  
-        <!-- <div >
-            Deseja realmente deletar o arquivo?
-        </div> -->
-  
-    </div>
-    <div class="row" style="">
-        <mat-progress-bar *ngIf="disabledSaveButton" @rowHighlight  style="margin:0px"  mode="query"></mat-progress-bar>
-        <!-- <div style="float: right;margin-top: 15px;">
-            
-            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" style="width: 100px; position: relative; float:right;margin-bottom: 10px;
-                margin-left: 10px;">
-                Salvar
-            </button>
 
-          
-        </div> -->
+        <div style="font-size: 1.2em;"></div>
 
-        <button type="button" mat-raised-button color="primary" style="width: 30px;" (click)="confirmar()" color="primary" [disabled]="disabledSaveButton" >SIM</button>
-        <button type="button" mat-raised-button color="warn" style="width: 30px;margin-left: 10px;" (click)="cancelar()" [disabled]="disabledSaveButton">NÃO</button>
+        <div>
+            {{msg}}
+        </div>
+
     </div>
-  </div>
+
+    <mat-progress-bar [style.visibility]="hidden" @rowHighlight mode="query"></mat-progress-bar>
+
+    <div class="row">
+        <button type="button" mat-raised-button  style="width: 30px;" (click)="confirmar()"
+            color="primary" [disabled]="disabledSaveButton">SIM</button>
+        <button type="button" mat-raised-button  style="width: 30px;" (click)="cancelar()"
+            [disabled]="disabledSaveButton">NÃO</button>
+    </div>
+
+</div>
+
+
+<!-- <div class="container">
+
+    <div class="row" style="margin-bottom: 10px;">
+
+        <div style="font-size: 1.2em;">Matrícula realizada com sucesso!</div>
+
+        <div>
+            Deseja imprimir o contrato e a ficha de matrícula?
+        </div>
+
+    </div>
+
+    <span [style.visibility]="msgSpan" style="font-size: 0.8em;">{{msg}}</span>
+
+    <mat-progress-bar [style.visibility]="hidden" @rowHighlight mode="query">
+    </mat-progress-bar>
+
+    <div class="row">
+        <button style="width: 30px;" (click)="Confirm(true)" mat-button>SIM</button>
+        <button style="width: 30px;" (click)="Confirm(false)" mat-button>NÃO</button>
+    </div>
+</div> -->

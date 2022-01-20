@@ -14,7 +14,7 @@
             <!-- </button> -->
         </i>
     </span>
-    <br>  
+    <br>
 
     <div @rowHighlight *ngIf="showMessage" class="card-header " style="background-color: rgb(227, 240, 227);
     margin-top: 50px;
@@ -33,7 +33,7 @@
             <h4 class="card-title" style="text-align:left;margin-top: 10px; 
             vertical-align: middle;font-size:1.2em; font-weight: 400;">
                 Turmas</h4>
-                unidade {{tokenInfo.Unidade}}
+            unidade {{tokenInfo.Unidade}}
             <!-- <p class="card-category"> </p> -->
         </div>
         <div class="card-body">
@@ -79,7 +79,7 @@
                             border-top: 0px; font-weight: 400;">
 
                             </th>
-                           
+
                         </tr>
                     </thead>
                     <tbody>
@@ -90,19 +90,29 @@
                             <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
                                 {{item.descricao}}<br>{{item.identificador}}</td>
 
-                            <td  @rowHighlight style="font-size:0.9em;text-align: center;vertical-align: middle;">
-                                {{item.previsaoAtual | date:"dd/MM/yy"}}<br>
-                                <span @rowHighlight style="font-size: 0.8em;color: red;">
-                                    {{item.previsaoInfo}}
-                                </span>
+                            <td @rowHighlight style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                <ng-container *ngIf="item.statusAndamento == 'Em andamento'; else naoIniciada">
+                                    {{item.previsaoAtual | date:"dd/MM/yy"}}<br>
+                                    <span @rowHighlight style="font-size: 0.8em;color: red;">
+                                        em andamento
+                                    </span>
+                                </ng-container>
+                                <ng-template #naoIniciada>
+                                    {{item.previsaoAtual | date:"dd/MM/yy"}}<br>
+                                    <span @rowHighlight style="font-size: 0.8em;color: red;">
+                                        {{item.previsaoInfo}}
+                                    </span>
+                                </ng-template>
+                                
                             </td>
 
                             <td style="font-size:0.9em;text-align: center;vertical-align: middle;">{{item.vagas}}</td>
 
                             <td style="font-size:0.9em;text-align: center;vertical-align: middle;">{{item.totalAlunos}}
-                                
+
                             </td>
-                            <td @rowHighlight style="font-size:0.9em;text-align: center;vertical-align: middle;">{{item.statusAndamento}}</td>
+                            <td @rowHighlight style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                {{item.statusAndamento}}</td>
                             <td style="text-align: center;vertical-align: middle;">
 
                                 <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="calendário"
@@ -131,8 +141,7 @@
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
                                     matTooltip="adiar a tumra para a próxima previsão" matTooltipPosition="above"
                                     matTooltipHideDelay="100">
-                                    <button [disabled]="PodeAdiar(item)"
-                                        (click)="adiar(item.id)"
+                                    <button [disabled]="PodeAdiar(item)" (click)="adiar(item.id)"
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon style="font-size: 1.5em;" class="material-icons-outlined">watch_later
@@ -153,7 +162,8 @@
 
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="iniciar as aulas"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button disabled
+                                    <button (click)="iniciarTurma(item.id)"
+                                        [disabled]="item.statusAndamento == 'Em andamento'"
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon style="font-size: 1.5em;font-weight: 200;"
@@ -171,11 +181,11 @@
                                         <mat-icon>settings</mat-icon>
                                     </button>
                                 </i>
-                            </td>                            
-                        </tr>                        
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
-            </div>            
+            </div>
 
         </div>
     </div>

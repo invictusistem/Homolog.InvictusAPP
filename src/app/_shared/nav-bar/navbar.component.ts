@@ -49,8 +49,8 @@ export class NavBarComponent implements OnInit {
     trocarSenha() {
         const dialogRef = this._modal
             .open(TrocaSenhaComponent, {
-                height: '610px',
-                width: '1000px',
+                height: '460px',
+                width: '360px',
                 autoFocus: false,
                 maxHeight: '400vh',
 
@@ -60,9 +60,11 @@ export class NavBarComponent implements OnInit {
             });
 
         dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "OK") {
+            if (data.clicked === true) {
 
-                console.log('afte close ok')
+                localStorage.removeItem("jwt");
+                
+                this._router.navigateByUrl('user/login');
             } else if (data.clicked === "Cancel") {
                 // Do nothing. Cancel any events that navigate away from the
                 // component.

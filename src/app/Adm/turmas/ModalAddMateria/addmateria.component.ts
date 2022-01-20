@@ -89,7 +89,7 @@ export class AddPMateriaModalComponent implements OnInit {
                 console.log(error) 
             },
             () => {
-                this.dialogRef.close({ clicked: "OK", profsIds: this.listProfId });
+                this.dialogRef.close({ clicked: true, profsIds: this.listProfId });
             }
         )
 

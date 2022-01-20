@@ -8,6 +8,7 @@ import { TokenInfos } from "src/app/_shared/models/token.model";
 import { Turma, TurmaViewModel } from "src/app/_shared/models/Turma.model";
 
 import { environment } from "src/environments/environment";
+import { OpenTurmaEditmodel } from "../services/modal.config";
 import { CalendarioModalComponent } from "./Calendario/calendario.component";
 import { ConfirmarIniciarTurmaModal } from "./confirmturmamodal/confirmariniciar.component";
 import { CreateCursoComponent } from "./CreateModal/createcurso.component";
@@ -242,34 +243,13 @@ export class AdmTurmasComponent implements OnInit {
         });
     }
 
-    openEditCursoModal(item: Turma): void {
-        //console.log(item)
+    openEditCursoModal(turma): void {
         const dialogRef = this._modal
-            .open(EditCursoComponent, {
-                height: 'auto',
-                width: '1030px',
-                autoFocus: false,
-                maxHeight: '90vh',
-                maxWidth: '400vh',
-
-                data: { turma: item },
-                hasBackdrop: true,
-                disableClose: true
-            });
-        // dialogRef.afterClosed().subscribe(result => {
-        //     console.log('The dialog was closed');
-        //     // this.animal = result;
-        // });
-
-        dialogRef.afterClosed().subscribe(result => {
-            //console.log('The dialog was closed');
-            // console.log(result);
-            // console.log(this.templateTasks);
-            //console.log(this.templateTasks);
-            //this.newtasks. = this.templateTasks
-            // this.templateTasks = result;
+            .open(EditCursoComponent, OpenTurmaEditmodel(turma));
+        dialogRef.afterClosed().subscribe((data) => {
+           
         });
-    }
+    }    
 
 
 

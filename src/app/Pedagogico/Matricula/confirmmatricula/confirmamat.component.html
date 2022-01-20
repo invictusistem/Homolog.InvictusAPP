@@ -1,18 +1,15 @@
 <div class="container">
 
     <div class="row" style="margin-bottom: 10px;">
-        <!-- <mat-card class="example-card">
-        <mat-card-header> -->
-        <!-- <div mat-card-avatar class="example-header-image"></div> -->
+
         <div style="font-size: 1.2em;">Matrícula realizada com sucesso!</div>
-        <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
-  
-        <div >
+
+        <div>
             Deseja imprimir o contrato e a ficha de matrícula?
         </div>
-  
+
     </div>
-    <span [style.visibility]="msgSpan" style="font-size: 0.8em;" >{{msg}}</span>
+    <span [style.visibility]="msgSpan" style="font-size: 0.8em;">{{msg}}</span>
     <mat-progress-bar [style.visibility]="hidden" @rowHighlight mode="query">
     </mat-progress-bar>
 
@@ -20,4 +17,4 @@
         <button style="width: 30px;" (click)="Confirm(true)" mat-button>SIM</button>
         <button style="width: 30px;" (click)="Confirm(false)" mat-button>NÃO</button>
     </div>
-  </div>
+</div>

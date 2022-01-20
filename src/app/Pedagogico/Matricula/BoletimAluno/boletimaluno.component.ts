@@ -55,15 +55,16 @@ export class BoletimAlunoComponent implements OnInit {
 
         console.log(this.data['aluno'])
       this.aluno = this.data['aluno']
-      this.GetBoletim(this.data['aluno'].id)
+      this.GetBoletim(this.data['aluno'].matriculaId)
     }
 
     notasBoletim: any[] = new Array<any>();
     private GetBoletim(alunoId){
 
-        this._http.get(`${this.baseUrl}/pedag/notasboletim/0/${alunoId}`)
+        this._http.get(`${this.baseUrl}/pedag/aluno/nota/${alunoId}`)
         .subscribe(resp => {
-            this.notasBoletim = resp['boletim']
+            console.log(resp)
+            this.notasBoletim = resp['notas']
         },
         (error) => { console.log(error)},
         () => { 

@@ -7,6 +7,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { AdmService } from "../../services/adm.services";
+import { environment } from "src/environments/environment";
 
 @Component({
     selector: 'modulocreatemodal',
@@ -18,7 +19,7 @@ import { AdmService } from "../../services/adm.services";
 export class ModuloCreateComponent implements OnInit {
 
 
-    //baseUrl = environment.baseUrl;
+    baseUrl = environment.baseUrl;
     public initProgressBar = 'visible'
     public saveProgressBar = 'hidden'
     
@@ -76,6 +77,18 @@ export class ModuloCreateComponent implements OnInit {
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.unidadesAutorizadas = JSON.parse(this.tokenInfo.UnidadesAutorizadas)
         this.GetViewModels()
+        // TEMP
+        this.GetUnidadeBySigla()
+    }
+
+    GetUnidadeBySigla(){
+
+        this._http.get(`${this.baseUrl}/unidade/sigla/${this.tokenInfo.Unidade}`)
+            .subscribe(
+                sucesso => {
+                    this.moduloForm.get('unidadeId').setValue(sucesso['unidade'])
+                }
+            )
     }
 
     get materias() {

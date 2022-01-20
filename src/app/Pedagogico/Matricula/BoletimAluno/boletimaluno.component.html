@@ -15,25 +15,26 @@
 
     <mat-form-field appearance="standard" style="width: 45%; ">
         <mat-label>Nome</mat-label>
-        <input selected [(ngModel)]="aluno.nome" required name="nome" matInput placeholder="Nome">
+        <input selected [(ngModel)]="aluno.nome" disabled required name="nome" matInput placeholder="Nome">
     </mat-form-field>
     <br>
-    <table class="table table-bordered">
+    <table class="table table-bordered table-boletim">
         <thead>
             <tr>
-                <th scope="col" rowspan="2" style="width: 40%;text-align:center;vertical-align: middle;">
-                    Disciplinas
+                <th scope="col" rowspan="2" style="font-size: 0.9em; width: 40%;text-align:center;
+                font-weight: 400; vertical-align: middle;">
+                    DISCIPLINAS
                 </th>
-                <th scope="col" colspan="3" style="width: 35%;text-align:center;vertical-align: middle;">Notas</th>
-                <th scope="col" rowspan="2" style="width: 10%;text-align:center;vertical-align: middle;">Faltas</th>
-                <th scope="col" rowspan="2" style="width: 15%;text-align:center;vertical-align: middle;">Resultado Final
+                <th scope="col" colspan="3" style="font-weight: 400;font-size: 0.9em;width: 35%;text-align:center;vertical-align: middle;">NOTAS</th>
+                <th scope="col" rowspan="2" style="font-weight: 400;font-size: 0.9em;width: 10%;text-align:center;vertical-align: middle;">FALTAS</th>
+                <th scope="col" rowspan="2" style="font-weight: 400;font-size: 0.9em;width: 15%;text-align:center;vertical-align: middle;">RESULTADO FINAL
                 </th>
             </tr>
             <tr>
                 <!-- <th scope="col">#</th> -->
-                <th scope="col" style="text-align:center;vertical-align: middle;">1ª av.</th>
-                <th scope="col" style="text-align:center;vertical-align: middle;">2ª av.</th>
-                <th scope="col" style="text-align:center;vertical-align: middle;">rec.</th>
+                <th scope="col" style="font-weight: 400;font-size: 0.9em;text-align:center;vertical-align: middle;">1ª AV.</th>
+                <th scope="col" style="font-weight: 400;font-size: 0.9em;text-align:center;vertical-align: middle;">2ª AV.</th>
+                <th scope="col" style="font-weight: 400;font-size: 0.9em;text-align:center;vertical-align: middle;">REC.</th>
 
                 <!-- <th scope="col">Last</th>
         <th scope="col">Handle</th> -->
@@ -41,8 +42,8 @@
         </thead>
         <tbody>
             <tr *ngFor="let bol of notasBoletim; let i =index;">
-                <th scope="row">{{bol.materiaDescricao}}</th>
-                <td>{{bol.avaliacaoUm}}</td>
+                <td scope="row">{{bol.materiaDescricao}}</td>
+                <td>{{bol.avaliacaoUm || '-'}}</td>
                 <td>{{bol.avaliacaoDois}}</td>
                 <td></td>
                 <td></td>

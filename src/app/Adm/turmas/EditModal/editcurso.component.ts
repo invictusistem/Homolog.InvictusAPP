@@ -14,13 +14,15 @@ import { Aluno } from "src/app/_shared/models/aluno.model";
 import { AddPMateriaModalComponent } from "../ModalAddMateria/addmateria.component";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { ConfirmModalComponent } from "src/app/_shared/components/ConfirmModal/confirm-modal.component";
+import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Component({
     selector: 'editcursomodal',
     templateUrl: './editcurso.component.html',
-    styleUrls: ['./editcurso.component.scss']
+    styleUrls: ['./editcurso.component.scss'],
+    animations: [HighlightTrigger]
 })
 
 
@@ -31,7 +33,9 @@ export class EditCursoComponent implements OnInit {
     // length: number;
     // pageEvent: PageEvent;
     //editedColaborador: Colaborador = new Colaborador();
-    turma: TurmaViewModel = new TurmaViewModel()
+    public initProgressBar = 'visible'
+    public showContent = false
+    turma: any;// TurmaViewModel = new TurmaViewModel()
     turmaView: any;
     view: Views = new Views();
     alunos: Aluno[] = new Array<Aluno>();
@@ -59,7 +63,7 @@ export class EditCursoComponent implements OnInit {
     ngOnInit() {
         this.ativo = true;
         console.log(this.data['turma'])
-
+        this.turma = this.data['turma']
         // this.getAlunosDaTurma(this.data['turma'].id)
         //this.getCursoById(this.data['turma'].id)
         //this.getProfessores(this.data['turma'].id)
@@ -76,15 +80,19 @@ export class EditCursoComponent implements OnInit {
                     // this.professores = new Array<Professor>();
                     // Object.assign(this.professores, response)
                     this.alunos = response['alunos']
-                     this.professores = response['professores']
+                    this.professores = response['professores']
 
                 },
                 (error) => {
                     console.log(error)
+                    //this.initProgressBar = 'hidden'
                 },
                 () => {
                     this.disabledDeletProf = false
                     this.mostrarModalPrincipal = false
+                    this.initProgressBar = 'hidden'
+                    this.showContent = true
+                    this.dialogRef.addPanelClass('myeditturma-class')
                     // console.log(this.professores)
                     // this.length = this.professores.length
                     // console.log(this.length)
@@ -183,9 +191,9 @@ export class EditCursoComponent implements OnInit {
 
     excluirProfessorDaTurma(profId) {
 
-        
 
-        
+
+
     }
 
     disabledDeletProf = false
@@ -195,8 +203,10 @@ export class EditCursoComponent implements OnInit {
                 height: 'auto',
                 width: '400px',
 
-                data: { msg: "Confirmar exclusão do professor da turma?", 
-                url:`${this.BaseUrl}/pedag/turma/professor/${prof.id}/${this.data['turma'].id}` },
+                data: {
+                    msg: "Confirmar exclusão do professor da turma?",
+                    url: `${this.BaseUrl}/pedag/turma/professor/${prof.id}/${this.data['turma'].id}`
+                },
                 hasBackdrop: true,
                 disableClose: true
             });
@@ -209,9 +219,9 @@ export class EditCursoComponent implements OnInit {
                 //let profIndex = this.professores.findIndex(prof)
                 //this.professores.splice(profIndex, 1)
                 this.GetInformacoesDaTurma(this.data['turma'].id);
-               
 
-            } 
+
+            }
         });
     }
 
@@ -346,8 +356,9 @@ export class EditCursoComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             //console.log('The dialog was closed');
             console.log(result);
-            if (result["clicked"] == "OK") {
+            if (result["clicked"] == true) {
                 console.log(result["profsIds"])
+                this.GetInformacoesDaTurma(this.data['turma'].id);
                 //this.saveProfs(result["profsIds"])
 
 

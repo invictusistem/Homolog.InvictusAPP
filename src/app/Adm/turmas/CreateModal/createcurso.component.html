@@ -42,7 +42,8 @@
 
         <mat-form-field appearance="standard" style="width: 250px; ">
             <mat-label>Descrição</mat-label>
-            <input selected formControlName="descricao" matInput placeholder="Ex: Curso Técnico...">
+            <input selected formControlName="descricao" oninput="this.value = this.value.toUpperCase()"
+            matInput placeholder="Ex: Curso Técnico...">
         </mat-form-field>
 
         <mat-form-field appearance="standard" style="width: 140px;margin-left: 10px;">

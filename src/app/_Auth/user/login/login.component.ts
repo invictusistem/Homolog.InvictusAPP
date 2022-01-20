@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
 
   titulo = 'Login';
   //model: any = {};
+  hide = true;
   progress = false
   showErrorMsg = 'hidden'
   errorMsg = 'Ocorreu um erro desconhecido. Entre em contato com o administrador do sistema.'
