@@ -19,7 +19,7 @@ declare interface RouteInfo {
 
 export const ROUTES: RouteInfo[] = [
   { path: '/comercial/leads', title: 'Lead', class: '', typeIcon: 'query_stats' },
-  { path: '/comercial/addlead', title: 'Exportar Lead', class: '', typeIcon: 'table_chart' }
+ // { path: '/comercial/addlead', title: 'Exportar Lead', class: '', typeIcon: 'table_chart' }
   // { path: '/adm/cursos', title:'cursos', class:'', typeIcon: 'house'},
   // { path: '/adm/colaboradores', title: 'Colaboradores', class: '', typeIcon: 'engineering' },
   // { path: '/adm/produtos', title: 'Produtos', class: '', typeIcon: 'fact_check' },
