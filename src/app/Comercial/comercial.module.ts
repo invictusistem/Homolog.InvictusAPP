@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { DEFAULT_CURRENCY_CODE, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,7 +10,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from "@auth0/angular-jwt";
 
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe, UpperCasePipe } from '@angular/common';
 //import { HomeComponent } from './home.component';
 import { SharedModule } from '../_shared/shared.module';
 
@@ -22,6 +22,10 @@ import { LeadsComponent } from './Leads/leads.component';
 import { AddLeadComponent } from './AddLead/addlead.component';
 import { LeadExportComponent } from './AddLead/leadexport/lead-export.component';
 import { LeadIndividualCriarComponent } from './AddLead/criarlead/criar-lead.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { NgxMaskModule } from 'ngx-mask';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { Servico } from '../Adm/_TESTES/testeexterno';
 
 
 // import { CustomersComponent } from '../customers/customers.component';
@@ -49,20 +53,16 @@ export function tokenGetter() {
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
-
-        //HttpClientModule,
-        //BrowserModule,
-        //CommonModule,
-        //FormsModule,
-        //ReactiveFormsModule,
-
         SharedModule,
-        //MaterialModule,
-        //AppRoutingModule,
-        //BrowserAnimationsModule,    
+        MaterialModule,
+        AngularEditorModule,
+       // NgxMaskModule.forRoot(maskConfig),
+        CurrencyMaskModule   
     ],
     // providers: [AuthGuard],
-    providers: [],
+    providers:  [CurrencyPipe, UpperCasePipe,DatePipe, { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
+    {provide: 'IServicoToken', useClass: Servico}
+    ],
     //bootstrap: [AppComponent]
     exports: [
         ComercialComponent,
@@ -90,4 +90,8 @@ export function tokenGetter() {
     ]
 })
 export class ComercialModule { }
+
+function maskConfig(maskConfig: any): any[] | import("@angular/core").Type<any> | import("@angular/core").ModuleWithProviders<{}> {
+    throw new Error('Function not implemented.');
+}
 
