@@ -44,7 +44,7 @@ import { EstagioComponent } from './Pedagogico/estagios/estagio.component';
 import { PDFTesteComponent } from './Adm/PdfTeste/pdfteste.component';
 import { HomeComponent } from './_shared/home/home.component';
 import { BolsasComponent } from './Adm/Bolsas/bolsas.component';
-import { AddLeadComponent } from './Comercial/AddLead/addlead.component';
+
 import { LeadsComponent } from './Comercial/Leads/leads.component';
 
 export const routes: Routes = [
@@ -126,7 +126,7 @@ export const routes: Routes = [
   {
     path: 'comercial', component: ComercialComponent, canActivate: [AuthGuard],
     children: [
-      { path: 'addlead', component: AddLeadComponent, canActivate: [AuthGuard] },
+    //  { path: 'addlead', component: AddLeadComponent, canActivate: [AuthGuard] },
       { path: 'leads', component: LeadsComponent, canActivate: [AuthGuard] }
     ]
   },

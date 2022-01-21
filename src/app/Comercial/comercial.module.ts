@@ -19,9 +19,9 @@ import { MaterialModule } from '../_shared/material/material.module';
 import { ComercialComponent } from './comercial.component';
 import { ExportLeadComponent } from './ExportarLead/exportar.component';
 import { LeadsComponent } from './Leads/leads.component';
-import { AddLeadComponent } from './AddLead/addlead.component';
+
 import { LeadExportComponent } from './AddLead/leadexport/lead-export.component';
-import { LeadIndividualCriarComponent } from './AddLead/criarlead/criar-lead.component';
+
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { NgxMaskModule } from 'ngx-mask';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
@@ -39,9 +39,9 @@ export function tokenGetter() {
         ComercialComponent,
         ExportLeadComponent,
         LeadsComponent,
-        AddLeadComponent,
+        //AddLeadComponent,
         LeadExportComponent,
-        LeadIndividualCriarComponent
+       // LeadIndividualCriarComponent
         //LoginComponent,
         //CustomersComponent,
         //AppComponent
@@ -67,14 +67,14 @@ export function tokenGetter() {
     exports: [
         ComercialComponent,
         LeadsComponent,
-        AddLeadComponent
+        //AddLeadComponent
         //SharedModule
         //, CustomersComponent
     ],
     entryComponents: [
         ExportLeadComponent,
         LeadExportComponent,
-        LeadIndividualCriarComponent
+       // LeadIndividualCriarComponent
         // FormFieldCustomControlExample, 
         //MyTelInput,
         // CreateUserComponent,
