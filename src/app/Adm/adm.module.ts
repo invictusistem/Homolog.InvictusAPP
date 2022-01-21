@@ -78,6 +78,7 @@ import { EditAcessoComponent } from './Usuarios/EditAcesso/editacesso.component'
 import { BolsasComponent } from './Bolsas/bolsas.component';
 import { CreateBolsaComponent } from './Bolsas/CreateBolsa/createbolsa.component';
 import { ShowSenhaComponent } from './Bolsas/ShowSenha/showsenha.component';
+import { VisualizarModuloComponent } from './Modulos/VisualizarModulo/visualizar.component';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -145,7 +146,8 @@ export function tokenGetter() {
         EditAcessoComponent,
         BolsasComponent,
         CreateBolsaComponent,
-        ShowSenhaComponent
+        ShowSenhaComponent,
+        VisualizarModuloComponent
     ],
     imports: [
         BrowserModule,
@@ -221,7 +223,8 @@ export function tokenGetter() {
         EditDispoComponent,
         EditAcessoComponent,
         CreateBolsaComponent,
-        ShowSenhaComponent
+        ShowSenhaComponent,
+        VisualizarModuloComponent
         //AddSalaComponent
     ]
 })

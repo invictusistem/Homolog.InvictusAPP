@@ -100,6 +100,7 @@ export class TurmasComponent implements OnInit {
 
     podeIniciarAula(turma:Boolean) {
         //console.log('pode iniciar')
+        return true
         return !turma
         // if (this.tokenInfo.role == 'MasterAdm') {
         //     return false

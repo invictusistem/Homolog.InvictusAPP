@@ -32,6 +32,7 @@ export class ConfirmModalComponent implements OnInit {
     }
 
     confirmar() {
+        this.hidden = 'visible'
         this.disabledSaveButton = true
         this._http.delete(`${this.url}`)
             .subscribe(response => {

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { TokenInfos } from '../_shared/models/token.model';
 import { ExportLeadComponent } from './ExportarLead/exportar.component';
 
 
@@ -16,13 +17,13 @@ declare interface RouteInfo {
   typeIcon: string;
 }
 
-// export const ROUTES: RouteInfo[] = [
-//     { path: '/adm/usuarios', title: 'Usuários', class: '', typeIcon: 'manage_accounts' },
-//     { path: '/adm/unidades', title: 'Unidades', class: '', typeIcon: 'house' },
-//     { path: '/adm/cursos', title:'cursos', class:'', typeIcon: 'house'},
-//     { path: '/adm/colaboradores', title: 'Colaboradores', class: '', typeIcon: 'engineering' },
-//     { path: '/adm/produtos', title: 'Produtos', class: '', typeIcon: 'fact_check' },
-// ]
+export const ROUTES: RouteInfo[] = [
+  { path: '/comercial/leads', title: 'Lead', class: '', typeIcon: 'query_stats' },
+  { path: '/comercial/addlead', title: 'Exportar Lead', class: '', typeIcon: 'table_chart' }
+  // { path: '/adm/cursos', title:'cursos', class:'', typeIcon: 'house'},
+  // { path: '/adm/colaboradores', title: 'Colaboradores', class: '', typeIcon: 'engineering' },
+  // { path: '/adm/produtos', title: 'Produtos', class: '', typeIcon: 'fact_check' },
+]
 
 @Component({
   selector: 'comericial-app',
@@ -35,7 +36,8 @@ export class ComercialComponent implements OnInit {
   public message: string;
   totalLeadsHoje = 0;
   totalLeads = 0;
-  
+  private jwtHelper = new JwtHelperService();
+  public tokenInfo: TokenInfos = new TokenInfos();
   baseUrl = environment.baseUrl;
 
   //@Output() public onUploadFinished = new EventEmitter();
@@ -49,20 +51,27 @@ export class ComercialComponent implements OnInit {
 
   ngOnInit() {
     // this.isUserAuthenticated();
-    // this.menu = ROUTES.filter(menu => menu);
-    this.getLeads();
+    const token = localStorage.getItem('jwt')
+        this.tokenInfo = this.jwtHelper.decodeToken(token)
+        
+    this.menu = ROUTES.filter(menu => menu);
+    // this.getLeads();
   }
 
-  getLeads(){
+  getLeads() {
+    const token = localStorage.getItem('jwt')
+        this.tokenInfo = this.jwtHelper.decodeToken(token)
+        console.log(this.tokenInfo)
 
     this._http.get(`${this.baseUrl}/comercial/leads`)
-    .subscribe(resp => {
-      this.totalLeadsHoje = resp['totalLeadsHoje']
-      this.totalLeads = resp['totalLeads']
-    }, 
-    (error) => { console.log(error)
-    },
-    () => { })
+      .subscribe(resp => {
+        this.totalLeadsHoje = resp['totalLeadsHoje']
+        this.totalLeads = resp['totalLeads']
+      },
+        (error) => {
+          console.log(error)
+        },
+        () => { })
   }
 
   openExportModal(): void {
@@ -140,7 +149,7 @@ export class ComercialComponent implements OnInit {
   //       }
   //     });
   //   };
-  jwtHelper = new JwtHelperService();
+
   decodedToken: any;
 
 

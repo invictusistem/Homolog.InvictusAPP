@@ -181,6 +181,15 @@
                                         <mat-icon>settings</mat-icon>
                                     </button>
                                 </i>
+                                
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="detalhes/editar"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="deleteCurso(item)" disabled
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>delete_outline</mat-icon>
+                                    </button>
+                                </i>
                             </td>
                         </tr>
                     </tbody>

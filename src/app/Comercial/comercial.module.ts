@@ -18,6 +18,10 @@ import { MaterialModule } from '../_shared/material/material.module';
 
 import { ComercialComponent } from './comercial.component';
 import { ExportLeadComponent } from './ExportarLead/exportar.component';
+import { LeadsComponent } from './Leads/leads.component';
+import { AddLeadComponent } from './AddLead/addlead.component';
+import { LeadExportComponent } from './AddLead/leadexport/lead-export.component';
+import { LeadIndividualCriarComponent } from './AddLead/criarlead/criar-lead.component';
 
 
 // import { CustomersComponent } from '../customers/customers.component';
@@ -30,6 +34,10 @@ export function tokenGetter() {
     declarations: [
         ComercialComponent,
         ExportLeadComponent,
+        LeadsComponent,
+        AddLeadComponent,
+        LeadExportComponent,
+        LeadIndividualCriarComponent
         //LoginComponent,
         //CustomersComponent,
         //AppComponent
@@ -57,12 +65,16 @@ export function tokenGetter() {
     providers: [],
     //bootstrap: [AppComponent]
     exports: [
-        ComercialComponent
+        ComercialComponent,
+        LeadsComponent,
+        AddLeadComponent
         //SharedModule
         //, CustomersComponent
     ],
     entryComponents: [
-        ExportLeadComponent
+        ExportLeadComponent,
+        LeadExportComponent,
+        LeadIndividualCriarComponent
         // FormFieldCustomControlExample, 
         //MyTelInput,
         // CreateUserComponent,

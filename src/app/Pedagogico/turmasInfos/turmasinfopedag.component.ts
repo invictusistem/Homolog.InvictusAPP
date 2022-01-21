@@ -231,6 +231,11 @@ export class TurmasPedagInfoComponent implements OnInit {
     //     });
     // }
 
+    listaPresenca(turma){
+
+        
+    }
+
     openCalendarioModal(turma:TurmaViewModel): void {
         const dialogRef = this._modal
             .open(CalendarioTurmaComponent, {

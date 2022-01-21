@@ -35,6 +35,8 @@ export const RespostaResFinanceiro = [
 
 export const CienciaCurso = [
     { type: 'Balcão', value: 'Balcão' },
+    { type: 'Facebook', value: 'Facebook' },
+    { type: 'Instagram', value: 'Instagram' },
     { type: 'Indicação Aluno', value: 'Indicação Aluno' },
     { type: 'Rádio', value: 'Rádio' },
     { type: 'Vendendor Externo', value: 'Vendendor Externo' },

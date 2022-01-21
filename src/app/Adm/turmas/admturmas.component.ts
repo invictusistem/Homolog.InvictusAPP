@@ -249,7 +249,11 @@ export class AdmTurmasComponent implements OnInit {
         dialogRef.afterClosed().subscribe((data) => {
            
         });
-    }    
+    }  
+    
+    deleteCurso(turma){
+        
+    }
 
 
 

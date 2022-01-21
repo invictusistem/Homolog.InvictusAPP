@@ -59,6 +59,15 @@
 
             <form style="" novalidate [formGroup]="temRespFinm">
 
+                <mat-form-field appearance="standard" style="width: 350px; ">
+                    <mat-label>Data cadastro</mat-label>
+                    <input selected [value]="data['aluno'].nome" disabled required matInput>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" style="width: 350px;margin-left: 10px;">
+                    <mat-label>Responsável cadastro</mat-label>
+                    <input selected disabled required matInput>
+                </mat-form-field>
 
                 <br>
 
@@ -68,6 +77,16 @@
                     <input selected [value]="data['aluno'].nome" disabled required matInput>
                 </mat-form-field>
 
+                <mat-form-field appearance="standard" style="width: 350px;margin-left: 10px;">
+                    <mat-label>Nascimento</mat-label>
+                    <input selected disabled required matInput>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" style="width: 350px;margin-left: 10px;">
+                    <mat-label>Idade</mat-label>
+                    <input selected disabled required matInput>
+                </mat-form-field>
+
                 <br>
 
                 <mat-form-field appearance="standard" style="width: 120px;">
@@ -75,7 +94,7 @@
                     <input disabled selected [value]="data['aluno'].cpf" disabled matInput>
                 </mat-form-field>
 
-                <mat-form-field appearance="standard" style="width: 120px;">
+                <mat-form-field appearance="standard" style="width: 120px;margin-left: 10px;">
                     <mat-label>RG</mat-label>
                     <input selected matInput [value]="data['aluno'].rg" disabled>
                 </mat-form-field>

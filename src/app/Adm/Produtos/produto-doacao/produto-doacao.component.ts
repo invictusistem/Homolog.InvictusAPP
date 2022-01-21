@@ -65,9 +65,8 @@ export class ProdutoDoacaoComponent implements OnInit {
     ngOnInit() {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-        console.log(this.tokenInfo.Unidade);
-        console.log(this.tokenInfo.Codigo);
-        console.log(this.tokenInfo);
+        console.log(this.tokenInfo)
+       
         console.log(this.data['produto'])
         this.GetProdutoDoacao();
         this.produtos = Object.assign([], this.data['produto'])

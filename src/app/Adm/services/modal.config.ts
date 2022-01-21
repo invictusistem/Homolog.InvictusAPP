@@ -68,6 +68,17 @@ export function OpenTurmaEditmodel(turma?) {
         disableClose: true
     }
 }
+
+export function ModuloDetalheComponentModal(modulo?: any) {
+    return {
+        width: '850px',
+        data: { modulo: modulo },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+
 // openEditCursoModal(item: Turma): void {
     
 //     const dialogRef = this._modal

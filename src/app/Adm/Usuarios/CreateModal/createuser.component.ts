@@ -25,6 +25,7 @@ export class CreateUserComponent implements OnInit {
     public usuario: any;//Colaborador = new Colaborador();
     public usuarioForm: FormGroup;
     perfisArray = PerfilEnum;
+    public initProgressBar = 'hidden'
     // pageSize: number = 5;
     // genericTasks: GenericTask[] = new Array<GenericTask>();
     // length: number;
@@ -40,9 +41,9 @@ export class CreateUserComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.usuarioForm = fb.group({
             id: [],
-           // nome: ['', [Validators.required, Validators.minLength(2)]],
+            // nome: ['', [Validators.required, Validators.minLength(2)]],
             perfil: ['', [Validators.required]],
-           // email: ['', [Validators.required, Validators.email]],
+            // email: ['', [Validators.required, Validators.email]],
             perfilAtivo: [true, [Validators.required]]
         })
     }
@@ -51,7 +52,7 @@ export class CreateUserComponent implements OnInit {
 
 
     ngOnInit() {
-       // this.usuario.perfilAtivo = true;
+        // this.usuario.perfilAtivo = true;
         // console.log("on init")
         //this.getTasks(1, this.pageSize);
     }
@@ -62,22 +63,24 @@ export class CreateUserComponent implements OnInit {
         if (email == '') return;
         this.showForm = false
         this.showMensagem = false
-        
+        this.initProgressBar = 'visible'
         this.http.get(`${this.baseUrl}/usuario/procurar/?email=${email}`).subscribe(
             (result) => {
 
                 this.usuario = Object.assign({}, result['result'])
                 console.log(this.usuario)
-               
+
                 this.usuarioForm.get('id').setValue(this.usuario.id)
 
             },
             (err) => {
+                this.initProgressBar = 'hidden'
                 console.log(err['error'].mensagem)
                 this.mensagem = err['error'].mensagem
                 this.showMensagem = true
             },
             () => {
+                this.initProgressBar = 'hidden'
                 console.log(this.usuario)
                 this.showMensagem = false
                 this.showForm = true
@@ -85,22 +88,24 @@ export class CreateUserComponent implements OnInit {
             }
         )
 
-    }  
-
+    }
+    public sabeSpinner = 'hidden'
     disabledSaveButton = false
     get disabledButton() {
         if (this.usuarioForm.valid) {
-            return this.disabledSaveButton
+            return this.sabeSpinner != 'hidden'
         } else {
             return true
         }
+
     }
 
     SaveUser(form: FormGroup) {
-        
+
         console.log(form.valid)
-       
+
         if (this.usuarioForm.valid) {
+            this.sabeSpinner = 'visible'
             this.disabledSaveButton = true
             let perfil = this.usuarioForm.get('perfil').value
             let perfilAtivo = this.usuarioForm.get('perfilAtivo').value
@@ -109,13 +114,17 @@ export class CreateUserComponent implements OnInit {
             }).subscribe(
                 (result) => {
                 },
-                (err) => { console.log(err) },
+                (err) => {
+                    console.log(err)
+                    this.sabeSpinner = 'hidden'
+                },
                 () => {
+                    this.sabeSpinner = 'hidden'
                     this.dialogRef.close({ clicked: "Ok" });
                 }
             )
         }
-    } 
+    }
 
 }
 

@@ -25,6 +25,9 @@
 
     </i>
 
+    <mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
+    </mat-progress-bar>
+
    <!-- <mat-spinner @rowHighlight  [diameter]="50" >
         </mat-spinner> -->
 
@@ -34,7 +37,7 @@
 
     <ng-container *ngIf="showForm">
 
-        <mat-form-field appearance="standard" style="width: 40%;margin-left: 10px;">
+        <mat-form-field appearance="standard" style="width: 40%;">
             <mat-label>Nome</mat-label>
             <input disabled selected [value]="usuario.nome" name="nome" matInput placeholder="Nome">
         </mat-form-field>
@@ -74,8 +77,8 @@
         Salvar</button> -->
     <!-- <button style="float:right;margin-bottom: 10px;" mat-raised-button
         [mat-dialog-close]="{clicked:'Cancel'}">Cancel</button> -->
-
-        <mat-progress-bar *ngIf="disabledSaveButton" @rowHighlight  style="margin:0px"  mode="query"></mat-progress-bar>
+        
+        <mat-progress-bar [style.visibility]="sabeSpinner" @rowHighlight  style="margin:0px"  mode="query"></mat-progress-bar>
         <div style="float: right;margin-top: 15px;">
             
             <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" style="width: 100px; position: relative; float:right;margin-bottom: 10px;

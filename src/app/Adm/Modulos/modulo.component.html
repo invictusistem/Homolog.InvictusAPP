@@ -50,14 +50,14 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field *ngIf="showTeste" appearance="standard" style="width: 80px;margin-left: 10px;">
+            <!-- <mat-form-field *ngIf="showTeste" appearance="standard" style="width: 80px;margin-left: 10px;">
                 <mat-label>Unidade</mat-label>
                 <mat-select formControlName="unidadeId" placeholder="type pacote">
                     <mat-option></mat-option>
                     <mat-option *ngFor="let uni of unidadesAutorizadas" [value]="uni.unidadeId">{{uni.unidade}}
                     </mat-option>
                 </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
 
             <span>
                 <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
@@ -83,7 +83,7 @@
         <div class="card-header">
             <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
                 Pacotes</h4>
-            <p class="card-category"> Unidade: {{tokenInfo.Unidade}} </p>
+            <!-- <p class="card-category"> Unidade: {{tokenInfo.Unidade}} </p> -->
         </div>
 
         <div class="card-body">
@@ -160,7 +160,7 @@
 
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
                                     matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="openDetailModal(item)" disabled
+                                    <button (click)="openDetailModal(item)" 
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>search</mat-icon>

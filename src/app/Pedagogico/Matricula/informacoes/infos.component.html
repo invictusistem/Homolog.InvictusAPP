@@ -499,8 +499,9 @@
         <ng-container>
 
             <mat-tab label="Documentação">
+                <br>
 
-                <!-- <i style="" #tooltip="matTooltip" matTooltip="ficha de matrícula" matTooltipPosition="above"
+                <i style="" #tooltip="matTooltip" matTooltip="modelo ficha de matrícula" matTooltipPosition="above"
                     matTooltipHideDelay="100">
                     <button style=""  mat-icon-button>
                         <mat-icon>assignment_ind</mat-icon>
@@ -512,11 +513,19 @@
                     <button style="" mat-icon-button>
                         <mat-icon>assignment_turned_in</mat-icon>
                     </button>
-                </i> -->
+                </i>
+
+
+                <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="certificado de conclusão" matTooltipPosition="above"
+                    matTooltipHideDelay="100">
+                    <button style="" mat-icon-button>
+                        <mat-icon>school</mat-icon>
+                    </button>
+                </i>
 
 
 
-                <br>
+                <hr>
 
                 <ng-container style="margin-top: 10px;" *ngIf="documentoAluno.length > 0">
 

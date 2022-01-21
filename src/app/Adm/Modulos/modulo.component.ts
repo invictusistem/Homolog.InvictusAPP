@@ -5,9 +5,10 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { AdmService } from "../services/adm.services";
-import { ModuloCreateComponentModal, ModuloEditComponentModal } from "../services/modal.config";
+import { ModuloCreateComponentModal, ModuloDetalheComponentModal, ModuloEditComponentModal } from "../services/modal.config";
 import { ModuloCreateComponent } from "./CreateModulo/modulo-create.component";
 import { DetailPacoteComponent } from "./DetalhePacote/pacote-detalhe.component";
+import { VisualizarModuloComponent } from "./VisualizarModulo/visualizar.component";
 
 @Component({
     selector: "modulo-app",
@@ -43,6 +44,8 @@ export class ModuloComponent implements OnInit {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.unidadesAutorizadas = JSON.parse(this.tokenInfo.UnidadesAutorizadas)
+
+        this.pesquisarForm.get('unidadeId').setValue(this.tokenInfo.UnidadeId)
         this.getTypePacotes();
     }
 
@@ -98,4 +101,11 @@ export class ModuloComponent implements OnInit {
         dialogRef.afterClosed().subscribe(
             data => { });
     }
+
+    openDetailModal(modulo): void {
+        const dialogRef = this._modal
+            .open(VisualizarModuloComponent, ModuloDetalheComponentModal(modulo));
+        dialogRef.afterClosed().subscribe(
+            data => { });
+    }    
 }

@@ -64,6 +64,7 @@ export class AdmComponent implements OnInit {
         // this.isUserAuthenticated();
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
+        
         console.log(this.data != "")
         if(this.data != ""){ 
             this.getMessage();    

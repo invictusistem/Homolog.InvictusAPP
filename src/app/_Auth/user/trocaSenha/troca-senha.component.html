@@ -18,16 +18,16 @@
 
         <mat-form-field appearance="standard" style="width: 250px;">
             <mat-label>Senha atual</mat-label>
-            <input  formControlName="senha" matInput >
+            <input  formControlName="senha" maxlength="10" matInput >
         </mat-form-field>
         <mat-form-field appearance="standard" style="width: 250px;">
             <mat-label>Nova senha</mat-label>
-            <input  formControlName="senhaNova" matInput >
+            <input  formControlName="senhaNova" max="10" matInput >
         </mat-form-field>
 
         <mat-form-field appearance="standard" style="width: 250px;">
             <mat-label>Digite novamente</mat-label>
-            <input formControlName="senhacomparacao" matInput>
+            <input formControlName="senhacomparacao" max="10" matInput>
             <mat-hint *ngIf="showHintSenha">* as senhas não correspondem</mat-hint>
         </mat-form-field>
 
