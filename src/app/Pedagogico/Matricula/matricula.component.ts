@@ -42,7 +42,7 @@ export class MatriculaComponent implements OnInit {
     // showTable: boolean = false;
     // paginationInfo: IPager;
     // showMessage: boolean = false;
-    spinnerSearch = false
+    public spinnerSearch = 'hidden'
     params: Parametros = new Parametros()
     listAlunos: any[] = new Array<any>();
 
@@ -150,7 +150,7 @@ export class MatriculaComponent implements OnInit {
         this.showMessageNoAluno = false
 
         if (this.pesquisarForm.valid) {
-            this.spinnerSearch = true
+            this.spinnerSearch = 'visible'
 
             if (event != undefined) {
                 this.currentPage = event.pageIndex + 1
@@ -173,13 +173,15 @@ export class MatriculaComponent implements OnInit {
 
         this.length = response['totalItemsInDatabase']
 
-        this.spinnerSearch = false
+        this.spinnerSearch = 'hidden'
         if (event != undefined) {
             this.pageIndexNumber = (event.pageIndex * this.pageSize)
         } else {
             this.pageIndexNumber = 0
 
+            if(this.paginator != undefined){
             this.paginator.firstPage();
+            }
         }
 
     }
@@ -197,7 +199,7 @@ export class MatriculaComponent implements OnInit {
             this.listAlunos = new Array<any>();
         }
 
-        this.spinnerSearch = false
+        this.spinnerSearch = 'hidden'
     }
 
     matricular(aluno) {

@@ -63,7 +63,7 @@ export class EditCursoComponent implements OnInit {
     ngOnInit() {
         this.ativo = true;
         console.log(this.data['turma'])
-        this.turma = this.data['turma']
+       // this.turma = this.data['turma']
         // this.getAlunosDaTurma(this.data['turma'].id)
         //this.getCursoById(this.data['turma'].id)
         //this.getProfessores(this.data['turma'].id)
@@ -79,6 +79,8 @@ export class EditCursoComponent implements OnInit {
                     // console.log(response)
                     // this.professores = new Array<Professor>();
                     // Object.assign(this.professores, response)
+                    this.turma = response['turma']
+                    console.log(this.turma)
                     this.alunos = response['alunos']
                     this.professores = response['professores']
 
@@ -171,10 +173,10 @@ export class EditCursoComponent implements OnInit {
             )
     }
 
-    get vagasMatriculados() {
+    // get vagasMatriculados() {
 
-        return `${this.data['turma'].vagas}/${this.data['turma'].totalAlunos}`
-    }
+    //     return `${this.data['turma'].vagas}/${this.data['turma'].totalAlunos}`
+    // }
 
     get duracaomsg() {
 

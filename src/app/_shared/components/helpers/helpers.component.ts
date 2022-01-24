@@ -22,7 +22,7 @@ export class HelpersService {
             horizontalPosition: 'center',
             verticalPosition: 'top',
             panelClass:['mat-toolbar', 'mat-primary'],
-            duration: 3 * 1000,
+            duration: 5 * 1000,
         });
     }
 
@@ -31,7 +31,7 @@ export class HelpersService {
             horizontalPosition: 'center',
             verticalPosition: 'top',
             panelClass:['mat-toolbar', 'mat-warn'],
-            duration: 3 * 1000,
+            duration: 5 * 1000,
         });
     }
 

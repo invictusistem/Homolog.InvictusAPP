@@ -113,6 +113,7 @@ export class NovaMatriculaComponent implements OnInit {
                 this.currentPage = event.pageIndex + 1
             } else {
                 this.currentPage = 1
+                this.alunos = new Array<any>()
             }
 
 

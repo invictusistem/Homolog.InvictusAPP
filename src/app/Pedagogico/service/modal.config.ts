@@ -28,4 +28,13 @@ export function ConfirmMatriculaModalConfig(matriculaId?){
     }
 }
 
+export function DetalheAcessoModalConfig(aluno){
+    return {      
+        width: '700px',
+        data: { aluno: aluno },        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
 

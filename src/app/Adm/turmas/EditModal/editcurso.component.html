@@ -16,50 +16,62 @@
     <hr>
     <div style="padding-bottom: 20px;">
 
-        <mat-form-field appearance="standard" style="width: 400px; font-size: 0.9em;">
+        <mat-form-field appearance="standard" style="width: 300px; font-size: 0.9em;">
             <mat-label>Turma</mat-label>
-            <input disabled matInput selected [value]="data['turma'].descricao">
+            <input disabled matInput selected [value]="turma.descricao">
         </mat-form-field>
 
-     
+
 
         <ng-container *ngIf="turma.statusAndamento == 'Aguardando início';else iniciada">
-            <mat-form-field appearance="standard" style="width: 33%;">
+            <!-- <mat-form-field appearance="standard" style="width: 33%;">
                 <mat-label [style.color]="previQuadro1Proximo ? 'red': ''">Previsão 1 <span
                         *ngIf="previQuadro1Proximo">(Próxima)</span></mat-label>
                 <input  [style.text-decoration]="previQuadro1linethrough ? 'line-through' : ''"
                     [style.color]="previQuadro1Color ? 'red': ''" disabled name="templateName" matInput
                     [(value)]="previ1">
+            </mat-form-field> -->
+            <br>
+
+            <mat-form-field appearance="standard" style="width: 190px;">
+                <mat-label >Previsão 1
+                    <span *ngIf="turma.previsaoInfo == '1ª previsão'">(atual)</span>
+                </mat-label>
+                <input disabled  matInput
+                    value="{{turma.previsoes.previsionStartOne | date: 'dd/MM/yyyy'}} até {{turma.previsoes.previsionEndingOne | date: 'dd/MM/yyyy'}}">
             </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 33%;">
-                <mat-label [style.color]="previQuadro2Proximo ? 'red': ''">Previsão 2 <span
-                        *ngIf="previQuadro2Proximo">(Próxima)</span></mat-label>
-                <input [style.text-decoration]="previQuadro2linethrough ? 'line-through' : ''"
-                    [style.color]="previQuadro2Color ? 'red': ''" disabled name="templateName" matInput
-                    [(value)]="previ2">
+
+            <mat-form-field appearance="standard" style="width: 190px;margin-left: 20px;">
+                <mat-label >Previsão 2
+                    <span *ngIf="turma.previsaoInfo == '2ª previsão'">(atual)</span>
+                </mat-label>
+                <input disabled matInput
+                    value="{{turma.previsoes.previsionStartTwo | date: 'dd/MM/yyyy'}} até {{turma.previsoes.previsionEndingTwo | date: 'dd/MM/yyyy'}}">
             </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 33%;">
-                <mat-label [style.color]="previQuadro3Proximo ? 'red': ''">Previsão 3 <span
-                        *ngIf="previQuadro3Proximo">(Próxima)</span></mat-label>
-                <input [style.text-decoration]="previQuadro3linethrough ? 'line-through' : ''"
-                    [style.color]="previQuadro3Color ? 'red': ''" disabled name="templateName" matInput
-                    [(value)]="previ3">
+            <mat-form-field appearance="standard" style="width: 190px;margin-left: 20px;">
+                <mat-label >Previsão 3
+                    <span *ngIf="turma.previsaoInfo == '3ª previsão'">(atual)</span>
+                </mat-label>
+                <input disabled matInput
+                    value="{{turma.previsoes.previsionStartThree | date: 'dd/MM/yyyy'}} até {{turma.previsoes.previsionEndingThree | date: 'dd/MM/yyyy'}}">
             </mat-form-field>
         </ng-container>
 
 
         <ng-template #iniciada>
+            <br>
             <mat-form-field appearance="standard" style="width: 60%;">
                 <mat-label>Duração<span *ngIf="previQuadro1Proximo">(Próxima)</span></mat-label>
-                <input disabled name="templateName" matInput 
-                value="Turma iniciada em {{turma.previsaoAtual | date:'dd/MM/yyyy'}} com previsão de término em {{turma.previsaoTerminoAtual | date:'dd/MM/yyyy'}}">
+                <input disabled name="templateName" matInput
+                    value="Turma iniciada em {{turma.previsaoAtual | date:'dd/MM/yyyy'}} com previsão de término em {{turma.previsaoTerminoAtual | date:'dd/MM/yyyy'}}">
             </mat-form-field>
-            <br>
+
             <!-- <div style="margin-left: 10px;margin-bottom: 30px;">Turma iniciada em {{turma.previsaoAtual | date:'d/M/yyy'}} com previsão de término em {{turma.previsaoTerminoAtual | date:'d/M/yyy'}}</div> -->
 
         </ng-template>
+        <br>
         <mat-form-field appearance="standard" style="border-color: black; width: 16%">
             <mat-label>vagas/matriculados:</mat-label>
             <input disabled name="templateName" matInput value="{{turma.vagas}}/{{turma.totalAlunos}}">
@@ -67,7 +79,7 @@
 
         <mat-form-field appearance="standard" style="width: 16%; margin-left: 10px;">
             <mat-label>Mínimo de alunos:</mat-label>
-            <input style="color: black;" name="templateName" matInput required [(ngModel)]="turma.minimoAlunos">
+            <input name="templateName" matInput disabled required [(ngModel)]="turma.minimoAlunos">
         </mat-form-field>
 
 

@@ -225,6 +225,43 @@ export class InfosComponent implements OnInit {
         }
     }
 
+    getListaPendenciaDocs(){
+        
+        var file = "lista_penencia";
+
+        this.downloadListPendencia(this.data['aluno'].matriculaId)
+            .subscribe(data => {
+
+            switch (data.type) {
+                case HttpEventType.Response:
+                    // this.showSpinner = false;
+                    //this.downloadStatus.emit( {status: ProgressStatusEnum.COMPLETE});
+                    const downloadedFile = new Blob([data.body], { type: data.body.type });
+                    const a = document.createElement('a');
+                    a.setAttribute('style', 'display:none;');
+                    document.body.appendChild(a);
+                    a.download = file;
+                    a.href = URL.createObjectURL(downloadedFile);
+                    a.target = '_blank';
+                    a.click();
+                    document.body.removeChild(a);
+                    break;
+            }
+        },
+            (err) => { },
+            () => { }
+        );
+
+    }
+
+    public downloadListPendencia(matriculaId: any): Observable<HttpEvent<Blob>> {
+        return this._http.request(new HttpRequest(
+            'GET', `${this.baseUrl}/pedag/doc/getpendencia/${matriculaId}`, null, {
+            reportProgress: true,
+            responseType: 'blob'
+        }));
+    }
+
     saveAlunoSucesso(resposta) {
         //this.saveAlunoProgressBar = 'hidden'
         this.GetAluno(this.alunoForm.get('id').value);
@@ -873,6 +910,14 @@ export class InfosComponent implements OnInit {
 
     }
 
+    public download(docId: any): Observable<HttpEvent<Blob>> {
+        return this._http.request(new HttpRequest(
+            'GET', `${this.baseUrl}/pedag/doc/${docId}`, null, {
+            reportProgress: true,
+            responseType: 'blob'
+        }));
+    }
+
     exportarCert() {
 
         //..console.log(doc:Document)
@@ -909,13 +954,7 @@ export class InfosComponent implements OnInit {
         );
     }
 
-    public download(docId: any): Observable<HttpEvent<Blob>> {
-        return this._http.request(new HttpRequest(
-            'GET', `${this.baseUrl}/pedag/doc/${docId}`, null, {
-            reportProgress: true,
-            responseType: 'blob'
-        }));
-    }
+    
 
     public downloadCert(): Observable<HttpEvent<Blob>> {
         return this._http.request(new HttpRequest(

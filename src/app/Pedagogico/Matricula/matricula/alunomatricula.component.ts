@@ -13,6 +13,8 @@ import { SpinnerParams } from "src/app/_shared/models/spinner.model";
 import { AdmService } from "src/app/Adm/services/adm.services";
 import { PedagogicoService } from "../../service/pedagogico.service";
 import { ConfirmMatriculaModalConfig } from "../../service/modal.config";
+import { TokenInfos } from "src/app/_shared/models/token.model";
+import { JwtHelperService } from "@auth0/angular-jwt";
 
 export const MeioPagamento = [
     { type: 'boleto', value: 'Boleto' },
@@ -54,6 +56,8 @@ export class AlunoMatriculaComponent implements OnInit {
     diaVencimento = DiaVencimento
     parcelas = Parcelas
     private bolsa: any
+    private jwtHelper = new JwtHelperService();
+    public tokenInfo: TokenInfos = new TokenInfos();
 
     public matriculaTurmaForm: FormGroup;
     public respMenor: FormGroup;
@@ -91,6 +95,21 @@ export class AlunoMatriculaComponent implements OnInit {
         this.temRespFinm = _fb.group({
             temRespFin: [false]
         })
+
+        this.temRespFinm.valueChanges.subscribe(
+            (form: any) => {
+
+                if(this.temRespFinm.get('temRespFin').value){
+                    console.log('enable')
+                    this.respFinForm.disable()
+                }else{
+                    console.log('disabled')
+                    this.respFinForm.disable()
+                }
+
+                
+            }
+        );
 
 
         this.respFinForm = _fb.group({
@@ -167,8 +186,9 @@ export class AlunoMatriculaComponent implements OnInit {
 
 
     ngOnInit() {
-        this.data['aluno']
-
+        console.log(this.data['aluno'])
+        const token = localStorage.getItem('jwt')
+        this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.hidden = 'visible'
 
         this.consultarCursos()
@@ -574,11 +594,11 @@ export class AlunoMatriculaComponent implements OnInit {
     // }
 
     disabldSaveButton = false
-    // get disabledButton(){
+    get disabledButton(){
 
 
-    //     return disabldSaveButton
-    // }
+        return this.respFinForm.valid
+    }
 
     salvarMat() {
         this.planoPgmAluno.get('infoParcelas').setValue(this.todasparcelas)

@@ -15,9 +15,35 @@ export abstract class BaseService {
         };
     }
 
+
+    protected ObterHeaderDownload() {
+        return {
+            headers: new HttpHeaders({
+                'reportProgress': 'true',
+                'responseType':'blob',
+                'Authorization':`Bearer ${localStorage.getItem('jwt')}`
+            })
+        };
+    }
+
+
+
+    // public downloadListPendencia(matriculaId: any): Observable<HttpEvent<Blob>> {
+    //     return this._http.request(new HttpRequest(
+    //         'GET', `${this.baseUrl}/api/pedag/doc/getpendencia/${matriculaId}`, null, {
+    //         reportProgress: true,
+    //         responseType: 'blob'
+    //     }));
+    // }
+
     protected extractData(response: any) {
         return response || {};
     }
+
+    protected extractDataDownload(response: any) {
+        return response;
+    }
+
 
     protected serviceError(response: Response | any) {
         let customError: string[] = [];
@@ -34,6 +60,8 @@ export abstract class BaseService {
         return throwError(response);
     }
 }
+
+
 
 
 

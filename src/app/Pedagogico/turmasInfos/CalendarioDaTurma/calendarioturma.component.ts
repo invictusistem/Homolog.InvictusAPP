@@ -18,7 +18,7 @@ import { InfoDia, ListaPresencaDto } from "../../Pedag-Models/infodia.model";
 export class CalendarioTurmaComponent implements OnInit {
 
     private _baseUrl = environment.baseUrl
-    public showSpin = true
+    public showSpin = false
     // public listaPresencaDto: ListaPresencaDto[] = new Array<ListaPresencaDto>();
     // public infoDia: InfoDia = new InfoDia();
     //public saveCommand: SavePresencaCommand = new SavePresencaCommand();
@@ -38,8 +38,8 @@ export class CalendarioTurmaComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.data['turma'])
-
+        //console.log(this.data['turma'])
+        this._dialogRef.addPanelClass('pedagcalendar-class')
         this.GetCalendarioTurma(this.data['turma'].id);
     }
 
@@ -48,17 +48,18 @@ export class CalendarioTurmaComponent implements OnInit {
         this._http.get(`${this._baseUrl}/pedag/turma/calendario/${turmaId}`)
             .subscribe(resp => {
 
-                console.log(resp)
+                //console.log(resp)
                 this.calendarios = Object.assign([], resp['calends'])
                 console.log(this.calendarios)
 
             },
                 (error) => {
                     console.log(error)
-                    this.showSpin = false
+                    this.showSpin = true
                 },
                 () => {
-                    this.showSpin = false
+                    this.showSpin = true
+                    //this._dialogRef.addPanelClass('pedagcalendar-class')
                 })
     }
 
@@ -84,7 +85,7 @@ export class CalendarioTurmaComponent implements OnInit {
          
 
         } else {
-            console.log('nao')
+           // console.log('nao')
         }
 
     });

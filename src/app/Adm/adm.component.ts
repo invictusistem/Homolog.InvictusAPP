@@ -29,7 +29,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/adm/contrato', title: 'Contratos', class: '', typeIcon: 'gavel' },
     { path: '/adm/bolsas', title: 'Bolsas', class: '', typeIcon: 'local_offer' },
     //{ path: '/adm/teste', title: 'TESTE', class: '', typeIcon: 'fact_check' },
-   // { path: '/adm/pdf', title: 'PDF', class: '', typeIcon: 'gavel' }
+    //{ path: '/adm/pdf', title: 'PDF', class: '', typeIcon: 'gavel' }
 ]
 
 @Component({

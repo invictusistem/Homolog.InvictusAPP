@@ -123,6 +123,69 @@ export class PedagogicoService extends BaseService {
     }
 
 
+    // DOWNLOAD
+
+    GetDocumento(matriculaId) : Observable<any> {       
+
+        let path = `/pedag/doc/getpendencia/${matriculaId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderDownload())
+            .pipe(
+                map(this.extractDataDownload),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+
+    // ACESSO ALUNO
+
+    getAlunosAcesso(pageSize?: number, currentPage?: number, jsonParam?: any) : Observable<any> {       
+
+        var formJson = JSON.stringify(jsonParam)
+
+        let path = `/alunos/matriculados/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson=${formJson}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    editAcesso(email, acesso) : Observable<any> {       
+
+        let path = `/usuario/aluno-acesso/${email}/${acesso}`
+
+        let response = this.http
+            .put(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    envioAcesso(email) : Observable<any> {       
+
+        let path = `/usuario/envio-acesso/${email}`
+
+        let response = this.http
+            .put(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+
+
+
+    
 
 
 /*

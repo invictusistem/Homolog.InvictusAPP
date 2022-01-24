@@ -1,0 +1,16 @@
+.table-calend {
+    td {
+       /// border: 1px solid red;
+        font-size: 0.8em;
+    }
+
+    th {
+        font-size: 0.9em;
+    }
+}
+
+::ng-deep .pedagcalendar-class .mat-dialog-container {
+    
+    padding-top: 0px;
+  
+  }

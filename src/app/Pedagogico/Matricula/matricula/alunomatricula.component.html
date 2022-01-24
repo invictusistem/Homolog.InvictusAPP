@@ -46,27 +46,18 @@
 
             <br>
 
-            <form novalidate [formGroup]="temRespFinm">
-
-                <ng-container *ngIf="!menorIdade">
-
-                    <span style="font-style: italic; font-size: 0.9em;">
-                        Tem responsável financeiro: <mat-checkbox formControlName="temRespFin" class="example-margin">
-                        </mat-checkbox>
-                    </span>
-                </ng-container>
-            </form>
+            
 
             <form style="" novalidate [formGroup]="temRespFinm">
 
-                <mat-form-field appearance="standard" style="width: 350px; ">
+                <mat-form-field appearance="standard" style="width: 140px; ">
                     <mat-label>Data cadastro</mat-label>
-                    <input selected [value]="data['aluno'].nome" disabled required matInput>
+                    <input selected value="{{data['aluno'].dataCadastro | date:'dd/MM/yyyy'}}" disabled required matInput>
                 </mat-form-field>
 
                 <mat-form-field appearance="standard" style="width: 350px;margin-left: 10px;">
                     <mat-label>Responsável cadastro</mat-label>
-                    <input selected disabled required matInput>
+                    <input selected disabled value="{{tokenInfo.Nome}}" required matInput>
                 </mat-form-field>
 
                 <br>
@@ -77,14 +68,14 @@
                     <input selected [value]="data['aluno'].nome" disabled required matInput>
                 </mat-form-field>
 
-                <mat-form-field appearance="standard" style="width: 350px;margin-left: 10px;">
+                <mat-form-field appearance="standard" style="width: 130px;margin-left: 10px;">
                     <mat-label>Nascimento</mat-label>
-                    <input selected disabled required matInput>
+                    <input selected disabled value="{{data['aluno'].nascimento  | date:'dd/MM/yyyy' }}" required matInput>
                 </mat-form-field>
 
-                <mat-form-field appearance="standard" style="width: 350px;margin-left: 10px;">
+                <mat-form-field appearance="standard" style="width: 100px;margin-left: 10px;">
                     <mat-label>Idade</mat-label>
-                    <input selected disabled required matInput>
+                    <input selected disabled value="{{data['aluno'].nascimento | idade}} anos" required matInput>
                 </mat-form-field>
 
                 <br>
@@ -99,9 +90,22 @@
                     <input selected matInput [value]="data['aluno'].rg" disabled>
                 </mat-form-field>
 
-                <br>
+                <span novalidate [formGroup]="temRespFinm" style="width: 250px;margin-left: 20px;">
+
+                    <ng-container *ngIf="!menorIdade">
+    
+                        <span style="font-style: italic; font-size: 0.9em;">
+                            Tem responsável financeiro: <mat-checkbox formControlName="temRespFin" class="example-margin">
+                            </mat-checkbox>
+                        </span>
+                    </ng-container>
+                </span>
+
+               
             </form>
 
+            
+            <br>
             <form style="" novalidate [formGroup]="planoPgmAluno">
                 <mat-form-field appearance="standard" style="width: 200px;">
                     <mat-label>Forma de conhecimento</mat-label>
@@ -588,8 +592,15 @@
         <form novalidate style="float: right;">
 
             
-            <div style="bottom: 0; float:right;">
+            <!-- <div style="bottom: 0; float:right;">
                 <button type="button" (click)="salvarMat()" [disabled]="disabldSaveButton" mat-raised-button
+                    color="primary" style="bottom: 0; float:right;margin-bottom: 0px;margin-left: 10px;">
+                    Confirmar matrícula
+                </button>
+            </div> -->
+
+            <div style="bottom: 0; float:right;">
+                <button type="button" (click)="salvarMat()" [disabled]="disabledButton" mat-raised-button
                     color="primary" style="bottom: 0; float:right;margin-bottom: 0px;margin-left: 10px;">
                     Confirmar matrícula
                 </button>
@@ -597,11 +608,7 @@
 
 
 
-            <!-- <button type="submit"  mat-raised-button color="primary"
-                style="float:right;margin-top: 10px">
-
-                salvar
-            </button> -->
+          
         </form>
     </span>
 

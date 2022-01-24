@@ -26,11 +26,17 @@ export class PlanoPgmEditComponent implements OnInit {
 
 
     baseUrl = environment.baseUrl;
-    public typePacotes: any
+    public initProgressBar = 'visible'
+    public saveSpinner = 'hidden'
+    public showContent = false
+    public disabledContrato = false
+    public typePacotes: any[] = new Array<any>()
+    public contratos: any[] = new Array<any>()
     public moduloForm: FormGroup;
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
-    public plano: any;
+   // public plano: any;
+    private originalPlano:any;
     public disabledSpinner = false
 
     constructor(
@@ -41,35 +47,90 @@ export class PlanoPgmEditComponent implements OnInit {
         private _http: HttpClient,
         public dialogRef: MatDialogRef<PlanoPgmEditComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
+            this.moduloForm = _fb.group({
+                id:[''],
+                typePacoteId: ['', [Validators.required]],
+                descricao: ['', [Validators.required]],
+                valor: ['', [Validators.required]],
+                taxaMatricula: [0.00],
+                materialGratuito: ['', [Validators.required]],
+                valorMaterial: [0.00],
+                bonusPontualidade: [0.00],
+                contratoId: ['', [Validators.required]],
+                ativo: [true]
+    
+            })
     }
 
     ngOnInit() {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-        this.plano = this.data['plano']
-        console.log(this.plano)
-        this.GetTypes()
+       // this.plano = this.data['plano']
+       // console.log(this.plano)
+        this.GetPlano()
     }
 
-    private GetTypes() {
+    private GetPlano() {
 
-        this._http.get(`${this.baseUrl}/unidade/typepacote`)
+        this._http.get(`${this.baseUrl}/plano-pagamento/${this.data['plano'].id}`)
             .subscribe(resp => {
-                this.typePacotes = resp['types']
+               // this.plano = resp['plano']
+                this.moduloForm.patchValue(resp['plano'])
+                this.originalPlano = JSON.parse(JSON.stringify(this.moduloForm.value))
+                this.typePacotes = resp['typePacotes']
+                this.contratos = resp['contratos']
+              //  console.log(this.plano)
             },
                 (error) => { console.log(error) },
                 () => {
+                    this.initProgressBar = 'hidden'
+                    this.showContent = true
                    // console.log(this.typePacotes)
                  })
     }
-    isDisabled = false
+
+    getContratos(typePacoteId) {
+      //  this.moduloForm.get('contratoId').setValue('')
+      this.contratos = new Array<any>()
+      this.moduloForm.get('contratoId').setValue('')
+      this.disabledContrato = true
+        this.contratos = new Array<any>();
+        this._http.get(`${this.baseUrl}/contrato/type-pacote/${typePacoteId}`)
+            .subscribe(resp => {
+                this.disabledContrato = false
+                this.contratos = resp['contratos']
+            },
+                (error) => {
+                    console.log(error)
+                },
+                () => {
+
+                })
+
+    }
+
+    get disabledSaveButton(){
+
+        if (this.moduloForm.valid &&
+            JSON.stringify(this.originalPlano) !=
+            JSON.stringify(this.moduloForm.value)) {
+
+            return this.saveSpinner != 'hidden'
+        } else {
+            return true
+        }
+    }
+
+
+    isDisabled = true
     onSubmit(form: any) {
-        console.log(this.plano)
-        console.log(form.valid)
-        if (form.valid) {
+       // console.log(this.plano)
+      //  console.log(form.valid)
+        if (this.moduloForm.valid) {
+            this.saveSpinner = 'visible'
             this.isDisabled = true
             this.disabledSpinner = true
-            this._http.put(`${this.baseUrl}/unidade/plano-editar`, this.plano, {})
+            this._http.put(`${this.baseUrl}/plano-pagamento`, this.moduloForm.value, {})
                 .subscribe(response => {
                 }, (err) => { console.log(err) },
                     () => {

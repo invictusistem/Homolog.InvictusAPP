@@ -46,6 +46,7 @@ import { HomeComponent } from './_shared/home/home.component';
 import { BolsasComponent } from './Adm/Bolsas/bolsas.component';
 
 import { LeadsComponent } from './Comercial/Leads/leads.component';
+import { AlunoAcessoComponent } from './Pedagogico/AlunosAcesso/aluno-acesso.component';
 
 export const routes: Routes = [
   {
@@ -92,6 +93,7 @@ export const routes: Routes = [
       { path: 'reposicoes', component:  ReposicoesComponent, canActivate: [AuthGuard] },
       { path: 'analisedocs', component:  AnaliseDocsComponent, canActivate: [AuthGuard] },
       { path: 'estagiosdoc', component:  EstagiosDocsComponent, canActivate: [AuthGuard] },
+      { path: 'alunoacesso', component:  AlunoAcessoComponent, canActivate: [AuthGuard] }
     ]
   },
   {

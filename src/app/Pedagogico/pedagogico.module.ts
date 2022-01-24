@@ -48,6 +48,8 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { PedagogicoService } from './service/pedagogico.service';
+import { AlunoAcessoComponent } from './AlunosAcesso/aluno-acesso.component';
+import { DetalheComponent } from './AlunosAcesso/Detalhes/detalhe.component';
 registerLocaleData(localeFr, 'fr');
 
 export const MY_DATE_FORMATS = {
@@ -108,7 +110,9 @@ const maskConfig: Partial<IConfig> = {
         EstagioAlunosComponent,
         EstagioEditComponent,
         InfoCadastraisComponent,
-        AddAnotacaoComponent
+        AddAnotacaoComponent,
+        AlunoAcessoComponent,
+        DetalheComponent
     ],
     imports: [
         BrowserModule,
@@ -134,7 +138,8 @@ const maskConfig: Partial<IConfig> = {
         PedagRelatorioComponent,
         TurmasPedagInfoComponent,
         ReposicoesComponent,
-        AnaliseDocsComponent
+        AnaliseDocsComponent,
+        AlunoAcessoComponent
     ],
     entryComponents: [
         CreateMatriculaComponent,
@@ -164,7 +169,8 @@ const maskConfig: Partial<IConfig> = {
         EstagioAlunosComponent,
         EstagioEditComponent,
         InfoCadastraisComponent,
-        AddAnotacaoComponent
+        AddAnotacaoComponent,
+        DetalheComponent
     ]
     
 })

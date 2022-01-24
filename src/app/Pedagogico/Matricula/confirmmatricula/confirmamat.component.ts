@@ -47,7 +47,7 @@ export class ConfirmMatriculaComponent implements OnInit {
 
     Confirm(msg: Boolean) {
         if (msg == true) {
-
+            this.disabledButton = true
             this.BaixarContrato()
 
         } else {
@@ -57,8 +57,11 @@ export class ConfirmMatriculaComponent implements OnInit {
         }
     }
 
+
+    disabledButton = false
+
     BaixarContrato() {
-        var file = 'fichao';//doc.nome;// "Modelo LEAD.xlsx";// this.createFileName("EXCEL");
+        var file = 'contrato';//doc.nome;// "Modelo LEAD.xlsx";// this.createFileName("EXCEL");
         this.hidden = 'visible'
         this.msgSpan = 'visible'
         this.msg = 'fazendo download do contrato...'
@@ -121,7 +124,7 @@ export class ConfirmMatriculaComponent implements OnInit {
             }
         );
     }
-    
+
 
     public downloadContrato(): Observable<HttpEvent<Blob>> {
         return this._http.request(new HttpRequest(

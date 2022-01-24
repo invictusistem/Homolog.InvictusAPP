@@ -34,13 +34,13 @@ export class ColaboradoresComponent implements OnInit {
 
     colaboradores: any[] = new Array<any>();
 
-    spinnerSearch = false    
+    spinnerSearch = 'hidden'
     showMessageNoColaborador = false
     mensagem: string = "";
     public tokenInfo: TokenInfos = new TokenInfos();
     public pesquisarForm: FormGroup
- 
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+
+    @ViewChild(MatPaginator) paginator: MatPaginator
 
     constructor(
         private _admService: AdmService,
@@ -85,7 +85,7 @@ export class ColaboradoresComponent implements OnInit {
         this.showMessageNoColaborador = false
 
         if (this.pesquisarForm.valid) {
-            this.spinnerSearch = true
+            this.spinnerSearch = 'visible'
 
             if (event != undefined) {
                 this.currentPageTeste = event.pageIndex + 1
@@ -101,20 +101,22 @@ export class ColaboradoresComponent implements OnInit {
         }
 
     }
-    
+
     processarSucesso(response: any, event?: any) {
-       
+
         this.colaboradores = Object.assign([], response['data']);
 
         this.length = response['totalItemsInDatabase']
 
-        this.spinnerSearch = false
-        if (event != undefined){
+        this.spinnerSearch = 'hidden'
+        if (event != undefined) {
             this.pageIndexNumber = (event.pageIndex * this.pageSize)
-        }else{
+        } else {
             this.pageIndexNumber = 0
-          
-            this.paginator.firstPage();
+            console.log(this.paginator)
+            if (this.paginator != undefined) {
+                this.paginator.firstPage();
+            }
         }
 
     }
@@ -132,19 +134,19 @@ export class ColaboradoresComponent implements OnInit {
             this.colaboradores = new Array<any>();
         }
 
-        this.spinnerSearch = false
+        this.spinnerSearch = 'hidden'
     }
 
     get disabledOpenEditButton() {
 
-        return this.spinnerSearch
+        return this.spinnerSearch != 'hidden'
     }
 
     openCreateUserModal(): void {
         const dialogRef = this._modal
             .open(CreateColaboradoresComponent, CreateColaboradorModalConfig());
         dialogRef.afterClosed().subscribe((data) => {
-           
+
         });
     }
 

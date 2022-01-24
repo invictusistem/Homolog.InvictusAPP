@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from "@angular/common/http";
-import {  FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { environment } from "src/environments/environment";
 import { JwtHelperService } from "@auth0/angular-jwt";
@@ -20,6 +20,9 @@ export class PlanoPgmCreateComponent implements OnInit {
 
 
     baseUrl = environment.baseUrl;
+    public disabledContrato = true
+    public initProgressBar = 'visible'
+    public saveSpinner = 'hidden'
     public typePacotes: any
     public moduloForm: FormGroup;
     private jwtHelper = new JwtHelperService();
@@ -42,10 +45,10 @@ export class PlanoPgmCreateComponent implements OnInit {
             valorMaterial: [0.00],
             bonusPontualidade: [0.00],
             contratoId: ['', [Validators.required]],
-            ativo: [true]          
+            ativo: [true]
 
         })
-    }   
+    }
 
     ngOnInit() {
         const token = localStorage.getItem('jwt')
@@ -60,25 +63,43 @@ export class PlanoPgmCreateComponent implements OnInit {
                 this.typePacotes = resp['typePacotes']
             },
                 (error) => { console.log(error) },
-                () => { })
+                () => {
+                    this.initProgressBar = 'hidden'
+                })
     }
 
     getContratos(typePacoteId) {
-
+        this.moduloForm.get('contratoId').setValue('')
+        this.disabledContrato = true
         this.contratos = new Array<any>();
         this._http.get(`${this.baseUrl}/contrato/type-pacote/${typePacoteId}`)
             .subscribe(resp => {
-
+                this.disabledContrato = false
                 this.contratos = resp['contratos']
             },
-                (error) => { console.log(error) },
-                () => { })
+                (error) => {
+                    console.log(error)
+                },
+                () => {
+
+                })
+
+    }
+
+    get disabledSaveButton() {
+
+        if (this.moduloForm.valid) {
+            return this.saveSpinner != 'hidden'
+        } else {
+            return true
+        }
 
     }
 
     onSubmit(form: any) {
-        console.log(form.value)
-        if (form.valid) {
+      //  console.log(form.value)
+        if (this.moduloForm.valid) {
+            this.saveSpinner = 'visible'
             this.disabledSpinner = true
             this._http.post(`${this.baseUrl}/plano-pagamento`, form.value, {})
                 .subscribe(response => {
