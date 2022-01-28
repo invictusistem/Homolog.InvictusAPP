@@ -13,6 +13,7 @@ import { Cargos, Unidades } from "src/app/_shared/models/perfil.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
+import { AdmService } from "../../services/adm.services";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Component({
@@ -30,8 +31,8 @@ export class EditColaboradoresComponent implements OnInit {
     // pageEvent: PageEvent;
     baseUrl = environment.baseUrl;
 
-    editedColaborador: Object = new Object();
-    originalColaborador: Object = new Object();//Colaborador = new Colaborador();
+    editedColaborador: any;// = new any();
+    originalColaborador: any;// = new Object();//Colaborador = new Colaborador();
 
     public initProgressBar = 'visible'
     public saveBar = 'hidden'
@@ -49,6 +50,7 @@ export class EditColaboradoresComponent implements OnInit {
     constructor(
         private _helper: HelpersService,
         //private _snackBar: MatSnackBar,
+        private _admService: AdmService,
         private http: HttpClient,
         private _fb: FormBuilder,
         public dialogRef: MatDialogRef<EditColaboradoresComponent>,
@@ -129,6 +131,7 @@ export class EditColaboradoresComponent implements OnInit {
                 this.initProgressBar = 'hidden'
             },
                 () => {
+                    this.dialogRef.addPanelClass('myeditcolab-class')
                     this.showForm = true
                     this.initProgressBar = 'hidden'
 
@@ -187,21 +190,21 @@ export class EditColaboradoresComponent implements OnInit {
 
     consultaCEP(CEP: string) {
 
-        if (CEP.length == 10) {
+        if (this.colaboradorForm.get('cep').valid) {
 
             CEP = CEP.replace('-', '');
             CEP = CEP.replace('.', '');
 
-            this.http.get(`https://viacep.com.br/ws/${CEP}/json/`)
+            this._admService.CepConsulta(this.colaboradorForm.get('cep').value)
                 .subscribe(response => {
 
-                    this.editedColaborador['logradouro'] = response["logradouro"].toUpperCase()
-                    this.editedColaborador['bairro'] = response["bairro"].toUpperCase()
-                    this.editedColaborador['cidade'] = response["localidade"].toUpperCase()
-                    this.editedColaborador['uf'] = response["uf"].toUpperCase()
+                    this.colaboradorForm.get('logradouro').setValue(response["logradouro"].toUpperCase())
+                    this.colaboradorForm.get('bairro').setValue(response["bairro"].toUpperCase())
+                    this.colaboradorForm.get('cidade').setValue(response["localidade"].toUpperCase())
+                    this.colaboradorForm.get('uf').setValue(response["uf"].toUpperCase())
 
-                }, err => { console.log("erros") },
-                    () => { console.log('finaly') });
+                }, err => {  },
+                    () => {  });
         }
     }
 

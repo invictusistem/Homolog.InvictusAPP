@@ -39,9 +39,9 @@ export class UnidadesComponent implements OnInit {
 
                 Object.assign(this.unidades, response['unidades'])
             },
-                (error) => { console.log(error) },
+                (error) => {  },
                 () => {
-                    console.log(this.unidades)
+                    
                 })
 
     }
@@ -68,8 +68,8 @@ export class UnidadesComponent implements OnInit {
     openEditUnidade(unidade: Unidade): void {
         const dialogRef = this.unidadeEditModal
             .open(EditUnidadeComponent, {
-                height: '450px',
-                width: '650px',
+                //height: '450px',
+                width: '670px',
                 data: { unidade: unidade },
                 hasBackdrop: true,
                 disableClose: true
@@ -104,7 +104,7 @@ export class UnidadesComponent implements OnInit {
     editSala(unidade): void {
         const dialogRef = this.unidadeEditModal
             .open(SalaEditarComponent, {
-                height: 'auto',
+               // height: 'auto',
                 width: '600px',
                 data: { unidade: unidade},
                 hasBackdrop: true,

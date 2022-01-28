@@ -12,6 +12,7 @@ import { Sala } from "../../Adm-Models/sala.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { UpperCasePipe } from "@angular/common";
 import { Cargo } from "../../Adm-Models/cargos.model";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Pipe({ name: 'myPipe' })
@@ -36,6 +37,9 @@ export class CreateUnidadeComponent implements OnInit {
     // genericTasks: GenericTask[] = new Array<GenericTask>();
     // length: number;
     // pageEvent: PageEvent;
+    public saveSpinner = 'hidden'
+    public showMensagem = 'hidden'
+public msgErros: any;
     testepipe: any
     private _baseUrl = environment.baseUrl
     public unidadeForm: FormGroup;
@@ -44,6 +48,7 @@ export class CreateUnidadeComponent implements OnInit {
     constructor(
         //private service: AdmService,
         private upperCasePipe: UpperCasePipe,
+        private _helper: HelpersService,
         private _http: HttpClient,
         private _fb: FormBuilder,
         private _modal: MatDialog,
@@ -63,60 +68,8 @@ export class CreateUnidadeComponent implements OnInit {
             ativo: [true],
         })
 
-        this.unidadeForm.valueChanges.subscribe(form => {
-            if (typeof form.sigla === 'string') {
-                const siglaUpper = this.upperCasePipe.transform(form.sigla);
-                if (form.sigla !== siglaUpper) {
-                    this.unidadeForm.patchValue({ sigla: siglaUpper })
-
-                }
-            }
-        })
-
-        this.colaboradorForm = _fb.group({
-            // templateName: ['', [Validators.required, Validators.minLength(5)]],
-            // newCat: [,[Validators.required, Validators.minLength(3)]],
-            // newFunc: [, [Validators.required, Validators.minLength(3)]]
-            nome: ['', [Validators.required, Validators.minLength(5)]],
-            email: ['', [Validators.required, Validators.email]],
-            cpf: ['', [Validators.required, Validators.minLength(11)]],
-            celular: [null, [Validators.required, Validators.minLength(5)]],
-            cargoId: [3, [Validators.required]],
-            ativo: [true, [Validators.required]],
-            cep: ['', [Validators.required, Validators.minLength(8)]],
-            logradouro: ['', [Validators.required, Validators.minLength(1)]],
-            complemento: [''],
-            numero: ['', [Validators.required]],
-            cidade: ['', [Validators.required, Validators.minLength(1)]],
-            uf: ['', [Validators.required, Validators.minLength(2)]],
-            bairro: ['', [Validators.required, Validators.minLength(1)]]//,
-            //celular: [new MyTel('', '', ''), [Validators.required, Validators.minLength(1)]]
-        })
+       
     }
-
-    // get salas(): FormArray {
-    //     return this.unidadeForm.get("salas") as FormArray
-    // }
-
-    // novaSala(): FormGroup {
-    //     return this._fb.group({
-    //         //id: '',
-    //         titulo: '',
-    //         descricao: '',
-    //         comentarios: '',
-    //         capacidade: '',
-    //         dataCriacao: '',
-
-    //     })
-    // }
-
-    // addSala() {
-    //     this.salas.push(this.novaSala());
-    // }
-
-    // removeSala(i:number) {
-    //     this.salas.removeAt(i);
-    //   }
 
     get habilitarBotao() {
         // console.log(this.unidadeForm.valid)
@@ -164,16 +117,21 @@ export class CreateUnidadeComponent implements OnInit {
     }
 
     onSubmit(form: any) {
-        console.log(this.unidadeForm.value)
-        //console.log(this.colaboradorForm.value)
-        //console.log(this.testepipe)
+        this.showMensagem = 'hidden'
 
         if (form.valid) {
-
+            this.saveSpinner = 'visible'
             this._http.post(`${this._baseUrl}/unidade`, this.unidadeForm.value, {})
                 .subscribe(resp => { },
-                    (error) => { console.log(error) },
-                    () => { this.dialogRef.close({ clicked: "Ok" }) })
+                    (error) => { 
+                        this.saveSpinner = 'hidden'
+                        this.msgErros = error['error'].msg
+                        this.showMensagem = 'visible'
+                        this.saveSpinner = 'hidden'
+                     },
+                    () => { 
+                        this._helper.openSnackBar('Unidade criada sucesso')
+                        this.dialogRef.close({ clicked: "Ok" }) })
 
         }
     }
@@ -199,78 +157,13 @@ export class CreateUnidadeComponent implements OnInit {
         }
     }
 
-    addSalaModal(): void {
-        // const dialogRef = this._modal
-        //     .open(AddSalaComponent, {
-        //         height: '470px',
-        //         width: '800px',
-        //         //data: {  },
-        //         hasBackdrop: true,
-        //         disableClose: true
-        //     });
-        // dialogRef.afterClosed().subscribe((data) => {
-        //     if (data.clicked === "Ok") {
-        //        // this.getUnidades();
-        //     } else if (data.clicked === "Cancel") {
+    get saveButton(){
 
-        //     }
-        // });
-    }
-
-    buscarEmail(event: any) {
-        // if (this.colaboradorForm.get('email').valid) {
-        //     this.validadeEmailMsg = false
-        //     this.http.get(`${this.baseUrl}/adm/aluno/email/${event.target.value}`, {
-        //         headers: new HttpHeaders({
-        //             "Content-Type": "application/json",
-        //             "Authorization": "Bear "
-        //         })
-        //     }).subscribe(response => {
-
-        //     }, (err) => {
-        //         if (err['status'] == 409) {
-        //             this.validadeEmailMsg = true
-        //             this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
-        //         }
-        //     },
-        //         () => {
-        //             this.colaboradorForm.get('email').setErrors(null);
-        //         });
-
-        //     //this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
-
-        // }
-    }
-
-    buscarCPF(event: any) {
-        // console.log(event.target.value)
-        // console.log(this.colaboradorForm.get('cpf').value)
-        // console.log(this.colaboradorForm.get('cpf').valid)
-        // console.log(this.colaboradorForm.get('cpf').value.length)
-        // if (this.colaboradorForm.get('cpf').valid) {
-        //     this.validadeCPFMsg = false
-        //     let cpf = this.colaboradorForm.get('cpf').value
-        //     //this.http.get(`${this.baseUrl}/adm/aluno/cpf/${event.target.value}`, {
-        //     this.http.get(`${this.baseUrl}/adm/aluno/cpf/${cpf}`, {
-        //         headers: new HttpHeaders({
-        //             "Content-Type": "application/json",
-        //             "Authorization": "Bear "
-        //         })
-        //     }).subscribe(response => {
-
-        //     }, (err) => {
-        //         if (err['status'] == 409) {
-        //             this.validadeCPFMsg = true
-        //             this.colaboradorForm.get('cpf').setErrors({ 'incorrect': true });
-        //         }
-        //     },
-        //         () => {
-        //             this.colaboradorForm.get('cpf').setErrors(null);
-        //         });
-
-        //     //this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
-
-        // }
-    }
+        if(this.unidadeForm.valid){
+            return this.saveSpinner != 'hidden'
+        }else{
+            return true
+        }
+    }    
 
 }

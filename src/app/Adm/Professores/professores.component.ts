@@ -61,11 +61,11 @@ export class ProfessoresComponent {
 
 
     constructor(
-        private elementRef: ElementRef,
+       // private elementRef: ElementRef,
         private http: HttpClient,
         private _fb: FormBuilder,
-        private CreateColaboradoresModal: MatDialog,
-        private EditColaboradoresModal: MatDialog) {
+       // private CreateColaboradoresModal: MatDialog,
+        private _modal: MatDialog) {
         this.pesquisarForm = _fb.group({
             nome: ['', [Validators.required]],
             email: ['', [Validators.required]],
@@ -235,7 +235,7 @@ export class ProfessoresComponent {
     }
 
     openProfMateriasModal(prof):void{
-        const dialogRef = this.CreateColaboradoresModal
+        const dialogRef = this._modal
             .open(ProfMateriasComponent, {
                 //minHeight: '520px',
                 width: '880px',
@@ -258,7 +258,7 @@ export class ProfessoresComponent {
     }
 
     openCreateUserModal(): void {
-        const dialogRef = this.CreateColaboradoresModal
+        const dialogRef = this._modal
             .open(CreateProfessorComponent, {
                 minHeight: '420px',
                 width: '680px',
@@ -282,7 +282,7 @@ export class ProfessoresComponent {
     }
 
     openEditUserModal(item: Colaborador): void {
-        const dialogRef = this.EditColaboradoresModal
+        const dialogRef = this._modal
             .open(EditProfessorComponent, {
                 height: '520px',
                 width: '680px',

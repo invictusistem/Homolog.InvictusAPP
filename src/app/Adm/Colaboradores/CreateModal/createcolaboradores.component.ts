@@ -12,6 +12,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { SpinnerParams } from "src/app/_shared/models/spinner.model";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
+import { AdmService } from "../../services/adm.services";
 
 @Component({
     selector: 'createcolaboradoresrmodal',
@@ -40,15 +41,19 @@ export class CreateColaboradoresComponent implements OnInit {
     public validadeEmailMsg = false
     public validadeCPFMsg = false
     public disabledSpinner = false
+    public showContent = false
+    public disabledSaveButton = 'hidden'
+    public initProgressBar = 'visible'
     showForm = false
     cargos: any[] = new Array<any>()
     mensagem = "";
-    showMensagem = false
+    public showMensagem = 'hidden'
     msgErros: any
 
     constructor(
         private _snackBar: MatSnackBar,
         private _helper: HelpersService,
+        private _admService: AdmService,
         private _fb: FormBuilder,
         private http: HttpClient,
         public dialogRef: MatDialogRef<CreateColaboradoresComponent>,
@@ -90,7 +95,10 @@ export class CreateColaboradoresComponent implements OnInit {
                 console.log(err)
             },
                 () => {
-                    console.log(this.cargos)
+                    //this.dialogRef.updateSize('680px', '60vh')
+                    this.dialogRef.addPanelClass('mycreatecolab-class')
+                    this.initProgressBar = 'hidden'
+                    this.showContent = true
                     this.mostrarModalPrincipal = false
                     this.showForm = true
 
@@ -98,30 +106,34 @@ export class CreateColaboradoresComponent implements OnInit {
     }
 
     onSubmit(form: FormGroup) {
-        this.showMensagem = false
+        this.showMensagem = 'hidden'
 
         if (this.colaboradorForm.valid) {
             this.disabledSpinner = true
 
-            this.disabledSaveButton = true
+            this.disabledSaveButton = 'visible'
             this.http.post(`${this.baseUrl}/colaboradores`, this.colaboradorForm.value, {
             }).subscribe(response => {
             }, (err) => {
                 if (err['status'] == 409) {
-
+                    this.msgErros = err['error'].msg
+                    this.showMensagem = 'visible'
+                    this.disabledSaveButton = 'hidden'
+                }else{
+                    this._helper.openSnackBarError("Ocorreu um erro!")
+                    
+                     this.dialogRef.close({ clicked: "Ok" });
                 }
-                console.log(err['error'].msg)
-                this.msgErros = err['error'].msg
-                this.showMensagem = true
-                this.disabledSaveButton = false
-                this.disabledSaveButton = false
+               
+               
+               
             },
                 () => {
 
                     this._helper.openSnackBar('Colaborador salvo com sucesso')
                    // this._helper.CloseModalWithOK();
                     this.dialogRef.close({ clicked: "Ok" });
-                    this.disabledSaveButton = false
+                    this.disabledSaveButton = 'hidden'
                 });
         }
     }
@@ -129,40 +141,30 @@ export class CreateColaboradoresComponent implements OnInit {
    
 
 
-    showEndereco = false
+    showEndereco = 'hidden'
     consultaCEP(CEP: string) {
-        console.log(CEP);
-        if (CEP.length == 10) {
+       // console.log(CEP);
+        if (this.colaboradorForm.get('cep').valid) {
 
 
             //var mystring = "crt/r2002_2";
             CEP = CEP.replace('-', '');
             CEP = CEP.replace('.', '');
             console.log(CEP);
-            this.http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
+            this._admService.CepConsulta(this.colaboradorForm.get('cep').value)
                 .subscribe(response => {
 
-                    //  console.log(response)
-                    // this.cepReturn = new CepReturn(
-                    //     response["logradouro"],
-                    //     response["bairro"],
-                    //     response["localidade"],
-                    //     response["uf"]);
-                    //console.log(this.cepReturn)
+                    console.log(response)
+                   
                     this.colaboradorForm.get('logradouro').setValue(response["logradouro"].toUpperCase());
                     this.colaboradorForm.get('bairro').setValue(response["bairro"].toUpperCase());
                     this.colaboradorForm.get('cidade').setValue(response["localidade"].toUpperCase());
                     this.colaboradorForm.get('uf').setValue(response["uf"].toUpperCase());
-                    //this.bairro = this.cepReturn.bairro
-                    // const token = (<any>response).accessToken;
-                    // console.log(response)
-                    // localStorage.setItem("jwt", token);
-                    // this.invalidLogin = false;
-                    // this.router.navigate(["/main"]);
+                   
                 }, err => { console.log(err) },
                     () => {
                         //  console.log('finaly')
-                        this.showEndereco = true
+                        this.showEndereco = 'visible'
                     });
         }
     }
@@ -172,10 +174,10 @@ export class CreateColaboradoresComponent implements OnInit {
         this.dialogRef.close({ clicked: "Ok" });
     }
 
-    disabledSaveButton = false
+    
     get disabledButton() {
         if (this.colaboradorForm.valid) {
-            return this.disabledSaveButton
+            return this.disabledSaveButton != 'hidden'
         } else {
             return true
         }

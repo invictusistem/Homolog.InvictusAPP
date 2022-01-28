@@ -10,6 +10,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { FinanceiroService } from "../../models/financ.service";
 
 @Component({
     selector: 'createfornecedormodal',
@@ -21,6 +22,8 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 export class CreateFornecedorComponent implements OnInit {
   
     baseUrl = environment.baseUrl;
+    public saveSpinner = 'hidden'
+    public enderecoContainer = 'hidden'
     public cepReturn: CepReturn = new CepReturn();
     public fornecedorForm: FormGroup;
     private jwtHelper = new JwtHelperService();
@@ -34,34 +37,37 @@ export class CreateFornecedorComponent implements OnInit {
     unidades = Unidades;
     constructor(
         private _snackBar: MatSnackBar,
-        private router: Router,
+        private _finService: FinanceiroService,
+        //private router: Router,
         private _fb: FormBuilder,
-        private http: HttpClient,
+        private _http: HttpClient,
         public dialogRef: MatDialogRef<CreateFornecedorComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
 
         this.fornecedorForm = _fb.group({
             razaoSocial: ['', [Validators.required]],
-            ie_rg: ['', [Validators.required]],
+            ie_rg: [''],
             cnpj_cpf: ['', [Validators.required, Validators.minLength(11)]],
             email: ['', [Validators.required, Validators.email]],
             telContato: [''],
             whatsApp: [''],
             nomeContato: ['', [Validators.required]],
-            cep: ['', [Validators.required, Validators.minLength(8),Validators.maxLength(8)]],
+            cep: ['', [Validators.required, Validators.minLength(8)]],
             logradouro: [''],
             complemento: [''],
+            numero: ['', [Validators.required]],
             cidade: ['', [Validators.required]],
             uf: ['', [Validators.required, Validators.minLength(2),Validators.maxLength(2)]],//,
             bairro: ['', [Validators.required]],//,
-            observacoes: ['']//,
-            
+            ativo:[true],
+            unidadeId:['']
         })
     }
 
     ngOnInit() {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
+        this.fornecedorForm.get('unidadeId').setValue(this.tokenInfo.UnidadeId)
         // console.log(this.tokenInfo.Unidade);
         // console.log(this.tokenInfo.Codigo);
         // console.log(this.tokenInfo);
@@ -71,28 +77,28 @@ export class CreateFornecedorComponent implements OnInit {
     }
    
 
-    onSubmit(form: FormGroup) {
+    onSubmit(form) {
 
        
-        console.log(form.value)
-        if (form.valid) {
+       // console.log(form.value)
+        if (this.fornecedorForm.valid) {
+
+            this.saveSpinner = 'visible'
           
-            const novofornecedor = JSON.stringify(form.value);
+            this._finService.SaveFornecedor(this.fornecedorForm.value)
+                .subscribe(
+                    sucesso => { this.onSubmitSucess(sucesso) },
+                    falha => { this.onSubmitFalha(falha) }
+                )}
+    }
 
-            console.log(novofornecedor)
+    onSubmitSucess(resposta){
+        this.saveSpinner = 'hidden'
+        this.dialogRef.close({})
+    }
 
-
-            this.http.post(`${this.baseUrl}/adm/fornecedor`, form.value, {
-            }).subscribe(response => {
-
-                //console.log(response)
-               
-            }, (err) => { console.log(err) },
-                () => {
-                    
-                    this.dialogRef.close({ clicked: "Ok" });
-                });
-        }
+    onSubmitFalha(error){
+        this.saveSpinner = 'hidden'
     }
 
     openSnackBar() {
@@ -102,6 +108,15 @@ export class CreateFornecedorComponent implements OnInit {
             panelClass: 'green-snackbar',
             duration: 3 * 1000,
         });
+    }
+
+    get disabledButton(){
+
+        if(this.fornecedorForm.valid){
+            return this.saveSpinner != 'hidden'
+        }else{
+            return true
+        }
     }
 
     // buscarEmail(event: any) {
@@ -152,17 +167,28 @@ export class CreateFornecedorComponent implements OnInit {
    
 
     consultaCEP(CEP: string) {
-     
+        console.log(CEP);
+        if (this.fornecedorForm.get('cep').valid) {
 
-        this.http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
-            .subscribe(response => {
-                this.fornecedorForm.get('logradouro').setValue(response["logradouro"]);
-                this.fornecedorForm.get('bairro').setValue(response["bairro"]);
-                this.fornecedorForm.get('cidade').setValue(response["localidade"]);
-                this.fornecedorForm.get('uf').setValue(response["uf"]);
-                
-            }, err => { console.log(err) },
-                () => { });
+
+            //var mystring = "crt/r2002_2";
+            CEP = CEP.replace('-', '');
+            CEP = CEP.replace('.', '');
+            console.log(CEP);
+            this._http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
+                .subscribe(response => {
+
+                    this.fornecedorForm.get('logradouro').setValue(response["logradouro"].toUpperCase());
+                    this.fornecedorForm.get('bairro').setValue(response["bairro"].toUpperCase());
+                    this.fornecedorForm.get('cidade').setValue(response["localidade"].toUpperCase());
+                    this.fornecedorForm.get('uf').setValue(response["uf"].toUpperCase());
+                    
+                }, err => { console.log(err) },
+                    () => {
+                        //  console.log('finaly')
+                      //  this.showEndereco = true
+                    });
+        }
     }
 
     onOkClick() {

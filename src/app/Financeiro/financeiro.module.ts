@@ -1,4 +1,4 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,7 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from "@auth0/angular-jwt";
 
-import { CommonModule, registerLocaleData } from '@angular/common';
+import { CommonModule, DatePipe, registerLocaleData, UpperCasePipe } from '@angular/common';
 //import { HomeComponent } from './home.component';
 import { SharedModule } from '../_shared/shared.module';
 
@@ -40,6 +40,7 @@ import { CaixaDiarioComponent } from './caixa/caixadiario/caixadiario.component'
 import { VendaUnidadeComponent } from './caixa/vendaUnidade/vendaunidade.component';
 import localePt from '@angular/common/locales/pt';
 import { ReceberComponent } from './alunos/infoFinanc/Receber/receber.component';
+import { FinanceiroService } from './models/financ.service';
 // import { CustomersComponent } from '../customers/customers.component';
 registerLocaleData(localePt)
 export function tokenGetter() {
@@ -48,7 +49,7 @@ export function tokenGetter() {
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
-  };
+};
 
 @NgModule({
     declarations: [
@@ -87,11 +88,11 @@ const maskConfig: Partial<IConfig> = {
         CurrencyMaskModule
     ],
     //     providers: [AuthGuard],
-    providers: [
-        {provide: LOCALE_ID, useValue: "pt-BR"},
-        {provide: 'ValidateForms', useClass: ValidateFormsService},
-       // { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
-        {provide: 'IServicoToken', useClass: Servico}
+    providers: [FinanceiroService, UpperCasePipe, DatePipe,
+        { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
+        // {provide: 'ValidateForms', useClass: ValidateFormsService},
+        // { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+        { provide: 'IServicoToken', useClass: Servico }
     ],
     //bootstrap: [AppComponent]
     exports: [
@@ -139,7 +140,7 @@ const maskConfig: Partial<IConfig> = {
         //   DialogOverviewExampleDialog,
         //   EditTemplateModel
     ]
-    
+
 })
 export class FinanceiroModule { }
 

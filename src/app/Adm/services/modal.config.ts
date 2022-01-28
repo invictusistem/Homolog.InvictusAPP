@@ -1,8 +1,8 @@
-// Colaborador
+// Colaboradores
 export function EditColaboradorModalConfig(data) {
     return {
-        minHeight: '420',
-        width: '680px',
+        //minHeight: '420',
+        width: '710px',
         data: { colaborador: data },
         hasBackdrop: true,
         disableClose: true
@@ -11,12 +11,14 @@ export function EditColaboradorModalConfig(data) {
 
 export function CreateColaboradorModalConfig(data?: any) {
     return {
-        width: '680px',
+        //height:'570px',
+        width: '710px',
         hasBackdrop: true,
         disableClose: true
     }
 }
 
+// Modulos
 export function ModuloCreateComponentModal(data?: any) {
     return {
         width: '850px',

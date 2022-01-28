@@ -26,12 +26,18 @@ export class SalaEditarComponent implements OnInit {
     // genericTasks: GenericTask[] = new Array<GenericTask>();
     // length: number;
     // pageEvent: PageEvent;
+    public initProgressBar = 'visible'
+    public buscaSalaSpinner = 'hidden'
+    public saveSpinner = 'hidden'
+
+    public showContent = false
     private jwtHelper = new JwtHelperService();
-        tokenInfo: TokenInfos = new TokenInfos();
+    tokenInfo: TokenInfos = new TokenInfos();
     public salas: any[]
-    public sala:any;
+    public sala: any;
     private _baseUrl = environment.baseUrl
     public showEditSalaForm: boolean = false
+    public originalSala: any
     public salaForm: FormGroup;
     constructor(
         //private service: AdmService,
@@ -40,16 +46,23 @@ export class SalaEditarComponent implements OnInit {
         public dialogRef: MatDialogRef<SalaEditarComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.salaForm = this._fb.group({
+            id: [''],
+            titulo: [''],
             descricao: ['', [Validators.required]],
-            capacidade: [, [Validators.required, Validators.min(1)]],
+            capacidade: [''],
             comentarios: ['', [Validators.required, Validators.maxLength(200)]],
+            ativo: [''],
+            dataCriacao: [''],
+            unidadeId: ['']
+
+
         })
     }
 
 
     ngOnInit() {
-        
-        
+
+
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         console.log(this.data['unidade'])
@@ -62,32 +75,48 @@ export class SalaEditarComponent implements OnInit {
                 this.salas = resp['salas']
             },
                 (error) => { console.log(error) },
-                () => { })
+                () => {
+                    this.initProgressBar = 'hidden'
+                    this.showContent = true
+                })
     }
 
     buscar(salaId) {
         //console.log(id)
-
+        this.buscaSalaSpinner = 'visible'
         this._http.get(`${this._baseUrl}/unidade/sala/${salaId}`)
             .subscribe(resp => {
-                this.sala = resp['sala']
+                this.salaForm.patchValue(resp['sala']);
+                this.originalSala = JSON.parse(JSON.stringify(this.salaForm.value))
+                // this.sala = resp['sala']
             },
                 (error) => { console.log(error) },
                 () => {
+                    this.buscaSalaSpinner = 'hidden'
                     this.showEditSalaForm = true
-                 })
+                })
+    }
+
+    get saveButton() {
+
+        if (this.salaForm.valid) {
+            return this.saveSpinner != 'hidden'
+        } else {
+            return true
+        }
     }
 
     onSubmit(form: any) {
-        console.log(form)
 
-        if (form.valid) {
-
-            this._http.put(`${this._baseUrl}/unidade/sala-editar`, this.sala, {})
+        if (this.salaForm.valid) {
+            this.saveSpinner != 'visible'
+            this._http.put(`${this._baseUrl}/unidade/sala-editar`, this.salaForm.value, {})
                 .subscribe(resp => { },
-                    (error) => { console.log(error) },
-                    () => { 
-                        this.dialogRef.close({clicked: "OK"})
+                    (error) => {
+                        this.saveSpinner != 'hidden'
+                    },
+                    () => {
+                        this.dialogRef.close({ clicked: "OK" })
                     })
 
         }

@@ -312,6 +312,34 @@ export class AdmService extends BaseService {
             return response;
     }
 
+    // Unidades
+
+    public GetUnidadeById(id): Observable<any>{
+
+        let path = `/unidade/${id}`
+        
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+
+    }
+
+    public EditUnidade(unidade): Observable<any>{
+
+        let path = `/unidade`
+        
+        let response = this.http
+            .put(this.BaseUrl + path, unidade, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
 
     // console.log(CEP);
     // if (CEP.length == 10) {

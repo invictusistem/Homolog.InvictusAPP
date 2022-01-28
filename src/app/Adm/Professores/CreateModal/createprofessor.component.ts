@@ -69,7 +69,7 @@ export class CreateProfessorComponent implements OnInit {
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         console.log(this.tokenInfo.Unidade);
         console.log(this.tokenInfo.Codigo);
-        console.log(this.tokenInfo);       
+        console.log(this.tokenInfo);
     }
     showForm = false
     // showForm = false
@@ -87,7 +87,7 @@ export class CreateProfessorComponent implements OnInit {
                     // this.showForm = true
                 });
     }
-   
+
 
     disabledSaveButton = false
     get disabledButton() {
@@ -107,12 +107,12 @@ export class CreateProfessorComponent implements OnInit {
         //console.log(cel)
         // this.dialogRef.close();
         if (this.colaboradorForm.valid) {
-          //  this.disabledSpinner = true
-           // console.log('form valid')
-           // const novoColaborador = JSON.stringify(form.value);
+            //  this.disabledSpinner = true
+            // console.log('form valid')
+            // const novoColaborador = JSON.stringify(form.value);
             //this.save(novoColaborador)
             // let newTemplate = this.mapForm(tempForm)
-this.disabledSaveButton = true
+            this.disabledSaveButton = true
             this.http.post(`${this.baseUrl}/professor`, this.colaboradorForm.value, {})
                 .subscribe(response => {
 
@@ -126,15 +126,15 @@ this.disabledSaveButton = true
                     console.log(err['error'].mensagem)
                     this.mensagem = err['error'].mensagem
                     this.showMensagem = true
-                    this.disabledSaveButton = true 
+                    this.disabledSaveButton = true
                 },
                     () => {
                         //console.log(response)
                         this.openSnackBar()
-                        
+
                         //this.showMensagem = false
                         this.dialogRef.close({ clicked: "Ok" });
-                        this.disabledSaveButton = true 
+                        this.disabledSaveButton = true
                     });
         }
     }
@@ -242,5 +242,5 @@ this.disabledSaveButton = true
         //console.log("I do nothing");
         this.dialogRef.close({ clicked: "Ok" });
     }
-   
+
 }

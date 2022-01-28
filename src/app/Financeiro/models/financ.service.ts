@@ -22,14 +22,71 @@ export class FinanceiroService extends BaseService {
     //         return response;
     // }
 
-    getAlunos(pageSize?: number, currentPage?: number, jsonParam?: any) : Observable<any> {       
+    // Fornecedores
+
+    public GetFornecedores(pageSize?: number, currentPage?: number, jsonParam?: any) : Observable<any> {       
         
         var formJson = JSON.stringify(jsonParam)
 
-        let path = `/financeiro/alunos/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson=${formJson}`
+        let path = `/fornecedores/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson=${formJson}`
         
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
+    public GetFornecedorById(id) : Observable<any> {   
+
+        let path = `/fornecedores/${id}`
+        
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
+
+    public SaveFornecedor(form) : Observable<any> {       
+        
+        let path = `/fornecedores`
+        
+        let response = this.http
+            .post(this.BaseUrl + path, form, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
+    public EditFornecedor(form) : Observable<any> {       
+        
+        let path = `/fornecedores`
+        
+        let response = this.http
+            .put(this.BaseUrl + path, form, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
+    // CEP
+
+    public CepConsulta(CEP?: any) : Observable<any> {       
+        
+        let url = `https://viacep.com.br/ws/${CEP}/json/`
+        
+        let response = this.http
+            .get(url)
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
