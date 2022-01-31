@@ -30,7 +30,7 @@ import { PedagAlunosComponent } from './pedag-alunos/pedag-alunos.component';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { TurmasPedagInfoComponent } from './turmasInfos/turmasinfopedag.component';
 import { ReposicoesComponent } from './reposicoes/reposicoes.component';
-import { CalendarioTurmaComponent, ObservacoesTurmaModal } from './turmasInfos/CalendarioDaTurma/calendarioturma.component';
+import { CalendarioTurmaComponent } from './turmasInfos/CalendarioDaTurma/calendarioturma.component';
 import { TransferenciaTurmaComponent } from './Transferencia/TransTurma/transfturma.component';
 import { InfoFinancPedagComponent } from './Matricula/infoFinancas/infofinanc.component';
 import { AnaliseDocsComponent } from './analise-docs/analisedocs.component';
@@ -50,6 +50,8 @@ import localeFr from '@angular/common/locales/fr';
 import { PedagogicoService } from './service/pedagogico.service';
 import { AlunoAcessoComponent } from './AlunosAcesso/aluno-acesso.component';
 import { DetalheComponent } from './AlunosAcesso/Detalhes/detalhe.component';
+import { ObservacoesTurmaModal } from './turmasInfos/CalendarioDaTurma/AulaDetalhe/obsturmamodal.component';
+import { AulaEditarModal } from './turmasInfos/CalendarioDaTurma/AulaEditar/aulaeditar.component';
 registerLocaleData(localeFr, 'fr');
 
 export const MY_DATE_FORMATS = {
@@ -112,7 +114,8 @@ const maskConfig: Partial<IConfig> = {
         InfoCadastraisComponent,
         AddAnotacaoComponent,
         AlunoAcessoComponent,
-        DetalheComponent
+        DetalheComponent,
+        AulaEditarModal
     ],
     imports: [
         BrowserModule,
@@ -170,7 +173,8 @@ const maskConfig: Partial<IConfig> = {
         EstagioEditComponent,
         InfoCadastraisComponent,
         AddAnotacaoComponent,
-        DetalheComponent
+        DetalheComponent,
+        AulaEditarModal
     ]
     
 })

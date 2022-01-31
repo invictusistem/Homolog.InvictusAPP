@@ -131,6 +131,9 @@
                 <mat-label>Celular</mat-label>
                 <input formControlName="telCelular" mask="(00) 00000-0000" matInput
                     onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                    <mat-hint @rowHighlight >
+                        informe ao menos um telefone
+                    </mat-hint>
             </mat-form-field>          
 
             <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">

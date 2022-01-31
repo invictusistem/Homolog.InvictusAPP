@@ -1,0 +1,113 @@
+<div style="font-size: 1.2em;">Editar aula
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<mat-progress-bar [style.visibility]="initProgressBar" style="margin-top: 20px;" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showContent">
+    <hr>
+    <form #form="ngForm" (ngSubmit)="SaveEdit(form)">
+
+    <mat-form-field appearance="standard" style="width: 50%;">
+        <mat-label>Turma</mat-label>
+        <input selected matInput disabled value="{{aula.descricao}} - {{aula.identificador}}"
+            oninput="this.value = this.value.toLowerCase()" placeholder="Email">
+    </mat-form-field>
+
+    <!-- <mat-form-field appearance="standard" style="width: 20%;margin-left: 10px;">
+        <mat-label>Sala</mat-label>
+        <input selected matInput disabled value="{{aula.titulo}}"
+            oninput="this.value = this.value.toLowerCase()" placeholder="Email">
+    </mat-form-field> -->
+
+    <mat-form-field appearance="standard" style="width: 20%;margin-left: 10px;">
+        <mat-label>Sala</mat-label>
+        <mat-select [(ngModel)]="aula.salaId" name="salaId" selected required>
+           
+            <mat-option *ngFor="let sala of salas" [value]="sala.id">{{sala.titulo}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="standard" style="width: 70%;">
+        <mat-label>Professor</mat-label>
+        <input selected matInput [value]="aula.nome" disabled oninput="this.value = this.value.toLowerCase()"
+            placeholder="Email">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="standard" style="width: 70%;">
+        <mat-label>Matéria</mat-label>
+        <input selected value="Ética" disabled [value]="aula.materiaDescricao" matInput
+            oninput="this.value = this.value.toLowerCase()" placeholder="Email">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="standard" style="width: 200px;">
+        <mat-label>Dia/Horário Aula</mat-label>
+        <input selected disabled
+            value="{{aula.diaAula | date: 'dd/MM/yyyy'}} {{aula.horaInicial}} às {{aula.horaFinal}}" matInput
+            oninput="this.value = this.value.toLowerCase()" placeholder="Email">
+    </mat-form-field>
+
+    <ng-container *ngIf="aula.aulaIniciada;else naoIniciada">
+        <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
+            <mat-label>Aula iniciada em</mat-label>
+            <input disabled selected value="{{aula.dateAulaIniciada | date:'dd/MM/yyyy HH:MM'}}" matInput oninput="this.value = this.value.toLowerCase()"
+                placeholder="Email">
+        </mat-form-field>
+    </ng-container>
+    <ng-template #naoIniciada>
+        <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
+            <mat-label>Aula iniciada em</mat-label>
+            <input disabled selected value="Aula não iniciada" matInput oninput="this.value = this.value.toLowerCase()"
+                placeholder="Email">
+        </mat-form-field>
+    </ng-template>
+
+
+
+    <ng-container *ngIf="aula.aulaconcluida;else naoConcluida">
+        <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
+            <mat-label>Aula concluída em</mat-label>
+            <input disabled selected matInput value="{{aula.dateAulaConcluida | date:'dd/MM/yyyy HH:MM'}}" oninput="this.value = this.value.toLowerCase()"
+                placeholder="Email">
+        </mat-form-field>
+    </ng-container>
+    <ng-template #naoConcluida>
+        <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
+            <mat-label>Aula iniciada em</mat-label>
+            <input disabled selected value="Aula não concluída" matInput oninput="this.value = this.value.toLowerCase()"
+                placeholder="Email">
+        </mat-form-field>
+    </ng-template>
+
+
+    <!-- <div style="position: relative;">
+        <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Nota da aula</mat-label>
+            <textarea disabled placeholder="" [value]="aula.observacoes" matInput></textarea>
+        </mat-form-field>
+
+    </div> -->
+
+    <!-- <mat-progress-bar @rowHighlight style="margin-top:10px" mode="query">
+    </mat-progress-bar>
+
+  
+        <button style="float: right;margin-top: 10px;" mat-raised-button type="submit" color="primary">
+            Salvar
+        </button>
+  -->
+</form>
+</div>

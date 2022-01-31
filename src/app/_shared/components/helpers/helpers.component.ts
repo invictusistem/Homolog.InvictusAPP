@@ -17,7 +17,7 @@ export class HelpersService {
 
     }
 
-    public openSnackBar(mensagem) {
+    public openSnackBarSucesso(mensagem) {
         this._snackBar.open(mensagem, '', {
             horizontalPosition: 'center',
             verticalPosition: 'top',
@@ -28,6 +28,15 @@ export class HelpersService {
 
     public openSnackBarError(mensagem) {
         this._snackBar.open(mensagem, '', {
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass:['mat-toolbar', 'mat-warn'],
+            duration: 5 * 1000,
+        });
+    }
+
+    public openSnackBarErrorDefault() {
+        this._snackBar.open('Ocorreu um erro, favor procure o administrador do sistema.', '', {
             horizontalPosition: 'center',
             verticalPosition: 'top',
             panelClass:['mat-toolbar', 'mat-warn'],

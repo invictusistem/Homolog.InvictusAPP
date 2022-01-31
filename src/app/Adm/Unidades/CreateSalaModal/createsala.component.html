@@ -33,7 +33,10 @@
             placeholder="EX: Sala com ar-condicionado"></textarea>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" [disabled]="!salaForm.valid" style="float:right;margin-bottom: 10px;">
+        <mat-progress-bar [style.visibility]="spinnerSave" @rowHighlight mode="query">
+        </mat-progress-bar>
+
+        <button mat-raised-button color="primary" [disabled]="disabledButton" style="float:right;margin-top: 10px;">
             Salvar</button>
     </form>
 

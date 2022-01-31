@@ -10,6 +10,7 @@ import { environment } from "src/environments/environment";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 
@@ -43,6 +44,7 @@ export class SalaEditarComponent implements OnInit {
         //private service: AdmService,
         private _http: HttpClient,
         private _fb: FormBuilder,
+        private _helpers: HelpersService,
         public dialogRef: MatDialogRef<SalaEditarComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.salaForm = this._fb.group({
@@ -82,8 +84,10 @@ export class SalaEditarComponent implements OnInit {
     }
 
     buscar(salaId) {
-        //console.log(id)
+        
         this.buscaSalaSpinner = 'visible'
+        this.showEditSalaForm = false
+
         this._http.get(`${this._baseUrl}/unidade/sala/${salaId}`)
             .subscribe(resp => {
                 this.salaForm.patchValue(resp['sala']);
@@ -99,7 +103,9 @@ export class SalaEditarComponent implements OnInit {
 
     get saveButton() {
 
-        if (this.salaForm.valid) {
+        if (this.salaForm.valid && 
+        JSON.stringify(this.originalSala) !=
+        JSON.stringify(this.salaForm.value)) {
             return this.saveSpinner != 'hidden'
         } else {
             return true
@@ -109,13 +115,15 @@ export class SalaEditarComponent implements OnInit {
     onSubmit(form: any) {
 
         if (this.salaForm.valid) {
-            this.saveSpinner != 'visible'
+            this.saveSpinner = 'visible'
             this._http.put(`${this._baseUrl}/unidade/sala-editar`, this.salaForm.value, {})
                 .subscribe(resp => { },
                     (error) => {
-                        this.saveSpinner != 'hidden'
+                        this._helpers.openSnackBarErrorDefault()
+                        this.saveSpinner = 'hidden'
                     },
                     () => {
+                        this._helpers.openSnackBarSucesso('Sala editada com sucesso.')
                         this.dialogRef.close({ clicked: "OK" })
                     })
 

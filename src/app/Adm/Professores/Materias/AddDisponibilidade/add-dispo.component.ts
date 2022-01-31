@@ -123,7 +123,7 @@ export class AddDispoComponent implements OnInit {
                 },
                     (error) => { },
                     () => {
-                        this._helper.openSnackBar('Disponibilidade salva com sucesso')
+                        this._helper.openSnackBarSucesso('Disponibilidade salva com sucesso')
                         this.dialogRef.close({ clicked: "Ok" });
                     })
 

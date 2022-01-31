@@ -5,6 +5,9 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dial
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { environment } from "src/environments/environment";
 import { InfoDia, ListaPresencaDto } from "../../Pedag-Models/infodia.model";
+import { AulaEditModalConfig, ObsTurmaModalConfig } from "../../service/modal.config";
+import { ObservacoesTurmaModal } from "./AulaDetalhe/obsturmamodal.component";
+import { AulaEditarModal } from "./AulaEditar/aulaeditar.component";
 
 
 @Component({
@@ -19,6 +22,8 @@ export class CalendarioTurmaComponent implements OnInit {
 
     private _baseUrl = environment.baseUrl
     public showSpin = false
+    public initProgressBar = 'visible'
+    public ShowTableHeader = false
     // public listaPresencaDto: ListaPresencaDto[] = new Array<ListaPresencaDto>();
     // public infoDia: InfoDia = new InfoDia();
     //public saveCommand: SavePresencaCommand = new SavePresencaCommand();
@@ -58,6 +63,8 @@ export class CalendarioTurmaComponent implements OnInit {
                     this.showSpin = true
                 },
                 () => {
+                    this.ShowTableHeader = true
+                    this.initProgressBar = 'hidden'
                     this.showSpin = true
                     //this._dialogRef.addPanelClass('pedagcalendar-class')
                 })
@@ -67,75 +74,18 @@ export class CalendarioTurmaComponent implements OnInit {
         // calendárioId
     }
 
-    getNotaAula(caleId: number) {
+    public GetNotaAula(caled): void {
         const dialogRef = this._modal
-        .open(ObservacoesTurmaModal, {
-            height: 'auto',
-            width: '500px',
-            autoFocus: false,
-            //maxHeight: '90vh',
-            //maxWidth: '400vh',
-
-            data: { caleId: caleId },
-            hasBackdrop: true,
-            disableClose: true
+            .open(ObservacoesTurmaModal, ObsTurmaModalConfig(caled));
+        dialogRef.afterClosed().subscribe(data => {
         });
-    dialogRef.afterClosed().subscribe(result => {
-        if (result.clicked === "Sim") {
-         
-
-        } else {
-           // console.log('nao')
-        }
-
-    });
     }
 
-
-
-
-
-
-}
-
-
-
-@Component({
-    selector: 'confirmdialog',
-    templateUrl: './obsturmamodal.component.html'
-})
-export class ObservacoesTurmaModal implements OnInit{
-
-    private _baseUrl = environment.baseUrl
-    public observacao: string = ""
-    constructor(
-        private _http: HttpClient,
-        public dialogRef: MatDialogRef<ObservacoesTurmaModal>,
-        @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-        ngOnInit() {
-            console.log(this.data['caleId'])
-    
-            this.GetObservacao(this.data['caleId']);
-        }
-
-        private GetObservacao(calendarId){
-
-            this._http.get(`${this._baseUrl}/turmas/calendario/nota-aula/${calendarId}`)
-            .subscribe(resp => {
-
-                console.log(resp)
-                this.observacao = resp['nota']
-                
-
-            },
-                (error) => {
-                    console.log(error)
-                
-                },
-                () => {
-                
-                })
-        }
+    public EditAula(caled): void {
+        const dialogRef = this._modal
+            .open(AulaEditarModal, AulaEditModalConfig(caled));
+        dialogRef.afterClosed().subscribe(data => {
+        });
+    }
 }
 

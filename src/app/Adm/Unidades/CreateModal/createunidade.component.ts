@@ -130,7 +130,7 @@ public msgErros: any;
                         this.saveSpinner = 'hidden'
                      },
                     () => { 
-                        this._helper.openSnackBar('Unidade criada sucesso')
+                        this._helper.openSnackBarSucesso('Unidade criada sucesso')
                         this.dialogRef.close({ clicked: "Ok" }) })
 
         }

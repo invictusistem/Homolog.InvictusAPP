@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { PedagogicoService } from "../../service/pedagogico.service";
 
 @Component({
@@ -55,6 +56,7 @@ export class DetalheComponent implements OnInit {
 
     constructor(
         private _pedagervice: PedagogicoService,
+        private _helper: HelpersService,
         //private _snackBar: MatSnackBar,
         //private router: Router,
         //private _fb: FormBuilder,
@@ -77,8 +79,8 @@ export class DetalheComponent implements OnInit {
     }
 
     get disabledButton() {
-        console.log(this.originalAcesso)
-        console.log(this.data['aluno'].acessoSistema)
+        // console.log(this.originalAcesso)
+        // console.log(this.data['aluno'].acessoSistema)
 
         if (this.originalAcesso != this.data['aluno'].acessoSistema) {
             return this.disabledSaveButton != 'hidden'
@@ -98,7 +100,9 @@ export class DetalheComponent implements OnInit {
     }
 
     salvarEditSucesso(resp) {
+        this._helper.openSnackBarSucesso("Acesso editado com sucesso.")
         this.disabledSaveButton = 'hidden'
+        this.originalAcesso = this.data['aluno'].acessoSistema
     }
 
     salvarEditFalha(error) {
@@ -118,10 +122,12 @@ export class DetalheComponent implements OnInit {
     }
 
     enviarLoginSucesso(resp){
+        this._helper.openSnackBarSucesso("E-mail com informações de acesso enviado com sucesso.")
         this.disabledEnvio = false
     }
 
     enviarLoginFalha(error){
+        this._helper.openSnackBarErrorDefault()
         this.disabledEnvio = false
     }
 

@@ -39,6 +39,34 @@ export class PedagogicoService extends BaseService {
         return response;
     }
 
+    //TurmasInfos.CalendariosDaTurma.AulaDetalhe
+
+    public GetAulaViewModel(calendarioId) : Observable<any> {    
+
+        let path = `/pedag/turma/aula/${calendarioId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public GetAulaEditViewModel(calendarioId) : Observable<any> {    
+
+        let path = `/pedag/turma/aula-edit/${calendarioId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
     // infos.component
 
     saveAluno(form): Observable<any>{

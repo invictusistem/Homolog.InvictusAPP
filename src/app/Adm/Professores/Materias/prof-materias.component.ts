@@ -278,7 +278,7 @@ export class ProfMateriasComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === true) {
-                this._helpers.openSnackBar("Disponibilidade editada com sucesso")
+                this._helpers.openSnackBarSucesso("Disponibilidade editada com sucesso")
                 //this.atualizarUnidadesDisponiveis();
                 this.GetInfos()
                 //  this.getColaboradores(1, this.pageSize);

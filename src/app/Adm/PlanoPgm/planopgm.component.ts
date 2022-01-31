@@ -5,6 +5,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { Modulo } from "src/app/_shared/models/modulo.model";
 import { Cargos, Unidades } from "src/app/_shared/models/perfil.model";
@@ -23,14 +24,18 @@ import { PlanoPgmEditComponent } from "./EditPlanoPgm/editplano.component";
 export class PlanoPgmComponent implements OnInit {
 
     baseUrl = environment.baseUrl;
+    public spinnerSearch = 'visible'
     public modulos: Modulo[] = new Array<Modulo>();
+    
     public pesquisarForm: FormGroup
     public tokenInfo: TokenInfos = new TokenInfos();
     private jwtHelper = new JwtHelperService();
     public planos: any[] = new Array<any>();
     public typesPacotes: any[] = new Array<any>();
+    public disabledForm = true
     constructor(
         private _http: HttpClient,
+        private _helpers: HelpersService,
         private _fb: FormBuilder,
         private _modal: MatDialog) { 
             this.pesquisarForm = _fb.group({
@@ -57,8 +62,13 @@ export class PlanoPgmComponent implements OnInit {
 
                 this.typesPacotes = Object.assign([], resp['typePacotes']);
 
-            }, (error) => { console.log(error) },
+            }, (error) => { 
+                console.log(error) 
+                this.spinnerSearch = 'hidden'
+            },
                 () => {
+                    this.disabledForm = false
+                    this.spinnerSearch = 'hidden'
                     //this.showTeste = true
                 })
         // }
@@ -67,7 +77,7 @@ export class PlanoPgmComponent implements OnInit {
     Pesquisar() {
 
         if (this.pesquisarForm.valid) {
-
+            this.spinnerSearch = 'visible'
             let typePacoteId = this.pesquisarForm.get('typePacoteId').value
             //let unidadeId = this.pesquisarForm.get('unidadeId').value
             // console.log(typePacoteId)
@@ -76,10 +86,11 @@ export class PlanoPgmComponent implements OnInit {
                     console.log(resp)
 
                     this.planos = Object.assign([], resp['planos']);
+                    this.spinnerSearch = 'hidden'
 
                 }, (error) => { console.log(error) },
                     () => {
-
+                        this.spinnerSearch = 'hidden'
                     })
         }
     }

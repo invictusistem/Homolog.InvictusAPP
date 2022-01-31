@@ -50,7 +50,7 @@ export class AdmTurmasComponent implements OnInit {
 
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-        console.log('init colaboradores 123')
+        //console.log('init colaboradores 123')
         this.getCursos();
     }
 

@@ -113,7 +113,7 @@ export class EditUnidadeComponent implements OnInit {
     }
 
     private SaveEditSucesso(resp){
-        this._helper.openSnackBar("Unidade editada com sucesso")
+        this._helper.openSnackBarSucesso("Unidade editada com sucesso")
         this._dialogRef.close()
     }
 

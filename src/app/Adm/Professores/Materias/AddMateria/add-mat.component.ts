@@ -114,7 +114,7 @@ export class AddMatComponent implements OnInit {
             this._admService.saveProfessorMateria(this.data['profId'], this.materiasForm.get('materiaId').value)
             .subscribe(
                 sucesso => {  
-                    this._helper.openSnackBar("Matéria adicionada com sucesso.")
+                    this._helper.openSnackBarSucesso("Matéria adicionada com sucesso.")
                     this.dialogRef.close({ clicked: true });
                 },
                 falha => {  

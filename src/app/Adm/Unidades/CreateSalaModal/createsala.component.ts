@@ -7,6 +7,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 
@@ -23,10 +24,13 @@ export class CreateSalaComponent implements OnInit {
     // length: number;
     // pageEvent: PageEvent;
     private _baseUrl = environment.baseUrl
+    public spinnerSave = 'hidden'
+
     public salaForm: FormGroup;
     constructor(
         //private service: AdmService,
         private _http: HttpClient,
+        private _helpers: HelpersService,
         private _fb: FormBuilder,
         public dialogRef: MatDialogRef<CreateSalaComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -45,17 +49,29 @@ export class CreateSalaComponent implements OnInit {
 
     }
 
-    
+    get disabledButton(){
+
+        if(this.salaForm.valid){
+            return this.spinnerSave != 'hidden'
+        }else{
+            return true
+        }
+    }
 
     onSubmit(form: any){
        // console.log(this.data["unidade"].id)
 
         if(this.salaForm.valid){
 
+            this.spinnerSave = 'visible'
             this._http.post(`${this._baseUrl}/unidade/sala-create`, this.salaForm.value,{})
                 .subscribe(resp => { },
-                    (error) => { console.log(error)},
-                    () => { this.dialogRef.close({clicked: "Ok"})})
+                    (error) => { 
+                        
+                        console.log(error)},
+                    () => { 
+                        this._helpers.openSnackBarSucesso("Sala criada com sucesso")
+                        this.dialogRef.close({clicked: "Ok"})})
 
         }
     }

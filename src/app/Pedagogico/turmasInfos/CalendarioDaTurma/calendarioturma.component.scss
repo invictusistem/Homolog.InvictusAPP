@@ -1,16 +1,41 @@
+.table-calend-top {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    //border: 1px solid red;
+    // td {
+    //    /// border: 1px solid red;
+    //     font-size: 0.8em;
+    // }
+
+    th {
+        //font-size: 0.8em;
+        //  border: 1px solid red;
+    }
+}
+
 .table-calend {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    // border: 1px solid red;
     td {
-       /// border: 1px solid red;
+        /// border: 1px solid red;
         font-size: 0.8em;
     }
 
     th {
         font-size: 0.9em;
+        // border: 1px solid red;
     }
 }
 
-::ng-deep .pedagcalendar-class .mat-dialog-container {
-    
-    padding-top: 0px;
-  
-  }
+::ng-deep .cdk-overlay-pane .pedagcalendar-class {
+    padding-top: 0px !important;
+}
+
+::ng-deep .pedagcalendar-class {
+    mat-dialog-container {
+        padding-top: 0px !important;
+        margin-top: 0px !important;
+    }
+    //border: 1px solid red;
+}

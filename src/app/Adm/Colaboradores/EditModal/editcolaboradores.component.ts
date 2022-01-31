@@ -154,7 +154,7 @@ export class EditColaboradoresComponent implements OnInit {
                     this.saveBar = 'hidden'
                 },
                     () => {
-                        this._helper.openSnackBar('Colaborador editado com sucesso.')
+                        this._helper.openSnackBarSucesso('Colaborador editado com sucesso.')
                         this.saveBar = 'hidden'
                         //this.openSnackBar()
                         this.dialogRef.close();

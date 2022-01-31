@@ -217,7 +217,7 @@ export class EditCursoComponent implements OnInit {
             console.log(data)
             if (data.clicked == true) {
                 this.disabledDeletProf = true
-                this._helper.openSnackBar('Professor excluído com sucesso')
+                this._helper.openSnackBarSucesso('Professor excluído com sucesso')
                 //let profIndex = this.professores.findIndex(prof)
                 //this.professores.splice(profIndex, 1)
                 this.GetInformacoesDaTurma(this.data['turma'].id);

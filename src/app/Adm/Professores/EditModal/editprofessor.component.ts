@@ -91,7 +91,7 @@ export class EditProfessorComponent implements OnInit {
                 }, err => { console.log(err) },
                     () => {
                         //this.openSnackBar()
-                        this._helper.openSnackBar('Professor editado com sucesso!')
+                        this._helper.openSnackBarSucesso('Professor editado com sucesso!')
                         this.dialogRef.close();
 
                     });

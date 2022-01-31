@@ -120,7 +120,7 @@ export class CreateColaboradoresComponent implements OnInit {
                     this.showMensagem = 'visible'
                     this.disabledSaveButton = 'hidden'
                 }else{
-                    this._helper.openSnackBarError("Ocorreu um erro!")
+                    this._helper.openSnackBarErrorDefault()
                     
                      this.dialogRef.close({ clicked: "Ok" });
                 }
@@ -130,7 +130,7 @@ export class CreateColaboradoresComponent implements OnInit {
             },
                 () => {
 
-                    this._helper.openSnackBar('Colaborador salvo com sucesso')
+                    this._helper.openSnackBarSucesso('Colaborador salvo com sucesso')
                    // this._helper.CloseModalWithOK();
                     this.dialogRef.close({ clicked: "Ok" });
                     this.disabledSaveButton = 'hidden'

@@ -1,8 +1,8 @@
 <div class="container" style="width: 95%; padding-top: 20px;">
 
     <div>
-        <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar plano de pagamento" matTooltipPosition="above"
-            matTooltipHideDelay="100">
+        <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar plano de pagamento"
+            matTooltipPosition="above" matTooltipHideDelay="100">
             <button (click)="createPlano()" mat-icon-button>
                 <mat-icon>assignment</mat-icon>
             </button>
@@ -13,102 +13,107 @@
 
 
     <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm"
-    style="margin-top: 5px;display: inline-block">
+        style="margin-top: 5px;display: inline-block">
 
-    <span style="font-size: 0.9em;font-style: italic;">
-        Selecione o tipo para pesquisar pelos planos:
-    </span>
-
-    <div class="form-row align-items-center divSiteForm" *ngIf="typesPacotes.length > 0">
-
-        <mat-form-field appearance="standard" style="width: 200px;">
-            <mat-label>Type Pacote</mat-label>
-            <mat-select formControlName="typePacoteId" placeholder="type pacote">
-                <mat-option></mat-option>
-                <mat-option *ngFor="let pac of typesPacotes" [value]="pac.id">{{pac.nome}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <span>
-            <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
-                matTooltipHideDelay="100">
-                <button style="" mat-icon-button>
-                    <mat-icon>search</mat-icon>
-                </button>
-            </i>
+        <span style="font-size: 0.9em;font-style: italic;">
+            Selecione o tipo para pesquisar pelos planos:
         </span>
 
-    </div>
+        <div class="form-row align-items-center divSiteForm" >
 
-</form>
+            <mat-form-field appearance="standard" style="width: 200px;">
+                <mat-label>Type Pacote</mat-label>
+                <mat-select [disabled]="disabledForm" formControlName="typePacoteId" placeholder="type pacote">
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let pac of typesPacotes" [value]="pac.id">{{pac.nome}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <span>
+                <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
+                    matTooltipHideDelay="100">
+                    <button style="" [disabled]="disabledForm" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+        </div>
+
+    </form>
+
+    <mat-progress-bar style="margin-top: 0px;" [style.visibility]="spinnerSearch"  @rowHighlight mode="query">
+    </mat-progress-bar>
 
     <div @rowHighlight *ngIf="planos.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
         position: relative;
-        margin-top: 50px;
+        margin-top: 20px;
         box-shadow: 0 0 1em rgb(172, 170, 170);
         background-color: rgb(227, 240, 227);">
 
-    <div class="card-header" style="background-color: rgb(207, 231, 207);">
-        <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
-            Planos</h4>
-        <p class="card-category"> Planos de Pagamento cadastrados no sistema: </p>
-    </div>
+        <div class="card-header" style="background-color: rgb(207, 231, 207);">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Planos</h4>
+            <p class="card-category"> Planos de Pagamento cadastrados no sistema: </p>
+        </div>
 
-    <div class="card-body">
-        <div class="table-responsive" style="height: 330px;position: relative;">
+        <div class="card-body">
+            <div class="table-responsive" style="height: 330px;position: relative;">
 
-            <table color="primary" style="margin-bottom: 0px;" class="table">
-                <thead id="tableHead">
-                    <tr style="">
-                        <th style="width: 2%; 
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+                    <thead id="tableHead">
+                        <tr style="">
+                            <th style="width: 2%; 
                 text-align:left; 
                 vertical-align: middle;
                 border-top: 0px;"></th>
 
-                        <th style="width: 33%;font-size:1em;
+                            <th style="width: 33%;font-size:1em;
                                 vertical-align: middle;
                                 text-align:left;
                 border-top: 0px; font-weight: 400;">Nome</th>
 
-                        <th style="width: 25%;font-size:1em;
+                            <th style="width: 25%;font-size:1em;
                         vertical-align: middle;
                         text-align:center;
                         border-top: 0px; font-weight: 400;">Valor</th>
 
-                        <th style="width: 25%;font-size:1em;
+                            <th style="width: 25%;font-size:1em;
                 text-align:center; 
                 vertical-align: middle;
                 border-top: 0px; font-weight: 400;">Taxa matrícula
-                        </th>
+                            </th>
 
-                        <th style="width: 15%;font-size:1em;
+                            <th style="width: 15%;font-size:1em;
                 text-align:center; 
                 vertical-align: middle;
                 border-top: 0px; font-weight: 400;"></th>
 
-                        <!-- <th style="width: 20%;
+                            <!-- <th style="width: 20%;
                 border-top: 0px;
                 text-align:center; 
                 vertical-align: middle;"></th> -->
 
-                        <!-- <th style="width: 6%;
+                            <!-- <th style="width: 6%;
                 border-top: 0px;">
                         </th> -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of planos;let i = index;" @rowHighlight>
-                        <td style="text-align:center;vertical-align: middle;">
-                            {{i + 1}}
-                        </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of planos;let i = index;" @rowHighlight>
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{i + 1}}
+                            </td>
 
-                        <td style="text-align:left;vertical-align: middle;">{{item.descricao}}</td>
+                            <td style="text-align:left;vertical-align: middle;">{{item.descricao}}</td>
 
-                        <td style="text-align: center;vertical-align: middle;">{{item.valor | currency:'BRL':true:'1.2-2'}}</td>
+                            <td style="text-align: center;vertical-align: middle;">{{item.valor |
+                                currency:'BRL':true:'1.2-2'}}</td>
 
-                        <td style="text-align: center;vertical-align: middle;">{{item.taxaMatricula | currency:'BRL':true:'1.2-2' }}</td>
+                            <td style="text-align: center;vertical-align: middle;">{{item.taxaMatricula |
+                                currency:'BRL':true:'1.2-2' }}</td>
 
-                        <!-- <td style="text-align: center;vertical-align: middle;">
+                            <!-- <td style="text-align: center;vertical-align: middle;">
                             <div *ngIf="item.ativo == true;else inativo">
 
                                 <mat-icon style="margin: 0px; margin: 0px;
@@ -127,20 +132,20 @@
 
                         </td> -->
 
-                        <td style="position: relative;text-align:center; 
+                            <td style="position: relative;text-align:center; 
                         vertical-align: middle;">
 
-                            <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
-                                matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
-                                <button [disabled]="showSpinner" (click)="EditPlano(item)"
-                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                                    mat-icon-button>
-                                    <mat-icon>settings</mat-icon>
-                                </button>
-                            </i>
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="showSpinner" (click)="EditPlano(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>settings</mat-icon>
+                                    </button>
+                                </i>
 
-                        </td>
-                        <!-- <td style="position: relative;">
+                            </td>
+                            <!-- <td style="position: relative;">
 
                             <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="deletar"
                                 matTooltipPosition="above" matTooltipHideDelay="100">
@@ -152,14 +157,14 @@
                             </i>
 
                         </td> -->
-                    </tr>
+                        </tr>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
-        </div>
+            </div>
 
-        <!-- <mat-paginator *ngIf="length > 5" style="
+            <!-- <mat-paginator *ngIf="length > 5" style="
             background-color: rgb(227, 240, 227);
             bottom: 0px;
             right: 0px;" 
@@ -170,13 +175,13 @@
             (click)="changePage(pageEvent)">
         </mat-paginator> -->
 
-    </div>
+        </div>
 
-    <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+        <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
         top: 46.5%; 
         position: absolute;">
     </mat-spinner> -->
-</div>
+    </div>
 
 
 </div>

@@ -37,4 +37,24 @@ export function DetalheAcessoModalConfig(aluno){
     }
 }
 
+// TurmasInfos
+
+export function ObsTurmaModalConfig(caled){
+    return {      
+        width: '700px',
+        data: { caled: caled },        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function AulaEditModalConfig(caled){
+    return {      
+        width: '700px',
+        data: { caled: caled },        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
 

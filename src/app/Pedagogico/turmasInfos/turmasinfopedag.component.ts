@@ -2,7 +2,9 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
+import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
+import { TokenInfos } from "src/app/_shared/models/token.model";
 import { Turma, TurmaViewModel } from "src/app/_shared/models/Turma.model";
 
 import { environment } from "src/environments/environment";
@@ -26,7 +28,11 @@ export class TurmasPedagInfoComponent implements OnInit {
     cursos: any[] = new Array<any>();// Turma[] = new Array<Turma>();
     baseUrl = environment.baseUrl;
     turmas: TurmaViewModel[] = new Array<TurmaViewModel>()
+    public spinnerSearch = 'visible'
     // colaboradores: Colaborador[] = new Array<Colaborador>();
+    private jwtHelper = new JwtHelperService();
+    public tokenInfo: TokenInfos = new TokenInfos();
+    
     currentPage = 1
 
     showTurmas = false
@@ -40,7 +46,8 @@ export class TurmasPedagInfoComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        console.log('init colaboradores 123')
+        const token = localStorage.getItem('jwt')
+        this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.getCursos();
     }
 
@@ -192,6 +199,7 @@ export class TurmasPedagInfoComponent implements OnInit {
 
             },
                 () => {
+                        this.spinnerSearch = 'hidden'
                         this.showTurmas = true
                         this.showMessage = false
                         this.showSpinner = false
@@ -242,7 +250,8 @@ export class TurmasPedagInfoComponent implements OnInit {
                 height: 'auto',
                 width: '1230px',
                 
-                autoFocus: false,
+                
+                //autoFocus: false,
                 maxHeight: '90vh',
                 maxWidth: '450vh',
 

@@ -20,15 +20,18 @@
         {{mensagem}}
     </div> -->
 
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch"  @rowHighlight style="margin:0px" mode="query">
+    </mat-progress-bar>
 
-    <div @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
+
+    <div *ngIf="spinnerSearch == 'hidden'" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
     margin-top: 10px;
     box-shadow: 0 0 1em rgb(172, 170, 170);
     background-color: rgb(227, 240, 227);">
         <div class="card-header">
             <h4 class="card-title" style="font-size:1.2em; font-weight: 400;">
                 Turmas </h4>
-            <p class="card-category"> </p>
+            <p class="card-category">Unidade {{ tokenInfo.Unidade}}</p>
         </div>
         <div class="card-body">
             <div class="table-responsive" style="height: auto;position: relative;">
@@ -45,7 +48,7 @@
                             <th style="width: 68%;font-size:1em;
                             vertical-align: middle; 
                             text-align:left;
-                             border-top: 0px; font-weight: 400;">Turma/Descrição</th>
+                             border-top: 0px; font-weight: 400;">TURMA/DESCRIÇÃO</th>
 
                             <!-- <th style="width: 12%;font-size:1em;
                             vertical-align: middle;
