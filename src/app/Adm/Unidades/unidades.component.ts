@@ -19,6 +19,7 @@ export class UnidadesComponent implements OnInit {
     private _baseUrl = environment.baseUrl;
     //public salas: Sala[] = new Array<Sala>();
     public unidades: Unidade[] = new Array<Unidade>()
+    public spinnerSearch = 'visible'
 
     constructor(
         private _http: HttpClient,
@@ -39,9 +40,11 @@ export class UnidadesComponent implements OnInit {
 
                 Object.assign(this.unidades, response['unidades'])
             },
-                (error) => {  },
+                (error) => { 
+                    this.spinnerSearch = 'hidden'
+                 },
                 () => {
-                    
+                    this.spinnerSearch = 'hidden'
                 })
 
     }

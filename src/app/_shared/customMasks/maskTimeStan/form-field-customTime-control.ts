@@ -115,11 +115,28 @@ export class MyTimeInput
     @Input()
     get value(): any | null {
         if (this.parts.valid) {
-            const {
+            let {
                 value: { hora, minuto }
             } = this.parts;
-
+            
+            
             let time = new MyTime(hora, minuto)
+            if(parseInt(time.hora) > 23){
+                let hour = 23
+                time.hora = hour.toString()
+                this.parts.get('hora').setValue(time.hora)
+            }
+
+            if(parseInt(time.minuto) > 59){
+                let minuto = 59
+                time.minuto = minuto.toString()
+                this.parts.get('minuto').setValue(time.minuto)
+            }
+
+            //console.log(parseInt(time.hora))
+
+            //this.parts = time
+
             return `${time.hora}:${time.minuto}`;// time;//new MyDate(dia, mes, ano);
         }
         return null;
@@ -141,6 +158,11 @@ export class MyTimeInput
            // console.log(this.sliceItem[0])
             hora = this.sliceItem[0]
             minuto = this.sliceItem[1]
+            // if(parseInt(time.hora) > 23){
+            //     let hour = 23
+            //     time.hora = hour.toString()
+            // }
+            console.log(time)
             this.parts.setValue({ hora, minuto });
         }
 

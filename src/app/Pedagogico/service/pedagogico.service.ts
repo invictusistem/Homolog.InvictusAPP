@@ -67,6 +67,33 @@ export class PedagogicoService extends BaseService {
         return response;
     }
 
+    public GetProfsHabilitados(calendarioId, materiaId): Observable<any> {
+
+        let path = `/pedag/turma/aula-edit/profs/${calendarioId}/${materiaId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+
+    }
+
+    public EditAula(aula, calendarioId): Observable<any>{
+
+        let path = `/pedag/turma/calendario/editar/${calendarioId}`
+        
+        let response = this.http
+            .put(this.BaseUrl + path, aula, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
     // infos.component
 
     saveAluno(form): Observable<any>{
@@ -112,6 +139,19 @@ export class PedagogicoService extends BaseService {
     GetResponsavelById(id) : Observable<any> {       
 
         let path = `/pedag/aluno/responsavel-aluno/${id}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public GetCertificado(matriculaId) : Observable<any> {       
+
+        let path = `/pedag/aluno/certificado/${matriculaId}`
 
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())

@@ -30,7 +30,7 @@ export class ColaboradoresComponent implements OnInit {
     currentPageTeste = 1
 
     // baseUrl
-    baseUrl = environment.baseUrl;
+    //baseUrl = environment.baseUrl;
 
     colaboradores: any[] = new Array<any>();
 
@@ -44,7 +44,7 @@ export class ColaboradoresComponent implements OnInit {
 
     constructor(
         private _admService: AdmService,
-        private _http: HttpClient,
+       // private _http: HttpClient,
         private _fb: FormBuilder,
         private _modal: MatDialog
     ) {

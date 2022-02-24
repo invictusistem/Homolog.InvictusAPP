@@ -69,7 +69,7 @@ export class AdmTurmasComponent implements OnInit {
                 disableClose: true
             });
         dialogRef.afterClosed().subscribe(result => {
-            if (result.clicked === "Sim") {
+            if (result.clicked === true) {
 
                 console.log(turmaId)
                 this.http.put(`${this.baseUrl}/turma/iniciar/${turmaId}`, {
@@ -92,12 +92,12 @@ export class AdmTurmasComponent implements OnInit {
 
     PodeAdiar(turma: any) {
         return true
-        // if (turma.statusAndamento == 'Aguardando início' &&
-        //     turma.previsaoInfo != '3ª previsão') {
-        //     return false
-        // } else {
-        //     return true
-        // }
+        if (turma.statusAndamento == 'Aguardando início' &&
+            turma.previsaoInfo != '3ª previsão') {
+            return false
+        } else {
+            return true
+        }
 
     }
 

@@ -16,6 +16,8 @@ import { AddAnotacaoComponent } from "./Anotacao/add-anotacao.component";
 import { SpinnerParams } from "src/app/_shared/models/spinner.model";
 import { ConfirmModalComponent } from "src/app/_shared/components/ConfirmModal/confirm-modal.component";
 import { PedagogicoService } from "../../service/pedagogico.service";
+import { OpenCertificadoComponentModal } from "../../service/modal.config";
+import { CertificadoComponent } from "./Certificado/certificado.component";
 
 @Component({
     selector: 'infosmodal',
@@ -541,6 +543,14 @@ export class InfosComponent implements OnInit {
                     
                     this.getInfoDocs(doc);
                 })
+    }
+
+    public GetCertificado(): void {
+        const dialogRef = this._modal
+            .open(CertificadoComponent, OpenCertificadoComponentModal(this.data['aluno']));
+        dialogRef.afterClosed().subscribe((data) => {
+
+        });
     }
 
 

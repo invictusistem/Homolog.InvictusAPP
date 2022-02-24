@@ -1,160 +1,111 @@
 <div style="font-size: 1.2em;">Lista de presença
-    <!-- <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
-        matTooltipHideDelay="100">
-        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
-            <mat-icon>close</mat-icon>
-        </button>
-    </i> -->
+  
 </div>
-<div>{{this.data['turma'].descricao}} - Turma {{this.data['turma'].identificador}} | {{infoDia.titulo}}</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
 <hr>
-<div style="position: relative;">
-    <!-- <div>Aula: {{infoDia.descricao}}</div>
-    <div>Dia: {{infoDia.diaAula | date:'d/M/y'}}</div>
-    <div>Professor: {{ infoDia.nome}}</div> -->
-    <mat-form-field appearance="standard" style="width: 200px; ">
-        <mat-label>Professor</mat-label>
-        <input selected style="color:rgb(59, 57, 57)"  disabled [value]="infoDia.nome" required matInput placeholder="Nome">
-    </mat-form-field>
-<br>
-    <mat-form-field appearance="standard" style="width: 200px; ">
-        <mat-label>Aula</mat-label>
-        <input selected style="color:rgb(59, 57, 57)" disabled [value]="infoDia.descricao" required  matInput placeholder="Nome">
-    </mat-form-field>
-    
-    <mat-form-field appearance="standard" style="width: 200px;margin-left: 10px ; ">
-        <mat-label>Dia</mat-label>
-        <input selected style="color:rgb(59, 57, 57)" disabled [value]="diaAulaString" required  matInput placeholder="Nome">
-    </mat-form-field>
-    <br>
-    
+<div *ngIf="showContent" @rowHighlight>
 
-    <div style="color: red;font-size: 0.9;">* Professor, não se esqueça de antes de concluir a aula, preencher o conteúdo programático e a lista de presença:</div>
-    <!-- <button mat-raised-button (click)="concluirAula()" color="warn">Concluir Aula</button> -->
 
-    <div class="table-responsive" style="position: relative;">
-        <table color="primary" style="margin-bottom: 0px;" class="table">
-            <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
-            <thead>
-                <tr>
-                    <th style="width: 2%; 
+    <div style="position: relative;">
+      
+        <mat-form-field appearance="standard" style="width: 700px; ">
+            <mat-label>Turma</mat-label>
+            <input selected style="color:rgb(59, 57, 57)" disabled
+                value="{{this.data['turma'].descricao}} - Turma {{this.data['turma'].identificador}}" required matInput
+                placeholder="Nome">
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 200px; ">
+            <mat-label>Professor</mat-label>
+            <input selected style="color:rgb(59, 57, 57)" disabled [value]="infoDia.nome" required matInput
+                placeholder="Nome">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="standard" style="width: 350px; ">
+            <mat-label>Aula</mat-label>
+            <input selected style="color:rgb(59, 57, 57)" disabled [value]="infoDia.materiaDescricao" required matInput
+                placeholder="Nome">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 200px;margin-left: 10px ; ">
+            <mat-label>Dia</mat-label>
+            <input selected style="color:rgb(59, 57, 57)" disabled 
+            value="{{infoDia.diaAula | date:'dd/MM/yyyy'}} {{infoDia.horaInicial}} às {{infoDia.horaFinal}}" required matInput
+                placeholder="Nome">
+        </mat-form-field>
+        <br>
+
+
+        <div style="color: red;font-size: 0.9;">* Professor, não se esqueça de antes de concluir a aula, preencher o
+            conteúdo programático e a lista de presença:</div>
+      
+        <div class="table-responsive" style="position: relative;">
+            <table color="primary" style="margin-bottom: 0px;" class="table">
+              
+                <thead>
+                    <tr>
+                        <th style="width: 2%; 
                     text-align:left; 
                     vertical-align: middle;
                     border-top: 0px;"></th>
 
-                    <th style="width: 40%;font-size:1em;
+                        <th style="width: 70%;font-size:1em;
                     vertical-align: middle; 
                     text-align:left;
                      border-top: 0px; font-weight: 400;"></th>
 
-                    <th style="width: 56%;font-size:1em;
+                        <th style="width: 28%;font-size:1em;
                     text-align:right;
                     vertical-align: middle;
-                    border-top: 0px; font-weight: 400;">Presente?</th>
-                </tr>
-            </thead>
-            <tbody>
+                    border-top: 0px; font-weight: 400;">Presente?(F/P)</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                <tr *ngFor="let aluno of listaPresencaDto;let i = index;">
-                    <td style="font-size:0.9em;text-align:center;vertical-align: middle;">{{i+1}}</td>
+                    <tr *ngFor="let aluno of listaPresencaDto;let i = index;">
+                        <td style="font-size:0.9em;text-align:center;vertical-align: middle;">{{i+1}}</td>
 
-                    <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
-                        {{aluno.nome}}
-                    </td>
+                        <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                            {{aluno.nome}}
+                        </td>
 
-                    <td style="float: right; position: relative;">
-                        <!-- <mat-checkbox style="margin-right: 3px;width: 50px;" type="checkbox" color="primary"
-                            [(ngModel)]="aluno.isPresent" class="example-margin" name="checked">
-                        </mat-checkbox> -->
-                        <input type="text" style="margin-right: auto;
+                        <td style="float: right; position: relative;">
+                         
+                            <input type="text" style="margin-right: auto;
                             margin-left: auto;font-size:0.9em;width: 40px;" class="form-control"
-                            [(ngModel)]="aluno.isPresentToString"
-                            onkeypress="return String.fromCharCode(event.charCode).match(/[^FPfp]/g) === null"
-                            maxlength="1"
-                             aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                    </td>
-                </tr>
+                                [(ngModel)]="aluno.isPresentToString"
+                                oninput="this.value = this.value.toUpperCase()"
+                                onkeypress="return String.fromCharCode(event.charCode).match(/[^FPfp]/g) === null"
+                                maxlength="1" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                        </td>
+                    </tr>
 
-                <!-- <tr>
-                    <td style="font-size:0.9em;text-align:center;vertical-align: middle;">1</td>
+                </tbody>
+            </table>
+            <br>
+            <mat-progress-bar style="margin-top: 20px;" [style.visibility]="saveProgressBar" @rowHighlight mode="query">
+            </mat-progress-bar>
+            <form [formGroup]="obsForm" (ngSubmit)="concluiraula(obsForm)">
 
-                    <td style="font-size:0.9em;text-align:left;vertical-align: middle;">Álvaro Carlos Camargo
-                        Ximenes Júnior
-                    </td>
-                   
-                    <td style="float: right; position: relative;">
-                        <mat-checkbox style="margin-right: 3px;width: 50px;" type="checkbox" color="primary"
-                            class="example-margin" name="checked">
-                        </mat-checkbox>
-                    </td>
-                </tr>
+                <mat-form-field style="width: 100%;" appearance="outline">
+                    <mat-label>conteúdo programático...</mat-label>
+                    <textarea formControlName="observacoes" matInput></textarea>
+                </mat-form-field>
 
-                <tr>
-                    <td style="font-size:0.9em;text-align:center;vertical-align: middle;">1</td>
+                <button type="submit" color="primary" mat-raised-button disabled="false" [disabled]="disabledSave"
+                    style="float:right;margin-bottom: 10px;margin-left: 10px;">
+                    Concluir Aula
+                </button>
+            </form>
 
-                    <td style="font-size:0.9em;text-align:left;vertical-align: middle;">Álvaro Carlos Camargo
-                        Ximenes Júnior
-                    </td>
+        </div>
 
-                    <td style="float: right; position: relative;">
-                        <mat-checkbox style="margin-right: 3px;width: 50px;" type="checkbox" color="primary"
-                          [(ngModel)]="presente"  class="example-margin" name="checked">
-                        </mat-checkbox>
-                    </td>
-                </tr> -->
 
-            </tbody>
-        </table>
         <br>
-        <form [formGroup]="obsForm" (ngSubmit)="concluiraula(obsForm)">
-        
-        <mat-form-field style="width: 100%;" appearance="outline">
-            <mat-label>conteúdo programático...</mat-label>
-            <textarea formControlName="observacoes" matInput></textarea>
-        </mat-form-field>
-
-        <button type="submit" color="primary" mat-raised-button disabled="false"
-        [disabled]="disabledSave"
-        style="float:right;margin-bottom: 10px;margin-left: 10px;">
-        Concluir Aula
-    </button>
-    </form>
-
     </div>
-
-    
-    <br>
 </div>
-<!-- <button style="float:right;margin-bottom: 10px;" mat-raised-button
-        [mat-dialog-close]="{clicked:'Cancel'}">Cancel</button> -->
-
-
-<!-- 
-
-<tbody>
-
-            <ng-container *ngIf="showProflist">
-                <tr *ngFor="let item of profResp ">
-
-                    <td style="text-align:center;vertical-align: middle;"></td>
-
-                    <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
-
-                    <td style="text-align: center;vertical-align: middle;"></td>
-
-                    <td style="position: relative;">
-                        <mat-checkbox (change)="onCheckboxChange($event, item.id)" 
-                        type="checkbox" 
-                        color="primary" class="example-margin" name="checked">
-                        </mat-checkbox>
-
-
-                    </td>
-
-                </tr>
-            </ng-container>
-
-        </tbody>
-
-
--->

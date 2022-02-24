@@ -92,7 +92,7 @@
                                     <button (click)="iniciarAula(turma)" [disabled]="podeIniciarAula(turma.podeIniciarAula)" 
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
-                                        <mat-icon [style.color]="!turma.podeIniciarAula ? 'gray': 'gray'"
+                                        <mat-icon [style.color]="turma.podeIniciarAula ? 'green': 'gray'"
                                             style="font-size: 1.5em;font-weight: 200;" class="material-icons-outlined">
                                             play_arrow</mat-icon>
                                     </button>

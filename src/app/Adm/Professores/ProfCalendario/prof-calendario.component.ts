@@ -4,21 +4,18 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { environment } from "src/environments/environment";
-import { InfoDia, ListaPresencaDto } from "../../Pedag-Models/infodia.model";
-import { AulaEditModalConfig, ObsTurmaModalConfig } from "../../service/modal.config";
-import { ObservacoesTurmaModal } from "./AulaDetalhe/obsturmamodal.component";
-import { AulaEditarModal } from "./AulaEditar/aulaeditar.component";
+
 
 
 @Component({
-    selector: 'calendarioturma-app',
-    templateUrl: './calendarioturma.component.html',
-    styleUrls: ['./calendarioturma.component.scss'],
+    selector: 'prof-calendario-app',
+    templateUrl: './prof-calendario.component.html',
+    styleUrls: ['./prof-calendario.component.scss'],
     animations: [HighlightTrigger]
 
 })
 
-export class CalendarioTurmaComponent implements OnInit {
+export class ProfCalendarioComponent implements OnInit {
 
     private _baseUrl = environment.baseUrl
     public showSpin = false
@@ -35,7 +32,7 @@ export class CalendarioTurmaComponent implements OnInit {
         private _http: HttpClient,
         private _fb: FormBuilder,
         private _modal: MatDialog,
-        public _dialogRef: MatDialogRef<CalendarioTurmaComponent>,
+        public _dialogRef: MatDialogRef<ProfCalendarioComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         // this.obsForm = this._fb.group({
         //     observacoes: ['', [Validators.required]]
@@ -43,18 +40,18 @@ export class CalendarioTurmaComponent implements OnInit {
     }
 
     ngOnInit() {
-        //console.log(this.data['turma'])
-        this._dialogRef.addPanelClass('pedagcalendar-class')
-        this.GetCalendarioTurma(this.data['turma'].id);
+        console.log(this.data)
+        this._dialogRef.addPanelClass('profcalendar-class')
+        this.GetProfessorCalendario();
     }
 
-    private GetCalendarioTurma(turmaId: number) {
+    private GetProfessorCalendario() {
 
-        this._http.get(`${this._baseUrl}/pedag/turma/calendario/${turmaId}`)
+        this._http.get(`${this._baseUrl}/professor/calendario-professor/${this.data['prof'].id}`)
             .subscribe(resp => {
 
                 //console.log(resp)
-                this.calendarios = Object.assign([], resp['calends'])
+                this.calendarios = Object.assign([], resp['calendario'])
                 console.log(this.calendarios)
 
             },
@@ -75,23 +72,23 @@ export class CalendarioTurmaComponent implements OnInit {
     }
 
     public GetNotaAula(caled): void {
-        const dialogRef = this._modal
-            .open(ObservacoesTurmaModal, ObsTurmaModalConfig(caled));
-        dialogRef.afterClosed().subscribe(data => {
-        });
+        // const dialogRef = this._modal
+        //     .open(ObservacoesTurmaModal, ObsTurmaModalConfig(caled));
+        // dialogRef.afterClosed().subscribe(data => {
+        // });
     }
 
     public EditAula(caled): void {
-        const dialogRef = this._modal
-            .open(AulaEditarModal, AulaEditModalConfig(caled));
-        dialogRef.afterClosed().subscribe(data => {
-            if (data['result'] == true) {
-                let index = this.calendarios.findIndex((obj => obj.id == data['aula'].id));
-                this.calendarios[index] = data['aula']
-                console.log(this.calendarios[index])
+        // const dialogRef = this._modal
+        //     .open(AulaEditarModal, AulaEditModalConfig(caled));
+        // dialogRef.afterClosed().subscribe(data => {
+        //     if (data['result'] == true) {
+        //         let index = this.calendarios.findIndex((obj => obj.id == data['aula'].id));
+        //         this.calendarios[index] = data['aula']
+        //         console.log(this.calendarios[index])
 
-            }
-        });
+        //     }
+        // });
     }
 }
 

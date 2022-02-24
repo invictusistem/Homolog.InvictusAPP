@@ -9,7 +9,7 @@ import { BaseService } from 'src/app/_shared/services/base.service';
 
 @Injectable()
 export class AdmService extends BaseService {
-    
+
     constructor(private http: HttpClient) { super(); }
 
     // registrarUsuario(usuario: Usuario) : Observable<Usuario> {
@@ -18,128 +18,166 @@ export class AdmService extends BaseService {
     //         .pipe(
     //             map(this.extractData),
     //             catchError(this.serviceError));
-            
+
     //         return response;
     // }
 
-    getColaboradores(pageSize?: number, currentPage?: number, jsonParam?: any) : Observable<any> {       
-        
+    getColaboradores(pageSize?: number, currentPage?: number, jsonParam?: any): Observable<any> {
+
         var formJson = JSON.stringify(jsonParam)
 
         let path = `/colaboradores/pesquisar/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson=${formJson}`
-        
+
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
     }
 
-    getTypePacotes() : Observable<any> {  
+    getTypePacotes(): Observable<any> {
 
         let path = `/typepacote`
-        
+
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
     }
 
-    getSystemRoles() : Observable<any> {  
+    getSystemRoles(): Observable<any> {
 
         let path = `/usuario/roles`
-        
+
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
     }
 
-    getMateriasByTypeId(typePacoteId: any) : Observable<any>{
+    getMateriasByTypeId(typePacoteId: any): Observable<any> {
         // /materia-template/filtro/${typeId}
         let path = `/materia-template/filtro/${typePacoteId}`
-        
+
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
     }
 
-    saveProfessorMateria(profId: any,materiaId: any ) : Observable<any>{
+    saveProfessorMateria(profId: any, materiaId: any): Observable<any> {
         // /materia-template/filtro/${typeId}
         let path = `/professor/materia/${profId}/${materiaId}`
-        
+
         let response = this.http
             .post(this.BaseUrl + path, {}, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
     }
 
-    editDisponibilidade(dispo: any) : Observable<any>{
+    editDisponibilidade(dispo: any): Observable<any> {
         // /materia-template/filtro/${typeId}
         let path = `/professor/disponibilidade`
-        
+
         let response = this.http
             .put(this.BaseUrl + path, dispo, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
     }
 
-    editUsuario(usuario: any) : Observable<any>{
+    editUsuario(usuario: any): Observable<any> {
 
         let path = `/usuario`
-        
+
         let response = this.http
             .put(this.BaseUrl + path, usuario, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
     }
 
-    CepConsulta(CEP?: any) : Observable<any> {       
-        
+    CepConsulta(CEP?: any): Observable<any> {
+
         let url = `https://viacep.com.br/ws/${CEP}/json/`
-        
+
         let response = this.http
             .get(url)
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
+    }
+
+    // CONFIGS
+    public GetMaterias(pageSize?: number, currentPage?: number): Observable<any> {
+        // getColaboradores(pageSize?: number, currentPage?: number, jsonParam?: any): Observable<any> {
+
+        // var formJson = JSON.stringify(jsonParam)
+
+        let path = `/materia-template/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson={}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+
+    }
+
+    public GetConfig(config?: any): Observable<any> {
+
+        let path = ''
+
+        if (config == 'CARGOS') path = `/parametro/value/cargo`
+
+        if (config == 'DOCUMENTOS') path = `/documentacao`
+
+        if (config == 'MATERIAS') path = `/materia-template`
+
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
     }
 
     // CepConsultaV2(CEP?: any, endereco?:any) : Observable<any> {       
-        
+
     //     let url = `https://viacep.com.br/ws/${CEP}/json/`
-        
+
     //     let response = this.http
     //         .get(url)
     //         .pipe(
     //             map(this.extractData),
     //             catchError(this.serviceError));
-            
+
     //             var endereco = this.mappingEndereco(response);
-            
+
     //             return response;
     // }
 
@@ -155,190 +193,234 @@ export class AdmService extends BaseService {
 
     // }
 
+    // PROFESSORES
+
+    public GetRelatorioProfessor(rangeIni:Date, rangeFinal:Date, professorId): Observable<any> {
+var ini = rangeIni
+ini.setHours(0,0,0,0)
+        let path = `/professor/${rangeIni.toUTCString()}/${rangeFinal.toUTCString()}/${professorId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+
+    }
+
     // BOLSAS
 
-    GetBolsas(typePacoteId): Observable<any>{
+    GetBolsas(typePacoteId): Observable<any> {
 
         let path = `/bolsa/${typePacoteId}`
-        
+
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
 
     }
 
-    GetBolsaSenha(senhaId): Observable<any>{
+    GetBolsa(bolsaId): Observable<any> {
+
+        let path = `/bolsa/GetById/${bolsaId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+
+    }
+
+    GetBolsaSenha(senhaId): Observable<any> {
 
         let path = `/bolsa/senha/${senhaId}`
-        
+
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
 
     }
 
-    SaveBolsa(bolsa): Observable<any>{
+    public SaveBolsa(bolsa): Observable<any> {
 
         let path = `/bolsa`
-        
+
         let response = this.http
             .post(this.BaseUrl + path, bolsa, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
+    }
+
+    public EditBolsa(bolsa): Observable<any> {
+
+        let path = `/bolsa`
+
+        let response = this.http
+            .put(this.BaseUrl + path, bolsa, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
     }
 
 
     // MODULOS
 
-    pesquisarPacote(typePacoteId:any, unidadeId:any): Observable<any>{
+    pesquisarPacote(typePacoteId: any, unidadeId: any): Observable<any> {
 
         let path = `/pacote/${typePacoteId}/${unidadeId}`
-        
+
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
 
     }
 
-    GetCreateModuleViewModel(): Observable<any>{
+    GetCreateModuleViewModel(): Observable<any> {
 
         let path = `/pacote/create`
-        
+
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
 
     }
 
-    GetEditModuleViewModel(pacoteId): Observable<any>{
+    GetEditModuleViewModel(pacoteId): Observable<any> {
 
         let path = `/pacote/edit/${pacoteId}`
-        
+
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
 
     }
 
     // ABA USUARIOS
-    GetUsuarioAcessos(userId): Observable<any>{
+    GetUsuarioAcessos(userId): Observable<any> {
 
         let path = `/usuario/acessos/${userId}`
-        
+
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
 
     }
 
-    editAcessos(acessos): Observable<any>{
+    editAcessos(acessos): Observable<any> {
 
         let path = `/usuario/acessos`
-        
+
         let response = this.http
             .put(this.BaseUrl + path, acessos, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
     }
 
-    getUsuarios(pageSize?: number, currentPage?: number, jsonParam?: any) : Observable<any> {       
-        
+    getUsuarios(pageSize?: number, currentPage?: number, jsonParam?: any): Observable<any> {
+
         var formJson = JSON.stringify(jsonParam)
 
         let path = `/usuario/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson=${formJson}`
-        
+
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
     }
 
-    savePacote(newPacote): Observable<any>{
+    savePacote(newPacote): Observable<any> {
 
         let path = `/pacote`
-        
+
         let response = this.http
             .post(this.BaseUrl + path, newPacote, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
     }
 
-    editPacote(editedPacote): Observable<any>{
+    editPacote(editedPacote): Observable<any> {
 
         let path = `/pacote`
-        
+
         let response = this.http
             .put(this.BaseUrl + path, editedPacote, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
     }
 
     // Unidades
 
-    public GetUnidadeById(id): Observable<any>{
+    public GetUnidadeById(id): Observable<any> {
 
         let path = `/unidade/${id}`
-        
+
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
 
     }
 
-    public EditUnidade(unidade): Observable<any>{
+    public EditUnidade(unidade): Observable<any> {
 
         let path = `/unidade`
-        
+
         let response = this.http
             .put(this.BaseUrl + path, unidade, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
-            
-            return response;
+
+        return response;
     }
 
     // console.log(CEP);
@@ -373,7 +455,7 @@ export class AdmService extends BaseService {
     //             () => {
     //                 //  console.log('finaly')
     //                 this.showEndereco = true
-      
+
 
 
 }

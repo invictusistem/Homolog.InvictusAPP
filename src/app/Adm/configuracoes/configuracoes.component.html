@@ -3,7 +3,7 @@
     <span>
         <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="criar cargo" matTooltipPosition="above"
             matTooltipHideDelay="100">
-            <button (click)="openCreateCargoModal()" mat-icon-button>
+            <button (click)="openCreateCargoModal()" disabled mat-icon-button>
                 <mat-icon>engineering</mat-icon>
             </button>
         </i>
@@ -12,7 +12,7 @@
     <span>
         <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar documento" matTooltipPosition="above"
             matTooltipHideDelay="100">
-            <button (click)="openCreateDocModal()" mat-icon-button>
+            <button (click)="openCreateDocModal()" disabled mat-icon-button>
                 <mat-icon>assignment_ind</mat-icon>
             </button>
         </i>
@@ -21,7 +21,7 @@
     <span>
         <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar materia" matTooltipPosition="above"
             matTooltipHideDelay="100">
-            <button (click)="openCreateMateriaModal()" mat-icon-button>
+            <button (click)="openCreateMateriaModal()" disabled  mat-icon-button>
                 <mat-icon>school</mat-icon>
             </button>
         </i>
@@ -34,151 +34,243 @@
         pesquisar:
     </span>
 
-    <mat-form-field appearance="standard" style="transform: scale(0.85);width: 150px;">
+    <mat-form-field appearance="standard" style="width: 150px;">
         <mat-label></mat-label>
-        <mat-select disabled placeholder="">
-            <mat-option ></mat-option>
-            <mat-option (click)="getCargos()" value="Cargos" >Cargos</mat-option>
-            <mat-option (click)="getMaterias()" value="Cargos" >Cargos</mat-option>
-            <mat-option (click)="getDocumentacao()" value="Cargos" >Matérias</mat-option>
+        <mat-select placeholder="" disabled>
+            <mat-option></mat-option>
+            <mat-option (click)="GetConfig('CARGOS')" value="Cargos">Cargos</mat-option>
+            <mat-option (click)="GetConfig('DOCUMENTOS')" value="Cargos">Documentos</mat-option>
+            <mat-option (click)="GetMaterias()" value="Cargos">Matérias</mat-option>
+
         </mat-select>
     </mat-form-field>
 
-    <br>
-    <!-- <iframe width="600" height="450" src="https://datastudio.google.com/embed/reporting/74abb58e-0310-4aa0-bdca-3fffc0b36df3/page/Jh3aC" frameborder="0" style="border:0" allowfullscreen></iframe> -->
-    
+    <!-- <div class="card-header card-msg-response" unselectable="on"
+    onselectstart="return false;" *ngIf="showMessageNoColaborador">{{mensagem}}</div> -->
 
-    <div @rowHighlight *ngIf="cargos.length > 0 && showTableCargos" class="card card-plain mat-elevation-z8" 
-        style="width: 100%;
+    <mat-progress-bar [style.visibility]="searchSpinner" style="margin-top: 20px;" @rowHighlight style="margin:0px"
+        mode="query">
+    </mat-progress-bar>
+
+    <!--    CARGOS         -->
+
+    <div *ngIf="showCargosTable" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
         position: relative;
-        margin-top: 50px;
+        margin-top: 20px;
         box-shadow: 0 0 1em rgb(172, 170, 170);
         background-color: rgb(227, 240, 227);">
 
-    <div class="card-header">
-        <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
-            Cargos</h4>
-        <p class="card-category"> Cargos cadastrados no sistema: </p>
-    </div>
-
-    <div class="card-body">
-        <div class="table-responsive" style="height: 430px;position: relative;">
-
-            <table color="primary" style="margin-bottom: 0px;" class="table">
-                <thead>
-                    <tr>
-                        <th style="width: 2%; 
-                text-align:left; 
-                vertical-align: middle;
-                border-top: 0px;"></th>
-
-                        <th style="width: 40%;font-size:1.2em;
-                                vertical-align: middle;
-                                text-align:left;
-                border-top: 0px; font-weight: 400;">Nome</th>
-
-                        <th style="width: 20%;font-size:1.2em;
-                        vertical-align: middle;
-                        text-align:center;
-                        border-top: 0px; font-weight: 400;">Email</th>
-
-                        <th style="width: 20%;font-size:1.2em;
-                text-align:center; 
-                vertical-align: middle;
-                border-top: 0px; font-weight: 400;">Acesso ao<br>sistema</th>
-
-                        <th style="width: 6%;font-size:1.2em;
-                text-align:center; 
-                vertical-align: middle;
-                border-top: 0px; font-weight: 400;">Ativo</th>
-
-                        <th style="width: 6%;
-                border-top: 0px;"></th>
-
-                        <th style="width: 6%;
-                border-top: 0px;">
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of cargos;let i = index;" @rowHighlight>
-                        <td style="text-align:center;vertical-align: middle;">
-                            {{i + 1}}
-                        </td>
-
-                        <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
-
-                        <td style="text-align: center;vertical-align: middle;">
-                        {{item.ativo}}
-                     <!-- <div *ngIf="item.ativo == true;else inativo">
-
-                                <mat-icon style="margin: 0px; margin: 0px;
-                                    background-color: rgb(227, 240, 227);;color: green;" style="color: green;">
-                                    done_outline</mat-icon>
-                                
-
-                            </div>
-                            <ng-template #inativo>
-
-                                <mat-icon style="background-color: rgb(227, 240, 227);
-                                        margin: 0px; margin: 0px;color: red; ">close</mat-icon>
-
-
-                            </ng-template> -->
-
-                    </td>
-
-                        <td style="text-align: center;vertical-align: middle;">{{item.dataCriacao | date:'dd/MM/yyyy' }}</td>
-
-                        <td style="text-align: center;vertical-align: middle;">
-                           
-                        </td>
-
-                        <td style="position: relative;">
-
-                            <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
-                                matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
-                                <button [disabled]="showSpinner" (click)="openEditUserModal(item)"
-                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                                    mat-icon-button>
-                                    <mat-icon>settings</mat-icon>
-                                </button>
-                            </i> -->
-
-                        </td>
-                        <td style="position: relative;">
-
-                            <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="deletar"
-                                matTooltipPosition="above" matTooltipHideDelay="100">
-                                <button [disabled]="showSpinner" (click)="deleteColaborador(item.id)"
-                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                                    mat-icon-button>
-                                    <mat-icon>delete_outline</mat-icon>
-                                </button>
-                            </i> -->
-
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
-
+        <div class="card-header">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Cargos</h4>
+            <p class="card-category"> Cargos cadastrados no sistema: </p>
         </div>
 
-        <!-- <mat-paginator *ngIf="length > 5" style="
+        <div class="card-body">
+            <div class="table-responsive table-config-cargos" style="height: 430px;position: relative;">
+
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>NOME</th>
+
+                            <th>DESCRIÇÃO</th>
+
+                            <th></th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of cargos;let i = index;" @rowHighlight>
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{i + 1}}
+                            </td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{ item.value }}</td>
+
+
+
+                            <td style="text-align: center;vertical-align: middle;">{{ item.comentario }}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+
+                            </td>
+
+
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <!-- <mat-paginator *ngIf="length > 5" style="
             background-color: rgb(227, 240, 227);
             bottom: 0px;
             right: 0px;" [length]="length" [pageSize]="5" hidePageSize="true" (page)="pageEvent = $event"
             (click)="changePage(pageEvent)">
         </mat-paginator> -->
 
-    </div>
+        </div>
 
-    <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+        <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
         top: 46.5%; 
         position: absolute;">
     </mat-spinner> -->
-</div>
+    </div>
+
+
+
+    <!--    DOCUMENTOS         -->
+
+    <div *ngIf="showDocumentosTable" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
+        position: relative;
+        margin-top: 20px;
+        box-shadow: 0 0 1em rgb(172, 170, 170);
+        background-color: rgb(227, 240, 227);">
+
+        <div class="card-header">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Documentos</h4>
+            <p class="card-category"> Documentos cadastrados no sistema: </p>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive table-config-documentos" style="height: 430px;position: relative;">
+
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>NOME</th>
+
+                            <th>DESCRIÇÃO</th>
+
+                            <th>VALIDADE</th>
+
+                            <th></th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of documentos;let i = index;" @rowHighlight>
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{i + 1}}
+                            </td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.descricao }}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+
+                            </td>
+
+
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <!-- <mat-paginator *ngIf="length > 5" style="
+            background-color: rgb(227, 240, 227);
+            bottom: 0px;
+            right: 0px;" [length]="length" [pageSize]="5" hidePageSize="true" (page)="pageEvent = $event"
+            (click)="changePage(pageEvent)">
+        </mat-paginator> -->
+
+        </div>
+
+        <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+        top: 46.5%; 
+        position: absolute;">
+    </mat-spinner> -->
+    </div>
+
+
+
+
+    <!--    MATERIAS         -->
+
+    <div *ngIf="showMateriasTable" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
+        position: relative;
+        margin-top: 20px;
+        box-shadow: 0 0 1em rgb(172, 170, 170);
+        background-color: rgb(227, 240, 227);">
+
+        <div class="card-header">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Matérias</h4>
+            <p class="card-category"> Matérias cadastrados no sistema: </p>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive table-config-materias" style="height: 490px;position: relative;">
+
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>NOME</th>
+
+                            <th>DESCRIÇÃO</th>
+
+                            <th>MODALIDADE</th>
+
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of materias;let i = index;" @rowHighlight>
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{i + 1}}
+                            </td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.modalidade }}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+
+                            </td>
+
+
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <mat-paginator  style="
+                background-color: rgb(227, 240, 227);
+                bottom: 0px;
+                right: 0px;" 
+                [length]="materiasLength" 
+                [pageSize]="materiasPageSize" 
+                hidePageSize="true"
+                (page)="materiasPageEvent = GetMaterias($event)">
+            </mat-paginator>
+
+        </div>
+
+        <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+        top: 46.5%; 
+        position: absolute;">
+    </mat-spinner> -->
+    </div>
 
 
 

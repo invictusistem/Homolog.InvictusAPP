@@ -10,17 +10,21 @@ import { InfoDia, ListaPresencaDto } from "../../Pedag-Models/infodia.model";
 @Component({
     selector: 'presenca-app',
     templateUrl: './presenca.component.html',
-    styleUrls: ['./presenca.component.scss']
-    //animations: [HighlightTrigger]
+    styleUrls: ['./presenca.component.scss'],
+    animations: [HighlightTrigger]
 
 })
 
 export class PresencaComponent implements OnInit {
 
     private _baseUrl = environment.baseUrl
-    public listaPresencaDto: ListaPresencaDto[] = new Array<ListaPresencaDto>();
-    public infoDia: InfoDia = new InfoDia();
-    public saveCommand: SavePresencaCommand = new SavePresencaCommand();
+    public initProgressBar = 'visible'
+    public saveProgressBar = 'hidden'
+    public showContent = false
+    public listaPresencaDto: any[] = new Array<any>()// ListaPresencaDto[] = new Array<ListaPresencaDto>();
+    public infoDia: any// InfoDia = new InfoDia();
+    public saveCommand: any//SavePresencaCommand = new SavePresencaCommand();
+    public presenca: any
     public observacoes: string = "";
     public obsForm: FormGroup;
     public diaAulaString: any
@@ -38,23 +42,32 @@ export class PresencaComponent implements OnInit {
     ngOnInit() {
         console.log(this.data['turma'])
 
-        this.getPresencaViewModel(this.data['turma'].id);
+        this.getPresencaViewModel(this.data['turma'].calendarioId);
     }
 
-    getPresencaViewModel(turmaId: number) {
+    getPresencaViewModel(calendarioId: number) {
 
-        this._http.get(`${this._baseUrl}/pedag/presenca-lista/${turmaId}`)
+        this._http.get(`${this._baseUrl}/pedag/turma/presenca-diario/${calendarioId}`)
             .subscribe(resp => {
 
                 console.log(resp)
-                this.infoDia = Object.assign({}, resp['infos'])
+                
+                this.infoDia = Object.assign({}, resp['presencas'].aulaViewModel)
+                //console.log(this.infoDia)
+                this.listaPresencaDto = Object.assign([], resp['presencas'].listaPresenca)
                 //this.infoDia.diaAula = new Date(this.infoDia.diaAula).toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' })
-                this.diaAulaString = new Date(this.infoDia.diaAula).toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' })
-                this.listaPresencaDto = Object.assign([], resp['lista'])
+               // this.diaAulaString = new Date(this.infoDia.diaAula).toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' })
+               // this.listaPresencaDto = Object.assign([], resp['lista'])
+                this.initProgressBar = 'hidden'
 
             },
-                (error) => { console.log(error) },
-                () => { })
+                (error) => { 
+                    
+                    this.initProgressBar = 'hidden' },
+                () => {
+                    this._dialogRef.addPanelClass('presenca-diario-class')
+                    this.showContent = true
+                 })
     }
 
     concluirAula() {
@@ -62,7 +75,7 @@ export class PresencaComponent implements OnInit {
     }
 
     concluiraula(form: any): void {
-        //console.log(item)
+        console.log(this.listaPresencaDto)
         const dialogRef = this._modal
             .open(ConcluirAulaModal, {
                 height: 'auto',
@@ -76,9 +89,9 @@ export class PresencaComponent implements OnInit {
                 disableClose: true
             });
         dialogRef.afterClosed().subscribe(result => {
-            if (result.clicked === "Sim") {
+            if (result.clicked == true) {
                 console.log(form.value)
-                this.salvar(form);
+               this.salvar(form);
 
             } else {
                 //console.log('nao')
@@ -108,7 +121,7 @@ export class PresencaComponent implements OnInit {
             return  true
         }
 
-        //return !this.obsForm.valid && !disabledButton
+       
 
     }
 
@@ -116,17 +129,18 @@ export class PresencaComponent implements OnInit {
     salvar(form: any) {
 
         if (form.valid) {
-            console.log(this.listaPresencaDto)
-            this.saveCommand.listaPresencaDto = this.listaPresencaDto
-            this.saveCommand.calendarId = this.infoDia.id
-            this.saveCommand.observacoes = this.obsForm.get('observacoes').value// this.observacoes
-            // this.infoDia => calendario.Id
-            this._http.post(`${this._baseUrl}/pedag/presenca-lista`, this.saveCommand, {})
+             console.log(this.listaPresencaDto)
+            // this.saveCommand.listaPresencaDto = this.listaPresencaDto
+            // this.saveCommand.calendarId = this.infoDia.id
+            // this.saveCommand.observacoes = this.obsForm.get('observacoes').value
+            this.infoDia.observacoes = this.obsForm.get('observacoes').value
+            let presencaView = { infoDia: this.infoDia, listaPresencaDto: this.listaPresencaDto }
+            
+           
+            this._http.post(`${this._baseUrl}/pedag/turma/presenca-diario/${this.data['turma'].calendarioId}`, { aulaViewModel: this.infoDia, listaPresenca: this.listaPresencaDto }, {})
                 .subscribe(resp => {
 
-                    //console.log(resp)
-                    // this.infoDia = Object.assign({}, resp['infos'])
-                    // this.listaPresencaDto = Object.assign([],resp['lista'])
+                 
 
                 },
                     (error) => { console.log(error) },
@@ -151,8 +165,8 @@ export class PresencaComponent implements OnInit {
         </div>
     </div>
     <div class="row">
-        <button style="width: 30px;" [mat-dialog-close]="{clicked:'Sim'}" mat-button>SIM</button>
-        <button style="width: 30px;" [mat-dialog-close]="{clicked:'Cancel'}" mat-button>NÃO</button>
+        <button style="width: 30px;" [mat-dialog-close]="{clicked:true}" mat-button>SIM</button>
+        <button style="width: 30px;" [mat-dialog-close]="{clicked:false}" mat-button>NÃO</button>
     </div>
 </div>`,
 })

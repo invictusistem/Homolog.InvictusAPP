@@ -3,8 +3,9 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { AdmService } from "../services/adm.services";
-import { CreateBolsaModalConfig, ShowSenhaModalConfig } from "../services/modal.config";
+import { CreateBolsaModalConfig, EditBolsaModalConfig, ShowSenhaModalConfig } from "../services/modal.config";
 import { CreateBolsaComponent } from "./CreateBolsa/createbolsa.component";
+import { EditBolsaComponent } from "./EditBolsa/edit-bolsa.component";
 import { ShowSenhaComponent } from "./ShowSenha/showsenha.component";
 
 @Component({
@@ -92,10 +93,15 @@ export class BolsasComponent {
         return false
     }
 
-    verCodigoBolsa(bolsaId) {
-        //this.showMessageNoBolsas = false
-        //if(this.pesquisarForm.valid){
-        //this.initProgressBar = 'visible'
+    EditarBolsa(bolsaId){
+        const dialogRef = this._modal
+        .open(EditBolsaComponent, EditBolsaModalConfig(bolsaId));
+    dialogRef.afterClosed().subscribe((data) => {
+
+    });
+    }
+
+    public VerCodigoBolsa(bolsaId) {
         this._admService.GetBolsaSenha(bolsaId)
             .subscribe(
                 resposta => { this.showSenha(resposta) },

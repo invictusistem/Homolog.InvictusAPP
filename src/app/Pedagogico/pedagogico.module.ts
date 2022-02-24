@@ -27,7 +27,7 @@ import { PedagService } from './service/pedag.service';
 import { ConfirmMatriculaComponent } from './Matricula/confirmmatricula/confirmamat.component';
 import { PedagRelatorioComponent } from './relatorios/pedagrelatorio.component';
 import { PedagAlunosComponent } from './pedag-alunos/pedag-alunos.component';
-import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { TurmasPedagInfoComponent } from './turmasInfos/turmasinfopedag.component';
 import { ReposicoesComponent } from './reposicoes/reposicoes.component';
 import { CalendarioTurmaComponent } from './turmasInfos/CalendarioDaTurma/calendarioturma.component';
@@ -52,6 +52,7 @@ import { AlunoAcessoComponent } from './AlunosAcesso/aluno-acesso.component';
 import { DetalheComponent } from './AlunosAcesso/Detalhes/detalhe.component';
 import { ObservacoesTurmaModal } from './turmasInfos/CalendarioDaTurma/AulaDetalhe/obsturmamodal.component';
 import { AulaEditarModal } from './turmasInfos/CalendarioDaTurma/AulaEditar/aulaeditar.component';
+import { CertificadoComponent } from './Matricula/informacoes/Certificado/certificado.component';
 registerLocaleData(localeFr, 'fr');
 
 export const MY_DATE_FORMATS = {
@@ -115,7 +116,8 @@ const maskConfig: Partial<IConfig> = {
         AddAnotacaoComponent,
         AlunoAcessoComponent,
         DetalheComponent,
-        AulaEditarModal
+        AulaEditarModal,
+        CertificadoComponent
     ],
     imports: [
         BrowserModule,
@@ -130,6 +132,7 @@ const maskConfig: Partial<IConfig> = {
         CurrencyMaskModule
     ],
     providers: [PedagogicoService, CurrencyPipe, DataService, { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
+    { provide: MAT_DATE_LOCALE, useValue: { useUtc: false }  },
     PedagService, {provide: 'ValidateForms', useClass: ValidateFormsService},
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
     exports: [
@@ -174,7 +177,8 @@ const maskConfig: Partial<IConfig> = {
         InfoCadastraisComponent,
         AddAnotacaoComponent,
         DetalheComponent,
-        AulaEditarModal
+        AulaEditarModal,
+        CertificadoComponent
     ]
     
 })

@@ -178,11 +178,14 @@
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
+
                             <mat-form-field style="width: 80px; margin-left: 10px;" appearance="standard">
                                 <mat-label>horário</mat-label>
-                                <mytime-input formControlName="horarioInicio" required></mytime-input>
+                                <mytime-input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                                  formControlName="horarioInicio" required></mytime-input>
                                 <mat-hint></mat-hint>
                             </mat-form-field>
+                            
                             <span style="margin-left: 10px;">
                             às
                         </span>

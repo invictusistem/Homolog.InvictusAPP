@@ -10,6 +10,8 @@
     </div>
 
     <br>
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch"  @rowHighlight style="margin:0px" mode="query">
+    </mat-progress-bar>
     <!-- <div class="row justify-content-center">
         <div class="col"> -->
     <div *ngIf="unidades.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;

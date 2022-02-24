@@ -98,8 +98,9 @@
                                             <button color="primary" (click)="removeMateria(mat.id)" type="button" 
                                             style="position: relative;" [disabled]="disableDeleteButton" mat-icon-button>
                                                 <mat-icon>delete_forever</mat-icon>
-                                                <mat-spinner *ngIf="disableDeleteButton" @rowHighlight [diameter]="23" style="position: absolute;top: 10px;left:9px">
-                                                </mat-spinner>
+                                                
+                                                <!-- <mat-spinner *ngIf="disableDeleteButton" @rowHighlight [diameter]="23" style="position: absolute;top: 10px;left:9px">
+                                                </mat-spinner> -->
                                             </button>
                                         </i>
 

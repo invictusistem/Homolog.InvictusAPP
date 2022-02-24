@@ -79,6 +79,9 @@ import { BolsasComponent } from './Bolsas/bolsas.component';
 import { CreateBolsaComponent } from './Bolsas/CreateBolsa/createbolsa.component';
 import { ShowSenhaComponent } from './Bolsas/ShowSenha/showsenha.component';
 import { VisualizarModuloComponent } from './Modulos/VisualizarModulo/visualizar.component';
+import { EditBolsaComponent } from './Bolsas/EditBolsa/edit-bolsa.component';
+import { ProfCalendarioComponent } from './Professores/ProfCalendario/prof-calendario.component';
+import { ProfRelatorioComponent } from './Professores/Relatorio/prof-relatorio.component';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -147,7 +150,10 @@ export function tokenGetter() {
         BolsasComponent,
         CreateBolsaComponent,
         ShowSenhaComponent,
-        VisualizarModuloComponent
+        VisualizarModuloComponent,
+        EditBolsaComponent,
+        ProfCalendarioComponent,
+        ProfRelatorioComponent
     ],
     imports: [
         BrowserModule,
@@ -224,7 +230,10 @@ export function tokenGetter() {
         EditAcessoComponent,
         CreateBolsaComponent,
         ShowSenhaComponent,
-        VisualizarModuloComponent
+        VisualizarModuloComponent,
+        EditBolsaComponent,
+        ProfCalendarioComponent,
+        ProfRelatorioComponent
         //AddSalaComponent
     ]
 })

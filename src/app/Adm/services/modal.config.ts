@@ -18,6 +18,31 @@ export function CreateColaboradorModalConfig(data?: any) {
     }
 }
 
+// Professores
+
+export function ProfCalendarioModalConfig(prof?: any) {
+    return {
+        height:'auto',
+        width: '1230px',
+        maxHeight: '90vh',
+        maxWidth: '450vh',
+        data: { prof: prof },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function ProfRelatorioModalConfig(prof?: any) {
+    return {
+        //height:'570px',
+        width: '710px',
+        data: { prof: prof},
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+
 // Modulos
 export function ModuloCreateComponentModal(data?: any) {
     return {
@@ -45,10 +70,21 @@ export function EditAcessoModal(usuario?: any) {
     }
 }
 
+// BOLSA
+
 export function CreateBolsaModalConfig(usuario?: any) {
     return {
         width: '600px',
         data: { usuario: usuario },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function EditBolsaModalConfig(bolsaId?: any) {
+    return {
+        width: '600px',
+        data: { bolsaId: bolsaId },
         hasBackdrop: true,
         disableClose: true
     }

@@ -60,14 +60,12 @@
    width: 350px; font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on"
         onselectstart="return false;" *ngIf="showMessageNoColaborador">{{mensagem}}</div>
 
-    <!-- <mat-spinner @rowHighlight *ngIf="showSpinnerFirst" [diameter]="100" style="margin-left: 36.5%;
-        top: 46.5%; 
-        position: absolute;">
-    </mat-spinner> -->
+        <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch"  @rowHighlight style="margin:0px" mode="query">
+        </mat-progress-bar>
 
     <div @rowHighlight *ngIf="professores.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
             position: relative;
-            margin-top: 50px;
+            margin-top: 20px;
             box-shadow: 0 0 1em rgb(172, 170, 170);
             background-color: rgb(227, 240, 227);">
 
@@ -172,6 +170,25 @@
                                     </button>
                                 </i>
 
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="showSpinner" (click)="OpenProfCalendarioodal(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>calendar_month</mat-icon>
+                                    </button>
+                                </i> 
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                matTooltip="relatório de horas" matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button [disabled]="showSpinner" (click)="OpenProfRelatorio(item)"
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon>pending_actions</mat-icon>
+                                </button>
+                            </i> 
+
+
                             </td>
                             <!-- <td style="position: relative;">
 
@@ -201,9 +218,9 @@
 
         </div>
 
-        <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+        <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
             top: 46.5%; 
             position: absolute;">
-        </mat-spinner>
+        </mat-spinner> -->
     </div>
 </div>

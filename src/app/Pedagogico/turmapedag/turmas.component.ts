@@ -6,6 +6,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { TurmaViewModel } from "src/app/_shared/models/Turma.model";
 import { environment } from "src/environments/environment";
+import { OpenPresencaComponentModal } from "../service/modal.config";
 import { AgendamentoComponent } from "./agendamento/agendamento.component";
 import { NotasComponent } from "./notas/notas.component";
 import { PresencaComponent } from "./presenca/presenca.component";
@@ -98,16 +99,16 @@ export class TurmasComponent implements OnInit {
         });
     }
 
-    podeIniciarAula(turma:Boolean) {
+    podeIniciarAula(podeIniciar: Boolean) {
         //console.log('pode iniciar')
-        return true
-        return !turma
+        //return true
+        //return !turma
         // if (this.tokenInfo.role == 'MasterAdm') {
         //     return false
         // }
 
 
-        // return !turma.podeIniciar
+        return !podeIniciar
     }
 
     openAgendamento(turma): void {
@@ -130,23 +131,29 @@ export class TurmasComponent implements OnInit {
     }
 
     openPresenca(turma: TurmaViewModel): void {
-
-        const dialogRef = this._modal.open(PresencaComponent, {
-            height: 'auto',
-            width: '1030px',
-            autoFocus: false,
-            // maxHeight: '90vh',
-            maxWidth: '400vh',
-            data: { turma: turma },
-            hasBackdrop: true,
-            disableClose: true
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
-            // this.animal = result;
+        const dialogRef = this._modal
+            .open(PresencaComponent, OpenPresencaComponentModal(turma));
+        dialogRef.afterClosed().subscribe(data => {
         });
     }
+
+    // openPresenca(turma: TurmaViewModel): void {
+
+    //     const dialogRef = this._modal.open(PresencaComponent, {
+    //         height: 'auto',
+    //         width: '1030px',
+    //         autoFocus: false,
+    //         // maxHeight: '90vh',
+    //         maxWidth: '400vh',
+    //         data: { turma: turma },
+    //         hasBackdrop: true,
+    //         disableClose: true
+    //     });
+
+    //     dialogRef.afterClosed().subscribe(result => {
+           
+    //     });
+    // }
 
     iniciarAula(turma: TurmaViewModel) {
 
@@ -163,7 +170,7 @@ export class TurmasComponent implements OnInit {
                 disableClose: true
             });
         dialogRef.afterClosed().subscribe(result => {
-            if (result.clicked === "Sim") {
+            if (result.clicked == true) {
 
                 // console.log(turmaId)
                 // this.http.put(`${this.baseUrl}/turmas/turma/${turmaId}`, {
@@ -199,17 +206,21 @@ export class TurmasComponent implements OnInit {
             conteúdo programático.
         </div>
     </div>
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query"></mat-progress-bar>
+
     <div class="row">
-        <button color="primary" style="width: 30px;" (click)="iniciarAula()" mat-button>SIM</button>
-        <button style="width: 30px;" [mat-dialog-close]="{clicked:'Cancel'}" mat-button>NÃO</button>
+        <button [disabled]="disabledButton" color="primary" style="width: 30px;" (click)="iniciarAula()" mat-button>SIM</button>
+        <button [disabled]="disabledButton" style="width: 30px;" [mat-dialog-close]="{clicked:'Cancel'}" mat-button>NÃO</button>
     </div>
 </div>`,
+animations: [HighlightTrigger]
 })
 export class ConfirmarIniciarAulaModal implements OnInit {
 
 
     private BaseUrl = environment.baseUrl;
-
+    public initProgressBar = 'hidden'
+    public disabledButton = false
     constructor(
         private _http: HttpClient,
         public dialogRef: MatDialogRef<ConfirmarIniciarAulaModal>,
@@ -220,17 +231,24 @@ export class ConfirmarIniciarAulaModal implements OnInit {
 
     }
 
+
     iniciarAula() {
         // calendario/{calendarioId}
+        this.disabledButton = true
+        this.initProgressBar = 'visible'
         this._http.put(`${this.BaseUrl}/pedag/turma/calendario/${this.data['turma'].calendarioId}`, {})
             .subscribe(resp => {
 
             }, (error) => {
                 console.log(error)
-               // this.dialogRef.close({ clicked: "Sim" })
+                this.disabledButton = false
+                this.initProgressBar = 'hidden'
+                // this.dialogRef.close({ clicked: "Sim" })
             },
                 () => {
-                    this.dialogRef.close({ clicked: "Sim" })
+                    this.disabledButton = false
+                    this.initProgressBar = 'hidden'
+                    this.dialogRef.close({ clicked: true })
                 })
 
 

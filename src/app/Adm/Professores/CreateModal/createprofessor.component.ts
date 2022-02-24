@@ -11,6 +11,8 @@ import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Cargo } from "../../Adm-Models/cargos.model";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
+import { AdmService } from "../../services/adm.services";
 
 @Component({
     selector: 'createprofessormodal',
@@ -29,15 +31,20 @@ export class CreateProfessorComponent implements OnInit {
     public validadeEmailMsg = false
     public validadeCPFMsg = false
     public disabledSpinner = false
+    public showMensagem = 'hidden'
+    public disabledSaveButton = 'hidden'
+    public msgErros: any
     //cargos = Cargos;
     mensagem = "";
-    showMensagem = false
+   // public showMensagem = 'hidden'
     //public bairro: string = null;
     //@Input() disabled = true;
     unidades = Unidades;//: string[] = new Array("Campo Grande II", "Jacarepaguá");
     constructor(
         //private service: AdmService,
         private _snackBar: MatSnackBar,
+        private _helper: HelpersService,
+        private _admService: AdmService,
         private router: Router,
         private _fb: FormBuilder,
         private http: HttpClient,
@@ -89,20 +96,21 @@ export class CreateProfessorComponent implements OnInit {
     }
 
 
-    disabledSaveButton = false
+    //disabledSaveButton = false
     get disabledButton() {
         if (this.colaboradorForm.valid) {
-            return this.disabledSaveButton
+            return this.disabledSaveButton != 'hidden'
         } else {
             return true
         }
     }
 
     onSubmit(form: FormGroup) {
-        this.showMensagem = false
+       // this.showMensagem = false
         console.log(form)
         console.log(form.value)
         console.log(form.valid)
+        this.showMensagem = 'hidden'
         //var cel = `${form['celular'].value}`
         //console.log(cel)
         // this.dialogRef.close();
@@ -112,7 +120,7 @@ export class CreateProfessorComponent implements OnInit {
             // const novoColaborador = JSON.stringify(form.value);
             //this.save(novoColaborador)
             // let newTemplate = this.mapForm(tempForm)
-            this.disabledSaveButton = true
+            this.disabledSaveButton = 'visible'
             this.http.post(`${this.baseUrl}/professor`, this.colaboradorForm.value, {})
                 .subscribe(response => {
 
@@ -121,12 +129,16 @@ export class CreateProfessorComponent implements OnInit {
                     // console.log(this.colaboradores)
                     // this.dialogRef.close();
                 }, (err) => {
-                    console.log(err)
-                    this.disabledSpinner = false
-                    console.log(err['error'].mensagem)
-                    this.mensagem = err['error'].mensagem
-                    this.showMensagem = true
-                    this.disabledSaveButton = true
+
+                    if (err['status'] == 409) {
+                    this.msgErros = err['error'].msg
+                    this.showMensagem = 'visible'
+                    this.disabledSaveButton = 'hidden'
+                }else{
+                    this._helper.openSnackBarErrorDefault()
+                    
+                     this.dialogRef.close({ clicked: "Ok" });
+                }
                 },
                     () => {
                         //console.log(response)
@@ -134,7 +146,7 @@ export class CreateProfessorComponent implements OnInit {
 
                         //this.showMensagem = false
                         this.dialogRef.close({ clicked: "Ok" });
-                        this.disabledSaveButton = true
+                        this.disabledSaveButton = 'hidden'
                     });
         }
     }
@@ -204,38 +216,26 @@ export class CreateProfessorComponent implements OnInit {
         }
     }
     // https://viacep.com.br/ws/01001000/json/
-    showEndereco = false
+    showEndereco = 'hidden'
     consultaCEP(CEP: string) {
-        console.log(CEP);
+       
+        if (this.colaboradorForm.get('cep').valid) {
 
-        this.http.get(`https://viacep.com.br/ws/${CEP}/json/`, {
-
-        }
-        )
+            this._admService.CepConsulta(this.colaboradorForm.get('cep').value)
             .subscribe(response => {
-
-                console.log(response)
-                // this.cepReturn = new CepReturn(
-                //     response["logradouro"],
-                //     response["bairro"],
-                //     response["localidade"],
-                //     response["uf"]);
-                //console.log(this.cepReturn)
+       
                 this.colaboradorForm.get('logradouro').setValue(response["logradouro"]);
                 this.colaboradorForm.get('bairro').setValue(response["bairro"]);
                 this.colaboradorForm.get('cidade').setValue(response["localidade"]);
                 this.colaboradorForm.get('uf').setValue(response["uf"]);
-                //this.bairro = this.cepReturn.bairro
-                // const token = (<any>response).accessToken;
-                // console.log(response)
-                // localStorage.setItem("jwt", token);
-                // this.invalidLogin = false;
-                // this.router.navigate(["/main"]);
-            }, err => { console.log(err) },
+                
+
+            }, err => {  },
                 () => {
-                    console.log('finaly')
-                    this.showEndereco = true
+                    
+                    this.showEndereco = 'visible'
                 });
+            }
     }
 
     onOkClick() {

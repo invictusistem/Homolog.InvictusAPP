@@ -101,7 +101,7 @@ export class NotasComponent implements OnInit {
     getMaterias(turmaId) {
        
         this.atualModuloId = turmaId
-         this._http.get(`${this.BaseUrl}/turma/materias/${turmaId}`)
+         this._http.get(`${this.BaseUrl}/turma/materias-notas/${turmaId}`)
             .subscribe(
                 response => {
                     this.materias = Object.assign([], response['materias'])

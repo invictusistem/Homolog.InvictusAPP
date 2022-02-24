@@ -57,4 +57,24 @@ export function AulaEditModalConfig(caled){
     }
 }
 
+export function OpenCertificadoComponentModal(matricula?){
+    return {      
+        width: '500px',
+        data: { matricula: matricula },        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+// Diario de Claase
+
+export function OpenPresencaComponentModal(turma?){
+    return {      
+        width: '1030px',
+        data: { turma: turma },        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
 

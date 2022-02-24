@@ -9,8 +9,10 @@
 
     th {
         //font-size: 0.8em;
-        //  border: 1px solid red;
+         border: 1px solid red;
     }
+
+
 }
 
 .table-calend {
@@ -24,7 +26,7 @@
 
     th {
         font-size: 0.9em;
-        // border: 1px solid red;
+        //border: 1px solid red;
     }
 }
 
@@ -32,7 +34,7 @@
 //     padding-top: 0px !important;
 // }
 
-::ng-deep .pedagcalendar-class {
+::ng-deep .profcalendar-class {
     mat-dialog-container {
         padding-top: 0px !important;
         margin-top: 0px !important;

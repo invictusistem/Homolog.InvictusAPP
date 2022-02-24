@@ -56,31 +56,31 @@
     <ng-container *ngIf="aula.aulaIniciada;else naoIniciada">
         <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
             <mat-label>Aula iniciada em</mat-label>
-            <input disabled selected value="{{aula.dateAulaIniciada | date:'dd/MM/yyyy HH:MM'}}" matInput oninput="this.value = this.value.toLowerCase()"
+            <input disabled selected value="{{aula.dateAulaIniciada | date:'d/MM/yyyy h:mm'}}" matInput 
                 placeholder="Email">
         </mat-form-field>
     </ng-container>
     <ng-template #naoIniciada>
         <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
             <mat-label>Aula iniciada em</mat-label>
-            <input disabled selected value="Aula não iniciada" matInput oninput="this.value = this.value.toLowerCase()"
+            <input disabled selected value="Aula não iniciada" matInput 
                 placeholder="Email">
         </mat-form-field>
     </ng-template>
 
 
 
-    <ng-container *ngIf="aula.aulaconcluida;else naoConcluida">
+    <ng-container *ngIf="aula.aulaConcluida;else naoConcluida">
         <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
             <mat-label>Aula concluída em</mat-label>
-            <input disabled selected matInput value="{{aula.dateAulaConcluida | date:'dd/MM/yyyy HH:MM'}}" oninput="this.value = this.value.toLowerCase()"
+            <input disabled selected matInput value="{{aula.dateAulaConcluida | date:'d/MM/yyyy h:mm'}}" 
                 placeholder="Email">
         </mat-form-field>
     </ng-container>
     <ng-template #naoConcluida>
         <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
             <mat-label>Aula iniciada em</mat-label>
-            <input disabled selected value="Aula não concluída" matInput oninput="this.value = this.value.toLowerCase()"
+            <input disabled selected value="Aula não concluída" matInput 
                 placeholder="Email">
         </mat-form-field>
     </ng-template>

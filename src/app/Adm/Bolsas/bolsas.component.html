@@ -59,8 +59,8 @@
 
         <div class="card-header">
             <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
-                Contratos</h4>
-            <p class="card-category">Contratos cadastrados no sistema:</p>
+                Bolsas</h4>
+            <p class="card-category">Bolsas cadastrados no sistema:</p>
         </div>
 
         <div class="card-body">
@@ -126,7 +126,7 @@
                             <td style="text-align: center;vertical-align: middle;">
                                 <i style="margin: 0px; margin: 0px;"  #tooltip="matTooltip"
                                 matTooltip="visualizar código" matTooltipPosition="above" matTooltipHideDelay="100">
-                                <button (click)="verCodigoBolsa(item.id)" [disabled]="disabledCodigo"
+                                <button (click)="VerCodigoBolsa(item.id)" [disabled]="disabledCodigo"
                                     style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                     mat-icon-button>
                                     <mat-icon>visibility</mat-icon>
@@ -136,6 +136,14 @@
 
                             <td style="position: relative;">
 
+                                <i style="margin: 0px; margin: 0px;"  #tooltip="matTooltip"
+                                matTooltip="visualizar código" matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button (click)="EditarBolsa(item.id)" [disabled]="disabledCodigo"
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon>settings</mat-icon>
+                                </button>
+                            </i>
                                 <!-- <i style="margin: 0px; margin: 0px;" *ngIf="item.podeEditar" #tooltip="matTooltip"
                                     matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
                                     <button (click)="openEditContratoModal(item)"

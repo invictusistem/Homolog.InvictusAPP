@@ -9,9 +9,12 @@ import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { Cargos, Unidades } from "src/app/_shared/models/perfil.model";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
+import { ProfCalendarioModalConfig, ProfRelatorioModalConfig } from "../services/modal.config";
 import { CreateProfessorComponent } from "./CreateModal/createprofessor.component";
 import { EditProfessorComponent } from "./EditModal/editprofessor.component";
 import { ProfMateriasComponent } from "./Materias/prof-materias.component";
+import { ProfCalendarioComponent } from "./ProfCalendario/prof-calendario.component";
+import { ProfRelatorioComponent } from "./Relatorio/prof-relatorio.component";
 
 
 @Component({
@@ -25,6 +28,7 @@ export class ProfessoresComponent {
 
     // paginated
     pageIndexNumber: number = 0;
+    public spinnerSearch = 'hidden'
     actualPage = 1
     paginationInfo: IPager;
     pageSize: number = 5;
@@ -119,6 +123,7 @@ export class ProfessoresComponent {
         var formJson = JSON.stringify(this.pesquisarForm.value)
         this.showSpinner = true
         if (this.pesquisarForm.valid) {
+            this.spinnerSearch = 'visible'
             this.http.get(`${this.baseUrl}/professor/?itemsPerPage=` + this.pageSize + `&currentPage=1&paramsJson=${formJson}`)
                 .subscribe(
                     (response) => {
@@ -127,7 +132,7 @@ export class ProfessoresComponent {
 
                         this.length = response['totalItemsInDatabase']
                         this.totalPages = Math.ceil(this.length / this.pageSize)
-                        console.log(this.totalPages)
+                       // console.log(this.totalPages)
                         if (this.professores.length == 0) {
                             // console.log("lengt zero")
                             this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
@@ -138,7 +143,8 @@ export class ProfessoresComponent {
                     (err) => {
                         this.showSpinnerFirst = false
                         this.showSpinner = false
-                         console.log(err)
+                        // console.log(err)
+                         this.spinnerSearch = 'hidden'
                         //this.openSnackBar(err)
 
                     },
@@ -146,6 +152,7 @@ export class ProfessoresComponent {
                         this.showMessageNoColaborador = false
                         this.showSpinnerFirst = false
                         this.showSpinner = false
+                        this.spinnerSearch = 'hidden'
                         //  console.log('ok get');
 
                         //this.pageIndexNumber = (evento.pageIndex * this.pageSize)
@@ -154,6 +161,8 @@ export class ProfessoresComponent {
         }
 
     }
+
+    
 
     changePage(event?: any, element?: any) {
         console.log(event)
@@ -199,6 +208,19 @@ export class ProfessoresComponent {
 
     }
 
+    public OpenProfCalendarioodal(prof): void {
+        const dialogRef = this._modal
+            .open(ProfCalendarioComponent, ProfCalendarioModalConfig(prof));
+        dialogRef.afterClosed().subscribe(data => {
+        });
+    }
+
+    public OpenProfRelatorio(prof):void{
+        const dialogRef = this._modal
+            .open(ProfRelatorioComponent, ProfRelatorioModalConfig(prof));
+        dialogRef.afterClosed().subscribe(data => {
+        });
+    }
 
     getColaboradores(actualPage: number, pageSize: number) {
 

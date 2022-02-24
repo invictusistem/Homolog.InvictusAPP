@@ -48,7 +48,7 @@ export class CreateColaboradoresComponent implements OnInit {
     cargos: any[] = new Array<any>()
     mensagem = "";
     public showMensagem = 'hidden'
-    msgErros: any
+    public msgErros: any
 
     constructor(
         private _snackBar: MatSnackBar,
@@ -145,25 +145,19 @@ export class CreateColaboradoresComponent implements OnInit {
     consultaCEP(CEP: string) {
        // console.log(CEP);
         if (this.colaboradorForm.get('cep').valid) {
-
-
-            //var mystring = "crt/r2002_2";
-            CEP = CEP.replace('-', '');
-            CEP = CEP.replace('.', '');
-            console.log(CEP);
+            
+            
             this._admService.CepConsulta(this.colaboradorForm.get('cep').value)
                 .subscribe(response => {
-
-                    console.log(response)
                    
                     this.colaboradorForm.get('logradouro').setValue(response["logradouro"].toUpperCase());
                     this.colaboradorForm.get('bairro').setValue(response["bairro"].toUpperCase());
                     this.colaboradorForm.get('cidade').setValue(response["localidade"].toUpperCase());
                     this.colaboradorForm.get('uf').setValue(response["uf"].toUpperCase());
                    
-                }, err => { console.log(err) },
+                }, err => {  },
                     () => {
-                        //  console.log('finaly')
+                       
                         this.showEndereco = 'visible'
                     });
         }
