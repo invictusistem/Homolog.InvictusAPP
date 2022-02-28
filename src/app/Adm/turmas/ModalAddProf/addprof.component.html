@@ -1,85 +1,165 @@
-<div>
-    <div class="table-responsive" style="height: 430px;position: relative;">
-        <table color="primary" style="margin-bottom: 0px;" class="table">
+<!-- <div style="font-size: 1.2em;">Adicionar Professor
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
 
-            <thead>
-                <tr>
-                    <th style="width: 2%; 
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<hr>
+
+<div style="height: 450px; position: relative;" *ngIf="showContent" @rowHighlight>
+
+    <table style="margin-bottom: 0px;" class="table">
+
+        <thead>
+            <tr>
+                <th style="width: 2%; 
             text-align:left; 
             vertical-align: middle;
             border-top: 0px;"></th>
 
 
-                    <th style="width: 27%;font-size:1em;
+                <th style="width: 27%;font-size:1em;
             vertical-align: middle;
             text-align:left;
-             border-top: 0px; font-weight: 400;">Nome</th>
+             border-top: 0px; font-weight: 400;">NOME</th>
 
-                    <th style="width: 25%;font-size:1em;
+                <th style="width: 25%;font-size:1em;
             vertical-align: middle;
             text-align:center;
-            border-top: 0px; font-weight: 400;">E-mail</th>
+            border-top: 0px; font-weight: 400;">E-MAIL</th>
 
-                    <!-- <th style="width: 25%;font-size:1em;
-            text-align:center; 
-            vertical-align: middle;
-            border-top: 0px; font-weight: 400;">Matéria</th> -->
-
-                    <!--<th style="width: 12%;font-size:1em;
-            text-align:center; 
-            vertical-align: middle;
-            border-top: 0px; font-weight: 400;">Matriculados</th>
-
-            <th style="width: 13%;font-size:1em;
-            text-align:center; 
-            vertical-align: middle;
-            border-top: 0px; font-weight: 400;">Status</th> -->
-
-                    <th style="width: 17%;font-size:1em;
+                <th style="width: 17%;font-size:1em;
             text-align:center; 
             vertical-align: middle;
             border-top: 0px; font-weight: 400;">
-                        <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="adicionar professor"
-                    matTooltipPosition="above" matTooltipHideDelay="100">
-                    <button (click)="openAddProfModal()" style="margin: 0px;" mat-icon-button>
-                        <mat-icon>person_add</mat-icon>
-                    </button>
-                </i> -->
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
 
-                <tr *ngFor="let prof of profResp">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
 
-                    <td style="text-align:center;vertical-align: middle;"></td>
+            <tr *ngFor="let prof of profResp">
 
-                    <td style="text-align:left;vertical-align: middle;">
-                        {{prof.nome}}
-                    </td>
+                <td style="text-align:center;vertical-align: middle;"></td>
 
-                    <td style="text-align: center;vertical-align: middle;">
-                        {{prof.email}}
-                    </td>
+                <td style="text-align:left;vertical-align: middle;">
+                    {{prof.nome}}
+                </td>
 
-                    <td style="position: relative; float: right;">
-                        <mat-checkbox style="margin-right: 5px;" (change)="onCheckboxChange($event, prof.id)" type="checkbox"
-                            color="primary" class="example-margin" name="checked">
-                        </mat-checkbox>
-                    </td>
+                <td style="text-align: center;vertical-align: middle;">
+                    {{prof.email}}
+                </td>
 
-                </tr>
+                <td style="position: relative; float: right;">
+                    <mat-checkbox style="margin-right: 5px;" (change)="onCheckboxChange($event, prof.id)"
+                        type="checkbox" color="primary" class="example-margin" name="checked">
+                    </mat-checkbox>
+                </td>
 
-            </tbody>
+            </tr>
 
-        </table>
+        </tbody>
 
-
-    </div>
-    <button (click)="salvarProfs()" type="submit" mat-raised-button disabled="false" style="float:right;margin-bottom: 10px;margin-left: 10px;">
-        Salvar
-    </button>
-    <button style="float:right;margin-bottom: 10px;" mat-raised-button
-        [mat-dialog-close]="{clicked:'Cancel'}">Cancel</button>
+    </table>
 
 </div>
+<div *ngIf="showContent" style="float:right;bottom: 0; margin-left: 10px;">
+    <button (click)="salvarProfs()" [disabled]="DisabledSave" color="primary" type="submit" mat-raised-button
+        disabled="false">
+        Salvar
+    </button>
+</div> -->
+
+
+<div style="font-size: 1.2em;">Adicionar Professor
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<hr>
+
+<div style="height: 450px; position: relative;" *ngIf="showContent" @rowHighlight>
+
+    <table style="margin-bottom: 0px;" class="table">
+
+        <thead>
+            <tr>
+                <th style="width: 2%; 
+            text-align:left; 
+            vertical-align: middle;
+            border-top: 0px;"></th>
+
+
+                <th style="width: 27%;font-size:1em;
+            vertical-align: middle;
+            text-align:left;
+             border-top: 0px; font-weight: 400;">NOME</th>
+
+                <th style="width: 25%;font-size:1em;
+            vertical-align: middle;
+            text-align:center;
+            border-top: 0px; font-weight: 400;">E-MAIL</th>
+
+                <th style="width: 17%;font-size:1em;
+            text-align:center; 
+            vertical-align: middle;
+            border-top: 0px; font-weight: 400;">
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr *ngFor="let prof of profResp">
+
+                <td style="text-align:center;vertical-align: middle;"></td>
+
+                <td style="text-align:left;vertical-align: middle;">
+                    {{prof.nome}}
+                </td>
+
+                <td style="text-align: center;vertical-align: middle;">
+                    {{prof.email}}
+                </td>
+
+                <td style="position: relative; float: right;">
+                    <!-- <mat-checkbox style="margin-right: 5px;" (change)="onCheckboxChange($event, prof.id)"
+                        type="checkbox" color="primary" class="example-margin" name="checked">
+                    </mat-checkbox> -->
+
+                    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="adicionar" matTooltipPosition="above"
+                    matTooltipHideDelay="100">
+                    <button type="button" (click)="AddProf(prof.id)" [disabled]="disabledAddProf" style="" mat-icon-button>
+                        <mat-icon  >person_add_alt</mat-icon>
+                    </button>
+                </i>
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+<!-- <div *ngIf="showContent" style="float:right;bottom: 0; margin-left: 10px;">
+    <button (click)="salvarProfs()" [disabled]="DisabledSave" color="primary" type="submit" mat-raised-button
+        disabled="false">
+        Salvar
+    </button>
+</div> -->

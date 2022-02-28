@@ -423,6 +423,43 @@ ini.setHours(0,0,0,0)
         return response;
     }
 
+    // Turmas
+
+    public AddProfNaTurma(addProfCommand): Observable<any> {
+
+        let path = `/pedag/turma/professores`
+
+        let response = this.http
+            .post(this.BaseUrl + path, addProfCommand, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    // var saveProfs: SaveProfsCommand = new SaveProfsCommand();
+    //     saveProfs.turmaId = this.data['turma'].id
+    //     saveProfs.listProfsIds = profIds
+    //     console.log(saveProfs)
+    //     this._http.post(`${this.BaseUrl}/pedag/turma/professores`, saveProfs, {
+
+    //     })
+    //         .subscribe(
+    //             (response) => {
+    //                 console.log(response)
+
+    //                 //
+
+    //             },
+    //             (error) => { console.log(error) },
+    //             () => {
+
+    //                 this.GetInformacoesDaTurma(this.data['turma'].id);
+                    
+    //             }
+    //         )
+
     // console.log(CEP);
     // if (CEP.length == 10) {
 

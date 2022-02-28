@@ -1,6 +1,27 @@
-<div>
-    Professor: {{ data['professor'].nome }}
-    <div class="table-responsive" style="height: 430px;position: relative;">
+<div style="font-size: 1.2em;">Atribuir matéria(s)
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<hr>
+
+<div  *ngIf="showContent" @rowHighlight>
+    
+    <mat-form-field appearance="standard" style="width: 55%;">
+        <mat-label>Professor</mat-label>
+        <input selected disabled [value]="data['professor'].nome"
+        required matInput placeholder="Nome">
+    </mat-form-field>
+
+    <div class="table-responsive" style="height: 410px;position: relative;">
         <table color="primary" style="margin-bottom: 0px;" class="table">
 
             <thead>
@@ -77,10 +98,10 @@
 
 
     </div>
-    <button color="primary" (click)="Atualizar()" type="button" mat-raised-button disabled="false" style="float:right;margin-bottom: 10px;margin-left: 10px;">
+    <button color="primary" [disabled]="sabeButtom" (click)="Atualizar()" type="button" mat-raised-button disabled="false" style="float:right;margin-bottom: 10px;margin-left: 10px;">
         Salvar
     </button>
-    <button style="float:right;margin-bottom: 10px;" mat-raised-button
-        [mat-dialog-close]="{clicked:'Cancel'}">Cancel</button>
+    <!-- <button style="float:right;margin-bottom: 10px;" mat-raised-button
+        [mat-dialog-close]="{clicked:'Cancel'}">Cancel</button> -->
 
 </div>

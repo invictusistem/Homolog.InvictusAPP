@@ -314,11 +314,11 @@ export class EditCursoComponent implements OnInit {
     openAddProfModal(): void {
         const dialogRef = this.dialog
             .open(AddProfessorModalComponent, {
-                height: 'auto',
+               // height: 'auto',
                 width: '1030px',
-                autoFocus: false,
-                maxHeight: '90vh',
-                maxWidth: '400vh',
+                //autoFocus: false,
+                //maxHeight: '90vh',
+               // maxWidth: '400vh',
 
                 data: { turmaId: this.data['turma'].id },
                 hasBackdrop: true,
@@ -328,9 +328,10 @@ export class EditCursoComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             //console.log('The dialog was closed');
             console.log(result);
-            if (result["clicked"] == "OK") {
-                console.log(result["profsIds"])
-                this.saveProfs(result["profsIds"])
+            if (result["clicked"] == true) {
+               // console.log(result["profsIds"])
+                //this.saveProfs(result["profsIds"])
+                this.GetInformacoesDaTurma(this.data['turma'].id);
 
 
             }
@@ -344,11 +345,11 @@ export class EditCursoComponent implements OnInit {
     openAddMateriaModal(prof): void {
         const dialogRef = this.dialog
             .open(AddPMateriaModalComponent, {
-                height: 'auto',
+                //height: 'auto',
                 width: '1030px',
-                autoFocus: false,
-                maxHeight: '90vh',
-                maxWidth: '400vh',
+                // autoFocus: false,
+                // maxHeight: '90vh',
+                // maxWidth: '400vh',
 
                 data: { turmaId: this.data['turma'].id, professor: prof },
                 hasBackdrop: true,
@@ -359,7 +360,7 @@ export class EditCursoComponent implements OnInit {
             //console.log('The dialog was closed');
             console.log(result);
             if (result["clicked"] == true) {
-                console.log(result["profsIds"])
+               // console.log(result["profsIds"])
                 this.GetInformacoesDaTurma(this.data['turma'].id);
                 //this.saveProfs(result["profsIds"])
 

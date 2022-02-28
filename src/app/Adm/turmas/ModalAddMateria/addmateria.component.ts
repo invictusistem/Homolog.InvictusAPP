@@ -2,33 +2,35 @@ import { getTreeMultipleDefaultNodeDefsError } from "@angular/cdk/tree";
 import { HttpClient } from "@angular/common/http";
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { Materias } from "src/app/_shared/models/Turma.model";
 import { environment } from "src/environments/environment";
 import { ProfResponse } from "../CreateModal/createcurso.component";
 
 @Component({
     selector: 'addmateria-modal',
-    templateUrl: './addmateria.component.html'
-    //styleUrls: ['./editcurso.component.scss']
+    templateUrl: './addmateria.component.html',
+    styleUrls: ['./addmateria.component.scss'],
+    animations: [HighlightTrigger]
 })
 
 export class AddPMateriaModalComponent implements OnInit {
 
     private baseUrl = environment.baseUrl
-    materias: any[] = new Array<any>();// Materias[] = new Array<Materias>();
+    materias: any[] = new Array<any>();
+    public initProgressBar = 'visible'
+    public showContent = false
+    public disabledSaveButton = false
 
     constructor(
         private _http: HttpClient,
-        public dialogRef: MatDialogRef<AddPMateriaModalComponent>,
+        public _dialogRef: MatDialogRef<AddPMateriaModalComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
 
     }
     ngOnInit() {
         this.getMateria()
-        console.log(this.data['turmaId'])
-        console.log(this.data['professor'].id)
-        console.log(this.data['professor'].nome)
     }
 
     getMateria() {
@@ -47,6 +49,9 @@ export class AddPMateriaModalComponent implements OnInit {
                 },
                 (error) => { console.log(error) },
                 () => {
+                    this.initProgressBar = 'hidden'
+                    this.showContent = true
+                    this._dialogRef.addPanelClass('turmaaddmateria-class')
                     // this.materias.forEach(element => {
                     //     console.log(element.profId)
                         
@@ -57,14 +62,19 @@ export class AddPMateriaModalComponent implements OnInit {
             )
     }
 
+    get sabeButtom(){
+
+        return this.disabledSaveButton
+    }
+
     Checar(){
         return true
     }
     checked = true
     Atualizar() {
-        console.log(this.listProfId)
-        console.log(this.data['turmaId'])
-        console.log(this.data['professor'])
+        // console.log(this.listProfId)
+        // console.log(this.data['turmaId'])
+        // console.log(this.data['professor'])
         // this.materias.forEach(element => {
         //     console.log(element.temProfessor)
         //     if(element.temProfessor){
@@ -74,22 +84,24 @@ export class AddPMateriaModalComponent implements OnInit {
         //     }
         // });
 
-        console.log(this.materias)
-
+       // console.log(this.materias)
+       this.initProgressBar = 'visible'
+       
+       this.disabledSaveButton = true
         this._http.put(`${this.baseUrl}/pedag/turma/materias/${this.data['turmaId']}/${this.data['professor'].id}`, this.materias,{
 
         })
         .subscribe(
             (result) => {
 
-                console.log(result)
+              //  console.log(result)
 
             },
             (error) => { 
-                console.log(error) 
+               // console.log(error) 
             },
             () => {
-                this.dialogRef.close({ clicked: true, profsIds: this.listProfId });
+                this._dialogRef.close({ clicked: true, profsIds: this.listProfId });
             }
         )
 
