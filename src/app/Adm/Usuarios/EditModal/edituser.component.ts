@@ -10,6 +10,7 @@ import { Form, FormBuilder, FormGroup, NgForm } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { AdmService } from "../../services/adm.services";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Component({
@@ -24,19 +25,21 @@ export class EditUserComponent implements OnInit {
     // genericTasks: GenericTask[] = new Array<GenericTask>();
     // length: number;
     // pageEvent: PageEvent;
-   // private baseUrl = environment.baseUrl
+    // private baseUrl = environment.baseUrl
     public roles: string[] = new Array<string>();
     public usuarioForm: FormGroup
-    //perfis = Perfis;
-    usuario: any;// = new any();// Colaborador = new Colaborador();
+    public showContent = false
+    public usuario: any;// = new any();// Colaborador = new Colaborador();
+    public initProgressBar = 'visible'
     //ativo = true;
     //selected: any
     //perfilAtivo: boolean = true
     //isChecked = true;
-    showForm = false
+    // showForm = false
     constructor(
-       // private fb: FormBuilder,
-       // private http: HttpClient,
+        // private fb: FormBuilder,
+        // private http: HttpClient,
+        private _helper: HelpersService,
         private _service: AdmService,
         public dialogRef: MatDialogRef<EditUserComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -49,37 +52,39 @@ export class EditUserComponent implements OnInit {
 
 
     ngOnInit() {
-      //  this.ativo = true;
-        console.log(this.data['colaborador'])
+        //  this.ativo = true;
+
         this.usuario = Object.assign({}, this.data['colaborador'])
         //this.getTasks(1, this.pageSize);
         //this.selected = this.usuario.perfil
         //this.perfilAtivo = this.usuario.perfilAtivo
-        console.log(this.usuario)
+
         //this.isChecked = this.usuario.perfilAtivo
-        
+
         this.getSystemRoles()
     }
 
-    getSystemRoles(){
+    getSystemRoles() {
 
         this._service.getSystemRoles()
             .subscribe(
-                sucesso => { this.getSystemRolesSuccess(sucesso)},
-                falha => { this.getSystemRolesError(falha)}
+                sucesso => { this.getSystemRolesSuccess(sucesso) },
+                falha => { this.getSystemRolesError(falha) }
             )
     }
 
-    getSystemRolesSuccess(resposta){
+    getSystemRolesSuccess(resposta) {
         this.roles = resposta['roles']
-        this.showForm = true
+        this.initProgressBar = 'hidden'
+        this.showContent = true
 
     }
 
-    getSystemRolesError(error){
+    getSystemRolesError(error) {
+        this.initProgressBar = 'hidden'
+        this._helper.openSnackBarErrorDefault();
+    }
 
-    }   
-    
 
     submitForm(form: NgForm) {
         console.log(form.value)
@@ -94,12 +99,13 @@ export class EditUserComponent implements OnInit {
             )
     }
 
-    submitFormSucesso(){
+    submitFormSucesso() {
+        this._helper.openSnackBarSucesso('Acesso editado com sucesso.')
         this.dialogRef.close({ clicked: true })
     }
 
-    submitFormErro(error){
-
+    submitFormErro(error) {
+        this._helper.openSnackBarErrorDefault();
     }
 
 }

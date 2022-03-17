@@ -23,7 +23,7 @@
             <mat-form-field appearance="standard" style="width: 200px;">
 
                 <mat-label></mat-label>
-                <mat-select formControlName="typePacoteId"  placeholder="type pacote">
+                <mat-select [disabled]="typesPacotes.length == 0" formControlName="typePacoteId"  placeholder="type pacote">
                     <mat-option ></mat-option>
                     <mat-option *ngFor="let pac of typesPacotes"
                     [value]="pac.id"
@@ -45,7 +45,8 @@
 
     </form>  
    
-    <mat-progress-bar @rowHighlight *ngIf="showSpinnerSearch" style="margin:0px"  mode="query"></mat-progress-bar>
+    <mat-progress-bar @rowHighlight [style.visibility]="initProgressBar" style="margin:0px"  mode="query"></mat-progress-bar>
+
     <div @rowHighlight *ngIf="contratos.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
         position: relative;
        

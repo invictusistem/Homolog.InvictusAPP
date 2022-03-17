@@ -210,6 +210,15 @@ border-top: 0px; font-weight: 400;">OBS</th>
                                 <mat-icon style="font-size: 1.3em;">note_alt</mat-icon>
                             </button>
                         </i>
+
+                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="lista presença"
+                        matTooltipPosition="above" matTooltipHideDelay="100">
+                        <button [disabled]="showSpinner" (click)="openPresenca(cale)"
+                            style="margin: 0px; margin: 0px;" mat-icon-button>
+                            <mat-icon style="font-size: 1.3em;">fact_check</mat-icon>
+                        </button>
+                    </i>
+
                     </ng-container>
                     <!-- <ng-template #naoConcluida>aula não concluída</ng-template> -->
 

@@ -3,8 +3,15 @@
     <div>
         <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="pré-cadastro" matTooltipPosition="above"
             matTooltipHideDelay="100">
-            <button style="" (click)="openMatriculaModal()" mat-icon-button>
+            <button (click)="openMatriculaModal()" mat-icon-button>
                 <mat-icon>person_add_alt</mat-icon>
+            </button>
+        </i>
+
+        <i style="margin-left: 10px;" #tooltip="matTooltip" matTooltip="relatório de matrículas" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button (click)="OpenRelatorioMatricula()" mat-icon-button>
+                <mat-icon>summarize</mat-icon>
             </button>
         </i>
     </div>
@@ -55,7 +62,7 @@
     </form>
 
     <div class="card-header card-msg-response" unselectable="on"
-    onselectstart="return false;" *ngIf="showMessageNoColaborador">{{mensagem}}</div>
+    *ngIf="showMessageNoColaborador">{{mensagem}}</div>
 
 <mat-progress-bar style="margin-top: 20px;" *ngIf="spinnerSearch" @rowHighlight style="margin:0px" mode="query">
 </mat-progress-bar>

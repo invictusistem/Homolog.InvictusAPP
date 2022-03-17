@@ -108,10 +108,10 @@ export class AlunoFinancComponent implements OnInit {
             this._http.get(`${this.baseUrl}/financeiro/alunos/?itemsPerPage=` + this.pageSize + `&currentPage=1&paramsJson=${formJson}`)
                 .subscribe(
                     (response) => {
-                        console.log(response)
+                       // console.log(response)
                         let resposta = response['alunos']
                         this.listAlunos = Object.assign([], resposta['data'])
-                        console.log(this.listAlunos)
+                       // console.log(this.listAlunos)
                         this.length = resposta['totalItemsInDatabase']
 
                         if (this.listAlunos.length == 0) {
@@ -123,7 +123,7 @@ export class AlunoFinancComponent implements OnInit {
                     },
                     (err) => {
                         //this.showSpinnerFirst = false
-                        console.log(err)
+                      //  console.log(err)
                         //this.openSnackBar(err)
 
                     },

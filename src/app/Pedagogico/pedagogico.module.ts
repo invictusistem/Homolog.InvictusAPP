@@ -53,6 +53,10 @@ import { DetalheComponent } from './AlunosAcesso/Detalhes/detalhe.component';
 import { ObservacoesTurmaModal } from './turmasInfos/CalendarioDaTurma/AulaDetalhe/obsturmamodal.component';
 import { AulaEditarModal } from './turmasInfos/CalendarioDaTurma/AulaEditar/aulaeditar.component';
 import { CertificadoComponent } from './Matricula/informacoes/Certificado/certificado.component';
+import { CalendPresencaComponent } from './turmasInfos/CalendarioDaTurma/CalendPresenca/cal-presenca.component';
+
+
+
 registerLocaleData(localeFr, 'fr');
 
 export const MY_DATE_FORMATS = {
@@ -117,7 +121,8 @@ const maskConfig: Partial<IConfig> = {
         AlunoAcessoComponent,
         DetalheComponent,
         AulaEditarModal,
-        CertificadoComponent
+        CertificadoComponent,
+        CalendPresencaComponent
     ],
     imports: [
         BrowserModule,
@@ -178,7 +183,8 @@ const maskConfig: Partial<IConfig> = {
         AddAnotacaoComponent,
         DetalheComponent,
         AulaEditarModal,
-        CertificadoComponent
+        CertificadoComponent,
+        CalendPresencaComponent
     ]
     
 })

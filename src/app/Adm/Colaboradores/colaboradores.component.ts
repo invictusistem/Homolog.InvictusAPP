@@ -52,7 +52,8 @@ export class ColaboradoresComponent implements OnInit {
             nome: ['', [Validators.required]],
             email: ['', [Validators.required]],
             cpf: ['', [Validators.required]],
-            ativo: [false]
+            ativo: [false],
+            todasUnidades:[false]
         });
 
         this.pesquisarForm.valueChanges.subscribe(
@@ -79,6 +80,8 @@ export class ColaboradoresComponent implements OnInit {
     ngOnInit() {
         const token = localStorage.getItem('jwt')
     }
+
+    //OnSelect
 
     onSubmit(event?: any) {
 

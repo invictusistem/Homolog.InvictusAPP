@@ -9,7 +9,7 @@ import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { Cargos, Unidades } from "src/app/_shared/models/perfil.model";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
-import { ProfCalendarioModalConfig, ProfRelatorioModalConfig } from "../services/modal.config";
+import { CreateProfessorModalConfig, ProfCalendarioModalConfig, ProfEditModalConfig, ProfRelatorioModalConfig } from "../services/modal.config";
 import { CreateProfessorComponent } from "./CreateModal/createprofessor.component";
 import { EditProfessorComponent } from "./EditModal/editprofessor.component";
 import { ProfMateriasComponent } from "./Materias/prof-materias.component";
@@ -74,7 +74,8 @@ export class ProfessoresComponent {
             nome: ['', [Validators.required]],
             email: ['', [Validators.required]],
             cpf: ['', [Validators.required]],
-            ativo: [false]
+            ativo: [false],
+            todasUnidades:[false]
         });
 
         this.pesquisarForm.valueChanges.subscribe(
@@ -141,6 +142,17 @@ export class ProfessoresComponent {
                         // this.applyFiler()
                     },
                     (err) => {
+                        if (err['status'] == 404) {
+                            this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
+                            this.showMessageNoColaborador = true
+                            this.professores = new Array<any>();
+                        }
+                        if (err['status'] != 404) {
+                            this.mensagem = "Ocorreu um erro desconhecido, por favor, procure o administrador do sistema"
+                            this.showMessageNoColaborador = true
+                            this.professores = new Array<any>();
+                        }
+
                         this.showSpinnerFirst = false
                         this.showSpinner = false
                         // console.log(err)
@@ -222,6 +234,38 @@ export class ProfessoresComponent {
         });
     }
 
+    openCreateUserModal(): void {
+        const dialogRef = this._modal
+            .open(CreateProfessorComponent, CreateProfessorModalConfig());
+        dialogRef.afterClosed().subscribe(data => {
+            if (data.clicked == true) this.getColaboradores(1, this.pageSize);
+        });
+    }
+
+    
+    public openEditUserModal(prof):void{
+        const dialogRef = this._modal
+            .open(EditProfessorComponent, ProfEditModalConfig(prof));
+        dialogRef.afterClosed().subscribe(data => {
+        });
+    }
+
+    // openEditUserModal(prof: any): void { // ProfEditModalConfig
+    //     const dialogRef = this._modal
+    //         .open(EditProfessorComponent, {
+    //             height: '520px',
+    //             width: '680px',
+
+    //             data: { prof: prof },
+    //             hasBackdrop: true,
+    //             disableClose: true
+    //         });
+
+    //     dialogRef.afterClosed().subscribe(result => {
+
+    //     });
+    // }
+
     getColaboradores(actualPage: number, pageSize: number) {
 
         var itemsPerPage = pageSize;
@@ -271,53 +315,40 @@ export class ProfessoresComponent {
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
                 
-                console.log('afte close ok')
+              //  console.log('afte close ok')
                 this.getColaboradores(1, this.pageSize);
             } else if (data.clicked === "Cancel") {
                
             }
         });
     }
+    
+    
+    // openCreateUserModal(): void {
+    //     const dialogRef = this._modal
+    //         .open(CreateProfessorComponent, {
+    //             minHeight: '420px',
+    //             width: '680px',
 
-    openCreateUserModal(): void {
-        const dialogRef = this._modal
-            .open(CreateProfessorComponent, {
-                minHeight: '420px',
-                width: '680px',
-
-                //data: { Hello: "Hello World" },
-                hasBackdrop: true,
-                disableClose: true
-            });
+    //             //data: { Hello: "Hello World" },
+    //             hasBackdrop: true,
+    //             disableClose: true
+    //         });
 
 
-        dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "Ok") {
-                // Reset form here
-                console.log('afte close ok')
-                this.getColaboradores(1, this.pageSize);
-            } else if (data.clicked === "Cancel") {
-                // Do nothing. Cancel any events that navigate away from the
-                // component.
-            }
-        });
-    }
+    //     dialogRef.afterClosed().subscribe((data) => {
+    //         if (data.clicked === "Ok") {
+    //             // Reset form here
+    //             console.log('afte close ok')
+    //             this.getColaboradores(1, this.pageSize);
+    //         } else if (data.clicked === "Cancel") {
+    //             // Do nothing. Cancel any events that navigate away from the
+    //             // component.
+    //         }
+    //     });
+    // }
 
-    openEditUserModal(item: Colaborador): void {
-        const dialogRef = this._modal
-            .open(EditProfessorComponent, {
-                height: '520px',
-                width: '680px',
-
-                data: { colaborador: item },
-                hasBackdrop: true,
-                disableClose: true
-            });
-
-        dialogRef.afterClosed().subscribe(result => {
-
-        });
-    }
+    
 
     deleteColaborador(id: number) {
 

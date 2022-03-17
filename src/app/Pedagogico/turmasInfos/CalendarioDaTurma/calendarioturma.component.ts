@@ -5,9 +5,10 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dial
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { environment } from "src/environments/environment";
 import { InfoDia, ListaPresencaDto } from "../../Pedag-Models/infodia.model";
-import { AulaEditModalConfig, ObsTurmaModalConfig } from "../../service/modal.config";
+import { AulaEditModalConfig, ObsTurmaModalConfig, OpenCalendarioPresencaomponentModal } from "../../service/modal.config";
 import { ObservacoesTurmaModal } from "./AulaDetalhe/obsturmamodal.component";
 import { AulaEditarModal } from "./AulaEditar/aulaeditar.component";
+import { CalendPresencaComponent } from "./CalendPresenca/cal-presenca.component";
 
 
 @Component({
@@ -77,6 +78,13 @@ export class CalendarioTurmaComponent implements OnInit {
     public GetNotaAula(caled): void {
         const dialogRef = this._modal
             .open(ObservacoesTurmaModal, ObsTurmaModalConfig(caled));
+        dialogRef.afterClosed().subscribe(data => {
+        });
+    }
+
+    openPresenca(calend: any): void {
+        const dialogRef = this._modal
+           .open(CalendPresencaComponent, OpenCalendarioPresencaomponentModal(calend));
         dialogRef.afterClosed().subscribe(data => {
         });
     }

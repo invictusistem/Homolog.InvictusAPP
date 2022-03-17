@@ -34,7 +34,7 @@ export class ConfirmarParcelamento implements OnInit {
         this.reparcelaCommand.valorEntrada = this.data['valorEntrada']
         this.reparcelaCommand.debitosIds = this.data['debitosIds']
         let valorDasParcelas = (this.data['totalFinal'] - this.data['valorEntrada']) / this.data['parcelas']
-        console.log(this.data)
+        //console.log(this.data)
 
         this.reparcelaCommand.parcelas = new Array<Parcelas>();
         for (let index = 0; index < this.data['parcelas']; index++) {
@@ -48,7 +48,7 @@ export class ConfirmarParcelamento implements OnInit {
             
         }
 
-        console.log(this.reparcelaCommand)
+       // console.log(this.reparcelaCommand)
         this.showTable = true
      
     }
@@ -58,7 +58,9 @@ export class ConfirmarParcelamento implements OnInit {
         this._http.post(`${this.baseUrl}/financeiro/reparcelar`, this.reparcelaCommand , {})
         .subscribe(resp => { 
 
-        },(error) => { console.log(error)},
+        },(error) => { 
+           // console.log(error)
+        },
         () => { 
             this.dialogRef.close({ clicked: "OK"})
         })

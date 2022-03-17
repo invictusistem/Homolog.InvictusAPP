@@ -155,7 +155,7 @@
 
                 <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
                     <mat-label>CPF</mat-label>
-                    <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                    <input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
                         mask="000.000.000-00" formControlName="cpf" minlength="11" maxlength="14" selected name="cpf"
                         matInput placeholder="digite o CPF">
                 </mat-form-field>
@@ -163,7 +163,7 @@
                 <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
                     <mat-label>RG</mat-label>
                     <input formControlName="rg"
-                        onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected
+                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected
                         name="rg" matInput placeholder="digite o RG">
                 </mat-form-field>
 
@@ -190,7 +190,7 @@
 
                 <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
                     <mat-label>UF</mat-label>
-                    <input onkeypress="return String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
+                    <input onkeypress="String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
                         oninput="this.value = this.value.toUpperCase()" minlength="2" maxlength="2" selected
                         formControlName="naturalidadeUF" required name="naturalidadeUF" matInput placeholder="UF">
                 </mat-form-field>
@@ -207,7 +207,7 @@
                 <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
                     <mat-label>Celular</mat-label>
                     <example-tel-input #cel name="telCelular" formControlName="telCelular"
-                        onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
                     </example-tel-input>
 
                     <mat-hint>telefone com DDD</mat-hint>
@@ -216,7 +216,7 @@
                 <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
                     <mat-label>WhatsApp</mat-label>
                     <example-tel-input name="telWhatsapp" formControlName="telWhatsapp"
-                        onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
                     </example-tel-input>
                     <mat-hint>telefone com DDD</mat-hint>
                 </mat-form-field>
@@ -224,7 +224,7 @@
                 <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
                     <mat-label>Residencial</mat-label>
                     <example-tel-input name="telResidencial" formControlName="telResidencial"
-                        onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
                     </example-tel-input>
                     <mat-hint>telefone com DDD</mat-hint>
                 </mat-form-field>
@@ -232,7 +232,7 @@
 
                 <mat-form-field appearance="standard" style="width: 10%;">
                     <mat-label>CEP</mat-label>
-                    <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                    <input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
                         formControlName="cep" minlength="8" maxlength="8" required name="templateName" matInput
                         placeholder="apenas números">
                 </mat-form-field>
@@ -306,7 +306,7 @@
 
                 <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
                     <mat-label>CPF</mat-label>
-                    <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                    <input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
                         mask="000.000.000-00" formControlName="cpf" minlength="11" maxlength="14" selected name="cpf"
                         matInput placeholder="digite o CPF">
                 </mat-form-field>
@@ -314,7 +314,7 @@
                 <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
                     <mat-label>RG</mat-label>
                     <input formControlName="rg"
-                        onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected
+                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected
                         name="rg" matInput placeholder="digite o RG">
                 </mat-form-field>
 
@@ -341,7 +341,7 @@
 
                 <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
                     <mat-label>UF</mat-label>
-                    <input onkeypress="return String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
+                    <input onkeypress="String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
                         oninput="this.value = this.value.toUpperCase()" minlength="2" maxlength="2" selected
                         formControlName="naturalidadeUF" required name="naturalidadeUF" matInput placeholder="UF">
                 </mat-form-field>
@@ -358,7 +358,7 @@
                 <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
                     <mat-label>Celular</mat-label>
                     <example-tel-input #cel name="telCelular" formControlName="telCelular"
-                        onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
                     </example-tel-input>
 
                     <mat-hint>telefone com DDD</mat-hint>
@@ -367,7 +367,7 @@
                 <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
                     <mat-label>WhatsApp</mat-label>
                     <example-tel-input name="telWhatsapp" formControlName="telWhatsapp"
-                        onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
                     </example-tel-input>
                     <mat-hint>telefone com DDD</mat-hint>
                 </mat-form-field>
@@ -375,7 +375,7 @@
                 <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
                     <mat-label>Residencial</mat-label>
                     <example-tel-input name="telResidencial" formControlName="telResidencial"
-                        onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
                     </example-tel-input>
                     <mat-hint>telefone com DDD</mat-hint>
                 </mat-form-field>
@@ -383,7 +383,7 @@
 
                 <mat-form-field appearance="standard" style="width: 10%;">
                     <mat-label>CEP</mat-label>
-                    <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                    <input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
                         formControlName="cep" minlength="8" maxlength="8" required name="templateName" matInput
                         placeholder="apenas números">
                 </mat-form-field>
@@ -460,7 +460,7 @@
 
                     <mat-form-field appearance="outline" style="width: 70px; margin-left: 15px;">
                         <mat-label>parcelas</mat-label>
-                        <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" min="1"
+                        <input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" min="1"
                             formControlName="parcelas" selected matInput>
                     </mat-form-field>
 

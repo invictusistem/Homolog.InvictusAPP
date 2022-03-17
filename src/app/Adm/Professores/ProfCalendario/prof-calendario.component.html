@@ -8,7 +8,7 @@ top: 0;">Calendario
         </button>
     </i>
 
-
+<!-- 
     <hr>
     <div style="font-size: 0.9em;margin-top: 10px;">
         <mat-form-field appearance="standard" style="width: 55%;">
@@ -16,14 +16,13 @@ top: 0;">Calendario
             <input [(ngModel)]="data['prof'].nome" disabled
             oninput="this.value = this.value.toUpperCase()" matInput
                 placeholder="Nome">
-        </mat-form-field>
-        <!-- {{data['turma'].descricao }} - {{ data['turma'].identificador}} -->
-    </div>
+        </mat-form-field>     
+    </div> -->
 
     <mat-progress-bar style="margin-top: 5px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
     </mat-progress-bar>
 
-    <hr>
+    <!-- <hr> -->
     <!-- <div *ngIf="ShowTableHeader" class="table-responsive table-calend-top" style="position: relative;">
         <table style="margin-bottom: 0px; padding: 0px;" class="table">
            
@@ -80,6 +79,20 @@ border-top: 0px; font-weight: 400;">OBS</th>
 </div>
 
 <div *ngIf="showSpin" class="table-responsive table-calend" style="position: relative;min-height: 100px;">
+    
+    <hr>
+
+    <div style="margin-top: 10px;">
+        <mat-form-field appearance="standard" style="width: 55%;font-size: 0.9em;">
+            <mat-label>Nome</mat-label>
+            <input [(ngModel)]="data['prof'].nome" disabled matInput>
+        </mat-form-field>   
+        
+        <mat-form-field appearance="standard" style="width: 40%;margin-left: 2%;font-size: 0.9em;">
+            <mat-label>Email</mat-label>
+            <input [(ngModel)]="data['prof'].email" disabled matInput>
+        </mat-form-field>   
+    </div>
   
     <table *ngIf="calendarios.length > 0" color="primary" style="margin-bottom: 0px;" class="table">
       
@@ -190,7 +203,7 @@ border-top: 0px; font-weight: 400;">OBS</th> -->
                 </td>
 
                 <td style="text-align: center;vertical-align: middle;">
-                   {{ cale.unidadeDescricao }}<br>{{cale.titulo}}
+                   {{ cale.unidadeDescricao }} / {{cale.titulo}}<br> {{cale.turma}}
                 </td>
 
                 <td style="text-align: center;vertical-align: middle;">

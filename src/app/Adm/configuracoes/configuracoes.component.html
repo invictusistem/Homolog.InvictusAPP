@@ -1,9 +1,9 @@
 <div class="container" style="width: 95%; padding-top: 20px;">
 
     <span>
-        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="criar cargo" matTooltipPosition="above"
+        <i style="" #tooltip="matTooltip" matTooltip="criar cargo" matTooltipPosition="above"
             matTooltipHideDelay="100">
-            <button (click)="openCreateCargoModal()" disabled mat-icon-button>
+            <button (click)="openCreateCargoModal()" mat-icon-button>
                 <mat-icon>engineering</mat-icon>
             </button>
         </i>
@@ -30,17 +30,17 @@
     <br>
     <br>
 
-    <span color="primary" style="display: block; margin-left: 10px;font-size: 0.9em;font-style: italic;">
+    <span color="primary" style="display: block; font-size: 0.9em;font-style: italic;">
         pesquisar:
     </span>
 
     <mat-form-field appearance="standard" style="width: 150px;">
         <mat-label></mat-label>
-        <mat-select placeholder="" disabled>
+        <mat-select placeholder="" >
             <mat-option></mat-option>
             <mat-option (click)="GetConfig('CARGOS')" value="Cargos">Cargos</mat-option>
-            <mat-option (click)="GetConfig('DOCUMENTOS')" value="Cargos">Documentos</mat-option>
-            <mat-option (click)="GetMaterias()" value="Cargos">Matérias</mat-option>
+            <mat-option disabled (click)="GetConfig('DOCUMENTOS')" value="Cargos">Documentos</mat-option>
+            <mat-option disabled (click)="GetMaterias()" value="Cargos">Matérias</mat-option>
 
         </mat-select>
     </mat-form-field>
@@ -91,11 +91,18 @@
 
                             <td style="text-align:left;vertical-align: middle;">{{ item.value }}</td>
 
-
-
                             <td style="text-align: center;vertical-align: middle;">{{ item.comentario }}</td>
 
                             <td style="text-align: center;vertical-align: middle;">
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button (click)="OpenEditCargoModal(item)"
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon  >settings</mat-icon>
+                                </button>
+                            </i>
 
                             </td>
 

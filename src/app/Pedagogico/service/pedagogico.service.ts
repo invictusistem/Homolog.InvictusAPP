@@ -11,6 +11,79 @@ export class PedagogicoService extends BaseService {
     
     constructor(private http: HttpClient) { super(); }
 
+
+    // Estagio
+
+    public GetEstagios() : Observable<any> {  
+
+        let path = `/estagio`
+        
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
+    public GetEstagio(estagioId) : Observable<any> {  
+
+        let path = `/estagio/${estagioId}`
+        
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
+    public AddEstagio(estagio): Observable<any>{
+
+        let path = `/estagio`
+       // console.log(estagio)
+        let response = this.http
+            .post(this.BaseUrl + path, estagio, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
+    public EditEstagio(estagio): Observable<any>{
+
+        let path = `/estagio`
+        
+        let response = this.http
+            .put(this.BaseUrl + path, estagio, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
+    // EstagiosDocs
+
+    public GetAlunosEstagio(pageSize?: number, currentPage?: number, jsonParam?: any) : Observable<any> {       
+
+        var formJson = JSON.stringify(jsonParam)
+
+        let path = `/estagio/alunos/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson=${formJson}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    // OUTROS
     getInfoDebitos(matriculaId: any) : Observable<any> {  
 
         let path = `/financeiro/debitos/${matriculaId}`

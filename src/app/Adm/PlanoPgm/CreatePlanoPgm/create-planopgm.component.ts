@@ -8,6 +8,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 
 @Component({
     selector: 'createplanopgmmodal',
@@ -32,6 +33,7 @@ export class PlanoPgmCreateComponent implements OnInit {
     constructor(
         private _snackBar: MatSnackBar,
         private router: Router,
+        private _helper: HelpersService,
         private _fb: FormBuilder,
         private _http: HttpClient,
         public dialogRef: MatDialogRef<PlanoPgmCreateComponent>,
@@ -62,7 +64,9 @@ export class PlanoPgmCreateComponent implements OnInit {
             .subscribe(resp => {
                 this.typePacotes = resp['typePacotes']
             },
-                (error) => { console.log(error) },
+                (error) => { 
+                    //console.log(error) 
+                },
                 () => {
                     this.initProgressBar = 'hidden'
                 })
@@ -70,6 +74,7 @@ export class PlanoPgmCreateComponent implements OnInit {
 
     getContratos(typePacoteId) {
         this.moduloForm.get('contratoId').setValue('')
+        this.initProgressBar = 'visible'
         this.disabledContrato = true
         this.contratos = new Array<any>();
         this._http.get(`${this.baseUrl}/contrato/type-pacote/${typePacoteId}`)
@@ -78,10 +83,11 @@ export class PlanoPgmCreateComponent implements OnInit {
                 this.contratos = resp['contratos']
             },
                 (error) => {
-                    console.log(error)
+                    this.initProgressBar = 'hidden'
+                    //console.log(error)
                 },
                 () => {
-
+                    this.initProgressBar = 'hidden'
                 })
 
     }
@@ -105,6 +111,7 @@ export class PlanoPgmCreateComponent implements OnInit {
                 .subscribe(response => {
                 }, (err) => { console.log(err) },
                     () => {
+                        this._helper.openSnackBarSucesso("Plano criado com sucesso.")
                         this.dialogRef.close({ clicked: "Ok" });
                     });
         }

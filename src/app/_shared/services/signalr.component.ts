@@ -51,14 +51,14 @@ export class SignalRService {
       }
       return temp;
     });
-    console.log('broadcast GET!!!!!!!!!!!!!!!!!!')
+ //   console.log('broadcast GET!!!!!!!!!!!!!!!!!!')
     this.hubConnection.invoke('broadcastchartdata', this.data, this.connectionId)
     .catch(err => console.error(err));
   }
 
 
   public addBroadcastChartDataListener = () => {
-    console.log('addBroadcastChartDataListener')
+   // console.log('addBroadcastChartDataListener')
     this.hubConnection.on('broadcastchartdata', (data) => {
       this.bradcastedData = data;
     })

@@ -45,11 +45,16 @@
                 </i>
             </span>
 
-            <span >
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
                 incluir inativos:
             </span>
 
             <mat-checkbox formControlName="ativo" color="primary"></mat-checkbox>
+
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                todas unidades:
+            </span>
+            <mat-checkbox disabled formControlName="todasUnidades" color="primary"></mat-checkbox>
 
         </div>
 
@@ -57,7 +62,7 @@
 
 
     <div class="card-header card-msg-response" unselectable="on"
-        onselectstart="return false;" *ngIf="showMessageNoColaborador">{{mensagem}}</div>
+        *ngIf="showMessageNoColaborador">{{mensagem}}</div>
 
     <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch"  @rowHighlight style="margin:0px" mode="query">
     </mat-progress-bar>
@@ -109,7 +114,7 @@
 
                                     <mat-icon style="font-size: 1.3em;
                                         background-color: rgb(227, 240, 227);color: green;" >
-                                        done_outline</mat-icon>
+                                        done</mat-icon>
 
 
                                 </div>

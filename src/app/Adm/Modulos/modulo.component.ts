@@ -22,6 +22,7 @@ export class ModuloComponent implements OnInit {
     public pacotes: any[] = new Array<any>()
     public typesPacotes: any = new Array<any>();
     public unidadesAutorizadas: any[] = new Array<any>();
+    public initProgressBar = 'visible'
 
     public tokenInfo: TokenInfos = new TokenInfos();
     private jwtHelper = new JwtHelperService();
@@ -68,7 +69,7 @@ export class ModuloComponent implements OnInit {
     }
 
     pesquisarError(error){
-        console.log(error)
+       // console.log(error)
     }
 
     getTypePacotes() {
@@ -80,12 +81,14 @@ export class ModuloComponent implements OnInit {
     }
 
     getTypePacotesSucesso(resposta){
+        this.initProgressBar = 'hidden'
         this.typesPacotes = Object.assign([], resposta['typePacotes']);
         this.showTeste = true
     }
 
     getTypePacotesError(error){
-        console.log(error)
+        this.initProgressBar = 'hidden'
+        //console.log(error)
     }    
 
     createModulo(): void {

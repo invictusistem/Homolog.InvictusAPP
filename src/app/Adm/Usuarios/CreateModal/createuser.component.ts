@@ -10,6 +10,7 @@ import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { PerfilEnum } from "src/app/_shared/models/perfil.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Component({
@@ -24,7 +25,7 @@ export class CreateUserComponent implements OnInit {
     baseUrl = environment.baseUrl
     public usuario: any;//Colaborador = new Colaborador();
     public usuarioForm: FormGroup;
-    perfisArray = PerfilEnum;
+    public perfisArray: any[] = new Array<any>()// = PerfilEnum;
     public initProgressBar = 'hidden'
     // pageSize: number = 5;
     // genericTasks: GenericTask[] = new Array<GenericTask>();
@@ -35,6 +36,7 @@ export class CreateUserComponent implements OnInit {
     showMensagem = false
     constructor(
         //private service: AdmService,
+        private _helper: HelpersService,
         public fb: FormBuilder,
         public http: HttpClient,
         public dialogRef: MatDialogRef<CreateUserComponent>,
@@ -68,23 +70,29 @@ export class CreateUserComponent implements OnInit {
             (result) => {
 
                 this.usuario = Object.assign({}, result['result'])
-                console.log(this.usuario)
+                //console.log(this.usuario)
+                this.perfisArray = result['perfis']
 
                 this.usuarioForm.get('id').setValue(this.usuario.id)
 
             },
             (err) => {
+                if(err['status'] == 401){
+                    this._helper.openSnackBarError("Você não possui autorização para conceder acesso.")
+                    this.dialogRef.close();
+                }else{
                 this.initProgressBar = 'hidden'
-                console.log(err['error'].mensagem)
+                console.log(err['error'])
                 this.mensagem = err['error'].mensagem
                 this.showMensagem = true
+                }
             },
             () => {
                 this.initProgressBar = 'hidden'
-                console.log(this.usuario)
+                
                 this.showMensagem = false
                 this.showForm = true
-                console.log()
+               
             }
         )
 
@@ -102,7 +110,7 @@ export class CreateUserComponent implements OnInit {
 
     SaveUser(form: FormGroup) {
 
-        console.log(form.valid)
+       // console.log(form.valid)
 
         if (this.usuarioForm.valid) {
             this.sabeSpinner = 'visible'
@@ -115,11 +123,22 @@ export class CreateUserComponent implements OnInit {
                 (result) => {
                 },
                 (err) => {
-                    console.log(err)
-                    this.sabeSpinner = 'hidden'
+                    //console.log(err['error'].msg)
+                    if(err['status'] == 400){
+                        this.sabeSpinner = 'hidden'
+                        this._helper.openSnackBarError(err['error'].msg)
+                        this.dialogRef.close();    
+                    }else{
+                        this.sabeSpinner = 'hidden'
+                        this._helper.openSnackBarErrorDefault()
+                        this.dialogRef.close();
+                    }
+                    
+
                 },
                 () => {
                     this.sabeSpinner = 'hidden'
+                    this._helper.openSnackBarSucesso("Acesso criado com sucesso")
                     this.dialogRef.close({ clicked: "Ok" });
                 }
             )

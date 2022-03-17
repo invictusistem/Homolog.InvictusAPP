@@ -54,7 +54,7 @@ export class ReparcelamentoComponent implements OnInit {
     ngOnInit() {
 
         this.nome = this.data['aluno'].nome
-        console.log(this.data['aluno'])
+       // console.log(this.data['aluno'])
         this.getInfoFinancAlunos(this.data['aluno'].matriculaId)
     }
 
@@ -70,9 +70,11 @@ export class ReparcelamentoComponent implements OnInit {
 
                 });
             },
-                (error) => { console.log(error) },
+                (error) => { 
+                  //  console.log(error)
+                 },
                 () => {
-                    console.log(this.debitos);
+                   // console.log(this.debitos);
                 })
     }
 
@@ -86,7 +88,7 @@ export class ReparcelamentoComponent implements OnInit {
 
     saveEditAluno() {
 
-        console.log(this.aluno)
+      //  console.log(this.aluno)
 
     }
 
@@ -127,7 +129,7 @@ export class ReparcelamentoComponent implements OnInit {
 
         if (event.target.value.length == 10) {
             var data = event.target.value.split('/')
-            console.log(data)
+           // console.log(data)
             var dataForm: Date = new Date(parseInt(data[2]), parseInt(data[1]) - 1,
                 parseInt(data[0]))
 
@@ -147,7 +149,7 @@ export class ReparcelamentoComponent implements OnInit {
                 this.debitosIds.push(element.id)
             }
         });
-        console.log(this.debitosIds)
+      //  console.log(this.debitosIds)
         const dialogRef = this._modal
             .open(ConfirmarParcelamento, {
                 height: 'auto',

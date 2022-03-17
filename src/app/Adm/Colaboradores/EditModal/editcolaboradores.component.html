@@ -2,7 +2,7 @@
     Visualizar/Editar Colaborador
     <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
         matTooltipHideDelay="100">
-        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+        <button [mat-dialog-close]="{clicked:'Cancel'}"  mat-icon-button>
             <mat-icon>close</mat-icon>
         </button>
     </i>
@@ -11,14 +11,12 @@
 <mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
 </mat-progress-bar>
 
-
 <div *ngIf="showForm" >
 
     <hr>
 
-    <form novalidate [formGroup]="colaboradorForm" style=""
-    (ngSubmit)="edit(colaboradorForm)">
-        <!-- <div class="card-body"> -->
+    <form novalidate [formGroup]="colaboradorForm" (ngSubmit)="edit(colaboradorForm)">
+        
 
         <mat-form-field appearance="standard" style="width: 55%; ">
             <mat-label>Nome</mat-label>
@@ -63,9 +61,10 @@
 
         <mat-form-field appearance="standard" style="width: 15%;">
             <mat-label>CEP</mat-label>
-            <input required #cep selected mask="00.000-000" minlength="8" maxlength="10" 
+            <input required selected mask="00.000-000" minlength="8" maxlength="10" 
             matInput formControlName="cep">
         </mat-form-field>
+        
         <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP" matTooltipPosition="above"
             matTooltipHideDelay="100">
             <span type="button" (click)="consultaCEP(colaboradorForm.get('cep').value)" style="margin: 0px; margin: 0px;" mat-icon-button>

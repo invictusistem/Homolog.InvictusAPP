@@ -44,7 +44,7 @@
 
             <mat-form-field appearance="standard" style="width: 200px;">
                 <mat-label>Type Pacote</mat-label>
-                <mat-select formControlName="typePacoteId" placeholder="type pacote">
+                <mat-select [disabled]="typesPacotes.length == 0" formControlName="typePacoteId" placeholder="type pacote">
                     <mat-option></mat-option>
                     <mat-option *ngFor="let pac of typesPacotes" [value]="pac.id">{{pac.nome}}</mat-option>
                 </mat-select>
@@ -72,6 +72,8 @@
 
     </form>
 
+    <mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
+    </mat-progress-bar>
 
 
     <div @rowHighlight *ngIf="pacotes.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
@@ -83,7 +85,7 @@
         <div class="card-header">
             <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
                 Pacotes</h4>
-            <!-- <p class="card-category"> Unidade: {{tokenInfo.Unidade}} </p> -->
+            <p class="card-category"> Pacotes cadastrados no sistema </p>
         </div>
 
         <div class="card-body">
@@ -97,22 +99,22 @@
                     vertical-align: middle;
                     border-top: 0px;"></th>
 
-                            <th style="width: 30%;font-size:1.2em;
+                            <th style="width: 30%;font-size:1em;
                                     vertical-align: middle;
                                     text-align:left;
-                    border-top: 0px; font-weight: 400;">Nome</th>
+                    border-top: 0px; font-weight: 400;">NOME</th>
 
-                            <th style="width: 20%;font-size:1.2em;
+                            <th style="width: 20%;font-size:1em;
                             vertical-align: middle;
                             text-align:center;
-                            border-top: 0px; font-weight: 400;">Carga horária</th>
+                            border-top: 0px; font-weight: 400;">CARGA HORÁRIA</th>
 
-                            <th style="width: 20%;font-size:1.2em;
+                            <th style="width: 20%;font-size:1em;
                     text-align:center; 
                     vertical-align: middle;
-                    border-top: 0px; font-weight: 400;">Ativo</th>
+                    border-top: 0px; font-weight: 400;">ATIVO</th>
 
-                            <th style="width: 6%;font-size:1.2em;
+                            <th style="width: 6%;font-size:1em;
                     text-align:center; 
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;"></th>

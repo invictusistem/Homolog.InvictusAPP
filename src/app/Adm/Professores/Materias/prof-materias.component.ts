@@ -38,6 +38,9 @@ export class ProfMateriasComponent implements OnInit {
     public profMaterias: any[] = new Array<any>()
     public materias: any[] = new Array<any>()
     public disponibilidades: any[] = new Array<any>()
+    public initProgressBar = 'visible'
+    public editAndSaveBar = 'hidden'
+    public showForm = false
 
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
@@ -78,12 +81,12 @@ export class ProfMateriasComponent implements OnInit {
         })
     }
 
-    keywords = new Set(['Domingo', 'Segunda-feira', 'Terça-feira',
-        'Quarta-feira',
-        'Quinta-feira',
-        'Sexta-feira',
-        'Sábado']);
-    formControl = new FormControl(['angular']);
+    // keywords = new Set(['Domingo', 'Segunda-feira', 'Terça-feira',
+    //     'Quarta-feira',
+    //     'Quinta-feira',
+    //     'Sexta-feira',
+    //     'Sábado']);
+    //formControl = new FormControl(['angular']);
 
     //   addKeywordFromInput(event: MatChipInputEvent) {
     //     if (event.value) {
@@ -101,7 +104,7 @@ export class ProfMateriasComponent implements OnInit {
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         //this.dialogRef.removePanelClass('my-class')
         //this.dialogRef.addPanelClass('my-class')
-        console.log(this.data['prof'])
+       // console.log(this.data['prof'])
         this.GetInfos()
 
 
@@ -118,15 +121,20 @@ export class ProfMateriasComponent implements OnInit {
                 this.length = this.profMaterias.length
             },
                 (error) => { 
+                    this.editAndSaveBar = 'hidden'
                     this.showDeleteSpinner = false
                 },
                 () => {
-                    console.log(this.disponibilidades)
+                   // console.log(this.disponibilidades)
+                   this.editAndSaveBar = 'hidden'
+                   this.initProgressBar = 'hidden'
+                   this.dialogRef.addPanelClass('myprofmateria-class')
                     this.showDeleteSpinner = false
                     this.mostrarModalPrincipal = false
 
                     this.disabledDelete = false
-                    this.dialogRef.addPanelClass('my-class')
+                    
+                    this.showForm = true
                 })
 
     }
@@ -141,7 +149,7 @@ export class ProfMateriasComponent implements OnInit {
             return;
         }
         this.materias = new Array<any>()
-        console.log(typeId)
+        //.log(typeId)
         this.materiaForm.get('materiaId').setValue('')
         this._http.get(`${this.baseUrl}/materia-template/filtro/${typeId}`)
             .subscribe(resp => {
@@ -174,7 +182,7 @@ export class ProfMateriasComponent implements OnInit {
     adicionar() {
 
         var mat = this.profMaterias.find(element => element.pacoteMateriaId == this.materiaForm.get('materiaId').value)
-        console.log(mat)
+       // console.log(mat)
 
         if (mat == undefined) {
             this._http.post(`${this.baseUrl}/professor/materia/${this.data['prof'].id}/${this.materiaForm.get('materiaId').value}`, {})
@@ -189,19 +197,22 @@ export class ProfMateriasComponent implements OnInit {
     }
 
     adicionarUnidade() {
-        console.log()
+      //  console.log()
     }
 
 
 
     removeMateria(profMateriaId) {
         this.showDeleteSpinner = true
+        this.editAndSaveBar = 'visible'
         this._http.delete(`${this.baseUrl}/professor/materia/${profMateriaId}`, {})
             .subscribe(resp => {
                 //  this.unidades = resp['unidades']
                 // this.typePacotes = resp['typePacotes']
             },
-                (error) => { },
+                (error) => { 
+                    this.editAndSaveBar = 'hidden'
+                },
                 () => {
                     this.GetProfessorMaterias();
                     //console.log(this.unidades)
@@ -220,9 +231,11 @@ export class ProfMateriasComponent implements OnInit {
                 this.length = this.profMaterias.length
             },
                 (error) => { 
+                    this.editAndSaveBar = 'hidden'
                     this.showDeleteSpinner = false
                 },
                 () => {
+                    this.editAndSaveBar = 'hidden'
                     this.showDeleteSpinner = false
                     //  console.log(this.unidades)
                     //  this.mostrarModalPrincipal = false
@@ -289,7 +302,7 @@ export class ProfMateriasComponent implements OnInit {
     }
 
     changePage(event) {
-        console.log(event.pageIndex)
+       // console.log(event.pageIndex)
         this.pageIndex = event.pageIndex
     }
 
@@ -320,6 +333,7 @@ export class ProfMateriasComponent implements OnInit {
                 //this.atualizarUnidadesDisponiveis();
                 this.disabledDelete = true
                 this.showDeleteSpinner = true
+                this.editAndSaveBar = 'visible'
                 this.GetInfos()
                 //  this.getColaboradores(1, this.pageSize);
             } else if (data.clicked === "Cancel") {

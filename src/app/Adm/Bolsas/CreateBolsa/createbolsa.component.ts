@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { AdmService } from "../../services/adm.services";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 
 @Component({
     selector: 'createbolsamodal',
@@ -20,6 +21,7 @@ export class CreateBolsaComponent implements OnInit {
 
     constructor(
         private _admService: AdmService,
+        private _helper: HelpersService, 
         private _fb: FormBuilder,
         public dialogRef: MatDialogRef<CreateBolsaComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -80,12 +82,13 @@ export class CreateBolsaComponent implements OnInit {
     onSubmitSucesso(resp){
         this.disabledSaveButton = 'hidden'
         //console.log(resp['senha'])
+        this._helper.openSnackBarSucesso('Bolsa cadastrada com sucesso.')
         this.dialogRef.close({ clicked: true})
     }
 
     onSubmitErro(error){
         this.disabledSaveButton = 'hidden'
-        console.log(error)
+       // console.log(error)
     }
     
 

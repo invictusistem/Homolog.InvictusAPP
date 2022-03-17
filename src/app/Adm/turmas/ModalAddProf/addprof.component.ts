@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { environment } from "src/environments/environment";
 import { AdmService } from "../../services/adm.services";
 import { ProfResponse } from "../CreateModal/createcurso.component";
@@ -26,6 +27,7 @@ export class AddProfessorModalComponent implements OnInit {
 
     constructor(
         private _admService: AdmService,
+        private _helper:HelpersService,
         private _http: HttpClient,
         public dialogRef: MatDialogRef<AddProfessorModalComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
@@ -33,7 +35,7 @@ export class AddProfessorModalComponent implements OnInit {
 
     }
     ngOnInit() {
-        console.log(this.data['turmaId'])
+       // console.log(this.data['turmaId'])
         this.getProfessores()
     }
 
@@ -48,7 +50,14 @@ export class AddProfessorModalComponent implements OnInit {
 
             },
                 (error) => {
-                    console.log(error)
+                   // console.log(error)
+                    if(error['status'] == 404){
+                        this._helper.openSnackBarError("Não professores com disponibilidades para essa turma.")
+                        this.dialogRef.close({clicked: false});
+                    }else{
+                        this._helper.openSnackBarErrorDefault();
+                        this.dialogRef.close({clicked: false});
+                    }
                 },
                 () => {
                     //console.log(this.profResp)
@@ -66,7 +75,7 @@ export class AddProfessorModalComponent implements OnInit {
         var saveProfs: SaveProfsCommand = new SaveProfsCommand();
         saveProfs.turmaId = this.data['turmaId']
         saveProfs.listProfsIds = this.listProfId
-        console.log(saveProfs)
+        //console.log(saveProfs)
         this._admService.AddProfNaTurma(saveProfs)
             .subscribe(
                 sucess => { this.salvarProfsSucesso(sucess) },
@@ -130,17 +139,17 @@ export class AddProfessorModalComponent implements OnInit {
     }
 
 
-    onCheckboxChange(event: any, profId) {
-        console.log(profId)
-        console.log(event.checked)
+    // onCheckboxChange(event: any, profId) {
+    //     console.log(profId)
+    //     console.log(event.checked)
 
-        if (event.checked) {
-            this.listProfId.push(profId)
-        } else {
-            let index = this.listProfId.indexOf(profId)
-            this.listProfId.splice(index, 1);
-        }
+    //     if (event.checked) {
+    //         this.listProfId.push(profId)
+    //     } else {
+    //         let index = this.listProfId.indexOf(profId)
+    //         this.listProfId.splice(index, 1);
+    //     }
 
-        console.log(this.listProfId)
-    }
+    //     console.log(this.listProfId)
+    // }
 }

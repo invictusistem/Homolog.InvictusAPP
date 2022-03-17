@@ -1,7 +1,7 @@
 <div class="container" style="width: 95%; padding-top: 20px;">
 
     <div>
-        <i style="" #tooltip="matTooltip" matTooltip="criar colaborador" matTooltipPosition="above"
+        <i style="" #tooltip="matTooltip" matTooltip="cadastrar fornecedor" matTooltipPosition="above"
             matTooltipHideDelay="100">
             <button (click)="openCreateFornecedorModal()" mat-icon-button>
                 <mat-icon>person_add_alt</mat-icon>
@@ -48,8 +48,7 @@
 
     </form>
 
-    <div class="card-header card-msg-response" unselectable="on" onselectstart="return false;"
-        *ngIf="showMessageNoData">{{mensagem}}</div>
+    <div class="card-header card-msg-response" unselectable="on" *ngIf="showMessageNoData">{{mensagem}}</div>
 
 
     <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px"
@@ -79,25 +78,25 @@
                     vertical-align: middle;
                     border-top: 0px;"></th>
 
-                            <th style="width: 22%;font-size:1.2em;
+                            <th style="width: 22%;font-size:1em;
                                     vertical-align: middle;
                                     text-align:left;
-                    border-top: 0px; font-weight: 400;">Nome</th>
+                    border-top: 0px;">NOME</th>
 
-                            <th style="width: 20%;font-size:1.2em;
+                            <th style="width: 20%;font-size:1em;
                             vertical-align: middle;
                             text-align:center;
-                            border-top: 0px; font-weight: 400;">CPF/CNJP</th>
+                            border-top: 0px;">CPF/CNJP</th>
 
                             <!-- <th style="width: 20%;font-size:1.2em;
                     text-align:center; 
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">Perfil</th> -->
 
-                            <th style="width: 10%;font-size:1.2em;
+                            <th style="width: 10%;font-size:1em;
                     text-align:center; 
                     vertical-align: middle;
-                    border-top: 0px; font-weight: 400;">Ativo</th>
+                    border-top: 0px;">ATIVO</th>
 
                             <!-- <th style="width: 6%;
                     border-top: 0px;"></th> -->
@@ -126,7 +125,7 @@
 
                                     <mat-icon style="margin: 0px; margin: 0px;
                                         background-color: rgb(227, 240, 227);;color: green;" style="color: green;">
-                                        done_outline</mat-icon>
+                                        done</mat-icon>
 
 
                                 </div>
@@ -151,7 +150,7 @@
                                 </i>
                                 <i style="margin-right: 5%" #tooltip="matTooltip" matTooltip="cadastrar compra"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button disabled (click)="openFornecedorCompra(forn)"
+                                    <button (click)="openFornecedorCompra(forn)"
                                         style="background-color: rgb(227, 240, 227)" mat-icon-button>
                                         <mat-icon>paid</mat-icon>
                                     </button>
@@ -163,7 +162,7 @@
 
                                 <i style="" #tooltip="matTooltip" matTooltip="cadastrar venda"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button disabled (click)="openFornecedorVenda(forn)"
+                                    <button (click)="openFornecedorVenda(forn)"
                                         style="background-color: rgb(227, 240, 227)" mat-icon-button>
                                         <mat-icon>shopping_cart</mat-icon>
                                     </button>

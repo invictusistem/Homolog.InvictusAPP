@@ -77,7 +77,7 @@ export class CreateColaboradoresComponent implements OnInit {
         })
     }
 
-   
+
 
     ngOnInit() {
 
@@ -101,7 +101,7 @@ export class CreateColaboradoresComponent implements OnInit {
                     this.showContent = true
                     this.mostrarModalPrincipal = false
                     this.showForm = true
-
+                    this.funcaoTestar()
                 });
     }
 
@@ -119,45 +119,51 @@ export class CreateColaboradoresComponent implements OnInit {
                     this.msgErros = err['error'].msg
                     this.showMensagem = 'visible'
                     this.disabledSaveButton = 'hidden'
-                }else{
+                } else {
                     this._helper.openSnackBarErrorDefault()
-                    
-                     this.dialogRef.close({ clicked: "Ok" });
+
+                    this.dialogRef.close({ clicked: "Ok" });
                 }
-               
-               
-               
+
+
+
             },
                 () => {
 
                     this._helper.openSnackBarSucesso('Colaborador salvo com sucesso')
-                   // this._helper.CloseModalWithOK();
+                    // this._helper.CloseModalWithOK();
                     this.dialogRef.close({ clicked: "Ok" });
                     this.disabledSaveButton = 'hidden'
                 });
         }
     }
 
-   
+
+    cpfValidation = false
+    emailValidation = false
+    funcaoTestar() {
+        let cpf = false
+        this.cpfValidation = cpf
+    }
 
 
     showEndereco = 'hidden'
     consultaCEP(CEP: string) {
-       // console.log(CEP);
+        // console.log(CEP);
         if (this.colaboradorForm.get('cep').valid) {
-            
-            
+
+
             this._admService.CepConsulta(this.colaboradorForm.get('cep').value)
                 .subscribe(response => {
-                   
+
                     this.colaboradorForm.get('logradouro').setValue(response["logradouro"].toUpperCase());
                     this.colaboradorForm.get('bairro').setValue(response["bairro"].toUpperCase());
                     this.colaboradorForm.get('cidade').setValue(response["localidade"].toUpperCase());
                     this.colaboradorForm.get('uf').setValue(response["uf"].toUpperCase());
-                   
-                }, err => {  },
+
+                }, err => { },
                     () => {
-                       
+
                         this.showEndereco = 'visible'
                     });
         }
@@ -168,7 +174,7 @@ export class CreateColaboradoresComponent implements OnInit {
         this.dialogRef.close({ clicked: "Ok" });
     }
 
-    
+
     get disabledButton() {
         if (this.colaboradorForm.valid) {
             return this.disabledSaveButton != 'hidden'
@@ -177,5 +183,9 @@ export class CreateColaboradoresComponent implements OnInit {
         }
     }
 
+
+}
+
+export class VerOCPF {
 
 }

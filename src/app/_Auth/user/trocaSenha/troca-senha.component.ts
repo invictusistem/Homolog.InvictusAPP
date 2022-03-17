@@ -43,7 +43,7 @@ export class TrocaSenhaComponent implements OnInit {
     ngOnInit() {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-        console.log(this.tokenInfo)
+        //console.log(this.tokenInfo)
     }
 
 
@@ -51,9 +51,9 @@ export class TrocaSenhaComponent implements OnInit {
 
     conferir() {
         if (this.trocaSenhaForm.get('senhaNova').value === this.trocaSenhaForm.get('senhacomparacao').value) {
-            console.log('igual')
+          //  console.log('igual')
         } else {
-            console.log('diferente')
+           // console.log('diferente')
         }
 
     }
@@ -101,7 +101,7 @@ export class TrocaSenhaComponent implements OnInit {
     onSubmitSucesso(resposta) {
         this.initProgressBar = 'hidden'
         this.trocaSenhaForm.enable()
-        console.log(resposta)
+      //  console.log(resposta)
 
         localStorage.removeItem("jwt");
         this.dialogRef.close({click: true})
@@ -113,10 +113,10 @@ export class TrocaSenhaComponent implements OnInit {
     onSubmitFalha(erro) {
         this.initProgressBar = 'hidden'
         this.trocaSenhaForm.enable()
-        console.log(erro['error'].errors)
+      //  console.log(erro['error'].errors)
         let mensagens = erro['error'].errors
         this.erroMesg = mensagens['Mensagens'][0]
-        console.log(this.erroMesg)
+       // console.log(this.erroMesg)
     }
 
 

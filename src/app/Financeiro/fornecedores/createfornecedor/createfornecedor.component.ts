@@ -167,7 +167,7 @@ export class CreateFornecedorComponent implements OnInit {
    
 
     consultaCEP(CEP: string) {
-        console.log(CEP);
+      //  console.log(CEP);
         if (this.fornecedorForm.get('cep').valid) {
 
 
@@ -183,7 +183,9 @@ export class CreateFornecedorComponent implements OnInit {
                     this.fornecedorForm.get('cidade').setValue(response["localidade"].toUpperCase());
                     this.fornecedorForm.get('uf').setValue(response["uf"].toUpperCase());
                     
-                }, err => { console.log(err) },
+                }, err => { 
+                   // console.log(err) 
+                },
                     () => {
                         //  console.log('finaly')
                       //  this.showEndereco = true

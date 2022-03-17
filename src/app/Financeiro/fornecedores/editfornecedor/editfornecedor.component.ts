@@ -12,6 +12,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Fornecedor } from "../../FinanceiroModels/fornecedor.model";
 import { FinanceiroService } from "../../models/financ.service";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 
 @Component({
     selector: 'editfornecedormodal',
@@ -42,6 +43,7 @@ export class EditFornecedorComponent implements OnInit {
     constructor(
         //private _snackBar: MatSnackBar,
         //private router: Router,
+        private _helper: HelpersService,
         private _fb: FormBuilder,
         private _finService: FinanceiroService,
         //private http: HttpClient,
@@ -114,11 +116,14 @@ export class EditFornecedorComponent implements OnInit {
     }
 
     private SaveEditSucesso(resp) {
+        this.saveSpinner = 'hidden'
+        this._helper.openSnackBarSucesso("Fornecedor editado com sucesso.")
         this.dialogRef.close();
     }
 
     private SaveEditFalha(error) {
-
+        this.saveSpinner = 'hidden'
+        this._helper.openSnackBarErrorDefault();
     }
 
     public ConsultaCEP(CEP: string) {
@@ -129,7 +134,7 @@ export class EditFornecedorComponent implements OnInit {
             //var mystring = "crt/r2002_2";
             CEP = CEP.replace('-', '');
             CEP = CEP.replace('.', '');
-            console.log(CEP);
+          //  console.log(CEP);
             this._finService.CepConsulta(CEP)
                 .subscribe(response => {
 
@@ -143,7 +148,7 @@ export class EditFornecedorComponent implements OnInit {
     }
 
     get disabledButton() {
-        console.log(this.fornecedorForm.valid)
+       // console.log(this.fornecedorForm.valid)
         if (this.fornecedorForm.valid &&
             JSON.stringify(this.originalFornecedor) !=
             JSON.stringify(this.fornecedorForm.value)) {

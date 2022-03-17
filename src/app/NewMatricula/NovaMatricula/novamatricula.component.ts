@@ -15,8 +15,10 @@ import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { Aluno } from "src/app/_shared/models/aluno.model";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { environment } from "src/environments/environment";
+import { OpenRelatorioMatriculaComponentModal } from "../services/modal.config";
 import { NewMatriculaService } from "../services/newmatricula.service";
 import { CreateNovaMatriculaComponent } from "./CreateMatricula/createnovamatricula.component";
+import { RelatorioMatriculaComponent } from "./Relatoriomatricula/relatoriomatricula.component";
 
 
 @Component({
@@ -101,6 +103,17 @@ export class NovaMatriculaComponent implements OnInit {
 
     ngOnInit() {        
     }    
+
+
+    public OpenRelatorioMatricula(): void {
+        const dialogRef = this._modal
+            .open(RelatorioMatriculaComponent, OpenRelatorioMatriculaComponentModal());
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "OK") {
+            } else if (data.clicked === "Cancel") {
+            }
+        });
+    }
     
     submitPesquisa(event?: any) {
 

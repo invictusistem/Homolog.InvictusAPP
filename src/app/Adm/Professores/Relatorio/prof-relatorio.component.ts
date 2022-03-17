@@ -48,7 +48,8 @@ export class ProfRelatorioComponent implements OnInit {
     public Pesquisar(){
 
         if(this.rangeForm.valid){
-            console.log(this.rangeForm.value)
+            this.initProgressBar = 'visible'
+            //console.log(this.rangeForm.value)
             this._admService.GetRelatorioProfessor(this.rangeForm.get('rangeIni').value,
                                                    this.rangeForm.get('rangeFinal').value,
                                                    this.data['prof'].id)
@@ -60,13 +61,14 @@ export class ProfRelatorioComponent implements OnInit {
     }
 
     private PesquisarSucesso(resp){
+        this.initProgressBar = 'hidden'
         this.relatorio = resp['result']
         this._dialogRef.addPanelClass('profrelatorio-class')
         this.showContent = true
     }
 
     private PesquisarError(error){
-
+        this.initProgressBar = 'hidden'
     }
 
 

@@ -220,7 +220,7 @@ export class MatriculaComponent implements OnInit {
                 //clicked: "Ok"
                 //  this.openSnackBar()
                 this.pesquisar();
-                console.log('afte close ok')
+               // console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
                 // Do nothing. Cancel any events that navigate away from the
                 // component.

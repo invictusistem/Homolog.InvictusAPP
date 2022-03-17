@@ -131,9 +131,11 @@
             </tbody>
         </table>
     </div>
-    <button type="button" color="primary" (click)="salvar()" mat-raised-button
+    <div *ngIf="showTable" style="margin-top: 15px;">
+    <button  type="button" color="primary" (click)="salvar()" mat-raised-button
         style="float:right;margin-bottom: 10px;margin-left: 10px;">
         Salvar
     </button>
+</div>
 
 </ng-container>

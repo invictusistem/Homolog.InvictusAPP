@@ -8,6 +8,7 @@ import { TokenInfos } from "src/app/_shared/models/token.model";
 import { Turma, TurmaViewModel } from "src/app/_shared/models/Turma.model";
 
 import { environment } from "src/environments/environment";
+import { NotasComponent } from "../turmapedag/notas/notas.component";
 import { TurmasInfoAlunosPedagComponent } from "./AlunosTurma/turmasinfoalunos.component";
 import { CalendarioTurmaComponent } from "./CalendarioDaTurma/calendarioturma.component";
 
@@ -190,6 +191,7 @@ export class TurmasPedagInfoComponent implements OnInit {
                 // this.dialogRef.close();
             }, (err) => {
                 console.log(err)
+                this.spinnerSearch = 'hidden'
                 this.mensagem = "Ocorreu um erro! Contate o Administrador!"
 
                 this.mensagem = "Não há turmas cadastradas ou em andamento."
@@ -243,6 +245,25 @@ export class TurmasPedagInfoComponent implements OnInit {
 
         
     }
+
+    openNotas(turma): void {
+
+        const dialogRef = this._modal.open(NotasComponent, {
+            height: 'auto',
+            width: '1030px',
+            autoFocus: false,
+            maxHeight: '90vh',
+            maxWidth: '400vh',
+            data: { turma: turma },
+            hasBackdrop: true,
+            disableClose: true
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+            // this.animal = result;
+        });
+    }v
 
     openCalendarioModal(turma:TurmaViewModel): void {
         const dialogRef = this._modal

@@ -34,7 +34,9 @@ export class BolsasComponent {
         })
     }
 
-
+    returnOnSelect(){
+        return false
+    }
 
     ngOnInit() {
         this.GetTypePacotes();

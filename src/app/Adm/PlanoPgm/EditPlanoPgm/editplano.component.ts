@@ -10,6 +10,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 
 
 
@@ -44,6 +45,7 @@ export class PlanoPgmEditComponent implements OnInit {
         private _snackBar: MatSnackBar,
         private router: Router,
         private _fb: FormBuilder,
+        private _helper: HelpersService,
         private _http: HttpClient,
         public dialogRef: MatDialogRef<PlanoPgmEditComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -134,7 +136,9 @@ export class PlanoPgmEditComponent implements OnInit {
                 .subscribe(response => {
                 }, (err) => { console.log(err) },
                     () => {
+                        
                         this.disabledSpinner = false
+                        this._helper.openSnackBarSucesso('Plano editado com sucesso.')
                         this.dialogRef.close({ clicked: "OK" });
                     });
         }

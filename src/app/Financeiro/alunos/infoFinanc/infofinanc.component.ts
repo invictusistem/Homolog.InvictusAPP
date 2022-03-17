@@ -57,7 +57,7 @@ export class InfoFinancComponent implements OnInit {
     ngOnInit() {
 
         this.nome = this.data['aluno'].nome
-        console.log(this.data['aluno'])
+       // console.log(this.data['aluno'])
         this.aluno = Object.assign({}, this.data['aluno'])
         this.getInfoFinancAlunos(this.data['aluno'].matriculaId)
     }
@@ -68,11 +68,13 @@ export class InfoFinancComponent implements OnInit {
             .subscribe(resp => {
                 this.debitos = Object.assign([], resp['debitos']);
                 this.turma = Object.assign({}, resp['turma']);
-                console.log(this.debitos)
+               // console.log(this.debitos)
             },
-                (error) => { console.log(error) },
+                (error) => { 
+                    //console.log(error)
+                 },
                 () => {
-                    console.log(this.debitos);
+                  //  console.log(this.debitos);
                 })
     }
 
@@ -116,11 +118,11 @@ export class InfoFinancComponent implements OnInit {
             });
 
         dialogRef.afterClosed().subscribe(data => {
-            console.log(data)
+           // console.log(data)
             if (data.clicked === "PAGO") {
                 this.getInfoFinancAlunos(this.data['aluno'].id)
                 //this.openSnackBar()
-                console.log('afte close ok')
+              //  console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
                 // Do nothing. Cancel any events that navigate away from the
                 // component.

@@ -31,6 +31,7 @@
                 <mat-label>Email</mat-label>
                 <input selected formControlName="email" matInput oninput="this.value = this.value.toLowerCase()"
                     placeholder="Email">
+                    <mat-hint  *ngIf="emailValidation" style="color:red" >E-mail já cadastrado</mat-hint>
             </mat-form-field>
 
             <br>
@@ -38,14 +39,15 @@
             <mat-form-field appearance="standard" style="width: 18%;">
                 <mat-label>CPF</mat-label>
                 <input mask="000.000.000-00"
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
                     formControlName="cpf" minlength="11" maxlength="14" selected matInput placeholder="digite o CPF">
+                    <mat-hint  *ngIf="cpfValidation" style="color:red" >CPF já cadastrado</mat-hint>
             </mat-form-field>
 
             <mat-form-field style="width: 20%;margin-left: 5%;" appearance="standard">
                 <mat-label>Celular</mat-label>
                 <input formControlName="celular" mask="(00) 00000-0000" matInput
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
             </mat-form-field>
 
             <mat-form-field appearance="standard" style="width: 25%;margin-left: 5%;">
@@ -67,7 +69,7 @@
             <mat-form-field appearance="standard" style="width: 15%;">
                 <mat-label>CEP</mat-label>
                 <input mask="00.000-000"
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
                     formControlName="cep" minlength="8" maxlength="10" required matInput placeholder="apenas números">
             </mat-form-field>
             <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP"

@@ -38,9 +38,9 @@ export class EditFinancComponent implements OnInit {
         this.debito = Object.assign({}, this.data['debito'])
         this.turma = Object.assign({}, this.data['turma'])
         // this.nome = this.data['aluno'].nome
-        console.log(this.aluno)
-        console.log(this.debito)
-        console.log(this.turma)
+       // console.log(this.aluno)
+       // console.log(this.debito)
+       // console.log(this.turma)
         //this.getInfoFinancAlunos(this.data['aluno'].id)
     }
 
@@ -51,7 +51,9 @@ export class EditFinancComponent implements OnInit {
             .subscribe(resp => {
 
             },
-                (error) => { console.log(error) },
+                (error) => { 
+                   // console.log(error)
+                 },
                 () => {
                     this.dialogRef.close({ clicked: "PAGO" })
                 })
@@ -68,7 +70,7 @@ export class EditFinancComponent implements OnInit {
 
     saveEditAluno() {
 
-        console.log(this.aluno)
+       // console.log(this.aluno)
 
         //this.alunoForm.value
 

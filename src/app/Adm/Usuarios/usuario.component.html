@@ -1,7 +1,7 @@
 <div class="container" style="width: 95%; padding-top: 20px;">
 
     <div>
-        <i style="" #tooltip="matTooltip" matTooltip="Conceder acesso" matTooltipPosition="above"
+        <i #tooltip="matTooltip" matTooltip="Conceder acesso" matTooltipPosition="above"
             matTooltipHideDelay="100">
             <button (click)="openCreateUserModal()" mat-icon-button>
                 <mat-icon>person_add_alt</mat-icon>
@@ -14,7 +14,7 @@
 
     <form [formGroup]="pesquisarForm" (ngSubmit)="onSubmit()" class="form-inline siteForm">
 
-        <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">Digite ao menos um dos campos para
+        <span style="font-size: 0.9em;font-style: italic;">Digite ao menos um dos campos para
             pesquisar pelo usuário do sistema:
         </span>
 
@@ -48,15 +48,13 @@
 
     </form>
 
-    <div class="card-header " style="background-color: rgb(227, 240, 227);margin-left: 10px;
+    <div class="card-header " style="background-color: rgb(227, 240, 227);
     width: 350px; font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on"
-         onselectstart="return false;" *ngIf="showMessageNoColaborador">{{mensagem}}</div>
+          *ngIf="showMessageNoColaborador">{{mensagem}}</div>
  
-     <mat-spinner @rowHighlight *ngIf="showSpinnerFirst" [diameter]="100" style="margin-left: 36.5%;
-         top: 46.5%; 
-         position: absolute;">
-     </mat-spinner>
-
+    
+          <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch"  @rowHighlight style="margin:0px" mode="query">
+        </mat-progress-bar>
 
     <div @rowHighlight *ngIf="usuarios.length > 0" class="card card-plain mat-elevation-z8" 
         style="width: 100%;

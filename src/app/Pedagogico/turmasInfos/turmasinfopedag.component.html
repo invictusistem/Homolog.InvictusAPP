@@ -122,14 +122,24 @@
                                     </button>
                                 </i>
 
-                                <i style="margin-left: 50px;" #tooltip="matTooltip" matTooltip="lista presenças"
+                                <!-- <i style="margin-left: 50px;" #tooltip="matTooltip" matTooltip="lista presenças"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button disabled (click)="listaPresenca(item)"
+                                    <button (click)="listaPresenca(item)"
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>fact_check</mat-icon>
                                     </button>
+                                </i> -->
+
+                                <i style="margin-left: 50px;" #tooltip="matTooltip" matTooltip="notas"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openNotas(item)" 
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>list_alt</mat-icon>
+                                    </button>
                                 </i>
+
 
                                 <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="grade notas"
                                     matTooltipPosition="above" matTooltipHideDelay="100">

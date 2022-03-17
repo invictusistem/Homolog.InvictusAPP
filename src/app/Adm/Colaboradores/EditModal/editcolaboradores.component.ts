@@ -1,20 +1,13 @@
-import { Component, Inject, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-//import { GenericTask } from 'src/app/shared/models/generictask.model';
-import { Output, EventEmitter } from '@angular/core';
-//import { AdmService } from '../../adm.service';
-import { PageEvent } from '@angular/material/paginator';
-import { Colaborador } from "src/app/_shared/models/colaborador.model";
-import { FormBuilder, FormGroup, NgForm, Validators } from "@angular/forms";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { HttpClient } from "@angular/common/http";
 import { CepReturn } from "src/app/_shared/models/cepreturn.model";
 import { environment } from "src/environments/environment";
-import { Cargos, Unidades } from "src/app/_shared/models/perfil.model";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { Unidades } from "src/app/_shared/models/perfil.model";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { AdmService } from "../../services/adm.services";
-//import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Component({
     selector: 'editcolaboradoresmodal',
@@ -25,14 +18,8 @@ import { AdmService } from "../../services/adm.services";
 
 export class EditColaboradoresComponent implements OnInit {
 
-    // pageSize: number = 5;
-    // genericTasks: GenericTask[] = new Array<GenericTask>();
-    // length: number;
-    // pageEvent: PageEvent;
     baseUrl = environment.baseUrl;
-
-    editedColaborador: any;// = new any();
-    originalColaborador: any;// = new Object();//Colaborador = new Colaborador();
+    originalColaborador: any;
 
     public initProgressBar = 'visible'
     public saveBar = 'hidden'
@@ -43,13 +30,12 @@ export class EditColaboradoresComponent implements OnInit {
     showForm = false
 
     public cepReturn: CepReturn = new CepReturn();
-    cargos: any[] = new Array<any>();// Cargos;
+    cargos: any[] = new Array<any>();
     ativo = true;
     public colaboradorForm: FormGroup
 
     constructor(
         private _helper: HelpersService,
-        //private _snackBar: MatSnackBar,
         private _admService: AdmService,
         private http: HttpClient,
         private _fb: FormBuilder,
@@ -71,12 +57,11 @@ export class EditColaboradoresComponent implements OnInit {
             cidade: ['', [Validators.required, Validators.minLength(1)]],
             uf: ['', [Validators.required, Validators.minLength(2)]],
             bairro: ['', [Validators.required, Validators.minLength(1)]],
-            dataCriacao: ['']
+            dataCriacao: [''],
+            supervisorId:['']
         })
     }
 
-
-    //@Output() newItemEvent = new EventEmitter<string>();
     tentando = true
     get teste() {
         return this.tentando
@@ -93,28 +78,7 @@ export class EditColaboradoresComponent implements OnInit {
             }
     }
 
-    changeValue() {
-        this.tentando = !this.tentando
-    }
-    
-    mudou() {
-        console.log('mudou')
-    }
-
-    ngOnInit() {
-        //this.ativo = true;
-
-        // Object.assign(this.originalColaborador, this.data['colaborador'])
-        // Object.assign(this.editedColaborador, this.data['colaborador'])
-
-        // this.colaboradorForm.patchValue(this.data['colaborador']);
-        // this.originalColaborador = JSON.parse(JSON.stringify(this.colaboradorForm.value))
-
-
-        //console.log(this.data['colaborador'])
-       // this.colaboradorForm.patchValue(this.data['colaborador'])
-        // this.originalColaborador = this.data['colaborador']
-        // this.editedColaborador = this.data['colaborador']
+    ngOnInit() {       
         this.getColaborador();
     }
 
@@ -140,12 +104,10 @@ export class EditColaboradoresComponent implements OnInit {
 
     disabledSpinner = false
     edit(form: any) {
-        // //const novoColaborador = JSON.stringify(form.value);
-        // console.log(form)
-        // console.log(form.valid)
+      
         if (this.colaboradorForm.valid) {
             this.saveBar = 'visible'
-            //this.redi(["./adm/colaboradores"]);
+          
             this.http.put(`${this.baseUrl}/colaboradores`, this.colaboradorForm.value, {})
                 .subscribe(response => {
 
@@ -156,7 +118,7 @@ export class EditColaboradoresComponent implements OnInit {
                     () => {
                         this._helper.openSnackBarSucesso('Colaborador editado com sucesso.')
                         this.saveBar = 'hidden'
-                        //this.openSnackBar()
+                     
                         this.dialogRef.close();
 
                     });
@@ -168,25 +130,8 @@ export class EditColaboradoresComponent implements OnInit {
     openSnackBar() {
 
         this._helper.openSnackBarError('ERRO')
-        //     this._snackBar.open('Colaborador editado com sucesso.', '', {
-        //         horizontalPosition: 'center',
-        //         verticalPosition: 'top',
-        //         panelClass: 'green-snackbar',
-        //         duration: 3 * 1000,
-        //     });
-    }
-
-    isEqual = true
-    get formIsValid() {
-
-        if (JSON.stringify(this.editedColaborador) === JSON.stringify(this.originalColaborador)) {
-            this.isEqual = true
-        } else {
-            this.isEqual = false
-        }
-        return this.isEqual
-    }
-
+       
+    }    
 
     consultaCEP(CEP: string) {
 
@@ -207,5 +152,4 @@ export class EditColaboradoresComponent implements OnInit {
                     () => {  });
         }
     }
-
 }

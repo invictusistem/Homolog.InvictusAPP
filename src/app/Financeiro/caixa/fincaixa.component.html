@@ -3,7 +3,7 @@
     <div>
         <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="vender produto" matTooltipPosition="above"
             matTooltipHideDelay="100">
-            <button (click)="openCaixaModal()" mat-icon-button>
+            <button (click)="openCaixaModal()" disabled mat-icon-button>
                 <mat-icon>point_of_sale</mat-icon>
             </button>
         </i>
@@ -17,7 +17,7 @@
 
         <i style="margin-left: 20px;" #tooltip="matTooltip" matTooltip="venda entre unidades" matTooltipPosition="above"
             matTooltipHideDelay="100">
-            <button (click)="openVendaUnidades()" mat-icon-button>
+            <button (click)="openVendaUnidades()" disabled mat-icon-button>
                 <mat-icon>local_atm</mat-icon>
             </button>
         </i>
@@ -42,7 +42,7 @@
 
             <mat-form-field style="transform: scale(0.85);" appearance="fill" style="margin: 0px;">
                 <mat-label>Selecione o período</mat-label>
-                <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                <mat-date-range-input disabled [formGroup]="range" [rangePicker]="picker">
                     <input matStartDate formControlName="start" placeholder="início">
                     <input matEndDate formControlName="end" placeholder="fim">
                 </mat-date-range-input>
@@ -56,7 +56,7 @@
             <span style="margin-left: 2px;margin-bottom: 30px;">
                 <i style="margin-left: 2px;margin-bottom: 10px;" #tooltip="matTooltip" matTooltip="pesquisar"
                     matTooltipPosition="above" matTooltipHideDelay="100">
-                    <button (click)="pesquisarData()" type="submit" mat-icon-button>
+                    <button (click)="pesquisarData()" disabled type="submit" disabled mat-icon-button>
                         <mat-icon>search</mat-icon>
                     </button>
                 </i>

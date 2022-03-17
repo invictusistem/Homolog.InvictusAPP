@@ -3,7 +3,7 @@
     <div>
         <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="cadastrar estágio" matTooltipPosition="above"
             matTooltipHideDelay="100">
-            <button style="" (click)="cadastroEstagio()" disabled mat-icon-button>
+            <button style="" (click)="cadastroEstagio()" mat-icon-button>
                 <mat-icon>domain</mat-icon>
             </button>
         </i>
@@ -11,11 +11,18 @@
 
     <br>
 
+    <div  @rowHighlight  class="card-header card-msg-response" unselectable="on"
+        *ngIf="showMessageNoEstagior">{{mensagem}}</div>
+
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch"  @rowHighlight style="margin:0px" mode="query">
+    </mat-progress-bar>
+
 
     <div *ngIf="estagios.length > 0" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
     margin-top: 10px;
     box-shadow: 0 0 1em rgb(172, 170, 170);
     background-color: rgb(227, 240, 227);">
+
         <div class="card-header">
             <h4 class="card-title" style="text-align:left;margin-top: 10px; 
             vertical-align: middle;font-size:1.2em; font-weight: 400;">
@@ -23,8 +30,10 @@
                 Unidade {{tokenInfo.Unidade}}
             <!-- <p class="card-category"> </p> -->
         </div>
+
         <div class="card-body">
             <div class="table-responsive" style="height: auto;position: relative;">
+
                 <table color="primary" style="margin-bottom: 0px;" class="table">
                     <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
                     <thead>
@@ -38,22 +47,22 @@
                             <th style="width: 26%;font-size:1em;
                             vertical-align: middle; 
                             text-align:left;
-                             border-top: 0px; font-weight: 400;">Estágio</th>
+                             border-top: 0px; font-weight: 400;">ESTÁGIO</th>
 
                             <th style="width: 12%;font-size:1em;
                             vertical-align: middle;
                             text-align:center;
-                            border-top: 0px; font-weight: 400;">Início</th>
+                            border-top: 0px; font-weight: 400;">INÍCIO</th>
 
                             <th style="width: 8%;font-size:1em;
                             text-align:center; 
                             vertical-align: middle;
-                            border-top: 0px; font-weight: 400;">Vagas</th>
+                            border-top: 0px; font-weight: 400;">VAGAS</th>
 
                             <th style="width: 12%;font-size:1em;
                             text-align:center; 
                             vertical-align: middle;
-                            border-top: 0px; font-weight: 400;">Inscritos</th>
+                            border-top: 0px; font-weight: 400;">INSCRITOS</th>
 
                             <th style="width: 13%;font-size:1em;
                             text-align:center; 
@@ -77,7 +86,7 @@
                             <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
                                 {{item.nome}}</td>
 
-                            <td  @rowHighlight style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
                                 {{item.dataInicio | date:"dd/MM/yyyy"}}<br>
                                 <!-- <span @rowHighlight style="font-size: 0.8em;color: red;">
                                     {{item.previsao}}
@@ -87,14 +96,14 @@
                             <td style="font-size:0.9em;text-align: center;vertical-align: middle;">{{item.vagas}}</td>
                                 
                             <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
-                                {{item.inscritos.length}}
+                               
                             </td>
-                            <td @rowHighlight style="font-size:0.9em;text-align: center;vertical-align: middle;"></td>
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;"></td>
                             <td style="text-align: center;vertical-align: middle;">
 
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="editar estágio"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="editarEstagio(item.id)"
+                                    <button (click)="editarEstagio(item)"
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>build</mat-icon>
@@ -104,13 +113,14 @@
 
                                  <i style="margin: 0px; margin: 100px;" #tooltip="matTooltip" matTooltip="inscritos"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="verificarMatriculados(item)"
+                                    <button (click)="verificarMatriculados(item)" disabled
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>description</mat-icon>
                                     </button>
                                 </i>
 
+                          
                                 
 
                                

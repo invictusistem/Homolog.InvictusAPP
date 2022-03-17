@@ -7,6 +7,8 @@ import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { environment } from "src/environments/environment";
 import { Cargo } from "../Adm-Models/cargos.model";
 import { AdmService } from "../services/adm.services";
+import { EditCargoModalConfig } from "../services/modal.config";
+import { CargoEditComponent } from "./Cargos-edit/cargo-edit.component";
 import { CargoCreateComponent } from "./Config-Cargos/cargo-create.component";
 import { DocTemplateComponent } from "./Doc-create/doctemplate.component";
 import { MateriaTemplateComponent } from "./Mat-create/mat-create.component";
@@ -266,6 +268,13 @@ export class ConfiguracoesComponent implements OnInit {
             } else if (data.clicked === "Cancel") {
 
             }
+        });
+    }    
+
+    public OpenEditCargoModal(item: any): void {
+        const dialogRef = this._modal
+            .open(CargoEditComponent, EditCargoModalConfig(item));
+        dialogRef.afterClosed().subscribe(data => {
         });
     }
 

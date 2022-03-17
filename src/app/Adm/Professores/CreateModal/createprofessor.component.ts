@@ -36,13 +36,13 @@ export class CreateProfessorComponent implements OnInit {
     public msgErros: any
     //cargos = Cargos;
     mensagem = "";
-   // public showMensagem = 'hidden'
+    // public showMensagem = 'hidden'
     //public bairro: string = null;
     //@Input() disabled = true;
     unidades = Unidades;//: string[] = new Array("Campo Grande II", "Jacarepaguá");
     constructor(
         //private service: AdmService,
-        private _snackBar: MatSnackBar,
+        //private _snackBar: MatSnackBar,
         private _helper: HelpersService,
         private _admService: AdmService,
         private router: Router,
@@ -57,7 +57,11 @@ export class CreateProfessorComponent implements OnInit {
             nome: ['', [Validators.required, Validators.minLength(5)]],
             email: ['', [Validators.required, Validators.email]],
             cpf: ['', [Validators.required, Validators.minLength(11)]],
-            celular: [null, [Validators.required, Validators.minLength(5)]],
+            cnpj: ['', [Validators.required, Validators.minLength(14)]],
+            celular: [null, [Validators.required, Validators.minLength(11)]],
+            telefoneContato: [null, [Validators.minLength(10)]],
+            nomeContato: ['', [Validators.required, Validators.minLength(3)]],
+            dataEntrada:[''],
             cargoId: [0, [Validators.required]],
             ativo: [true, [Validators.required]],
             cep: ['', [Validators.required, Validators.minLength(8)]],
@@ -74,9 +78,9 @@ export class CreateProfessorComponent implements OnInit {
     ngOnInit() {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-        console.log(this.tokenInfo.Unidade);
-        console.log(this.tokenInfo.Codigo);
-        console.log(this.tokenInfo);
+        // console.log(this.tokenInfo.Unidade);
+        // console.log(this.tokenInfo.Codigo);
+        // console.log(this.tokenInfo);
     }
     showForm = false
     // showForm = false
@@ -87,15 +91,19 @@ export class CreateProfessorComponent implements OnInit {
             .subscribe(response => {
                 this.cargos = Object.assign([], response)
             }, (err) => {
-                console.log(err)
+                // console.log(err)
             },
                 () => {
-                    console.log(this.cargos)
+                    //  console.log(this.cargos)
                     // this.showForm = true
                 });
     }
 
+    // OnKeyOnlyNumbers(char: HTMLInputElement){
 
+    //    return String.fromCharCode(char..value).match(/[^0-9]/g) === null
+
+    // }
     //disabledSaveButton = false
     get disabledButton() {
         if (this.colaboradorForm.valid) {
@@ -106,10 +114,10 @@ export class CreateProfessorComponent implements OnInit {
     }
 
     onSubmit(form: FormGroup) {
-       // this.showMensagem = false
-        console.log(form)
-        console.log(form.value)
-        console.log(form.valid)
+        // this.showMensagem = false
+        // console.log(form)
+        //console.log(form.value)
+        // console.log(form.valid)
         this.showMensagem = 'hidden'
         //var cel = `${form['celular'].value}`
         //console.log(cel)
@@ -131,111 +139,109 @@ export class CreateProfessorComponent implements OnInit {
                 }, (err) => {
 
                     if (err['status'] == 409) {
-                    this.msgErros = err['error'].msg
-                    this.showMensagem = 'visible'
-                    this.disabledSaveButton = 'hidden'
-                }else{
-                    this._helper.openSnackBarErrorDefault()
-                    
-                     this.dialogRef.close({ clicked: "Ok" });
-                }
+                        this.msgErros = err['error'].msg
+                        this.showMensagem = 'visible'
+                        this.disabledSaveButton = 'hidden'
+                    } else {
+                        this.disabledSaveButton = 'hidden'
+                        this._helper.openSnackBarErrorDefault()
+                        console.log(err)
+                        //this.dialogRef.close();
+                    }
                 },
                     () => {
                         //console.log(response)
-                        this.openSnackBar()
+                        this._helper.openSnackBarSucesso('Professor salvo com sucesso.')
+                        //this.openSnackBar()
 
                         //this.showMensagem = false
-                        this.dialogRef.close({ clicked: "Ok" });
+                        this.dialogRef.close({ clicked: true });
                         this.disabledSaveButton = 'hidden'
                     });
         }
     }
 
-    openSnackBar() {
-        this._snackBar.open('Professor salvo com sucesso.', '', {
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: 'green-snackbar',
-            duration: 3 * 1000,
-        });
-    }
+    // openSnackBar() {
+    //     this._snackBar.open('Professor salvo com sucesso.', '', {
+    //         horizontalPosition: 'center',
+    //         verticalPosition: 'top',
+    //         panelClass: 'green-snackbar',
+    //         duration: 3 * 1000,
+    //     });
+    // }
 
-    buscarEmail(event: any) {
-        if (this.colaboradorForm.get('email').valid) {
-            this.validadeEmailMsg = false
-            this.http.get(`${this.baseUrl}/adm/aluno/email/${event.target.value}`, {
-                headers: new HttpHeaders({
-                    "Content-Type": "application/json",
-                    "Authorization": "Bear "
-                })
-            }).subscribe(response => {
+    // buscarEmail(event: any) {
+    //     if (this.colaboradorForm.get('email').valid) {
+    //         this.validadeEmailMsg = false
+    //         this.http.get(`${this.baseUrl}/adm/aluno/email/${event.target.value}`, {
+    //             headers: new HttpHeaders({
+    //                 "Content-Type": "application/json",
+    //                 "Authorization": "Bear "
+    //             })
+    //         }).subscribe(response => {
 
-            }, (err) => {
-                if (err['status'] == 409) {
-                    this.validadeEmailMsg = true
-                    this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
-                }
-            },
-                () => {
-                    this.colaboradorForm.get('email').setErrors(null);
-                });
+    //         }, (err) => {
+    //             if (err['status'] == 409) {
+    //                 this.validadeEmailMsg = true
+    //                 this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
+    //             }
+    //         },
+    //             () => {
+    //                 this.colaboradorForm.get('email').setErrors(null);
+    //             });
 
-            //this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
+    //         //this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
 
-        }
-    }
+    //     }
+    // }
 
-    buscarCPF(event: any) {
-        // console.log(event.target.value)
-        console.log(this.colaboradorForm.get('cpf').value)
-        console.log(this.colaboradorForm.get('cpf').valid)
-        console.log(this.colaboradorForm.get('cpf').value.length)
-        if (this.colaboradorForm.get('cpf').valid) {
-            this.validadeCPFMsg = false
-            let cpf = this.colaboradorForm.get('cpf').value
-            //this.http.get(`${this.baseUrl}/adm/aluno/cpf/${event.target.value}`, {
-            this.http.get(`${this.baseUrl}/adm/aluno/cpf/${cpf}`, {
-                headers: new HttpHeaders({
-                    "Content-Type": "application/json",
-                    "Authorization": "Bear "
-                })
-            }).subscribe(response => {
+    // buscarCPF(event: any) {
+    //     // console.log(event.target.value)
+    //     console.log(this.colaboradorForm.get('cpf').value)
+    //     console.log(this.colaboradorForm.get('cpf').valid)
+    //     console.log(this.colaboradorForm.get('cpf').value.length)
+    //     if (this.colaboradorForm.get('cpf').valid) {
+    //         this.validadeCPFMsg = false
+    //         let cpf = this.colaboradorForm.get('cpf').value
+    //         //this.http.get(`${this.baseUrl}/adm/aluno/cpf/${event.target.value}`, {
+    //         this.http.get(`${this.baseUrl}/adm/aluno/cpf/${cpf}`, {
+    //             headers: new HttpHeaders({
+    //                 "Content-Type": "application/json",
+    //                 "Authorization": "Bear "
+    //             })
+    //         }).subscribe(response => {
 
-            }, (err) => {
-                if (err['status'] == 409) {
-                    this.validadeCPFMsg = true
-                    this.colaboradorForm.get('cpf').setErrors({ 'incorrect': true });
-                }
-            },
-                () => {
-                    this.colaboradorForm.get('cpf').setErrors(null);
-                });
+    //         }, (err) => {
+    //             if (err['status'] == 409) {
+    //                 this.validadeCPFMsg = true
+    //                 this.colaboradorForm.get('cpf').setErrors({ 'incorrect': true });
+    //             }
+    //         },
+    //             () => {
+    //                 this.colaboradorForm.get('cpf').setErrors(null);
+    //             });
 
-            //this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
+    //         //this.colaboradorForm.get('email').setErrors({ 'incorrect': true });
 
-        }
-    }
+    //     }
+    // }
     // https://viacep.com.br/ws/01001000/json/
     showEndereco = 'hidden'
     consultaCEP(CEP: string) {
-       
+
         if (this.colaboradorForm.get('cep').valid) {
 
             this._admService.CepConsulta(this.colaboradorForm.get('cep').value)
-            .subscribe(response => {
-       
-                this.colaboradorForm.get('logradouro').setValue(response["logradouro"]);
-                this.colaboradorForm.get('bairro').setValue(response["bairro"]);
-                this.colaboradorForm.get('cidade').setValue(response["localidade"]);
-                this.colaboradorForm.get('uf').setValue(response["uf"]);
-                
-
-            }, err => {  },
-                () => {
-                    
-                    this.showEndereco = 'visible'
-                });
-            }
+                .subscribe(response => {
+                    this.colaboradorForm.get('logradouro').setValue(response["logradouro"].toUpperCase());
+                    this.colaboradorForm.get('bairro').setValue(response["bairro"].toUpperCase());
+                    this.colaboradorForm.get('cidade').setValue(response["localidade"].toUpperCase());
+                    this.colaboradorForm.get('uf').setValue(response["uf"].toUpperCase());
+                }, err => { },
+                    () => {
+                        this.showEndereco = 'visible'
+                    });
+        }
     }
 
     onOkClick() {

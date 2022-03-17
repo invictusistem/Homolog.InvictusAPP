@@ -53,7 +53,7 @@ export class AdmComponent implements OnInit {
         private _modal: MatDialog,
         private _http: HttpClient) {
         const navigation = this._router.getCurrentNavigation();
-        console.log(navigation.extras['state'])
+      //  console.log(navigation.extras['state'])
         if (navigation.extras['state'] != undefined) {
             const state = navigation.extras.state as { data: string };
             this.data = state.data;
@@ -65,7 +65,7 @@ export class AdmComponent implements OnInit {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         
-        console.log(this.data != "")
+     //   console.log(this.data != "")
         if(this.data != ""){ 
             this.getMessage();    
             console.log('show message') 

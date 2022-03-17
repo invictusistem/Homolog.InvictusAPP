@@ -33,7 +33,7 @@
             <span>
                 <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
                     matTooltipHideDelay="100">
-                    <button style="" mat-icon-button>
+                    <button mat-icon-button>
                         <mat-icon>search</mat-icon>
                     </button>
                 </i>
@@ -47,7 +47,7 @@
     <mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
     </mat-progress-bar>
 
-    <div class="card-header card-msg-response" unselectable="on" onselectstart="return false;" style="margin-left: 0px;"
+    <div class="card-header card-msg-response" unselectable="on" onselectstart="returnOnSelect()" style="margin-left: 0px;"
         *ngIf="showMessageNoBolsas">Não foram localizadas bolsas cadastradas para esse tipo ou unidade.</div>
 
 

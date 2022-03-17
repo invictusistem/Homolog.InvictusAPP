@@ -95,7 +95,7 @@ export class FornecedorCompraComponent implements OnInit {
     onSubmit(form: FormGroup) {
 
        
-        console.log(form.value)
+       // console.log(form.value)
         if (form.valid) {
           
             //const novofornecedor = JSON.stringify(form.value);
@@ -108,7 +108,9 @@ export class FornecedorCompraComponent implements OnInit {
 
                 //console.log(response)
                
-            }, (err) => { console.log(err) },
+            }, (err) => { 
+               // console.log(err)
+             },
                 () => {
                     
                     this.dialogRef.close({ clicked: "Ok" });
@@ -138,7 +140,9 @@ export class FornecedorCompraComponent implements OnInit {
                 this.fornecedorForm.get('cidade').setValue(response["localidade"]);
                 this.fornecedorForm.get('uf').setValue(response["uf"]);
                 
-            }, err => { console.log(err) },
+            }, err => {
+                // console.log(err) 
+                },
                 () => { });
     }
 

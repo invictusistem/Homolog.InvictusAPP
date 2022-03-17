@@ -33,6 +33,7 @@ export class UsuarioComponent implements OnInit {
     private jwtHelper = new JwtHelperService();
     tokenInfo: TokenInfos = new TokenInfos();
     public pesquisarForm: FormGroup
+    public spinnerSearch = 'hidden'
 
     constructor(
         //private http: HttpClient,
@@ -100,10 +101,10 @@ export class UsuarioComponent implements OnInit {
     openCreateUserModal(): void {
         const dialogRef = this._modal
             .open(CreateUserComponent, {
-                height: 'auto',
-                width: '700px',
+                height: '400px',
+                width: '600px',
 
-                data: { Hello: "Hello World" },
+                //data: { Hello: "Hello World" },
                 hasBackdrop: true,
                 disableClose: true
             });
@@ -125,7 +126,7 @@ export class UsuarioComponent implements OnInit {
     openEditUserModal(item: Colaborador): void {
         const dialogRef = this._modal
             .open(EditUserComponent, {
-                height: '300px',
+               // height: '300px',
                 width: '600px',
 
                 data: { colaborador: item },
@@ -166,6 +167,7 @@ export class UsuarioComponent implements OnInit {
 
         if (this.pesquisarForm.valid) {
            // this.spinnerSearch = true
+           this.spinnerSearch = 'visible'
 
             if (event != undefined) {
               //  this.currentPageTeste = event.pageIndex + 1
@@ -198,6 +200,8 @@ export class UsuarioComponent implements OnInit {
            // this.paginator.firstPage();
         }
 
+        this.spinnerSearch = 'hidden'
+
     }
 
     processarFalha(fail: any) {
@@ -212,7 +216,7 @@ export class UsuarioComponent implements OnInit {
             this.showMessageNoColaborador = true
             this.usuarios = new Array<any>();
         }
-
+        this.spinnerSearch = 'hidden'
        // this.spinnerSearch = false
     }
 

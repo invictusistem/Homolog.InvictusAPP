@@ -13,21 +13,23 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 export class MessageModalComponent implements OnInit {
 
     mensagem: any;
+    public horario: any
     private jwtHelper = new JwtHelperService();
     tokenInfo: TokenInfos = new TokenInfos();
 
 
     constructor(
-        private router: Router,
-        private http: HttpClient,
+        //private router: Router,
+        //private http: HttpClient,
         public dialogRef: MatDialogRef<MessageModalComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) { }
 
     ngOnInit() {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-        console.log(this.data['message'])
+       // console.log(this.data)
         this.mensagem = this.data['message']
+        //this.horario = this.data['horario']
     }
 
 }

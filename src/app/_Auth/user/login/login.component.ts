@@ -87,7 +87,7 @@ export class LoginComponent implements OnInit {
   
 
   preLoginError(error) {
-    console.log(error['status'])
+    //console.log(error['status'])
 
     if (error['status'] == 401) {
       this.progress = false
@@ -123,7 +123,7 @@ export class LoginComponent implements OnInit {
 
   loginError(error) {
 
-    console.log(error['status'])
+   // console.log(error['status'])
 
     if (error['status'] != 0) {
       this.progress = false

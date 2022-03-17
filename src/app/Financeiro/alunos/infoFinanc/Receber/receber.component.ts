@@ -41,11 +41,11 @@ export class ReceberComponent implements OnInit {
     ngOnInit() {
         this.dialogRef.addPanelClass('recebervalores-class')
         this.mostrarModalPrincipal = false
-        console.log(this.hoje)
+       // console.log(this.hoje)
         this.aluno = Object.assign({}, this.data['aluno'])
         this.debito = Object.assign({}, this.data['debito'])
         this.valorQuitado = this.debito.valor - this.debito.desconto
-        console.log(this.debito)
+       // console.log(this.debito)
         // this.turma = Object.assign({}, this.data['turma'])
         // // this.nome = this.data['aluno'].nome
         // console.log(this.aluno)
@@ -61,7 +61,9 @@ export class ReceberComponent implements OnInit {
             .subscribe(resp => {
 
             },
-                (error) => { console.log(error) },
+                (error) => { 
+                   // console.log(error) 
+                },
                 () => {
                     this.dialogRef.close({ clicked: "PAGO" })
                 })
@@ -87,7 +89,7 @@ export class ReceberComponent implements OnInit {
 
     saveEditAluno() {
 
-        console.log(this.aluno)
+        //console.log(this.aluno)
 
         //this.alunoForm.value
 

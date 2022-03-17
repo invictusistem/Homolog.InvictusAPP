@@ -62,7 +62,7 @@ export class EditCursoComponent implements OnInit {
 
     ngOnInit() {
         this.ativo = true;
-        console.log(this.data['turma'])
+      //  console.log(this.data['turma'])
        // this.turma = this.data['turma']
         // this.getAlunosDaTurma(this.data['turma'].id)
         //this.getCursoById(this.data['turma'].id)
@@ -80,13 +80,13 @@ export class EditCursoComponent implements OnInit {
                     // this.professores = new Array<Professor>();
                     // Object.assign(this.professores, response)
                     this.turma = response['turma']
-                    console.log(this.turma)
+                   // console.log(this.turma)
                     this.alunos = response['alunos']
                     this.professores = response['professores']
 
                 },
                 (error) => {
-                    console.log(error)
+                   // console.log(error)
                     //this.initProgressBar = 'hidden'
                 },
                 () => {
@@ -117,7 +117,7 @@ export class EditCursoComponent implements OnInit {
     }
 
     changePage(evento: any) {
-        console.log(evento["pageIndex"])
+     //   console.log(evento["pageIndex"])
         this.selectedPage = evento["pageIndex"] + 1//newPage;
         //             console.log('ok get');
         //             this.showSpinner = false
@@ -144,23 +144,23 @@ export class EditCursoComponent implements OnInit {
 
     getProfessores(turmaId) {
 
-        console.log('get alunos turma')
+      //  console.log('get alunos turma')
         //alunosturma
         this._http.get(`${this.BaseUrl}/turmas/professoresturma/${turmaId}`)
             .subscribe(
                 (response) => {
-                    console.log(response)
+                  //  console.log(response)
                     this.professores = new Array<Professor>();
                     Object.assign(this.professores, response)
 
                 },
                 (error) => {
-                    console.log(error)
+                  //  console.log(error)
                 },
                 () => {
-                    console.log(this.professores)
+                   // console.log(this.professores)
                     this.length = this.professores.length
-                    console.log(this.length)
+                   // console.log(this.length)
 
                     if (this.length == 0) {
                         this.mensagemSemProfessores = true
@@ -168,7 +168,7 @@ export class EditCursoComponent implements OnInit {
                         this.mensagemSemProfessores = false
                     }
 
-                    console.log(this.length)
+                   // console.log(this.length)
                 }
             )
     }
@@ -214,7 +214,7 @@ export class EditCursoComponent implements OnInit {
             });
 
         dialogRef.afterClosed().subscribe((data) => {
-            console.log(data)
+          //  console.log(data)
             if (data.clicked == true) {
                 this.disabledDeletProf = true
                 this._helper.openSnackBarSucesso('Professor excluído com sucesso')
@@ -229,11 +229,11 @@ export class EditCursoComponent implements OnInit {
 
 
     getCursoById(id) {
-        console.log(id)
+       // console.log(id)
         this._http.get(`${this.BaseUrl}/turmas/${id}`)
             .subscribe(
                 (response) => {
-                    console.log(response)
+                   // console.log(response)
                     this.turma = Object.assign({}, response as TurmaViewModel);
                 },
                 (error) => { },
@@ -246,7 +246,7 @@ export class EditCursoComponent implements OnInit {
 
                     this.previ3 = `Previsão de início 3: ${new Date(this.turma.previsoes.previsionStartThree).toLocaleDateString()}`
 
-                    console.log(this.previ1)
+                 //   console.log(this.previ1)
 
                     if (this.turma.previsao == '1ª previsão') {
                         this.previQuadro1linethrough = false
@@ -293,19 +293,21 @@ export class EditCursoComponent implements OnInit {
 
     descricaoCompleta: string = ""
     getAlunosDaTurma(turmaId) {
-        console.log('get alunos turma')
+       // console.log('get alunos turma')
         // alunosturma
         this._http.get(`${this.BaseUrl}/turmas/alunosturma/?turmaId=${turmaId}`)
             .subscribe(
                 (response) => {
-                    console.log(response)
+                  //  console.log(response)
 
                     Object.assign(this.alunos, response)
 
                 },
-                (error) => { console.log(error) },
+                (error) => { 
+                    //console.log(error) 
+                },
                 () => {
-                    console.log(this.alunos)
+                   // console.log(this.alunos)
 
                 }
             )
@@ -327,7 +329,7 @@ export class EditCursoComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             //console.log('The dialog was closed');
-            console.log(result);
+           // console.log(result);
             if (result["clicked"] == true) {
                // console.log(result["profsIds"])
                 //this.saveProfs(result["profsIds"])
@@ -358,7 +360,7 @@ export class EditCursoComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             //console.log('The dialog was closed');
-            console.log(result);
+           // console.log(result);
             if (result["clicked"] == true) {
                // console.log(result["profsIds"])
                 this.GetInformacoesDaTurma(this.data['turma'].id);
@@ -374,23 +376,25 @@ export class EditCursoComponent implements OnInit {
     }
 
     saveProfs(profIds: number[]) {
-        console.log(this.data['turma'].id)
-        console.log(profIds)
+       // console.log(this.data['turma'].id)
+      //  console.log(profIds)
         var saveProfs: SaveProfsCommand = new SaveProfsCommand();
         saveProfs.turmaId = this.data['turma'].id
         saveProfs.listProfsIds = profIds
-        console.log(saveProfs)
+       // console.log(saveProfs)
         this._http.post(`${this.BaseUrl}/pedag/turma/professores`, saveProfs, {
 
         })
             .subscribe(
                 (response) => {
-                    console.log(response)
+                   // console.log(response)
 
                     //
 
                 },
-                (error) => { console.log(error) },
+                (error) => {
+                    // console.log(error)
+                     },
                 () => {
 
                     this.GetInformacoesDaTurma(this.data['turma'].id);
@@ -403,7 +407,7 @@ export class EditCursoComponent implements OnInit {
 
     submitForm(form: NgForm) {
         if (form.valid) {
-            console.log('form valid')
+          //  console.log('form valid')
             // this.model.saveProduct(this.product);
             // //this.product = new Product();
             // //form.reset();

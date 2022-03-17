@@ -5,7 +5,7 @@ import { Output, EventEmitter } from '@angular/core';
 //import { AdmService } from '../../adm.service';
 import { PageEvent } from '@angular/material/paginator';
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
-import { NgForm } from "@angular/forms";
+import { FormBuilder, FormGroup, NgForm, Validators } from "@angular/forms";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { CepReturn } from "src/app/_shared/models/cepreturn.model";
 import { environment } from "src/environments/environment";
@@ -13,6 +13,7 @@ import { Cargos, Unidades } from "src/app/_shared/models/perfil.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
+import { AdmService } from "../../services/adm.services";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Component({
@@ -29,24 +30,54 @@ export class EditProfessorComponent implements OnInit {
     // length: number;
     // pageEvent: PageEvent;
     baseUrl = environment.baseUrl;
-
-    editedColaborador: Colaborador = new Colaborador();
-    originalColaborador: Colaborador = new Colaborador();
+    public initProgressBar = 'visible'
+    editedColaborador: any;
+    originalColaborador: any;//ProfessorTeste = new ProfessorTeste();
     unidades = Unidades;
     showMensagem = false
     mensagem = ''
     cpf = ''
     showForm = false
-
+    public saveBar = 'hidden'
     public cepReturn: CepReturn = new CepReturn();
     cargos = Cargos;
     ativo = true;
+    public professorForm: FormGroup
     constructor(
-        private _snackBar: MatSnackBar,
+        // private _snackBar: MatSnackBar,
+        private _admService: AdmService,
+        private _fb: FormBuilder,
         private _helper: HelpersService,
         private http: HttpClient,
         public dialogRef: MatDialogRef<EditProfessorComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any) { }
+        @Inject(MAT_DIALOG_DATA) public data: any) {
+        this.professorForm = _fb.group({
+            id: [''],
+            nome: ['', [Validators.required, Validators.minLength(5)]],
+            email: ['', [Validators.required, Validators.email]],
+            cpf: ['', [Validators.required, Validators.minLength(11)]],
+            cnpj: ['', [Validators.required, Validators.minLength(14)]],
+            celular: [null, [Validators.required, Validators.minLength(5)]],
+            telefoneContato: [null, [Validators.minLength(10)]],
+            nomeContato: ['', [Validators.required, Validators.minLength(3)]],
+            dataEntrada:[''],
+            dataSaida:[],
+            cargoId: [0, [Validators.required]],
+            ativo: [true, [Validators.required]],
+            cep: ['', [Validators.required, Validators.minLength(8)]],
+            logradouro: ['', [Validators.required, Validators.minLength(1)]],
+            complemento: [''],
+            numero: ['', [Validators.required]],
+            cidade: ['', [Validators.required, Validators.minLength(1)]],
+            uf: ['', [Validators.required, Validators.minLength(2)]],
+            bairro: ['', [Validators.required, Validators.minLength(1)]],
+            agencia: [''],
+            bancoNumero: [''],
+            conta: [''],
+            tipoConta: [''],
+            unidadeId: ['']
+        })
+    }
 
 
     //@Output() newItemEvent = new EventEmitter<string>();
@@ -54,42 +85,61 @@ export class EditProfessorComponent implements OnInit {
 
     ngOnInit() {
         this.ativo = true;
-        //console.log(this.data['colaborador'])
-        Object.assign(this.editedColaborador, this.data['colaborador'])
-        console.log(this.data['colaborador'].id)
+        // console.log(this.data['prof'])
+        // Object.assign(this.editedColaborador, this.data['colaborador'])
+        // console.log(this.data['colaborador'].id)
         this.GetProfessor()
 
     }
 
     GetProfessor() {
 
-        this.http.get(`${this.baseUrl}/professor/${this.data['colaborador'].id}`)
+        this.http.get(`${this.baseUrl}/professor/${this.data['prof'].id}`)
             .subscribe(response => {
 
-                this.editedColaborador = response['result']
+                console.log(response['result'])
+                                
+                this.professorForm.patchValue(response['result']);
+                this.originalColaborador = JSON.parse(JSON.stringify(this.professorForm.value))
 
-            }, err => { console.log(err) },
-                () => { this.showForm = true });
+                //this.professorForm.patchValue(response['result']);
+                // this.originalColaborador = response['result'] 
+                // this.professorForm.patchValue(this.originalColaborador);
+
+            }, err => {
+                this.initProgressBar = 'hidden'
+                //console.log(err)
+            },
+                () => {
+                    console.log(this.originalColaborador)
+                    this.dialogRef.addPanelClass('myeditprof-class')
+                    this.showForm = true
+                    this.initProgressBar = 'hidden'
+                });
     }
 
 
 
     submitForm(form: NgForm) {
 
-        console.log(form.value)
+        //console.log(form.value)
 
-        console.log(this.editedColaborador)
+        // console.log(this.editedColaborador)
 
         if (form.valid) {
-
+            this.saveBar = 'visible'
             this.disabledSpinner = true
-            console.log('form valid')
+            //console.log('form valid')
 
-            this.http.put(`${this.baseUrl}/professor`, this.editedColaborador, {})
+            this.http.put(`${this.baseUrl}/professor`, this.professorForm.value, {})
                 .subscribe(response => {
                     //console.log(response)
-                }, err => { console.log(err) },
+                }, err => {
+                    // console.log(err)
+                    this.saveBar = 'hidden'
+                },
                     () => {
+                        this.saveBar = 'hidden'
                         //this.openSnackBar()
                         this._helper.openSnackBarSucesso('Professor editado com sucesso!')
                         this.dialogRef.close();
@@ -116,7 +166,7 @@ export class EditProfessorComponent implements OnInit {
     //                 });
     //     }
     // }
-    
+
 
     // openSnackBar() {
     //     this.openSnackBar()
@@ -133,28 +183,67 @@ export class EditProfessorComponent implements OnInit {
         return this.isEqual
     }
 
+    get desabilitar() {
+          
+        if (this.professorForm.valid &&
+            JSON.stringify(this.originalColaborador) !=
+            JSON.stringify(this.professorForm.value)) {
+
+            return this.saveBar != 'hidden'
+        } else {
+            return true
+        }
+}
+
 
     consultaCEP(CEP: string) {
         //console.log(CEP);
 
-        this.http.get(`https://viacep.com.br/ws/${CEP}/json/`)
-            .subscribe(response => {
+        if (this.professorForm.get('cep').valid) {
 
-                console.log("success")
-                this.cepReturn = new CepReturn(
-                    response["logradouro"],
-                    response["bairro"],
-                    response["localidade"],
-                    response["uf"]);
-                console.log(this.cepReturn)
+            CEP = CEP.replace('-', '');
+            CEP = CEP.replace('.', '');
 
-                this.editedColaborador.logradouro = this.cepReturn.logradouro;
-                this.editedColaborador.bairro = this.cepReturn.bairro
-                this.editedColaborador.cidade = this.cepReturn.localidade
-                this.editedColaborador.uf = this.cepReturn.uf
-               
-            }, err => { console.log("erros") },
-                () => { console.log('finaly') });
+            this._admService.CepConsulta(this.professorForm.get('cep').value)
+                .subscribe(response => {
+
+                    this.professorForm.get('logradouro').setValue(response["logradouro"].toUpperCase())
+                    this.professorForm.get('bairro').setValue(response["bairro"].toUpperCase())
+                    this.professorForm.get('cidade').setValue(response["localidade"].toUpperCase())
+                    this.professorForm.get('uf').setValue(response["uf"].toUpperCase())
+
+                }, err => {  },
+                    () => {  });
+            }
     }
 
+}
+
+export class ProfessorTeste{
+    constructor(
+        public id?: string,
+        public nome?: string,
+        public email?: string,
+        public cpf?: string,
+        public cnpj?: string,
+        public celular?: string,
+        public telefoneContato?: string,
+        public nomeContato?: string,
+        public dataEntrada?:Date,
+        public dataSaida?:Date,
+        public cargoId?: string,
+        public ativo?: Boolean,
+        public cep?: string,
+        public logradouro?: string,
+        public complemento?: string,
+        public numero?: string,
+        public cidade?: string,
+        public uf?: string,
+        public bairro?: string,
+        public agencia?: string,
+        public bancoNumero?: string,
+        public conta?: string,
+        public tipoConta?: string,
+        public unidadeId?: string,
+    ){}
 }

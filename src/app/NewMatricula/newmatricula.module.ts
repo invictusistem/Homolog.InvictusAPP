@@ -24,6 +24,7 @@ import { NovaMatriculaComponent } from './NovaMatricula/novamatricula.component'
 import { CreateNovaMatriculaComponent } from './NovaMatricula/CreateMatricula/createnovamatricula.component';
 import { ConfirmNovaMatriculaComponent } from './NovaMatricula/CreateMatricula/Confirm/confirmnova.component';
 import { NewMatriculaService } from './services/newmatricula.service';
+import { RelatorioMatriculaComponent } from './NovaMatricula/Relatoriomatricula/relatoriomatricula.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -39,7 +40,8 @@ export function tokenGetter() {
         NewMatriculaComponent,
         NovaMatriculaComponent,
         CreateNovaMatriculaComponent,
-        ConfirmNovaMatriculaComponent
+        ConfirmNovaMatriculaComponent,
+        RelatorioMatriculaComponent
     ],
     imports: [
         BrowserModule,
@@ -63,7 +65,8 @@ export function tokenGetter() {
     ],
     entryComponents: [
         CreateNovaMatriculaComponent,
-        ConfirmNovaMatriculaComponent
+        ConfirmNovaMatriculaComponent,
+        RelatorioMatriculaComponent
     ]
 })
 export class NewMatriculaModule { }

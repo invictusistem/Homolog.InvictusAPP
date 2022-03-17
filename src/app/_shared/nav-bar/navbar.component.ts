@@ -41,7 +41,7 @@ export class NavBarComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        console.log('enter navBar')
+      //  console.log('enter navBar')
         this.menu = ROUTES.filter(menu => menu);
         //this.isUserAuthenticated();
     }

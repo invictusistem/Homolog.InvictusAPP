@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { BaseService } from 'src/app/_shared/services/base.service';
@@ -11,16 +9,7 @@ import { BaseService } from 'src/app/_shared/services/base.service';
 export class AdmService extends BaseService {
 
     constructor(private http: HttpClient) { super(); }
-
-    // registrarUsuario(usuario: Usuario) : Observable<Usuario> {
-    //     let response = this.http
-    //         .post(this.UrlServiceV1 + 'nova-conta', usuario, this.ObterHeaderJson())
-    //         .pipe(
-    //             map(this.extractData),
-    //             catchError(this.serviceError));
-
-    //         return response;
-    // }
+ 
 
     getColaboradores(pageSize?: number, currentPage?: number, jsonParam?: any): Observable<any> {
 
@@ -130,10 +119,7 @@ export class AdmService extends BaseService {
 
     // CONFIGS
     public GetMaterias(pageSize?: number, currentPage?: number): Observable<any> {
-        // getColaboradores(pageSize?: number, currentPage?: number, jsonParam?: any): Observable<any> {
-
-        // var formJson = JSON.stringify(jsonParam)
-
+       
         let path = `/materia-template/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson={}`
 
         let response = this.http
@@ -165,34 +151,7 @@ export class AdmService extends BaseService {
 
         return response;
     }
-
-    // CepConsultaV2(CEP?: any, endereco?:any) : Observable<any> {       
-
-    //     let url = `https://viacep.com.br/ws/${CEP}/json/`
-
-    //     let response = this.http
-    //         .get(url)
-    //         .pipe(
-    //             map(this.extractData),
-    //             catchError(this.serviceError));
-
-    //             var endereco = this.mappingEndereco(response);
-
-    //             return response;
-    // }
-
-    // mappingEndereco(response){
-
-    //     return { logradouro: response['logradouro'],
-    //         complemento: response[''],
-    //         numero: response[''],
-    //         cidade: response[''],
-    //         uf: response[''],
-    //         bairro:
-    //     }
-
-    // }
-
+   
     // PROFESSORES
 
     public GetRelatorioProfessor(rangeIni:Date, rangeFinal:Date, professorId): Observable<any> {
@@ -437,62 +396,5 @@ ini.setHours(0,0,0,0)
 
         return response;
     }
-
-    // var saveProfs: SaveProfsCommand = new SaveProfsCommand();
-    //     saveProfs.turmaId = this.data['turma'].id
-    //     saveProfs.listProfsIds = profIds
-    //     console.log(saveProfs)
-    //     this._http.post(`${this.BaseUrl}/pedag/turma/professores`, saveProfs, {
-
-    //     })
-    //         .subscribe(
-    //             (response) => {
-    //                 console.log(response)
-
-    //                 //
-
-    //             },
-    //             (error) => { console.log(error) },
-    //             () => {
-
-    //                 this.GetInformacoesDaTurma(this.data['turma'].id);
-                    
-    //             }
-    //         )
-
-    // console.log(CEP);
-    // if (CEP.length == 10) {
-
-
-    //     //var mystring = "crt/r2002_2";
-    //     CEP = CEP.replace('-', '');
-    //     CEP = CEP.replace('.', '');
-    //     console.log(CEP);
-    //     this.http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
-    //         .subscribe(response => {
-
-    //             //  console.log(response)
-    //             // this.cepReturn = new CepReturn(
-    //             //     response["logradouro"],
-    //             //     response["bairro"],
-    //             //     response["localidade"],
-    //             //     response["uf"]);
-    //             //console.log(this.cepReturn)
-    //             this.colaboradorForm.get('logradouro').setValue(response["logradouro"].toUpperCase());
-    //             this.colaboradorForm.get('bairro').setValue(response["bairro"].toUpperCase());
-    //             this.colaboradorForm.get('cidade').setValue(response["localidade"].toUpperCase());
-    //             this.colaboradorForm.get('uf').setValue(response["uf"].toUpperCase());
-    //             //this.bairro = this.cepReturn.bairro
-    //             // const token = (<any>response).accessToken;
-    //             // console.log(response)
-    //             // localStorage.setItem("jwt", token);
-    //             // this.invalidLogin = false;
-    //             // this.router.navigate(["/main"]);
-    //         }, err => { console.log(err) },
-    //             () => {
-    //                 //  console.log('finaly')
-    //                 this.showEndereco = true
-
-
 
 }

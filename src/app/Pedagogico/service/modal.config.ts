@@ -1,3 +1,59 @@
+// Aluno-docs
+
+
+// AlunosAcesso
+
+
+// Analise-docs
+
+
+// estagios
+
+export function CreateEstagioModalConfig(data?) {
+    return {        
+        height: '520px',
+        width: '700px',        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function EditEstagioModalConfig(estagio) {
+    return {               
+        width: '700px',  
+        data: { estagio: estagio },        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+// estagiodocs
+
+
+// matricula
+
+
+// pedag-alunos
+
+
+//pedag-models
+
+
+// relatorios
+
+
+// reposicoes
+
+
+// transferencia
+
+
+// turmapedag
+
+
+//turmaInfos
+
+
 
 export function InfoFinancComponentModal(data?:any){
     return {      
@@ -61,6 +117,16 @@ export function OpenCertificadoComponentModal(matricula?){
     return {      
         width: '500px',
         data: { matricula: matricula },        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+
+export function OpenCalendarioPresencaomponentModal(calendario?){
+    return {      
+        width: '1030px',
+        data: { calendario: calendario },        
         hasBackdrop: true,
         disableClose: true
     }

@@ -25,6 +25,7 @@ export class ContratoComponent implements OnInit {
     public typesPacotes: any = new Array<any>();
     public contratos: any[] = new Array<any>()
 
+    public initProgressBar = 'visible'
     public tokenInfo: TokenInfos = new TokenInfos();
     private jwtHelper = new JwtHelperService();
     public pesquisarForm: FormGroup
@@ -76,9 +77,12 @@ export class ContratoComponent implements OnInit {
 
                 this.typesPacotes = Object.assign([], resp['typePacotes']);
 
-            }, (error) => { console.log(error) },
+            }, (error) => {
+                //    console.log(error)
+                this.initProgressBar = 'hidden'
+            },
                 () => {
-
+                    this.initProgressBar = 'hidden'
                 })
     }
 

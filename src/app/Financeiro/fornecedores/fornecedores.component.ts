@@ -119,8 +119,8 @@ export class FornecedoresComponent implements OnInit {
     }
 
     processarSucesso(response: any, event?: any) {
-        console.log(response)
-        console.log()
+       // console.log(response)
+       // console.log()
         this.fornecedores = Object.assign([], response['data']);
 
         this.length = response['totalItemsInDatabase']
@@ -244,8 +244,8 @@ export class FornecedoresComponent implements OnInit {
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
                 // Reset form here
-                console.log('afte close ok')
-                console.log(this.chooseSearch)
+               // console.log('afte close ok')
+             //   console.log(this.chooseSearch)
                 //this.getColaboradores(1, this.pageSize);
             } else if (data.clicked === "Cancel") {
                 // Do nothing. Cancel any events that navigate away from the
@@ -272,8 +272,8 @@ export class FornecedoresComponent implements OnInit {
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
                 // Reset form here
-                console.log('afte close ok')
-                console.log(this.chooseSearch)
+                //console.log('afte close ok')
+               // console.log(this.chooseSearch)
                 //this.getColaboradores(1, this.pageSize);
             } else if (data.clicked === "Cancel") {
                 // Do nothing. Cancel any events that navigate away from the

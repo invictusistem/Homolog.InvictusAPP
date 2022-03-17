@@ -7,17 +7,18 @@
  
 }
 
-::ng-deep .mat-form-field.mat-input-element{
-  color: black;
-}
-
-::ng-deep .my-class .mat-dialog-container {
+::ng-deep .myprofmateria-class .mat-dialog-container {
   
-  height: 75vh;
+  height: 79vh;
   width: 880px;
 
 }
 
-input {
-  
+::ng-deep .mat-tab-group.profmaterias {
+  height: 500px !important;
 }
+
+// ::ng-deep .mat-form-field.mat-input-element{
+//   color: black;
+// }
+

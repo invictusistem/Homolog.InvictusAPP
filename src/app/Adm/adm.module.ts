@@ -82,6 +82,7 @@ import { VisualizarModuloComponent } from './Modulos/VisualizarModulo/visualizar
 import { EditBolsaComponent } from './Bolsas/EditBolsa/edit-bolsa.component';
 import { ProfCalendarioComponent } from './Professores/ProfCalendario/prof-calendario.component';
 import { ProfRelatorioComponent } from './Professores/Relatorio/prof-relatorio.component';
+import { CargoEditComponent } from './configuracoes/Cargos-edit/cargo-edit.component';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -153,7 +154,8 @@ export function tokenGetter() {
         VisualizarModuloComponent,
         EditBolsaComponent,
         ProfCalendarioComponent,
-        ProfRelatorioComponent
+        ProfRelatorioComponent,
+        CargoEditComponent
     ],
     imports: [
         BrowserModule,
@@ -233,7 +235,8 @@ export function tokenGetter() {
         VisualizarModuloComponent,
         EditBolsaComponent,
         ProfCalendarioComponent,
-        ProfRelatorioComponent
+        ProfRelatorioComponent,
+        CargoEditComponent
         //AddSalaComponent
     ]
 })
