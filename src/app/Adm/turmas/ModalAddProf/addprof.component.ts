@@ -52,7 +52,7 @@ export class AddProfessorModalComponent implements OnInit {
                 (error) => {
                    // console.log(error)
                     if(error['status'] == 404){
-                        this._helper.openSnackBarError("Não professores com disponibilidades para essa turma.")
+                        this._helper.openSnackBarError("Não há professores com disponibilidades para essa turma.")
                         this.dialogRef.close({clicked: false});
                     }else{
                         this._helper.openSnackBarErrorDefault();

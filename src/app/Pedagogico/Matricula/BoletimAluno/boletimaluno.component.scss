@@ -8,11 +8,19 @@
 //     }
 
 tbody {
-    
     td {
         font-weight: 400;
         font-size: 0.9em;
     }
+}
+
+::ng-deep .boletimaluno-class {
+    height: 750px !important;
+    width: 1000px;
+}
+
+::ng-deep .mat-form-field {
+    font-size: 0.9em;
 }
 
 //     div {

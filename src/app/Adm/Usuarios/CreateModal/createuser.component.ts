@@ -61,7 +61,7 @@ export class CreateUserComponent implements OnInit {
 
 
     consultaUsuario(email: any) {
-        console.log(email)
+       // console.log(email)
         if (email == '') return;
         this.showForm = false
         this.showMensagem = false
@@ -82,7 +82,7 @@ export class CreateUserComponent implements OnInit {
                     this.dialogRef.close();
                 }else{
                 this.initProgressBar = 'hidden'
-                console.log(err['error'])
+               // console.log(err['error'])
                 this.mensagem = err['error'].mensagem
                 this.showMensagem = true
                 }
@@ -113,6 +113,7 @@ export class CreateUserComponent implements OnInit {
        // console.log(form.valid)
 
         if (this.usuarioForm.valid) {
+            
             this.sabeSpinner = 'visible'
             this.disabledSaveButton = true
             let perfil = this.usuarioForm.get('perfil').value

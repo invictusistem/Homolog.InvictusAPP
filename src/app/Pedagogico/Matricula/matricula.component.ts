@@ -4,10 +4,13 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { JwtHelperService } from "@auth0/angular-jwt";
 import { Parametros } from "src/app/Adm/Colaboradores/colaboradores.component";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { Aluno } from "src/app/_shared/models/aluno.model";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
+import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
 import { InfoFinancComponentModal, OpenInfoComponentModal } from "../service/modal.config";
 import { PedagogicoService } from "../service/pedagogico.service";
@@ -33,6 +36,9 @@ export class MatriculaComponent implements OnInit {
     showMessageNoAluno = false
     length: number = 0
     mensagem: string = "";
+    private jwtHelper = new JwtHelperService();
+    public tokenInfo: TokenInfos = new TokenInfos();
+    public pesquisarForm: FormGroup
     // length: number;
     pageSize: number = 5;
     pageEvent: PageEvent;
@@ -46,7 +52,6 @@ export class MatriculaComponent implements OnInit {
     params: Parametros = new Parametros()
     listAlunos: any[] = new Array<any>();
 
-    public pesquisarForm: FormGroup
 
     public testeForm: FormGroup
 
@@ -54,6 +59,7 @@ export class MatriculaComponent implements OnInit {
 
     constructor(
         //private _snackBar: MatSnackBar,
+        private _helpers: HelpersService,
         private _pedagService: PedagogicoService,
         private _modal: MatDialog,
         private _fb: FormBuilder,
@@ -65,32 +71,43 @@ export class MatriculaComponent implements OnInit {
             cpf: ['', [Validators.required]],
             ativo: [false],
             todasUnidades: [false],
+            todosAlunos: [false]
         });
 
         this.pesquisarForm.valueChanges.subscribe(
             (form: any) => {
                 // console.log('form changed to:', form);
-                if (this.pesquisarForm.get('nome').value == '' &&
-                    this.pesquisarForm.get('email').value == '' &&
-                    this.pesquisarForm.get('cpf').value == '') {
-                    //  console.log('false valid')
+                //if (this.tokenInfo['role'] != 'SuperAdm') {
 
-                    this.pesquisarForm.controls['nome'].setErrors({ required: true });
-                    this.pesquisarForm.controls['email'].setErrors({ required: true });
-                    this.pesquisarForm.controls['cpf'].setErrors({ required: true });
-                    // this.pesquisarForm.setErrors({required: true});
-                } else {
-                    //   console.log('true valid')
-                    this.pesquisarForm.controls['nome'].setErrors(null);
+                    if (this.pesquisarForm.get('nome').value == '' &&
+                        this.pesquisarForm.get('email').value == '' &&
+                        this.pesquisarForm.get('cpf').value == '') {
+                        //  console.log('false valid')
 
-                    this.pesquisarForm.controls['email'].setErrors(null)
+                        this.pesquisarForm.controls['nome'].setErrors({ required: true });
+                        this.pesquisarForm.controls['email'].setErrors({ required: true });
+                        this.pesquisarForm.controls['cpf'].setErrors({ required: true });
+                        // this.pesquisarForm.setErrors({required: true});
+                    } else {
+                        //   console.log('true valid')
+                        this.pesquisarForm.controls['nome'].setErrors(null);
 
-                    this.pesquisarForm.controls['cpf'].setErrors(null);
+                        this.pesquisarForm.controls['email'].setErrors(null)
 
-                    //this.pesquisarForm.setErrors({required: false});
+                        this.pesquisarForm.controls['cpf'].setErrors(null);
+
+                        //this.pesquisarForm.setErrors({required: false});
 
 
-                }
+                    }
+
+                // } else {
+                //     this.pesquisarForm.controls['nome'].setErrors(null);
+
+                //     this.pesquisarForm.controls['email'].setErrors(null)
+
+                //     this.pesquisarForm.controls['cpf'].setErrors(null);
+                // }
 
 
             }
@@ -113,16 +130,23 @@ export class MatriculaComponent implements OnInit {
 
     }
 
-    salvarTeste(){
+    get searchTodosAlunosButton() {
 
-        this._http.post(`${this.baseUrl}/teste/salvarteste`, this.testeForm.value , {})
-        .subscribe(resp => {
+        // console.log(this.tokenInfo['role'] != 'SuperAdm')
+        return this.tokenInfo['role'] == 'SuperAdm'
+    }
 
-        },
-        (error) => { })
+    salvarTeste() {
+
+        this._http.post(`${this.baseUrl}/teste/salvarteste`, this.testeForm.value, {})
+            .subscribe(resp => {
+
+            },
+                (error) => { })
     }
     ngOnInit() {
-        console.log('init matricula')
+        const token = localStorage.getItem('jwt')
+        this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.testeForm.get('child').disable()
         //this.getColaboradores(1, this.pageSize);
     }
@@ -142,14 +166,33 @@ export class MatriculaComponent implements OnInit {
 
     }
 
+    // GetAll(event?: any,getAll?:any) {
 
+    //     //this.pesquisar(event)
+
+    //     this.showMessageNoAluno = false
+    //     this.spinnerSearch = 'visible'
+    //     if (event != undefined) {
+    //         this.currentPage = event.pageIndex + 1
+    //     } else {
+    //         this.currentPage = 1
+    //     }
+    //     this._pedagService.getAllAlunos(this.pageSize, this.currentPage, this.pesquisarForm.value)
+    //         .subscribe(
+    //             sucesso => { this.processarSucesso(sucesso, event) },
+    //             falha => { this.processarFalha(falha) }
+    //         );
+
+
+    // }
 
     pesquisar(event?: any) {
 
-
+        console.log(event)
         this.showMessageNoAluno = false
 
-        if (this.pesquisarForm.valid) {
+        if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
+
             this.spinnerSearch = 'visible'
 
             if (event != undefined) {
@@ -168,7 +211,7 @@ export class MatriculaComponent implements OnInit {
     }
 
     processarSucesso(response: any, event?: any) {
-
+        console.log(response)
         this.listAlunos = Object.assign([], response['data']);
 
         this.length = response['totalItemsInDatabase']
@@ -179,11 +222,41 @@ export class MatriculaComponent implements OnInit {
         } else {
             this.pageIndexNumber = 0
 
-            if(this.paginator != undefined){
-            this.paginator.firstPage();
+            if (this.paginator != undefined) {
+                this.paginator.firstPage();
             }
         }
 
+    }
+
+    deletar(aluno) {
+
+        this._http.delete(`https://localhost:5001/api/dev/deletar-aluno/${aluno.id}`, {})
+            .subscribe(resp => {
+
+            }, erro => {
+                this._helpers.openSnackBarErrorDefault();
+                console.log(erro)
+            }, () => {
+                this._helpers.openSnackBarSucesso("Cadastro excluído com sucesso.")
+            }
+
+            )
+    }
+
+    deletarMat(mat) {
+        //  console.log(mat)
+        this._http.delete(`https://localhost:5001/api/dev/deletar-matricula/${mat.matriculaId}`, {})
+            .subscribe(resp => {
+
+            }, erro => {
+                this._helpers.openSnackBarErrorDefault();
+                //console.log(erro)
+            }
+
+            ), () => {
+                this._helpers.openSnackBarSucesso("Matricula excluída com sucesso.")
+            }
     }
 
     processarFalha(fail: any) {
@@ -220,7 +293,7 @@ export class MatriculaComponent implements OnInit {
                 //clicked: "Ok"
                 //  this.openSnackBar()
                 this.pesquisar();
-               // console.log('afte close ok')
+                // console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
                 // Do nothing. Cancel any events that navigate away from the
                 // component.
@@ -341,12 +414,17 @@ export class MatriculaComponent implements OnInit {
         // });
     }
 
+    get podeDeletar(){
+        // console.log(this.tokenInfo)
+        return this.tokenInfo.role == 'SuperAdm'
+    }
+
     openBoletimodal(aluno: Aluno): void {
         const dialogRef = this._modal
             .open(BoletimAlunoComponent, {
-                height: '90vh',
+              //  height: '90vh',
                 width: '1000px',
-                autoFocus: false,
+              //  autoFocus: false,
 
 
                 data: { aluno: aluno },
@@ -355,10 +433,10 @@ export class MatriculaComponent implements OnInit {
             });
 
         dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "OK") {
+            if (data.clicked == true) {
                 // this.openSnackBar()
-                console.log('afte close ok')
-            } else if (data.clicked === "Cancel") {
+               // console.log('afte close ok')
+            } else if (data.clicked == false) {
 
             }
         });

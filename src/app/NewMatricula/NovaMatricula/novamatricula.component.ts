@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { JwtHelperService } from "@auth0/angular-jwt";
 import { Parametros } from "src/app/Adm/Colaboradores/colaboradores.component";
 import { BoletimAlunoComponent } from "src/app/Pedagogico/Matricula/BoletimAluno/boletimaluno.component";
 import { InfoCadastraisComponent } from "src/app/Pedagogico/Matricula/InfoCad/info-cadastrais.component";
@@ -14,6 +15,7 @@ import { InfoFinancComponentModal, OpenInfoComponentModal } from "src/app/Pedago
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { Aluno } from "src/app/_shared/models/aluno.model";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
+import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
 import { OpenRelatorioMatriculaComponentModal } from "../services/modal.config";
 import { NewMatriculaService } from "../services/newmatricula.service";
@@ -37,6 +39,8 @@ export class NovaMatriculaComponent implements OnInit {
     pageSize: number = 5;
     pageEvent: PageEvent;
     pageIndexNumber: number = 0;
+    private jwtHelper = new JwtHelperService();
+    public tokenInfo: TokenInfos = new TokenInfos();
     // formSubmitted: boolean = false;
     // showTable: boolean = false;
     // paginationInfo: IPager;
@@ -99,9 +103,100 @@ export class NovaMatriculaComponent implements OnInit {
 
     }
 
+    podeDesable = false
+    get mostrarEmLote(){
+        return this.tokenInfo.role == 'SuperAdm'
+    }
+    public SalvarEmLote(){
+        this.podeDesable = true
+        this._http.get(`https://localhost:5001/api/teste/readexcelalunos`)
+            .subscribe(
+                resp => {this.podeDesable = false },
+                error => { this.podeDesable = false}
+            )
+    }
+
+    public DeletarRegistroDaPlanilha(){
+        this.podeDesable = true
+        this._http.get(`https://localhost:5001/api/teste/delete-registros`)
+            .subscribe(
+                resp => {this.podeDesable = false },
+                error => { this.podeDesable = false}
+            )
+    }
+
+    public MatricularRegistroDaPlanilha(){ // matricular-registros
+        this.podeDesable = true
+        this._http.get(`https://localhost:5001/api/teste/matricular-registros`)
+            .subscribe(
+                resp => { this.RespMats(resp) },
+                error => { this.podeDesable = false}
+            )
+    }
+
+    one = new Promise<string>((resolve, reject) => {});
+    listaCpfs: any[] = new Array<any>()
+    RespMats(resp){
+        let commands = resp['commands']
+
+        // this.one.then(value => {
+        //     console.log('resolved', value);
+        //   });
+
+        // cpf.forEach(async element => {    
+        //    this.MatricularFinal(element)
+         
+        // });
+        this.MatricularFinal(commands)
+    }
+
+    // funcao(CPFs) {
+    //     let fit = Object.assign([], CPFs)
+    //     console.log(fit)
+    //     const jarOfPromises =[];
+    //     fit.forEach(Module => {
+    //     jarOfPromises.push(
+    //       this._http.get(`https://localhost:5001/api/teste/matricular-final-registros/${Module}`)
+    //       .toPromise())
+    //     });
+        
+    //     Promise.all(jarOfPromises).then(results=>{
+    //         console.log(results)
+    //     /** your code **/
+    //     });
+    // }
+
+    index = 0
+    totalItens = 0
+    commands:any[] = new Array<any>()
+    public async MatricularFinal(command?, item?:any){ // matricular-registros
+        console.log(item)
+        console.log(command)
+        //console.log(this.ids)
+        if(item == undefined){ this.totalItens = command.length; this.commands = command}
+       // if(id != undefined)
+
+        this.podeDesable = true
+        //console.log('matricula final')
+        //if(id.length)
+        this._http.post(`https://localhost:5001/api/teste/matricular-final-registros/${this.commands[this.index].turmaId}/${this.commands[this.index].alunoId}`, this.commands[this.index])
+            .subscribe(
+                resp => { 
+                    console.log('retorno matricula')
+                    this.index = this.index + 1 
+                    console.log(this.index)
+                    this.MatricularFinal(undefined, this.commands[this.index] )
+
+                },
+                error => {console.log('erro') }
+            )
+    }
 
 
-    ngOnInit() {        
+
+    ngOnInit() {  
+        const token = localStorage.getItem('jwt')
+        this.tokenInfo = this.jwtHelper.decodeToken(token)      
     }    
 
 

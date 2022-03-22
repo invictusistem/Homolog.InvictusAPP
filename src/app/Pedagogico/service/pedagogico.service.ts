@@ -112,6 +112,21 @@ export class PedagogicoService extends BaseService {
         return response;
     }
 
+    getAllAlunos(pageSize?: number, currentPage?: number, jsonParam?: any) : Observable<any> {       
+
+        var formJson = JSON.stringify(jsonParam)
+
+        let path = `/alunos/get-all/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson=${formJson}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
     //TurmasInfos.CalendariosDaTurma.AulaDetalhe
 
     public GetAulaViewModel(calendarioId) : Observable<any> {    

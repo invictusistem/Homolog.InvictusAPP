@@ -30,10 +30,11 @@ export class TurmasPedagInfoComponent implements OnInit {
     baseUrl = environment.baseUrl;
     turmas: TurmaViewModel[] = new Array<TurmaViewModel>()
     public spinnerSearch = 'visible'
+    public showTable = false
     // colaboradores: Colaborador[] = new Array<Colaborador>();
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
-    
+
     currentPage = 1
 
     showTurmas = false
@@ -175,23 +176,25 @@ export class TurmasPedagInfoComponent implements OnInit {
         this.showTurmas = false
         this.showMessage = false
         this.showSpinner = true
-        console.log('get cursos 1234')
+        // console.log('get cursos 1234')
         //this.http.get(`${this.baseUrl}/turmas/?itemsPerPage=` + itemsPerPage + `&currentPage=` + actualPage, {
         //this.http.post("http://api.invictustemp.com.thor.hostazul.com.br/api/identity/login", credentials, {
         this.http.get(`${this.baseUrl}/pedag/turma`)
             .subscribe(response => {
 
 
-                console.log(response)
+                // console.log(response)
                 //Object.assign(this.turmas, response['data'])
                 this.turmas = Object.assign([], response['turmas']);
-                console.log(this.turmas)
+                //  console.log(this.turmas)
                 // this.colaboradores = Object.assign([], response['data'])
                 //console.log(this.colaboradores)
                 // this.dialogRef.close();
             }, (err) => {
-                console.log(err)
+                // console.log(err)
                 this.spinnerSearch = 'hidden'
+
+                this.showTable = false
                 this.mensagem = "Ocorreu um erro! Contate o Administrador!"
 
                 this.mensagem = "Não há turmas cadastradas ou em andamento."
@@ -201,11 +204,12 @@ export class TurmasPedagInfoComponent implements OnInit {
 
             },
                 () => {
-                        this.spinnerSearch = 'hidden'
-                        this.showTurmas = true
-                        this.showMessage = false
-                        this.showSpinner = false
-                    
+                    this.spinnerSearch = 'hidden'
+                    this.showTable = true
+                    this.showTurmas = true
+                    this.showMessage = false
+                    this.showSpinner = false
+
                 });
 
     }
@@ -241,9 +245,9 @@ export class TurmasPedagInfoComponent implements OnInit {
     //     });
     // }
 
-    listaPresenca(turma){
+    listaPresenca(turma) {
 
-        
+
     }
 
     openNotas(turma): void {
@@ -263,15 +267,15 @@ export class TurmasPedagInfoComponent implements OnInit {
             console.log('The dialog was closed');
             // this.animal = result;
         });
-    }v
+    } v
 
-    openCalendarioModal(turma:TurmaViewModel): void {
+    openCalendarioModal(turma: TurmaViewModel): void {
         const dialogRef = this._modal
             .open(CalendarioTurmaComponent, {
                 height: 'auto',
                 width: '1230px',
-                
-                
+
+
                 //autoFocus: false,
                 maxHeight: '90vh',
                 maxWidth: '450vh',
@@ -294,7 +298,7 @@ export class TurmasPedagInfoComponent implements OnInit {
         });
     }
 
-    getAlunosFromTurma(turma:TurmaViewModel): void {
+    getAlunosFromTurma(turma: TurmaViewModel): void {
         const dialogRef = this._modal
             .open(TurmasInfoAlunosPedagComponent, {
                 height: 'auto',

@@ -602,8 +602,8 @@ export class AlunoMatriculaComponent implements OnInit {
 
     salvarMat() {
         this.planoPgmAluno.get('infoParcelas').setValue(this.todasparcelas)
-        console.log(this.planoPgmAluno.value)
-        console.log(this.planoPgmAluno.valid)
+       // console.log(this.planoPgmAluno.value)
+       // console.log(this.planoPgmAluno.valid)
         if (!this.planoPgmAluno.valid) return
         if (this.menorIdade) {
             if (!this.respMenor.valid) return
@@ -613,7 +613,7 @@ export class AlunoMatriculaComponent implements OnInit {
             if (!this.respFinForm.valid) return
         }
         this.disabldSaveButton = true
-        console.log(this.planoPgmAluno.value)
+       // console.log(this.planoPgmAluno.value)
         let form = {
             plano: this.planoPgmAluno.value,
             menorIdade: this.menorIdade,
@@ -626,7 +626,7 @@ export class AlunoMatriculaComponent implements OnInit {
             .subscribe(response => {
                 this.OpenModalSucesso(response['matriculaId'])
             }, err => {
-                console.log(err)
+               // console.log(err)
 
 
             },
@@ -662,7 +662,7 @@ export class AlunoMatriculaComponent implements OnInit {
 
         }
 
-        console.log(initialDate)
+       // console.log(initialDate)
         this.planoPgmAluno.get('diaDefault').setValue(initialDate)
 
     }

@@ -32,7 +32,7 @@
 
     <mat-form-field appearance="standard" style="width: 70%;">
         <mat-label>Professor</mat-label>
-        <input selected matInput [value]="aula.nome" disabled oninput="this.value = this.value.toLowerCase()"
+        <input selected matInput [value]="aula.nome || 'Sem professor'" disabled oninput="this.value = this.value.toLowerCase()"
             placeholder="Email">
     </mat-form-field>
 

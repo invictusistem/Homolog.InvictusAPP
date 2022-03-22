@@ -1,12 +1,12 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { Turma, TurmaViewModel } from "src/app/_shared/models/Turma.model";
-
+import { Chart } from 'chart.js';
 import { environment } from "src/environments/environment";
 
 @Component({
@@ -37,6 +37,12 @@ export class LeadsComponent implements OnInit {
     totalLeadsHoje = 0;
   totalLeads = 0;
 
+
+  name = 'Angular   6';
+  canvas: any;
+  ctx: any;
+  @ViewChild('mychart') mychart;
+  
     constructor(
         private _http: HttpClient,
         private _modal: MatDialog
@@ -72,5 +78,42 @@ export class LeadsComponent implements OnInit {
             return true
         }
     }
+
+
+    ngAfterViewInit() {
+        this.canvas = this.mychart.nativeElement; 
+        this.ctx = this.canvas.getContext('2d');
+    
+        let myChart = new Chart(this.ctx, {
+          type: 'bar',
+          
+          data: {
+            labels: ['20/03','20/03','20/03','20/03','20/03','20/03','20/03'],
+            datasets: [{
+              label: 'My First Dataset',
+              data: [65, 59, 80,70,55,0,15],
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 205, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(201, 203, 207, 0.2)'
+              ],
+              borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+              ],
+              borderWidth: 1
+            }]
+          }
+        });
+      }
 
 }

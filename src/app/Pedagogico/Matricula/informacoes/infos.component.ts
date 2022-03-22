@@ -32,6 +32,7 @@ export class InfosComponent implements OnInit {
 
 
     public initProgressBar = 'visible'
+    public downloadTabProgressBar = 'hidden'
     public showtablePrinciple = false
     public showAluno: boolean = false
     public showRespFinanc: boolean = false
@@ -228,7 +229,7 @@ export class InfosComponent implements OnInit {
     }
 
     getListaPendenciaDocs(){
-        
+        this.downloadTabProgressBar = 'visible'
         var file = "lista_penencia";
 
         this.downloadListPendencia(this.data['aluno'].matriculaId)
@@ -250,8 +251,12 @@ export class InfosComponent implements OnInit {
                     break;
             }
         },
-            (err) => { },
-            () => { }
+            (err) => { 
+                this.downloadTabProgressBar = 'hidden'
+            },
+            () => { 
+                this.downloadTabProgressBar = 'hidden'
+            }
         );
 
     }

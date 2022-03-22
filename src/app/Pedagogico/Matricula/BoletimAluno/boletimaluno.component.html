@@ -7,16 +7,25 @@
     </i>
 </div>
 
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
 
+<div *ngIf="showForm">
 
-<hr>
-
-<div style="position: relative;">
+    <hr>
 
     <mat-form-field appearance="standard" style="width: 45%; ">
         <mat-label>Nome</mat-label>
-        <input selected [(ngModel)]="aluno.nome" disabled required name="nome" matInput placeholder="Nome">
+        <input [(ngModel)]="aluno.nome" disabled required name="nome" matInput >
     </mat-form-field>
+    
+    <br>
+
+    <mat-form-field appearance="standard" style="width: 45%; ">
+        <mat-label>Turma</mat-label>
+        <input [(ngModel)]="turma.descricao"disabled required matInput >
+    </mat-form-field>
+
     <br>
     <table class="table table-bordered table-boletim">
         <thead>
@@ -43,11 +52,11 @@
         <tbody>
             <tr *ngFor="let bol of notasBoletim; let i =index;">
                 <td scope="row">{{bol.materiaDescricao}}</td>
-                <td>{{bol.avaliacaoUm || '-'}}</td>
-                <td>{{bol.avaliacaoDois}}</td>
+                <td style="text-align:center;vertical-align: middle;">{{bol.avaliacaoUm || '-'}}</td>
+                <td style="text-align:center;vertical-align: middle;">{{bol.avaliacaoDois || '-'}}</td>
                 <td></td>
                 <td></td>
-                <td>{{bol.resultado}}</td>
+                <td style="text-align:center;vertical-align: middle;">{{bol.resultado}}</td>
             </tr>
 
         </tbody>

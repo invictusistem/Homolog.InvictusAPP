@@ -17,7 +17,7 @@
         <mat-form-field appearance="standard" style="width: 25%;">
             <mat-label>CPF</mat-label>
             <input formControlName="cpf" required name="cpf" mask="000.000.000-00"
-                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" required matInput
+                onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" required matInput
                 placeholder="CPF">
         </mat-form-field>
 
@@ -27,7 +27,7 @@
     </form>
     <div @rowHighlight class="card-header " style="background-color: rgb(227, 240, 227);margin-left: 0px;
        width: 350px; font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on"
-        onselectstart="return false;" *ngIf="showMensagem">{{mensagem}}</div>
+        *ngIf="showMensagem">{{mensagem}}</div>
    
 </div>
 
@@ -63,7 +63,7 @@
             <mat-form-field appearance="standard" style="width: 12%; margin-left: 2%;">
                 <mat-label>RG</mat-label>
                 <input formControlName="rg"
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected
                     matInput placeholder="digite o RG">
             </mat-form-field>
 
@@ -110,7 +110,7 @@
             <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
                 <mat-label>UF</mat-label>
                 <input oninput="this.value = this.value.toUpperCase()"
-                onkeypress="return String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
+                onkeypress="String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
                     minlength="2" maxlength="2" selected formControlName="naturalidadeUF" required
                     matInput placeholder="UF">
             </mat-form-field>
@@ -130,7 +130,7 @@
             <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
                 <mat-label>Celular</mat-label>
                 <input formControlName="telCelular" mask="(00) 00000-0000" matInput
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
                     <mat-hint @rowHighlight >
                         informe ao menos um telefone
                     </mat-hint>
@@ -140,13 +140,13 @@
                 <mat-label>WhatsApp</mat-label>
                 <input formControlName="telWhatsapp" mask="(00) 00000-0000" matInput 
                 
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
             </mat-form-field>
 
             <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
                 <mat-label>Residencial</mat-label>
                 <input formControlName="telResidencial" mask="(00) 00000-0000" matInput
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
             </mat-form-field>
 
             <br>
@@ -154,7 +154,7 @@
             <mat-form-field appearance="standard" style="width: 17%;">
                 <mat-label>Tel referência</mat-label>
                 <input formControlName="telReferencia" mask="(00) 00000-0000" matInput
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
             </mat-form-field>             
             
 
@@ -169,7 +169,7 @@
 
             <mat-form-field appearance="standard" style="width: 10%;">
                 <mat-label>CEP</mat-label>
-                <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" 
+                <input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" 
                     formControlName="cep" minlength="8" maxlength="8" required matInput
                     placeholder="12345678">
             </mat-form-field>

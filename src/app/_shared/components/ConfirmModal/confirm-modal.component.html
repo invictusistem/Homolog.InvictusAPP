@@ -10,53 +10,23 @@
 
     </div>
 
-   
-
     <mat-progress-bar [style.visibility]="hidden" @rowHighlight mode="query"></mat-progress-bar>
-    
+
     <div>
-        
-        <i style="margin-left: 5px;float: right;margin-left: 10px;" #tooltip="matTooltip" matTooltip="cancelar"
+        <i style="margin-left: 5px;float: left;margin-left: 10px;" #tooltip="matTooltip" matTooltip="confirmar"
             matTooltipPosition="above" matTooltipHideDelay="100">
-            <button (click)="cancelar()" [disabled]="disabledSaveButton" style="color: red;" mat-icon-button>
-                <mat-icon>close</mat-icon>
-            </button>
-        </i>
-        <i style="margin-left: 5px;float: right;margin-left: 10px;" #tooltip="matTooltip" matTooltip="confirmar" matTooltipPosition="above"
-            matTooltipHideDelay="100">
             <button (click)="confirmar()" [disabled]="disabledSaveButton" style="color: green;" mat-icon-button>
                 <mat-icon>done</mat-icon>
             </button>
         </i>
 
-        <!-- <button type="button" mat-raised-button  style="width: 30px;" (click)="confirmar()"
-            color="primary" [disabled]="disabledSaveButton">SIM</button>
-        <button type="button" mat-raised-button  style="width: 30px;" (click)="cancelar()"
-            [disabled]="disabledSaveButton">NÃO</button> -->
+        <i style="margin-left: 5px;float: left;margin-left: 10px;" #tooltip="matTooltip" matTooltip="cancelar"
+            matTooltipPosition="above" matTooltipHideDelay="100">
+            <button (click)="cancelar()" [disabled]="disabledSaveButton" style="color: red;" mat-icon-button>
+                <mat-icon>close</mat-icon>
+            </button>
+        </i>
+
     </div>
 
 </div>
-
-
-<!-- <div class="container">
-
-    <div class="row" style="margin-bottom: 10px;">
-
-        <div style="font-size: 1.2em;">Matrícula realizada com sucesso!</div>
-
-        <div>
-            Deseja imprimir o contrato e a ficha de matrícula?
-        </div>
-
-    </div>
-
-    <span [style.visibility]="msgSpan" style="font-size: 0.8em;">{{msg}}</span>
-
-    <mat-progress-bar [style.visibility]="hidden" @rowHighlight mode="query">
-    </mat-progress-bar>
-
-    <div class="row">
-        <button style="width: 30px;" (click)="Confirm(true)" mat-button>SIM</button>
-        <button style="width: 30px;" (click)="Confirm(false)" mat-button>NÃO</button>
-    </div>
-</div> -->

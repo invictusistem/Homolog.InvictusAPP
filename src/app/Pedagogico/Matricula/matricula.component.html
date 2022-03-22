@@ -86,26 +86,44 @@
                         <mat-icon>search</mat-icon>
                     </button>
                 </i>
+
+                <!-- <i *ngIf="searchTodosAlunosButton" style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="pesquisar"
+                    matTooltipPosition="above" matTooltipHideDelay="100">
+                    <button (click)="GetAll()" type="button" mat-icon-button>
+                        <mat-icon>all_inclusive</mat-icon>
+                    </button>
+                </i> -->
             </span>
             <br>
             <span style="font-size: 0.9em;font-style: italic;">
                 incluir inativos:
             </span>
-            <mat-checkbox formControlName="ativo" color="primary"></mat-checkbox>
-            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
-                todas unidades:
-            </span>
-            <mat-checkbox formControlName="todasUnidades" color="primary"></mat-checkbox>
+            <mat-checkbox formControlName="ativo" [required]="false" color="primary"></mat-checkbox>
 
+            <ng-container *ngIf="searchTodosAlunosButton">
+
+                <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                    todas unidades:
+                </span>
+                <mat-checkbox formControlName="todasUnidades" [required]="false" color="primary"></mat-checkbox>
+            </ng-container>
+
+            <!-- <ng-container *ngIf="searchTodosAlunosButton">
+
+                <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                    todos Alunos:
+                </span>
+                <mat-checkbox formControlName="todosAlunos" [required]="false" color="primary"></mat-checkbox>
+            </ng-container> -->
         </div>
 
     </form>
 
-    <div class="card-header card-msg-response" unselectable="on"
-     *ngIf="showMessageNoAluno">{{mensagem}}</div>
+    <div class="card-header card-msg-response" unselectable="on" *ngIf="showMessageNoAluno">{{mensagem}}</div>
 
-<mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px" mode="query">
-</mat-progress-bar>
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px"
+        mode="query">
+    </mat-progress-bar>
 
 
     <div *ngIf="listAlunos.length > 0" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
@@ -160,7 +178,7 @@
                 vertical-align: middle;
                 border-top: 0px; font-weight: 400;"></th>
 
-                            
+
                         </tr>
                     </thead>
                     <tbody>
@@ -170,7 +188,8 @@
 
                             <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
 
-                            <td style="text-align:center;vertical-align: middle;">{{item.numeroMatricula || 'não matriculado'}}</td>
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{item.numeroMatricula || 'não matriculado'}}</td>
                             <!-- <td style="text-align:center;vertical-align: middle;">não matriculado</td> -->
 
                             <td style="text-align: center;vertical-align: middle;">{{item.cpf}}</td>
@@ -186,7 +205,7 @@
                                     <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
                                         matTooltip="informações financeiras" matTooltipPosition="above"
                                         matTooltipHideDelay="100">
-                                        <button (click)="openInfoFinancModal(item)" 
+                                        <button (click)="openInfoFinancModal(item)"
                                             style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                             mat-icon-button>
                                             <mat-icon>request_quote</mat-icon>
@@ -223,6 +242,16 @@
                                         </button>
                                     </i>
 
+                                    <i *ngIf="podeDeletar" style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                        matTooltip="deletar registro" matTooltipPosition="above"
+                                        matTooltipHideDelay="100">
+                                        <button (click)="deletarMat(item)" 
+                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                            mat-icon-button>
+                                            <mat-icon>delete_outline</mat-icon>
+                                        </button>
+                                    </i>
+
                                 </ng-container>
 
                                 <ng-template #semMat>
@@ -246,6 +275,16 @@
                                             <mat-icon>read_more</mat-icon>
                                         </button>
                                     </i>
+
+                                    <i *ngIf="podeDeletar" style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                        matTooltip="deletar registro" matTooltipPosition="above"
+                                        matTooltipHideDelay="100">
+                                        <button (click)="deletar(item)" 
+                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                            mat-icon-button>
+                                            <mat-icon>delete_outline</mat-icon>
+                                        </button>
+                                    </i>
                                 </ng-template>
 
 
@@ -263,18 +302,12 @@
 
 
             </div>
-            <mat-paginator *ngIf="length > 5"
-            style=" 
+            <mat-paginator *ngIf="length > 5" style=" 
             background-color: rgb(227, 240, 227);
             bottom: 0px;
-            right: 0px;" 
-            
-            [length]="length" 
-            [pageSize]="pageSize" hidePageSize="true"
-            (page)="pageEvent = pesquisar($event)" 
-            
-            >
-          </mat-paginator>
+            right: 0px;" [length]="length" [pageSize]="pageSize" hidePageSize="true"
+                (page)="pageEvent = pesquisar($event)">
+            </mat-paginator>
 
         </div>
     </div>

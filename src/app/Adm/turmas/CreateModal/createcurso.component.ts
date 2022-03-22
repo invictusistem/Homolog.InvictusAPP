@@ -20,6 +20,7 @@ import { Sala } from "../../Adm-Models/sala.model";
 import { CreateTurmaViewModel } from "../../Adm-Models/createturmaviewmodel.model";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 export class ProfResponse {
     constructor(
@@ -43,6 +44,7 @@ export class CreateCursoComponent implements OnInit {
 
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
+    public initProgressBar = 'visible'
 
     item = { value: 0 }
     cursos: Modulo = new Modulo();
@@ -76,6 +78,7 @@ export class CreateCursoComponent implements OnInit {
     profResp: ProfResponse[] = new Array<ProfResponse>();
     constructor(
         private _datepipe: DatePipe,
+        private _helper: HelpersService,
         private _currencyPipe: CurrencyPipe,
         private _snackBar: MatSnackBar,
         private router: Router,
@@ -142,18 +145,18 @@ export class CreateCursoComponent implements OnInit {
     }
 
     ver(event) {
-        console.log(this.cursoForm.get('prevInicio_1').value)
+        // console.log(this.cursoForm.get('prevInicio_1').value)
     }
 
     verVar(precocurso) {
-        console.log(precocurso)
+        // console.log(precocurso)
     }
 
     ngOnInit() {
         //console.log("create modal 123")
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-        console.log(this.tokenInfo)
+        //console.log(this.tokenInfo)
         this.showProflist = false
 
         this.getCreateTurmaViewModel();
@@ -197,18 +200,20 @@ export class CreateCursoComponent implements OnInit {
         this._http.get(`${this.baseUrl}/turma/create`)
             .subscribe(
                 response => {
-                    console.log(response)
+                    // console.log(response)
                     this.salas = Object.assign([], response['salas'])
                     this.typePacotes = Object.assign([], response['typePacotes'])
-                    console.log(this.createTurmaViewModel)
+                    //console.log(this.createTurmaViewModel)
                 },
                 (error) => {
-                    console.log(error)
+                    // console.log(error)
+                    this.initProgressBar = 'hidden'
                     this.mensagemErro = "Não há salas cadastradas para esta unidade ou não há tipos de pacotes cadastrados"
                     this.showmensagemErro = true
                 },
                 () => {
                     //this.showSelec = truetTurno = true
+                    this.initProgressBar = 'hidden'
                     this.showForm = true
                     this.showCapacidadeDropDown = true
                     /*if domingo ou sabado
@@ -221,6 +226,8 @@ export class CreateCursoComponent implements OnInit {
 
     showNoPacote = false
     pesquisarPacotes(typePacoteId) {
+        this.pacotes = new Array<any>()
+        this.cursoForm.get('pacoteId').setValue('')
         this._http.get(`${this.baseUrl}/pacote/lista/${typePacoteId}`)
             .subscribe(
                 response => {
@@ -228,7 +235,7 @@ export class CreateCursoComponent implements OnInit {
                     //console.log(this.createTurmaViewModel)
                 },
                 (error) => {
-                    console.log(error)
+                    // console.log(error)
                 },
                 () => { this.showCapacidadeDropDown = true }
             )
@@ -238,17 +245,21 @@ export class CreateCursoComponent implements OnInit {
 
         if (this.cursoForm.valid) {
             this.disabledSaveButton = true
-            console.log('submit')
+           // this.cursoForm.get('prevInicio_1').setValue(new Date(this.cursoForm.get('prevInicio_1').value).toLocaleString())
+            console.log(this.cursoForm.value)
+
             this.disabledSpinner = false
             this._http.post(`${this.baseUrl}/turma/`, this.cursoForm.value, {})
                 .subscribe(
                     response => { },
                     (error) => {
-                        console.log(error)
+                        //console.log(error)
+                        this._helper.openSnackBarErrorDefault()
                         this.disabledSpinner = true
                         this.disabledSaveButton = false
                     },
                     () => {
+                        this._helper.openSnackBarSucesso("Turma criada com sucesso.")
                         this.dialogRef.close({ clicked: "OK" });
                     }
                 )

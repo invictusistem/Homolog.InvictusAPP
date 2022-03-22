@@ -203,7 +203,7 @@ export class EditCursoComponent implements OnInit {
         const dialogRef = this.dialog
             .open(ConfirmModalComponent, {
                 height: 'auto',
-                width: '400px',
+                width: '500px',
 
                 data: {
                     msg: "Confirmar exclusão do professor da turma?",

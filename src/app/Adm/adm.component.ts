@@ -68,7 +68,7 @@ export class AdmComponent implements OnInit {
      //   console.log(this.data != "")
         if(this.data != ""){ 
             this.getMessage();    
-            console.log('show message') 
+           // console.log('show message') 
         
         }
         this.menu = ROUTES.filter(menu => menu);
@@ -78,7 +78,7 @@ export class AdmComponent implements OnInit {
 
         this._http.get(`${this.baseUrl}/mensagem`)
         .subscribe(resp => { 
-                console.log(resp)
+               // console.log(resp)
                 this.mensagem = resp['mensagem']
                 this.htmlContent = resp['mensagem']
         }, (error) => { console.log(error)},
@@ -102,7 +102,7 @@ export class AdmComponent implements OnInit {
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
                 // Reset form here
-                console.log('afte close ok')
+               // console.log('afte close ok')
                 //this.getColaboradores(1, this.pageSize);
             } else if (data.clicked === "Cancel") {
                 // Do nothing. Cancel any events that navigate away from the

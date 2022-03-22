@@ -24,10 +24,10 @@
             Digite o CPF do aluno para colalizá-lo no sistema:
         </div>
         <form novalidate [formGroup]="pesquisaForm" (ngSubmit)="consulta(pesquisaForm)">
-            <mat-form-field appearance="standard" style="width: 25%; ">
+            <mat-form-field appearance="standard" style="width: 135px; ">
                 <mat-label>CPF</mat-label>
                 <input mask="000.000.000-00"
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" minlength="11"
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" minlength="11"
                     formControlName="cpf" required name="cpf" matInput placeholder="CPF">
             </mat-form-field>
 
@@ -40,7 +40,7 @@
         <br>
         <div @rowHighlight class="card-header " style="background-color: rgb(227, 240, 227);margin-left: 0px;
        width: 350px; font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on"
-            onselectstart="return false;" *ngIf="showMensagem">{{mensagem}}</div>
+            *ngIf="showMensagem">{{mensagem}}</div>
 
     </div>
 
@@ -76,7 +76,7 @@
             <mat-form-field appearance="standard" style="width: 12%; margin-left: 2%;">
                 <mat-label>RG</mat-label>
                 <input [(ngModel)]="aluno.rg" disabled
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected name="rg"
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected name="rg"
                     minlength="9" maxlength="11" matInput placeholder="digite o RG">
             </mat-form-field>
 
@@ -103,7 +103,7 @@
             <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
                 <mat-label>UF</mat-label>
                 <input [(ngModel)]="aluno.uf" disabled
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null" minlength="2"
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null" minlength="2"
                     maxlength="2" selected required name="naturalidadeUF" matInput placeholder="UF">
             </mat-form-field>
 

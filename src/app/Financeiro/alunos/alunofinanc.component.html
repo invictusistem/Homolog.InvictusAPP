@@ -51,7 +51,7 @@
 
     <div class="card-header " style="background-color: rgb(227, 240, 227);margin-left: 10px;
    width: 350px; font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on"
-        onselectstart="return false;" *ngIf="showMessageNoColaborador">{{mensagem}}</div>
+         *ngIf="showMessageNoColaborador">{{mensagem}}</div>
     
 
     <div @rowHighlight *ngIf="listAlunos.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
@@ -107,14 +107,14 @@
                             <td style="text-align: center;vertical-align: middle;" >{{item.cpf  }}</td>
 
                             <td style="text-align: center;vertical-align: middle;">
-                                <i style="margin-right: 50px;">
+                                <!-- <i style="margin-right: 50px;">
 
                                     <mat-icon (click)="openReparcelamentoModal(item)" disabled
                                      type="button" style="margin: 0px; margin: 0px;">
                                      gavel</mat-icon>
                                     
 
-                                </i>
+                                </i> -->
                                 
                                 <i >
 

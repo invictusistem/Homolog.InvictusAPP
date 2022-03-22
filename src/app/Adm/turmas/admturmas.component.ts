@@ -24,6 +24,7 @@ import { EditCursoComponent } from "./EditModal/editcurso.component";
 
 export class AdmTurmasComponent implements OnInit {
 
+    public initProgressBar = 'visible'
     pageSize: number = 5;
     pageEvent: PageEvent;
     pageIndexNumber: number = 0;
@@ -60,34 +61,25 @@ export class AdmTurmasComponent implements OnInit {
             .open(ConfirmarIniciarTurmaModal, {
                 height: 'auto',
                 width: '500px',
-                autoFocus: false,
+                
                 //maxHeight: '90vh',
                 //maxWidth: '400vh',
 
-                data: { turma: turmaId },
+                data: { turmaId: turmaId },
                 hasBackdrop: true,
                 disableClose: true
             });
         dialogRef.afterClosed().subscribe(result => {
             if (result.clicked === true) {
-
-                console.log(turmaId)
-                this.http.put(`${this.baseUrl}/turma/iniciar/${turmaId}`, {
-
-                }).subscribe(result => {
-
-                },
-                    (error) => { console.log(error) },
-                    () => {
                         this.getCursos();
-                    }
-                )
-
-            } else {
-                console.log('nao')
-            }
+            } 
 
         });
+    }
+
+    get podeDeletar(){
+        // console.log(this.tokenInfo)
+        return this.tokenInfo.role == 'SuperAdm'
     }
 
     PodeAdiar(turma: any) {
@@ -153,22 +145,23 @@ export class AdmTurmasComponent implements OnInit {
         this.showTurmas = false
         this.showMessage = false
         this.showSpinner = true
-        console.log('get cursos 1234')
+       // console.log('get cursos 1234')
         //this.http.get(`${this.baseUrl}/turmas/?itemsPerPage=` + itemsPerPage + `&currentPage=` + actualPage, {
         //this.http.post("http://api.invictustemp.com.thor.hostazul.com.br/api/identity/login", credentials, {
         this.http.get(`${this.baseUrl}/turma`)
             .subscribe(response => {
 
 
-                console.log(response)
+               // console.log(response)
                 //Object.assign(this.turmas, response['data'])
                 Object.assign(this.turmas, response['turmas'])
-                console.log(this.turmas)
+               // console.log(this.turmas)
                 // this.colaboradores = Object.assign([], response['data'])
                 //console.log(this.colaboradores)
                 // this.dialogRef.close();
             }, (err) => {
-                console.log(err)
+                this.initProgressBar = 'hidden'
+               // console.log(err)
                 this.mensagem = "Não há turmas cadastradas ou em andamento nesta unidade."
                 this.showTurmas = false
                 this.showMessage = true
@@ -177,6 +170,7 @@ export class AdmTurmasComponent implements OnInit {
 
             },
                 () => {
+                    this.initProgressBar = 'hidden'
                     this.showTurmas = true
                     this.showMessage = false
                     this.showSpinner = false
@@ -193,12 +187,12 @@ export class AdmTurmasComponent implements OnInit {
         const dialogRef = this._modal
             .open(CreateCursoComponent, {
                 height: 'auto',
-                width: '920px',
+                width: '720px',
                 autoFocus: false,
                 maxHeight: '90vh',
                 //maxWidth: '400vh',
 
-                data: { Hello: "Hello World" },
+                //data: { Hello: "Hello World" },
                 hasBackdrop: true,
                 disableClose: true
             });
@@ -252,7 +246,17 @@ export class AdmTurmasComponent implements OnInit {
     }  
     
     deleteCurso(turma){
-        
+
+             this.http.delete(`${this.baseUrl}/dev/deletar-turma/${turma.id}`)
+            .subscribe(response => {
+
+            }, (err) => {
+                console.log(err)
+             },
+                () => {
+                   
+
+                });
     }
 
 

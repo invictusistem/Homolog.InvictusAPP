@@ -56,11 +56,11 @@ export class CalendarioTurmaComponent implements OnInit {
 
                 //console.log(resp)
                 this.calendarios = Object.assign([], resp['calends'])
-                console.log(this.calendarios)
+               // console.log(this.calendarios)
 
             },
                 (error) => {
-                    console.log(error)
+                   // console.log(error)
                     this.showSpin = true
                 },
                 () => {
@@ -96,7 +96,7 @@ export class CalendarioTurmaComponent implements OnInit {
             if (data['result'] == true) {
                 let index = this.calendarios.findIndex((obj => obj.id == data['aula'].id));
                 this.calendarios[index] = data['aula']
-                console.log(this.calendarios[index])
+               // console.log(this.calendarios[index])
 
             }
         });

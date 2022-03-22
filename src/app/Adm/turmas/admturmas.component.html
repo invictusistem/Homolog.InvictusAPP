@@ -16,11 +16,14 @@
     </span>
     <br>
 
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+    </mat-progress-bar>
+
     <div @rowHighlight *ngIf="showMessage" class="card-header " style="background-color: rgb(227, 240, 227);
-    margin-top: 50px;
+    margin-top: 20px;
     margin-left: 10px;
     width: 350px; 
-    font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on" onselectstart="return false;">
+    font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on" o>
         {{mensagem}}
     </div>
 
@@ -103,7 +106,7 @@
                                         {{item.previsaoInfo}}
                                     </span>
                                 </ng-template>
-                                
+
                             </td>
 
                             <td style="font-size:0.9em;text-align: center;vertical-align: middle;">{{item.vagas}}</td>
@@ -181,10 +184,10 @@
                                         <mat-icon>settings</mat-icon>
                                     </button>
                                 </i>
-                                
-                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="detalhes/editar"
+
+                                <i *ngIf="podeDeletar" style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="detalhes/editar"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="deleteCurso(item)" disabled
+                                    <button (click)="deleteCurso(item)"  
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>delete_outline</mat-icon>
@@ -198,12 +201,12 @@
 
         </div>
     </div>
-
+    <!-- 
     <mat-spinner *ngIf="showSpinner" @rowHighlight [diameter]="100" style="
             left: 43.5%;
             top: 40%; 
             position: absolute;">
-    </mat-spinner>
+    </mat-spinner> -->
 
 
 </div>

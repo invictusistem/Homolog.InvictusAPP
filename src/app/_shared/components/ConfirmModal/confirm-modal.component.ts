@@ -17,6 +17,7 @@ export class ConfirmModalComponent implements OnInit {
     public msg: string = ''
     public url: string = ''
     public hidden = 'hidden'
+    public disabledSaveButton = false
     constructor(
         //private _modal: MatDialog,
         private _helper: HelpersService,
@@ -25,7 +26,7 @@ export class ConfirmModalComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any) {
 
     }
-    disabledSaveButton = false
+    
     ngOnInit() {
         this.msg = this.data['msg']
         this.url = this.data['url']

@@ -12,19 +12,19 @@
     </span> -->
     <br>
 
-    <!-- <div @rowHighlight *ngIf="showMessage" class="card-header " style="background-color: rgb(227, 240, 227);
+    <div @rowHighlight *ngIf="showMessage" class="card-header " style="background-color: rgb(227, 240, 227);
     margin-top: 50px;
     margin-left: 10px;
     width: 350px; 
-    font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on" onselectstart="return false;">
+    font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on" >
         {{mensagem}}
-    </div> -->
+    </div>
 
     <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch"  @rowHighlight style="margin:0px" mode="query">
     </mat-progress-bar>
 
 
-    <div *ngIf="spinnerSearch == 'hidden'" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
+    <div *ngIf="showTable" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
     margin-top: 10px;
     box-shadow: 0 0 1em rgb(172, 170, 170);
     background-color: rgb(227, 240, 227);">

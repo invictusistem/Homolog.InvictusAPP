@@ -72,14 +72,12 @@
 
                         <mat-form-field appearance="standard" style="width: 14%; margin-left: 2%;">
                             <mat-label>CPF</mat-label>
-                            <input appCPFMask [value]="alunoForm.get('cpf').value" disabled minlength="11"
-                                maxlength="11" selected name="cpf" matInput>
+                            <input [value]="alunoForm.get('cpf').value  | cpf" disabled matInput>
                         </mat-form-field>
 
                         <mat-form-field appearance="standard" style="width: 12%; margin-left: 2%;">
                             <mat-label>RG</mat-label>
-                            <input [value]="alunoForm.get('rg').value" disabled selected matInput
-                                placeholder="digite o RG">
+                            <input [value]="alunoForm.get('rg').value" disabled matInput>
                         </mat-form-field>
 
 
@@ -93,7 +91,7 @@
                         <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
                             <mat-label>UF</mat-label>
                             <input [value]="alunoForm.get('naturalidadeUF').value" disabled
-                                onkeypress="return String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
+                                onkeypress="String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
                                 minlength="2" maxlength="2" selected required name="naturalidadeUF" matInput
                                 placeholder="UF">
                         </mat-form-field>
@@ -111,22 +109,20 @@
                         <mat-form-field appearance="standard" style="width: 120px;">
                             <mat-label>Celular</mat-label>
                             <input formControlName="telCelular"
-                                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                                onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
                                 matInput mask="(00) 00000-0000" selected name="telCelular" placeholder="Email">
                         </mat-form-field>
 
                         <mat-form-field appearance="standard" class="what" style="width: 120px;margin-left: 10px;">
                             <mat-label>WhatsApp</mat-label>
                             <input formControlName="telWhatsapp" mask="(00) 00000-0000" matInput
-                                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-                            <mat-hint>telefone com DDD</mat-hint>
+                                onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">                          
                         </mat-form-field>
 
                         <mat-form-field appearance="standard" style="width: 120px;margin-left: 10px;">
                             <mat-label>Residencial</mat-label>
                             <input formControlName="telResidencial" mask="(00) 00000-0000" matInput
-                                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-                            <mat-hint>telefone com DDD</mat-hint>
+                                onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">                           
                         </mat-form-field>
 
                     </div>
@@ -143,7 +139,7 @@
                         <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%; ">
                             <mat-label>Tel referência</mat-label>
                             <input formControlName="telReferencia" mask="(00) 00000-0000" matInput
-                                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                                onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
                             <mat-hint>telefone com DDD</mat-hint>
                         </mat-form-field>
                     </div>
@@ -154,7 +150,7 @@
                         <mat-form-field appearance="standard" style="width: 10%;">
                             <mat-label>CEP</mat-label>
                             <input formControlName="cep" mask="00.000-000"
-                                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                                onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
                                 required matInput placeholder="12345678">
                         </mat-form-field>
 
@@ -503,14 +499,14 @@
 
                 <i style="" #tooltip="matTooltip" matTooltip="modelo ficha de matrícula" matTooltipPosition="above"
                     matTooltipHideDelay="100">
-                    <button style=""  mat-icon-button>
+                    <button disabled  mat-icon-button>
                         <mat-icon>assignment_ind</mat-icon>
                     </button>
                 </i>               
 
                 <i style="" #tooltip="matTooltip" matTooltip="lista pendência de documentos" matTooltipPosition="above"
                     matTooltipHideDelay="100">
-                    <button style="" (click)="getListaPendenciaDocs()" mat-icon-button>
+                    <button style="" (click)="getListaPendenciaDocs()" [disabled]="downloadTabProgressBar == 'visible'" mat-icon-button>
                         <mat-icon>assignment_turned_in</mat-icon>
                     </button>
                 </i>
@@ -523,7 +519,9 @@
                     </button>
                 </i>
 
-
+                <mat-progress-bar style="" [style.visibility]="downloadTabProgressBar" @rowHighlight mode="query">
+                </mat-progress-bar>
+  
 
                 <hr>
 
@@ -546,7 +544,7 @@
                         <div style="display: inline; position: relative; font-size: 0.9em;margin-left: 5px;"
                             *ngIf="doc.docEnviado == true">
 
-                            <ng-container>
+                            <ng-container *ngIf="doc.descricao != 'contrato' && doc.descricao != 'ficha de matrícula'">
                                 <button (click)="remover(doc)" type="button" style="margin: 0px; margin: 0px;"
                                     mat-icon-button [disabled]="doc.salvando">
                                     <mat-icon #tooltip="matTooltip" matTooltip="excluir arquivo"

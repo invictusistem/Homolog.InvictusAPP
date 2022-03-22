@@ -31,7 +31,7 @@
             <mat-form-field appearance="standard" style="width: 12%; margin-left: 2%;">
                 <mat-label>RG</mat-label>
                 <input [value]="aluno.rg" name="rg" disabled
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected matInput
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected matInput
                     placeholder="digite o RG">
             </mat-form-field>
 
@@ -85,7 +85,7 @@
 
             <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
                 <mat-label>UF</mat-label>
-                <input onkeypress="return String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
+                <input onkeypress="String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
                 oninput="this.value = this.value.toUpperCase()"
                     minlength="2" maxlength="2" selected [(ngModel)]="aluno.uf" name="uf" required matInput
                     placeholder="UF">
@@ -105,19 +105,19 @@
             <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
                 <mat-label>Celular</mat-label>
                 <input [(ngModel)]="aluno.telCelular" name="telCelular" mask="(00) 00000-0000" matInput
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
             </mat-form-field>
 
             <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
                 <mat-label>WhatsApp</mat-label>
                 <input [(ngModel)]="aluno.telWhatsapp" name="telWhatsapp" mask="(00) 00000-0000" matInput
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
             </mat-form-field>
 
             <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
                 <mat-label>Residencial</mat-label>
                 <input [(ngModel)]="aluno.telResidencial" name="telResidencial" mask="(00) 0000-0000" matInput
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
             </mat-form-field>
 
             <br>
@@ -132,7 +132,7 @@
             <mat-form-field appearance="standard" style="width: 17%;">
                 <mat-label>Tel referência</mat-label>
                 <input [(ngModel)]="aluno.telReferencia" name="telReferencia" mask="(00) 00000-0000" matInput required
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
             </mat-form-field>
 
             <mat-form-field appearance="standard" style="width: 35%;margin-left: 5%; ">
@@ -146,7 +146,7 @@
 
             <mat-form-field appearance="standard" style="width: 10%;">
                 <mat-label>CEP</mat-label>
-                <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" 
+                <input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" 
                     [(ngModel)]="aluno.cep" name="cep" minlength="8" maxlength="8" required matInput
                     placeholder="12345678">
             </mat-form-field>
