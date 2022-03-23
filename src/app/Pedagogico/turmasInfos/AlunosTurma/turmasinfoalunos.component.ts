@@ -18,7 +18,8 @@ import { InfoDia, ListaPresencaDto } from "../../Pedag-Models/infodia.model";
 export class TurmasInfoAlunosPedagComponent implements OnInit {
 
     private _baseUrl = environment.baseUrl
-    public showSpin = true
+    public showForm = false
+    public initProgressBar = 'visible'
     // public listaPresencaDto: ListaPresencaDto[] = new Array<ListaPresencaDto>();
     // public infoDia: InfoDia = new InfoDia();
     //public saveCommand: SavePresencaCommand = new SavePresencaCommand();
@@ -38,7 +39,7 @@ export class TurmasInfoAlunosPedagComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.data['turma'])
+      //  console.log(this.data['turma'])
         //turmas/alunosturma/{turmaId}
         this.GetAlunosTurma(this.data['turma'].id);
     }
@@ -51,15 +52,20 @@ export class TurmasInfoAlunosPedagComponent implements OnInit {
 
                 console.log(resp)
                 this.alunos = Object.assign([], resp['alunos'])
-                console.log(this.calendarios)
+               // console.log(this.calendarios)
 
             },
                 (error) => {
-                    console.log(error)
-                    this.showSpin = false
+                   // console.log(error)
+                   this.initProgressBar = 'hidden'
+                   this.showForm = false
+                    
                 },
                 () => {
-                    this.showSpin = false
+                    this._dialogRef.addPanelClass('myturmasinfoalunos-class')
+                    this.initProgressBar = 'hidden'
+                    this.showForm = true
+                    
                 })
     }
 

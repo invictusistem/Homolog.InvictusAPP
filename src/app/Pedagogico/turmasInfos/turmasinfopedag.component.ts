@@ -99,12 +99,14 @@ export class TurmasPedagInfoComponent implements OnInit {
     }
 
     adiar(turmaId: number) {
-        console.log('adiar')
+       // console.log('adiar')
 
         this.http.put(`${this.baseUrl}/turmas/turma/adiar/${turmaId}`, {}).subscribe(response => {
 
         },
-            (error) => { console.log(error) },
+            (error) => { 
+                //console.log(error)
+             },
             () => {
                 this.atualizar();
             }
@@ -125,13 +127,13 @@ export class TurmasPedagInfoComponent implements OnInit {
         }).subscribe(response => {
 
 
-            console.log(response)
+           // console.log(response)
             Object.assign(this.turmas, response['data'])
             Object.assign(this.turmas, response)
-            console.log(this.turmas)
+            //console.log(this.turmas)
 
         }, (err) => {
-            console.log(err)
+           // console.log(err)
             this.mensagem = "Ocorreu um erro! Contate o Administrador!"
 
         },
@@ -264,7 +266,7 @@ export class TurmasPedagInfoComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
+          //  console.log('The dialog was closed');
             // this.animal = result;
         });
     } v
@@ -292,7 +294,7 @@ export class TurmasPedagInfoComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result.clicked === "OK") {
                 // this.getCursos(1, this.pageSize);
-                console.log('afte close ok')
+                //console.log('afte close ok')
             }
 
         });
@@ -301,11 +303,11 @@ export class TurmasPedagInfoComponent implements OnInit {
     getAlunosFromTurma(turma: TurmaViewModel): void {
         const dialogRef = this._modal
             .open(TurmasInfoAlunosPedagComponent, {
-                height: 'auto',
-                width: '1030px',
-                autoFocus: false,
-                maxHeight: '90vh',
-                maxWidth: '400vh',
+               // height: 'auto',
+                width: '1230px',
+               // autoFocus: false,
+               // maxHeight: '90vh',
+               // maxWidth: '400vh',
 
                 data: { turma: turma },
                 hasBackdrop: true,
@@ -319,7 +321,7 @@ export class TurmasPedagInfoComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result.clicked === "OK") {
                 // this.getCursos(1, this.pageSize);
-                console.log('afte close ok')
+              //  console.log('afte close ok')
             }
 
         });

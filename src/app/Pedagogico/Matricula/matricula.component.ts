@@ -34,16 +34,17 @@ export class MatriculaComponent implements OnInit {
     baseUrl = environment.baseUrl
 
     showMessageNoAluno = false
-    length: number = 0
     mensagem: string = "";
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
     public pesquisarForm: FormGroup
     // length: number;
+    length: number = 0
     pageSize: number = 5;
     pageEvent: PageEvent;
     pageIndexNumber: number = 0;
     currentPage = 1
+    @ViewChild(MatPaginator) paginator: MatPaginator;
     // formSubmitted: boolean = false;
     // showTable: boolean = false;
     // paginationInfo: IPager;
@@ -55,7 +56,7 @@ export class MatriculaComponent implements OnInit {
 
     public testeForm: FormGroup
 
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+    
 
     constructor(
         //private _snackBar: MatSnackBar,
@@ -226,7 +227,22 @@ export class MatriculaComponent implements OnInit {
                 this.paginator.firstPage();
             }
         }
+    }
 
+    processarFalha(fail: any) {
+
+        if (fail['status'] == 404) {
+            this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
+            this.showMessageNoAluno = true
+            this.listAlunos = new Array<any>();
+        }
+        if (fail['status'] != 404) {
+            this.mensagem = "Ocorreu um erro desconhecido, por favor, procure o administrador do sistema"
+            this.showMessageNoAluno = true
+            this.listAlunos = new Array<any>();
+        }
+
+        this.spinnerSearch = 'hidden'
     }
 
     deletar(aluno) {
@@ -259,21 +275,7 @@ export class MatriculaComponent implements OnInit {
             }
     }
 
-    processarFalha(fail: any) {
-
-        if (fail['status'] == 404) {
-            this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
-            this.showMessageNoAluno = true
-            this.listAlunos = new Array<any>();
-        }
-        if (fail['status'] != 404) {
-            this.mensagem = "Ocorreu um erro desconhecido, por favor, procure o administrador do sistema"
-            this.showMessageNoAluno = true
-            this.listAlunos = new Array<any>();
-        }
-
-        this.spinnerSearch = 'hidden'
-    }
+    
 
     matricular(aluno) {
         const dialogRef = this._modal

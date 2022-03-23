@@ -18,6 +18,13 @@
         <input selected [value]="this.data['usuario'].nome" disabled matInput
             placeholder="semestre">
     </mat-form-field>
+
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="enviar login e senha para o e-mail usuário"
+        matTooltipPosition="above" matTooltipHideDelay="100">
+        <button style="" [disabled]="disabledEnvio" (click)="enviarLogin()" mat-icon-button>
+            <mat-icon>send</mat-icon>
+        </button>
+    </i>
     <br>
     <mat-form-field appearance="standard" style="width: 250px;">
         <mat-label>Email</mat-label>

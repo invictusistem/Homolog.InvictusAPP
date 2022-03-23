@@ -38,8 +38,8 @@ export class TurmasInfoNotasComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.data['turma'])
-
+       // console.log(this.data['turma'])
+//
         this.GetCalendarioTurma(this.data['turma'].id);
     }
 
@@ -48,13 +48,13 @@ export class TurmasInfoNotasComponent implements OnInit {
         this._http.get(`${this._baseUrl}/turmas/calendario/${turmaId}`)
             .subscribe(resp => {
 
-                console.log(resp)
+               // console.log(resp)
                 this.calendarios = Object.assign([], resp['calendarioTurmaView'])
-                console.log(this.calendarios)
+                //console.log(this.calendarios)
 
             },
                 (error) => {
-                    console.log(error)
+                   // console.log(error)
                     this.showSpin = false
                 },
                 () => {

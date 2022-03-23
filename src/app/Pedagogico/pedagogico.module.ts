@@ -54,6 +54,8 @@ import { ObservacoesTurmaModal } from './turmasInfos/CalendarioDaTurma/AulaDetal
 import { AulaEditarModal } from './turmasInfos/CalendarioDaTurma/AulaEditar/aulaeditar.component';
 import { CertificadoComponent } from './Matricula/informacoes/Certificado/certificado.component';
 import { CalendPresencaComponent } from './turmasInfos/CalendarioDaTurma/CalendPresenca/cal-presenca.component';
+import { CalendPresencaEditComponent } from './turmasInfos/CalendarioDaTurma/CalendPresencaEdit/cal-presencaedit.component';
+import { ObservacoesTurmaEditModal } from './turmasInfos/CalendarioDaTurma/AulaDetalheEdit/obsturmamodal-edit.component';
 
 
 
@@ -122,7 +124,9 @@ const maskConfig: Partial<IConfig> = {
         DetalheComponent,
         AulaEditarModal,
         CertificadoComponent,
-        CalendPresencaComponent
+        CalendPresencaComponent,
+        CalendPresencaEditComponent,
+        ObservacoesTurmaEditModal
     ],
     imports: [
         BrowserModule,
@@ -184,7 +188,9 @@ const maskConfig: Partial<IConfig> = {
         DetalheComponent,
         AulaEditarModal,
         CertificadoComponent,
-        CalendPresencaComponent
+        CalendPresencaComponent,
+        CalendPresencaEditComponent,
+        ObservacoesTurmaEditModal
     ]
     
 })

@@ -1,4 +1,4 @@
-<div style="font-size: 1.2em;">Lista de presença
+<div style="font-size: 1.2em;">Lista de presença (Editar)
     <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
         matTooltipHideDelay="100">
         <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
@@ -15,7 +15,7 @@
 <div *ngIf="showContent" @rowHighlight>
 
 
-    <div *ngIf="!noAlunos;else msgNoAlunos" style="position: relative;">
+    <div style="position: relative;">
 
         <!-- <mat-form-field appearance="standard" style="width: 700px; ">
             <mat-label>Turma</mat-label>
@@ -85,8 +85,9 @@
 
                             <input type="text" style="margin-right: auto;
                             margin-left: auto;font-size:0.9em;width: 40px;" class="form-control"
-                                [(ngModel)]="aluno.isPresentToString" name="isPresentToString" disabled
-                                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                                [(ngModel)]="aluno.isPresentToString" oninput="this.value = this.value.toUpperCase()"
+                                onkeypress="String.fromCharCode(event.charCode).match(/[^FPfp]/g) === null"
+                                maxlength="1" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
                         </td>
                     </tr>
 
@@ -102,10 +103,10 @@
                     <textarea formControlName="observacoes" matInput></textarea>
                 </mat-form-field> -->
 
-                <!-- <button type="submit" color="primary" mat-raised-button disabled="false" 
+                <button type="submit" color="primary" mat-raised-button disabled="false" 
                     style="float:right;margin-bottom: 10px;margin-left: 10px;">
                     Salvar
-                </button> -->
+                </button>
             </form>
 
         </div>
@@ -113,8 +114,4 @@
 
         <br>
     </div>
-    <ng-template #msgNoAlunos>
-        <span style="font-style: italic; font-size: 0.9em;" >Não havia alunos matriculados no dia da turma</span>
-    </ng-template>
-    
 </div>

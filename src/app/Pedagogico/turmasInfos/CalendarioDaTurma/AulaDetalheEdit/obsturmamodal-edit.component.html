@@ -1,4 +1,4 @@
-<div style="font-size: 1.2em;">Observação
+<div style="font-size: 1.2em;">Observação (Editar)
     <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
         matTooltipHideDelay="100">
         <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
@@ -89,7 +89,7 @@
     <div style="position: relative;">
         <mat-form-field style="width: 100%;" appearance="outline">
             <mat-label>Nota da aula</mat-label>
-            <textarea disabled placeholder="" [value]="aula.observacoes || ''" matInput></textarea>
+            <textarea disabled placeholder="" [value]="aula.observacoes" matInput></textarea>
         </mat-form-field>
 
     </div>

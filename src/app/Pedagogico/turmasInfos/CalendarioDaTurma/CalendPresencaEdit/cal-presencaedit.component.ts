@@ -10,19 +10,18 @@ import { environment } from "src/environments/environment";
 
 @Component({
     selector: 'cal-presenca-app',
-    templateUrl: './cal-presenca.component.html',
-    styleUrls: ['./cal-presenca.component.scss'],
+    templateUrl: './cal-presencaedit.component.html',
+    styleUrls: ['./cal-presencaedit.component.scss'],
     animations: [HighlightTrigger]
 
 })
 
-export class CalendPresencaComponent implements OnInit {
+export class CalendPresencaEditComponent implements OnInit {
 
     private _baseUrl = environment.baseUrl
     public initProgressBar = 'visible'
     public saveProgressBar = 'hidden'
     public showContent = false
-    public noAlunos = false
     public listaPresencaDto: any[] = new Array<any>()// ListaPresencaDto[] = new Array<ListaPresencaDto>();
     public infoDia: any// InfoDia = new InfoDia();
     public saveCommand: any//SavePresencaCommand = new SavePresencaCommand();
@@ -34,7 +33,7 @@ export class CalendPresencaComponent implements OnInit {
         private _http: HttpClient,
         private _fb: FormBuilder,
         private _modal: MatDialog,
-        public _dialogRef: MatDialogRef<CalendPresencaComponent>,
+        public _dialogRef: MatDialogRef<CalendPresencaEditComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.obsForm = this._fb.group({
             observacoes: ['']
@@ -42,7 +41,7 @@ export class CalendPresencaComponent implements OnInit {
     }
 
     ngOnInit() {
-        // console.log(this.data['calendario'])
+       // console.log(this.data['calendario'])
 
         this.getPresencaViewModel(this.data['calendario'].id);
     }
@@ -52,31 +51,24 @@ export class CalendPresencaComponent implements OnInit {
         this._http.get(`${this._baseUrl}/pedag/turma/presenca-diario/${calendarioId}`)
             .subscribe(resp => {
 
-                console.log(resp)
-
+               // console.log(resp)
+                
                 this.infoDia = Object.assign({}, resp['presencas'].aulaViewModel)
                 //console.log(this.infoDia)
                 this.listaPresencaDto = Object.assign([], resp['presencas'].listaPresenca)
                 //this.infoDia.diaAula = new Date(this.infoDia.diaAula).toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' })
-                // this.diaAulaString = new Date(this.infoDia.diaAula).toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' })
-                // this.listaPresencaDto = Object.assign([], resp['lista'])
+               // this.diaAulaString = new Date(this.infoDia.diaAula).toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' })
+               // this.listaPresencaDto = Object.assign([], resp['lista'])
                 this.initProgressBar = 'hidden'
 
             },
-                (error) => {
-
-                    this.initProgressBar = 'hidden'
-                },
+                (error) => { 
+                    
+                    this.initProgressBar = 'hidden' },
                 () => {
-
-                    if (this.listaPresencaDto.length == 0) {
-                        this.showContent = true
-                        this.noAlunos = true
-                    } else {
-                        this._dialogRef.addPanelClass('presenca-diario-class')
-                        this.showContent = true
-                    }
-                })
+                    this._dialogRef.addPanelClass('presencaedit-diario-class')
+                    this.showContent = true
+                 })
     }
 
     concluirAula() {
@@ -116,7 +108,7 @@ export class CalendPresencaComponent implements OnInit {
             return lista.isPresentToString == null || lista.isPresentToString == "";
         })
 
-        // console.log(temNull);
+      //  console.log(temNull);
 
         if (temNull.length == 0) {
             disabledButton = false
@@ -124,13 +116,13 @@ export class CalendPresencaComponent implements OnInit {
             disabledButton = true
         }
 
-        if (!disabledButton && this.obsForm.valid) {
-            return false
-        } else {
-            return true
+        if(!disabledButton && this.obsForm.valid){
+            return  false
+        }else{
+            return  true
         }
 
-
+       
 
     }
 
@@ -144,16 +136,16 @@ export class CalendPresencaComponent implements OnInit {
             // this.saveCommand.observacoes = this.obsForm.get('observacoes').value
             this.infoDia.observacoes = this.obsForm.get('observacoes').value
             let presencaView = { infoDia: this.infoDia, listaPresencaDto: this.listaPresencaDto }
-
-
+            
+           
             this._http.post(`${this._baseUrl}/pedag/turma/presenca-diario/${this.data['calendario'].id}`, { aulaViewModel: this.infoDia, listaPresenca: this.listaPresencaDto }, {})
                 .subscribe(resp => {
 
-
+                 
 
                 },
-                    (error) => {
-                        //  console.log(error) 
+                    (error) => { 
+                       // console.log(error) 
                     },
                     () => {
                         this._dialogRef.close({ clicked: "OK" })

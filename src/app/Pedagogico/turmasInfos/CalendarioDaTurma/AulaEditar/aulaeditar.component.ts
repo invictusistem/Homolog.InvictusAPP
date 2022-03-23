@@ -7,25 +7,25 @@ import { PedagogicoService } from "src/app/Pedagogico/service/pedagogico.service
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { environment } from "src/environments/environment";
 
-export const MY_FORMATS = {
-    parse: {
-      dateInput: 'dd/MM/YYYY',
-    },
-    display: {
-      dateInput: 'dd/MM/YYYY',
-      //monthYearLabel: 'MMM YYYY',
-      //dateA11yLabel: 'LL',
-      //monthYearA11yLabel: 'MMMM YYYY',
-    },
-  };
+// export const MY_FORMATS = {
+//     parse: {
+//       dateInput: 'dd/MM/YYYY',
+//     },
+//     display: {
+//       dateInput: 'dd/MM/YYYY',
+//       //monthYearLabel: 'MMM YYYY',
+//       //dateA11yLabel: 'LL',
+//       //monthYearA11yLabel: 'MMMM YYYY',
+//     },
+//   };
 
 @Component({
     selector: 'aulaeditarmodaldialog',
     templateUrl: './aulaeditar.component.html',
     styleUrls: ['./aulaeditar.component.scss'],
-    providers: [
-        {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-      ],
+    // providers: [
+    //     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    //   ],
     animations: [HighlightTrigger]
 })
 export class AulaEditarModal implements OnInit {
@@ -97,7 +97,7 @@ export class AulaEditarModal implements OnInit {
 
     private GetAulaInfosSucesso(resp) {
         this.aula = resp['aula']
-        console.log(this.aula)
+      //  console.log(this.aula)
         this.salas = resp['salas']
         this.materias = resp['materias']
         this.professores = resp['profsDisponiveis']
@@ -172,9 +172,9 @@ export class AulaEditarModal implements OnInit {
     }
 
     private ChangeMateriaSucesso(resp) {
-        console.log(resp)
+       // console.log(resp)
         this.professores = resp['profsDisponiveis']
-        console.log(this.professores)
+       // console.log(this.professores)
     }
 
     private ChangeMateriaError(error) {
@@ -195,7 +195,7 @@ export class AulaEditarModal implements OnInit {
     public SaveEdit(form) {
 
         this.saveSpinner = 'visible'
-        console.log(this.aulaForm.value)
+       // console.log(this.aulaForm.value)
         this._pedagService.EditAula(this.aulaForm.value, this.data['caled'].id)
             .subscribe(
                 sucesso => { this.SaveEditSucesso(sucesso) },

@@ -7,10 +7,21 @@
     </i>
 </div>
 
-Turma {{ data['turma'].identificador}}
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showForm" >
+
+    <mat-form-field appearance="standard" style="width: 55%; ">
+        <mat-label>Turma</mat-label>
+        <input matInput disabled
+        [value]="data['turma'].identificador"
+        >
+    </mat-form-field>
+
 <hr>
 
-<div class="table-responsive" style="height: 430px;position: relative;">
+<div class="table-responsive" style="">
     <table color="primary" style="margin-bottom: 0px;" class="table">
         <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
         <thead>
@@ -108,5 +119,7 @@ Turma {{ data['turma'].identificador}}
             </tr>
         </tbody>
     </table>
+</div>
+
 </div>
 

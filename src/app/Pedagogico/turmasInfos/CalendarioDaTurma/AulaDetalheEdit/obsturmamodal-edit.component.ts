@@ -8,11 +8,11 @@ import { environment } from "src/environments/environment";
 
 @Component({
     selector: 'obsturmamodaldialog',
-    templateUrl: './obsturmamodal.component.html',
-    styleUrls:['./obsturmamodal.component.scss'],
+    templateUrl: './obsturmamodal-edit.component.html',
+    styleUrls:['./obsturmamodal-edit.component.scss'],
     animations: [HighlightTrigger]
 })
-export class ObservacoesTurmaModal implements OnInit{
+export class ObservacoesTurmaEditModal implements OnInit{
 
     //private _baseUrl = environment.baseUrl
     public initProgressBar = 'visible'
@@ -21,7 +21,7 @@ export class ObservacoesTurmaModal implements OnInit{
     constructor(
         //private _http: HttpClient,
         private _pedagService: PedagogicoService,
-        public dialogRef: MatDialogRef<ObservacoesTurmaModal>,
+        public dialogRef: MatDialogRef<ObservacoesTurmaEditModal>,
         @Inject(MAT_DIALOG_DATA) public data: any) { }
 
         ngOnInit() {
@@ -41,8 +41,8 @@ export class ObservacoesTurmaModal implements OnInit{
 
         private GetAulaInfosSucesso(resp){
             this.aula = resp['aula']
-           // console.log(this.aula)
-            this.dialogRef.addPanelClass('auladetalhe-class')
+            //console.log(this.aula)
+            this.dialogRef.addPanelClass('auladetalheedit-class')
             this.initProgressBar = 'hidden'
             this.showContent = true
         }

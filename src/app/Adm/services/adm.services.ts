@@ -26,6 +26,19 @@ export class AdmService extends BaseService {
         return response;
     }
 
+    envioAcesso(email) : Observable<any> {       
+
+        let path = `/usuario/envio-acesso-colaborador/${email}`
+
+        let response = this.http
+            .put(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
     getTypePacotes(): Observable<any> {
 
         let path = `/typepacote`

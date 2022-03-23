@@ -11,12 +11,14 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { AdmService } from "../../services/adm.services";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
+import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Component({
     selector: 'editusermodal',
     templateUrl: './edituser.component.html',
-    styleUrls: ['./edituser.component.scss']
+    styleUrls: ['./edituser.component.scss'],
+    animations: [HighlightTrigger]
 })
 
 export class EditUserComponent implements OnInit {

@@ -25,6 +25,11 @@
 
     </i>
 
+    <div *ngIf="showMensagem" class="alert alert-danger" role="alert"
+            style="text-align: center; vertical-align: middle; position:relative; height: 45px; float:left;margin-bottom: 20px;">
+            {{mensagem}}
+        </div>
+
     <mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
     </mat-progress-bar>
 

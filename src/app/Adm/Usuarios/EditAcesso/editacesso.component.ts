@@ -30,6 +30,7 @@ export class EditAcessoComponent implements OnInit {
     public mostrarModalPrincipal = true
     public initProgressBar = 'visible'
     public saveProgressBar = 'hidden'
+    public disabledEnvio = false
     public showContent = false
 
     acessoView: any[] = new Array<any>()
@@ -64,6 +65,28 @@ export class EditAcessoComponent implements OnInit {
                 falha => { this.getAcessosFalha(falha) }
             )
     }
+
+    enviarLogin(){
+
+        this.disabledEnvio = true
+        this._admService.envioAcesso(this.data['usuario'].email)
+            .subscribe(
+                sucesso => { this.enviarLoginSucesso(sucesso) },
+                falha => { this.enviarLoginFalha(falha) }
+            )
+
+    }
+
+    enviarLoginSucesso(resp){
+        this._helper.openSnackBarSucesso("E-mail com informações de acesso enviado com sucesso.")
+        this.disabledEnvio = false
+    }
+
+    enviarLoginFalha(error){
+        this._helper.openSnackBarErrorDefault()
+        this.disabledEnvio = false
+    }
+
     varJson
     getAcessosSucesso(sucesso) {
         Object.assign(this.acessoView, sucesso['acessos'])
