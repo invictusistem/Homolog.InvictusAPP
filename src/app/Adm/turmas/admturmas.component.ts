@@ -8,6 +8,7 @@ import { TokenInfos } from "src/app/_shared/models/token.model";
 import { Turma, TurmaViewModel } from "src/app/_shared/models/Turma.model";
 
 import { environment } from "src/environments/environment";
+import { AdmService } from "../services/adm.services";
 import { OpenTurmaEditmodel } from "../services/modal.config";
 import { CalendarioModalComponent } from "./Calendario/calendario.component";
 import { ConfirmarIniciarTurmaModal } from "./confirmturmamodal/confirmariniciar.component";
@@ -42,6 +43,7 @@ export class AdmTurmasComponent implements OnInit {
     mensagem: string;
 
     constructor(
+        private _admService: AdmService,
         private http: HttpClient,
         private _modal: MatDialog
     ) { }
@@ -141,42 +143,32 @@ export class AdmTurmasComponent implements OnInit {
         var itemsPerPage = 0;
         var actualPage = 0
 
-
         this.showTurmas = false
         this.showMessage = false
         this.showSpinner = true
-       // console.log('get cursos 1234')
-        //this.http.get(`${this.baseUrl}/turmas/?itemsPerPage=` + itemsPerPage + `&currentPage=` + actualPage, {
-        //this.http.post("http://api.invictustemp.com.thor.hostazul.com.br/api/identity/login", credentials, {
-        this.http.get(`${this.baseUrl}/turma`)
-            .subscribe(response => {
+       
+        this._admService.GetTodasTurmasDaUnidade()
+                .subscribe(
+                    sucesso => { this.getCursosSucesso(sucesso) },
+                    falha => { this.getCursosFalha(falha) }
+                );
+    }
 
+    getCursosSucesso(response){
+        Object.assign(this.turmas, response['turmas'])
+        this.initProgressBar = 'hidden'
+        this.showTurmas = true
+        this.showMessage = false
+        this.showSpinner = false
+    }
 
-               // console.log(response)
-                //Object.assign(this.turmas, response['data'])
-                Object.assign(this.turmas, response['turmas'])
-               // console.log(this.turmas)
-                // this.colaboradores = Object.assign([], response['data'])
-                //console.log(this.colaboradores)
-                // this.dialogRef.close();
-            }, (err) => {
-                this.initProgressBar = 'hidden'
-               // console.log(err)
-                this.mensagem = "Não há turmas cadastradas ou em andamento nesta unidade."
-                this.showTurmas = false
-                this.showMessage = true
-                this.showSpinner = false
-                //this.mensagem = "Ocorreu um erro! Contate o Administrador!"
-
-            },
-                () => {
-                    this.initProgressBar = 'hidden'
-                    this.showTurmas = true
-                    this.showMessage = false
-                    this.showSpinner = false
-
-                });
-
+    getCursosFalha(erro){
+        this.initProgressBar = 'hidden'
+        // console.log(err)
+         this.mensagem = "Não há turmas cadastradas ou em andamento nesta unidade."
+         this.showTurmas = false
+         this.showMessage = true
+         this.showSpinner = false
     }
 
     createCurso() {

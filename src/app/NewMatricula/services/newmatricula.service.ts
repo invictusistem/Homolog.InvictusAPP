@@ -46,20 +46,20 @@ export class NewMatriculaService extends BaseService {
     }
 
 
+    public GetMatriculaRelatorio(param) : Observable<any> {  
 
+        let paramJson = JSON.stringify(param)
 
-    // getTypePacotes() : Observable<any> {  
+        let path = `/pedag/matricula/relatorio/?paramJson=${paramJson}`
 
-    //     let path = `/typepacote`
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
 
-    //     let response = this.http
-    //         .get(this.BaseUrl + path, this.ObterHeaderJson())
-    //         .pipe(
-    //             map(this.extractData),
-    //             catchError(this.serviceError));
-
-    //         return response;
-    // }
+            return response;
+    }
 
     // getSystemRoles() : Observable<any> {  
 

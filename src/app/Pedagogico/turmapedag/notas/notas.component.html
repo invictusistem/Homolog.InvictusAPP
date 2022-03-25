@@ -8,30 +8,48 @@
 
 </div>
 
-<hr>
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
 
-<div>{{data.turma.descricao}} - {{ data.turma.identificador }}
-</div>
+<ng-container *ngIf="messageNoMateria">
+    <hr>
 
-<div>
 
-    <mat-form-field style="width: 25%;">
-        <mat-label>Matéria</mat-label>
-        <mat-select selected>
-            <mat-option></mat-option>
-            <mat-option (click)="buscarNotas(mat)" *ngFor="let mat of materias" [value]="mat.id">
-                {{mat.nome}}
-            </mat-option>
-        </mat-select>
+    <span style="font-size: 0.9;font-style: italic;">Aguarde! Espere a conclusão das aulas de cada matérias para poder lançar as  notas.</span>
+</ng-container>
+
+<ng-container *ngIf="showMateriaEscolha">
+    <hr>
+
+
+    <mat-form-field appearance="standard" style="width: 55%;">
+        <mat-label>Turma</mat-label>
+        <input matInput disabled value="{{data.turma.descricao}} - {{data.turma.identificador}}">
     </mat-form-field>
 
-</div>
+    <!-- <div>{{data.turma.descricao}} - {{ data.turma.identificador }}
+</div> -->
+
+    <div>
+
+        <mat-form-field style="width: 40%;">
+            <mat-label>Matéria</mat-label>
+            <mat-select selected>
+                <mat-option></mat-option>
+                <mat-option (click)="buscarNotas(mat)" *ngFor="let mat of materias" [value]="mat.id">
+                    {{mat.nome}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+    </div>
+</ng-container>
+
+<ng-container *ngIf="showNotas">
 
 
-<ng-container>
-
-
-    <div *ngIf="showTable" class="table-responsive" style="height: 430px;position: relative;">
+    <!-- <div *ngIf="showTable" class="table-responsive" style="height: 430px;position: relative;"> -->
+    <div class="table-responsive" style="height: 430px;position: relative;">
         <table color="primary" style="margin-bottom: 0px;" class="table">
 
             <thead>
@@ -45,7 +63,7 @@
                     <th style="width: 33%;font-size:1em;
                     vertical-align: middle; 
                     text-align:left;
-                     border-top: 0px; font-weight: 400;"></th>
+                     border-top: 0px; font-weight: 400;">ALUNO</th>
 
 
 
@@ -131,11 +149,16 @@
             </tbody>
         </table>
     </div>
-    <div *ngIf="showTable" style="margin-top: 15px;">
-    <button  type="button" color="primary" (click)="salvar()" mat-raised-button
-        style="float:right;margin-bottom: 10px;margin-left: 10px;">
-        Salvar
-    </button>
-</div>
+    <mat-progress-bar style="margin-top: 10px;" [style.visibility]="saveProgressBar" 
+    @rowHighlight mode="query">
+    </mat-progress-bar>
+    <div *ngIf="showTable" style="margin-top: 10px;">
+        <button type="button" color="primary" 
+        [disabled]="disableSaveButton"
+        (click)="salvar()" mat-raised-button
+            style="float:right;margin-bottom: 5px;margin-left: 10px;">
+            Salvar
+        </button>
+    </div>
 
 </ng-container>

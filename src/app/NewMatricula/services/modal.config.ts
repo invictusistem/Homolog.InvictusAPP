@@ -1,6 +1,7 @@
 export function OpenRelatorioMatriculaComponentModal() {
     return {
-        width: '700px',
+        height:'280px',
+        width: '1200px',
         hasBackdrop: true,
         disableClose: true
     }

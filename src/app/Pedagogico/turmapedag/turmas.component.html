@@ -53,10 +53,21 @@
                             <td style="text-align:center;vertical-align: middle;">{{i+1}}</td>
 
                             <td style="text-align:left;vertical-align: middle;">
-                                {{turma.descricao}} {{turma.identificador}}
+                                {{turma.descricao}} {{turma.identificador}}<br>
+                                <span *ngIf="!turma.podeIniciarAula;else emAndamento" style="font-size: 0.9em;font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;próxima aula: {{ turma.descAula}} - 
+                                    {{ turma.professor || 'sem professor alocado'}} - {{turma.proximaAula | date:'d/M/yyyy H:mm'}} às 
+                                    {{turma.proximaAulaFinal | date:'H:mm'}}</span>
+
+                                    <ng-template #emAndamento>
+                                        <span style="font-size: 0.9em;font-style: italic;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;Aula em andamento: {{ turma.descAula}} - 
+                                            {{ turma.professor}} - {{turma.proximaAula | date:'d/M/yyyy H:mm'}} às 
+                                            {{turma.proximaAulaFinal | date:'H:mm'}}</span>
+                                    </ng-template>
+                                    
                             </td>
 
-                            <td style="text-align: center;vertical-align: middle;">
+                            <td style="width: 20%; text-align: center;vertical-align: middle;">
 
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="agendar provas"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
@@ -67,7 +78,7 @@
                                     </button>
                                 </i>
 
-                                <i style="margin: 0px; margin-left: 15%;" #tooltip="matTooltip"
+                                <i style="margin: 0px; margin-left: 10%;" #tooltip="matTooltip"
                                     matTooltip="lançar notas" matTooltipPosition="above" matTooltipHideDelay="100">
                                     <button (click)="openNotas(turma)" disabled
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
@@ -87,7 +98,7 @@
                                     </button>
                                 </i> -->
                                 <!-- TEMP-->
-                                <i style="margin: 0px; margin-left: 15%;" #tooltip="matTooltip"
+                                <i style="margin: 0px; margin-left: 10%;" #tooltip="matTooltip"
                                     matTooltip="iniciar a aula" matTooltipPosition="above" matTooltipHideDelay="100">
                                     <button (click)="iniciarAula(turma)" [disabled]="podeIniciarAula(turma.podeIniciarAula)" 
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"

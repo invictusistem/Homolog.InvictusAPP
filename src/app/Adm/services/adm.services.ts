@@ -39,6 +39,19 @@ export class AdmService extends BaseService {
         return response;
     }
 
+    public GetTodasTurmasDaUnidade(): Observable<any>{
+
+        let path = `/turma`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
     getTypePacotes(): Observable<any> {
 
         let path = `/typepacote`

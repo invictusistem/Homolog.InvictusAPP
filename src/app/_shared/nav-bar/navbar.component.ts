@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { AuthService } from "src/app/_Auth/auth.service";
 import { TrocaSenhaComponent } from "src/app/_Auth/user/trocaSenha/troca-senha.component";
+import { TokenInfos } from "../models/token.model";
 
 declare interface RouteInfo {
     path: string;
@@ -25,6 +26,10 @@ export const ROUTES: RouteInfo[] = [
     //{ path: '/adm/produtos', title: 'Produtos', class: '', typeIcon: 'fact_check' },
 ]
 
+
+export const ROUTESTESTE: RouteInfo[] = []
+   
+
 @Component({
     selector: 'navbar',
     templateUrl: './navbar.component.html',
@@ -32,6 +37,9 @@ export const ROUTES: RouteInfo[] = [
 })
 
 export class NavBarComponent implements OnInit {
+
+    private jwtHelper = new JwtHelperService();
+    public tokenInfo: TokenInfos = new TokenInfos();
 
     menu: any;
     constructor(
@@ -42,6 +50,9 @@ export class NavBarComponent implements OnInit {
 
     ngOnInit() {
       //  console.log('enter navBar')
+      const token = localStorage.getItem('jwt')
+      this.tokenInfo = this.jwtHelper.decodeToken(token)
+        //ROUTESTESTE = this.tokenInfo.Telas
         this.menu = ROUTES.filter(menu => menu);
         //this.isUserAuthenticated();
     }
