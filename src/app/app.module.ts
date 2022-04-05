@@ -38,13 +38,13 @@ export function tokenGetter() {
     FormsModule,
     SharedModule,
     AdmModule,
-    //PedagogicoModule,
-    //ComercialModule,
-    //AlunoModule,
-    //FinanceiroModule,
-    //GeralModule,
+    PedagogicoModule,
+    ComercialModule,
+    AlunoModule,
+    FinanceiroModule,
+    GeralModule,
     AppRoutingModule,
-    //NewMatriculaModule
+    NewMatriculaModule
   ],
   providers: [
  ],
