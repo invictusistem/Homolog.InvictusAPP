@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { TokenInfos } from '../_shared/models/token.model';
-import { MessageModalComponent } from './messagemodal/messagemodal.component';
 
 declare interface RouteInfo {
     path: string;
@@ -88,27 +87,7 @@ export class AdmComponent implements OnInit {
     }
 
     openMessageModal(): void {
-        const dialogRef = this._modal
-            .open(MessageModalComponent, {
-                height: 'auto',
-                width: '800px',
-
-                data: { message: this.htmlContent },
-                hasBackdrop: true,
-                disableClose: true
-            });
-
-
-        dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "Ok") {
-                // Reset form here
-               // console.log('afte close ok')
-                //this.getColaboradores(1, this.pageSize);
-            } else if (data.clicked === "Cancel") {
-                // Do nothing. Cancel any events that navigate away from the
-                // component.
-            }
-        });
+       
     }
 
     // isUserAuthenticated() {

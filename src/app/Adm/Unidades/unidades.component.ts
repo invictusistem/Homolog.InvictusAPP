@@ -3,10 +3,6 @@ import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { environment } from "src/environments/environment";
 //import { Unidade } from "../Adm-Models/unidade.model";
-import { CreateUnidadeComponent } from "./CreateModal/createunidade.component";
-import { CreateSalaComponent } from "./CreateSalaModal/createsala.component";
-import { SalaEditarComponent } from "./EditarSala/sala-editar.component";
-import { EditUnidadeComponent } from "./EditModal/editunidade.component";
 
 @Component({
     selector: "unidades-app",
@@ -51,75 +47,19 @@ export class UnidadesComponent implements OnInit {
 
     
     openUnidadeCreateModal(): void {
-        const dialogRef = this.unidadeCreateModal
-            .open(CreateUnidadeComponent, {
-                height: '450px',
-                width: '650px',
-                //data: {  },
-                hasBackdrop: true,
-                disableClose: true
-            });
-        dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "Ok") {
-                this.getUnidades();
-            } else if (data.clicked === "Cancel") {
-
-            }
-        });
+        
     }
     
     openEditUnidade(unidade: any): void {
-        const dialogRef = this.unidadeEditModal
-            .open(EditUnidadeComponent, {
-                //height: '450px',
-                width: '670px',
-                data: { unidade: unidade },
-                hasBackdrop: true,
-                disableClose: true
-            });
-        dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "OK") {
-                this.getUnidades();
-            } else if (data.clicked === "Cancel") {
-
-            }
-        });
+        
     }
 
     addSala(unidade: any): void {
-        const dialogRef = this.unidadeEditModal
-            .open(CreateSalaComponent, {
-                height: 'auto',
-                width: '600px',
-                data: { unidade: unidade},
-                hasBackdrop: true,
-                disableClose: true
-            });
-        dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "Ok") {
-                this.getUnidades();
-            } else if (data.clicked === "Cancel") {
-
-            }
-        });
+        
     }
 
     editSala(unidade): void {
-        const dialogRef = this.unidadeEditModal
-            .open(SalaEditarComponent, {
-               // height: 'auto',
-                width: '600px',
-                data: { unidade: unidade},
-                hasBackdrop: true,
-                disableClose: true
-            });
-        dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "OK") {
-                this.getUnidades();
-            } else if (data.clicked === "Cancel") {
-
-            }
-        });
+        
     }
 
 }
