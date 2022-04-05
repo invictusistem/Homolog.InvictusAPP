@@ -43,7 +43,7 @@ import { EstagiosDocsComponent } from './Pedagogico/estagiosdocs/estagiosdocs.co
 import { EstagioComponent } from './Pedagogico/estagios/estagio.component';
 import { PDFTesteComponent } from './Adm/PdfTeste/pdfteste.component';
 import { HomeComponent } from './_shared/home/home.component';
-import { BolsasComponent } from './Adm/Bolsas/bolsas.component';
+import { BolsasComponent } from './Adm/BolsasCursos/bolsas.component';
 
 import { LeadsComponent } from './Comercial/Leads/leads.component';
 import { AlunoAcessoComponent } from './Pedagogico/AlunosAcesso/aluno-acesso.component';

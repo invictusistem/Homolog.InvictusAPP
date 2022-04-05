@@ -75,11 +75,11 @@ import { AddMatComponent } from './Professores/Materias/AddMateria/add-mat.compo
 import { EditDispoComponent } from './Professores/Materias/EditDisponibilidade/edit-dispo.component';
 import { PDFTesteComponent } from './PdfTeste/pdfteste.component';
 import { EditAcessoComponent } from './Usuarios/EditAcesso/editacesso.component';
-import { BolsasComponent } from './Bolsas/bolsas.component';
-import { CreateBolsaComponent } from './bolsas/createBolsa/createbolsa.component';
-import { ShowSenhaComponent } from './Bolsas/ShowSenha/showsenha.component';
+import { BolsasComponent } from './BolsasCursos/bolsas.component';
+import { CreateBolsaComponent } from './BolsasCursos/create/createbolsa.component';
+import { ShowSenhaComponent } from './BolsasCursos/ShowSenha/showsenha.component';
 import { VisualizarModuloComponent } from './Modulos/VisualizarModulo/visualizar.component';
-import { EditBolsaComponent } from './Bolsas/EditBolsa/edit-bolsa.component';
+import { EditBolsaComponent } from './BolsasCursos/EditBolsa/edit-bolsa.component';
 import { ProfCalendarioComponent } from './Professores/ProfCalendario/prof-calendario.component';
 import { ProfRelatorioComponent } from './Professores/Relatorio/prof-relatorio.component';
 import { CargoEditComponent } from './Configuracoes/Cargos-edit/cargo-edit.component';

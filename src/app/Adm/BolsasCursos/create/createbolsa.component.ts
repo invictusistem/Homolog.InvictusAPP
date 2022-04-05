@@ -34,6 +34,9 @@ export class CreateBolsaComponent implements OnInit {
         })        
     }
 
+
+    
+
     ngOnInit() {
         this.GetTypePacotes();
     }
