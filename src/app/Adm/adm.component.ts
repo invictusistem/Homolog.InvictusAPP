@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { TokenInfos } from '../_shared/models/token.model';
-import { MessageModalComponent } from './MessageModal/messagemodal.component';
+import { MessageModalComponent } from './messagemodal/messagemodal.component';
 
 declare interface RouteInfo {
     path: string;
