@@ -26,7 +26,7 @@ import { TesteModalComponent } from './testes/modalteste/testemodal.component';
 import { AddProfessorModalComponent } from './turmas/ModalAddProf/addprof.component';
 import { CalendarioModalComponent } from './turmas/Calendario/calendario.component';
 import { AddPMateriaModalComponent } from './turmas/ModalAddMateria/addmateria.component';
-import { TestandoComponent } from './Testando/testando.component';
+import { TestandoComponent } from './testando/testando.component';
 import { AdmTurmasComponent } from './turmas/admturmas.component';
 import { ConfirmarIniciarTurmaModal } from './turmas/confirm/confirmariniciar.component';
 import { ConfiguracoesComponent } from './configuracoes/configuracoes.component';

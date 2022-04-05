@@ -13,7 +13,7 @@ import { Cargos, Unidades } from "src/app/_shared/models/perfil.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Observable } from "rxjs";
 import { Turma } from "src/app/_shared/models/Turma.model";
-import { Sala } from "src/app/Adm/Adm-Models/sala.model";
+import { Sala } from "src/app/Adm/adm-models/sala.model";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Component({

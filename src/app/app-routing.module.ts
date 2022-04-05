@@ -15,7 +15,7 @@ import { MatriculaComponent } from './Pedagogico/Matricula/matricula.component';
 import { TestesComponent } from './Adm/testes/teste.component';
 import { TurmasComponent } from './Pedagogico/turmapedag/turmas.component';
 import { TransferenciaComponent } from './Pedagogico/Transferencia/transferencia.component';
-import { TestandoComponent } from './Adm/Testando/testando.component';
+import { TestandoComponent } from './Adm/testando/testando.component';
 import { AdmTurmasComponent } from './Adm/turmas/admturmas.component';
 import { AlunoComponent } from './Aluno/aluno.component';
 import { AlunoEstagioComponent } from './Aluno/alunoestagios/alunoest.component';

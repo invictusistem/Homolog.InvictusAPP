@@ -8,7 +8,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 
-import { Sala } from "../../Adm-Models/sala.model";
+import { Sala } from "../../adm-models/sala.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { UpperCasePipe } from "@angular/common";
 //import { Cargo } from "../../Adm-Models/cargos.model";
