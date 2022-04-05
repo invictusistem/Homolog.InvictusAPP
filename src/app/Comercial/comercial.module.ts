@@ -25,7 +25,7 @@ import { LeadExportComponent } from './AddLead/leadexport/lead-export.component'
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { NgxMaskModule } from 'ngx-mask';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
-import { Servico } from '../Adm/_TESTES/testeexterno';
+import { Servico } from '../Adm/testes/testeexterno';
 
 
 // import { CustomersComponent } from '../customers/customers.component';

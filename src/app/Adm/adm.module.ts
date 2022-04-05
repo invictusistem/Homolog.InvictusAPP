@@ -21,8 +21,8 @@ import { EditColaboradoresComponent } from './colaboradores/editModal/editcolabo
 import { CreateColaboradoresComponent } from './colaboradores/createModal/createcolaboradores.component';
 import { CreateCursoComponent } from './turmas/CreateModal/createcurso.component';
 import { EditCursoComponent } from './turmas/EditModal/editcurso.component';
-import { TestesComponent } from './_TESTES/teste.component';
-import { TesteModalComponent } from './_TESTES/ModalTeste/testemodal.component';
+import { TestesComponent } from './testes/teste.component';
+import { TesteModalComponent } from './testes/modalteste/testemodal.component';
 import { AddProfessorModalComponent } from './turmas/ModalAddProf/addprof.component';
 import { CalendarioModalComponent } from './turmas/Calendario/calendario.component';
 import { AddPMateriaModalComponent } from './turmas/ModalAddMateria/addmateria.component';
@@ -32,7 +32,7 @@ import { ConfirmarIniciarTurmaModal } from './turmas/confirm/confirmariniciar.co
 import { ConfiguracoesComponent } from './configuracoes/configuracoes.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { MessageModalComponent } from './messagemodal/messagemodal.component';
-import { Servico } from './_TESTES/testeexterno';
+import { Servico } from './testes/testeexterno';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { AdmRelatorioComponent } from './relatorios/relatorio.component';
 import { ProdutoCreateComponent } from './produtos/produto-create/produto-create.component';

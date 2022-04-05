@@ -30,7 +30,7 @@ import { EditFinancComponent } from './alunos/infoFinanc/EditFinanc/edit-financ.
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { CreateFornecedorComponent } from './fornecedores/createfornecedor/createfornecedor.component';
 import { EditFornecedorComponent } from './fornecedores/editfornecedor/editfornecedor.component';
-import { Servico } from '../Adm/_TESTES/testeexterno';
+import { Servico } from '../Adm/testes/testeexterno';
 import { UnidadeBalancoComponent } from './unidadebalanco/unidadebalanco.component';
 import { FornecedorVendaComponent } from './fornecedores/cadastrovenda/fornecedorcadvenda.component';
 import { FornecedorCompraComponent } from './fornecedores/cadastrocompra/fornecedorcadcompra.component';

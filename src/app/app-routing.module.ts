@@ -12,7 +12,7 @@ import { UserComponent } from './_Auth/user/user.component';
 import { LoginComponent } from './_Auth/user/login/login.component';
 import { AuthGuard } from './_Auth/auth.guard';
 import { MatriculaComponent } from './Pedagogico/Matricula/matricula.component';
-import { TestesComponent } from './Adm/_TESTES/teste.component';
+import { TestesComponent } from './Adm/testes/teste.component';
 import { TurmasComponent } from './Pedagogico/turmapedag/turmas.component';
 import { TransferenciaComponent } from './Pedagogico/Transferencia/transferencia.component';
 import { TestandoComponent } from './Adm/Testando/testando.component';

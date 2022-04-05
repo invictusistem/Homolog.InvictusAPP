@@ -19,7 +19,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { NewMatriculaComponent } from './newmatricula.component';
-import { Servico } from '../Adm/_TESTES/testeexterno';
+import { Servico } from '../Adm/testes/testeexterno';
 import { NovaMatriculaComponent } from './NovaMatricula/novamatricula.component';
 import { CreateNovaMatriculaComponent } from './NovaMatricula/CreateMatricula/createnovamatricula.component';
 import { ConfirmNovaMatriculaComponent } from './NovaMatricula/CreateMatricula/Confirm/confirmnova.component';

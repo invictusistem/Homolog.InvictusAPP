@@ -16,7 +16,7 @@ import { MaterialModule } from '../_shared/material/material.module';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
-import { Servico } from '../Adm/_TESTES/testeexterno';
+import { Servico } from '../Adm/testes/testeexterno';
 import { GeralComponent } from './geral.component';
 
 

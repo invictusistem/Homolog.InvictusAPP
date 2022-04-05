@@ -7,7 +7,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { TesteModalComponent } from './ModalTeste/testemodal.component';
+import { TesteModalComponent } from './modalteste/testemodal.component';
 import { IServico } from './testeexterno';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
