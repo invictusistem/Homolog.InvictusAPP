@@ -16,7 +16,7 @@ import { ConferenciaComponent } from "./conferenca/conferencia.component";
 @Component({
     selector: "balanco-app",
     templateUrl: './balanco.component.html',
-    //styleUrls: ['./colaboradores.component.scss'],
+    styleUrls: ['./balanco.component.scss'],
     animations: [HighlightTrigger]
 })
 

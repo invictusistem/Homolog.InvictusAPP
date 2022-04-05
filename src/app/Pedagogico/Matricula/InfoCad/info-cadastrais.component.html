@@ -8,205 +8,184 @@
 </div>
 <hr>
 
-    <mat-progress-bar *ngIf="!showForm" style="margin:0px"  mode="query"></mat-progress-bar>
-  
+<mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight style="margin:0px" mode="query"></mat-progress-bar>
+
 
 <div *ngIf="showForm" style="position: relative;">
 
-    <form novalidate #form="ngForm" (ngSubmit)="saveEdit(form)">
-
-        <div style="position: relative;">
+    <form novalidate [formGroup]="alunoForm" (ngSubmit)="SaveEdit(alunoForm)">
 
 
-            <mat-form-field appearance="standard" style="width: 35%; ">
-                <mat-label>Nome completo</mat-label>
-                <input selected [(ngModel)]="aluno.nome" name="nome" disabled required matInput placeholder="Nome">
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 35%; ">
+            <mat-label>Nome completo</mat-label>
+            <input [value]="alunoForm.get('nome').value" disabled matInput>
+        </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 14%; margin-left: 2%;">
-                <mat-label>CPF</mat-label>
-                <input disabled [value]="aluno.cpf | cpf" selected matInput>
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 14%; margin-left: 2%;">
+            <mat-label>CPF</mat-label>
+            <input disabled [value]="alunoForm.get('cpf').value | cpf" matInput>
+        </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 12%; margin-left: 2%;">
-                <mat-label>RG</mat-label>
-                <input [value]="aluno.rg" name="rg" disabled
-                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected matInput
-                    placeholder="digite o RG">
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 12%; margin-left: 2%;">
+            <mat-label>RG</mat-label>
+            <input [value]="alunoForm.get('rg').value" disabled matInput>
+        </mat-form-field>
 
-            <!-- <mat-form-field appearance="standard" style="width: 17%; margin-left: 5%;">
-                <mat-label>Nascimento</mat-label>
-                <date-input [ngModel]="aluno.nascimento" name="nascimento"  (focusout)="onFocusOutDateEvent($event)" matInput required>
-                </date-input>
-            </mat-form-field> -->
 
-            <mat-form-field appearance="standard" style="width: 13%; margin-left: 2%;">
-                <mat-label>Nascimento</mat-label>
-                <input matInput [matDatepicker]="picker" [value]="aluno.nascimento" name="nascimento" disabled>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 13%; margin-left: 2%;">
+            <mat-label>Nascimento</mat-label>
+            <input matInput [matDatepicker]="picker" [value]="alunoForm.get('nascimento').value" disabled>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
 
-            <mat-slide-toggle style="margin-left: 15%;" class="autoPagination-slide" #tooltip="matTooltip"
-                [(ngModel)]="aluno.ativo" name="ativo" required matTooltip="ativo/inativo" [required]="false"
-                matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
-            </mat-slide-toggle>
+        <mat-slide-toggle style="margin-left: 15%;" class="autoPagination-slide" #tooltip="matTooltip"
+            formControlName="ativo" required matTooltip="ativo/inativo" [required]="false" matTooltipPosition="above"
+            matTooltipHideDelay="250" color="primary">
+        </mat-slide-toggle>
 
-            <br>
+        <br>
 
-            <mat-form-field appearance="standard" style="width: 35%; ">
-                <mat-label>Nome Pai</mat-label>
-                <input selected oninput="this.value = this.value.toUpperCase()" 
-                [(ngModel)]="aluno.nomePai" name="nomePai" matInput placeholder="Nome">
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 35%; ">
+            <mat-label>Nome Pai</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" formControlName="nomePai" matInput
+                placeholder="Nome do pai">
+        </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 35%;margin-left: 2%;">
-                <mat-label>Nome Mãe</mat-label>
-                <input selected oninput="this.value = this.value.toUpperCase()" 
-                [(ngModel)]="aluno.nomeMae" name="nomeMae" matInput placeholder="Nome">
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 35%;margin-left: 2%;">
+            <mat-label>Nome Mãe</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" formControlName="nomeMae" matInput
+                placeholder="Nome da mãe">
+        </mat-form-field>
 
-            <br>
+        <br>
 
-            <mat-form-field appearance="standard" style="width: 35%; ">
-                <mat-label>Nome Social</mat-label>
-                <input selected oninput="this.value = this.value.toUpperCase()" 
-                [(ngModel)]="aluno.nomeSocial" name="nomeSocial" matInput placeholder="Nome">
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 35%; ">
+            <mat-label>Nome Social</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" formControlName="nomeSocial" matInput
+                placeholder="Nome social">
+        </mat-form-field>
 
-            <br>
+        <br>
 
-            <mat-form-field appearance="standard" style="width: 20%; ">
-                <mat-label>Naturalidade</mat-label>
-                <input selected oninput="this.value = this.value.toUpperCase()" 
-                [(ngModel)]="aluno.naturalidade" name="naturalidade" required matInput placeholder="Nome">
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 20%; ">
+            <mat-label>Naturalidade</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" formControlName="naturalidade" matInput>
+        </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
-                <mat-label>UF</mat-label>
-                <input onkeypress="String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
-                oninput="this.value = this.value.toUpperCase()"
-                    minlength="2" maxlength="2" selected [(ngModel)]="aluno.uf" name="uf" required matInput
-                    placeholder="UF">
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
+            <mat-label>UF</mat-label>
+            <input onkeypress="return String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
+                oninput="this.value = this.value.toUpperCase()" minlength="2" maxlength="2" matInput
+                formControlName="uf">
+        </mat-form-field>
 
-            <br>
+        <br>
 
-            <mat-form-field appearance="standard" style="width: 25%;">
-                <mat-label>Email</mat-label>
-                <input selected oninput="this.value = this.value.toLowerCase()" 
-                [(ngModel)]="aluno.email" name="email" matInput placeholder="Email">
-                <mat-hint @rowHighlight *ngIf="validadeEmailMsg" style="color: red;">
-                    O email informado já existe
-                </mat-hint>
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 25%;">
+            <mat-label>Email</mat-label>
+            <input [value]="alunoForm.get('email').value" disabled matInput>
+            <mat-hint @rowHighlight *ngIf="validadeEmailMsg" style="color: red;">
+                O email informado já existe
+            </mat-hint>
+        </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
-                <mat-label>Celular</mat-label>
-                <input [(ngModel)]="aluno.telCelular" name="telCelular" mask="(00) 00000-0000" matInput
-                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
+            <mat-label>Celular</mat-label>
+            <input formControlName="telCelular" mask="(00) 00000-0000" matInput
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+        </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
-                <mat-label>WhatsApp</mat-label>
-                <input [(ngModel)]="aluno.telWhatsapp" name="telWhatsapp" mask="(00) 00000-0000" matInput
-                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
+            <mat-label>WhatsApp</mat-label>
+            <input formControlName="telWhatsapp" mask="(00) 00000-0000" matInput
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+        </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
-                <mat-label>Residencial</mat-label>
-                <input [(ngModel)]="aluno.telResidencial" name="telResidencial" mask="(00) 0000-0000" matInput
-                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
+            <mat-label>Residencial</mat-label>
+            <input formControlName="telResidencial" mask="(00) 0000-0000" matInput
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+        </mat-form-field>
 
-            <br>
+        <br>
 
-            <!-- <mat-form-field appearance="standard" style="width: 17%;">
-                <mat-label>Tel referência</mat-label>
-                <example-tel-input  [ngModel]="aluno.telReferencia" name="telReferencia"
-                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-                </example-tel-input>
-            </mat-form-field> -->
 
-            <mat-form-field appearance="standard" style="width: 17%;">
-                <mat-label>Tel referência</mat-label>
-                <input [(ngModel)]="aluno.telReferencia" name="telReferencia" mask="(00) 00000-0000" matInput required
-                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 17%;">
+            <mat-label>Tel referência</mat-label>
+            <input formControlName="telReferencia" mask="(00) 00000-0000" matInput
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+        </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 35%;margin-left: 5%; ">
-                <mat-label>Nome do contato</mat-label>
-                <input oninput="this.value = this.value.toUpperCase()"
-                 [(ngModel)]="aluno.nomeContatoReferencia" name="nomeContatoReferencia" selected required matInput
-                    placeholder="Nome">
-            </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 35%;margin-left: 5%; ">
+            <mat-label>Nome do contato</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" formControlName="nomeContatoReferencia" matInput
+                placeholder="Nome">
+        </mat-form-field>
 
-            <br>
+        <br>
 
-            <mat-form-field appearance="standard" style="width: 10%;">
-                <mat-label>CEP</mat-label>
-                <input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" 
-                    [(ngModel)]="aluno.cep" name="cep" minlength="8" maxlength="8" required matInput
-                    placeholder="12345678">
-            </mat-form-field>
-            <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP"
-                matTooltipPosition="above" matTooltipHideDelay="100">
-                <span type="button" (click)="consultaCEP(aluno.cep)" style="margin: 0px; margin: 0px;" mat-icon-button>
-                    <mat-icon>search</mat-icon>
-                </span>
-            </i>
-          
-           
-                <mat-form-field appearance="standard" style="width: 20%;margin-left: 5%;">
-                    <mat-label>Logradouro</mat-label>
-                    <input selected oninput="this.value = this.value.toUpperCase()" 
-                    [(value)]="aluno.logradouro" required matInput
-                        placeholder="ex: rua tal...">
-                </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 10%;">
+            <mat-label>CEP</mat-label>
+            <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" formControlName="cep"
+            mask="00.000-000" minlength="8" maxlength="10"  matInput>
+        </mat-form-field>
+        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <span type="button" (click)="consultaCEP(alunoForm.get('cep').value)" style="margin: 0px; margin: 0px;"
+                mat-icon-button>
+                <mat-icon>search</mat-icon>
+            </span>
+        </i>
 
-                <mat-form-field appearance="standard" style="width: 20%;margin-left: 5%;">
-                    <mat-label>Número</mat-label>
-                    <input selected oninput="this.value = this.value.toUpperCase()" 
-                    [(ngModel)]="aluno.numero" required name="numero"required matInput placeholder="ex: rua tal...">
-                </mat-form-field>
 
-                <mat-form-field appearance="standard" style="width: 20%; margin-left: 5%;">
-                    <mat-label>Complemento</mat-label>
-                    <input selected oninput="this.value = this.value.toUpperCase()" 
-                    [(ngModel)]="aluno.complemento" name="complemento" matInput
-                        placeholder="ex: nº 123... sala 10... apto 123...">
-                </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 20%;margin-left: 5%;">
+            <mat-label>Logradouro</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" formControlName="logradouro" matInput
+                placeholder="ex: rua tal...">
+        </mat-form-field>
 
-                <br>
+        <mat-form-field appearance="standard" style="width: 20%;margin-left: 5%;">
+            <mat-label>Número</mat-label>
+            <input selected oninput="this.value = this.value.toUpperCase()" formControlName="numero" name="numero"
+                matInput placeholder="ex: rua tal...">
+        </mat-form-field>
 
-                <mat-form-field appearance="standard" style="width: 30%;">
-                    <mat-label>Cidade</mat-label>
-                    <input disabled selected [value]="aluno.cidade" required matInput
-                        placeholder="digite o bairro">
-                </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 20%; margin-left: 5%;">
+            <mat-label>Complemento</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" formControlName="complemento" matInput
+                placeholder="ex: nº 123... sala 10... apto 123...">
+        </mat-form-field>
 
-                <mat-form-field appearance="standard" style="width: 10%; margin-left: 5%;">
-                    <mat-label>UF</mat-label>
-                    <input disabled selected [value]="aluno.uf" required matInput
-                        placeholder="digite o bairro">
-                </mat-form-field>
+        <br>
 
-                <mat-form-field appearance="standard" style="width: 30%; margin-left: 5%;">
-                    <mat-label>Bairro</mat-label>
-                    <input selected disabled [value]="aluno.bairro" required matInput
-                        placeholder="digite o bairro">
-                </mat-form-field>
-           
-            <br>   <!---->
+        <mat-form-field appearance="standard" style="width: 30%;">
+            <mat-label>Cidade</mat-label>
+            <input [value]="alunoForm.get('cidade').value" disabled matInput>
+        </mat-form-field>
 
-        </div>
+        <mat-form-field appearance="standard" style="width: 10%; margin-left: 5%;">
+            <mat-label>UF</mat-label>
+            <input disabled [value]="alunoForm.get('uf').value" matInput>
+        </mat-form-field>
 
-        <button type="submit" color="primary" mat-raised-button 
-        [disabled]="podeSalvar"
-            style="float:right;margin-bottom: 10px;margin-left: 10px;">
-            Salvar
-        </button>
+        <mat-form-field appearance="standard" style="width: 30%; margin-left: 5%;">
+            <mat-label>Bairro</mat-label>
+            <input [value]="alunoForm.get('bairro').value" disabled matInput>
+        </mat-form-field>
+
+        <br>
+
+
+
+        <mat-progress-bar @rowHighlight [style.visibility]="disabledSaveButton" style="margin:0px" mode="query">
+        </mat-progress-bar>
+
+        <span style="float: right;margin-top: 15px;">
+            <button type="submit" color="primary" mat-raised-button [disabled]="podeSalvar">
+                Salvar
+            </button>
+        </span>
     </form>
 
 </div>

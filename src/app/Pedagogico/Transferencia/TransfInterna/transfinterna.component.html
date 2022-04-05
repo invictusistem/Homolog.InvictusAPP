@@ -28,7 +28,7 @@
             <mat-form-field appearance="standard" style="width: 135px; ">
                 <mat-label>CPF</mat-label>
                 <input mask="000.000.000-00"
-                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" minlength="11"
+                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" minlength="11"
                     formControlName="cpf" required name="cpf" matInput placeholder="CPF">
             </mat-form-field>
 
@@ -77,7 +77,7 @@
             <mat-form-field appearance="standard" style="width: 12%; margin-left: 2%;">
                 <mat-label>RG</mat-label>
                 <input [(ngModel)]="aluno.rg" disabled
-                    onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected name="rg"
+                    onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected name="rg"
                     minlength="9" maxlength="11" matInput placeholder="digite o RG">
             </mat-form-field>
 
@@ -104,7 +104,7 @@
             <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
                 <mat-label>UF</mat-label>
                 <input [(ngModel)]="aluno.uf" disabled
-                    onkeypress="String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null" minlength="2"
+                    onkeypress="return String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null" minlength="2"
                     maxlength="2" selected required name="naturalidadeUF" matInput placeholder="UF">
             </mat-form-field>
 

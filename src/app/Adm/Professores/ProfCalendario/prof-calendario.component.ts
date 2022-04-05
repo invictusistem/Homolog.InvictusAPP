@@ -21,6 +21,7 @@ export class ProfCalendarioComponent implements OnInit {
     public showSpin = false
     public initProgressBar = 'visible'
     public ShowTableHeader = false
+    public infoNenhumDado = false
     // public listaPresencaDto: ListaPresencaDto[] = new Array<ListaPresencaDto>();
     // public infoDia: InfoDia = new InfoDia();
     //public saveCommand: SavePresencaCommand = new SavePresencaCommand();
@@ -57,7 +58,10 @@ export class ProfCalendarioComponent implements OnInit {
             },
                 (error) => {
                     console.log(error)
-                    this.showSpin = true
+                    this.showSpin = false
+                    this.initProgressBar = 'hidden'
+                    this.infoNenhumDado = true
+
                 },
                 () => {
                     this.ShowTableHeader = true

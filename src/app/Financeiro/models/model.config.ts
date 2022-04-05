@@ -1,11 +1,22 @@
+// Alunos
+export function InfoFinancModalConfig(aluno?:any){
+    return {
+        width: '1150px',
+        data: { aluno: aluno },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+
+
 export function ReceberComponentModal(debito?:any, aluno?:any){
-    return {   
-        //minHeight: '470px',   
+    return { 
+        height:'545px',
         width: '600px',
         data: { debito: debito, aluno: aluno },        
         hasBackdrop: true,
         disableClose: true
-
     }
 }
 

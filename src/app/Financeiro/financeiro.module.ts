@@ -9,7 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from "@auth0/angular-jwt";
 
-import { CommonModule, DatePipe, registerLocaleData, UpperCasePipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe, registerLocaleData, UpperCasePipe } from '@angular/common';
 //import { HomeComponent } from './home.component';
 import { SharedModule } from '../_shared/shared.module';
 
@@ -88,7 +88,7 @@ const maskConfig: Partial<IConfig> = {
         CurrencyMaskModule
     ],
     //     providers: [AuthGuard],
-    providers: [FinanceiroService, UpperCasePipe, DatePipe,
+    providers: [FinanceiroService, CurrencyPipe, UpperCasePipe, DatePipe,
         { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
         // {provide: 'ValidateForms', useClass: ValidateFormsService},
         // { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },

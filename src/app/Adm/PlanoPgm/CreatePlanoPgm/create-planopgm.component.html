@@ -49,7 +49,7 @@
 
             <mat-form-field appearance="standard" style="width: 30%; ">
                 <mat-label>Valor</mat-label>
-                <input selected formControlName="valor" currencyMask
+                <input formControlName="valor" currencyMask
                     [options]="{ prefix: '', thousands: '.', decimal: ',' }" placeholder="R$ 00,00" matInput>
                 <span matPrefix>R$&nbsp;</span>
             </mat-form-field>
@@ -57,7 +57,7 @@
             <mat-form-field appearance="standard" style="width: 30%;margin-left: 5% ">
                 <mat-label>Taxa Matrícula</mat-label>
                 <input currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
-                    formControlName="taxaMatricula" type="text" selected required matInput placeholder="R$ 00,00">
+                    formControlName="taxaMatricula" type="text" required matInput placeholder="R$ 00,00">
                 <span matPrefix>R$&nbsp;</span>
             </mat-form-field>
 
@@ -65,7 +65,7 @@
             <mat-form-field appearance="standard" style="width: 30%;margin-left: 5%; ">
                 <mat-label>Bonus Pontualidade</mat-label>
                 <input currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
-                    formControlName="bonusPontualidade" type="text" selected required matInput placeholder="R$ 00,00">
+                    formControlName="bonusPontualidade" type="text" required matInput placeholder="R$ 00,00">
                 <span matPrefix>R$&nbsp;</span>
             </mat-form-field>
 

@@ -1,13 +1,13 @@
 <div class="container" style="width: 95%;padding-top: 20px; ">
-
+<!-- 
     <div>
-        <!-- <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="cadastrar/matricular" matTooltipPosition="above"
+        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="cadastrar/matricular" matTooltipPosition="above"
             matTooltipHideDelay="100">
             <button style="" (click)="openMatriculaModal()" mat-icon-button>
                 <mat-icon>person_add_alt</mat-icon>
             </button>
-        </i> -->
-    </div>
+        </i>
+    </div> -->
     <!-- <button type="submit" class="bg-success" (click)="openMatriculaModal()" mat-raised-button disabled="false"
         style="margin-top: 20px;">
         cadastrar/matricular aluno
@@ -54,10 +54,10 @@
       </form> -->
 
 
-    <div>
+    <!-- <div>
 
 
-    </div>
+    </div> -->
     <form [formGroup]="pesquisarForm" (ngSubmit)="pesquisar()" class="form-inline siteForm"
         style="margin-top: 5px;display: inline-block">
         <span style="font-size: 0.9em;font-style: italic;">Digite ao menos um dos campos para
@@ -183,8 +183,8 @@
                     </thead>
                     <tbody>
 
-                        <tr *ngFor="let item of listAlunos;let i = index;">
-                            <td style="text-align:center;vertical-align: middle;">{{i+1}}</td>
+                        <tr *ngFor="let item of listAlunos;let i = index;" @rowHighlight>
+                            <td style="height: 65px; text-align:center;vertical-align: middle;">{{i+1}}</td>
 
                             <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
 
@@ -287,19 +287,13 @@
                                     </i>
                                 </ng-template>
 
-
-
                             </td>
+
                         </tr>
-
-
 
                     </tbody>
 
                 </table>
-
-
-
 
             </div>
             <mat-paginator *ngIf="length > 5" style=" 

@@ -1,14 +1,18 @@
 ::ng-deep .mat-form-field {
-    font-size: 0.9em;
+  font-size: 0.9em;
 }
 
-::ng-deep .myalunomat-class .mat-dialog-container {
-  
-    height: 79vh;
-    width: 850px;
-  
-  }
+::ng-deep .myalunomat-class {
+  height: 79vh !important;
+  width: 850px;
+}
 
-  ::ng-deep .mat-tab-group.alunomatricula {
-    height: 500px !important;
-  }
+::ng-deep .mat-tab-group.alunomatricula {
+  height: 520px !important;
+}
+
+::ng-deep .datearray {
+  margin-bottom: -1.75em !important;
+  margin-top: -0.50em !important;
+ // height: 30px !important;
+}

@@ -86,7 +86,7 @@
                             <input type="text" style="margin-right: auto;
                             margin-left: auto;font-size:0.9em;width: 40px;" class="form-control"
                                 [(ngModel)]="aluno.isPresentToString" oninput="this.value = this.value.toUpperCase()"
-                                onkeypress="String.fromCharCode(event.charCode).match(/[^FPfp]/g) === null"
+                                onkeypress="return String.fromCharCode(event.charCode).match(/[^FPfp]/g) === null"
                                 maxlength="1" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
                         </td>
                     </tr>

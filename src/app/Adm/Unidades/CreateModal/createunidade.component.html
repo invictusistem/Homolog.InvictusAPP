@@ -29,7 +29,7 @@
         <mat-form-field appearance="standard" style="width: 25%; margin-left: 5%;">
             <mat-label>CNPJ</mat-label>
             <input selected mask="00.000.000/0000-00" formControlName="cnpj"
-                onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" name="cnpj" matInput
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" name="cnpj" matInput
                 placeholder="00.000.000/0000-00">
         </mat-form-field>
 
@@ -38,7 +38,7 @@
 
         <mat-form-field appearance="standard" style="width: 18%">
             <mat-label>CEP</mat-label>
-            <input mask="00.000-000" onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+            <input mask="00.000-000" onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
                 formControlName="cep" minlength="8" maxlength="10" required matInput placeholder="apenas números">
         </mat-form-field>
 

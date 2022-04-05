@@ -41,7 +41,7 @@
         <input mask="00/00/0000" required name="dataVencimento" matInput 
         [value]="dataVencimento"
             
-            onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
        
     </mat-form-field>
     <br>

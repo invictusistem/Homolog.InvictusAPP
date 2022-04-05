@@ -11,7 +11,7 @@ import { environment } from "src/environments/environment";
 import { Sala } from "../../Adm-Models/sala.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { UpperCasePipe } from "@angular/common";
-import { Cargo } from "../../Adm-Models/cargos.model";
+//import { Cargo } from "../../Adm-Models/cargos.model";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
@@ -86,7 +86,7 @@ public msgErros: any;
        // this.getCargos();
     }
 
-    cargos: Cargo[] = new Array<Cargo>()
+    cargos: any[] = new Array<any>()
     getCargos() {
 
         this._http.get(`${this._baseUrl}/unidade/cargo`)

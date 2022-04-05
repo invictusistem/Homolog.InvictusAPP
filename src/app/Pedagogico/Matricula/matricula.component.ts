@@ -7,9 +7,11 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Parametros } from "src/app/Adm/Colaboradores/colaboradores.component";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
+import { ConfirmAcaoModalComponent } from "src/app/_shared/components/ConfirmarAcao/confirm-acao.component";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { Aluno } from "src/app/_shared/models/aluno.model";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
+import { ConfirmAcaoModalConfig } from "src/app/_shared/models/modal.config";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
 import { InfoFinancComponentModal, OpenInfoComponentModal } from "../service/modal.config";
@@ -56,7 +58,7 @@ export class MatriculaComponent implements OnInit {
 
     public testeForm: FormGroup
 
-    
+
 
     constructor(
         //private _snackBar: MatSnackBar,
@@ -80,27 +82,27 @@ export class MatriculaComponent implements OnInit {
                 // console.log('form changed to:', form);
                 //if (this.tokenInfo['role'] != 'SuperAdm') {
 
-                    if (this.pesquisarForm.get('nome').value == '' &&
-                        this.pesquisarForm.get('email').value == '' &&
-                        this.pesquisarForm.get('cpf').value == '') {
-                        //  console.log('false valid')
+                if (this.pesquisarForm.get('nome').value == '' &&
+                    this.pesquisarForm.get('email').value == '' &&
+                    this.pesquisarForm.get('cpf').value == '') {
+                    //  console.log('false valid')
 
-                        this.pesquisarForm.controls['nome'].setErrors({ required: true });
-                        this.pesquisarForm.controls['email'].setErrors({ required: true });
-                        this.pesquisarForm.controls['cpf'].setErrors({ required: true });
-                        // this.pesquisarForm.setErrors({required: true});
-                    } else {
-                        //   console.log('true valid')
-                        this.pesquisarForm.controls['nome'].setErrors(null);
+                    this.pesquisarForm.controls['nome'].setErrors({ required: true });
+                    this.pesquisarForm.controls['email'].setErrors({ required: true });
+                    this.pesquisarForm.controls['cpf'].setErrors({ required: true });
+                    // this.pesquisarForm.setErrors({required: true});
+                } else {
+                    //   console.log('true valid')
+                    this.pesquisarForm.controls['nome'].setErrors(null);
 
-                        this.pesquisarForm.controls['email'].setErrors(null)
+                    this.pesquisarForm.controls['email'].setErrors(null)
 
-                        this.pesquisarForm.controls['cpf'].setErrors(null);
+                    this.pesquisarForm.controls['cpf'].setErrors(null);
 
-                        //this.pesquisarForm.setErrors({required: false});
+                    //this.pesquisarForm.setErrors({required: false});
 
 
-                    }
+                }
 
                 // } else {
                 //     this.pesquisarForm.controls['nome'].setErrors(null);
@@ -163,7 +165,7 @@ export class MatriculaComponent implements OnInit {
     }
 
     paginationChange(pageEvt: PageEvent) {
-        console.log(pageEvt)
+      //  console.log(pageEvt)
 
     }
 
@@ -189,7 +191,7 @@ export class MatriculaComponent implements OnInit {
 
     pesquisar(event?: any) {
 
-        console.log(event)
+      //  console.log(event)
         this.showMessageNoAluno = false
 
         if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
@@ -212,7 +214,7 @@ export class MatriculaComponent implements OnInit {
     }
 
     processarSucesso(response: any, event?: any) {
-        console.log(response)
+      //  console.log(response)
         this.listAlunos = Object.assign([], response['data']);
 
         this.length = response['totalItemsInDatabase']
@@ -245,42 +247,53 @@ export class MatriculaComponent implements OnInit {
         this.spinnerSearch = 'hidden'
     }
 
-    deletar(aluno) {
+    deletar(aluno): void {
 
-        this._http.delete(`https://localhost:5001/api/dev/deletar-aluno/${aluno.id}`, {})
-            .subscribe(resp => {
+        const dialogRef = this._modal
+            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked == true) {
 
-            }, erro => {
-                this._helpers.openSnackBarErrorDefault();
-                console.log(erro)
-            }, () => {
-                this._helpers.openSnackBarSucesso("Cadastro excluído com sucesso.")
+                this._http.delete(`https://localhost:5001/api/dev/deletar-aluno/${aluno.id}`, {})
+                    .subscribe(resp => {
+
+                    }, erro => {
+                        this._helpers.openSnackBarErrorDefault();
+                      //  console.log(erro)
+                    }, () => {
+                        this._helpers.openSnackBarSucesso("Cadastro excluído com sucesso.")
+                    }
+
+                    )
             }
-
-            )
+        });
     }
 
-    deletarMat(mat) {
-        //  console.log(mat)
-        this._http.delete(`https://localhost:5001/api/dev/deletar-matricula/${mat.matriculaId}`, {})
-            .subscribe(resp => {
+    deletarMat(mat): void {
 
-            }, erro => {
-                this._helpers.openSnackBarErrorDefault();
-                //console.log(erro)
+        const dialogRef = this._modal
+            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked == true) {
+                //  console.log(mat)
+                this._http.delete(`https://localhost:5001/api/dev/deletar-matricula/${mat.matriculaId}`, {})
+                    .subscribe(resp => {
+                    }, erro => {
+                        this._helpers.openSnackBarErrorDefault();
+                    }
+                    ), () => {
+                        this._helpers.openSnackBarSucesso("Matricula excluída com sucesso.")
+                    }
             }
-
-            ), () => {
-                this._helpers.openSnackBarSucesso("Matricula excluída com sucesso.")
-            }
+        });
     }
 
-    
+
 
     matricular(aluno) {
         const dialogRef = this._modal
             .open(AlunoMatriculaComponent, {
-                // minHeight: '610px',
+                height: '235px',
                 width: '850px',
                 // autoFocus: false,
                 //maxHeight: '400vh',
@@ -307,10 +320,10 @@ export class MatriculaComponent implements OnInit {
     viewInfoCadastrais(aluno): void {
         const dialogRef = this._modal
             .open(InfoCadastraisComponent, {
-                height: 'auto',
+                //height: '810px',
                 width: '1000px',
-                autoFocus: false,
-                maxHeight: '400vhvh',
+                //autoFocus: false,
+               // maxHeight: '400vhvh',
 
                 data: { aluno: aluno },
                 hasBackdrop: true,
@@ -318,9 +331,9 @@ export class MatriculaComponent implements OnInit {
             });
 
         dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "OK") {
+            if (data.clicked == true) {
                 this.pesquisar();
-                console.log(JSON.stringify(this.pesquisarForm.value))
+               // console.log(JSON.stringify(this.pesquisarForm.value))
             } else if (data.clicked === "Cancel") {
                 // Do nothing. Cancel any events that navigate away from the
                 // component.
@@ -344,7 +357,7 @@ export class MatriculaComponent implements OnInit {
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "OK") {
                 //this.openSnackBar()
-                console.log('afte close ok')
+               // console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
                 // Do nothing. Cancel any events that navigate away from the
                 // component.
@@ -416,7 +429,7 @@ export class MatriculaComponent implements OnInit {
         // });
     }
 
-    get podeDeletar(){
+    get podeDeletar() {
         // console.log(this.tokenInfo)
         return this.tokenInfo.role == 'SuperAdm'
     }
@@ -424,9 +437,9 @@ export class MatriculaComponent implements OnInit {
     openBoletimodal(aluno: Aluno): void {
         const dialogRef = this._modal
             .open(BoletimAlunoComponent, {
-              //  height: '90vh',
+                //  height: '90vh',
                 width: '1000px',
-              //  autoFocus: false,
+                //  autoFocus: false,
 
 
                 data: { aluno: aluno },
@@ -437,7 +450,7 @@ export class MatriculaComponent implements OnInit {
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked == true) {
                 // this.openSnackBar()
-               // console.log('afte close ok')
+                // console.log('afte close ok')
             } else if (data.clicked == false) {
 
             }

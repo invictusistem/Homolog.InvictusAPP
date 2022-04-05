@@ -28,25 +28,25 @@ import { MyPipe } from './Unidades/CreateModal/createunidade.component';
 import { ColaboradoresComponent } from './Colaboradores/colaboradores.component';
 import { EditColaboradoresComponent } from './Colaboradores/EditModal/editcolaboradores.component';
 import { CreateColaboradoresComponent } from './Colaboradores/CreateModal/createcolaboradores.component';
-import { CreateCursoComponent } from './turmas/CreateModal/createcurso.component';
-import { EditCursoComponent } from './turmas/EditModal/editcurso.component';
+import { CreateCursoComponent } from './Turmas/CreateModal/createcurso.component';
+import { EditCursoComponent } from './Turmas/EditModal/editcurso.component';
 
 import { TestesComponent } from './_TESTES/teste.component';
 import { TesteModalComponent } from './_TESTES/ModalTeste/testemodal.component';
-import { AddProfessorModalComponent } from './turmas/ModalAddProf/addprof.component';
-import { CalendarioModalComponent } from './turmas/Calendario/calendario.component';
+import { AddProfessorModalComponent } from './Turmas/ModalAddProf/addprof.component';
+import { CalendarioModalComponent } from './Turmas/Calendario/calendario.component';
 import { CalendarioComponent } from './Calendario/calendario.component';
-import { AddPMateriaModalComponent } from './turmas/ModalAddMateria/addmateria.component';
+import { AddPMateriaModalComponent } from './Turmas/ModalAddMateria/addmateria.component';
 //import { ConfirmarIniciarTurmaModal } from './turmas/turmasAdm.component';
-import { TestandoComponent } from './testando/testando.component';
-import { AdmTurmasComponent } from './turmas/admturmas.component';
-import { ConfirmarIniciarTurmaModal } from './turmas/confirmturmamodal/confirmariniciar.component';
-import { ConfiguracoesComponent } from './configuracoes/configuracoes.component';
+import { TestandoComponent } from './Testando/testando.component';
+import { AdmTurmasComponent } from './Turmas/admturmas.component';
+import { ConfirmarIniciarTurmaModal } from './Turmas/confirmturmamodal/confirmariniciar.component';
+import { ConfiguracoesComponent } from './Configuracoes/configuracoes.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-import { MessageModalComponent } from './messageModal/messagemodal.component';
+import { MessageModalComponent } from './MessageModal/messagemodal.component';
 import { Servico } from './_TESTES/testeexterno';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
-import { AdmRelatorioComponent } from './relatorios/relatorio.component';
+import { AdmRelatorioComponent } from './Relatorios/relatorio.component';
 import { ProdutoCreateComponent } from './Produtos/produto-create/produto-create.component';
 import { ProdutoEditComponent } from './Produtos/produto-edit/produto-edit.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
@@ -60,17 +60,17 @@ import { ContratoComponent } from './Contratos/contrato.component';
 import { CreateContratoComponent } from './Contratos/CreateContrato/create-contrato.component';
 import { DetailPacoteComponent } from './Modulos/DetalhePacote/pacote-detalhe.component';
 import { EditarContratoComponent } from './Contratos/EditContrato/editcontrato.component';
-import { CargoCreateComponent } from './configuracoes/Config-Cargos/cargo-create.component';
+import { CargoCreateComponent } from './Configuracoes/Config-Cargos/cargo-create.component';
 import { PlanoPgmEditComponent } from './PlanoPgm/EditPlanoPgm/editplano.component';
 import { CreateProfessorComponent } from './Professores/CreateModal/createprofessor.component';
 import { EditProfessorComponent } from './Professores/EditModal/editprofessor.component';
 import { SalaEditarComponent } from './Unidades/EditarSala/sala-editar.component';
 import { ProdutoDoacaoComponent } from './Produtos/produto-doacao/produto-doacao.component';
 import { ProfMateriasComponent } from './Professores/Materias/prof-materias.component';
-import { DocTemplateComponent } from './configuracoes/Doc-create/doctemplate.component';
-import { MateriaTemplateComponent } from './configuracoes/Mat-create/mat-create.component';
+import { DocTemplateComponent } from './Configuracoes/Doc-create/doctemplate.component';
+import { MateriaTemplateComponent } from './Configuracoes/Mat-create/mat-create.component';
 import { AddDispoComponent } from './Professores/Materias/AddDisponibilidade/add-dispo.component';
-import { AdmService } from './services/adm.services';
+import { AdmService } from './Services/adm.services';
 import { AddMatComponent } from './Professores/Materias/AddMateria/add-mat.component';
 import { EditDispoComponent } from './Professores/Materias/EditDisponibilidade/edit-dispo.component';
 import { PDFTesteComponent } from './PdfTeste/pdfteste.component';
@@ -82,12 +82,12 @@ import { VisualizarModuloComponent } from './Modulos/VisualizarModulo/visualizar
 import { EditBolsaComponent } from './Bolsas/EditBolsa/edit-bolsa.component';
 import { ProfCalendarioComponent } from './Professores/ProfCalendario/prof-calendario.component';
 import { ProfRelatorioComponent } from './Professores/Relatorio/prof-relatorio.component';
-import { CargoEditComponent } from './configuracoes/Cargos-edit/cargo-edit.component';
+import { CargoEditComponent } from './Configuracoes/Cargos-edit/cargo-edit.component';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
-  };
-  
+};
+
 export function tokenGetter() {
     return localStorage.getItem("jwt");
 }
@@ -127,7 +127,7 @@ export function tokenGetter() {
         AddDispoComponent,
         //AddSalaComponent,
         ModuloCreateComponent,
-       // PacoteCreateComponent,
+        // PacoteCreateComponent,
         PlanoPgmCreateComponent,
         PlanoPgmComponent,
         ContratoComponent,
@@ -171,8 +171,9 @@ export function tokenGetter() {
         CurrencyMaskModule
     ],
     //providers: [AuthGuard],
-    providers: [AdmService,CurrencyPipe, UpperCasePipe,DatePipe, { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
-    {provide: 'IServicoToken', useClass: Servico}
+    providers: [AdmService, CurrencyPipe, UpperCasePipe, DatePipe,
+        { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
+        { provide: 'IServicoToken', useClass: Servico }
     ],
     exports: [
         AdmComponent,

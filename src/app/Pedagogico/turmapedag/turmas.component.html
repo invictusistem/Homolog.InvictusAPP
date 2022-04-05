@@ -1,13 +1,9 @@
 <div class="container" style="width: 95%;">
  
+    <br>
 
-    <div @rowHighlight *ngIf="showMessage" class="card-header " style="background-color: rgb(227, 240, 227);
-    margin-top: 50px;
-    margin-left: 10px;
-    width: 350px; 
-    font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on" >
-        {{mensagem}}
-    </div>
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="showMessage"  @rowHighlight style="margin:0px" mode="query">
+    </mat-progress-bar>
 
     <div *ngIf="showTurmas" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
             position: relative;
@@ -135,11 +131,7 @@
 
     </div>
 
-    <mat-spinner *ngIf="showSpinner" @rowHighlight [diameter]="100" style="
-            left: 43.5%;
-            top: 40%; 
-            position: absolute;">
-    </mat-spinner>
+   
 
     <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
             top: 46.5%; 

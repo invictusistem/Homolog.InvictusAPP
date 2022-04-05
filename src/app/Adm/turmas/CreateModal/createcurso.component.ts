@@ -228,16 +228,22 @@ export class CreateCursoComponent implements OnInit {
     pesquisarPacotes(typePacoteId) {
         this.pacotes = new Array<any>()
         this.cursoForm.get('pacoteId').setValue('')
+        this.initProgressBar = 'visible'
         this._http.get(`${this.baseUrl}/pacote/lista/${typePacoteId}`)
             .subscribe(
                 response => {
                     this.pacotes = Object.assign([], response['pacotes'])
+                    
                     //console.log(this.createTurmaViewModel)
                 },
                 (error) => {
+                    this.initProgressBar = 'hidden'
                     // console.log(error)
                 },
-                () => { this.showCapacidadeDropDown = true }
+                () => { 
+                    this.initProgressBar = 'hidden'
+                    this.showCapacidadeDropDown = true 
+                }
             )
     }
 

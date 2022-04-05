@@ -60,7 +60,7 @@ export class NavBarComponent implements OnInit {
     trocarSenha() {
         const dialogRef = this._modal
             .open(TrocaSenhaComponent, {
-                height: '460px',
+                height: '420px',
                 width: '360px',
                 autoFocus: false,
                 maxHeight: '400vh',

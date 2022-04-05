@@ -13,8 +13,10 @@ import { InfosComponent } from "src/app/Pedagogico/Matricula/informacoes/infos.c
 import { AlunoMatriculaComponent } from "src/app/Pedagogico/Matricula/matricula/alunomatricula.component";
 import { InfoFinancComponentModal, OpenInfoComponentModal } from "src/app/Pedagogico/service/modal.config";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
+import { ConfirmAcaoModalComponent } from "src/app/_shared/components/ConfirmarAcao/confirm-acao.component";
 import { Aluno } from "src/app/_shared/models/aluno.model";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
+import { ConfirmAcaoModalConfig } from "src/app/_shared/models/modal.config";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
 import { OpenRelatorioMatriculaComponentModal } from "../services/modal.config";
@@ -31,7 +33,7 @@ import { RelatorioMatriculaComponent } from "./Relatoriomatricula/relatoriomatri
 })
 
 export class NovaMatriculaComponent implements OnInit {
-    
+
     showMessageNoAluno = false
     length: number = 0
     //mensagem: string = "";
@@ -45,7 +47,7 @@ export class NovaMatriculaComponent implements OnInit {
     // showTable: boolean = false;
     // paginationInfo: IPager;
     // showMessage: boolean = false;
-    spinnerSearch = false 
+    spinnerSearch = false
     showMessageNoColaborador = false
     params: Parametros = new Parametros()
     alunos: any[] = new Array<any>();
@@ -104,39 +106,57 @@ export class NovaMatriculaComponent implements OnInit {
     }
 
     podeDesable = false
-    get mostrarEmLote(){
+    get mostrarEmLote() {
         return this.tokenInfo.role == 'SuperAdm'
     }
-    public SalvarEmLote(){
-        this.podeDesable = true
-        this._http.get(`https://localhost:5001/api/teste/readexcelalunos`)
-            .subscribe(
-                resp => {this.podeDesable = false },
-                error => { this.podeDesable = false}
-            )
+    public SalvarEmLote(): void {
+        const dialogRef = this._modal
+            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked == true) {
+                this.podeDesable = true
+                this._http.get(`https://localhost:5001/api/teste/readexcelalunos`)
+                    .subscribe(
+                        resp => { this.podeDesable = false },
+                        error => { this.podeDesable = false }
+                    )
+            }
+        });
     }
 
-    public DeletarRegistroDaPlanilha(){
-        this.podeDesable = true
-        this._http.get(`https://localhost:5001/api/teste/delete-registros`)
-            .subscribe(
-                resp => {this.podeDesable = false },
-                error => { this.podeDesable = false}
-            )
+    public DeletarRegistroDaPlanilha(): void {
+        const dialogRef = this._modal
+            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked == true) {
+                this.podeDesable = true
+                this._http.get(`https://localhost:5001/api/teste/delete-registros`)
+                    .subscribe(
+                        resp => { this.podeDesable = false },
+                        error => { this.podeDesable = false }
+                    )
+            }
+        });
     }
 
-    public MatricularRegistroDaPlanilha(){ // matricular-registros
-        this.podeDesable = true
-        this._http.get(`https://localhost:5001/api/teste/matricular-registros`)
-            .subscribe(
-                resp => { this.RespMats(resp) },
-                error => { this.podeDesable = false}
-            )
+    public MatricularRegistroDaPlanilha(): void {
+        const dialogRef = this._modal
+            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked == true) {
+                this.podeDesable = true
+                this._http.get(`https://localhost:5001/api/teste/matricular-registros`)
+                    .subscribe(
+                        resp => { this.RespMats(resp) },
+                        error => { this.podeDesable = false }
+                    )
+            }
+        });
     }
 
-    one = new Promise<string>((resolve, reject) => {});
+    one = new Promise<string>((resolve, reject) => { });
     listaCpfs: any[] = new Array<any>()
-    RespMats(resp){
+    RespMats(resp) {
         let commands = resp['commands']
 
         // this.one.then(value => {
@@ -145,7 +165,7 @@ export class NovaMatriculaComponent implements OnInit {
 
         // cpf.forEach(async element => {    
         //    this.MatricularFinal(element)
-         
+
         // });
         this.MatricularFinal(commands)
     }
@@ -159,7 +179,7 @@ export class NovaMatriculaComponent implements OnInit {
     //       this._http.get(`https://localhost:5001/api/teste/matricular-final-registros/${Module}`)
     //       .toPromise())
     //     });
-        
+
     //     Promise.all(jarOfPromises).then(results=>{
     //         console.log(results)
     //     /** your code **/
@@ -168,36 +188,36 @@ export class NovaMatriculaComponent implements OnInit {
 
     index = 0
     totalItens = 0
-    commands:any[] = new Array<any>()
-    public async MatricularFinal(command?, item?:any){ // matricular-registros
+    commands: any[] = new Array<any>()
+    public async MatricularFinal(command?, item?: any) { // matricular-registros
         console.log(item)
         console.log(command)
         //console.log(this.ids)
-        if(item == undefined){ this.totalItens = command.length; this.commands = command}
-       // if(id != undefined)
+        if (item == undefined) { this.totalItens = command.length; this.commands = command }
+        // if(id != undefined)
 
         this.podeDesable = true
         //console.log('matricula final')
         //if(id.length)
         this._http.post(`https://localhost:5001/api/teste/matricular-final-registros/${this.commands[this.index].turmaId}/${this.commands[this.index].alunoId}`, this.commands[this.index])
             .subscribe(
-                resp => { 
+                resp => {
                     console.log('retorno matricula')
-                    this.index = this.index + 1 
+                    this.index = this.index + 1
                     console.log(this.index)
-                    this.MatricularFinal(undefined, this.commands[this.index] )
+                    this.MatricularFinal(undefined, this.commands[this.index])
 
                 },
-                error => {console.log('erro') }
+                error => { console.log('erro') }
             )
     }
 
 
 
-    ngOnInit() {  
+    ngOnInit() {
         const token = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token)      
-    }    
+        this.tokenInfo = this.jwtHelper.decodeToken(token)
+    }
 
 
     public OpenRelatorioMatricula(): void {
@@ -209,7 +229,7 @@ export class NovaMatriculaComponent implements OnInit {
             }
         });
     }
-    
+
     submitPesquisa(event?: any) {
 
         this.showMessageNoColaborador = false
@@ -235,20 +255,20 @@ export class NovaMatriculaComponent implements OnInit {
 
     }
 
-    
+
 
     processarSucesso(response: any, event?: any) {
-       
+
         this.alunos = Object.assign([], response['data']);
 
         this.length = response['totalItemsInDatabase']
 
         this.spinnerSearch = false
-        if (event != undefined){
+        if (event != undefined) {
             this.pageIndexNumber = (event.pageIndex * this.pageSize)
-        }else{
+        } else {
             this.pageIndexNumber = 0
-          
+
             this.paginator.firstPage();
         }
 
@@ -272,34 +292,34 @@ export class NovaMatriculaComponent implements OnInit {
 
     openMatriculaModal(): void {
         const dialogRef = this._modal
-        .open(CreateNovaMatriculaComponent, {
-            height: 'auto',
-            width: '1000px',
-            autoFocus: false,
-            maxHeight: '90vh',
+            .open(CreateNovaMatriculaComponent, {
+                height: 'auto',
+                width: '1000px',
+                autoFocus: false,
+                // maxHeight: '90vh',
 
-            //data: { Hello: "Hello World" },
-            hasBackdrop: true,
-            disableClose: true
+                //data: { Hello: "Hello World" },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "OK") {
+                // this.openSnackBar()
+                console.log('afte close ok')
+            } else if (data.clicked === "Cancel") {
+                // Do nothing. Cancel any events that navigate away from the
+                // component.
+            }
         });
-   
-    dialogRef.afterClosed().subscribe((data) => {
-        if (data.clicked === "OK") {
-           // this.openSnackBar()
-            console.log('afte close ok')
-        } else if (data.clicked === "Cancel") {
-            // Do nothing. Cancel any events that navigate away from the
-            // component.
-        }
-    });
     }
 
     matricular(aluno) {
         const dialogRef = this._modal
             .open(AlunoMatriculaComponent, {
-               // minHeight: '610px',
+                // minHeight: '610px',
                 width: '850px',
-               // autoFocus: false,
+                // autoFocus: false,
                 //maxHeight: '400vh',
 
                 data: { aluno: aluno },
@@ -310,7 +330,7 @@ export class NovaMatriculaComponent implements OnInit {
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
                 //clicked: "Ok"
-              //  this.openSnackBar()
+                //  this.openSnackBar()
                 this.submitPesquisa();
                 console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
@@ -336,7 +356,7 @@ export class NovaMatriculaComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "OK") {
-               this.submitPesquisa();
+                this.submitPesquisa();
                 console.log(JSON.stringify(this.pesquisarForm.value))
             } else if (data.clicked === "Cancel") {
                 // Do nothing. Cancel any events that navigate away from the
@@ -401,7 +421,7 @@ export class NovaMatriculaComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "OK") {
-               // this.openSnackBar()
+                // this.openSnackBar()
                 console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
 

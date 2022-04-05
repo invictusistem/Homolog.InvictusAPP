@@ -9,7 +9,7 @@ import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { Cargos, Unidades } from "src/app/_shared/models/perfil.model";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
-import { CreateProfessorModalConfig, ProfCalendarioModalConfig, ProfEditModalConfig, ProfRelatorioModalConfig } from "../services/modal.config";
+import { CreateProfessorModalConfig, ProfCalendarioModalConfig, ProfEditModalConfig, ProfRelatorioModalConfig } from "../Services/modal.config";
 import { CreateProfessorComponent } from "./CreateModal/createprofessor.component";
 import { EditProfessorComponent } from "./EditModal/editprofessor.component";
 import { ProfMateriasComponent } from "./Materias/prof-materias.component";

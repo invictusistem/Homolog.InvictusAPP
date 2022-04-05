@@ -6,93 +6,99 @@
         </button>
     </i>
 </div>
-<hr>
+
+<mat-progress-bar [style.visibility]="initialSpinner" @rowHighlight mode="query"></mat-progress-bar>
 
 
-<mat-form-field appearance="standard" style="width: 35%; ">
-    <mat-label>Aluno</mat-label>
-    <input [value]="aluno.nome" selected disabled required name="nome" matInput placeholder="Nome">
-</mat-form-field>
+<ng-container *ngIf="showcontent">
 
-<mat-form-field appearance="standard" style="width: 12%; margin-left: 5%; ">
-    <mat-label>Nº matrícula</mat-label>
-    <input [value]="aluno.numeroMatricula" selected disabled required name="nome" matInput placeholder="Nome">
-</mat-form-field>
-<br>
-<!-- <div style="color:red; margin-bottom: 10px; font-size: 0.8em; font-style: italic;">* O aluno não se encontra matriculado
+    <hr>
+
+
+    <mat-form-field appearance="standard" style="width: 35%; ">
+        <mat-label>Aluno</mat-label>
+        <input [value]="aluno.nome" selected disabled required name="nome" matInput placeholder="Nome">
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" style="width: 12%; margin-left: 5%; ">
+        <mat-label>Nº matrícula</mat-label>
+        <input [value]="aluno.numeroMatricula" selected disabled required name="nome" matInput placeholder="Nome">
+    </mat-form-field>
+    <br>
+    <!-- <div style="color:red; margin-bottom: 10px; font-size: 0.8em; font-style: italic;">* O aluno não se encontra matriculado
     em nenhuma
     turma.</div> -->
 
 
 
-<mat-tab-group mat-align-tabs="start">
+    <mat-tab-group mat-align-tabs="start">
 
-    <!--                  CADASTRO            -->
-
-
+        <!--                  CADASTRO            -->
 
 
-    <mat-tab [label]="tabs[0]">
 
 
-        <div class="table-responsive" *ngIf="debitos.length > 0" style="height: 430px;position: relative;">
-            <table color="primary" style="margin-bottom: 0px;" class="table">
-                <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
-                <thead style="z-index: 9;
+        <mat-tab [label]="tabs[0]">
+
+
+            <div class="table-responsive" *ngIf="debitos.length > 0">
+                <table color="primary" class="table">
+                    <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
+                    <thead style="z-index: 9;
                 top: 0;
                 position: sticky;
                 background-color: aliceblue;">
-                    <tr>
-                        <!-- <th style="width: 2%; 
+                        <tr>
+                            <th style="width: 2%; 
                     text-align:left; 
                     vertical-align: middle;
-                    border-top: 0px;"></th> -->
+                    border-top: 0px;"></th>
 
 
-                        <!-- <th style="width: 8%;font-size:0.8em;
+                            <!-- <th style="width: 8%;font-size:0.8em;
                     vertical-align: middle; 
                     text-align:left;
                      border-top: 0px; font-weight: 400;">Compet.</th> -->
 
-                        <th style="width: 22%;font-size:0.8em;
+                            <th style="width: 22%;font-size:0.8em;
                     vertical-align: middle;
                     text-align:left;
                     border-top: 0px; font-weight: 400;">Curso/Turma</th>
 
-                        <th style="width: 10%;font-size:0.8em;
+                            <th style="width: 10%;font-size:0.8em;
                     text-align:center; 
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">Vencimento</th>
 
-                        <th style="width: 12%;font-size:0.8em;
+                            <th style="width: 12%;font-size:0.8em;
                         text-align:center; 
                         vertical-align: middle;
                         border-top: 0px; font-weight: 400;">Val. Título</th>
 
-                        <th style="width: 10%;font-size:0.8em;
+                            <th style="width: 10%;font-size:0.8em;
                         text-align:center; 
                         vertical-align: middle;
                         border-top: 0px; font-weight: 400;">Data Pagto.</th>
 
-                        <th style="width: 12%;font-size:0.8em;
+                            <th style="width: 12%;font-size:0.8em;
                         text-align:center; 
                         vertical-align: middle;
                         border-top: 0px; font-weight: 400;">Val. Pago</th>
 
-                        <th style="width: 26%;font-size:0.8em;
+                            <th style="width: 24%;font-size:0.8em;
                         text-align:center; 
                         vertical-align: middle;
                         border-top: 0px; font-weight: 400;">
-                            <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="adicionar parcela"
-                                matTooltipPosition="above" matTooltipHideDelay="100">
-                                <button mat-icon-button>
-                                    <mat-icon>add</mat-icon>
-                                </button>
-                            </i>
+                                <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="adicionar parcela"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button disabled mat-icon-button>
+                                        <mat-icon>add</mat-icon>
+                                    </button>
+                                </i>
 
 
-                        </th>
-                        <!--<th style="width: 12%;font-size:1em;
+                            </th>
+                            <!--<th style="width: 12%;font-size:1em;
                     text-align:center; 
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">Matriculados</th>
@@ -102,101 +108,132 @@
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">Status</th> -->
 
-                        <!-- <th style="width: 34%;font-size:1em;
+                            <!-- <th style="width: 34%;font-size:1em;
                     text-align:center; 
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">
     
                     </th> -->
-                    </tr>
-                </thead>
-                <tbody>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                    <tr *ngFor="let debs of debitos;let i = index;">
-                        <!-- <td style="font-size:0.8em;font-weight: 400;text-align:center;vertical-align: middle;">
-                            {{debs.competencia | date:'M/y' }}
-                        </td> -->
+                        <tr *ngFor="let debs of debitos;let i = index;">
+                            <td style="font-size:0.8em;font-weight: 400;text-align:center;vertical-align: middle;">
+                                {{ i+1 }}
+                            </td>
 
-                        <td style="font-size:0.8em;font-weight: 400;text-align:left;vertical-align: middle;">
-                            {{turma.descricao}}<br>
-                            {{turma.identificador}}
-                        </td>
+                            <td style="font-size:0.8em;font-weight: 400;text-align:left;vertical-align: middle;">
+                                {{turma.descricao}}<br>
+                                {{turma.identificador}}
+                            </td>
 
-                        <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
-                            {{debs.vencimento | date:'dd/MM/y' }}
-                        </td>
+                            <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
+                                <span [style.color]="debs.statusBoleto == 'Vencido' ? 'red':'black'">{{debs.vencimento |
+                                    date:'dd/MM/y' }}</span> <br>
+                                <span *ngIf="debs.statusBoleto == 'Vencido'"
+                                    style="font-size: 0.7em;color: red;">Vencido</span>
+                            </td>
 
-                        <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
-                            {{debs.valor | currency:'BRL':'R$ ' }}
-                        </td>
+                            <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
+                                {{debs.valor | currency:'BRL':'R$ ' }}
+                            </td>
 
-                        <td style="font-size:0.8em;font-weight: 400;;text-align: center;vertical-align: middle;">
-                            <ng-container *ngIf="debs.statusBoleto == 'Pago';else semData">
-                                {{debs.dataPagamento | date:'dd/MM/y' }}
-                            </ng-container>
-                            <ng-template #semData>
-                                -
-                            </ng-template>
-                        </td>
+                            <td style="font-size:0.8em;font-weight: 400;;text-align: center;vertical-align: middle;">
+                                <ng-container *ngIf="debs.statusBoleto == 'Pago';else semData">
+                                    {{debs.dataPagamento | date:'dd/MM/y' }}
+                                </ng-container>
+                                <ng-template #semData>
+                                    -
+                                </ng-template>
+                            </td>
 
-                        <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
-                            <ng-container *ngIf="debs.valorPago != 0;else semValorPago">
-                                {{ debs.valorPago | currency:'BRL':'R$ ' }}
-                            </ng-container>
-                            <ng-template #semValorPago>
-                                -
-                            </ng-template>
-                        </td>
+                            <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
+                                <ng-container *ngIf="debs.valorPago != 0;else semValorPago">
+                                    {{ debs.valorPago | currency:'BRL':'R$ ' }}
+                                </ng-container>
+                                <ng-template #semValorPago>
+                                    -
+                                </ng-template>
+                            </td>
 
-                        <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
-                            
-                            <i style="" #tooltip="matTooltip" matTooltip="ver"
-                                matTooltipPosition="above" matTooltipHideDelay="100">
-                                <button (click)="openEdit(debs)" style="" mat-icon-button>
-                                    <mat-icon style="font-size: 1.2em;">search</mat-icon>
-                                </button>
-                            </i>
+                            <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
 
-                            <ng-container *ngIf="debs.statusBoleto == 'Em aberto'">
+                                <ng-container *ngIf="debs.statusBoleto == 'Pago'">
 
-                                <i style="margin-right: 5px;" #tooltip="matTooltip" matTooltip="enviar por email"
-                                    matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="sendByEmail(debs)" disabled style="" mat-icon-button>
-                                        <mat-icon style="font-size: 1.2em;">send</mat-icon>
-                                    </button>
-                                </i>
+                                    <i style="" #tooltip="matTooltip" matTooltip="ver" matTooltipPosition="above"
+                                        matTooltipHideDelay="100">
+                                        <button (click)="openEdit(debs)" style="" mat-icon-button>
+                                            <mat-icon style="font-size: 1.2em;">search</mat-icon>
+                                        </button>
+                                    </i>                                  
+
+                                </ng-container>
+
+                                <ng-container *ngIf="debs.statusBoleto == 'Vencido'">
+
+                                    <i style="" #tooltip="matTooltip" matTooltip="ver" matTooltipPosition="above"
+                                        matTooltipHideDelay="100">
+                                        <button (click)="openEdit(debs)" style="" mat-icon-button>
+                                            <mat-icon style="font-size: 1.2em;">search</mat-icon>
+                                        </button>
+                                    </i>
+
+                                    <i style="margin-right: 5px;" #tooltip="matTooltip" matTooltip="receber"
+                                        matTooltipPosition="above" matTooltipHideDelay="100">
+                                        <button (click)="receber(debs)" mat-icon-button>
+                                            <mat-icon style="font-size: 1.2em;">paid</mat-icon>
+                                        </button>
+                                    </i>
+
+                                </ng-container>
+
+                                <ng-container *ngIf="debs.statusBoleto == 'Em aberto'">
+
+                                    <i style="" #tooltip="matTooltip" matTooltip="ver" matTooltipPosition="above"
+                                        matTooltipHideDelay="100">
+                                        <button (click)="openEdit(debs)" style="" mat-icon-button>
+                                            <mat-icon style="font-size: 1.2em;">search</mat-icon>
+                                        </button>
+                                    </i>
+
+                                    <i style="margin-right: 5px;" #tooltip="matTooltip" matTooltip="enviar por email"
+                                        matTooltipPosition="above" matTooltipHideDelay="100">
+                                        <button (click)="sendByEmail(debs)" disabled mat-icon-button>
+                                            <mat-icon style="font-size: 1.2em;">send</mat-icon>
+                                        </button>
+                                    </i>
+
+                                    <i style="margin-right: 5px;" #tooltip="matTooltip" matTooltip="imprimir boleto"
+                                        matTooltipPosition="above" matTooltipHideDelay="100">
+                                        <button (click)="getBoleto(debs)" mat-icon-button>
+                                            <mat-icon style="font-size: 1.2em;">description</mat-icon>
+                                        </button>
+                                    </i>
+
+                                    <i style="margin-right: 5px;" #tooltip="matTooltip" matTooltip="receber"
+                                        matTooltipPosition="above" matTooltipHideDelay="100">
+                                        <button (click)="receber(debs)" mat-icon-button>
+                                            <mat-icon style="font-size: 1.2em;">paid</mat-icon>
+                                        </button>
+                                    </i>
+
+                                </ng-container>
 
 
-                                <i style="margin-right: 5px;" #tooltip="matTooltip" matTooltip="imprimir boleto"
-                                    matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="getBoleto(debs)" style="" mat-icon-button>
-                                        <mat-icon style="font-size: 1.2em;">description</mat-icon>
-                                    </button>
-                                </i>
+                            </td>
 
-                                <i style="margin-right: 5px;" #tooltip="matTooltip" matTooltip="receber"
-                                    matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="receber(debs)" disabled style="" mat-icon-button>
-                                        <mat-icon style="font-size: 1.2em;">paid</mat-icon>
-                                    </button>
-                                </i>
-
-                            </ng-container>
-
-                            
-                        </td>
-
-                        <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;" >
+                            <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;" >
                        
                         
                         </td> -->
 
 
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <!-- <br>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- <br>
 
         <div>
             <ng-container *ngIf="hideCursoSearchAndMessage">
@@ -388,8 +425,10 @@
 
         </form> -->
 
-    </mat-tab>
+        </mat-tab>
 
 
 
-</mat-tab-group>
+    </mat-tab-group>
+
+</ng-container>

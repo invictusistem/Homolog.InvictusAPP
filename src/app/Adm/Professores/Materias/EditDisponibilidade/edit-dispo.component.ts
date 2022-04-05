@@ -9,7 +9,7 @@ import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { SpinnerParams } from "src/app/_shared/models/spinner.model";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
-import { AdmService } from "src/app/Adm/services/adm.services";
+import { AdmService } from "src/app/Adm/Services/adm.services";
 
 @Component({
     selector: 'edit-dispomodal',

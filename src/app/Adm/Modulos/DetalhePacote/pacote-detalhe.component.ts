@@ -12,7 +12,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Modulo } from "src/app/_shared/models/modulo.model";
 import { Materia } from "src/app/_shared/models/materia.model";
-import { AdmService } from "../../services/adm.services";
+import { AdmService } from "../../Services/adm.services";
 
 export const Modalidade = [
     { type: 'Presencial', value: 'Presencial' },

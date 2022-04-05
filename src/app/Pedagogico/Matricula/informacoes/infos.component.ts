@@ -79,82 +79,80 @@ export class InfosComponent implements OnInit {
 
         this.alunoForm = _fb.group({
             id: [''],
-            ativo: [''],
-            nome: ['', [Validators.required]],
-            cpf: ['', [Validators.required, Validators.minLength(11)]],
-            rg: ['', [Validators.required]],
-            nascimento: ['', [Validators.required]],
-            nomeMae: ['', [Validators.required]],
-            nomePai: ['', [Validators.required]],
             nomeSocial: [''],
+            nome: ['', [Validators.required]],
+            cpf: [''],
+            rg: [''],
+            nomePai: [''],   
+            nomeMae: [''],
+            nascimento: ['', [Validators.required]],
+            naturalidade: [''],
+            naturalidadeUF: [''],
+            email: [''],
             telReferencia: ['', [Validators.required]],
             nomeContatoReferencia: ['', [Validators.required]],
-            naturalidade: ['', [Validators.required]],
-            naturalidadeUF: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.minLength(5)]],
-            telCelular: [null],
-            telWhatsapp: [null],
-            telResidencial: [null],
+            telCelular: [''],
+            telWhatsapp: [''],
+            telResidencial: [''],
             cep: ['', [Validators.required, Validators.minLength(8)]],
-            logradouro: ['', [Validators.required, Validators.minLength(1)]],
+            logradouro: ['', [Validators.required]],
+            numero: ['', [Validators.required]],
             complemento: [''],
             cidade: ['', [Validators.required, Validators.minLength(1)]],
             uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
             bairro: ['', [Validators.required, Validators.minLength(1)]],
-            //observacoes: ['', [Validators.minLength(1), Validators.maxLength(300)]],
+            
             dataCadastro: [''],
-            numero: ['', [Validators.required]],
+            ativo: [''],
             unidadeId: [''],
         })
 
         this.respFinancForm = _fb.group({
             id: [''],
-            nome: ['', [Validators.required, Validators.minLength(2)]],
-            cpf: ['', [Validators.required, Validators.minLength(11)]],
-            rg: ['', [Validators.required, Validators.minLength(9)]],
-            nascimento: ['', [Validators.required]],
-            naturalidade: ['', [Validators.required]],
-            naturalidadeUF: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.minLength(5)]],
-            telCelular: [null],
-            telWhatsapp: [null],
-            telResidencial: [null],
+            tipo: [''],
+            nome: [''],
+            cpf: [''],
+            rg: [''],
+            nascimento: [''],
+            parentesco:[''],
+            naturalidade: [''],
+            naturalidadeUF: [''],
+            email: [''],
+            telCelular: [''],
+            telWhatsapp: [''],
+            telResidencial: [''],
             cep: ['', [Validators.required, Validators.minLength(8)]],
             logradouro: ['', [Validators.required, Validators.minLength(1)]],
+            numero: ['', [Validators.required]],
             complemento: [''],
             cidade: ['', [Validators.required, Validators.minLength(1)]],
             uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
             bairro: ['', [Validators.required, Validators.minLength(1)]],
-            numero: ['', [Validators.required]],
-            TipoResponsavel: [''],
-            matriculaId: [''],
-            temRespFin: [''],
-            tipo: ['']
+            matriculaId: ['']
         })
 
         this.respMenorForm = _fb.group({
             id: [''],
-            nome: ['', [Validators.required, Validators.minLength(2)]],
-            cpf: ['', [Validators.required, Validators.minLength(11)]],
-            rg: ['', [Validators.required, Validators.minLength(9)]],
-            nascimento: ['', [Validators.required]],
-            naturalidade: ['', [Validators.required]],
-            naturalidadeUF: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.minLength(5)]],
-            telCelular: [null],
-            telWhatsapp: [null],
-            telResidencial: [null],
+            nome: [''],
+            tipo: [''],
+            cpf: [''],
+            rg: [''],
+            nascimento: [''],
+            parentesco:[''],
+            naturalidade: [''],
+            naturalidadeUF: [''],
+            email: [''],
+            telCelular: [''],
+            telWhatsapp: [''],
+            telResidencial: [''],
             cep: ['', [Validators.required, Validators.minLength(8)]],
             logradouro: ['', [Validators.required, Validators.minLength(1)]],
+            numero: ['', [Validators.required]],
             complemento: [''],
             cidade: ['', [Validators.required, Validators.minLength(1)]],
             uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
             bairro: ['', [Validators.required, Validators.minLength(1)]],
-            numero: ['', [Validators.required]],
-            TipoResponsavel: [''],
-            matriculaId: [''],
-            temRespFin: [''],
-            tipo: ['']
+            matriculaId: ['']
         })
 
 
@@ -165,7 +163,7 @@ export class InfosComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.data['aluno'])
+        //console.log(this.data['aluno'])
         this.anotacaoForm.get('matriculaId').setValue(this.data['aluno'].matriculaId)
 
         this.GetInformacoesMatricula(this.data['aluno'].matriculaId)
@@ -183,7 +181,7 @@ export class InfosComponent implements OnInit {
 
         this._http.get(`${this.baseUrl}/pedag/aluno/${matriculaId}`)
             .subscribe(resp => {
-                console.log(resp)
+                //console.log(resp)
                 this.turma = resp['turma'];
                 //this.respFin = resp['respFin'];
                 //this.respMenor = resp['respMenor'];
@@ -202,7 +200,9 @@ export class InfosComponent implements OnInit {
                 this.respMenor = resp['respMenor']
                 this.respMenorOriginal = JSON.parse(JSON.stringify(this.respMenorForm.value))
             },
-                (error) => { console.log(error) },
+                (error) => { 
+                    // console.log(error) 
+                },
                 () => {
                     this.showAluno = true
                     this.showtablePrinciple = true
@@ -390,6 +390,8 @@ export class InfosComponent implements OnInit {
     //#region SAVE BUTTONS
     saveAlunoProgressBar = 'hidden'
     get saveAlunoButton() {
+
+        console.log(this.alunoForm.valid)
 
         if (this.alunoForm.valid &&
             JSON.stringify(this.alunoOriginal) !=

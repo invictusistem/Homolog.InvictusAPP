@@ -9,7 +9,76 @@ import { BaseService } from 'src/app/_shared/services/base.service';
 export class AdmService extends BaseService {
 
     constructor(private http: HttpClient) { super(); }
- 
+
+
+    //#region /Bolas
+
+
+    //#endregion
+
+
+    //#region /Calendario
+
+
+    //#endregion
+
+    //#region /Colaboradores
+
+
+    //#endregion
+
+
+    //#region /Configuracoes
+
+
+    //#endregion
+
+    //#region /Contratos
+
+
+    //#endregion
+
+    //#region /MessageModal
+
+
+    //#endregion
+
+    //#region /Modulos
+
+
+    //#endregion
+
+    //#region /PlanoPgm
+
+
+    //#endregion
+
+    //#region /Produtos
+
+
+    //#endregion
+
+    //#region /Professores
+
+
+    //#endregion
+
+    //#region /Turmas
+
+
+    //#endregion
+
+    //#region /Unidades
+
+
+    //#endregion
+
+
+    //#region /Usuarios
+
+
+    //#endregion
+
 
     getColaboradores(pageSize?: number, currentPage?: number, jsonParam?: any): Observable<any> {
 
@@ -26,7 +95,7 @@ export class AdmService extends BaseService {
         return response;
     }
 
-    envioAcesso(email) : Observable<any> {       
+    envioAcesso(email): Observable<any> {
 
         let path = `/usuario/envio-acesso-colaborador/${email}`
 
@@ -39,7 +108,7 @@ export class AdmService extends BaseService {
         return response;
     }
 
-    public GetTodasTurmasDaUnidade(): Observable<any>{
+    public GetTodasTurmasDaUnidade(): Observable<any> {
 
         let path = `/turma`
 
@@ -79,7 +148,7 @@ export class AdmService extends BaseService {
     }
 
     getMateriasByTypeId(typePacoteId: any): Observable<any> {
-        // /materia-template/filtro/${typeId}
+        
         let path = `/materia-template/filtro/${typePacoteId}`
 
         let response = this.http
@@ -92,7 +161,7 @@ export class AdmService extends BaseService {
     }
 
     saveProfessorMateria(profId: any, materiaId: any): Observable<any> {
-        // /materia-template/filtro/${typeId}
+       
         let path = `/professor/materia/${profId}/${materiaId}`
 
         let response = this.http
@@ -105,7 +174,7 @@ export class AdmService extends BaseService {
     }
 
     editDisponibilidade(dispo: any): Observable<any> {
-        // /materia-template/filtro/${typeId}
+       
         let path = `/professor/disponibilidade`
 
         let response = this.http
@@ -143,9 +212,9 @@ export class AdmService extends BaseService {
         return response;
     }
 
-    // CONFIGS
+   
     public GetMaterias(pageSize?: number, currentPage?: number): Observable<any> {
-       
+
         let path = `/materia-template/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson={}`
 
         let response = this.http
@@ -177,12 +246,12 @@ export class AdmService extends BaseService {
 
         return response;
     }
-   
-    // PROFESSORES
 
-    public GetRelatorioProfessor(rangeIni:Date, rangeFinal:Date, professorId): Observable<any> {
-var ini = rangeIni
-ini.setHours(0,0,0,0)
+   
+
+    public GetRelatorioProfessor(rangeIni: Date, rangeFinal: Date, professorId): Observable<any> {
+        var ini = rangeIni
+        ini.setHours(0, 0, 0, 0)
         let path = `/professor/${rangeIni.toUTCString()}/${rangeFinal.toUTCString()}/${professorId}`
 
         let response = this.http
@@ -195,8 +264,7 @@ ini.setHours(0,0,0,0)
 
     }
 
-    // BOLSAS
-
+    
     GetBolsas(typePacoteId): Observable<any> {
 
         let path = `/bolsa/${typePacoteId}`
@@ -266,8 +334,7 @@ ini.setHours(0,0,0,0)
     }
 
 
-    // MODULOS
-
+   
     pesquisarPacote(typePacoteId: any, unidadeId: any): Observable<any> {
 
         let path = `/pacote/${typePacoteId}/${unidadeId}`
@@ -310,7 +377,7 @@ ini.setHours(0,0,0,0)
 
     }
 
-    // ABA USUARIOS
+    
     GetUsuarioAcessos(userId): Observable<any> {
 
         let path = `/usuario/acessos/${userId}`
@@ -379,7 +446,7 @@ ini.setHours(0,0,0,0)
         return response;
     }
 
-    // Unidades
+  
 
     public GetUnidadeById(id): Observable<any> {
 
@@ -408,7 +475,6 @@ ini.setHours(0,0,0,0)
         return response;
     }
 
-    // Turmas
 
     public AddProfNaTurma(addProfCommand): Observable<any> {
 

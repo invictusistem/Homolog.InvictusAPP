@@ -39,7 +39,7 @@ export class EditFinancComponent implements OnInit {
         this.turma = Object.assign({}, this.data['turma'])
         // this.nome = this.data['aluno'].nome
        // console.log(this.aluno)
-       // console.log(this.debito)
+        console.log(this.debito)
        // console.log(this.turma)
         //this.getInfoFinancAlunos(this.data['aluno'].id)
     }

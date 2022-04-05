@@ -96,14 +96,14 @@
 
         <mat-form-field style="width: 80px; margin-left: 10px;" appearance="standard">
             <mat-label>Início</mat-label>
-            <mytime-input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+            <mytime-input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
               formControlName="horaInicial" required></mytime-input>
             <mat-hint></mat-hint>
         </mat-form-field>
 
         <mat-form-field style="width: 80px; margin-left: 10px;" appearance="standard">
             <mat-label>Fim</mat-label>
-            <mytime-input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+            <mytime-input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
               formControlName="horaFinal" required></mytime-input>
             <mat-hint></mat-hint>
         </mat-form-field>

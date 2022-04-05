@@ -1,15 +1,18 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
-import { PageEvent } from "@angular/material/paginator";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
+import { ConfirmAcaoModalComponent } from "src/app/_shared/components/ConfirmarAcao/confirm-acao.component";
 import { Aluno } from "src/app/_shared/models/aluno.model";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
+import { ConfirmAcaoModalConfig } from "src/app/_shared/models/modal.config";
 import { Cargos, Unidades } from "src/app/_shared/models/perfil.model";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
+import { InfoFinancModalConfig } from "../models/model.config";
 import { InfoFinancComponent } from "./infoFinanc/infofinanc.component";
 import { ReparcelamentoComponent } from "./Reparcelamento/reparcelamento.component";
 
@@ -26,9 +29,16 @@ export class AlunoFinancComponent implements OnInit {
 
     //colaboradores: Colaborador[] = new Array<Colaborador>();
     baseUrl = environment.baseUrl;
+
     length: number = 0
     pageSize: number = 5;
+    pageEvent: PageEvent;
+    pageIndexNumber: number = 0;
+    currentPage = 1
+    @ViewChild(MatPaginator) paginator: MatPaginator
+
     showMessageNoAluno = false
+    public spinnerSearch = 'hidden'
     // pageEvent: PageEvent;
     // pageIndexNumber: number = 0;
     // actualPage = 1
@@ -97,62 +107,114 @@ export class AlunoFinancComponent implements OnInit {
 
 
     ngOnInit() {
+        const token = localStorage.getItem('jwt')
+        this.tokenInfo = this.jwtHelper.decodeToken(token)
     }
 
-    onSubmit(form?: any, event?: any) {
+    get mostrarEmLote() {
+        return this.tokenInfo.role == 'SuperAdm'
+    }
+    podeDesable = false
+    atualizarBoletos(): void {
+        const dialogRef = this._modal
+            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked == true) {
+                this.podeDesable = true
+                this._http.put(`https://localhost:5001/api/dev/atualizar-boletos`, {})
+                    .subscribe(
+                        resp => { this.podeDesable = false },
+                        error => { this.podeDesable = false }
+                    )
+            }
+        });
+    }
 
-        // this.showMessageNoAluno = false
-        var formJson = JSON.stringify(this.pesquisarForm.value)
+
+    Pesquisar(event?: any) {
+
+        this.showMessageNoAluno = false
+
+
 
         if (this.pesquisarForm.valid) {
-            this._http.get(`${this.baseUrl}/financeiro/alunos/?itemsPerPage=` + this.pageSize + `&currentPage=1&paramsJson=${formJson}`)
+            this.spinnerSearch = 'visible'
+
+            if (event != undefined) {
+                this.currentPage = event.pageIndex + 1
+            } else {
+                this.currentPage = 1
+            }
+
+
+            var formJson = JSON.stringify(this.pesquisarForm.value)
+            this._http.get(`${this.baseUrl}/financeiro/alunos/?itemsPerPage=` + this.pageSize + `&currentPage=${this.currentPage}&paramsJson=${formJson}`)
                 .subscribe(
                     (response) => {
-                       // console.log(response)
-                        let resposta = response['alunos']
-                        this.listAlunos = Object.assign([], resposta['data'])
-                       // console.log(this.listAlunos)
-                        this.length = resposta['totalItemsInDatabase']
 
-                        if (this.listAlunos.length == 0) {
-                            // console.log("lengt zero")
-                            this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
-                            this.showMessageNoAluno = true
+                        this.listAlunos = Object.assign([], response['alunos'].data)
+
+                        this.length = response['alunos'].totalItemsInDatabase
+
+                        this.spinnerSearch = 'hidden'
+
+
+                        if (event != undefined) {
+                            this.pageIndexNumber = (event.pageIndex * this.pageSize)
+                        } else {
+                            this.pageIndexNumber = 0
+                            //console.log(this.paginator)
+                            if (this.paginator != undefined) {
+                                this.paginator.firstPage();
+                            }
                         }
 
                     },
                     (err) => {
-                        //this.showSpinnerFirst = false
-                      //  console.log(err)
-                        //this.openSnackBar(err)
+                        if (err['status'] == 404) {
+                            this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
+                            this.showMessageNoColaborador = true
+                            this.listAlunos = new Array<any>();
+                        }
+                        if (err['status'] != 404) {
+                            this.mensagem = "Ocorreu um erro desconhecido, por favor, procure o administrador do sistema"
+                            this.showMessageNoColaborador = true
+                            this.listAlunos = new Array<any>();
+                        }
+                
+                        this.spinnerSearch = 'hidden'
 
                     },
                     () => {
-                        //this.showSpinnerFirst = false
-                        this.showMessageNoAluno = false
-                        console.log('ok get');
-                        //this.pageIndexNumber = (evento.pageIndex * this.pageSize)
+                        
                     },
                 )
         }
 
-    }   
+    }
 
-    openInfoFinanc(aluno: any): void {
+    public OpenInfoFinanc(aluno: any): void {
         const dialogRef = this._modal
-            .open(InfoFinancComponent, {
-                height: '580px',
-                width: '1000px',
-
-                data: { aluno: aluno },
-                hasBackdrop: true,
-                disableClose: true
-            });
-
-        dialogRef.afterClosed().subscribe(result => {
-
+            .open(InfoFinancComponent, InfoFinancModalConfig(aluno));
+        dialogRef.afterClosed().subscribe(data => {
         });
     }
+
+    // openInfoFinanc(aluno: any): void {
+    //     const dialogRef = this._modal
+    //         .open(InfoFinancComponent, {
+    //             height: '650px',
+    //             width: '1000px',
+
+    //             data: { aluno: aluno },
+    //             hasBackdrop: true,
+    //             disableClose: true
+    //         });
+
+    //     dialogRef.afterClosed().subscribe(result => {
+
+    //     });
+    // }
 
     openReparcelamentoModal(aluno: any): void {
         const dialogRef = this._modal

@@ -60,14 +60,28 @@
 
 
 <!-- TODO VENCIDO -->
+<ng-container *ngIf="debito.statusBoleto == 'Pago'">
+    <mat-form-field  appearance="standard" style="width: 100px; ">
+        <mat-label>Valor recebido</mat-label>
+        <input [value]="debito.valorPago | currency:'BRL':'R$ '"
+                    disabled matInput >
+    </mat-form-field>
 
-<mat-form-field *ngIf="debito.status != 'Pago';else recebido" appearance="standard" style="width: 100px; ">
+    <!-- <mat-form-field  appearance="standard" style="width: 120px;margin-left: 20px; ">
+        <mat-label>Data pagamento</mat-label>
+        <input [value]="debito.dataPagamento | date: 'dd/MM/yyyy'" 
+            disabled matInput >
+    </mat-form-field> -->
+
+</ng-container>
+
+<mat-form-field *ngIf="debito.statusBoleto != 'Pago';" appearance="standard" style="width: 100px; ">
     <mat-label>Valor a receber</mat-label>
-    <input [value]="debito.valor" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" selected
-        disabled required name="nome" matInput placeholder="Nome">
+    <input [value]="debito.valor | currency:'BRL':'R$ '" 
+        disabled matInput>
 </mat-form-field>
 
-<ng-template #recebido appearance="standard" style="width: 15%; ">
+<!-- <ng-template #recebido appearance="standard" style="width: 15%; ">
 
     <mat-form-field appearance="standard" style="width: 17%; ">
         <mat-label>Valor a receber</mat-label>
@@ -75,7 +89,7 @@
             disabled required name="nome" matInput placeholder="Nome">
     </mat-form-field>
 
-</ng-template>
+</ng-template> -->
 
 <br>
 
@@ -85,5 +99,5 @@
 <!-- <div style="font-weight: 400;font-size: 0.9;margin-left: 30px;">débito gerado em </div> -->
 <br>
 <span style="font-size: 0.9em;">
-    pagamento {{ debito.subConta }} 
+    pagamento {{ debito.subConta }}
 </span>

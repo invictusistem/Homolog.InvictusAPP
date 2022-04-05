@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { environment } from "src/environments/environment";
-import { Unidade } from "../Adm-Models/unidade.model";
+//import { Unidade } from "../Adm-Models/unidade.model";
 import { CreateUnidadeComponent } from "./CreateModal/createunidade.component";
 import { CreateSalaComponent } from "./CreateSalaModal/createsala.component";
 import { SalaEditarComponent } from "./EditarSala/sala-editar.component";
@@ -18,7 +18,7 @@ export class UnidadesComponent implements OnInit {
 
     private _baseUrl = environment.baseUrl;
     //public salas: Sala[] = new Array<Sala>();
-    public unidades: Unidade[] = new Array<Unidade>()
+    public unidades: any[] = new Array<any>()
     public spinnerSearch = 'visible'
 
     constructor(
@@ -68,7 +68,7 @@ export class UnidadesComponent implements OnInit {
         });
     }
     
-    openEditUnidade(unidade: Unidade): void {
+    openEditUnidade(unidade: any): void {
         const dialogRef = this.unidadeEditModal
             .open(EditUnidadeComponent, {
                 //height: '450px',
@@ -86,7 +86,7 @@ export class UnidadesComponent implements OnInit {
         });
     }
 
-    addSala(unidade: Unidade): void {
+    addSala(unidade: any): void {
         const dialogRef = this.unidadeEditModal
             .open(CreateSalaComponent, {
                 height: 'auto',

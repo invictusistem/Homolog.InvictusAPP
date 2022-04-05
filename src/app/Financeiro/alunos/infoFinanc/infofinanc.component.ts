@@ -10,6 +10,7 @@ import { Debito, InfoFinanceiras } from "src/app/_shared/models/InfoFinanceiras.
 import { EditFinancComponent } from "./EditFinanc/edit-financ.component";
 import { ReceberComponent } from "./Receber/receber.component";
 import { ReceberComponentModal } from "../../models/model.config";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 
 @Component({
     selector: 'infosFinancmodal',
@@ -31,7 +32,8 @@ export class InfoFinancComponent implements OnInit {
     public aluno: any;// = new any Aluno = new Aluno();
     public debitos: any[] = new Array<any>();// Debito[] = new Array<Debito>();
     public turma: any;
-
+    public initialSpinner = 'visible'
+public showcontent = false
     public originalAluno: any
     public originalRespFin: any
     public originalRespMenor: any
@@ -44,6 +46,7 @@ export class InfoFinancComponent implements OnInit {
     // public respMenorForm: FormGroup;
 
     constructor(
+        private _helper: HelpersService,
         private _fb: FormBuilder,
         private _http: HttpClient,
         private _modal: MatDialog,
@@ -59,21 +62,27 @@ export class InfoFinancComponent implements OnInit {
         this.nome = this.data['aluno'].nome
        // console.log(this.data['aluno'])
         this.aluno = Object.assign({}, this.data['aluno'])
-        this.getInfoFinancAlunos(this.data['aluno'].matriculaId)
+        this.GetInfoFinancAlunos(this.data['aluno'].matriculaId)
     }
 
-    getInfoFinancAlunos(matriculaId) {
-
+    private GetInfoFinancAlunos(matriculaId) {
+        this.initialSpinner = 'visible'
         this._http.get(`${this.baseUrl}/financeiro/debitos/${matriculaId}`)
             .subscribe(resp => {
                 this.debitos = Object.assign([], resp['debitos']);
                 this.turma = Object.assign({}, resp['turma']);
-               // console.log(this.debitos)
+                //console.log(this.debitos)
             },
                 (error) => { 
+                    this._helper.openSnackBarErrorDefault()
+                    this.showcontent = false
+                    this.initialSpinner = 'hidden'
                     //console.log(error)
                  },
                 () => {
+                    this.dialogRef.addPanelClass('infofinanc-class')
+                    this.showcontent = true
+                    this.initialSpinner = 'hidden'
                   //  console.log(this.debitos);
                 })
     }
@@ -108,9 +117,9 @@ export class InfoFinancComponent implements OnInit {
             .open(EditFinancComponent, {
                 height: 'auto',
                 width: '1000px',
-                autoFocus: false,
+                //autoFocus: false,
                 //maxHeight: '90vh',
-                maxWidth: '115vh',
+               // maxWidth: '115vh',
 
                 data: { debito: debs, aluno: this.data['aluno'], turma: this.turma },
                 hasBackdrop: true,
@@ -120,7 +129,7 @@ export class InfoFinancComponent implements OnInit {
         dialogRef.afterClosed().subscribe(data => {
            // console.log(data)
             if (data.clicked === "PAGO") {
-                this.getInfoFinancAlunos(this.data['aluno'].id)
+               // this.GetInfoFinancAlunos(this.data['aluno'].id)
                 //this.openSnackBar()
               //  console.log('afte close ok')
             } else if (data.clicked === "Cancel") {
@@ -135,6 +144,10 @@ export class InfoFinancComponent implements OnInit {
         const dialogRef = this._modal
             .open(ReceberComponent, ReceberComponentModal(debs, this.aluno));
         dialogRef.afterClosed().subscribe((data) => {
+
+            if(data.clicked == true){
+                this.GetInfoFinancAlunos(this.data['aluno'].matriculaId)
+            }
 
         });
     }

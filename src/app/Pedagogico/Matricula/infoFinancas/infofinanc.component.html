@@ -107,32 +107,32 @@
                                 {{turma.identificador}}
                             </td>
 
-                            <td [style.color]="debs.status == 'Vencido' ? 'red': ''"
+                            <td [style.color]="debs.statusBoleto == 'Vencido' ? 'red': ''"
                                 style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
                                 {{debs.vencimento | date:'dd/MM/y' }}
                             </td>
 
                             <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
-                                {{debs.valor | currency:'BRL':true:'1.2-2' }}
+                                {{debs.valor | currency:'BRL':'R$ ' }}
                             </td>
 
                             <td style="font-size:0.8em;font-weight: 400;;text-align: center;vertical-align: middle;">
-                                <ng-container *ngIf="debs.status == 'Pago'">
+                                <ng-container *ngIf="debs.statusBoleto == 'Pago'">
                                     {{debs.dataPagamento | date:'dd/MM/y' }}
                                 </ng-container>
                             </td>
 
                             <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
-                                {{debs.valorPago | currency:'BRL':true:'1.2-2' || '-' }}
+                                {{debs.valorPago | currency:'BRL':'R$ ' || '-' }}
                             </td>
 
                             <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
-                                <ng-container *ngIf="debs.status == 'Pago'">
+                                <ng-container *ngIf="debs.statusBoleto == 'Pago'">
 
                                     Pago
 
                                 </ng-container>
-                                <ng-container *ngIf="debs.status == 'Vencido'">
+                                <ng-container *ngIf="debs.statusBoleto == 'Vencido'">
 
                                     <span style="color: red;">Vencido</span>
 

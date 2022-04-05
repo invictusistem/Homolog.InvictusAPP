@@ -63,7 +63,7 @@
 
         <mat-form-field appearance="standard" style="width: 120px;margin-left: 10px;">
             <mat-label>Mínimo Vagas</mat-label>
-            <input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" formControlName="minVagas"
+            <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" formControlName="minVagas"
                 minlength="1" maxlength="4" required name="minVagas" matInput>
         </mat-form-field>
 
@@ -212,7 +212,7 @@
 
                             <mat-form-field style="width: 80px; margin-left: 10px;" appearance="standard">
                                 <mat-label>horário</mat-label>
-                                <mytime-input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                                <mytime-input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
                                     formControlName="horarioInicio" required></mytime-input>
                                 <mat-hint></mat-hint>
                             </mat-form-field>

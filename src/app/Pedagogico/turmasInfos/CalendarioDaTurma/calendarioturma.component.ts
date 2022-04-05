@@ -41,7 +41,7 @@ export class CalendarioTurmaComponent implements OnInit {
 
     private jwtHelper = new JwtHelperService();
     tokenInfo: TokenInfos = new TokenInfos();
-   
+
 
     public pesquisarForm: FormGroup
     constructor(
@@ -64,10 +64,10 @@ export class CalendarioTurmaComponent implements OnInit {
     ngOnInit() {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-       
+
         //console.log(this.data['turma'])
-        this._dialogRef.addPanelClass('pedagcalendar-class')
-       // this.GetCalendarioTurma(this.data['turma'].id);
+
+        // this.GetCalendarioTurma(this.data['turma'].id);
         this.pesquisar(undefined, true)
     }
 
@@ -112,33 +112,33 @@ export class CalendarioTurmaComponent implements OnInit {
         // let path = `/colaboradores/pesquisar/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson=${formJson}`
         this._http.get(`${this._baseUrl}/pedag/turma/calendario-pagination/?turmaId=${this.data['turma'].id}&itemsPerPage=${this.pageSize}&currentPage=${this.currentPage}&paramsJson=${formJson}`)
             .subscribe(
-                sucesso => { this.processarSucesso(sucesso,event,firstConsult) },
+                sucesso => { this.processarSucesso(sucesso, event, firstConsult) },
                 fallha => { this.processarFalha(fallha) }
             )
     }
     initialPage = 0
-    processarSucesso(resp: any, event?: any,firstConsult?:any) {
-        console.log(resp['result'].data)
-                   // console.log(resp['result'].currentPage)
-                   // console.log(resp['result'].itemsPerPage)
-                   // console.log(resp['result'].totalItemsInDatabase)
-                    this.calendarios = Object.assign([], resp['result'].data)
+    processarSucesso(resp: any, event?: any, firstConsult?: any) {
+        //console.log(resp['result'].data)
+        // console.log(resp['result'].currentPage)
+        // console.log(resp['result'].itemsPerPage)
+        // console.log(resp['result'].totalItemsInDatabase)
+        this.calendarios = Object.assign([], resp['result'].data)
 
-                   
 
-                    //OLD
+
+        //OLD
         // console.log(response)
         // this.listAlunos = Object.assign([], response['data']);
 
         //this.length = resp['result'].totalItemsInDatabase
-        
+
         // this.spinnerSearch = 'hidden'
         if (event != undefined) {
             this.pageIndexNumber = (event.pageIndex * this.pageSize)
         } else {
             this.pageIndexNumber = resp['result'].currentPage
-          //  console.log(this.paginator)
-            this.initialPage = resp['result'].currentPage -1
+            //  console.log(this.paginator)
+            this.initialPage = resp['result'].currentPage - 1
             if (this.paginator != undefined) {
                 //this.paginator.pageIndex = resp['result'].currentPage -1
                 //this.initialPage = resp['result'].currentPage -1
@@ -147,10 +147,11 @@ export class CalendarioTurmaComponent implements OnInit {
             }
         }
         this.length = resp['result'].totalItemsInDatabase
+        this._dialogRef.addPanelClass('pedagcalendar-class')
         this.ShowTableHeader = true
         this.initProgressBar = 'hidden'
         this.showSpin = true
-        
+
     }
 
     // ngAfterViewInit() {
@@ -180,7 +181,7 @@ export class CalendarioTurmaComponent implements OnInit {
         // calendárioId
     }
 
-    get podeEditar(){
+    get podeEditar() {
 
         return this.tokenInfo.role == 'SuperAdm'
     }
@@ -198,7 +199,7 @@ export class CalendarioTurmaComponent implements OnInit {
         dialogRef.afterClosed().subscribe(data => {
         });
     }
-    
+
     openPresencaEdit(calend: any): void {
         const dialogRef = this._modal
             .open(CalendPresencaEditComponent, OpenCalendarioPresencaomponentModal(calend));

@@ -6,7 +6,7 @@ import { TitularDoc } from "src/app/_shared/models/perfil.model";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
-import { AdmService } from "../../services/adm.services";
+import { AdmService } from "../../Services/adm.services";
 import { environment } from "src/environments/environment";
 
 @Component({
@@ -104,7 +104,7 @@ export class ModuloCreateComponent implements OnInit {
         let pacote = form.value['pacote']
 
         if (form.valid) {
-            let pacotId = this.materias.value.find(element =>
+            let pacotId = this.materias.value.find(element => // get materias()
                 element.materiaId == pacote.id);
 
             if (pacotId != undefined) return;
@@ -120,7 +120,7 @@ export class ModuloCreateComponent implements OnInit {
 
             });
 
-            this.materias.push(matForm);
+            this.materias.push(matForm);// get materias()
         }
     }
     addDocumentos(form: any) {

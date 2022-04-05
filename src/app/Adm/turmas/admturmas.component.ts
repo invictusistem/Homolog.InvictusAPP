@@ -4,12 +4,14 @@ import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
+import { ConfirmAcaoModalComponent } from "src/app/_shared/components/ConfirmarAcao/confirm-acao.component";
+import { ConfirmAcaoModalConfig } from "src/app/_shared/models/modal.config";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { Turma, TurmaViewModel } from "src/app/_shared/models/Turma.model";
 
 import { environment } from "src/environments/environment";
-import { AdmService } from "../services/adm.services";
-import { OpenTurmaEditmodel } from "../services/modal.config";
+import { AdmService } from "../Services/adm.services";
+import { OpenTurmaEditmodel } from "../Services/modal.config";
 import { CalendarioModalComponent } from "./Calendario/calendario.component";
 import { ConfirmarIniciarTurmaModal } from "./confirmturmamodal/confirmariniciar.component";
 import { CreateCursoComponent } from "./CreateModal/createcurso.component";
@@ -63,7 +65,7 @@ export class AdmTurmasComponent implements OnInit {
             .open(ConfirmarIniciarTurmaModal, {
                 height: 'auto',
                 width: '500px',
-                
+
                 //maxHeight: '90vh',
                 //maxWidth: '400vh',
 
@@ -73,13 +75,13 @@ export class AdmTurmasComponent implements OnInit {
             });
         dialogRef.afterClosed().subscribe(result => {
             if (result.clicked === true) {
-                        this.getCursos();
-            } 
+                this.getCursos();
+            }
 
         });
     }
 
-    get podeDeletar(){
+    get podeDeletar() {
         // console.log(this.tokenInfo)
         return this.tokenInfo.role == 'SuperAdm'
     }
@@ -146,15 +148,15 @@ export class AdmTurmasComponent implements OnInit {
         this.showTurmas = false
         this.showMessage = false
         this.showSpinner = true
-       
+
         this._admService.GetTodasTurmasDaUnidade()
-                .subscribe(
-                    sucesso => { this.getCursosSucesso(sucesso) },
-                    falha => { this.getCursosFalha(falha) }
-                );
+            .subscribe(
+                sucesso => { this.getCursosSucesso(sucesso) },
+                falha => { this.getCursosFalha(falha) }
+            );
     }
 
-    getCursosSucesso(response){
+    getCursosSucesso(response) {
         Object.assign(this.turmas, response['turmas'])
         this.initProgressBar = 'hidden'
         this.showTurmas = true
@@ -162,13 +164,13 @@ export class AdmTurmasComponent implements OnInit {
         this.showSpinner = false
     }
 
-    getCursosFalha(erro){
+    getCursosFalha(erro) {
         this.initProgressBar = 'hidden'
         // console.log(err)
-         this.mensagem = "Não há turmas cadastradas ou em andamento nesta unidade."
-         this.showTurmas = false
-         this.showMessage = true
-         this.showSpinner = false
+        this.mensagem = "Não há turmas cadastradas ou em andamento nesta unidade."
+        this.showTurmas = false
+        this.showMessage = true
+        this.showSpinner = false
     }
 
     createCurso() {
@@ -233,24 +235,24 @@ export class AdmTurmasComponent implements OnInit {
         const dialogRef = this._modal
             .open(EditCursoComponent, OpenTurmaEditmodel(turma));
         dialogRef.afterClosed().subscribe((data) => {
-           
+
         });
-    }  
-    
-    deleteCurso(turma){
-
-             this.http.delete(`${this.baseUrl}/dev/deletar-turma/${turma.id}`)
-            .subscribe(response => {
-
-            }, (err) => {
-                console.log(err)
-             },
-                () => {
-                   
-
-                });
     }
 
+    deleteCurso(turma): void {
 
+        const dialogRef = this._modal
+            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
+
+            if (data.clicked == true) {
+
+                this.http.delete(`${this.baseUrl}/dev/deletar-turma/${turma.id}`)
+                    .subscribe(
+                        response => { }, 
+                        err => { })
+            }
+        })
+    }
 
 }

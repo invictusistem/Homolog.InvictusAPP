@@ -7,7 +7,6 @@
     </i>
 </div>
 
-
 <hr>
 <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
     Selecione o tipo do curso:</span>
@@ -34,11 +33,12 @@
     </mat-select>
 </mat-form-field>
 
+<div *ngIf="msgNoCursos" style="color: red; font-size: 0.8em;">{{mensagemNoType}}</div>
+
 <mat-progress-bar [style.visibility]="hidden" @rowHighlight mode="query">
 </mat-progress-bar>
 
 <div @rowHighlight *ngIf="showContent">
-
 
     <mat-tab-group class="alunomatricula">
 
@@ -46,395 +46,432 @@
 
             <br>
 
-            
-
-            <form style="" novalidate [formGroup]="temRespFinm">
+            <form style="" novalidate [formGroup]="planoPgmAluno">
 
                 <mat-form-field appearance="standard" style="width: 140px; ">
                     <mat-label>Data cadastro</mat-label>
-                    <input selected value="{{data['aluno'].dataCadastro | date:'dd/MM/yyyy'}}" disabled required matInput>
+                    <input value="{{data['aluno'].dataCadastro | date:'dd/MM/yyyy'}}" disabled required matInput>
                 </mat-form-field>
 
                 <mat-form-field appearance="standard" style="width: 350px;margin-left: 10px;">
                     <mat-label>Responsável cadastro</mat-label>
-                    <input selected disabled value="{{tokenInfo.Nome}}" required matInput>
+                    <input disabled value="{{tokenInfo.Nome}}" required matInput>
                 </mat-form-field>
 
                 <br>
 
-
                 <mat-form-field appearance="standard" style="width: 350px; ">
                     <mat-label>Nome completo</mat-label>
-                    <input selected [value]="data['aluno'].nome" disabled required matInput>
+                    <input [value]="data['aluno'].nome" disabled required matInput>
                 </mat-form-field>
 
                 <mat-form-field appearance="standard" style="width: 130px;margin-left: 10px;">
                     <mat-label>Nascimento</mat-label>
-                    <input selected disabled value="{{data['aluno'].nascimento  | date:'dd/MM/yyyy' }}" required matInput>
+                    <input disabled value="{{data['aluno'].nascimento  | date:'dd/MM/yyyy' }}" required matInput>
                 </mat-form-field>
 
                 <mat-form-field appearance="standard" style="width: 100px;margin-left: 10px;">
                     <mat-label>Idade</mat-label>
-                    <input selected disabled value="{{data['aluno'].nascimento | idade}} anos" required matInput>
+                    <input disabled value="{{data['aluno'].nascimento | idade}} anos" required matInput>
                 </mat-form-field>
 
                 <br>
 
                 <mat-form-field appearance="standard" style="width: 120px;">
                     <mat-label>CPF</mat-label>
-                    <input disabled selected [value]="data['aluno'].cpf" disabled matInput>
+                    <input disabled [value]="data['aluno'].cpf" disabled matInput>
                 </mat-form-field>
 
                 <mat-form-field appearance="standard" style="width: 120px;margin-left: 10px;">
                     <mat-label>RG</mat-label>
-                    <input selected matInput [value]="data['aluno'].rg" disabled>
+                    <input matInput [value]="data['aluno'].rg" disabled>
                 </mat-form-field>
 
-                <span novalidate [formGroup]="temRespFinm" style="width: 250px;margin-left: 20px;">
+                <span novalidate style="width: 250px;margin-left: 20px;">
 
-                    <ng-container *ngIf="!menorIdade">
-    
+                    <ng-container *ngIf="!planoPgmAluno.get('menorIdade').value">
+
                         <span style="font-style: italic; font-size: 0.9em;">
-                            Tem responsável financeiro: <mat-checkbox formControlName="temRespFin" class="example-margin">
+                            Tem responsável financeiro:
+                            <mat-checkbox formControlName="temRespFin" (change)="modelChanged($event)"
+                                class="example-margin">
                             </mat-checkbox>
                         </span>
                     </ng-container>
                 </span>
 
-               
             </form>
 
-            
             <br>
-            <form style="" novalidate [formGroup]="planoPgmAluno">
-                <mat-form-field appearance="standard" style="width: 200px;">
-                    <mat-label>Forma de conhecimento</mat-label>
-                    <mat-select formControlName="ciencia" selected >
-                        <mat-option (click)="chanceCiencia(cie.value)" [value]="cie.value" *ngFor="let cie of cienciaCurso">{{cie.value}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
 
-                <mat-form-field *ngIf="showAlunosIndicacao" appearance="standard" style="width: 280px;margin-left: 10px;">
-                    <mat-label>Forma de conhecimento</mat-label>
-                    <mat-select formControlName="cienciaAlunoId" selected >
-                        <mat-option [value]="aluno.id" *ngFor="let aluno of alunosIndicacao">
-                        {{aluno.nome}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </form>
-            <!-- <mat-progress-bar *ngIf="disabldSaveButton" style="margin:0px" mode="query"></mat-progress-bar>
-                <div style="bottom: 0; float:right;">
-                    <button type="button" (click)="salvarMat()" [disabled]="disabldSaveButton" mat-raised-button
-                        color="primary" style="bottom: 0; float:right;margin-bottom: 10px;margin-left: 10px;">
-                        Confirmar matrícula
-                    </button>
-                </div> -->
+            <form novalidate [formGroup]="planoPgmAluno">
 
+                <ng-container formGroupName="plano">
 
+                    <!-- <mat-form-field appearance="standard" style="width: 200px;">
+                        <mat-label>Forma de conhecimento</mat-label>
+                        <mat-select formControlName="ciencia" selected>
+                            <mat-option (click)="chanceCiencia(cie.value)" [value]="cie.value"
+                                *ngFor="let cie of cienciaCurso">{{cie.value}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
 
+                    <mat-form-field *ngIf="showAlunosIndicacao" appearance="standard"
+                        style="width: 280px;margin-left: 10px;">
+                        <mat-label>Aluno</mat-label>
+                        <mat-select formControlName="cienciaAlunoId" selected>
+                            <mat-option [value]="aluno.id" *ngFor="let aluno of alunosIndicacao">
+                                {{aluno.nome}}
+                            </mat-option>
+                        </mat-select> 
+                    </mat-form-field>-->
 
-        </mat-tab>
+                    <mat-form-field appearance="standard" style="width: 200px;">
+                        <mat-label>Forma de conhecimento</mat-label>
+                        <mat-select formControlName="ciencia" selected>
+                            <mat-option [value]="cie.value" (click)="chanceCiencia(cie.value)"
+                                *ngFor="let cie of cienciaCurso">{{cie.value}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
 
-        <mat-tab *ngIf="menorIdade" label="Responsável menor">
+                    <mat-form-field *ngIf="planoPgmAluno.controls['plano'].get('ciencia').value == 'Indicação Aluno'"
+                        appearance="standard" style="width: 330px;margin-left: 10px;">
+                        <mat-label>Aluno</mat-label>
+                        <mat-select [disabled]="alunosIndicacao == 0" formControlName="cienciaAlunoId" selected>
+                            <mat-option [value]="aluno.id" *ngFor="let aluno of alunosIndicacao">
+                                {{aluno.nome}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
 
-            <form novalidate [formGroup]="respMenor">
-
-                <br>
-
-                <span style="font-style: italic;font-size: 0.9em;">
-                    Possui responsável financeiro: <mat-checkbox (change)="modelChanged($event)" class="example-margin">
-                    </mat-checkbox>
-                </span>
-                <br>
-                <mat-form-field appearance="standard" style="width: 35%; ">
-                    <mat-label>Nome completo</mat-label>
-                    <input selected formControlName="nome" oninput="this.value = this.value.toUpperCase()" required
-                        name="nome" matInput placeholder="Nome">
-                </mat-form-field>
-
-                <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
-                    <mat-label>CPF</mat-label>
-                    <input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
-                        mask="000.000.000-00" formControlName="cpf" minlength="11" maxlength="14" selected name="cpf"
-                        matInput placeholder="digite o CPF">
-                </mat-form-field>
-
-                <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
-                    <mat-label>RG</mat-label>
-                    <input formControlName="rg"
-                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected
-                        name="rg" matInput placeholder="digite o RG">
-                </mat-form-field>
-
-
-
-                <mat-form-field appearance="standard" style="width: 17%; margin-left: 5%;">
-                    <mat-label>Nascimento</mat-label>
-                    <date-input formControlName="nascimento" name="nascimento" matInput required></date-input>
-                </mat-form-field>
-
-                <br>
-
-                <mat-form-field appearance="standard" style="width: 20%;">
-                    <mat-label>Grau de parentesco</mat-label>
-                    <input formControlName="parentesco" oninput="this.value = this.value.toUpperCase()" required
-                        name="naturalidadeUF" matInput placeholder="Grau de parentesco">
-                </mat-form-field>
-
-                <mat-form-field appearance="standard" style="width: 20%; margin-left: 2%;">
-                    <mat-label>Naturalidade</mat-label>
-                    <input selected formControlName="naturalidade" oninput="this.value = this.value.toUpperCase()"
-                        required name="naturalidade" matInput placeholder="Nome">
-                </mat-form-field>
-
-                <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
-                    <mat-label>UF</mat-label>
-                    <input onkeypress="String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
-                        oninput="this.value = this.value.toUpperCase()" minlength="2" maxlength="2" selected
-                        formControlName="naturalidadeUF" required name="naturalidadeUF" matInput placeholder="UF">
-                </mat-form-field>
-
-                <br>
-                <mat-form-field appearance="standard" style="width: 25%;">
-                    <mat-label>Email</mat-label>
-                    <input selected formControlName="email" name="email" oninput="this.value = this.value.toLowerCase()"
-                        matInput placeholder="Email">
-                </mat-form-field>
-
-
-
-                <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
-                    <mat-label>Celular</mat-label>
-                    <example-tel-input #cel name="telCelular" formControlName="telCelular"
-                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-                    </example-tel-input>
-
-                    <mat-hint>telefone com DDD</mat-hint>
-                </mat-form-field>
-
-                <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
-                    <mat-label>WhatsApp</mat-label>
-                    <example-tel-input name="telWhatsapp" formControlName="telWhatsapp"
-                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-                    </example-tel-input>
-                    <mat-hint>telefone com DDD</mat-hint>
-                </mat-form-field>
-
-                <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
-                    <mat-label>Residencial</mat-label>
-                    <example-tel-input name="telResidencial" formControlName="telResidencial"
-                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-                    </example-tel-input>
-                    <mat-hint>telefone com DDD</mat-hint>
-                </mat-form-field>
-                <br>
-
-                <mat-form-field appearance="standard" style="width: 10%;">
-                    <mat-label>CEP</mat-label>
-                    <input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
-                        formControlName="cep" minlength="8" maxlength="8" required name="templateName" matInput
-                        placeholder="apenas números">
-                </mat-form-field>
-
-                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP"
-                    matTooltipPosition="above" matTooltipHideDelay="100">
-                    <button (click)="consultaCEPRespMenor(respMenor.get('cep').value)" style="margin: 0px; margin: 0px;"
-                        mat-icon-button>
-                        <mat-icon>search</mat-icon>
-                    </button>
-                </i>
-
-                <br>
-
-                <mat-form-field appearance="standard" style="width: 25%;">
-                    <mat-label>Logradouro</mat-label>
-                    <input selected [value]="respMenor.get('logradouro').value" name="templateName" matInput
-                        placeholder="ex: rua tal...">
-                </mat-form-field>
-
-                <mat-form-field appearance="standard" style="width: 15%;margin-left: 5%;">
-                    <mat-label>Logradouro</mat-label>
-                    <input selected [value]="respMenor.get('logradouro').value" name="templateName" matInput
-                        placeholder="ex: rua tal...">
-                </mat-form-field>
-
-                <mat-form-field appearance="standard" style="width: 30%; margin-left: 5%;">
-                    <mat-label>Complemento</mat-label>
-                    <input selected formControlName="complemento" name="templateName" matInput
-                        oninput="this.value = this.value.toUpperCase()"
-                        placeholder="ex: nº 123... sala 10... apto 123...">
-                </mat-form-field>
-
-                <br>
-
-                <mat-form-field appearance="standard" style="width: 30%;">
-                    <mat-label>Cidade</mat-label>
-                    <input disabled selected [value]="respMenor.get('cidade').value" name="templateName" matInput
-                        placeholder="digite o bairro">
-                </mat-form-field>
-
-                <mat-form-field appearance="standard" style="width: 10%; margin-left: 5%;">
-                    <mat-label>UF</mat-label>
-                    <input disabled selected [value]="respMenor.get('uf').value" name="templateName" matInput
-                        placeholder="digite o bairro">
-                </mat-form-field>
-
-                <mat-form-field appearance="standard" style="width: 30%; margin-left: 5%;">
-                    <mat-label>Bairro</mat-label>
-                    <input selected [value]="respMenor.get('bairro').value" name="templateName" matInput
-                        placeholder="digite o bairro">
-                </mat-form-field>
-
-                <br>
+                </ng-container>
 
             </form>
-
 
         </mat-tab>
 
 
-        <mat-tab *ngIf="temRespFinm.get('temRespFin').value" label="Responsável financeiro">
-            <form novalidate [formGroup]="respFinForm">
 
 
-                <mat-form-field appearance="standard" style="width: 35%; ">
-                    <mat-label>Nome completo</mat-label>
-                    <input selected formControlName="nome" required name="nome"
-                        oninput="this.value = this.value.toUpperCase()" matInput placeholder="Nome">
-                </mat-form-field>
+        <mat-tab *ngIf="planoPgmAluno.get('menorIdade').value" label="Responsável menor">
 
-                <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
-                    <mat-label>CPF</mat-label>
-                    <input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
-                        mask="000.000.000-00" formControlName="cpf" minlength="11" maxlength="14" selected name="cpf"
-                        matInput placeholder="digite o CPF">
-                </mat-form-field>
+            <form novalidate [formGroup]="planoPgmAluno">
 
-                <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
-                    <mat-label>RG</mat-label>
-                    <input formControlName="rg"
-                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected
-                        name="rg" matInput placeholder="digite o RG">
-                </mat-form-field>
+                <ng-container formGroupName="respMenor">
+
+                    <br>
+
+                    <span style="font-style: italic;font-size: 0.9em;">
+                        Possui responsável financeiro: <mat-checkbox (change)="modelChanged($event)"
+                            class="example-margin">
+                        </mat-checkbox>
+                    </span>
+
+                    <br>
+
+                    <mat-form-field appearance="standard" style="width: 35%; ">
+                        <mat-label>Nome completo</mat-label>
+                        <input formControlName="nome" oninput="this.value = this.value.toUpperCase()" matInput
+                            placeholder="Nome">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
+                        <mat-label>CPF</mat-label>
+                        <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                            mask="000.000.000-00" formControlName="cpf" minlength="11" maxlength="14" matInput
+                            placeholder="digite o CPF">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
+                        <mat-label>RG</mat-label>
+                        <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                            formControlName="rg" matInput placeholder="digite o RG">
+                    </mat-form-field>
+
+                    <!-- <mat-form-field appearance="standard" style="width: 150px; margin-left: 2%;">
+                        <mat-label>Nascimento</mat-label>
+                        <date-input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                            formControlName="nascimento" matInput></date-input>
+                    </mat-form-field> -->
+
+                    <mat-form-field appearance="standard" style="width: 145px;margin-left: 2%;">
+                        <mat-label>Nascimento</mat-label>
+                        <input matInput [matDatepicker]="dp1" formControlName="nascimento" >
+                        <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                        <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+                    </mat-form-field>
+
+                    <br>
+
+                    <mat-form-field appearance="standard" style="width: 20%;">
+                        <mat-label>Grau de parentesco</mat-label>
+                        <input formControlName="parentesco" oninput="this.value = this.value.toUpperCase()" matInput
+                            placeholder="Grau de parentesco">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" style="width: 20%; margin-left: 2%;">
+                        <mat-label>Naturalidade</mat-label>
+                        <input formControlName="naturalidade" oninput="this.value = this.value.toUpperCase()" matInput
+                            placeholder="Nome">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
+                        <mat-label>UF</mat-label>
+                        <input onkeypress="return String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
+                            oninput="this.value = this.value.toUpperCase()" minlength="2" maxlength="2"
+                            formControlName="naturalidadeUF" matInput placeholder="UF">
+                    </mat-form-field>
+
+                    <br>
+
+                    <mat-form-field appearance="standard" style="width: 25%;">
+                        <mat-label>Email</mat-label>
+                        <input formControlName="email" oninput="this.value = this.value.toLowerCase()" matInput
+                            placeholder="Email">
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="standard" style="width: 17%;margin-left: 14%;">
+                        <mat-label>Celular</mat-label>
+                        <input formControlName="telCelular" mask="(00) 00000-0000" matInput
+                            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                        <mat-hint @rowHighlight>
+                            informe um telefone
+                        </mat-hint>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" style="width: 17%;margin-left: 2%;">
+                        <mat-label>WhatsApp</mat-label>
+                        <input formControlName="telWhatsapp" mask="(00) 00000-0000" matInput
+                            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" style="width: 17%;margin-left: 2%;">
+                        <mat-label>Residencial</mat-label>
+                        <input formControlName="telResidencial" mask="(00) 0000-0000" matInput
+                            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                    </mat-form-field>
+
+                    <br>
+
+                    <mat-form-field appearance="standard" style="width: 90px;">
+                        <mat-label>CEP</mat-label>
+                        <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                            mask="00.000-000" formControlName="cep" minlength="8" maxlength="10" matInput
+                            placeholder="apenas números">
+                    </mat-form-field>
+
+                    <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP"
+                        matTooltipPosition="above" matTooltipHideDelay="100">
+                        <button type="button"
+                            (click)="consultaCEPRespMenor(planoPgmAluno.controls['respMenor'].get('cep').value)"
+                            style="margin: 0px; margin: 0px;" mat-icon-button>
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </i>
+
+
+                    <span [style.visibility]="enderecoMenor" @rowHighlight mode="query">
+
+                        <mat-form-field appearance="standard" style="width: 25%;margin-left: 5%;">
+                            <mat-label>Logradouro</mat-label>
+                            <input oninput="this.value = this.value.toUpperCase()" formControlName="logradouro" matInput
+                                placeholder="ex: rua tal...">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="standard" style="width: 15%;margin-left: 2%;">
+                            <mat-label>Número</mat-label>
+                            <input oninput="this.value = this.value.toUpperCase()" formControlName="numero" matInput
+                                placeholder="123">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="standard" style="width: 30%; margin-left: 2%;">
+                            <mat-label>Complemento</mat-label>
+                            <input formControlName="complemento" matInput
+                                oninput="this.value = this.value.toUpperCase()"
+                                placeholder="ex: nº 123... sala 10... apto 123...">
+                        </mat-form-field>
+
+                        <br>
+
+                        <mat-form-field appearance="standard" style="width: 30%;">
+                            <mat-label>Cidade</mat-label>
+                            <input disabled [value]="planoPgmAluno.controls['respMenor'].get('cidade').value" matInput
+                                placeholder="digite o bairro">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="standard" style="width: 10%; margin-left: 2%;">
+                            <mat-label>UF</mat-label>
+                            <input disabled [value]="planoPgmAluno.controls['respMenor'].get('uf').value" matInput
+                                placeholder="digite o bairro">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="standard" style="width: 30%; margin-left: 2%;">
+                            <mat-label>Bairro</mat-label>
+                            <input oninput="this.value = this.value.toUpperCase()" formControlName="bairro" matInput
+                                placeholder="digite o bairro">
+                        </mat-form-field>
+                    </span>
+                    <br>
+                </ng-container>
+            </form>
+
+        </mat-tab>
 
 
 
-                <mat-form-field appearance="standard" style="width: 17%; margin-left: 5%;">
-                    <mat-label>Nascimento</mat-label>
-                    <date-input formControlName="nascimento" name="nascimento" matInput required></date-input>
-                </mat-form-field>
-
-                <br>
-
-                <mat-form-field appearance="standard" style="width: 20%;">
-                    <mat-label>Grau de parentesco</mat-label>
-                    <input formControlName="parentesco" required name="naturalidadeUF"
-                        oninput="this.value = this.value.toUpperCase()" matInput placeholder="Grau de parentesco">
-                </mat-form-field>
-
-                <mat-form-field appearance="standard" style="width: 20%; margin-left: 2%;">
-                    <mat-label>Naturalidade</mat-label>
-                    <input selected formControlName="naturalidade" oninput="this.value = this.value.toUpperCase()"
-                        required name="naturalidade" matInput placeholder="Nome">
-                </mat-form-field>
-
-                <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
-                    <mat-label>UF</mat-label>
-                    <input onkeypress="String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
-                        oninput="this.value = this.value.toUpperCase()" minlength="2" maxlength="2" selected
-                        formControlName="naturalidadeUF" required name="naturalidadeUF" matInput placeholder="UF">
-                </mat-form-field>
-
-                <br>
-                <mat-form-field appearance="standard" style="width: 25%;">
-                    <mat-label>Email</mat-label>
-                    <input selected formControlName="email" name="email" oninput="this.value = this.value.toLowerCase()"
-                        matInput placeholder="Email">
-                </mat-form-field>
 
 
 
-                <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
-                    <mat-label>Celular</mat-label>
-                    <example-tel-input #cel name="telCelular" formControlName="telCelular"
-                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-                    </example-tel-input>
+        <mat-tab *ngIf="planoPgmAluno.get('temRespFin').value" label="Responsável financeiro">
+            <!-- <mat-tab *ngIf="temRespFinm.get('temRespFin').value" label="Responsável financeiro"> -->
 
-                    <mat-hint>telefone com DDD</mat-hint>
-                </mat-form-field>
+            <form novalidate [formGroup]="planoPgmAluno">
 
-                <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
-                    <mat-label>WhatsApp</mat-label>
-                    <example-tel-input name="telWhatsapp" formControlName="telWhatsapp"
-                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-                    </example-tel-input>
-                    <mat-hint>telefone com DDD</mat-hint>
-                </mat-form-field>
+                <ng-container formGroupName="respFin">
 
-                <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
-                    <mat-label>Residencial</mat-label>
-                    <example-tel-input name="telResidencial" formControlName="telResidencial"
-                        onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-                    </example-tel-input>
-                    <mat-hint>telefone com DDD</mat-hint>
-                </mat-form-field>
-                <br>
+                    <mat-form-field appearance="standard" style="width: 35%; ">
+                        <mat-label>Nome completo</mat-label>
+                        <input formControlName="nome" oninput="this.value = this.value.toUpperCase()" matInput
+                            placeholder="Nome">
+                    </mat-form-field>
 
-                <mat-form-field appearance="standard" style="width: 10%;">
-                    <mat-label>CEP</mat-label>
-                    <input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
-                        formControlName="cep" minlength="8" maxlength="8" required name="templateName" matInput
-                        placeholder="apenas números">
-                </mat-form-field>
-                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP"
-                    matTooltipPosition="above" matTooltipHideDelay="100">
-                    <button (click)="consultaCEPFin(respFinForm.get('cep').value)" style="margin: 0px; margin: 0px;"
-                        mat-icon-button>
-                        <mat-icon>search</mat-icon>
-                    </button>
-                </i>
-                <br>
+                    <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
+                        <mat-label>CPF</mat-label>
+                        <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                            mask="000.000.000-00" formControlName="cpf" minlength="11" maxlength="14" matInput
+                            placeholder="digite o CPF">
+                    </mat-form-field>
 
-                <mat-form-field appearance="standard" style="width: 25%;">
-                    <mat-label>Logradouro</mat-label>
-                    <input selected [value]="respFinForm.get('logradouro').value" name="templateName" matInput
-                        placeholder="ex: rua tal...">
-                </mat-form-field>
+                    <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
+                        <mat-label>RG</mat-label>
+                        <input formControlName="rg"
+                            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" matInput
+                            placeholder="digite o RG">
+                    </mat-form-field>
 
-                <mat-form-field appearance="standard" style="width: 15%; margin-left: 5%;">
-                    <mat-label>Número</mat-label>
-                    <input selected formControlName="numero" oninput="this.value = this.value.toUpperCase()" matInput
-                        placeholder="ex: rua tal...">
-                </mat-form-field>
+                    <!-- <mat-form-field appearance="standard" style="width: 150px; margin-left: 5%;">
+                        <mat-label>Nascimento</mat-label>
+                        <date-input formControlName="nascimento" matInput></date-input>
+                    </mat-form-field> -->
 
-                <mat-form-field appearance="standard" style="width: 40%; margin-left: 5%;">
-                    <mat-label>Complemento</mat-label>
-                    <input selected formControlName="complemento" name="templateName"
-                        oninput="this.value = this.value.toUpperCase()" matInput
-                        placeholder="ex: nº 123... sala 10... apto 123...">
-                </mat-form-field>
-                <br>
-                <mat-form-field appearance="standard" style="width: 30%;">
-                    <mat-label>Cidade</mat-label>
-                    <input disabled selected [value]="respFinForm.get('cidade').value" name="templateName" matInput
-                        placeholder="digite o bairro">
-                </mat-form-field>
+                    <mat-form-field appearance="standard" style="width: 145px;margin-left: 2%;">
+                        <mat-label>Nascimento</mat-label>
+                        <input matInput [matDatepicker]="dp2" formControlName="nascimento" >
+                        <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                        <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+                    </mat-form-field>
 
-                <mat-form-field appearance="standard" style="width: 10%; margin-left: 5%;">
-                    <mat-label>UF</mat-label>
-                    <input disabled selected [value]="respFinForm.get('uf').value" name="templateName" matInput
-                        placeholder="digite o bairro">
-                </mat-form-field>
 
-                <mat-form-field appearance="standard" style="width: 30%; margin-left: 5%;">
-                    <mat-label>Bairro</mat-label>
-                    <input selected [value]="respFinForm.get('bairro').value" name="templateName" matInput
-                        placeholder="digite o bairro">
-                </mat-form-field>
+                    <br>
 
-                <br>
+                    <mat-form-field appearance="standard" style="width: 20%;">
+                        <mat-label>Grau de parentesco</mat-label>
+                        <input formControlName="parentesco" oninput="this.value = this.value.toUpperCase()" matInput
+                            placeholder="Grau de parentesco">
+                    </mat-form-field>
 
+                    <mat-form-field appearance="standard" style="width: 20%; margin-left: 2%;">
+                        <mat-label>Naturalidade</mat-label>
+                        <input formControlName="naturalidade" oninput="this.value = this.value.toUpperCase()" matInput
+                            placeholder="Nome">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
+                        <mat-label>UF</mat-label>
+                        <input onkeypress="return String.fromCharCode(event.charCode).match(/[^A-Za-z]/g) === null"
+                            oninput="this.value = this.value.toUpperCase()" minlength="2" maxlength="2"
+                            formControlName="naturalidadeUF" matInput placeholder="UF">
+                    </mat-form-field>
+
+                    <br>
+                    <mat-form-field appearance="standard" style="width: 25%;">
+                        <mat-label>Email</mat-label>
+                        <input formControlName="email" oninput="this.value = this.value.toLowerCase()" matInput
+                            placeholder="Email">
+                    </mat-form-field>
+
+
+
+                    <mat-form-field appearance="standard" style="width: 17%;margin-left: 14%;">
+                        <mat-label>Celular</mat-label>
+                        <input formControlName="telCelular" mask="(00) 00000-0000" matInput
+                            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                        <mat-hint @rowHighlight>
+                            informe um telefone
+                        </mat-hint>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" style="width: 17%;margin-left: 2%;">
+                        <mat-label>WhatsApp</mat-label>
+                        <input formControlName="telWhatsapp" mask="(00) 00000-0000" matInput
+                            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" style="width: 17%;margin-left: 2%;">
+                        <mat-label>Residencial</mat-label>
+                        <input formControlName="telResidencial" mask="(00) 0000-0000" matInput
+                            onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+                    </mat-form-field>
+
+
+                    <br>
+
+                    <mat-form-field appearance="standard" style="width: 90px">
+                        <mat-label>CEP</mat-label>
+                        <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                            mask="00.000-000" formControlName="cep" minlength="8" maxlength="10" required matInput
+                            placeholder="apenas números">
+                    </mat-form-field>
+
+                    <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP"
+                        matTooltipPosition="above" matTooltipHideDelay="100">
+                        <button type="button"
+                            (click)="consultaCEPFin(planoPgmAluno.controls['respFin'].get('cep').value)"
+                            style="margin: 0px; margin: 0px;" mat-icon-button>
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </i>
+
+                    <span [style.visibility]="enderecoFin" @rowHighlight mode="query">
+
+                        <mat-form-field appearance="standard" style="width: 25%;margin-left: 5%;">
+                            <mat-label>Logradouro</mat-label>
+                            <input [value]="planoPgmAluno.controls['respFin'].get('logradouro').value" matInput
+                                placeholder="ex: rua tal...">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
+                            <mat-label>Número</mat-label>
+                            <input formControlName="numero" oninput="this.value = this.value.toUpperCase()" matInput
+                                placeholder="ex: rua tal...">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="standard" style="width: 30%; margin-left: 2%;">
+                            <mat-label>Complemento</mat-label>
+                            <input formControlName="complemento" oninput="this.value = this.value.toUpperCase()"
+                                matInput placeholder="ex: nº 123... sala 10... apto 123...">
+                        </mat-form-field>
+                        <br>
+                        <mat-form-field appearance="standard" style="width: 30%;">
+                            <mat-label>Cidade</mat-label>
+                            <input disabled [value]="planoPgmAluno.controls['respFin'].get('cidade').value" matInput
+                                placeholder="digite o bairro">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="standard" style="width: 10%; margin-left: 2%;">
+                            <mat-label>UF</mat-label>
+                            <input disabled [value]="planoPgmAluno.controls['respFin'].get('uf').value" matInput
+                                placeholder="digite o bairro">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="standard" style="width: 30%; margin-left: 2%;">
+                            <mat-label>Bairro</mat-label>
+                            <input formControlName="bairro" matInput placeholder="digite o bairro">
+                        </mat-form-field>
+                    </span>
+                    <br>
+                </ng-container>
             </form>
 
         </mat-tab>
@@ -446,171 +483,209 @@
 
                 <br>
 
-                <mat-form-field appearance="standard" style="width: 200px;">
-                    <mat-label>Plano pagamento</mat-label>
-                    <mat-select formControlName="planoId" selected required>
-                        <mat-option></mat-option>
-                        <mat-option (click)="buscaPlanoPgm(plan.id)" *ngFor="let plan of planosPgm" [value]="plan.id">
-                            {{plan.descricao}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <ng-container formGroupName="plano">
 
-                <ng-container *ngIf="showPlano">
 
-                    <mat-form-field appearance="outline" style="width: 70px; margin-left: 15px;">
-                        <mat-label>parcelas</mat-label>
-                        <input onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" min="1"
-                            formControlName="parcelas" selected matInput>
+                    <mat-form-field appearance="standard" style="width: 200px;">
+                        <mat-label>Plano pagamento</mat-label>
+                        <mat-select [disabled]="spinnerBuscarPlano == 'visible' ? true:false" selected required>
+                            <mat-option (click)="buscaPlanoPgm(plan.id)" *ngFor="let plan of planosPgm"
+                                [value]="plan.id">
+                                {{plan.descricao}}
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
 
-                    <mat-form-field appearance="outline" style="width: 190px;margin-left: 15px;">
-                        <mat-label>Parcelas a partir de</mat-label>
-                        <input matInput [matDatepicker]="dp3" formControlName="diaDefault" disabled>
-                        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                    </mat-form-field>
+                    <mat-spinner [style.visibility]="spinnerBuscarPlano" matSuffix [diameter]="22"
+                        style="vertical-align: middle; display: inline-flex; margin-left: 5px;"></mat-spinner>
 
-                    <div style="float: right;">
+                    <ng-container *ngIf="showPlano">
 
-                        <mat-form-field appearance="outline" style="width: 120px; margin-left: 15px;">
-                            <mat-label>Bolsa/Desconto?</mat-label>
-                            <input disabled="false" formControlName="codigoDesconto" placeholder="código" onblur=""
-                                selected matInput>
+                        <mat-form-field appearance="outline" style="width: 130px; margin-left: 15px;">
+                            <mat-label>parcelas</mat-label>
+                            <mat-select formControlName="parcelas" selected required>
+                                <mat-option (click)="CalcularParcelas()" *ngFor="let parc of qntParcelas"
+                                    [value]="parc">{{ parc }}</mat-option>
+                            </mat-select>
                         </mat-form-field>
 
-                        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="buscar"
-                            matTooltipPosition="above" matTooltipHideDelay="100">
-                            <button style="" type="button" (click)="BuscarBolsa()" mat-icon-button>
-                                <mat-icon>search</mat-icon>
-                            </button>
-                        </i>
+
+                        <!-- <mat-form-field appearance="outline" style="width: 70px; margin-left: 15px;">
+                            <mat-label>parcelas</mat-label>
+                            <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                                min="1" formControlName="parcelas" selected matInput>
+                        </mat-form-field> -->
 
 
-                        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="retirar bolsa/desconto"
-                            matTooltipPosition="above" matTooltipHideDelay="100">
-                            <button type="button" (click)="RemoverBolsa()" mat-icon-button>
-                                <mat-icon>highlight_off</mat-icon>
-                            </button>
-                        </i>
-                    </div>
+                        <mat-form-field appearance="outline" style="width: 175px;margin-left: 5px;">
+                            <mat-label>Vencimentos a partir de</mat-label>
+                            <input  matInput [matDatepicker]="dp3" 
+                                formControlName="diaDefault">
+                            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                        </mat-form-field>
 
-                    <br>
+                        <div style="float: right;">
 
-                    <mat-form-field appearance="outline" style="width: 130px;">
-                        <mat-label>Valor <span *ngIf="temBolsa">(desconto {{percentualDesconto}}%)</span></mat-label>
-                        <input selected currencyMask [value]="planoPgmAluno.get('valor').value | currency:'BRL':'R$ '"
-                            disabled matInput>
-                    </mat-form-field>
+                            <mat-form-field appearance="outline" style="width: 120px; margin-left: 5px;">
+                                <mat-label>Bolsa/Desconto?</mat-label>
+                                <input formControlName="codigoDesconto" placeholder="código" onblur=""
+                                    selected matInput>
+                            </mat-form-field>
 
-                    <mat-form-field appearance="outline" style="width: 130px; margin-left: 45px;">
-                        <mat-label>Valor da parcela</mat-label>
-                        <input selected [value]="valorParcela | currency:'BRL':'R$ '" disabled matInput>
-
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" style="width: 140px; margin-left: 45px;">
-                        <mat-label>Bônus pontualidade</mat-label>
-                        <input selected formControlName="bonusPontualidade" currencyMask
-                            [options]="{ prefix: '', thousands: '.', decimal: ',' }" matInput placeholder="00,00">
-                        <span matPrefix>R$&nbsp;</span>
-                    </mat-form-field>
-
-                    <br>
-
-                    <span style="font-style: italic; font-size: 0.9em;">
-                        Confirmar matrícula apenas após o pagamento da primeira parcela?: <mat-checkbox disabled [value]="planoPgmAluno.get('confirmacaoPagmMat').value"
-                            class="example-margin">
-                        </mat-checkbox>
-                    </span>
+                            <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="buscar"
+                                matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button [disabled]="searchBolsaIcon" style="" type="button" (click)="BuscarBolsa()"
+                                    mat-icon-button>
+                                    <mat-icon>search</mat-icon>
+                                </button>
+                            </i>
 
 
-                    <div class="table-responsive" style="">
-                        <table color="primary" style="margin-bottom: 0px;" class="table">
+                            <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="retirar bolsa/desconto"
+                                matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button type="button" (click)="RemoverBolsa()" mat-icon-button>
+                                    <mat-icon>highlight_off</mat-icon>
+                                </button>
+                            </i>
+                        </div>
 
-                            <thead>
-                                <tr>
+                        <br>
 
-                                    <th style="width: 40%;font-size:0.9em;
+                        <mat-form-field appearance="outline" style="width: 130px;">
+                            <mat-label>Valor <span *ngIf="temBolsa">(desconto {{percentualDesconto}}%)</span>
+                            </mat-label>
+                            <input currencyMask
+                                [value]="planoPgmAluno.controls['plano'].get('valor').value | currency:'BRL':'R$ '"
+                                disabled matInput>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" style="width: 130px; margin-left: 45px;">
+                            <mat-label>Valor da parcela</mat-label>
+                            <input [value]="valorParcela | currency:'BRL':'R$ '" disabled matInput>
+
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" style="width: 140px; margin-left: 45px;">
+                            <mat-label>Bônus pontualidade</mat-label>
+                            <input formControlName="bonusPontualidade" currencyMask
+                                [options]="{ prefix: '', thousands: '.', decimal: ',' }" matInput placeholder="00,00">
+                            <span matPrefix>R$&nbsp;</span>
+                        </mat-form-field>
+
+                        <br>
+
+                        <span style="font-style: italic; font-size: 0.9em;">
+                            Confirmar matrícula apenas após o pagamento da primeira parcela?: <mat-checkbox disabled
+                                [value]="planoPgmAluno.controls['plano'].get('confirmacaoPagmMat').value"
+                                class="example-margin">
+                            </mat-checkbox>
+                        </span>
+                        <br>
+
+                        <div class="table-responsive" style="margin-top: 15px;">
+                            <table color="primary" style="margin-bottom: 0px;" class="table">
+
+                                <thead>
+                                    <tr>
+
+                                        <th style="width: 40%;font-size:0.9em;
                                 vertical-align: middle; 
                                 text-align:left;
                                  border-top: 0px; font-weight: 400;">PARCELA</th>
 
-                                    <th style="width: 29%;font-size:0.9em;
+                                        <th style="width: 29%;font-size:0.9em;
                                 vertical-align: middle;
                                 text-align:center;
                                 border-top: 0px; font-weight: 400;">VENCIMENTO</th>
 
-                                    <th style="width: 29%;font-size:0.9em;
+                                        <th style="width: 29%;font-size:0.9em;
                                 text-align:center; 
                                 vertical-align: middle;
                                 border-top: 0px; font-weight: 400;">VALOR</th>
 
 
 
-                                </tr>
-                            </thead>
-                            <tbody>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container formArrayName="infoParcelas">
+                                        <tr *ngFor="let parc of parcelasFormArray.controls">
+                                            <ng-container [formGroup]="parc">
+                                                <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                                                    {{ parc.value.parcelaNo }}/{{ parcelasFormArray.controls.length }}
+                                                    <!-- {{ todasparcelas.controls.length }} MENSALIDADE -->
+                                                </td>
 
-                                <tr *ngFor="let parc of todasparcelas">
-                                    <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
-                                        {{ parc.parcelaNo }}/{{ todasparcelas.length }} MENSALIDADE
-                                    </td>
+                                                <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                                                    <!-- {{ parc.vencimento | date:'dd/MM/yyyy'}} -->
+                                                    <!-- <div style="">
+                                                        <input style="margin-right: auto;
+                                                    margin-left: auto;font-size:0.9em;width: 60px;"
+                                                            formControlName="vencimento" >
+                                                    </div> -->
 
-                                    <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
-                                        {{ parc.vencimento | date:'dd/MM/yyyy'}}
-                                    </td>
+                                                    <mat-form-field class="datearray" appearance="outline"
+                                                        style="width: 140px;">
+                                                        <!-- <mat-label>Vencimentos a partir de</mat-label> -->
+                                                        <input matInput [matDatepicker]="dp3"
+                                                            formControlName="vencimento" >
+                                                        <mat-datepicker-toggle matSuffix [for]="dp3">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                                                    </mat-form-field>
 
-                                    <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
-                                        <!-- {{ parc.valor | currency:'BRL':'R$ '}} -->
 
-                                        
-                                    </td>
-                                </tr>
+                                                </td>
 
-                            </tbody>
-                        </table>
-                    </div>
+                                                <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                                    <!-- {{ parc.valor | currency:'BRL':'R$ '}} -->
+                                                    <!-- <input currencyMask [value]="parc.valor"> -->
+                                                    <!-- <div style="">
+                                                        <input style="margin-right: auto;
+                                                    margin-left: auto;font-size:0.9em;width: 60px;"
+                                                            formControlName="valor" currencyMask
+                                                            [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                                                             >
+                                                    </div> -->
 
+                                                    <mat-form-field class="datearray" appearance="outline"
+                                                        style="width: 100px;">
+                                                        <!-- <mat-label>Bônus pontualidade</mat-label> -->
+                                                        <input formControlName="valor" currencyMask
+                                                            [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                                                            matInput placeholder="00,00">
+                                                        <span matPrefix>R$&nbsp;</span>
+                                                    </mat-form-field>
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </ng-container>
+                    <br>
                 </ng-container>
-                <br>
-
             </form>
 
         </mat-tab>
 
     </mat-tab-group>
 
+    <mat-progress-bar [style.visibility]="disabldSaveButton" style="margin:0px" mode="query"></mat-progress-bar>
 
-    <!-- <mat-progress-bar [style.visibility]="saveProgressBar" mode="query"></mat-progress-bar>
-
-    <span *ngFor="let msg of errorMsg" style="margin-top: 20px; font-size: 0.8em;color: red;width: 350px;">
-        {{ msg }}
-
-    </span> -->
-
-    <mat-progress-bar *ngIf="disabldSaveButton" style="margin:0px" mode="query"></mat-progress-bar>
     <span>
         <form novalidate style="float: right;">
-
-            
-            <!-- <div style="bottom: 0; float:right;">
-                <button type="button" (click)="salvarMat()" [disabled]="disabldSaveButton" mat-raised-button
-                    color="primary" style="bottom: 0; float:right;margin-bottom: 0px;margin-left: 10px;">
-                    Confirmar matrícula
-                </button>
-            </div> -->
 
             <div style="bottom: 0; float:right;">
                 <button type="button" (click)="salvarMat()" [disabled]="disabledButton" mat-raised-button
                     color="primary" style="bottom: 0; float:right;margin-bottom: 0px;margin-left: 10px;">
-                    Confirmar matrícula
+                    Matricular
                 </button>
             </div>
 
-
-
-          
         </form>
     </span>
 

@@ -10,9 +10,9 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Cargo } from "../../Adm-Models/cargos.model";
+//import { Cargo } from "../../Adm-Models/cargos.model";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
-import { AdmService } from "../../services/adm.services";
+import { AdmService } from "../../Services/adm.services";
 
 @Component({
     selector: 'createprofessormodal',
@@ -84,7 +84,7 @@ export class CreateProfessorComponent implements OnInit {
     }
     showForm = false
     // showForm = false
-    cargos: Cargo[] = new Array<Cargo>()
+    cargos: any[] = new Array<any>()
     getCargos() {
 
         this.http.get(`${this.baseUrl}/unidade/cargo`)

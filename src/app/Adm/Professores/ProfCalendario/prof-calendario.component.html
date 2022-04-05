@@ -22,6 +22,8 @@ top: 0;">Calendario
     <mat-progress-bar style="margin-top: 5px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
     </mat-progress-bar>
 
+    <div *ngIf="infoNenhumDado" style="font-size: 0.8em;font-style: italic;" >Nenhum dado localizado</div>
+
     <!-- <hr> -->
     <!-- <div *ngIf="ShowTableHeader" class="table-responsive table-calend-top" style="position: relative;">
         <table style="margin-bottom: 0px; padding: 0px;" class="table">

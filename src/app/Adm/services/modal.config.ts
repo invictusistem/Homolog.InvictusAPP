@@ -1,3 +1,81 @@
+
+    //#region /Bolas
+
+
+    //#endregion
+
+
+    //#region /Calendario
+
+
+    //#endregion
+
+    //#region /Colaboradores
+
+
+    //#endregion
+
+
+    //#region /Configuracoes
+
+
+    //#endregion
+
+    //#region /Contratos
+
+
+    //#endregion
+
+    //#region /MessageModal
+
+
+    //#endregion
+
+    //#region /Modulos
+
+
+    //#endregion
+
+    //#region /PlanoPgm
+
+
+    //#endregion
+
+    //#region /Produtos
+
+
+    //#endregion
+
+    //#region /Professores
+
+
+    //#endregion
+
+    //#region /Turmas
+
+
+    //#endregion
+
+    //#region /Unidades
+
+
+    //#endregion
+
+
+    //#region /Usuarios
+
+
+    //#endregion
+
+
+
+
+
+
+
+
+
+
 // Bolas
 export function CreateBolsaModalConfig(usuario?: any) {
     return {

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest } from "@angular/common/http";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { environment } from "src/environments/environment";
 import { Turma, TurmaViewModel } from "src/app/_shared/models/Turma.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
@@ -10,11 +10,11 @@ import { Observable } from "rxjs";
 import { DiaVencimento, Parcelas } from "src/app/_shared/models/utils.model";
 import { CienciaCurso, submitMatriculaForm } from "../CreateModal/creatematricula.component";
 import { SpinnerParams } from "src/app/_shared/models/spinner.model";
-import { AdmService } from "src/app/Adm/services/adm.services";
 import { PedagogicoService } from "../../service/pedagogico.service";
 import { ConfirmMatriculaModalConfig } from "../../service/modal.config";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 
 export const MeioPagamento = [
     { type: 'boleto', value: 'Boleto' },
@@ -34,13 +34,8 @@ export const MeioPagamento = [
 export class AlunoMatriculaComponent implements OnInit {
 
     baseUrl = environment.baseUrl;
-
-    infoSpinner: SpinnerParams = {
-        diameter: 100,
-        marginleft: 42.5,
-        margintop: 10
-    }
-
+    public qntParcelas = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        21, 22, 23, 24, 25]
     cursosDisponiveis: TurmaViewModel[] = new Array<TurmaViewModel>();
     turmasParaMatricular: TurmaViewModel[] = new Array<TurmaViewModel>();
     turmaSelecionada: TurmaViewModel = new TurmaViewModel();
@@ -49,6 +44,7 @@ export class AlunoMatriculaComponent implements OnInit {
     cienciaCurso = CienciaCurso
     showTurmas: boolean = false
     showAlunosIndicacao = false
+    public msgNoCursos = false
     //showTurmaSearch: boolean = true
     showTurmaForm: boolean = false
     message: string = ''
@@ -67,6 +63,7 @@ export class AlunoMatriculaComponent implements OnInit {
     public showSearchAlunoIndicacao = false
     constructor(
         private _fb: FormBuilder,
+        private _helper: HelpersService,
         private http: HttpClient,
         private _pedagService: PedagogicoService,
         public _modal: MatDialog,
@@ -74,144 +71,484 @@ export class AlunoMatriculaComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any) {
 
         this.planoPgmAluno = _fb.group({
-            valor: [0.00, [Validators.required]],
-            taxaMatricula: [0.00, [Validators.required]],
-            confirmacaoPagmMat: [false, [Validators.required]],
-            bonusPontualidade: [0.00, [Validators.required]],
-            parcelas: [22, [Validators.required]],
-            planoId: ['', [Validators.required]],
-            diaDefault: [''],
-           // valorParcela: [1, [Validators.required, Validators.min(1)]],
-            infoParcelas: [''],
-            //new
-            codigoDesconto: [''],
-            bolsaId:[''],
-            ciencia:['',[Validators.required]],
-            cienciaAlunoId:['']
 
+            alunoId: ['', [Validators.required]],
+
+            turmaId: ['', [Validators.required]],
+
+            temRespFin: [false],
+
+            menorIdade: [false],
+
+            plano: _fb.group({
+                valor: [0.00, [Validators.required]],
+                taxaMatricula: [0.00, [Validators.required]],
+                confirmacaoPagmMat: [false, [Validators.required]],
+                bonusPontualidade: [0.00, [Validators.required]],
+                parcelas: [22, [Validators.required]],
+                planoId: ['', [Validators.required]],
+                diaDefault: [''],
+                codigoDesconto: [''],
+                bolsaId: [''],
+                ciencia: ['', [Validators.required]],
+                cienciaAlunoId: [''],
+                infoParcelas: _fb.array([])
+            }),
+
+            respMenor: _fb.group({
+                nome: [''],
+                tipo: ['Responsável menor'],
+                cpf: [''],
+                rg: [''],
+                nascimento: [''],
+                parentesco: [''],
+                naturalidade: [''],
+                naturalidadeUF: [''],
+                email: [''],
+                telCelular: [''],
+                telWhatsapp: [''],
+                telResidencial: [''],
+                cep: [''],
+                logradouro: [''],
+                numero: [''],
+                complemento: [''],
+                cidade: [''],
+                uf: [''],
+                bairro: ['']
+            }),
+
+            respFin: _fb.group({               
+                nome: [''],
+                tipo: ['Responsável financeiro'],
+                cpf: [''],
+                rg: [''],
+                nascimento: [''],
+                parentesco: [''],
+                naturalidade: [''],
+                naturalidadeUF: [''],
+                email: [''],
+                telCelular: [''],
+                telWhatsapp: [''],
+                telResidencial: [''],
+                cep: [''],
+                logradouro: [''],
+                numero: [''],
+                complemento: [''],
+                cidade: [''],
+                uf: [''],
+                bairro: ['']
+            })
         })
 
-
-        this.temRespFinm = _fb.group({
-            temRespFin: [false]
-        })
-
-        this.temRespFinm.valueChanges.subscribe(
+        this.planoPgmAluno.controls['plano'].valueChanges.subscribe(
             (form: any) => {
+                if (this.planoPgmAluno.controls['plano'].get('ciencia').value == 'Indicação Aluno') {
+                    this.planoPgmAluno.controls['plano'].get('cienciaAlunoId').setValidators([Validators.required])
+                    this.planoPgmAluno.controls['plano'].get('cienciaAlunoId').updateValueAndValidity({ emitEvent: false })
+                } else {
+                    this.planoPgmAluno.controls['plano'].get('cienciaAlunoId').clearValidators()
+                    this.planoPgmAluno.controls['plano'].get('cienciaAlunoId').updateValueAndValidity({ emitEvent: false })
+                }
+            }
+        );
 
-                if(this.temRespFinm.get('temRespFin').value){
-                    console.log('enable')
-                    this.respFinForm.disable()
-                }else{
-                    console.log('disabled')
-                    this.respFinForm.disable()
+        this.planoPgmAluno.controls['plano'].get('diaDefault').valueChanges.subscribe(
+            (form: any) => {              
+                this.CalcularParcelas()
+            }
+        );
+
+        this.planoPgmAluno.controls['respFin'].valueChanges.subscribe(
+            (form: any) => {
+                
+                if(this.planoPgmAluno.get('temRespFin').value == false){
+                    this.planoPgmAluno.controls['respFin'].get('telCelular').clearValidators()
+                    this.planoPgmAluno.controls['respFin'].get('telCelular').updateValueAndValidity({ emitEvent: false })
+
+                    this.planoPgmAluno.controls['respFin'].get('telWhatsapp').clearValidators()
+                    this.planoPgmAluno.controls['respFin'].get('telWhatsapp').updateValueAndValidity({ emitEvent: false })
+
+                    this.planoPgmAluno.controls['respFin'].get('telResidencial').clearValidators()
+                    this.planoPgmAluno.controls['respFin'].get('telResidencial').updateValueAndValidity({ emitEvent: false })
+
+                    return;
                 }
 
+                if (this.planoPgmAluno.controls['respFin'].get('telCelular').value == '' &&
+                    this.planoPgmAluno.controls['respFin'].get('telWhatsapp').value == '' &&
+                    this.planoPgmAluno.controls['respFin'].get('telResidencial').value == '') {
+                  
+                    this.planoPgmAluno.controls['respFin'].get('telCelular').setValidators([Validators.required, Validators.minLength(11)])
+                    this.planoPgmAluno.controls['respFin'].get('telCelular').updateValueAndValidity({ emitEvent: false })
+                    this.planoPgmAluno.controls['respFin'].get('telWhatsapp').setValidators([Validators.required, Validators.minLength(11)])
+                    this.planoPgmAluno.controls['respFin'].get('telWhatsapp').updateValueAndValidity({ emitEvent: false })
+                    this.planoPgmAluno.controls['respFin'].get('telResidencial').setValidators([Validators.required, Validators.minLength(10)])
+                    this.planoPgmAluno.controls['respFin'].get('telResidencial').updateValueAndValidity({ emitEvent: false })
+
+                } else if (this.planoPgmAluno.controls['respFin'].get('telCelular').value.length < 11 ||
+                    this.planoPgmAluno.controls['respFin'].get('telWhatsapp').value.length < 11 ||
+                    this.planoPgmAluno.controls['respFin'].get('telResidencial').value.length < 10) {
+                   
+                    if (this.planoPgmAluno.controls['respFin'].get('telCelular').value.length < 11 && this.planoPgmAluno.controls['respFin'].get('telCelular').value.length > 0) {
+                        this.planoPgmAluno.controls['respFin'].get('telCelular').setValidators([Validators.required, Validators.minLength(11)])
+                        this.planoPgmAluno.controls['respFin'].get('telCelular').updateValueAndValidity({ emitEvent: false })
+                    } else {
+                        this.planoPgmAluno.controls['respFin'].get('telCelular').clearValidators()
+                        this.planoPgmAluno.controls['respFin'].get('telCelular').updateValueAndValidity({ emitEvent: false })
+                    }
+                    if (this.planoPgmAluno.controls['respFin'].get('telWhatsapp').value.length < 11 && this.planoPgmAluno.controls['respFin'].get('telWhatsapp').value.length > 0) {
+                        this.planoPgmAluno.controls['respFin'].get('telWhatsapp').setValidators([Validators.required, Validators.minLength(11)])
+                        this.planoPgmAluno.controls['respFin'].get('telWhatsapp').updateValueAndValidity({ emitEvent: false })
+                    } else {
+                        this.planoPgmAluno.controls['respFin'].get('telWhatsapp').clearValidators()
+                        this.planoPgmAluno.controls['respFin'].get('telWhatsapp').updateValueAndValidity({ emitEvent: false })
+                    }
+                    if (this.planoPgmAluno.controls['respFin'].get('telResidencial').value.length < 10 && this.planoPgmAluno.controls['respFin'].get('telResidencial').value.length > 0) {
+                        this.planoPgmAluno.controls['respFin'].get('telResidencial').setValidators([Validators.required, Validators.minLength(10)])
+                        this.planoPgmAluno.controls['respFin'].get('telResidencial').updateValueAndValidity({ emitEvent: false })
+                    } else {
+                        this.planoPgmAluno.controls['respFin'].get('telResidencial').clearValidators()
+                        this.planoPgmAluno.controls['respFin'].get('telResidencial').updateValueAndValidity({ emitEvent: false })
+                    }
+                } else {
+                    this.planoPgmAluno.controls['respFin'].get('telCelular').clearValidators()
+                    this.planoPgmAluno.controls['respFin'].get('telCelular').updateValueAndValidity({ emitEvent: false })
+
+                    this.planoPgmAluno.controls['respFin'].get('telWhatsapp').clearValidators()
+                    this.planoPgmAluno.controls['respFin'].get('telWhatsapp').updateValueAndValidity({ emitEvent: false })
+
+                    this.planoPgmAluno.controls['respFin'].get('telResidencial').clearValidators()
+                    this.planoPgmAluno.controls['respFin'].get('telResidencial').updateValueAndValidity({ emitEvent: false })
+                }
                 
             }
         );
 
 
-        this.respFinForm = _fb.group({
-            nome: ['', [Validators.required, Validators.minLength(2)]],
-            tipo: ['Responsável financeiro'],
-            cpf: ['', [Validators.required, Validators.minLength(11)]],
-            rg: ['', [Validators.required]],
-            nascimento: ['', [Validators.required]],
-            parentesco: ['', [Validators.required]],
-            naturalidade: ['', [Validators.required]],
-            naturalidadeUF: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.minLength(5)]],
-            telCelular: [null, [Validators.minLength(0)]],
-            telWhatsapp: [null, [Validators.minLength(10)]],
-            telResidencial: [null, [Validators.minLength(9)]],
-            cep: ['', [Validators.required, Validators.minLength(8)]],
-            logradouro: ['', [Validators.required, Validators.minLength(1)]],
-            numero: [''],
-            complemento: [''],
-            cidade: ['', [Validators.required, Validators.minLength(1)]],
-            uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
-            bairro: ['', [Validators.required, Validators.minLength(1)]],
-
-        })
-
-
-        this.respMenor = _fb.group({
-
-            nome: ['', [Validators.required, Validators.minLength(2)]],
-            tipo: ['Responsável menor'],
-            cpf: ['', [Validators.required, Validators.minLength(11)]],
-            rg: ['', [Validators.required]],
-            nascimento: ['', [Validators.required]],
-            parentesco: ['', [Validators.required]],
-            naturalidade: ['', [Validators.required]],
-            naturalidadeUF: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.minLength(5)]],
-            telCelular: [null, [Validators.minLength(0)]],
-            telWhatsapp: [null, [Validators.minLength(10)]],
-            telResidencial: [null, [Validators.minLength(9)]],
-            cep: ['', [Validators.required, Validators.minLength(8)]],
-            logradouro: ['', [Validators.required, Validators.minLength(1)]],
-            numero: [''],
-            complemento: [''],
-            cidade: ['', [Validators.required, Validators.minLength(1)]],
-            uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
-            bairro: ['', [Validators.required, Validators.minLength(1)]]
-
-        })
-        this.matriculaTurmaForm = _fb.group({
-            responsave: []
-
-        })
-
-    }
-
-    chanceCiencia(ciencia){
-        
-            if (this.planoPgmAluno.get('ciencia').value == 'Indicação Aluno') {
-
-               // this.planoPgmAluno.get('cienciaAlunoId').enable()
-                console.log('trazer alunos')
-                this.TrazerAlunos()
+        this.planoPgmAluno.controls['respMenor'].valueChanges.subscribe(
+            (form: any) => {
                 
-            } else {
-                this.planoPgmAluno.get('cienciaAlunoId').setValue('')
-              //  this.planoPgmAluno.get('cienciaAlunoId').disable()
-                this.showAlunosIndicacao = false
-                
+                if(this.planoPgmAluno.get('temRespFin').value == false){
+                    this.planoPgmAluno.controls['respMenor'].get('telCelular').clearValidators()
+                    this.planoPgmAluno.controls['respMenor'].get('telCelular').updateValueAndValidity({ emitEvent: false })
+
+                    this.planoPgmAluno.controls['respMenor'].get('telWhatsapp').clearValidators()
+                    this.planoPgmAluno.controls['respMenor'].get('telWhatsapp').updateValueAndValidity({ emitEvent: false })
+
+                    this.planoPgmAluno.controls['respMenor'].get('telResidencial').clearValidators()
+                    this.planoPgmAluno.controls['respMenor'].get('telResidencial').updateValueAndValidity({ emitEvent: false })
+
+                    return;
+                }
+
+                if (this.planoPgmAluno.controls['respMenor'].get('telCelular').value == '' &&
+                    this.planoPgmAluno.controls['respMenor'].get('telWhatsapp').value == '' &&
+                    this.planoPgmAluno.controls['respMenor'].get('telResidencial').value == '') {
+                  
+                    this.planoPgmAluno.controls['respMenor'].get('telCelular').setValidators([Validators.required, Validators.minLength(11)])
+                    this.planoPgmAluno.controls['respMenor'].get('telCelular').updateValueAndValidity({ emitEvent: false })
+                    this.planoPgmAluno.controls['respMenor'].get('telWhatsapp').setValidators([Validators.required, Validators.minLength(11)])
+                    this.planoPgmAluno.controls['respMenor'].get('telWhatsapp').updateValueAndValidity({ emitEvent: false })
+                    this.planoPgmAluno.controls['respMenor'].get('telResidencial').setValidators([Validators.required, Validators.minLength(10)])
+                    this.planoPgmAluno.controls['respMenor'].get('telResidencial').updateValueAndValidity({ emitEvent: false })
+
+                } else if (this.planoPgmAluno.controls['respMenor'].get('telCelular').value.length < 11 ||
+                    this.planoPgmAluno.controls['respMenor'].get('telWhatsapp').value.length < 11 ||
+                    this.planoPgmAluno.controls['respMenor'].get('telResidencial').value.length < 10) {
+                   
+                    if (this.planoPgmAluno.controls['respMenor'].get('telCelular').value.length < 11 && this.planoPgmAluno.controls['respMenor'].get('telCelular').value.length > 0) {
+                        this.planoPgmAluno.controls['respMenor'].get('telCelular').setValidators([Validators.required, Validators.minLength(11)])
+                        this.planoPgmAluno.controls['respMenor'].get('telCelular').updateValueAndValidity({ emitEvent: false })
+                    } else {
+                        this.planoPgmAluno.controls['respMenor'].get('telCelular').clearValidators()
+                        this.planoPgmAluno.controls['respMenor'].get('telCelular').updateValueAndValidity({ emitEvent: false })
+                    }
+                    if (this.planoPgmAluno.controls['respMenor'].get('telWhatsapp').value.length < 11 && this.planoPgmAluno.controls['respMenor'].get('telWhatsapp').value.length > 0) {
+                        this.planoPgmAluno.controls['respMenor'].get('telWhatsapp').setValidators([Validators.required, Validators.minLength(11)])
+                        this.planoPgmAluno.controls['respMenor'].get('telWhatsapp').updateValueAndValidity({ emitEvent: false })
+                    } else {
+                        this.planoPgmAluno.controls['respMenor'].get('telWhatsapp').clearValidators()
+                        this.planoPgmAluno.controls['respMenor'].get('telWhatsapp').updateValueAndValidity({ emitEvent: false })
+                    }
+                    if (this.planoPgmAluno.controls['respMenor'].get('telResidencial').value.length < 10 && this.planoPgmAluno.controls['respMenor'].get('telResidencial').value.length > 0) {
+                        this.planoPgmAluno.controls['respMenor'].get('telResidencial').setValidators([Validators.required, Validators.minLength(10)])
+                        this.planoPgmAluno.controls['respMenor'].get('telResidencial').updateValueAndValidity({ emitEvent: false })
+                    } else {
+                        this.planoPgmAluno.controls['respMenor'].get('telResidencial').clearValidators()
+                        this.planoPgmAluno.controls['respMenor'].get('telResidencial').updateValueAndValidity({ emitEvent: false })
+                    }
+                } else {
+                    this.planoPgmAluno.controls['respMenor'].get('telCelular').clearValidators()
+                    this.planoPgmAluno.controls['respMenor'].get('telCelular').updateValueAndValidity({ emitEvent: false })
+
+                    this.planoPgmAluno.controls['respMenor'].get('telWhatsapp').clearValidators()
+                    this.planoPgmAluno.controls['respMenor'].get('telWhatsapp').updateValueAndValidity({ emitEvent: false })
+
+                    this.planoPgmAluno.controls['respMenor'].get('telResidencial').clearValidators()
+                    this.planoPgmAluno.controls['respMenor'].get('telResidencial').updateValueAndValidity({ emitEvent: false })
+                }
             }
-        
-
+        );
     }
 
 
-    ngOnInit() {
-        console.log(this.data['aluno'])
+    async ngOnInit() {
+        // await this.angelMowersPromise
+        //     .then(() => this.myPaymentPromise.then(res => console.log(res)))
+        //     .catch(error => console.log(error))
+
+        //await this.meuAsync();
+        //var numero = await this.delay(4000, 1)
+        //console.log(numero)
+        this.SetInitialValues()
+        this.GetDefaultDay()
+        this.ConsultarCursos()
+    }
+
+    private SetInitialValues() {
         const token = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.hidden = 'visible'
-
-        this.consultarCursos()
+        this.planoPgmAluno.get('alunoId').setValue(this.data['aluno'].id)
     }
+
+    public ConsultarCursos() {
+
+        this.http.get(`${this.baseUrl}/pedag/matricula/${this.data['aluno'].id}`)
+            .subscribe(response => {
+                this.typePacotes = Object.assign([], response)['types']
+
+            }, err => {
+                this._helper.openSnackBarErrorDefault()
+            },
+                () => {
+                    //this.GetDefaultDay()
+                    this.mostrarModalPrincipal = false
+                    this.showSelectedTypes = true
+                    this.hidden = 'hidden'
+                });
+    }
+
+    private GetDefaultDay() {
+
+        let dateNow = new Date();
+        let initialDate = new Date()
+        initialDate.setDate(10)
+
+        if (dateNow.getDate() > 10) {
+            initialDate.setMonth(initialDate.getMonth() + 1)
+        } else {
+
+        }
+        this.planoPgmAluno.controls['plano'].get('diaDefault').setValue(initialDate)
+
+    }
+
+    // delay(milliseconds: number, count: number): Promise<any> {
+      
+    //     for (let index = 0; index < 10000; index++) {
+    //         console.log(index)
+
+    //     }
+    //     return new Promise<number>(resolve => {
+    //         resolve(5)
+    //     });
+    // }
+
+    // myAsync = async (): Promise<Record<string, number | string>> => {
+    //     await this.angelMowersPromise
+    //     const response = await this.myPaymentPromise
+    //     return response
+    // }
+
+    // angelMowersPromise = new Promise<string>((resolve, reject) => {
+    //     // a resolved promise after certain hours
+    //     setTimeout(() => {
+    //         resolve('We finished mowing the lawn')
+    //     }, 1000) // resolves after 100,000ms
+    //     reject("We couldn't mow the lawn")
+    // })
+
+    // myPaymentPromise = new Promise<Record<string, number | string>>((resolve, reject) => {
+    //     // a resolved promise with  an object of 1000 Euro payment
+    //     // and a thank you message
+    //     setTimeout(() => {
+    //         resolve({
+    //             amount: 5000,
+    //             note: 'Thank You',
+    //         })
+    //     }, 100000)
+    //     // reject with 0 Euro and an unstatisfatory note
+    //     reject({
+    //         amount: 0,
+    //         note: 'Sorry Lawn was not properly Mowed',
+    //     })
+    // })
+
+    pesquisarTurmas(typeId) {
+
+        this.msgNoCursos = false
+        this.hidden = 'visible'
+        this.showTurmasEncontradas = false
+        this.http.get(`${this.baseUrl}/turma/${typeId}`)
+            .subscribe(response => {
+                this.turmas = Object.assign([], response['turmas'])
+
+            }, err => {
+                this.hidden = 'hidden'
+                if (err['error'].status == 404) {
+                    this.mensagemNoType = "Não há cursos disponíveis para este aluno.";
+                    this.msgNoCursos = true
+                }
+                this.showMessageNoTypes = true
+            },
+                () => {
+                    this.hidden = 'hidden'
+                    this.showTurmasEncontradas = true
+
+                });
+    }
+
+    buscar(turmaId) {
+        this.hidden = 'visible'
+        this.http.get(`${this.baseUrl}/turma/get/${turmaId}/${this.data['aluno'].id}`)
+            .subscribe(response => {
+
+                this.turma = Object.assign({}, response['turma'])
+                this.planosPgm = Object.assign([], response['planos'])
+                this.planoPgmAluno.get('turmaId').setValue(this.turma.id)
+                //console.log(response['menor'])
+                this.planoPgmAluno.get('menorIdade').setValue(response['menor'])
+
+                if (!response['menor']) {
+
+                    Object.keys(this.planoPgmAluno.get('respMenor').value).forEach((controlName) => {
+                        // console.log(controlName)
+                        this.planoPgmAluno.controls['respMenor'].get(controlName).setValidators(null)
+                        this.planoPgmAluno.controls['respMenor'].get(controlName).updateValueAndValidity()
+                    });
+                }
+
+            }, err => {
+                this.hidden = 'hidden'
+                this.mensagemNoTrumas = err['error'].message
+                this.showMessageNoTurmas = true
+            },
+                () => {
+                    this.hidden = 'hidden'
+
+                    this.dialogRef.addPanelClass('myalunomat-class')
+                    this.showContent = true
+                });
+
+    }
+
+
     alunosIndicacao: any[] = new Array<any>()
-    TrazerAlunos(){
+    TrazerAlunos() {
 
         this._pedagService.GetAlunosIndicacao()
             .subscribe(
-                sucesso => { 
-                    this.alunosIndicacao = sucesso['alunos'] 
+                sucesso => {
+                    this.alunosIndicacao = sucesso['alunos']
                     this.showAlunosIndicacao = true
-                    
+
                 },
                 falha => { }
             )
+    }
 
+    chanceCiencia(ciencia) {
+
+        if (this.planoPgmAluno.controls['plano'].get('ciencia').value == 'Indicação Aluno') {
+            this.TrazerAlunos()
+        } else {
+            this.planoPgmAluno.controls['plano'].get('cienciaAlunoId').setValue('')
+            //this.showAlunosIndicacao = false
+        }
     }
 
     modelChanged(newObj) {
+        //console.log(newObj)
+        this.planoPgmAluno.get('temRespFin').setValue(newObj.checked);
 
-        this.temRespFinm.get('temRespFin').setValue(newObj.checked);
+
+
+        if (this.planoPgmAluno.get('temRespFin').value == true) {
+            //console.log('tem resp fin')
+            this.planoPgmAluno.controls['respFin'].get('nome').setValidators([Validators.required, Validators.minLength(2)])
+            this.planoPgmAluno.controls['respFin'].get('nome').updateValueAndValidity({ emitEvent: false })
+
+            // this.planoPgmAluno.controls['respFin'].get('tipo').setValidators([Validators.required])
+            // this.planoPgmAluno.controls['respFin'].get('tipo').updateValueAndValidity({ emitEvent: false })
+
+            this.planoPgmAluno.controls['respFin'].get('cpf').setValidators([Validators.required, Validators.minLength(11)])
+            this.planoPgmAluno.controls['respFin'].get('cpf').updateValueAndValidity({ emitEvent: false })
+
+            this.planoPgmAluno.controls['respFin'].get('rg').setValidators([Validators.required])
+            this.planoPgmAluno.controls['respFin'].get('rg').updateValueAndValidity({ emitEvent: false })
+
+            this.planoPgmAluno.controls['respFin'].get('nascimento').setValidators([Validators.required])
+            this.planoPgmAluno.controls['respFin'].get('nascimento').updateValueAndValidity({ emitEvent: false })
+
+            this.planoPgmAluno.controls['respFin'].get('parentesco').setValidators([Validators.required])
+            this.planoPgmAluno.controls['respFin'].get('parentesco').updateValueAndValidity({ emitEvent: false })
+
+            this.planoPgmAluno.controls['respFin'].get('naturalidade').setValidators([Validators.required])
+            this.planoPgmAluno.controls['respFin'].get('naturalidade').updateValueAndValidity({ emitEvent: false })
+
+            this.planoPgmAluno.controls['respFin'].get('naturalidadeUF').setValidators([Validators.required])
+            this.planoPgmAluno.controls['respFin'].get('naturalidadeUF').updateValueAndValidity({ emitEvent: false })
+
+            this.planoPgmAluno.controls['respFin'].get('email').setValidators([Validators.required, Validators.minLength(5)])
+            this.planoPgmAluno.controls['respFin'].get('email').updateValueAndValidity({ emitEvent: false })
+
+            // this.planoPgmAluno.controls['respFin'].get('telCelular').setValidators([Validators.required])
+            // this.planoPgmAluno.controls['respFin'].get('telCelular').updateValueAndValidity({ emitEvent: false })
+
+            // this.planoPgmAluno.controls['respFin'].get('telWhatsapp').setValidators([Validators.required])
+            // this.planoPgmAluno.controls['respFin'].get('telWhatsapp').updateValueAndValidity({ emitEvent: false })
+
+            // this.planoPgmAluno.controls['respFin'].get('telResidencial').setValidators([Validators.required])
+            // this.planoPgmAluno.controls['respFin'].get('telResidencial').updateValueAndValidity({ emitEvent: false })
+
+            this.planoPgmAluno.controls['respFin'].get('cep').setValidators([Validators.required, Validators.minLength(8)])
+            this.planoPgmAluno.controls['respFin'].get('cep').updateValueAndValidity({ emitEvent: false })
+
+            this.planoPgmAluno.controls['respFin'].get('logradouro').setValidators([Validators.required])
+            this.planoPgmAluno.controls['respFin'].get('logradouro').updateValueAndValidity({ emitEvent: false })
+
+            this.planoPgmAluno.controls['respFin'].get('numero').setValidators([Validators.required])
+            this.planoPgmAluno.controls['respFin'].get('numero').updateValueAndValidity({ emitEvent: false })
+
+            // this.planoPgmAluno.controls['respFin'].get('complemento').setValidators([Validators.required])
+            // this.planoPgmAluno.controls['respFin'].get('complemento').updateValueAndValidity({ emitEvent: false })
+
+            this.planoPgmAluno.controls['respFin'].get('cidade').setValidators([Validators.required])
+            this.planoPgmAluno.controls['respFin'].get('cidade').updateValueAndValidity({ emitEvent: false })
+
+            this.planoPgmAluno.controls['respFin'].get('uf').setValidators([Validators.required])
+            this.planoPgmAluno.controls['respFin'].get('uf').updateValueAndValidity({ emitEvent: false })
+
+            this.planoPgmAluno.controls['respFin'].get('bairro').setValidators([Validators.required])
+            this.planoPgmAluno.controls['respFin'].get('bairro').updateValueAndValidity({ emitEvent: false })
+
+
+        } else {
+            //console.log('nao tem resp fin')
+            Object.keys(this.planoPgmAluno.get('respFin').value).forEach((controlName) => {
+                // console.log(controlName)
+                this.planoPgmAluno.controls['respFin'].get(controlName).setValidators(null)
+                this.planoPgmAluno.controls['respFin'].get(controlName).updateValueAndValidity()
+            });
+
+        }
+
+        //this.SetRespFinForm(newObj.checked)
+        //this.temRespFinm.get('temRespFin').setValue(newObj.checked);
     }
+
+
 
     getCursos(actualPage: number, pageSize: number) {
 
@@ -230,7 +567,9 @@ export class AlunoMatriculaComponent implements OnInit {
             //   console.log(response)
             Object.assign(this.cursosDisponiveis, response)
             //console.log(this.cursosDisponiveis)
-        }, err => { console.log(err) },
+        }, err => {
+            //console.log(err) 
+        },
             () => {
 
                 //  console.log('metodo getCursos')
@@ -245,8 +584,8 @@ export class AlunoMatriculaComponent implements OnInit {
 
     }
 
-    setCienciaCurso(ciencia){
-        console.log(this.planoPgmAluno.get('ciencia').value)
+    setCienciaCurso(ciencia) {
+        //  console.log(this.planoPgmAluno.get('ciencia').value)
     }
 
     // // consultarCursos(item: any){
@@ -257,66 +596,49 @@ export class AlunoMatriculaComponent implements OnInit {
     showMessageNoTypes = false
     mensagemNoType = ""
     mostrarModalPrincipal = true
-    consultarCursos() {
 
-        this.http.get(`${this.baseUrl}/pedag/matricula/${this.data['aluno'].id}`)
-            .subscribe(response => {
-                this.typePacotes = Object.assign([], response)['types']
+    searchBolsaIcon = false
+    BuscarBolsa() {
+        //console.log(this.planoPgmAluno.controls['plano'].get('codigoDesconto').value)
+        if(this.planoPgmAluno.controls['plano'].get('codigoDesconto').value != ''){
+        this.searchBolsaIcon = true
+        if (this.planoPgmAluno.controls['plano'].get('codigoDesconto').value != null && this.planoPgmAluno.controls['plano'].get('codigoDesconto').value != '') {
 
-            }, err => {
-                //  console.log(err)
-                this.hidden = 'hidden'
-                if (err['error'].status == 404) {
-                    this.mensagemNoType = "Não há cursos disponíveis para o aluno.";
-                }
-                this.showMessageNoTypes = true
-            },
-                () => {
-                  //  this.planoPgmAluno.get('valorParcela').setValue(1000.50)
-                  //  this.planoPgmAluno.get('valorParcela').disable()
-                    this.GetDefaultDay()
-                    this.mostrarModalPrincipal = false
-                    this.showSelectedTypes = true
-                    this.hidden = 'hidden'
-
-                });
-    }
-
-    BuscarBolsa(codigo) {
-        console.log(this.planoPgmAluno.get('codigoDesconto').value)
-
-        if (this.planoPgmAluno.get('codigoDesconto').value != null && this.planoPgmAluno.get('codigoDesconto').value != '') {
-
-            this._pedagService.GetBolsa(this.planoPgmAluno.get('codigoDesconto').value)
+            this._pedagService.GetBolsa(this.planoPgmAluno.controls['plano'].get('codigoDesconto').value)
                 .subscribe(
                     sucesso => { this.BuscaBolsaSucesso(sucesso) },
                     falha => { this.BuscaBolsaErro(falha) }
                 )
         }
     }
+    }
     percentualDesconto = 0
     BuscaBolsaSucesso(resp) {
-
-        this.planoPgmAluno.get('valor').setValue(this.valorPlanoOriginal)
+        this.searchBolsaIcon = false
+        this.planoPgmAluno.controls['plano'].get('valor').setValue(this.valorPlanoOriginal)
         this.bolsa = resp['bolsa']
         this.percentualDesconto = this.bolsa.percentualDesconto
-        let valorTotal = this.planoPgmAluno.get('valor').value
+        let valorTotal = this.planoPgmAluno.controls['plano'].get('valor').value
 
         let per = (valorTotal / 100) * this.bolsa.percentualDesconto
 
         let valorComDesconto = valorTotal - per
 
-        console.log(valorComDesconto)
+        //console.log(valorComDesconto)
 
-        this.planoPgmAluno.get('valor').setValue(valorComDesconto)
-        this.planoPgmAluno.get('bolsaId').setValue(this.bolsa.id)
+        this.planoPgmAluno.controls['plano'].get('valor').setValue(valorComDesconto)
+        this.planoPgmAluno.controls['plano'].get('bolsaId').setValue(this.bolsa.id)
+        this._helper.openSnackBarSucesso("Bolsa aplicada.")
         this.temBolsa = true
 
     }
 
     BuscaBolsaErro(error) {
+        this.searchBolsaIcon = false
+        this._helper.openSnackBarError("Senha inválida.")
 
     }
+
     get valorParcela() {
 
         var preco = parseFloat('1000')
@@ -324,9 +646,9 @@ export class AlunoMatriculaComponent implements OnInit {
         //console.log(precoFloat)
         let precofinal = preco.toFixed(2)
 
-        let parcelas = this.planoPgmAluno.get('parcelas').value
+        let parcelas = this.planoPgmAluno.controls['plano'].get('parcelas').value
 
-        let valorTotal = this.planoPgmAluno.get('valor').value
+        let valorTotal = this.planoPgmAluno.controls['plano'].get('valor').value
 
         let valorParcela = parseFloat(valorTotal) / parseFloat(parcelas)
 
@@ -335,10 +657,10 @@ export class AlunoMatriculaComponent implements OnInit {
         return parcela
     }
 
-    RemoverBolsa(){
-        this.planoPgmAluno.get('bolsaId').setValue('')
-        this.planoPgmAluno.get('codigoDesconto').setValue('')
-        this.planoPgmAluno.get('valor').setValue(this.valorPlanoOriginal)
+    RemoverBolsa() {
+        this.planoPgmAluno.controls['plano'].get('bolsaId').setValue('')
+        this.planoPgmAluno.controls['plano'].get('codigoDesconto').setValue('')
+        this.planoPgmAluno.controls['plano'].get('valor').setValue(this.valorPlanoOriginal)
         this.bolsa = {}
         this.temBolsa = false
     }
@@ -346,67 +668,14 @@ export class AlunoMatriculaComponent implements OnInit {
     turmas: any[] = new Array<any>()
     showTurmasEncontradas = false
     hidden = 'hidden'
-    pesquisarTurmas(typeId) {
-        //console.log(typeId)
-        this.hidden = 'visible'
-        this.showTurmasEncontradas = false
-        this.http.get(`${this.baseUrl}/turma/${typeId}`)
-            .subscribe(response => {
-                this.turmas = Object.assign([], response['turmas'])
 
-            }, err => {
-                //  console.log(err['error'].status)
-                this.hidden = 'hidden'
-                if (err['error'].status == 404) {
-                    this.mensagemNoTrumas = "Não há turmas disponíveis para o tipo de curso nesta unidade";
-                }
-
-                // this.mensagemNoTrumas = err['error'].message
-                this.showMessageNoTurmas = true
-            },
-                () => {
-                    this.hidden = 'hidden'
-                    this.showTurmasEncontradas = true
-                    // this.dialogRef.addPanelClass('myalunomat-class')
-                });
-
-
-    }
 
     turma: any
     showMatriculaContainer = false
     planos: any[]
-    menorIdade = false
+    //menorIdade = false
     showContent = false
-    buscar(turmaId) {
-        this.hidden = 'visible'
-        this.http.get(`${this.baseUrl}/turma/get/${turmaId}/${this.data['aluno'].id}`)
-            .subscribe(response => {
 
-                this.turma = Object.assign({}, response['turma'])
-                this.planosPgm = Object.assign([], response['planos'])
-                this.menorIdade = response['menor']
-                // console.log(this.menorIdade)
-                if (!this.menorIdade) {
-                    this.respMenor.disable()
-                }
-
-            }, err => {
-                // console.log(err)
-                this.hidden = 'hidden'
-                this.mensagemNoTrumas = err['error'].message
-                this.showMessageNoTurmas = true
-            },
-                () => {
-                    this.hidden = 'hidden'
-
-                    this.dialogRef.addPanelClass('myalunomat-class')
-                    this.showContent = true
-                    // this.showSelectedTypes = false
-                    //this.showMatriculaContainer = true
-                });
-
-    }
 
     voltar() {
         this.showSelectedTypes = true
@@ -419,21 +688,22 @@ export class AlunoMatriculaComponent implements OnInit {
 
 
 
-
+    enderecoFin = 'hidden'
     consultaCEPFin(cep) {
         // console.log(CEP);
 
-        if (this.respFinForm.get('cep').valid) {
+        if (this.planoPgmAluno.controls['respFin'].get('cep').valid) {
             this.http.get(`https://viacep.com.br/ws/${cep}/json/`, {})
                 .subscribe(response => {
                     //   console.log(response["logradouro"])
 
-                    this.respFinForm.get('logradouro').setValue(response["logradouro"].toUpperCase());
-                    this.respFinForm.get('bairro').setValue(response["bairro"].toUpperCase());
-                    this.respFinForm.get('cidade').setValue(response["localidade"].toUpperCase());
-                    this.respFinForm.get('uf').setValue(response["uf"].toUpperCase());
-
+                    this.planoPgmAluno.controls['respFin'].get('logradouro').setValue(response["logradouro"].toUpperCase());
+                    this.planoPgmAluno.controls['respFin'].get('bairro').setValue(response["bairro"].toUpperCase());
+                    this.planoPgmAluno.controls['respFin'].get('cidade').setValue(response["localidade"].toUpperCase());
+                    this.planoPgmAluno.controls['respFin'].get('uf').setValue(response["uf"].toUpperCase());
+                    this.enderecoFin = 'visible'
                 }, err => {
+                    this._helper.openSnackBarError("Ocorreu um erro ao consultar o CPF.")
                     //  console.log(err)
                 },
                     () => {
@@ -448,19 +718,21 @@ export class AlunoMatriculaComponent implements OnInit {
         return true
     }
 
+    public enderecoMenor = 'hidden'
     consultaCEPRespMenor(cep) {
         // console.log(CEP);
 
-        if (this.respMenor.get('cep').valid) {
+        if (this.planoPgmAluno.controls['respMenor'].get('cep').valid) {
             this.http.get(`https://viacep.com.br/ws/${cep}/json/`, {})
                 .subscribe(response => {
 
-                    this.respMenor.get('logradouro').setValue(response["logradouro"].toUpperCase());
-                    this.respMenor.get('bairro').setValue(response["bairro"].toUpperCase());
-                    this.respMenor.get('cidade').setValue(response["localidade"].toUpperCase());
-                    this.respMenor.get('uf').setValue(response["uf"].toUpperCase());
-
+                    this.planoPgmAluno.controls['respMenor'].get('logradouro').setValue(response["logradouro"].toUpperCase());
+                    this.planoPgmAluno.controls['respMenor'].get('bairro').setValue(response["bairro"].toUpperCase());
+                    this.planoPgmAluno.controls['respMenor'].get('cidade').setValue(response["localidade"].toUpperCase());
+                    this.planoPgmAluno.controls['respMenor'].get('uf').setValue(response["uf"].toUpperCase());
+                    this.enderecoMenor = 'visible'
                 }, err => {
+                    this._helper.openSnackBarError('Ocorreu um erro ao consultar o CEP.')
                     //console.log(err)
                 },
                     () => {
@@ -480,23 +752,94 @@ export class AlunoMatriculaComponent implements OnInit {
     showPlano = false
     //todasparcelas: any[] = new Array<any>();
 
-    get todasparcelas() {
 
-        let parcelas = new Array<any>()
-        let qntParcelas = this.planoPgmAluno.get('parcelas').value
+
+    get parcelasFormArray() {
+        return this.planoPgmAluno.controls["plano"].get('infoParcelas') as FormArray;
+    }
+
+    todasparcelas = new Array<any>()
+
+    clearFormArray = (formArray: FormArray) => {
+        while (formArray.length !== 0) {
+            formArray.removeAt(0)
+        }
+    }
+
+    CalcularParcelas() {
+        //console.log(this.planoPgmAluno.controls['plano'])
+        if (this.planoPgmAluno.controls['plano'].get('planoId').value == '') return;
+        this.todasparcelas = new Array<any>()
+        let qntParcelas = this.planoPgmAluno.controls['plano'].get('parcelas').value
+        //  let index = 0
+        // console.log(this.parcelasFormArray.value.length)
+        this.clearFormArray(this.parcelasFormArray)
+        // this.parcelasFormArray.value.splice(0, this.parcelasFormArray.value.length);
+        // clearFormArray = (formArray: FormArray) => {
+        //     while (formArray.length !== 0) {
+        //       formArray.removeAt(0)
+        //     }
+        //   }
+
+
         for (let index = 0; index < qntParcelas; index++) {
 
-            parcelas.push({
-                parcelaNo: index + 1,
-                vencimento: this.setData(index),
-                valor: this.valorParcela
-            })
+            // this.todasparcelas.push({
+            //     parcelaNo: index + 1,
+            //     vencimento: this.setData(index),
+            //     valor: this.valorParcela
+            // })
+
+            const matForm = this._fb.group({
+
+                parcelaNo: [index + 1],
+                vencimento: [this.setData(index)],
+                valor: [this.valorParcela]
+            });
+
+            // this.
+            //this.parcelasFormArray.reset()
+
+            this.parcelasFormArray.push(matForm);// get materias()
+
+
         }
 
-
-        return parcelas
-
+        // console.log(this.parcelasFormArray.value)
     }
+
+
+    // get todasparcelas() {
+
+    //     //
+    //     let parcelas = new Array<any>()
+    //     let qntParcelas = this.planoPgmAluno.controls['plano'].get('parcelas').value
+    //     for (let index = 0; index < qntParcelas; index++) {
+
+    //         parcelas.push({
+    //             parcelaNo: index + 1,
+    //             vencimento: this.setData(index),
+    //             valor: this.valorParcela
+    //         })
+
+
+
+    //         // const matForm = this._fb.group({
+
+    //         //     parcelaNo: index + 1,
+    //         //     vencimento:  this.setData(index),
+    //         //     valor: this.valorParcela
+    //         // });
+
+    //         // this.parcelasFormArray.push(matForm);// get materias()
+
+
+    //     }
+
+
+    //     return parcelas
+
+    // }
 
     setData(number) {
 
@@ -512,7 +855,7 @@ export class AlunoMatriculaComponent implements OnInit {
 
         // console.log(initialDate)
         // this.planoPgmAluno.get('diaDefault').setValue(initialDate)
-        let data = new Date(this.planoPgmAluno.get('diaDefault').value)
+        let data = new Date(this.planoPgmAluno.controls['plano'].get('diaDefault').value)
         data.setMonth(data.getMonth() + number)
         data.setHours(0)
         data.setMinutes(0)
@@ -523,8 +866,13 @@ export class AlunoMatriculaComponent implements OnInit {
 
     public valorPlanoOriginal
     public temBolsa = false
+
+    public spinnerBuscarPlano = 'hidden'
     buscaPlanoPgm(planoId) {
         this.verPlano = false
+        //console.log(planoId)
+
+        this.spinnerBuscarPlano = 'visible'
         this.http.get(`${this.baseUrl}/plano-pagamento/${planoId}`)
             .subscribe(response => {
 
@@ -532,20 +880,23 @@ export class AlunoMatriculaComponent implements OnInit {
 
             }, err => {
                 // console.log(err)
-
+                this.spinnerBuscarPlano = 'hidden'
                 //this.mensagemNoTrumas = err['error'].message
                 //this.showMessageNoTurmas = true
             },
                 () => {
                     this.verPlano = true
+                    this.spinnerBuscarPlano = 'hidden'
                     //console.log(this.planoSelecion ado)   
-                    console.log(this.planoSelecionado)
+                    // console.log(this.planoSelecionado)
                     this.valorPlanoOriginal = this.planoSelecionado.valor
-                    this.planoPgmAluno.get('valor').setValue(this.planoSelecionado.valor)
-                    this.planoPgmAluno.get('taxaMatricula').setValue(this.planoSelecionado.taxaMatricula)
-                    this.planoPgmAluno.get('bonusPontualidade').setValue(this.planoSelecionado.bonusPontualidade)
+                    this.planoPgmAluno.controls['plano'].get('valor').setValue(this.planoSelecionado.valor)
+                    this.planoPgmAluno.controls['plano'].get('taxaMatricula').setValue(this.planoSelecionado.taxaMatricula)
+                    this.planoPgmAluno.controls['plano'].get('bonusPontualidade').setValue(this.planoSelecionado.bonusPontualidade)
                     //  this.planoPgmAluno.get('parcelas').setValue(this.planoSelecionado.parcelas)
-                    this.planoPgmAluno.get('planoId').setValue(this.planoSelecionado.id)
+                    this.planoPgmAluno.controls['plano'].get('planoId').setValue(this.planoSelecionado.id)
+                    this.planoPgmAluno.controls['plano'].get('planoId').setValue(planoId)
+                    this.CalcularParcelas()
                     this.showPlano = true
                     /*
                                         valor
@@ -568,7 +919,7 @@ export class AlunoMatriculaComponent implements OnInit {
     }
 
     submeter() {
-        console.log(this.respMenor.value)
+        // console.log(this.respMenor.value)
     }
 
     // onFocusEvent(event){
@@ -593,48 +944,70 @@ export class AlunoMatriculaComponent implements OnInit {
 
     // }
 
-    disabldSaveButton = false
-    get disabledButton(){
-
-
-        return this.respFinForm.valid
+    disabldSaveButton = 'hidden'
+    get disabledButton() {
+        if (this.planoPgmAluno.valid) {
+            return this.disabldSaveButton != 'hidden'
+        } else {
+            return true
+        }
     }
 
     salvarMat() {
-        this.planoPgmAluno.get('infoParcelas').setValue(this.todasparcelas)
-       // console.log(this.planoPgmAluno.value)
-       // console.log(this.planoPgmAluno.valid)
-        if (!this.planoPgmAluno.valid) return
-        if (this.menorIdade) {
-            if (!this.respMenor.valid) return
-        }
 
-        if (this.temRespFinm.get('temRespFin').value) {
-            if (!this.respFinForm.valid) return
-        }
-        this.disabldSaveButton = true
-       // console.log(this.planoPgmAluno.value)
-        let form = {
-            plano: this.planoPgmAluno.value,
-            menorIdade: this.menorIdade,
-            respMenor: this.respMenor.value,
-            temRespFin: this.temRespFinm.get('temRespFin').value,
-            respFin: this.respFinForm.value,
-        }
+        // this.planoPgmAluno.get('infoParcelas').setValue(this.todasparcelas)      
+        // if (!this.planoPgmAluno.valid) return
+        // if (this.menorIdade) {
+        //     if (!this.respMenor.valid) return
+        // }
 
-        this.http.post(`${this.baseUrl}/pedag/matricula/${this.turma.id}/${this.data['aluno'].id}`, form, {})
+        // if (this.temRespFinm.get('temRespFin').value) {
+        //     if (!this.respFinForm.valid) return
+        // }
+        // this.disabldSaveButton = true
+
+        // let form = {
+        //     plano: this.planoPgmAluno.value,
+        //     // menorIdade: this.menorIdade,
+        //     respMenor: this.respMenor.value,
+        //     temRespFin: this.temRespFinm.get('temRespFin').value,
+        //     respFin: this.respFinForm.value,
+        // }
+
+
+
+
+        //this.formDisabled = !this.formDisabled;
+        // const state = 'disable'
+
+        // Object.keys(this.planoPgmAluno.get('respMenor').value).forEach((controlName) => {
+        //    // console.log(controlName)
+        //     this.planoPgmAluno.controls['respMenor'].get(controlName).setValidators(null)
+        //     this.planoPgmAluno.controls['respMenor'].get(controlName).updateValueAndValidity()
+        //     //this.planoPgmAluno.controls[controlName][state](); // disables/enables each form control based on 'this.formDisabled'
+        // });
+
+
+        //this.planoPgmAluno.get('respMenor').setValidators(null)
+        //this.planoPgmAluno.controls['respMenor'].get('nome').clearValidators()
+        //this.planoPgmAluno.controls['respMenor'].get('nome').updateValueAndValidity()
+        //console.log(this.planoPgmAluno.controls['respMenor'].get('nome').value)
+        //console.log(this.planoPgmAluno.controls['respMenor'].get('nome').valid)
+        // console.log(this.planoPgmAluno)
+        // console.log(this.planoPgmAluno.valid)
+        // console.log(this.planoPgmAluno.get('respMenor').valid)
+        this.disabldSaveButton = 'visible'
+        this.http.post(`${this.baseUrl}/pedag/matricula/${this.turma.id}/${this.data['aluno'].id}`, this.planoPgmAluno.value, {})
             .subscribe(response => {
+
                 this.OpenModalSucesso(response['matriculaId'])
             }, err => {
-               // console.log(err)
-
-
+                this._helper.openSnackBarErrorDefault()
+                this.disabldSaveButton = 'hidden'
             },
                 () => {
                     // msg aluno matriculado com sucesso! Deseja imprimir a ficha de matrícula 
                     // e o contrato ?
-                    
-                   // this.dialogRef.close({ clicked: "Ok" });
                 });
 
     }
@@ -649,23 +1022,7 @@ export class AlunoMatriculaComponent implements OnInit {
 
 
 
-    diaDefault
-    GetDefaultDay() {
 
-        let dateNow = new Date();
-        let initialDate = new Date()
-        initialDate.setDate(10)
-
-        if (dateNow.getDate() > 10) {
-            initialDate.setMonth(initialDate.getMonth() + 1)
-        } else {
-
-        }
-
-       // console.log(initialDate)
-        this.planoPgmAluno.get('diaDefault').setValue(initialDate)
-
-    }
 
 
 
@@ -733,19 +1090,19 @@ export class AlunoMatriculaComponent implements OnInit {
     }
 
     submitMatricula(form: FormGroup) {
-        console.log(form)
-        console.log('sen matrícula')
+        // console.log(form)
+        // console.log('sen matrícula')
 
         var ciencia = this.matriculaTurmaForm.get('cienciaCurso').value
 
-        console.log(this.matriculaTurmaForm.get('primeiraParcPaga').valid)
+        // console.log(this.matriculaTurmaForm.get('primeiraParcPaga').valid)
 
         if (!this.ValidateFormasPagamento()) {
             return
         }
 
         this.matriculaTurmaForm.get('primeiraParcPaga').valid
-        console.log(this.matriculaTurmaForm.get('cienciaCurso').valid)
+        //  console.log(this.matriculaTurmaForm.get('cienciaCurso').valid)
 
 
         if (!this.matriculaTurmaForm.get('cienciaCurso').valid) return
@@ -761,8 +1118,8 @@ export class AlunoMatriculaComponent implements OnInit {
         submitForm.parcelas = this.matriculaTurmaForm.get('parcelas').value
         submitForm.primeiraParceJaPaga = this.matriculaTurmaForm.get('primeiraParcPaga').value
         submitForm.diaVencimento = this.matriculaTurmaForm.get('diaVencimento').value
-        console.log(submitForm)
-        console.log(this.matriculaTurmaForm.get('diaVencimento').value)
+        //console.log(submitForm)
+        //console.log(this.matriculaTurmaForm.get('diaVencimento').value)
 
 
         //this.http.post(`${this.baseUrl}/turmas/turma/?idAluno=${this.data['alunoId']}&idTurma=${this.turmaSelecionada.id}&ciencia=${ciencia}`, {
@@ -796,15 +1153,15 @@ export class AlunoMatriculaComponent implements OnInit {
         // });
 
         dialogRef.afterClosed().subscribe((data) => {
-            console.log(data)
+            //console.log(data)
             if (data.clicked === "Sim") {
                 //this.getCursos(0, 0);
-                console.log('clicou no sim')
+                // console.log('clicou no sim')
                 this.downloadContrato()
                 //this.indexTab = 2
 
             } else if (data.clicked === "Cancel") {
-                console.log('clicou no cancel')
+                // console.log('clicou no cancel')
                 this.dialogRef.close({ clicked: "cancel" });
             }
         });
@@ -814,7 +1171,7 @@ export class AlunoMatriculaComponent implements OnInit {
         var file = "Contrato.pdf";// this.createFileName("EXCEL");
         // this.showSpinner = true;
         // this.testehabilitar = false
-        console.log('download contrato')
+        // console.log('download contrato')
         this.download().subscribe(data => {
             //console.log(data)
             switch (data.type) {
@@ -856,9 +1213,9 @@ export class AlunoMatriculaComponent implements OnInit {
 
     selecionarTurma(turma: Turma) {
 
-        console.log(turma)
+        //console.log(turma)
         Object.assign(this.turmaSelecionada, turma)
-        console.log(this.turmaSelecionada)
+        //console.log(this.turmaSelecionada)
         // this.hideCursoSearchAndMessage = false
         //this.showSelectCursoSearch = false
         //this.showTableCursosAndamento = false

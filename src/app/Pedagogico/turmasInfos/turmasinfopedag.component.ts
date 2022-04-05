@@ -274,13 +274,13 @@ export class TurmasPedagInfoComponent implements OnInit {
     openCalendarioModal(turma: TurmaViewModel): void {
         const dialogRef = this._modal
             .open(CalendarioTurmaComponent, {
-                height: 'auto',
+               // height: 'auto',
                 width: '1230px',
 
 
                 //autoFocus: false,
-                maxHeight: '90vh',
-                maxWidth: '450vh',
+                //maxHeight: '90vh',
+               // maxWidth: '450vh',
 
                 data: { turma: turma },
                 hasBackdrop: true,

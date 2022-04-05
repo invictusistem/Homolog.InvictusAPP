@@ -25,7 +25,7 @@ export class TurmasComponent implements OnInit {
     showPresencaIcon = false
     turmas: any[] = new Array<any>();// TurmaViewModel[] = new Array<TurmaViewModel>();
     showTurmas = false
-    showMessage = false
+    public showMessage = 'visible'
     showSpinner = false
     mensagem: string;
     private jwtHelper = new JwtHelperService();
@@ -57,7 +57,7 @@ export class TurmasComponent implements OnInit {
     getTurmas() {
 
         this.showTurmas = false
-        this.showMessage = false
+        this.showMessage = 'visible'
         this.showSpinner = true
 
         this._http.get(`${this.BaseUrl}/pedag/turma`)
@@ -70,12 +70,12 @@ export class TurmasComponent implements OnInit {
                     console.log(error)
                     this.mensagem = "Não há turmas cadastradas ou em andamento."
                     this.showTurmas = false
-                    this.showMessage = true
+                    this.showMessage = 'hidden'
                     this.showSpinner = false
                 },
                 () => {
                     this.showTurmas = true
-                    this.showMessage = false
+                    this.showMessage = 'hidden'
                     this.showSpinner = false
                 })
     }

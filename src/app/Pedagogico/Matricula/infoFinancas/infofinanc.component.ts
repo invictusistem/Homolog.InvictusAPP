@@ -27,7 +27,7 @@ export class InfoFinancPedagComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.data['aluno'])
+       // console.log(this.data['aluno'])
         this.getInfoFinancAlunos(this.data['aluno'].matriculaId)
     }
 
@@ -42,6 +42,7 @@ export class InfoFinancPedagComponent implements OnInit {
 
     getInfoFinancAlunosSucesso(response){
         this.debitos = Object.assign([], response['debitos']);
+       // console.log(this.debitos)
         this.turma = response['turma'];
         this.initProgressBar = 'hidden'
         this.dialogRef.addPanelClass('myminfofinanc-class')
@@ -49,7 +50,7 @@ export class InfoFinancPedagComponent implements OnInit {
     }
 
     getInfoFinancAlunosError(error){
-        console.log(error)
+       // console.log(error)
         this.showNaoMatriculadoMsg = false
     }
 

@@ -9,15 +9,20 @@ export class IdadePipe implements PipeTransform {
         console.log(value)
         //console.log(event.target.value);
         //console.log(this.alunoForm.get('nascimento').value)
-        let idadeAluno: any
-        var dataForm: Date = new Date(value)
+        if (value != '') {
+            let idadeAluno: any
+            var dataForm: Date = new Date(value)
 
 
-        let timeDiff = Math.abs(Date.now() - dataForm.getTime());
-        idadeAluno = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
-       
+            let timeDiff = Math.abs(Date.now() - dataForm.getTime());
+            idadeAluno = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
 
 
-        return idadeAluno
+            console.log(idadeAluno)
+            return idadeAluno
+        } else {
+
+            return ''
+        }
     }
 }

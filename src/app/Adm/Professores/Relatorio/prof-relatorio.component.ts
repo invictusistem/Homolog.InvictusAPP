@@ -6,7 +6,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
-import { AdmService } from "../../services/adm.services";
+import { AdmService } from "../../Services/adm.services";
 
 @Component({
     selector: 'prof-relatoriomodal',
@@ -21,6 +21,8 @@ export class ProfRelatorioComponent implements OnInit {
     public showContent = false
     public rangeForm: FormGroup 
     public relatorio: any
+
+    public nenhumDadoLocalizado = false
 
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
@@ -48,6 +50,7 @@ export class ProfRelatorioComponent implements OnInit {
     public Pesquisar(){
 
         if(this.rangeForm.valid){
+            this.nenhumDadoLocalizado = false
             this.initProgressBar = 'visible'
             //console.log(this.rangeForm.value)
             this._admService.GetRelatorioProfessor(this.rangeForm.get('rangeIni').value,
@@ -69,6 +72,12 @@ export class ProfRelatorioComponent implements OnInit {
 
     private PesquisarError(error){
         this.initProgressBar = 'hidden'
+
+        if(error['status'] == 404){
+            this.nenhumDadoLocalizado = true
+        }else{
+            this._helper.openSnackBarErrorDefault()
+        }
     }
 
 
