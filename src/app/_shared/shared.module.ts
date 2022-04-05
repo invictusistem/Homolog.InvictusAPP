@@ -25,7 +25,6 @@ import { HelpersService } from './components/helpers/helpers.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { MyCurrencyPipe } from './pipes/mycurrencypipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SelectUnidadeComponent } from '../_Auth/user/login/selecionarUnidade/selectunidade.component';
 import { IdadePipe } from './pipes/idadePipe';
 import { DatePastDirective } from './directives/date-past.directive';
 import { ConfirmAcaoModalComponent } from './components/ConfirmarAcao/confirm-acao.component';
