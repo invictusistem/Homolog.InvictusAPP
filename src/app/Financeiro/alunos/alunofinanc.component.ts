@@ -12,7 +12,7 @@ import { ConfirmAcaoModalConfig } from "src/app/_shared/models/modal.config";
 import { Cargos, Unidades } from "src/app/_shared/models/perfil.model";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
-import { InfoFinancModalConfig } from "../models/model.config";
+import { InfoFinancModalConfig } from "../models/financ-modal.config";
 import { InfoFinancComponent } from "./infoFinanc/infofinanc.component";
 import { ReparcelamentoComponent } from "./Reparcelamento/reparcelamento.component";
 

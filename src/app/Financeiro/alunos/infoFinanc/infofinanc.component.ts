@@ -9,7 +9,7 @@ import { CepReturn } from "src/app/_shared/models/cepreturn.model";
 import { Debito, InfoFinanceiras } from "src/app/_shared/models/InfoFinanceiras.model";
 import { EditFinancComponent } from "./EditFinanc/edit-financ.component";
 import { ReceberComponent } from "./Receber/receber.component";
-import { ReceberComponentModal } from "../../models/model.config";
+import { ReceberComponentModal } from "../../models/financ-modal.config";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 
 @Component({

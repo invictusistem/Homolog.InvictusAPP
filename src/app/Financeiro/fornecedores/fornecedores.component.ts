@@ -11,7 +11,7 @@ import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
 import { Fornecedor } from "../FinanceiroModels/fornecedor.model";
 import { FinanceiroService } from "../models/financ.service";
-import { CreateFornecedorModal, EditFornecedorModal } from "../models/model.config";
+import { CreateFornecedorModal, EditFornecedorModal } from "../models/financ-modal.config";
 import { FornecedorCompraComponent } from "./cadastrocompra/fornecedorcadcompra.component";
 import { FornecedorVendaComponent } from "./cadastrovenda/fornecedorcadvenda.component";
 import { CreateFornecedorComponent } from "./createfornecedor/createfornecedor.component";
