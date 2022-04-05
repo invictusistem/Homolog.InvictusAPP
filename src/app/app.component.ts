@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +9,12 @@ import { Component, OnInit } from '@angular/core';
 
 export class AppComponent implements OnInit {
 
+baseUrl = environment.baseUrl
+
   constructor() { }
 
   ngOnInit() {
+
+    console.log(this.baseUrl)
   }
 }

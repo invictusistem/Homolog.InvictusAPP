@@ -1,4 +1,4 @@
 export const environment = {
   production: true,  
-  baseUrl: 'http://api.invictustemp.com.thor.hostazul.com.br/api'
+  baseUrl: 'https://invictus-api-hml.azurewebsites.net/api'
 };
