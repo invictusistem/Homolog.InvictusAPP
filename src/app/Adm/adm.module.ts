@@ -1,26 +1,17 @@
 import { DEFAULT_CURRENCY_CODE, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-//import { CustomersComponent } from './customers/customers.component';
 import { RouterModule } from '@angular/router';
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { CommonModule, CurrencyPipe, DatePipe, UpperCasePipe } from '@angular/common';
-//import { HomeComponent } from './home.component';
 import { SharedModule } from '../_shared/shared.module';
-
 import { MaterialModule } from '../_shared/material/material.module';
 import { AdmComponent } from './adm.component';
 import { UsuarioComponent } from './Usuarios/usuario.component';
-
 import { CreateUserComponent } from './Usuarios/CreateModal/createuser.component';
 import { EditUserComponent } from './Usuarios/EditModal/edituser.component';
 import { ProfessoresComponent } from './Professores/professores.component';
 import { ProdutosComponent } from './Produtos/produtos.component';
-
 import { UnidadesComponent } from './Unidades/unidades.component';
 import { EditUnidadeComponent } from './Unidades/EditModal/editunidade.component';
 import { CreateUnidadeComponent } from './Unidades/CreateModal/createunidade.component';
@@ -30,14 +21,12 @@ import { EditColaboradoresComponent } from './Colaboradores/EditModal/editcolabo
 import { CreateColaboradoresComponent } from './Colaboradores/CreateModal/createcolaboradores.component';
 import { CreateCursoComponent } from './Turmas/CreateModal/createcurso.component';
 import { EditCursoComponent } from './Turmas/EditModal/editcurso.component';
-
 import { TestesComponent } from './_TESTES/teste.component';
 import { TesteModalComponent } from './_TESTES/ModalTeste/testemodal.component';
 import { AddProfessorModalComponent } from './Turmas/ModalAddProf/addprof.component';
 import { CalendarioModalComponent } from './Turmas/Calendario/calendario.component';
 import { CalendarioComponent } from './Calendario/calendario.component';
 import { AddPMateriaModalComponent } from './Turmas/ModalAddMateria/addmateria.component';
-//import { ConfirmarIniciarTurmaModal } from './turmas/turmasAdm.component';
 import { TestandoComponent } from './Testando/testando.component';
 import { AdmTurmasComponent } from './Turmas/admturmas.component';
 import { ConfirmarIniciarTurmaModal } from './Turmas/confirm/confirmariniciar.component';
@@ -53,7 +42,6 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { CreateSalaComponent } from './Unidades/CreateSalaModal/createsala.component';
 import { ModuloComponent } from './Modulos/modulo.component';
 import { ModuloCreateComponent } from './Modulos/CreateModulo/modulo-create.component';
-
 import { PlanoPgmCreateComponent } from './PlanoPgm/CreatePlanoPgm/create-planopgm.component';
 import { PlanoPgmComponent } from './PlanoPgm/planopgm.component';
 import { ContratoComponent } from './Contratos/contrato.component';
@@ -75,11 +63,11 @@ import { AddMatComponent } from './Professores/Materias/AddMateria/add-mat.compo
 import { EditDispoComponent } from './Professores/Materias/EditDisponibilidade/edit-dispo.component';
 import { PDFTesteComponent } from './PdfTeste/pdfteste.component';
 import { EditAcessoComponent } from './Usuarios/EditAcesso/editacesso.component';
-import { BolsasComponent } from './BolsasCursos/bolsas.component';
-import { CreateBolsaComponent } from './BolsasCursos/create/createbolsa.component';
-import { ShowSenhaComponent } from './BolsasCursos/show/showsenha.component';
+import { BolsasComponent } from './bolsascursos/bolsas.component';
+import { CreateBolsaComponent } from './bolsascursos/create/createbolsa.component';
+import { ShowSenhaComponent } from './bolsascursos/show/showsenha.component';
 import { VisualizarModuloComponent } from './Modulos/VisualizarModulo/visualizar.component';
-import { EditBolsaComponent } from './BolsasCursos/edit/edit-bolsa.component';
+import { EditBolsaComponent } from './bolsascursos/edit/edit-bolsa.component';
 import { ProfCalendarioComponent } from './Professores/ProfCalendario/prof-calendario.component';
 import { ProfRelatorioComponent } from './Professores/Relatorio/prof-relatorio.component';
 import { CargoEditComponent } from './Configuracoes/Cargos-edit/cargo-edit.component';
