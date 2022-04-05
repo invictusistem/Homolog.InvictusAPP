@@ -4,9 +4,10 @@ import { MatDialog } from "@angular/material/dialog";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { AdmService } from "../services/adm.services";
 import { CreateBolsaModalConfig, EditBolsaModalConfig, ShowSenhaModalConfig } from "../services/modal.config";
-import { CreateBolsaComponent } from "./Create/createbolsa.component";
-import { EditBolsaComponent } from "./Edit/edit-bolsa.component";
-import { ShowSenhaComponent } from "./Show/showsenha.component";
+import { CreateBolsaComponent } from "./create/createbolsa.component";
+import { EditBolsaComponent } from "./edit/edit-bolsa.component";
+import { ShowSenhaComponent } from "./show/showsenha.component";
+
 
 
 @Component({
