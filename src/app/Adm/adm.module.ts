@@ -76,7 +76,7 @@ import { EditDispoComponent } from './Professores/Materias/EditDisponibilidade/e
 import { PDFTesteComponent } from './PdfTeste/pdfteste.component';
 import { EditAcessoComponent } from './Usuarios/EditAcesso/editacesso.component';
 import { BolsasComponent } from './Bolsas/bolsas.component';
-import { CreateBolsaComponent } from './Bolsas/CreateBolsa/createbolsa.component';
+import { CreateBolsaComponent } from './bolsas/createBolsa/createbolsa.component';
 import { ShowSenhaComponent } from './Bolsas/ShowSenha/showsenha.component';
 import { VisualizarModuloComponent } from './Modulos/VisualizarModulo/visualizar.component';
 import { EditBolsaComponent } from './Bolsas/EditBolsa/edit-bolsa.component';
