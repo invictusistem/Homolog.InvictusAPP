@@ -5,11 +5,7 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from './_shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
-import { AdmModule } from './adm/adm.module';
-import { UserComponent } from './_Auth/user/user.component';
-import { LoginComponent } from './_Auth/user/login/login.component';
-import { TrocaSenhaComponent } from './_Auth/user/trocaSenha/troca-senha.component';
-import { SelectUnidadeComponent } from './_Auth/user/login/selecionarUnidade/selectunidade.component';
+import { MaterialModule } from './_shared/material/material.module';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -17,26 +13,20 @@ export function tokenGetter() {
 
 @NgModule({
   declarations: [
-    LoginComponent,
-    UserComponent,
-    TrocaSenhaComponent,
-    AppComponent,
-    SelectUnidadeComponent
+    AppComponent
   ],
   imports: [
 
     HttpClientModule,
     BrowserModule,
     FormsModule,
-    SharedModule,
-    AdmModule,    
+    MaterialModule,
+    SharedModule,    
     AppRoutingModule
   ],
   providers: [
  ],
- entryComponents: [
-  TrocaSenhaComponent,
-  SelectUnidadeComponent  
+ entryComponents: [ 
 ],
   bootstrap: [AppComponent]
 })
