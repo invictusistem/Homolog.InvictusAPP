@@ -7,7 +7,7 @@ import { environment } from "src/environments/environment";
 import { Unidades } from "src/app/_shared/models/perfil.model";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
-import { AdmService } from "../../Services/adm.services";
+import { AdmService } from "../../services/adm.services";
 
 @Component({
     selector: 'editcolaboradoresmodal',

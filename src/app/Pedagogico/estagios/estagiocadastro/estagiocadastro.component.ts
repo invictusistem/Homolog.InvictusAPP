@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { AdmService } from "src/app/Adm/Services/adm.services";
+import { AdmService } from "src/app/Adm/services/adm.services";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { CepReturn } from "src/app/_shared/models/cepreturn.model";

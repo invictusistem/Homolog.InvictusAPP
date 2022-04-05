@@ -6,7 +6,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
-import { AdmService } from "../../Services/adm.services";
+import { AdmService } from "../../services/adm.services";
 
 @Component({
     selector: 'prof-relatoriomodal',

@@ -13,7 +13,7 @@ import { Cargos, Unidades } from "src/app/_shared/models/perfil.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
-import { AdmService } from "../../Services/adm.services";
+import { AdmService } from "../../services/adm.services";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 @Component({

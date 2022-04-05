@@ -7,8 +7,8 @@ import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
-import { AdmService } from "../Services/adm.services";
-import { CreateColaboradorModalConfig, EditColaboradorModalConfig } from "../Services/modal.config";
+import { AdmService } from "../services/adm.services";
+import { CreateColaboradorModalConfig, EditColaboradorModalConfig } from "../services/modal.config";
 import { CreateColaboradoresComponent } from "./CreateModal/createcolaboradores.component";
 import { EditColaboradoresComponent } from "./EditModal/editcolaboradores.component";
 

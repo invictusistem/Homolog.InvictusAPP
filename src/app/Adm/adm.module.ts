@@ -40,7 +40,7 @@ import { AddPMateriaModalComponent } from './Turmas/ModalAddMateria/addmateria.c
 //import { ConfirmarIniciarTurmaModal } from './turmas/turmasAdm.component';
 import { TestandoComponent } from './Testando/testando.component';
 import { AdmTurmasComponent } from './Turmas/admturmas.component';
-import { ConfirmarIniciarTurmaModal } from './Turmas/confirmturmamodal/confirmariniciar.component';
+import { ConfirmarIniciarTurmaModal } from './Turmas/confirm/confirmariniciar.component';
 import { ConfiguracoesComponent } from './Configuracoes/configuracoes.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { MessageModalComponent } from './MessageModal/messagemodal.component';
@@ -70,7 +70,7 @@ import { ProfMateriasComponent } from './Professores/Materias/prof-materias.comp
 import { DocTemplateComponent } from './Configuracoes/Doc-create/doctemplate.component';
 import { MateriaTemplateComponent } from './Configuracoes/Mat-create/mat-create.component';
 import { AddDispoComponent } from './Professores/Materias/AddDisponibilidade/add-dispo.component';
-import { AdmService } from './Services/adm.services';
+import { AdmService } from './services/adm.services';
 import { AddMatComponent } from './Professores/Materias/AddMateria/add-mat.component';
 import { EditDispoComponent } from './Professores/Materias/EditDisponibilidade/edit-dispo.component';
 import { PDFTesteComponent } from './PdfTeste/pdfteste.component';

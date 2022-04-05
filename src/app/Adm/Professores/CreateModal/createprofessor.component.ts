@@ -12,7 +12,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { MatSnackBar } from "@angular/material/snack-bar";
 //import { Cargo } from "../../Adm-Models/cargos.model";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
-import { AdmService } from "../../Services/adm.services";
+import { AdmService } from "../../services/adm.services";
 
 @Component({
     selector: 'createprofessormodal',

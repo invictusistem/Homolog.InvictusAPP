@@ -6,7 +6,7 @@ import { TitularDoc } from "src/app/_shared/models/perfil.model";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
-import { AdmService } from "../../Services/adm.services";
+import { AdmService } from "../../services/adm.services";
 import { environment } from "src/environments/environment";
 
 @Component({

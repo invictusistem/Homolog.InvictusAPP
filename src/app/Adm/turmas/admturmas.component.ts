@@ -10,10 +10,10 @@ import { TokenInfos } from "src/app/_shared/models/token.model";
 import { Turma, TurmaViewModel } from "src/app/_shared/models/Turma.model";
 
 import { environment } from "src/environments/environment";
-import { AdmService } from "../Services/adm.services";
-import { OpenTurmaEditmodel } from "../Services/modal.config";
+import { AdmService } from "../services/adm.services";
+import { OpenTurmaEditmodel } from "../services/modal.config";
 import { CalendarioModalComponent } from "./Calendario/calendario.component";
-import { ConfirmarIniciarTurmaModal } from "./confirmturmamodal/confirmariniciar.component";
+import { ConfirmarIniciarTurmaModal } from "./confirm/confirmariniciar.component";
 import { CreateCursoComponent } from "./CreateModal/createcurso.component";
 import { EditCursoComponent } from "./EditModal/editcurso.component";
 

@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
-import { AdmService } from "../../Services/adm.services";
+import { AdmService } from "../../services/adm.services";
 
 @Component({
     selector: 'edit-bolsamodal',
