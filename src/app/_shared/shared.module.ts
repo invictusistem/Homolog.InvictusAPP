@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from './material/material.module';
-import { AlertModule } from 'ngx-bootstrap/alert';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -15,8 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,
-    BrowserModule,
-    AlertModule.forRoot()
+    BrowserModule
   ],
 
   declarations: [
@@ -28,11 +26,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     MaterialModule,
-    RouterModule,
-    CommonModule,    
-    BrowserModule,
-    ReactiveFormsModule   
+    RouterModule,   
+    BrowserModule
   ],
   entryComponents: [
   ]
