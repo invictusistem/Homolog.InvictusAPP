@@ -8,7 +8,7 @@ import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { NgForm } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
-import { AddProfessorModalComponent } from "../ModalAddProf/addprof.component";
+import { AddProfessorModalComponent } from "../modaladdprof/addprof.component";
 //import { TemplateTasks } from 'src/app/shared/models/templateTasks.model';
 
 export class Grids {

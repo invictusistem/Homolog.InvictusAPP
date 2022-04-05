@@ -14,8 +14,8 @@ import { AdmService } from "../services/adm.services";
 import { OpenTurmaEditmodel } from "../services/modal.config";
 import { CalendarioModalComponent } from "./Calendario/calendario.component";
 import { ConfirmarIniciarTurmaModal } from "./confirm/confirmariniciar.component";
-import { CreateCursoComponent } from "./CreateModal/createcurso.component";
-import { EditCursoComponent } from "./EditModal/editcurso.component";
+import { CreateCursoComponent } from "./createmodal/createcurso.component";
+import { EditCursoComponent } from "./editmodal/editcurso.component";
 
 
 @Component({

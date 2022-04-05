@@ -8,10 +8,10 @@ import { Colaborador, Professor } from "src/app/_shared/models/colaborador.model
 import { NgForm } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
-import { AddProfessorModalComponent } from "../ModalAddProf/addprof.component";
+import { AddProfessorModalComponent } from "../modaladdprof/addprof.component";
 import { TurmaViewModel } from "src/app/_shared/models/Turma.model";
 import { Aluno } from "src/app/_shared/models/aluno.model";
-import { AddPMateriaModalComponent } from "../ModalAddMateria/addmateria.component";
+import { AddPMateriaModalComponent } from "../modaladdmateria/addmateria.component";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { ConfirmModalComponent } from "src/app/_shared/components/ConfirmModal/confirm-modal.component";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";

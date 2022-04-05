@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { Materias } from "src/app/_shared/models/Turma.model";
 import { environment } from "src/environments/environment";
-import { ProfResponse } from "../CreateModal/createcurso.component";
+import { ProfResponse } from "../createmodal/createcurso.component";
 
 @Component({
     selector: 'addmateria-modal',

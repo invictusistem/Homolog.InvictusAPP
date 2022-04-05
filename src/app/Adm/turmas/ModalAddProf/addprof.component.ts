@@ -6,8 +6,8 @@ import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { environment } from "src/environments/environment";
 import { AdmService } from "../../services/adm.services";
-import { ProfResponse } from "../CreateModal/createcurso.component";
-import { SaveProfsCommand } from "../EditModal/editcurso.component";
+import { ProfResponse } from "../createmodal/createcurso.component";
+import { SaveProfsCommand } from "../editmodal/editcurso.component";
 
 @Component({
     selector: 'addprof-modal',
