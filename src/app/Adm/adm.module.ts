@@ -16,16 +16,15 @@ import { UnidadesComponent } from './Unidades/unidades.component';
 import { EditUnidadeComponent } from './Unidades/EditModal/editunidade.component';
 import { CreateUnidadeComponent } from './Unidades/CreateModal/createunidade.component';
 import { MyPipe } from './Unidades/CreateModal/createunidade.component';
-import { ColaboradoresComponent } from './Colaboradores/colaboradores.component';
-import { EditColaboradoresComponent } from './Colaboradores/EditModal/editcolaboradores.component';
-import { CreateColaboradoresComponent } from './Colaboradores/CreateModal/createcolaboradores.component';
+import { ColaboradoresComponent } from './colaboradores/colaboradores.component';
+import { EditColaboradoresComponent } from './colaboradores/editModal/editcolaboradores.component';
+import { CreateColaboradoresComponent } from './colaboradores/createModal/createcolaboradores.component';
 import { CreateCursoComponent } from './Turmas/CreateModal/createcurso.component';
 import { EditCursoComponent } from './Turmas/EditModal/editcurso.component';
 import { TestesComponent } from './_TESTES/teste.component';
 import { TesteModalComponent } from './_TESTES/ModalTeste/testemodal.component';
 import { AddProfessorModalComponent } from './Turmas/ModalAddProf/addprof.component';
 import { CalendarioModalComponent } from './Turmas/Calendario/calendario.component';
-import { CalendarioComponent } from './Calendario/calendario.component';
 import { AddPMateriaModalComponent } from './Turmas/ModalAddMateria/addmateria.component';
 import { TestandoComponent } from './Testando/testando.component';
 import { AdmTurmasComponent } from './Turmas/admturmas.component';
@@ -99,7 +98,6 @@ export function tokenGetter() {
         ConfiguracoesComponent,
         EditColaboradoresComponent,
         ColaboradoresComponent,
-        CalendarioComponent,
         TestesComponent,
         TesteModalComponent,
         AddProfessorModalComponent,
@@ -168,7 +166,6 @@ export function tokenGetter() {
         UsuarioComponent,
         UnidadesComponent,
         ColaboradoresComponent,
-        CalendarioComponent,
         ProfessoresComponent,
         ProdutosComponent,
         AdmTurmasComponent,

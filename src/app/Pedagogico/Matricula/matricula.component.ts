@@ -5,7 +5,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { Parametros } from "src/app/Adm/Colaboradores/colaboradores.component";
+import { Parametros } from "src/app/Adm/colaboradores/colaboradores.component";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { ConfirmAcaoModalComponent } from "src/app/_shared/components/ConfirmarAcao/confirm-acao.component";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";

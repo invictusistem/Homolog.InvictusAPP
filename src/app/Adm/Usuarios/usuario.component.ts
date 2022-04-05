@@ -7,7 +7,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
-import { Parametros } from "../Colaboradores/colaboradores.component";
+import { Parametros } from "../colaboradores/colaboradores.component";
 import { AdmService } from "../services/adm.services";
 import { EditAcessoModal } from "../services/modal.config";
 import { CreateUserComponent } from "./CreateModal/createuser.component";

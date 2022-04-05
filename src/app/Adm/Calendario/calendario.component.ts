@@ -1,26 +1,26 @@
-import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
-import { environment } from "src/environments/environment";
+// import { HttpClient } from "@angular/common/http";
+// import { Component, OnInit } from "@angular/core";
+// import { environment } from "src/environments/environment";
 
 
-@Component({
-    selector: 'calendario-modal',
-    templateUrl: './calendario.component.html'
-    //styleUrls: ['./editcurso.component.scss']
-})
+// @Component({
+//     selector: 'calendario-modal',
+//     templateUrl: './calendario.component.html'
+//     //styleUrls: ['./editcurso.component.scss']
+// })
 
-export class CalendarioComponent implements OnInit {
+// export class CalendarioComponent implements OnInit {
 
-    private baseUrl = environment.baseUrl
+//     private baseUrl = environment.baseUrl
    
-    constructor(
-        private _http: HttpClient
-    ){
+//     constructor(
+//         private _http: HttpClient
+//     ){
 
-    }
-    ngOnInit(){
+//     }
+//     ngOnInit(){
       
-    }
+//     }
 
-   //
-}
+//    //
+// }

@@ -6,7 +6,7 @@ import { ProfessoresComponent } from './Adm/Professores/professores.component';
 import { UnidadesComponent } from './Adm/Unidades/unidades.component';
 import { PedagogicoComponent } from './Pedagogico/pedagogico.component';
 import { UsuarioComponent } from './Adm/Usuarios/usuario.component';
-import { ColaboradoresComponent } from './Adm/Colaboradores/colaboradores.component';
+import { ColaboradoresComponent } from './Adm/colaboradores/colaboradores.component';
 import { ComercialComponent } from './Comercial/comercial.component';
 import { UserComponent } from './_Auth/user/user.component';
 import { LoginComponent } from './_Auth/user/login/login.component';

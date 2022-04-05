@@ -3,7 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Parametros } from "src/app/Adm/Colaboradores/colaboradores.component";
+import { Parametros } from "src/app/Adm/colaboradores/colaboradores.component";
 import { HighlightTrigger } from "src/app/_shared/animation/item.animation";
 import { Aluno } from "src/app/_shared/models/aluno.model";
 import { Colaborador } from "src/app/_shared/models/colaborador.model";

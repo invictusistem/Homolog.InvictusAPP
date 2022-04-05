@@ -9,8 +9,8 @@ import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
 import { AdmService } from "../services/adm.services";
 import { CreateColaboradorModalConfig, EditColaboradorModalConfig } from "../services/modal.config";
-import { CreateColaboradoresComponent } from "./CreateModal/createcolaboradores.component";
-import { EditColaboradoresComponent } from "./EditModal/editcolaboradores.component";
+import { CreateColaboradoresComponent } from "./createModal/createcolaboradores.component";
+import { EditColaboradoresComponent } from "./editModal/editcolaboradores.component";
 
 
 @Component({

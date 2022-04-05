@@ -5,7 +5,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { Parametros } from "src/app/Adm/Colaboradores/colaboradores.component";
+import { Parametros } from "src/app/Adm/colaboradores/colaboradores.component";
 import { BoletimAlunoComponent } from "src/app/Pedagogico/Matricula/BoletimAluno/boletimaluno.component";
 import { InfoCadastraisComponent } from "src/app/Pedagogico/Matricula/InfoCad/info-cadastrais.component";
 import { InfoFinancPedagComponent } from "src/app/Pedagogico/Matricula/infoFinancas/infofinanc.component";
