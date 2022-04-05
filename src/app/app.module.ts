@@ -18,6 +18,7 @@ import { TrocaSenhaComponent } from './_Auth/user/trocaSenha/troca-senha.compone
 import { SelectUnidadeComponent } from './_Auth/user/login/selecionarUnidade/selectunidade.component';
 
 
+
 export function tokenGetter() {
   return localStorage.getItem("jwt");
 }
