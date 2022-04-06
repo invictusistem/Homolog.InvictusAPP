@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClient } from "@angular/common/http";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -11,34 +11,40 @@ import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 
 @Component({
-    selector: 'createplanopgmmodal',
-    templateUrl: './create-plano.component.html',
-    styleUrls: ['./create-plano.component.scss'],
+    selector: 'edit-planomodal',
+    templateUrl: './edit-plano.component.html',
+    styleUrls: ['./edit-plano.component.scss'],
     animations: [HighlightTrigger]
 })
 
-export class PlanoPgmCreateComponent implements OnInit {
+export class PlanoPgmEditComponent implements OnInit {
 
 
     baseUrl = environment.baseUrl;
-    public disabledContrato = true
     public initProgressBar = 'visible'
     public saveSpinner = 'hidden'
-    public typePacotes: any
+    public showContent = false
+    public disabledContrato = false
+    public typePacotes: any[] = new Array<any>()
+    public contratos: any[] = new Array<any>()
     public moduloForm: FormGroup;
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
+    // public plano: any;
+    private originalPlano: any;
     public disabledSpinner = false
-    public contratos: any[] = new Array<any>();
+
     constructor(
+        //private service: AdmService,
         private _snackBar: MatSnackBar,
         private router: Router,
-        private _helper: HelpersService,
         private _fb: FormBuilder,
+        private _helper: HelpersService,
         private _http: HttpClient,
-        public dialogRef: MatDialogRef<PlanoPgmCreateComponent>,
+        public dialogRef: MatDialogRef<PlanoPgmEditComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.moduloForm = _fb.group({
+            id: [''],
             typePacoteId: ['', [Validators.required]],
             descricao: ['', [Validators.required]],
             valor: ['', [Validators.required]],
@@ -53,67 +59,82 @@ export class PlanoPgmCreateComponent implements OnInit {
     }
 
     ngOnInit() {
-        const token:any = localStorage.getItem('jwt')
+        const token: any = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-        this.GetTypes()
+        // this.plano = this.data['plano']
+        // console.log(this.plano)
+        this.GetPlano()
     }
 
-    private GetTypes() {
 
-        this._http.get(`${this.baseUrl}/typepacote`)
-        .subscribe({
-            next: (resp: any) => { 
-                this.typePacotes = resp['typePacotes']
-                this.initProgressBar = 'hidden'
-			},
-            error: (error) => { 
-			console.error(error) 
-			}
-        })
+    private GetPlano() {
+
+
+        this._http.get(`${this.baseUrl}/plano-pagamento/${this.data['plano'].id}`)
+            .subscribe({
+                next: (resp: any) => {
+                    this.moduloForm.patchValue(resp['plano'])
+                    this.originalPlano = JSON.parse(JSON.stringify(this.moduloForm.value))
+                    this.typePacotes = resp['typePacotes']
+                    this.contratos = resp['contratos']
+                    this.initProgressBar = 'hidden'
+                    this.showContent = true
+
+                },
+                error: (error) => { console.error(error) }
+            })
+
+
     }
 
-    getContratos(typePacoteId:any) {
+    getContratos(typePacoteId: any) {
 
+        this.contratos = new Array<any>()
         this.moduloForm.get('contratoId')?.setValue('')
-        this.initProgressBar = 'visible'
         this.disabledContrato = true
         this.contratos = new Array<any>();
-        
+
         this._http.get(`${this.baseUrl}/contrato/type-pacote/${typePacoteId}`)
         .subscribe({
             next: (resp: any) => { 
                 this.disabledContrato = false
-                this.contratos = resp['contratos']
-                this.initProgressBar = 'hidden'
-			},
+                this.contratos = resp['contratos'] 
+            },
             error: (error) => { 
-                this.initProgressBar = 'hidden'
-			}
+                console.error(error)
+             }
         })
-
     }
 
     get disabledSaveButton() {
 
-        if (this.moduloForm.valid) {
+        if (this.moduloForm.valid &&
+            JSON.stringify(this.originalPlano) !=
+            JSON.stringify(this.moduloForm.value)) {
+
             return this.saveSpinner != 'hidden'
         } else {
             return true
         }
-
     }
 
+
+    isDisabled = true
     onSubmit(form: any) {
-      //  console.log(form.value)
+        // console.log(this.plano)
+        //  console.log(form.valid)
         if (this.moduloForm.valid) {
             this.saveSpinner = 'visible'
+            this.isDisabled = true
             this.disabledSpinner = true
-            this._http.post(`${this.baseUrl}/plano-pagamento`, form.value, {})
+            this._http.put(`${this.baseUrl}/plano-pagamento`, this.moduloForm.value, {})
                 .subscribe(response => {
                 }, (err) => { console.log(err) },
                     () => {
-                        this._helper.openSnackBarSucesso("Plano criado com sucesso.")
-                        this.dialogRef.close({ clicked: "Ok" });
+
+                        this.disabledSpinner = false
+                        this._helper.openSnackBarSucesso('Plano editado com sucesso.')
+                        this.dialogRef.close({ clicked: "OK" });
                     });
         }
     }

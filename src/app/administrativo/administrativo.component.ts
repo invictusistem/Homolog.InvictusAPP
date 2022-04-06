@@ -9,7 +9,8 @@ import { RouteInfo } from '../_shared/models/route-info.model';
 import { TokenInfos } from '../_shared/models/token.model';
 
 export const ROUTES: RouteInfo[] = [
-    { path: '/adm/planopgm', title: 'Planos', class: '', typeIcon: 'request_quote' }
+    { path: '/adm/planopgm', title: 'Planos', class: '', typeIcon: 'request_quote' },
+    { path: '/adm/bolsas', title: 'Bolsas', class: '', typeIcon: 'local_offer' },
 ]
 
 @Component({

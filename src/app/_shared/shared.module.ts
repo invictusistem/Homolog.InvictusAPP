@@ -13,6 +13,7 @@ import { HomeComponent } from './home/home.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { HelpersService } from './components/helpers/helpers.component';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -40,6 +41,7 @@ const maskConfig: Partial<IConfig> = {
   ],
 
   providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
     HelpersService,
     {
       provide: HTTP_INTERCEPTORS,
