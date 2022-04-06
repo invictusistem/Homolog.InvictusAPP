@@ -40,7 +40,11 @@
               "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ],
             "scripts": [
+<<<<<<< HEAD
               "./node_modules/jquery/dist/jquery.min.js", 
+=======
+              "./node_modules/jquery/dist/jquery.min.js",
+>>>>>>> 9e83502d2b00e7d28a3b83c8649ad3b5fa628a86
               "./node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           },
