@@ -26,16 +26,6 @@ export abstract class BaseService {
         };
     }
 
-
-
-    // public downloadListPendencia(matriculaId: any): Observable<HttpEvent<Blob>> {
-    //     return this._http.request(new HttpRequest(
-    //         'GET', `${this.baseUrl}/api/pedag/doc/getpendencia/${matriculaId}`, null, {
-    //         reportProgress: true,
-    //         responseType: 'blob'
-    //     }));
-    // }
-
     protected extractData(response: any) {
         return response || {};
     }
@@ -54,47 +44,8 @@ export abstract class BaseService {
                 customError.push("Ocorreu um erro desconhecido");
                 response.error.errors = customError;
             }
-        }
+        }      
       
-       // console.error(response);
         return throwError(response);
     }
 }
-
-
-
-
-
-
-// if (req.url.includes(this.baseUrl)) {
-//     if (localStorage.getItem('jwt') !== null) {
-//         const cloneReq = req.clone({
-//             headers: req.headers.set('Authorization', `Bearer ${localStorage.getItem('jwt')}`)
-            
-//         });
-//         return next.handle(cloneReq).pipe(
-//             tap(
-//                 succ => { },
-//                 err => {
-//                     if (err.status === 401) {
-//                         this.router.navigateByUrl('user/login');
-//                     }
-//                 }
-//             )
-//         );
-//     } else {
-//         return next.handle(req.clone());
-//     }
-// }else{
-//     const cloneReq = req.clone()
-//     return next.handle(cloneReq).pipe(
-//         tap(
-//             succ => { },
-//             err => {
-//                 if (err.status === 401) {
-//                     this.router.navigateByUrl('user/login');
-//                 }
-//             }
-//         )
-//     );
-// }

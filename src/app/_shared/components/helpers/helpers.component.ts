@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Injectable } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class HelpersService {
@@ -17,7 +16,7 @@ export class HelpersService {
 
     }
 
-    public openSnackBarSucesso(mensagem) {
+    public openSnackBarSucesso(mensagem?:any) {
         this._snackBar.open(mensagem, '', {
             horizontalPosition: 'center',
             verticalPosition: 'top',
@@ -26,7 +25,7 @@ export class HelpersService {
         });
     }
 
-    public openSnackBarError(mensagem) {
+    public openSnackBarError(mensagem?:any) {
         this._snackBar.open(mensagem, '', {
             horizontalPosition: 'center',
             verticalPosition: 'top',
