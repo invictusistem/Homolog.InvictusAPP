@@ -9,6 +9,7 @@ import { ShowSenhaComponent } from "./bolsas/show/show-senha.component";
 import { PlanoPgmComponent } from "./planos/plano.component";
 import { AdmService } from "./services/adm.service";
 
+
 @NgModule({
     declarations: [
         AdmComponent,
