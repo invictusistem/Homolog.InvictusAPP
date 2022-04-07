@@ -15,11 +15,16 @@ import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { HelpersService } from './components/helpers/helpers.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { CPFPipe } from './components/pipes/cpf.pipe';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
-const maskConfig: Partial<IConfig> = {
+export const maskConfig: Partial<IConfig> = {
   validation: false,
 };
+
+export function GetNgxMaskModuleConfig() {
+  return NgxMaskModule.forRoot(maskConfig)
+}
 
 @NgModule({
   imports: [
@@ -31,8 +36,9 @@ const maskConfig: Partial<IConfig> = {
     MaterialModule,
     RouterModule,
     BrowserModule,
+    AngularEditorModule,
     CurrencyMaskModule,
-    NgxMaskModule.forRoot(maskConfig)
+    GetNgxMaskModuleConfig()
   ],
 
   declarations: [
@@ -61,6 +67,7 @@ const maskConfig: Partial<IConfig> = {
     MaterialModule,
     RouterModule,
     BrowserModule,
+    AngularEditorModule,
     CurrencyMaskModule,
     // components
     NavBarComponent,

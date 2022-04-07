@@ -1,0 +1,48 @@
+<div style="font-size: 1.2em;">Criar documento
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<!-- <div style="font-size: 0.8em;margin-top: 5px;">* O colaborador será salvo na unidade de {{tokenInfo.Unidade}}</div> -->
+<hr>
+
+<div style="position: relative;">
+
+    <form novalidate [formGroup]="docForm" (ngSubmit)="onSubmit(docForm)">
+
+
+        <mat-form-field appearance="standard" style="width: 30%; ">
+            <mat-label>Nome</mat-label>
+            <input selected formControlName="nome" matInput placeholder="Ex: RG">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 30%; margin-left: 5%;">
+            <mat-label>Descrição</mat-label>
+            <input selected formControlName="descricao" matInput placeholder="">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 30%; margin-left: 5%;">
+            <mat-label>Validade (dias)</mat-label>
+            <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected
+                formControlName="validadeDias" matInput placeholder="">
+        </mat-form-field>
+
+
+        <ng-container>
+            <button type="submit" mat-raised-button disabled="true" color="primary"
+                style="float:right;margin-bottom: 0px;margin-left: 10px;" [disabled]="!docForm.valid || progress">
+
+
+                <mat-spinner *ngIf="progress" style="margin-left: 8px;margin-top: 5px; position: absolute;"
+                    [diameter]="26"></mat-spinner>Salvar
+            </button>
+        </ng-container>
+
+
+
+    </form>
+</div>

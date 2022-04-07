@@ -10,7 +10,9 @@ import { TokenInfos } from '../_shared/models/token.model';
 
 export const ROUTES: RouteInfo[] = [
     { path: '/adm/colaboradores', title: 'Colaboradores', class: '', typeIcon: 'engineering' },
+    { path: '/adm/config', title: 'Configurações', class: '', typeIcon: 'settings' },
     { path: '/adm/planopgm', title: 'Planos', class: '', typeIcon: 'request_quote' },
+    { path: '/adm/contrato', title: 'Contratos', class: '', typeIcon: 'gavel' },
     { path: '/adm/bolsas', title: 'Bolsas', class: '', typeIcon: 'local_offer' },
 ]
 
