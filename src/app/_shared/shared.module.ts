@@ -14,6 +14,7 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { HelpersService } from './components/helpers/helpers.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { CPFPipe } from './components/pipes/cpf.pipe';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -37,7 +38,8 @@ const maskConfig: Partial<IConfig> = {
   declarations: [
     NavBarComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    CPFPipe
   ],
 
   providers: [
@@ -63,7 +65,8 @@ const maskConfig: Partial<IConfig> = {
     // components
     NavBarComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    CPFPipe
   ],
   entryComponents: [
 

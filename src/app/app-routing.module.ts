@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdmComponent } from './administrativo/administrativo.component';
 import { BolsasComponent } from './administrativo/bolsas/bolsas.component';
+import { ColaboradoresComponent } from './administrativo/colaboradores/colaboradores.component';
 import { PlanoPgmComponent } from './administrativo/planos/plano.component';
 import { HomeComponent } from './_shared/home/home.component';
 import { AuthGuard } from './_shared/_auth/auth.guard';
@@ -19,6 +20,7 @@ const routes: Routes = [
     path: 'adm', component: AdmComponent, canActivate: [AuthGuard],
     children: [
       { path: 'bolsas', component:BolsasComponent, canActivate: [AuthGuard] },
+      { path: 'colaboradores', component: ColaboradoresComponent, canActivate: [AuthGuard] },
       { path: 'planopgm', component:PlanoPgmComponent, canActivate: [AuthGuard] },
     ]
   },
