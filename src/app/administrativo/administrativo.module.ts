@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
-import { IConfig, NgxMaskModule } from "ngx-mask";
-import { GetNgxMaskModuleConfig, maskConfig, SharedModule } from "../_shared/shared.module";
+import { GetNgxMaskModuleConfig, SharedModule } from "../_shared/shared.module";
 import { AdmComponent } from "./administrativo.component";
 import { BolsasComponent } from "./bolsas/bolsas.component";
 import { CreateBolsaComponent } from "./bolsas/create/create-bolsa.component";
@@ -17,19 +16,36 @@ import { MateriaTemplateComponent } from "./configuracoes/materia-create/mat-cre
 import { ContratoComponent } from "./contratos/contrato.component";
 import { CreateContratoComponent } from "./contratos/create/contrato-create.component";
 import { EditarContratoComponent } from "./contratos/edit/contrato-edit.component";
+import { MessageModalComponent } from "./mensagens/messagemodal.component";
+import { ModuloCreateComponent } from "./modulos/create/modulo-create.component";
+import { ModuloEditComponent } from "./modulos/edit/modulo-edit.component";
+import { ModuloComponent } from "./modulos/modulo.component";
+import { ModuloViewComponent } from "./modulos/view/modulo-view.component";
 import { PlanoPgmCreateComponent } from "./planos/create/create-plano.component";
 import { PlanoPgmEditComponent } from "./planos/edit/edit-plano.component";
 import { PlanoPgmComponent } from "./planos/plano.component";
+import { ProdutoCreateComponent } from "./produtos/create/produto-create.component";
+import { ProdutoDoacaoComponent } from "./produtos/doacao/produto-doacao.component";
+import { ProdutoEditComponent } from "./produtos/edit/produto-edit.component";
+import { ProdutosComponent } from "./produtos/produtos.component";
+import { ProfCalendarioComponent } from "./professores/calendario/professor-calend.component";
+import { CreateProfessorComponent } from "./professores/create/professor-create.component";
+import { EditProfessorComponent } from "./professores/edit/professor-edit.component";
+import { AddMatComponent } from "./professores/materias/create/materia-create.component";
+import { AddDispoComponent } from "./professores/materias/disponibilidade-create/disponibilidade-create.component";
+import { EditDispoComponent } from "./professores/materias/disponibilidade-edit/disponibilidade-edit.component";
+import { ProfMateriasComponent } from "./professores/materias/professor-materia.component";
+import { ProfessoresComponent } from "./professores/professores.component";
+import { ProfRelatorioComponent } from "./professores/relatorio/professor-rel.component";
 import { AdmService } from "./services/adm.service";
+import { CreateUnidadeComponent } from "./unidades/create/unidade-create.component";
+import { EditUnidadeComponent } from "./unidades/edit/unidade-edit.component";
+import { UnidadesComponent } from "./unidades/unidades.component";
 
 
 @NgModule({
     declarations: [
         AdmComponent,
-        // Planos
-        PlanoPgmComponent,
-        PlanoPgmEditComponent,
-        PlanoPgmCreateComponent,
         // Bolsas
         BolsasComponent,
         CreateBolsaComponent,
@@ -48,19 +64,49 @@ import { AdmService } from "./services/adm.service";
         // Contratos
         ContratoComponent,
         EditarContratoComponent,
-        CreateContratoComponent
+        CreateContratoComponent,
+        // Mensagens
+        MessageModalComponent,
+        // Modulos
+        ModuloComponent,
+        ModuloViewComponent,
+        ModuloEditComponent,
+        ModuloCreateComponent,
+        // Planos
+        PlanoPgmComponent,
+        PlanoPgmEditComponent,
+        PlanoPgmCreateComponent,
+        // Produtos
+        ProdutosComponent,
+        ProdutoEditComponent,
+        ProdutoDoacaoComponent,
+        ProdutoCreateComponent,
+        // Professores
+        ProfessoresComponent,
+        EditProfessorComponent,
+        CreateProfessorComponent,
+        ProfRelatorioComponent,
+        ProfMateriasComponent,
+        EditDispoComponent,
+        AddDispoComponent,
+        AddMatComponent,
+        ProfCalendarioComponent,
+        // Turmas
+
+        // Unidades
+        UnidadesComponent,
+        EditUnidadeComponent,
+        CreateUnidadeComponent
     ],
     imports: [
         SharedModule,
         GetNgxMaskModuleConfig()
     ],
     providers: [
-        AdmService
+        AdmService        
     ],
     exports: [
         AdmComponent,
-        //planos
-        PlanoPgmComponent,
         // Bolsas
         BolsasComponent,
         // Colaboradores
@@ -68,12 +114,22 @@ import { AdmService } from "./services/adm.service";
         // Configurações
         ConfiguracoesComponent,
         // Contratos
-        ContratoComponent        
+        ContratoComponent,
+        // Modulos
+        ModuloComponent,
+        // planos
+        PlanoPgmComponent,
+        // Produtos
+        ProdutosComponent,
+        // Professores
+        ProfessoresComponent,
+        // turmas
+
+        // Unidades
+        // Unidades
+        UnidadesComponent        
     ],
     entryComponents: [
-        // Planos
-        PlanoPgmEditComponent,
-        PlanoPgmCreateComponent,
         // Bolsas
         CreateBolsaComponent,
         ShowSenhaComponent,
@@ -88,7 +144,35 @@ import { AdmService } from "./services/adm.service";
         CargoCreateComponent,
         // Contratos
         EditarContratoComponent,
-        CreateContratoComponent
+        CreateContratoComponent,
+        // Mensagens
+        MessageModalComponent,
+        // Modulos
+        ModuloViewComponent,
+        ModuloEditComponent,
+        ModuloCreateComponent,
+        // Planos
+        PlanoPgmEditComponent,
+        PlanoPgmCreateComponent,
+        // Produtos
+        ProdutoEditComponent,
+        ProdutoDoacaoComponent,
+        ProdutoCreateComponent,
+        // Professores
+        EditProfessorComponent,
+        CreateProfessorComponent,
+        ProfRelatorioComponent,
+        ProfMateriasComponent,
+        EditDispoComponent,
+        AddDispoComponent,
+        AddMatComponent,
+        ProfCalendarioComponent,
+        // Turmas
+
+        // Unidades
+        // Unidades        
+        EditUnidadeComponent,
+        CreateUnidadeComponent
     ]
 })
 export class AdmModule { }

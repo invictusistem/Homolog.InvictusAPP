@@ -9,15 +9,16 @@ export class HelpersService {
     dialog: any
     modal: any
     public cep: CEP = new CEP()
+    //private _snackBar?: MatSnackBar = new MatSnackBar()
     constructor(
         private _snackBar: MatSnackBar,
-        private _http: HttpClient
+        //private _http: HttpClient
     ) {
-
+        
     }
 
     public openSnackBarSucesso(mensagem?:any) {
-        this._snackBar.open(mensagem, '', {
+        this._snackBar?.open(mensagem, '', {
             horizontalPosition: 'center',
             verticalPosition: 'top',
             panelClass:['mat-toolbar', 'mat-primary'],
@@ -52,37 +53,6 @@ export class HelpersService {
         this.modal as MatDialogRef<TDialogRef>
         this.modal.close({ clicked: "Ok" });
     }
-
-    // public ConsultarCepForm(CEP: string):Observable<CEP> {
-
-    //     if (CEP.length == 10) {
-    //         CEP = CEP.replace('-', '');
-    //         CEP = CEP.replace('.', '');
-    //         //console.log(CEP);
-
-    //         this._http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
-    //             .subscribe(response => {
-    //                 this.cep.logradouro = response["logradouro"].toUpperCase()
-    //                 this.cep.bairro = response["bairro"].toUpperCase()
-    //                 this.cep.localidade = response["localidade"].toUpperCase()
-    //                 this.cep.uf = response["uf"].toUpperCase()
-
-    //             }, err => {
-    //                 console.log(err)
-    //                 return this.cep
-    //             },
-    //                 () => {
-
-
-    //                 });
-
-    //                return this.cep
-    //     }
-
-
-
-    // }
-
 
 }
 

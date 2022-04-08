@@ -75,6 +75,7 @@ export class ColaboradoresComponent implements OnInit {
 
     ngOnInit() {
         const token = localStorage.getItem('jwt')
+        
     }
 
     //OnSelect

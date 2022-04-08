@@ -2,13 +2,12 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from "@angular/common/http";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { JwtHelperService } from "@auth0/angular-jwt";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { environment } from "src/environments/environment";
-import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { AdmService } from "../../services/adm.service";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 
 @Component({
     selector: 'createcolaboradoresrmodal',
@@ -17,7 +16,7 @@ import { AdmService } from "../../services/adm.service";
     animations: [HighlightTrigger]
 })
 
-export class CreateColaboradoresComponent implements OnInit {
+export class CreateColaboradoresComponent extends BaseComponent implements OnInit {
 
     // infoSpinner: SpinnerParams = {
     //     diameter: 100,
@@ -32,8 +31,8 @@ export class CreateColaboradoresComponent implements OnInit {
     baseUrl = environment.baseUrl;
     //public cepReturn: CepReturn = new CepReturn();
     public colaboradorForm: FormGroup;
-    private jwtHelper = new JwtHelperService();
-    public tokenInfo: TokenInfos = new TokenInfos();
+    //private jwtHelper = new JwtHelperService();
+    //public tokenInfo: TokenInfos = new TokenInfos();
     public validadeEmailMsg = false
     public validadeCPFMsg = false
     public disabledSpinner = false
@@ -47,14 +46,18 @@ export class CreateColaboradoresComponent implements OnInit {
     public msgErros: any
 
     constructor(
-        private _snackBar: MatSnackBar,
-        private _helper: HelpersService,
+
+        //private _snackBar: MatSnackBar,
+        //override _helper: HelpersService,
+        override _snackBar: MatSnackBar,
         private _admService: AdmService,
+        //baseComp: BaseComponent,
         private _fb: FormBuilder,
         private http: HttpClient,
         public dialogRef: MatDialogRef<CreateColaboradoresComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any) {
+        @Inject(MAT_DIALOG_DATA) public data: any) {        
 
+        super(_snackBar);
         this.colaboradorForm = _fb.group({
             nome: ['', [Validators.required, Validators.minLength(5)]],
             email: ['', [Validators.required, Validators.email]],
@@ -72,34 +75,34 @@ export class CreateColaboradoresComponent implements OnInit {
 
         })
     }
-
-
-
     ngOnInit() {
 
-        const token:any = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token)
+        console.log(this.tokenInfo)
+       
+        //const token: any = localStorage.getItem('jwt')
+        //this.tokenInfo = this.GetTokenInfos()//this.jwtHelper.decodeToken(token)
         this.getCargos();
     }
+
 
     getCargos() {
 
         this.http.get(`${this.baseUrl}/parametro/value/Cargo`)
-        .subscribe({
-            next: (response: any) => { 
-                this.cargos = Object.assign([], response['values'])
-                this.dialogRef.addPanelClass('mycreatecolab-class')
+            .subscribe({
+                next: (response: any) => {
+                    this.cargos = Object.assign([], response['values'])
+                    this.dialogRef.addPanelClass('mycreatecolab-class')
                     this.initProgressBar = 'hidden'
                     this.showContent = true
                     this.mostrarModalPrincipal = false
                     this.showForm = true
                     this.funcaoTestar()
-			},
-            error: (error) => { 
-			console.error(error) 
-			}
-        })
-    }  
+                },
+                error: (error) => {
+                    console.error(error)
+                }
+            })
+    }
 
     onSubmit(form: FormGroup) {
         this.showMensagem = 'hidden'
@@ -116,7 +119,7 @@ export class CreateColaboradoresComponent implements OnInit {
                     this.showMensagem = 'visible'
                     this.disabledSaveButton = 'hidden'
                 } else {
-                    this._helper.openSnackBarErrorDefault()
+                    // this._helper?.openSnackBarErrorDefault()
 
                     this.dialogRef.close({ clicked: "Ok" });
                 }
@@ -126,7 +129,9 @@ export class CreateColaboradoresComponent implements OnInit {
             },
                 () => {
 
-                    this._helper.openSnackBarSucesso('Colaborador salvo com sucesso')
+                    //this._helper?.openSnackBarSucesso('Colaborador salvo com sucesso')
+                    //this.openSnackBarSucessoTESTE('Colaborador salvo com sucesso')
+                    this.openSnackBarSucesso('Colaborador salvo com sucesso')
                     // this._helper.CloseModalWithOK();
                     this.dialogRef.close({ clicked: "Ok" });
                     this.disabledSaveButton = 'hidden'

@@ -16,6 +16,8 @@ import { HelpersService } from './components/helpers/helpers.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { CPFPipe } from './components/pipes/cpf.pipe';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { BaseComponent } from './services/basecomponent.component';
+import { CNPJPipe } from './components/pipes/cnpj.pipe';
 
 
 export const maskConfig: Partial<IConfig> = {
@@ -37,7 +39,7 @@ export function GetNgxMaskModuleConfig() {
     RouterModule,
     BrowserModule,
     AngularEditorModule,
-    CurrencyMaskModule,
+    CurrencyMaskModule,    
     GetNgxMaskModuleConfig()
   ],
 
@@ -45,7 +47,9 @@ export function GetNgxMaskModuleConfig() {
     NavBarComponent,
     FooterComponent,
     HomeComponent,
-    CPFPipe
+    BaseComponent,
+    CPFPipe,
+    CNPJPipe
   ],
 
   providers: [
@@ -70,10 +74,12 @@ export function GetNgxMaskModuleConfig() {
     AngularEditorModule,
     CurrencyMaskModule,
     // components
+    BaseComponent,
     NavBarComponent,
     FooterComponent,
     HomeComponent,
-    CPFPipe
+    CPFPipe,
+    CNPJPipe
   ],
   entryComponents: [
 
