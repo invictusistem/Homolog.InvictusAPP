@@ -11,7 +11,7 @@ import { TrocaSenhaComponent } from "../_auth/user/troca-senha/troca-senha.compo
 
 export const ROUTES: RouteInfo[] = [
     { path: './adm', title: 'Administrativo', class: '', typeIcon: '' },
-    // { path: './newmat', title: 'Matrícula', class: '', },
+    { path: './mat', title: 'Matrícula', class: '', typeIcon: '' },
     // { path: './pedag', title: 'Pedagógico', class: '', },
     { path: './financeiro', title: 'Financeiro', class: '', typeIcon: '' }
 ]

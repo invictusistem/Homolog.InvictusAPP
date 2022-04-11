@@ -14,6 +14,8 @@ import { UnidadesComponent } from './administrativo/unidades/unidades.component'
 import { UsuarioComponent } from './administrativo/usuarios/usuario.component';
 import { AlunoFinancComponent } from './financeiro/alunos/alunos-financeiro.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
+import { MatriculaCadastroComponent } from './matricula/cadastro/matricula-cadastro.component';
+import { MatriculaComponent } from './matricula/matricula.component';
 import { HomeComponent } from './_shared/home/home.component';
 import { AuthGuard } from './_shared/_auth/auth.guard';
 import { LoginComponent } from './_shared/_auth/user/login/login.component';
@@ -42,6 +44,12 @@ const routes: Routes = [
       { path: 'planopgm', component:PlanoPgmComponent, canActivate: [AuthGuard] },
     ]
   },
+  {
+    path: 'mat', component: MatriculaComponent, canActivate: [AuthGuard],
+    children: [
+      { path: 'matricula', component: MatriculaCadastroComponent, canActivate: [AuthGuard] }
+    ]
+  }, 
   {
     path: 'financeiro', component: FinanceiroComponent, canActivate: [AuthGuard],
     children: [

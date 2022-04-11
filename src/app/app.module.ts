@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './_shared/shared.module';
 import { AdmModule } from './administrativo/administrativo.module';
 import { FinanceiroModule } from './financeiro/financeiro.module';
+import { MatriculaModule } from './matricula/matricula.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { FinanceiroModule } from './financeiro/financeiro.module';
     AppRoutingModule,
     SharedModule,
     AdmModule,
+    MatriculaModule,
     FinanceiroModule
   ],
   providers: [],
