@@ -12,7 +12,7 @@ import { TrocaSenhaComponent } from "../_auth/user/troca-senha/troca-senha.compo
 export const ROUTES: RouteInfo[] = [
     { path: './adm', title: 'Administrativo', class: '', typeIcon: '' },
     { path: './mat', title: 'Matrícula', class: '', typeIcon: '' },
-    // { path: './pedag', title: 'Pedagógico', class: '', },
+    { path: './pedag', title: 'Pedagógico', class: '', typeIcon: ''},
     { path: './financeiro', title: 'Financeiro', class: '', typeIcon: '' }
 ]
 
@@ -39,10 +39,7 @@ export class NavBarComponent implements OnInit {
         var token:any = localStorage.getItem('jwt');
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.menu = ROUTES.filter(menu => menu);
-
     }
-
-
 
     public TrocarSenha(): void {
         const dialogRef = this._modal

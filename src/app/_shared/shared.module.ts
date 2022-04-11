@@ -21,6 +21,8 @@ import { CNPJPipe } from './components/pipes/cnpj.pipe';
 import { ConfirmAcaoModalComponent } from './components/acao-confirm/confirm-acao.component';
 import { MyTimeInput } from './components/mask-time/form-field-customTime-control';
 import { ModalConfirmarComponent } from './components/modal-confirmar/modal-confirmar.component';
+import { IdadePipe } from './components/pipes/idadePipe';
+import { ConfirmModalComponent } from './components/modal-confirmar-v2/confirm-modal.component';
 
 
 export const maskConfig: Partial<IConfig> = {
@@ -53,8 +55,10 @@ export function GetNgxMaskModuleConfig() {
     BaseComponent,
     ConfirmAcaoModalComponent,
     ModalConfirmarComponent,
+    ConfirmModalComponent,
     CPFPipe,
     CNPJPipe,
+    IdadePipe,
     MyTimeInput
   ],
 
@@ -89,11 +93,13 @@ export function GetNgxMaskModuleConfig() {
     HomeComponent,
     CPFPipe,
     CNPJPipe,
+    IdadePipe,
     MyTimeInput
   ],
   entryComponents: [
     ConfirmAcaoModalComponent,
-    ModalConfirmarComponent
+    ModalConfirmarComponent,
+    ConfirmModalComponent
   ]
 
 })

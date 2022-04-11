@@ -16,6 +16,9 @@ import { AlunoFinancComponent } from './financeiro/alunos/alunos-financeiro.comp
 import { FinanceiroComponent } from './financeiro/financeiro.component';
 import { MatriculaCadastroComponent } from './matricula/cadastro/matricula-cadastro.component';
 import { MatriculaComponent } from './matricula/matricula.component';
+import { AlunoAcessoComponent } from './pedagogico/alunos-acesso/aluno-acesso.component';
+import { AlunoComponent } from './pedagogico/alunos/aluno.component';
+import { PedagogicoComponent } from './pedagogico/pedagogico.component';
 import { HomeComponent } from './_shared/home/home.component';
 import { AuthGuard } from './_shared/_auth/auth.guard';
 import { LoginComponent } from './_shared/_auth/user/login/login.component';
@@ -50,6 +53,22 @@ const routes: Routes = [
       { path: 'matricula', component: MatriculaCadastroComponent, canActivate: [AuthGuard] }
     ]
   }, 
+  {
+    path: 'pedag', component: PedagogicoComponent, canActivate: [AuthGuard],
+    children: [
+      { path: 'aluno', component: AlunoComponent, canActivate: [AuthGuard] },
+      // { path: 'pedagalunos', component: PedagAlunosComponent, canActivate: [AuthGuard] },
+      // { path: 'transf', component: TransferenciaComponent, canActivate: [AuthGuard] },
+      // { path: 'turmas', component: TurmasComponent, canActivate: [AuthGuard] },
+      // { path: 'pedagrel', component: PedagRelatorioComponent, canActivate: [AuthGuard] },
+      // { path: 'config', component: EstagioComponent, canActivate: [AuthGuard] },
+      // { path: 'turmasinfo', component:  TurmasPedagInfoComponent, canActivate: [AuthGuard] },
+      // { path: 'reposicoes', component:  ReposicoesComponent, canActivate: [AuthGuard] },
+      // { path: 'analisedocs', component:  AnaliseDocsComponent, canActivate: [AuthGuard] },
+      // { path: 'estagiosdoc', component:  EstagiosDocsComponent, canActivate: [AuthGuard] },
+      { path: 'alunoacesso', component:  AlunoAcessoComponent, canActivate: [AuthGuard] }
+    ]
+  },
   {
     path: 'financeiro', component: FinanceiroComponent, canActivate: [AuthGuard],
     children: [

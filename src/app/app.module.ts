@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Components
 import { LoginComponent } from './_shared/_auth/user/login/login.component';
 import { UserComponent } from './_shared/_auth/user/user.component';
@@ -12,6 +10,7 @@ import { SharedModule } from './_shared/shared.module';
 import { AdmModule } from './administrativo/administrativo.module';
 import { FinanceiroModule } from './financeiro/financeiro.module';
 import { MatriculaModule } from './matricula/matricula.module';
+import { PedagogicoModule } from './pedagogico/pedagogico.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +25,7 @@ import { MatriculaModule } from './matricula/matricula.module';
     SharedModule,
     AdmModule,
     MatriculaModule,
+    PedagogicoModule,
     FinanceiroModule
   ],
   providers: [],

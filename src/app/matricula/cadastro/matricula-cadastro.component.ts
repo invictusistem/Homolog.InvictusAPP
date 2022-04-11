@@ -10,6 +10,8 @@ import { TokenInfos } from "src/app/_shared/models/token.model";
 import { ConfirmAcaoModalConfig } from "src/app/_shared/services/shared.modal";
 import { OpenRelatorioMatriculaComponentModal } from "../services/mat-modal";
 import { MatriculaService } from "../services/matricula.service";
+import { NovaMatriculaCreateComponent } from "./create/matricula-criar.component";
+import { RelatorioMatriculaComponent } from "./relatorio/matricula-relatorio.component";
 
 @Component({
     selector: "nova-matricula-app",
@@ -207,13 +209,13 @@ export class MatriculaCadastroComponent implements OnInit {
 
 
     public OpenRelatorioMatricula(): void {
-        // const dialogRef = this._modal
-        //     .open(RelatorioMatriculaComponent, OpenRelatorioMatriculaComponentModal());
-        // dialogRef.afterClosed().subscribe((data) => {
-        //     if (data.clicked === "OK") {
-        //     } else if (data.clicked === "Cancel") {
-        //     }
-        // });
+        const dialogRef = this._modal
+            .open(RelatorioMatriculaComponent, OpenRelatorioMatriculaComponentModal());
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "OK") {
+            } else if (data.clicked === "Cancel") {
+            }
+        });
     }
 
     submitPesquisa(event?: any) {
@@ -279,23 +281,23 @@ export class MatriculaCadastroComponent implements OnInit {
     }
 
     openMatriculaModal(): void {
-        // const dialogRef = this._modal
-        //     .open(CreateNovaMatriculaComponent, {
-        //         height: 'auto',
-        //         width: '1000px',
-        //         autoFocus: false,             
-        //         hasBackdrop: true,
-        //         disableClose: true
-        //     });
+        const dialogRef = this._modal
+            .open(NovaMatriculaCreateComponent, {
+                height: 'auto',
+                width: '1000px',
+                autoFocus: false,             
+                hasBackdrop: true,
+                disableClose: true
+            });
 
-        // dialogRef.afterClosed().subscribe((data) => {
-        //     if (data.clicked === "OK") {
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "OK") {
               
                
-        //     } else if (data.clicked === "Cancel") {
+            } else if (data.clicked === "Cancel") {
               
-        //     }
-        // });
+            }
+        });
     }
 
     matricular(aluno: any) {
