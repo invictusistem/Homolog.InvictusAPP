@@ -10,6 +10,7 @@ import { SelectUnidadeComponent } from './_shared/_auth/user/login/selecionar-un
 import { AppComponent } from './app.component';
 import { SharedModule } from './_shared/shared.module';
 import { AdmModule } from './administrativo/administrativo.module';
+import { FinanceiroModule } from './financeiro/financeiro.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AdmModule } from './administrativo/administrativo.module';
   imports: [
     AppRoutingModule,
     SharedModule,
-    AdmModule
+    AdmModule,
+    FinanceiroModule
   ],
   providers: [],
   entryComponents: [

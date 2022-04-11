@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe, UpperCasePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
@@ -18,6 +18,9 @@ import { CPFPipe } from './components/pipes/cpf.pipe';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { BaseComponent } from './services/basecomponent.component';
 import { CNPJPipe } from './components/pipes/cnpj.pipe';
+import { ConfirmAcaoModalComponent } from './components/acao-confirm/confirm-acao.component';
+import { MyTimeInput } from './components/mask-time/form-field-customTime-control';
+import { ModalConfirmarComponent } from './components/modal-confirmar/modal-confirmar.component';
 
 
 export const maskConfig: Partial<IConfig> = {
@@ -48,13 +51,19 @@ export function GetNgxMaskModuleConfig() {
     FooterComponent,
     HomeComponent,
     BaseComponent,
+    ConfirmAcaoModalComponent,
+    ModalConfirmarComponent,
     CPFPipe,
-    CNPJPipe
+    CNPJPipe,
+    MyTimeInput
   ],
 
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
     HelpersService,
+    CurrencyPipe, 
+    UpperCasePipe, 
+    DatePipe,
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
@@ -79,10 +88,12 @@ export function GetNgxMaskModuleConfig() {
     FooterComponent,
     HomeComponent,
     CPFPipe,
-    CNPJPipe
+    CNPJPipe,
+    MyTimeInput
   ],
   entryComponents: [
-
+    ConfirmAcaoModalComponent,
+    ModalConfirmarComponent
   ]
 
 })

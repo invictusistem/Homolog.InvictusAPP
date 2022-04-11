@@ -10,6 +10,8 @@ import { TokenInfos } from '../_shared/models/token.model';
 import { MessageModalComponent } from './mensagens/messagemodal.component';
 
 export const ROUTES: RouteInfo[] = [
+    { path: '/adm/usuarios', title: 'Usuários', class: '', typeIcon: 'manage_accounts' },
+    { path: '/adm/admcursos', title: 'Turmas', class: '', typeIcon: 'house' },
     { path: '/adm/colaboradores', title: 'Colaboradores', class: '', typeIcon: 'engineering' },
     { path: '/adm/professores', title: 'Professores', class: '', typeIcon: 'engineering' },
     { path: '/adm/produtos', title: 'Produtos', class: '', typeIcon: 'fact_check' },

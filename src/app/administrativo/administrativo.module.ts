@@ -38,9 +38,18 @@ import { ProfMateriasComponent } from "./professores/materias/professor-materia.
 import { ProfessoresComponent } from "./professores/professores.component";
 import { ProfRelatorioComponent } from "./professores/relatorio/professor-rel.component";
 import { AdmService } from "./services/adm.service";
+import { AdmTurmasComponent } from "./turmas/administrativo-turma.component";
+import { CreateCursoComponent } from "./turmas/create/turma-create.component";
+import { ConfirmarIniciarTurmaModal } from "./turmas/iniciar/confirmariniciar.component";
 import { CreateUnidadeComponent } from "./unidades/create/unidade-create.component";
 import { EditUnidadeComponent } from "./unidades/edit/unidade-edit.component";
+import { CreateSalaComponent } from "./unidades/salas/create/sala-create.component";
+import { SalaEditarComponent } from "./unidades/salas/edit/sala-edit.component";
 import { UnidadesComponent } from "./unidades/unidades.component";
+import { EditAcessoComponent } from "./usuarios/acesso-edit/editacesso.component";
+import { CreateUserComponent } from "./usuarios/create/createuser.component";
+import { EditUserComponent } from "./usuarios/edit/edituser.component";
+import { UsuarioComponent } from "./usuarios/usuario.component";
 
 
 @NgModule({
@@ -92,11 +101,20 @@ import { UnidadesComponent } from "./unidades/unidades.component";
         AddMatComponent,
         ProfCalendarioComponent,
         // Turmas
-
+        AdmTurmasComponent,
+        ConfirmarIniciarTurmaModal,
+        CreateCursoComponent,
         // Unidades
         UnidadesComponent,
         EditUnidadeComponent,
-        CreateUnidadeComponent
+        CreateUnidadeComponent,
+        CreateSalaComponent,
+        SalaEditarComponent,
+        // Usuarios
+        UsuarioComponent,
+        EditUserComponent,
+        CreateUserComponent,
+        EditAcessoComponent
     ],
     imports: [
         SharedModule,
@@ -124,10 +142,12 @@ import { UnidadesComponent } from "./unidades/unidades.component";
         // Professores
         ProfessoresComponent,
         // turmas
-
+        AdmTurmasComponent,        
         // Unidades
-        // Unidades
-        UnidadesComponent        
+        UnidadesComponent,
+        // Usuarios
+        UsuarioComponent
+               
     ],
     entryComponents: [
         // Bolsas
@@ -167,12 +187,18 @@ import { UnidadesComponent } from "./unidades/unidades.component";
         AddDispoComponent,
         AddMatComponent,
         ProfCalendarioComponent,
-        // Turmas
-
-        // Unidades
+        // Turmas        
+        ConfirmarIniciarTurmaModal,
+        CreateCursoComponent,
         // Unidades        
         EditUnidadeComponent,
-        CreateUnidadeComponent
+        CreateUnidadeComponent,
+        CreateSalaComponent,
+        SalaEditarComponent,
+        // Usuarios
+        EditUserComponent,
+        CreateUserComponent,
+        EditAcessoComponent
     ]
 })
 export class AdmModule { }
