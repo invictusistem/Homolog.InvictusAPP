@@ -11,8 +11,23 @@ import { CertificadoComponent } from "./alunos/informacoes-matricula/certificado
 import { InfosComponent } from "./alunos/informacoes-matricula/infos.component";
 import { AlunoMatriculaComponent } from "./alunos/matricular/aluno-matricula.component";
 import { ConfirmMatriculaComponent } from "./alunos/matricular/confirmar/confirmamat.component";
+import { ConfirmarIniciarAulaModal, TurmasComponent } from "./diario-classe/diario-classe.component";
+import { NotasComponent } from "./diario-classe/notas/notas.component";
+import { PresencaComponent } from "./diario-classe/presenca/presenca.component";
+import { EstagioCadastroComponent } from "./estagios/create/estagiocadastro.component";
+import { EstagioEditComponent } from "./estagios/edit/estagio-edit.component";
+import { EstagioAlunosComponent } from "./estagios/estagio-alunos/estagio-alunos.component";
+import { EstagioComponent } from "./estagios/estagio.component";
 import { PedagogicoComponent } from "./pedagogico.component";
 import { PedagogicoService } from "./services/pedagogico.service";
+import { TransferenciaComponent } from "./transferencia/transferencia.component";
+import { PedagogicoturmaComponent } from "./turmas/pedagogico-turmas.component";
+import { AulaDetalheModal } from "./turmas/turma-calendario/aula-detalhe/aula-detalhe.component";
+import { AulaEditarModal } from "./turmas/turma-calendario/aula-edit/aulaeditar.component";
+import { TurmaPresencaEditComponent } from "./turmas/turma-calendario/aula-presenca/turma-presenca.component";
+import { CalendarioTurmaComponent } from "./turmas/turma-calendario/calendarioturma.component";
+import { CalendPresencaComponent } from "./turmas/turma-calendario/presenca/cal-presenca.component";
+import { TurmaDetalheModal } from "./turmas/turma-calendario/turma-detalhe/turma-detalhe.component";
 
 @NgModule({
     declarations: [
@@ -29,8 +44,27 @@ import { PedagogicoService } from "./services/pedagogico.service";
         BoletimAlunoComponent,
         // Alunos Acesso
         AlunoAcessoComponent,
-        DetalheComponent
-
+        DetalheComponent,
+        // Diario-Classe
+        TurmasComponent,
+        PresencaComponent,
+        NotasComponent,
+        ConfirmarIniciarAulaModal,
+        // Estagios
+        EstagioComponent,
+        EstagioAlunosComponent,
+        EstagioEditComponent,
+        EstagioCadastroComponent,
+        // Transferencia
+        TransferenciaComponent,
+        // Turmas
+        PedagogicoturmaComponent,
+        CalendarioTurmaComponent,
+        TurmaDetalheModal,
+        CalendPresencaComponent,
+        TurmaPresencaEditComponent,
+        AulaEditarModal,
+        AulaDetalheModal
     ],
     imports: [
         SharedModule,
@@ -44,7 +78,15 @@ import { PedagogicoService } from "./services/pedagogico.service";
         // Alunos
         AlunoComponent,
         // Alunos Acesso
-        AlunoAcessoComponent
+        AlunoAcessoComponent,
+        // Diario-Classe
+        TurmasComponent,
+        // Estagios
+        EstagioComponent,
+        // Transferencia
+        TransferenciaComponent,
+        // Turmas
+        PedagogicoturmaComponent
     ],
     entryComponents: [
         // Alunos        
@@ -57,9 +99,24 @@ import { PedagogicoService } from "./services/pedagogico.service";
         AddAnotacaoComponent,
         BoletimAlunoComponent,
         // Alunos Acesso
-        DetalheComponent
+        DetalheComponent,
+        // Diario-Classe        
+        PresencaComponent,
+        NotasComponent,
+        ConfirmarIniciarAulaModal,
+        // Estagios
+        EstagioAlunosComponent,
+        EstagioEditComponent,
+        EstagioCadastroComponent,
+        // Turmas
+        CalendarioTurmaComponent,
+        TurmaDetalheModal,
+        CalendPresencaComponent,
+        TurmaPresencaEditComponent,
+        AulaEditarModal,
+        AulaDetalheModal
     ]
-    
+
 })
 export class PedagogicoModule { }
 

@@ -15,7 +15,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/pedag/turmas', title: 'Diário de Classe', class: '', typeIcon: 'assignment' },
    // { path: '/pedag/pedagrel', title: 'Relatório', class: '', typeIcon: 'article' },
     { path: '/pedag/analisedocs', title: 'Documentação', class: '', typeIcon: 'description' },
-    { path: '/pedag/config', title: 'Estágios', class: '', typeIcon: 'settings_applications' },
+    { path: '/pedag/estagio', title: 'Estágios', class: '', typeIcon: 'settings_applications' },
     { path: '/pedag/estagiosdoc', title: 'Estágios/Gestão', class: '', typeIcon: 'settings_applications' },
 ]
 

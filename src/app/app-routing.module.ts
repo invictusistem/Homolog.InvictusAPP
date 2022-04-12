@@ -18,7 +18,11 @@ import { MatriculaCadastroComponent } from './matricula/cadastro/matricula-cadas
 import { MatriculaComponent } from './matricula/matricula.component';
 import { AlunoAcessoComponent } from './pedagogico/alunos-acesso/aluno-acesso.component';
 import { AlunoComponent } from './pedagogico/alunos/aluno.component';
+import { TurmasComponent } from './pedagogico/diario-classe/diario-classe.component';
+import { EstagioComponent } from './pedagogico/estagios/estagio.component';
 import { PedagogicoComponent } from './pedagogico/pedagogico.component';
+import { TransferenciaComponent } from './pedagogico/transferencia/transferencia.component';
+import { PedagogicoturmaComponent } from './pedagogico/turmas/pedagogico-turmas.component';
 import { HomeComponent } from './_shared/home/home.component';
 import { AuthGuard } from './_shared/_auth/auth.guard';
 import { LoginComponent } from './_shared/_auth/user/login/login.component';
@@ -58,11 +62,11 @@ const routes: Routes = [
     children: [
       { path: 'aluno', component: AlunoComponent, canActivate: [AuthGuard] },
       // { path: 'pedagalunos', component: PedagAlunosComponent, canActivate: [AuthGuard] },
-      // { path: 'transf', component: TransferenciaComponent, canActivate: [AuthGuard] },
-      // { path: 'turmas', component: TurmasComponent, canActivate: [AuthGuard] },
+      { path: 'transf', component: TransferenciaComponent, canActivate: [AuthGuard] },
+      { path: 'turmas', component: TurmasComponent, canActivate: [AuthGuard] },
       // { path: 'pedagrel', component: PedagRelatorioComponent, canActivate: [AuthGuard] },
-      // { path: 'config', component: EstagioComponent, canActivate: [AuthGuard] },
-      // { path: 'turmasinfo', component:  TurmasPedagInfoComponent, canActivate: [AuthGuard] },
+      { path: 'estagio', component: EstagioComponent, canActivate: [AuthGuard] },
+      { path: 'turmasinfo', component:  PedagogicoturmaComponent, canActivate: [AuthGuard] },
       // { path: 'reposicoes', component:  ReposicoesComponent, canActivate: [AuthGuard] },
       // { path: 'analisedocs', component:  AnaliseDocsComponent, canActivate: [AuthGuard] },
       // { path: 'estagiosdoc', component:  EstagiosDocsComponent, canActivate: [AuthGuard] },
