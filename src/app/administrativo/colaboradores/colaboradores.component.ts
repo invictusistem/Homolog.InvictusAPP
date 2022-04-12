@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
-import { MatPaginator, PageEvent } from "@angular/material/paginator";
-import { HighlightTrigger } from "src/app/_shared/animation/animation";
-import { TokenInfos } from "src/app/_shared/models/token.model";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 import { CreateColaboradorModalConfig, EditColaboradorModalConfig } from "../services/adm-modal";
 import { AdmService } from "../services/adm.service";
 import { CreateColaboradoresComponent } from "./create/colaborador-create.component";
@@ -12,44 +11,30 @@ import { EditColaboradoresComponent } from "./edit/colaborador-edit.component";
 @Component({
     selector: "colaboradores-app",
     templateUrl: './colaboradores.component.html',
-    styleUrls: ['./colaboradores.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./colaboradores.component.scss']
 })
 
-export class ColaboradoresComponent implements OnInit {
-
-    // paginated
-    length: number = 0
-    pageSize: number = 5;
-    pageEvent: PageEvent = new PageEvent()
-    pageIndexNumber: number = 0;
-    currentPageTeste = 1
-
-    // baseUrl
-    //baseUrl = environment.baseUrl;
+export class ColaboradoresComponent extends BaseComponent implements OnInit {
 
     colaboradores: any[] = new Array<any>();
-
-    spinnerSearch = 'hidden'
+    
     showMessageNoColaborador = false
     mensagem: string = "";
-    public tokenInfo: TokenInfos = new TokenInfos();
     public pesquisarForm: FormGroup
-
-    @ViewChild(MatPaginator) paginator: MatPaginator | undefined
 
     constructor(
         private _admService: AdmService,
-       // private _http: HttpClient,
+        override _snackBar: MatSnackBar,
         private _fb: FormBuilder,
-        private _modal: MatDialog
-    ) {
+        private _modal: MatDialog) {
+
+        super(_snackBar);
         this.pesquisarForm = _fb.group({
             nome: ['', [Validators.required]],
             email: ['', [Validators.required]],
             cpf: ['', [Validators.required]],
             ativo: [false],
-            todasUnidades:[false]
+            todasUnidades: [false]
         });
 
         this.pesquisarForm.valueChanges.subscribe(
@@ -74,11 +59,8 @@ export class ColaboradoresComponent implements OnInit {
     }
 
     ngOnInit() {
-        const token = localStorage.getItem('jwt')
-        
+       
     }
-
-    //OnSelect
 
     onSubmit(event?: any) {
 
@@ -121,8 +103,6 @@ export class ColaboradoresComponent implements OnInit {
             }
         }
 
-       
-
     }
 
     processarFalha(fail: any) {
@@ -149,6 +129,7 @@ export class ColaboradoresComponent implements OnInit {
     openCreateUserModal(): void {
         const dialogRef = this._modal
             .open(CreateColaboradoresComponent, CreateColaboradorModalConfig());
+            
         dialogRef.afterClosed().subscribe((data) => {
 
         });
@@ -160,13 +141,4 @@ export class ColaboradoresComponent implements OnInit {
         dialogRef.afterClosed().subscribe(data => {
         });
     }
-
-}
-
-
-export class Parametros {
-    constructor(
-        public nome?: string,
-        public email?: string,
-        public cpf?: string) { }
 }

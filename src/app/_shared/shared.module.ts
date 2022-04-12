@@ -23,6 +23,7 @@ import { MyTimeInput } from './components/mask-time/form-field-customTime-contro
 import { ModalConfirmarComponent } from './components/modal-confirmar/modal-confirmar.component';
 import { IdadePipe } from './components/pipes/idadePipe';
 import { ConfirmModalComponent } from './components/modal-confirmar-v2/confirm-modal.component';
+import { SharedService } from './services/shared.service';
 
 
 export const maskConfig: Partial<IConfig> = {
@@ -64,6 +65,7 @@ export function GetNgxMaskModuleConfig() {
 
   providers: [
     HelpersService,
+    SharedService,
     CurrencyPipe, 
     UpperCasePipe, 
     DatePipe,

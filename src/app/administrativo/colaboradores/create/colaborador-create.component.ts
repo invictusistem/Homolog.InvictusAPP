@@ -5,40 +5,26 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { environment } from "src/environments/environment";
-import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { AdmService } from "../../services/adm.service";
 import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 
 @Component({
     selector: 'createcolaboradoresrmodal',
     templateUrl: './colaborador-create.component.html',
-    styleUrls: ['./colaborador-create.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./colaborador-create.component.scss']
 })
 
 export class CreateColaboradoresComponent extends BaseComponent implements OnInit {
 
-    // infoSpinner: SpinnerParams = {
-    //     diameter: 100,
-    //     marginleft: 42.5,
-    //     margintop: 10
-    // }
-
-    //spinners
     mostrarModalPrincipal = true
-
-
-    baseUrl = environment.baseUrl;
-    //public cepReturn: CepReturn = new CepReturn();
+    baseUrl = environment.baseUrl;    
     public colaboradorForm: FormGroup;
-    //private jwtHelper = new JwtHelperService();
-    //public tokenInfo: TokenInfos = new TokenInfos();
     public validadeEmailMsg = false
     public validadeCPFMsg = false
     public disabledSpinner = false
     public showContent = false
     public disabledSaveButton = 'hidden'
-    public initProgressBar = 'visible'
+    
     showForm = false
     cargos: any[] = new Array<any>()
     mensagem = "";
@@ -46,12 +32,8 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
     public msgErros: any
 
     constructor(
-
-        //private _snackBar: MatSnackBar,
-        //override _helper: HelpersService,
         override _snackBar: MatSnackBar,
         private _admService: AdmService,
-        //baseComp: BaseComponent,
         private _fb: FormBuilder,
         private http: HttpClient,
         public dialogRef: MatDialogRef<CreateColaboradoresComponent>,
@@ -75,12 +57,7 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
 
         })
     }
-    ngOnInit() {
-
-        console.log(this.tokenInfo)
-       
-        //const token: any = localStorage.getItem('jwt')
-        //this.tokenInfo = this.GetTokenInfos()//this.jwtHelper.decodeToken(token)
+    ngOnInit() {        
         this.getCargos();
     }
 
@@ -99,7 +76,7 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
                     this.funcaoTestar()
                 },
                 error: (error) => {
-                    console.error(error)
+                    
                 }
             })
     }
@@ -119,20 +96,11 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
                     this.showMensagem = 'visible'
                     this.disabledSaveButton = 'hidden'
                 } else {
-                    // this._helper?.openSnackBarErrorDefault()
-
                     this.dialogRef.close({ clicked: "Ok" });
                 }
-
-
-
             },
                 () => {
-
-                    //this._helper?.openSnackBarSucesso('Colaborador salvo com sucesso')
-                    //this.openSnackBarSucessoTESTE('Colaborador salvo com sucesso')
                     this.openSnackBarSucesso('Colaborador salvo com sucesso')
-                    // this._helper.CloseModalWithOK();
                     this.dialogRef.close({ clicked: "Ok" });
                     this.disabledSaveButton = 'hidden'
                 });
@@ -147,16 +115,16 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
         this.cpfValidation = cpf
     }
 
-
     showEndereco = 'hidden'
     consultaCEP(CEP: string) {
-        // console.log(CEP);
-        if (this.colaboradorForm.get('cep')?.valid) {
 
+
+        //this.ConsultaCEP(CEP)
+       
+        if (this.colaboradorForm.get('cep')?.valid) {
 
             this._admService.CepConsulta(this.colaboradorForm.get('cep')?.value)
                 .subscribe(response => {
-
                     this.colaboradorForm.get('logradouro')?.setValue(response["logradouro"].toUpperCase());
                     this.colaboradorForm.get('bairro')?.setValue(response["bairro"].toUpperCase());
                     this.colaboradorForm.get('cidade')?.setValue(response["localidade"].toUpperCase());
@@ -164,14 +132,12 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
 
                 }, err => { },
                     () => {
-
                         this.showEndereco = 'visible'
                     });
         }
     }
 
     onOkClick() {
-        //console.log("I do nothing");
         this.dialogRef.close({ clicked: "Ok" });
     }
 
@@ -183,10 +149,4 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
             return true
         }
     }
-
-
-}
-
-export class VerOCPF {
-
 }

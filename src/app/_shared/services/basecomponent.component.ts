@@ -1,55 +1,71 @@
-import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Component, Inject, Injectable, OnInit } from '@angular/core';
-import { MatSnackBar, MatSnackBarConfig, MatSnackBarHorizontalPosition, MatSnackBarRef, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { Component, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { throwError } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { HelpersService } from '../components/helpers/helpers.component';
+import { HighlightTrigger } from '../animation/animation';
 import { TokenInfos } from '../models/token.model';
+import { SharedService } from './shared.service';
 
 @Component({
     selector: 'app-base',
     template: ``,
-    styles: [
-    ]
-})
-export class BaseComponent{
+    styles: [],
+    animations: [HighlightTrigger]
 
+})
+export class BaseComponent {
+
+    // paginated
+    public length: number = 0
+    public pageSize: number = 5;
+    public pageEvent: PageEvent = new PageEvent()
+    public pageIndexNumber: number = 0;
+    public currentPageTeste = 1
+    @ViewChild(MatPaginator) paginator!: MatPaginator
+    // JWT
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
-    //protected BaseUrl: string = environment.baseUrl
-    //protected helper = this._helper
-    //private _snackBar?: MatSnackBar
-   // protected _helper?: HelpersService | undefined
-  
+    // Spinners
+    public spinnerSearch = 'hidden'
+    public initProgressBar = 'visible'
+
+
+
+    // handelr!: HttpHandler
+    // client = new HttpClient(this.handelr)
+    // private sharedService:SharedService = new SharedService(this.client)
+    client:any
+    service: any
     constructor(
-       // public _helper: HelpersService,
-        public _snackBar: MatSnackBar,        
-        
+        public _snackBar: MatSnackBar,
+        //private _sharedService?: SharedService
+
     ) {
-       //this._helper = new HelpersService(this._snackBar as MatSnackBar)
-       this.GetTokenInfos()
+        this.GetTokenInfos()
+         this.client = new HttpClient(this.handelr)
+        this.service = new SharedService(this.client);
     }
-    // ngOnInit(): void {
-    //     this.GetTokenInfos()
-    //     console.log(this.tokenInfo)
-    // }
-   
-    public openSnackBarSucesso(mensagem?:any) {       
+
+    handelr!: HttpHandler
+    //client = new HttpClient(this.handelr)
+    //private service = new SharedService(new HttpClient());
+
+    public openSnackBarSucesso(mensagem?: any) {
 
         this._snackBar?.open(mensagem, '', {
             horizontalPosition: 'center',
             verticalPosition: 'top',
-            panelClass:['mat-toolbar', 'mat-primary'],
+            panelClass: ['mat-toolbar', 'mat-primary'],
             duration: 5 * 1000,
         });
     }
 
-    public openSnackBarError(mensagem?:any) {
+    public openSnackBarError(mensagem?: any) {
         this._snackBar?.open(mensagem, '', {
             horizontalPosition: 'center',
             verticalPosition: 'top',
-            panelClass:['mat-toolbar', 'mat-warn'],
+            panelClass: ['mat-toolbar', 'mat-warn'],
             duration: 5 * 1000,
         });
     }
@@ -58,9 +74,34 @@ export class BaseComponent{
         this._snackBar?.open('Ocorreu um erro, favor procure o administrador do sistema.', '', {
             horizontalPosition: 'center',
             verticalPosition: 'top',
-            panelClass:['mat-toolbar', 'mat-warn'],
+            panelClass: ['mat-toolbar', 'mat-warn'],
             duration: 5 * 1000,
         });
+    }
+
+    public ConsultaCEP(CEP: string) {
+        // let handelr!: HttpHandler
+        // let client = new HttpClient(this.handelr)
+        //if (this.colaboradorForm.get('cep')?.valid) {
+        // let handelr!: HttpHandler
+        // let client = new HttpClient(handelr)
+        // let sharedService: SharedService = new SharedService(client)
+        //CEP = '123'
+        console.log(CEP)
+        this.service.CepConsulta(CEP)
+            .subscribe(
+                (response: any) => {
+                    console.log(response)
+                    //return response
+
+                }, (err:any) => {
+                    console.log('erro consulta CEP')
+                    this.openSnackBarErrorDefault()
+                },
+                () => {
+
+                });
+        // }
     }
 
     protected GetTokenInfos() {
