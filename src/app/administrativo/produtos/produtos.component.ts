@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
 import { ProdutoCreateComponent } from "./create/produto-create.component";
@@ -11,7 +12,8 @@ import { ProdutoEditComponent } from "./edit/produto-edit.component";
 @Component({
     selector: "produtos-app",
     templateUrl: './produtos.component.html',
-    styleUrls: ['./produtos.component.scss']
+    styleUrls: ['./produtos.component.scss'],
+    animations: [HighlightTrigger]
 })
 
 export class ProdutosComponent implements OnInit {
@@ -20,6 +22,7 @@ export class ProdutosComponent implements OnInit {
     public produtos: any[] = new Array<any>();
     public tokenInfo: TokenInfos = new TokenInfos();
     private jwtHelper = new JwtHelperService();
+    public spinnerSearch = 'visible'
 
     constructor(
         private _http: HttpClient,
@@ -38,8 +41,10 @@ export class ProdutosComponent implements OnInit {
         this._http.get(`${this.baseUrl}/produto`)
         .subscribe((resp:any) => {
             this.produtos = Object.assign([], resp['produtos'])
-            console.log(this.produtos)
-        }, (error) => { console.log(error) })
+            this.spinnerSearch = 'hidden'
+        }, (error) => { 
+            this.spinnerSearch = 'hidden'
+         })
 
     }
 

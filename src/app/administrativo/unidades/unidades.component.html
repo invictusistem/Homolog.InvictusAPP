@@ -1,7 +1,7 @@
 <div class="container" style="width: 95%; padding-top: 20px;">
 
     <div>
-        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="criar unidade" matTooltipPosition="above"
+        <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar unidade" matTooltipPosition="above"
             matTooltipHideDelay="100">
             <button (click)="openUnidadeCreateModal()" mat-icon-button>
                 <mat-icon>home</mat-icon>
@@ -14,7 +14,7 @@
     </mat-progress-bar>
     <!-- <div class="row justify-content-center">
         <div class="col"> -->
-    <div *ngIf="unidades.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
+    <div *ngIf="unidades.length > 0" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
             position: relative;
             margin-top: 20px;
             box-shadow: 0 0 1em rgb(172, 170, 170);

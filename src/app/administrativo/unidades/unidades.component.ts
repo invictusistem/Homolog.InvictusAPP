@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
+import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { environment } from "src/environments/environment";
 import { CreateUnidadeComponent } from "./create/unidade-create.component";
 import { EditUnidadeComponent } from "./edit/unidade-edit.component";
@@ -10,7 +11,8 @@ import { SalaEditarComponent } from "./salas/edit/sala-edit.component";
 @Component({
     selector: "unidades-app",
     templateUrl: './unidades.component.html',
-    styleUrls: ['./unidades.component.scss']
+    styleUrls: ['./unidades.component.scss'],
+    animations: [HighlightTrigger]
 })
 
 export class UnidadesComponent implements OnInit {

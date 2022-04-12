@@ -21,6 +21,8 @@ import { EstagioComponent } from "./estagios/estagio.component";
 import { PedagogicoComponent } from "./pedagogico.component";
 import { PedagogicoService } from "./services/pedagogico.service";
 import { TransferenciaComponent } from "./transferencia/transferencia.component";
+import { TurmasInfoAlunosPedagComponent } from "./turmas/alunos/turmasinfoalunos.component";
+import { TurmaNotasComponent } from "./turmas/notas/notas.component";
 import { PedagogicoturmaComponent } from "./turmas/pedagogico-turmas.component";
 import { AulaDetalheModal } from "./turmas/turma-calendario/aula-detalhe/aula-detalhe.component";
 import { AulaEditarModal } from "./turmas/turma-calendario/aula-edit/aulaeditar.component";
@@ -64,7 +66,9 @@ import { TurmaDetalheModal } from "./turmas/turma-calendario/turma-detalhe/turma
         CalendPresencaComponent,
         TurmaPresencaEditComponent,
         AulaEditarModal,
-        AulaDetalheModal
+        AulaDetalheModal,
+        TurmasInfoAlunosPedagComponent,
+        TurmaNotasComponent
     ],
     imports: [
         SharedModule,
@@ -114,7 +118,9 @@ import { TurmaDetalheModal } from "./turmas/turma-calendario/turma-detalhe/turma
         CalendPresencaComponent,
         TurmaPresencaEditComponent,
         AulaEditarModal,
-        AulaDetalheModal
+        AulaDetalheModal,
+        TurmasInfoAlunosPedagComponent,
+        TurmaNotasComponent
     ]
 
 })

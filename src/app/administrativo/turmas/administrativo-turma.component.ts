@@ -11,6 +11,7 @@ import { environment } from "src/environments/environment";
 import { OpenTurmaEditmodel } from "../services/adm-modal";
 import { AdmService } from "../services/adm.service";
 import { CreateCursoComponent } from "./create/turma-create.component";
+import { EditCursoComponent } from "./edit/turma-edit.component";
 import { ConfirmarIniciarTurmaModal } from "./iniciar/confirmariniciar.component";
 
 @Component({
@@ -180,11 +181,11 @@ export class AdmTurmasComponent implements OnInit {
     // }
 
     openEditCursoModal(turma:any): void {
-        // const dialogRef = this._modal
-        //     .open(EditCursoComponent, OpenTurmaEditmodel(turma));
-        // dialogRef.afterClosed().subscribe((data) => {
+        const dialogRef = this._modal
+            .open(EditCursoComponent, OpenTurmaEditmodel(turma));
+        dialogRef.afterClosed().subscribe((data) => {
 
-        // });
+        });
     }
 
     deleteCurso(turma:any): void {

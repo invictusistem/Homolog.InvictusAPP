@@ -6,6 +6,8 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
+import { TurmasInfoAlunosPedagComponent } from "./alunos/turmasinfoalunos.component";
+import { TurmaNotasComponent } from "./notas/notas.component";
 import { CalendarioTurmaComponent } from "./turma-calendario/calendarioturma.component";
 
 @Component({
@@ -278,38 +280,38 @@ export class PedagogicoturmaComponent implements OnInit {
 
     openNotas(turma:any): void {
 
-        // const dialogRef = this._modal.open(NotasComponent, {
-        //     height: 'auto',
-        //     width: '1030px',
-        //     autoFocus: false,
-        //     maxHeight: '90vh',
-        //     maxWidth: '400vh',
-        //     data: { turma: turma },
-        //     hasBackdrop: true,
-        //     disableClose: true
-        // });
+        const dialogRef = this._modal.open(TurmaNotasComponent, {
+            height: 'auto',
+            width: '1030px',
+            autoFocus: false,
+            maxHeight: '90vh',
+            maxWidth: '400vh',
+            data: { turma: turma },
+            hasBackdrop: true,
+            disableClose: true
+        });
 
-        // dialogRef.afterClosed().subscribe(result => {
+        dialogRef.afterClosed().subscribe(result => {
           
-        // });
+        });
     } 
         
 
     getAlunosFromTurma(turma: any): void {
-        // const dialogRef = this._modal
-        //     .open(TurmasInfoAlunosPedagComponent, {              
-        //         width: '1230px',
-        //         data: { turma: turma },
-        //         hasBackdrop: true,
-        //         disableClose: true
-        //     });       
+        const dialogRef = this._modal
+            .open(TurmasInfoAlunosPedagComponent, {              
+                width: '1230px',
+                data: { turma: turma },
+                hasBackdrop: true,
+                disableClose: true
+            });       
 
-        // dialogRef.afterClosed().subscribe(result => {
-        //     if (result.clicked === "OK") {
+        dialogRef.afterClosed().subscribe(result => {
+            if (result.clicked === "OK") {
               
-        //     }
+            }
 
-        // });
+        });
     }
     // openEditCursoModal(item: Turma): void {
     //     //console.log(item)

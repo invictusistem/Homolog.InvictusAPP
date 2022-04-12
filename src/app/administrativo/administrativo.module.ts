@@ -40,6 +40,9 @@ import { ProfRelatorioComponent } from "./professores/relatorio/professor-rel.co
 import { AdmService } from "./services/adm.service";
 import { AdmTurmasComponent } from "./turmas/administrativo-turma.component";
 import { CreateCursoComponent } from "./turmas/create/turma-create.component";
+import { AddPMateriaModalComponent } from "./turmas/edit/add-materia/addmateria.component";
+import { AddProfessorModalComponent } from "./turmas/edit/add-professor/addprof.component";
+import { EditCursoComponent } from "./turmas/edit/turma-edit.component";
 import { ConfirmarIniciarTurmaModal } from "./turmas/iniciar/confirmariniciar.component";
 import { CreateUnidadeComponent } from "./unidades/create/unidade-create.component";
 import { EditUnidadeComponent } from "./unidades/edit/unidade-edit.component";
@@ -104,6 +107,9 @@ import { UsuarioComponent } from "./usuarios/usuario.component";
         AdmTurmasComponent,
         ConfirmarIniciarTurmaModal,
         CreateCursoComponent,
+        EditCursoComponent,
+        AddProfessorModalComponent,
+        AddPMateriaModalComponent,
         // Unidades
         UnidadesComponent,
         EditUnidadeComponent,
@@ -121,7 +127,7 @@ import { UsuarioComponent } from "./usuarios/usuario.component";
         GetNgxMaskModuleConfig()
     ],
     providers: [
-        AdmService        
+        AdmService
     ],
     exports: [
         AdmComponent,
@@ -142,12 +148,12 @@ import { UsuarioComponent } from "./usuarios/usuario.component";
         // Professores
         ProfessoresComponent,
         // turmas
-        AdmTurmasComponent,        
+        AdmTurmasComponent,
         // Unidades
         UnidadesComponent,
         // Usuarios
         UsuarioComponent
-               
+
     ],
     entryComponents: [
         // Bolsas
@@ -190,6 +196,9 @@ import { UsuarioComponent } from "./usuarios/usuario.component";
         // Turmas        
         ConfirmarIniciarTurmaModal,
         CreateCursoComponent,
+        EditCursoComponent,
+        AddProfessorModalComponent,
+        AddPMateriaModalComponent,
         // Unidades        
         EditUnidadeComponent,
         CreateUnidadeComponent,
