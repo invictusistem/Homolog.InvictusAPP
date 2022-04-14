@@ -3,7 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from "@angular/common/http";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { environment } from "src/environments/environment";
 import { AdmService } from "../../services/adm.service";
 import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
@@ -17,7 +16,7 @@ import { BaseComponent } from "src/app/_shared/services/basecomponent.component"
 export class CreateColaboradoresComponent extends BaseComponent implements OnInit {
 
     mostrarModalPrincipal = true
-    baseUrl = environment.baseUrl;    
+    
     public colaboradorForm: FormGroup;
     public validadeEmailMsg = false
     public validadeCPFMsg = false
@@ -40,6 +39,7 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
         @Inject(MAT_DIALOG_DATA) public data: any) {        
 
         super(_snackBar);
+
         this.colaboradorForm = _fb.group({
             nome: ['', [Validators.required, Validators.minLength(5)]],
             email: ['', [Validators.required, Validators.email]],
@@ -117,9 +117,6 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
 
     showEndereco = 'hidden'
     consultaCEP(CEP: string) {
-
-
-        //this.ConsultaCEP(CEP)
        
         if (this.colaboradorForm.get('cep')?.valid) {
 

@@ -73,14 +73,16 @@ export class EditUnidadeComponent implements OnInit {
             this._admService.CepConsulta(CEP)
                 .subscribe(response => {
 
-                    console.log(response)
+                   // console.log(response)
 
                     this.unidadeForm.get('logradouro')?.setValue(response["logradouro"].toUpperCase());
                     this.unidadeForm.get('bairro')?.setValue(response["bairro"].toUpperCase());
                     this.unidadeForm.get('cidade')?.setValue(response["localidade"].toUpperCase());
                     this.unidadeForm.get('uf')?.setValue(response["uf"].toUpperCase());
 
-                }, err => { console.log(err) });
+                }, err => {
+                     //console.log(err) 
+                    });
         }
     }
     

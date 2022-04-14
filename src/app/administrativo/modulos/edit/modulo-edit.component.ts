@@ -240,7 +240,7 @@ export class ModuloEditComponent implements OnInit {
         //         element.materiaId == pacote.id);
         //     if (pacotId != undefined) return;
         // }
-        console.log(form.value)
+        //console.log(form.value)
 
         const docsForm = this._fb.group({
             id: [pacote.id],
@@ -298,7 +298,7 @@ export class ModuloEditComponent implements OnInit {
 
         if(this.moduloForm.valid){
 
-            this._admService.editPacote(this.moduloForm.value)
+            this._admService.EditPacote(this.moduloForm.value)
                 .subscribe(
                     sucesso => { this.onSubmitSucesso(sucesso)},
                     falha => { this.onSubmitErro(falha)})

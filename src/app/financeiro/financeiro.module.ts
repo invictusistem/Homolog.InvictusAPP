@@ -4,7 +4,9 @@ import { AlunoFinancComponent } from './alunos/alunos-financeiro.component';
 import { InfoFinancComponent } from './alunos/infos/aluno-informacoes.component';
 import { EditFinancComponent } from './alunos/infos/edit/financeiro-edit.component';
 import { ReceberComponent } from './alunos/infos/receber/receber.component';
+import { FinCaixaComponent } from './caixa/fincaixa.component';
 import { FinanceiroComponent } from './financeiro.component';
+import { FornecedoresComponent } from './fornecedores/fornecedores.component';
 import { FinanceiroService } from './services/financ.service';
 
 @NgModule({
@@ -15,7 +17,11 @@ import { FinanceiroService } from './services/financ.service';
         // ConfirmarParcelamento,
          InfoFinancComponent,
          ReceberComponent,
-         EditFinancComponent
+         EditFinancComponent,
+         // Caixa
+         FinCaixaComponent,
+         // Fornecedores
+         FornecedoresComponent
     ],
     imports: [
         SharedModule,
@@ -27,7 +33,11 @@ import { FinanceiroService } from './services/financ.service';
     exports: [
         FinanceiroComponent,
         // Alunos
-        AlunoFinancComponent
+        AlunoFinancComponent,
+        //Caixa
+        FinCaixaComponent,
+        // Fornecedores
+        FornecedoresComponent
     ],
     entryComponents: [
         // Alunos

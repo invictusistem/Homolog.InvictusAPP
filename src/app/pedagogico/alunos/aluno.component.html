@@ -184,7 +184,8 @@
                         <tbody>
     
                             <tr *ngFor="let item of listAlunos;let i = index;" @rowHighlight>
-                                <td style="height: 65px; text-align:center;vertical-align: middle;">{{i+1}}</td>
+                                <td style="height: 65px; text-align:center;vertical-align: middle;">
+                                    {{(i + 1)+(pageIndexNumber)}}</td>
     
                                 <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
     

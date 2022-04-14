@@ -88,7 +88,7 @@ export class AdmTurmasComponent implements OnInit {
     }
 
     adiar(turmaId: number) {
-        console.log('adiar')
+       // console.log('adiar')
         return true
         // this.http.put(`${this.baseUrl}/turma/adiar/${turmaId}`, {}).subscribe(response => {
 
@@ -151,7 +151,7 @@ export class AdmTurmasComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result.clicked === "OK") {
                 this.getCursos();
-                console.log('afte close ok')
+               // console.log('afte close ok')
             }
 
         });

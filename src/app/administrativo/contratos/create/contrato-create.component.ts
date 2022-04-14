@@ -79,22 +79,22 @@ export class CreateContratoComponent implements OnInit {
 
     showConteudo(valor:any){
 
-        console.log(valor['textArea'].nativeElement)
-
     }
 
     onSubmit(form: FormGroup) {
-        console.log(this.htmlContent)
+       // console.log(this.htmlContent)
 
-        console.log(form.value)
-        console.log(this.htmlContent)
+       // console.log(form.value)
+       // console.log(this.htmlContent)
 
         if (this.contratoForm.valid) {
 
             this._http.post(`${this.baseUrl}/contrato`, form.value, {})
                 .subscribe(resp => {
 
-                }, (error) => { console.log(error) },
+                }, (error) => { 
+                    //console.log(error) 
+                },
                     () => {
                         this.dialogRef.close({ clicked: "OK" });
                     })

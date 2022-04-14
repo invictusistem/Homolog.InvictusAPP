@@ -46,7 +46,7 @@ export class AddMatComponent implements OnInit {
 
     GetTypePacotes() {
 
-        this._admService.getTypePacotes()
+        this._admService.GetTypePacotes()
             .subscribe(
                 sucesso => { this.processarSucesso(sucesso) },
                 falha => { this.processarFalha(falha) }
@@ -55,7 +55,7 @@ export class AddMatComponent implements OnInit {
 
     GetMaterias(typePacoteId: any) {
 
-        this._admService.getMateriasByTypeId(typePacoteId)
+        this._admService.GetMateriasByTypeId(typePacoteId)
             .subscribe(
                 sucesso => { this.processarSucesso(sucesso) },
                 falha => { this.processarFalha(falha) }
@@ -80,7 +80,7 @@ export class AddMatComponent implements OnInit {
         this.materiasForm.get('materiaId')?.setValue('')
         if (this.materiasForm.get('typePacoteId')?.valid) {
 
-            this._admService.getMateriasByTypeId(this.materiasForm.get('typePacoteId')?.value)
+            this._admService.GetMateriasByTypeId(this.materiasForm.get('typePacoteId')?.value)
                 .subscribe(
                     sucesso => { this.setMaterias(sucesso) },
                     falha => { this.procssMateriaFalha(falha) }
@@ -99,7 +99,7 @@ export class AddMatComponent implements OnInit {
     save(){
         this.showMateriaMsg = false
         var mat = this.materiasAtuais.find(element => element.pacoteMateriaId == this.materiasForm.get('materiaId')?.value)
-        console.log(mat)
+        //console.log(mat)
         if(mat != undefined){
             this.showMateriaMsg = true
             return;
@@ -108,7 +108,7 @@ export class AddMatComponent implements OnInit {
         this.disabledSaveButton = true
 
         if (this.materiasForm.valid) {
-            this._admService.saveProfessorMateria(this.data['profId'], this.materiasForm.get('materiaId')?.value)
+            this._admService.SaveProfessorMateria(this.data['profId'], this.materiasForm.get('materiaId')?.value)
             .subscribe(
                 sucesso => {  
                     this._helper.openSnackBarSucesso("Matéria adicionada com sucesso.")

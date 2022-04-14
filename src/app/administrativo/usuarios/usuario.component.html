@@ -1,8 +1,7 @@
 <div class="container" style="width: 95%; padding-top: 20px;">
 
     <div>
-        <i #tooltip="matTooltip" matTooltip="Conceder acesso" matTooltipPosition="above"
-            matTooltipHideDelay="100">
+        <i #tooltip="matTooltip" matTooltip="Conceder acesso" matTooltipPosition="above" matTooltipHideDelay="100">
             <button (click)="openCreateUserModal()" mat-icon-button>
                 <mat-icon>person_add_alt</mat-icon>
             </button>
@@ -20,12 +19,12 @@
 
         <div class="form-row align-items-center divSiteForm">
 
-            <mat-form-field appearance="standard" >
+            <mat-form-field appearance="standard">
                 <mat-label>Nome</mat-label>
                 <input selected formControlName="nome" matInput placeholder="digite o nome">
             </mat-form-field>
 
-            <mat-form-field  appearance="standard" style="margin-left:10px;">
+            <mat-form-field appearance="standard" style="margin-left:10px;">
                 <mat-label>E-mail</mat-label>
                 <input selected formControlName="email" matInput placeholder="digite o E-mail">
             </mat-form-field>
@@ -36,8 +35,7 @@
             </mat-form-field>
 
             <span>
-                <i #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
-                    matTooltipHideDelay="100">
+                <i #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above" matTooltipHideDelay="100">
                     <button mat-icon-button>
                         <mat-icon>search</mat-icon>
                     </button>
@@ -50,14 +48,14 @@
 
     <div class="card-header " style="background-color: rgb(227, 240, 227);
     width: 350px; font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on"
-          *ngIf="showMessageNoColaborador">{{mensagem}}</div>
- 
-    
-          <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch"  @rowHighlight style="margin:0px" mode="query">
-        </mat-progress-bar>
+        *ngIf="showMessageNoColaborador">{{mensagem}}</div>
 
-    <div @rowHighlight *ngIf="usuarios.length > 0" class="card card-plain mat-elevation-z8" 
-        style="width: 100%;
+
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px"
+        mode="query">
+    </mat-progress-bar>
+
+    <div @rowHighlight *ngIf="usuarios.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
         position: relative;
         margin-top: 50px;
         box-shadow: 0 0 1em rgb(172, 170, 170);
@@ -97,7 +95,7 @@
                             <th style="width: 20%;
                     border-top: 0px;"></th>
 
-                           
+
                         </tr>
                     </thead>
                     <tbody>
@@ -108,21 +106,20 @@
 
                             <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
 
-                            <td style="text-align: center;vertical-align: middle;">{{item.roleName || 'sem perfil'}}</td>
+                            <td style="text-align: center;vertical-align: middle;">{{item.roleName || 'sem perfil'}}
+                            </td>
 
                             <td style="text-align: center;vertical-align: middle;">
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="ativo"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button
-                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                                        [style.color]="item.ativo == true ? 'green' : 'red'"
-                                        mat-icon-button>
+                                    <button style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        [style.color]="item.ativo == true ? 'green' : 'red'" mat-icon-button>
                                         <mat-icon>{{item.ativo == true ? 'done' : 'close'}}</mat-icon>
                                     </button>
                                 </i>
                             </td>
 
-                            <td >
+                            <td>
 
                                 <!-- <i type="submit" #tooltip="matTooltip" matTooltip="deletar tarefa" matTooltipPosition="above"
                         matTooltipHideDelay="100" (click)="Delete(item.id)"
@@ -150,7 +147,7 @@
 
 
                             </td>
-                            
+
                         </tr>
 
                         <!-- <tr>
@@ -211,6 +208,6 @@
             </mat-paginator> -->
 
         </div>
-      
-    </div>   
+
+    </div>
 </div>

@@ -64,7 +64,7 @@ export class ProdutoDoacaoComponent implements OnInit {
     ngOnInit() {
         const token:any = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-        console.log(this.tokenInfo)
+      //  console.log(this.tokenInfo)
        
         console.log(this.data['produto'])
         this.GetProdutoDoacao();
@@ -85,7 +85,7 @@ export class ProdutoDoacaoComponent implements OnInit {
                 this.produto = Object.assign({}, resp['produto'])
             },
                 (err) => {
-                    console.log(err)
+                   // console.log(err)
                    // this.messageError = "Não há unidade outras cadastradas"
                     this.showeMsgError = true
                 },
@@ -105,11 +105,11 @@ export class ProdutoDoacaoComponent implements OnInit {
             this._http.post(`${this.baseUrl}/produto/doacao`, this.doacaoForm.value, {})
             .subscribe(response => {
 
-                console.log(response)
+              //  console.log(response)
              
             }, (err) => {
-                console.log(err)
-                console.log(err['error'].mensagem)
+               // console.log(err)
+               // console.log(err['error'].mensagem)
                
             },
                 () => {

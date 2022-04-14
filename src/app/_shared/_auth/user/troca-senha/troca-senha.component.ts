@@ -12,6 +12,7 @@ import { TokenInfos } from "src/app/_shared/models/token.model";
 @Component({
     selector: 'troca-senhamodal',
     templateUrl: './troca-senha.component.html',
+    styleUrls: ['./troca-senha.component.scss'],
     animations: [HighlightTrigger]
 })
 

@@ -46,21 +46,16 @@ export class ConfiguracoesComponent implements OnInit {
     public documentos: any[] = new Array<any>();
     public materias: any[] = new Array<any>();
     constructor(
-        private _admService: AdmService,
-        //private _http: HttpClient,
+        private _admService: AdmService,       
         private _modal: MatDialog
     ) { }
 
 
-
     ngOnInit() {
-        // $(".showtoast").click(function () {
-        //     $('.toast').toast('show');
-        // })
-        // this.pegarMesg();
+       
     }
 
-    // Materias
+   
     public GetMaterias(event?: any) {
 
         this.searchSpinner = 'visible'
@@ -81,7 +76,6 @@ export class ConfiguracoesComponent implements OnInit {
     }
 
     private GetMateriasSucesso(response: any, event?: any) {
-        console.log(response)
         this.materias = Object.assign([], response['results'].data);
 
         this.materiasLength = response['results'].totalItemsInDatabase
@@ -92,14 +86,11 @@ export class ConfiguracoesComponent implements OnInit {
             this.materiasPageIndexNumber = (event.pageIndex * this.materiasPageSize)
         } else {
             this.materiasPageIndexNumber = 0
-            console.log(this.MateriaPaginator)
+          
             if (this.MateriaPaginator != undefined) {
                 this.MateriaPaginator.firstPage();
             }
         }
-
-        console.log(this.materiasLength) 
-        console.log(this.materiasPageSize)
 
         this.showMateriasTable = true
     }
@@ -119,19 +110,12 @@ export class ConfiguracoesComponent implements OnInit {
         this.searchSpinner = 'hidden'
     }
 
-
-    //Documentos
-
-
     showTableCargos = false
-
-
 
     public GetConfig(config: any) {
         this.showCargosTable = false
         this.showDocumentosTable = false
         this.showMateriasTable = false
-        console.log(config)
         this.searchSpinner = 'visible'
         this._admService.GetConfig(config)
             .subscribe(
@@ -145,17 +129,14 @@ export class ConfiguracoesComponent implements OnInit {
         if (config == 'CARGOS') {
             this.showCargosTable = true
             this.cargos = response['values']
-            console.log(response['values'])
         }
         if (config == 'DOCUMENTOS') {
             this.showDocumentosTable = true
             this.documentos = response['docs']
-            console.log(response['docs'])
         }
         if (config == 'MATERIAS') {
             this.showMateriasTable = true
             this.materias = response['results']
-            console.log(response['results'])
         }
 
     }
@@ -202,7 +183,7 @@ export class ConfiguracoesComponent implements OnInit {
 
     }
 
-    openCreateMateriaModal(): void { // MateriaTemplateComponent
+    openCreateMateriaModal(): void { 
         const dialogRef = this._modal
             .open(MateriaTemplateComponent, {
                 height: 'auto',
@@ -224,7 +205,7 @@ export class ConfiguracoesComponent implements OnInit {
         });
     }
 
-    openCreateDocModal(): void { //DocTemplateComponent
+    openCreateDocModal(): void { 
         const dialogRef = this._modal
             .open(DocTemplateComponent, {
                 height: 'auto',

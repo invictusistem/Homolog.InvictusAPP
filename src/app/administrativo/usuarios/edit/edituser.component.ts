@@ -60,7 +60,7 @@ export class EditUserComponent implements OnInit {
 
     getSystemRoles() {
 
-        this._service.getSystemRoles()
+        this._service.GetSystemRoles()
             .subscribe(
                 sucesso => { this.getSystemRolesSuccess(sucesso) },
                 falha => { this.getSystemRolesError(falha) }
@@ -81,12 +81,12 @@ export class EditUserComponent implements OnInit {
 
 
     submitForm(form: any) {
-        console.log(form.value)
+        //console.log(form.value)
         this.usuario.perfilAtivo = form.value['perfilAtivo']
         this.usuario.perfil = form.value['perfil']
-        console.log(this.usuario)
+      //  console.log(this.usuario)
 
-        this._service.editUsuario(this.usuario)
+        this._service.EditUsuario(this.usuario)
             .subscribe(
                 sucesso => { this.submitFormSucesso() },
                 falha => { this.submitFormErro(falha) }

@@ -184,8 +184,7 @@ export class AlunoComponent implements OnInit {
     // }
 
     pesquisar(event?: any) {
-
-      //  console.log(event)
+        
         this.showMessageNoAluno = false
 
         if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
@@ -197,7 +196,6 @@ export class AlunoComponent implements OnInit {
             } else {
                 this.currentPage = 1
             }
-
 
             this._pedagService.getAlunos(this.pageSize, this.currentPage, this.pesquisarForm.value)
                 .subscribe(

@@ -89,7 +89,7 @@ export class EditProfessorComponent implements OnInit {
         this.http.get(`${this.baseUrl}/professor/${this.data['prof'].id}`)
             .subscribe((response: any) => {
 
-                console.log(response['result'])
+               // console.log(response['result'])
                                 
                 this.professorForm.patchValue(response['result']);
                 this.originalColaborador = JSON.parse(JSON.stringify(this.professorForm.value))
@@ -103,7 +103,7 @@ export class EditProfessorComponent implements OnInit {
                 //console.log(err)
             },
                 () => {
-                    console.log(this.originalColaborador)
+                   // console.log(this.originalColaborador)
                     this.dialogRef.addPanelClass('myeditprof-class')
                     this.showForm = true
                     this.initProgressBar = 'hidden'

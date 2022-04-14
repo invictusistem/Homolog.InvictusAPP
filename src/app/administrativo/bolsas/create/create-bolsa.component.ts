@@ -43,7 +43,7 @@ export class CreateBolsaComponent implements OnInit {
 
     GetTypePacotes() {
         this.initProgressBar = 'visible'
-        this._admService.getTypePacotes()
+        this._admService.GetTypePacotes()
             .subscribe(
                 sucesso => { this.GetTypePacotesSucesso(sucesso) },
                 falha => { this.GetTypePacotesErro(falha) }
@@ -83,15 +83,13 @@ export class CreateBolsaComponent implements OnInit {
     }
 
     onSubmitSucesso(resp?:any){
-        this.disabledSaveButton = 'hidden'
-        //console.log(resp['senha'])
+        this.disabledSaveButton = 'hidden'       
         this._helper.openSnackBarSucesso('Bolsa cadastrada com sucesso.')
         this.dialogRef.close({ clicked: true})
     }
 
     onSubmitErro(error?:any){
-        this.disabledSaveButton = 'hidden'
-       // console.log(error)
+        this.disabledSaveButton = 'hidden'      
     }
     
 

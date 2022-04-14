@@ -130,7 +130,7 @@ export class CreateProfessorComponent implements OnInit {
             this.http.post(`${this.baseUrl}/professor`, this.colaboradorForm.value, {})
                 .subscribe(response => {
 
-                    console.log(response)
+                   // console.log(response)
                     // this.colaboradores = Object.assign([], response['data'])
                     // console.log(this.colaboradores)
                     // this.dialogRef.close();
@@ -143,7 +143,7 @@ export class CreateProfessorComponent implements OnInit {
                     } else {
                         this.disabledSaveButton = 'hidden'
                         this._helper.openSnackBarErrorDefault()
-                        console.log(err)
+                       // console.log(err)
                         //this.dialogRef.close();
                     }
                 },

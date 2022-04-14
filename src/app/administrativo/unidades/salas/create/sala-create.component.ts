@@ -64,7 +64,8 @@ export class CreateSalaComponent implements OnInit {
                 .subscribe(resp => { },
                     (error) => { 
                         
-                        console.log(error)},
+                       // console.log(error)
+                    },
                     () => { 
                         this._helpers.openSnackBarSucesso("Sala criada com sucesso")
                         this.dialogRef.close({clicked: "Ok"})})

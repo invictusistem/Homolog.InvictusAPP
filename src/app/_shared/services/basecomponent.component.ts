@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from 'src/environments/environment';
 import { HighlightTrigger } from '../animation/animation';
 import { TokenInfos } from '../models/token.model';
 import { SharedService } from './shared.service';
@@ -16,12 +17,15 @@ import { SharedService } from './shared.service';
 })
 export class BaseComponent {
 
+    // Urls
+    public baseUrl: string = environment.baseUrl
+
     // paginated
     public length: number = 0
     public pageSize: number = 5;
     public pageEvent: PageEvent = new PageEvent()
     public pageIndexNumber: number = 0;
-    public currentPageTeste = 1
+    public currentPage = 1
     @ViewChild(MatPaginator) paginator!: MatPaginator
     // JWT
     private jwtHelper = new JwtHelperService();
@@ -29,13 +33,14 @@ export class BaseComponent {
     // Spinners
     public spinnerSearch = 'hidden'
     public initProgressBar = 'visible'
-
-
+    // Variables
+    public showMessageNotFound = false
+    public mensagemNotFound: string = "";
 
     // handelr!: HttpHandler
     // client = new HttpClient(this.handelr)
     // private sharedService:SharedService = new SharedService(this.client)
-    client:any
+    client: any
     service: any
     constructor(
         public _snackBar: MatSnackBar,
@@ -43,7 +48,7 @@ export class BaseComponent {
 
     ) {
         this.GetTokenInfos()
-         this.client = new HttpClient(this.handelr)
+        this.client = new HttpClient(this.handelr)
         this.service = new SharedService(this.client);
     }
 
@@ -94,7 +99,7 @@ export class BaseComponent {
                     console.log(response)
                     //return response
 
-                }, (err:any) => {
+                }, (err: any) => {
                     console.log('erro consulta CEP')
                     this.openSnackBarErrorDefault()
                 },

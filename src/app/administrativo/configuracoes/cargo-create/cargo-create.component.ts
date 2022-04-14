@@ -54,7 +54,6 @@ export class CargoCreateComponent implements OnInit {
                 .subscribe(response => {
 
                 }, (err) => {
-                    //console.log(err)
                     this.disabledSaveButton = 'hidden'
                     this.progress = false
                     this._helpers.openSnackBarErrorDefault()

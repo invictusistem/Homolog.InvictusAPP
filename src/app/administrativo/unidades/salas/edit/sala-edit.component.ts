@@ -57,7 +57,7 @@ export class SalaEditarComponent implements OnInit {
 
         const token: any = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-        console.log(this.data['unidade'])
+       // console.log(this.data['unidade'])
         this.GetSalas();
     }
 
@@ -66,7 +66,9 @@ export class SalaEditarComponent implements OnInit {
             .subscribe((resp: any) => {
                 this.salas = resp['salas']
             },
-                (error) => { console.log(error) },
+                (error) => {
+                     //console.log(error)
+                     },
                 () => {
                     this.initProgressBar = 'hidden'
                     this.showContent = true
@@ -84,7 +86,9 @@ export class SalaEditarComponent implements OnInit {
                 this.originalSala = JSON.parse(JSON.stringify(this.salaForm.value))
                 // this.sala = resp['sala']
             },
-                (error) => { console.log(error) },
+                (error) => { 
+                   // console.log(error)
+                 },
                 () => {
                     this.buscaSalaSpinner = 'hidden'
                     this.showEditSalaForm = true

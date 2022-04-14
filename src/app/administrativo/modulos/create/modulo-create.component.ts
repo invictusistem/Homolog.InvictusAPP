@@ -209,8 +209,8 @@ export class ModuloCreateComponent implements OnInit {
     buscarMaterias(typePacoteId: any) {
         this.materias.clear()
         this.initProgressBar = 'visible'
-        console.log('buscar')
-        this._admService.getMateriasByTypeId(typePacoteId)
+       // console.log('buscar')
+        this._admService.GetMateriasByTypeId(typePacoteId)
             .subscribe(
                 sucesso => { this.buscarMateriasSucesso(sucesso) },
                 erro => { this.buscarMateriasErro(erro) })
@@ -231,7 +231,7 @@ export class ModuloCreateComponent implements OnInit {
         console.log(this.moduloForm.value)
         if (form.valid) {
             this.saveProgressBar = 'visible'
-            this._admService.savePacote(this.moduloForm.value)
+            this._admService.SavePacote(this.moduloForm.value)
                 .subscribe(
                     sucesso => { this.onSubmitSucesso(sucesso) },
                     erro => { this.onSubmitErro(erro) })
@@ -244,7 +244,7 @@ export class ModuloCreateComponent implements OnInit {
     }
     
     onSubmitErro(error: any) {
-        console.log(error)
+       // console.log(error)
         if (error['status'] == 409) {
             this.errorMsg = error['error'].erros
         }

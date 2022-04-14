@@ -51,7 +51,6 @@ export class DocTemplateComponent implements OnInit {
                 .subscribe(response => {
 
                 }, (err) => {
-                    console.log(err)
                     this.progress = false
                 },
                     () => {

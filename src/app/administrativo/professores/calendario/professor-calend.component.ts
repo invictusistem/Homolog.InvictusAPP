@@ -39,7 +39,7 @@ export class ProfCalendarioComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.data)
+       // console.log(this.data)
         this._dialogRef.addPanelClass('profcalendar-class')
         this.GetProfessorCalendario();
     }
@@ -51,11 +51,11 @@ export class ProfCalendarioComponent implements OnInit {
 
                 //console.log(resp)
                 this.calendarios = Object.assign([], resp['calendario'])
-                console.log(this.calendarios)
+              // console.log(this.calendarios)
 
             },
                 (error) => {
-                    console.log(error)
+                   // console.log(error)
                     this.showSpin = false
                     this.initProgressBar = 'hidden'
                     this.infoNenhumDado = true

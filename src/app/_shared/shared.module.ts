@@ -24,6 +24,8 @@ import { ModalConfirmarComponent } from './components/modal-confirmar/modal-conf
 import { IdadePipe } from './components/pipes/idadePipe';
 import { ConfirmModalComponent } from './components/modal-confirmar-v2/confirm-modal.component';
 import { SharedService } from './services/shared.service';
+import { CloseModalComponent } from './components/close-modal-component/close-modal.component';
+import { WrapTooltipComponent } from './components/wrap-tooltip/wrap-tooltip.component';
 
 
 export const maskConfig: Partial<IConfig> = {
@@ -57,10 +59,13 @@ export function GetNgxMaskModuleConfig() {
     ConfirmAcaoModalComponent,
     ModalConfirmarComponent,
     ConfirmModalComponent,
+    CloseModalComponent,
+    WrapTooltipComponent,
     CPFPipe,
     CNPJPipe,
     IdadePipe,
-    MyTimeInput
+    MyTimeInput,
+    WrapTooltipComponent
   ],
 
   providers: [
@@ -93,6 +98,8 @@ export function GetNgxMaskModuleConfig() {
     NavBarComponent,
     FooterComponent,
     HomeComponent,
+    CloseModalComponent,
+    WrapTooltipComponent,
     CPFPipe,
     CNPJPipe,
     IdadePipe,

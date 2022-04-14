@@ -110,7 +110,7 @@ export class CreateCursoComponent implements OnInit {
     }
 
     get diasSemana(): FormArray {
-        console.log(this.cursoForm.get('diasSemana'))
+       // console.log(this.cursoForm.get('diasSemana'))
         return this.cursoForm.controls["diasSemana"] as FormArray;
     }
 
@@ -199,7 +199,7 @@ export class CreateCursoComponent implements OnInit {
         if (this.cursoForm.valid) {
             this.disabledSaveButton = true
            // this.cursoForm.get('prevInicio_1').setValue(new Date(this.cursoForm.get('prevInicio_1').value).toLocaleString())
-            console.log(this.cursoForm.value)
+           // console.log(this.cursoForm.value)
 
             this.disabledSpinner = false
             this._http.post(`${this.baseUrl}/turma/`, this.cursoForm.value, {})

@@ -93,9 +93,11 @@ export class PlanoPgmComponent implements OnInit {
         this._http.get(`${this.baseUrl}/plano-pagamento`)
             .subscribe(resp => {
                 this.planos = Object.assign([], resp);
-            }, (error) => { console.log(error) },
+            }, (error) => { 
+                //console.log(error) 
+            },
                 () => {
-                    console.log(this.planos)
+                    //console.log(this.planos)
                 })
 
     }
@@ -105,7 +107,9 @@ export class PlanoPgmComponent implements OnInit {
         this._http.get(`${this.baseUrl}/unidade/modulos`)
             .subscribe(resp => {
                 this.modulos = Object.assign([], resp);
-            }, (error) => { console.log(error) },
+            }, (error) => { 
+                //console.log(error)
+             },
                 () => {
                     console.log(this.modulos)
                 })

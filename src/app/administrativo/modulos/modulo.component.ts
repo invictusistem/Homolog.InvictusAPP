@@ -54,7 +54,7 @@ export class ModuloComponent implements OnInit {
 
         if (this.pesquisarForm.valid) {
 
-            this._admService.pesquisarPacote(
+            this._admService.PesquisarPacote(
                 this.pesquisarForm.get('typePacoteId')?.value,
                 this.pesquisarForm.get('unidadeId')?.value)
                     .subscribe(
@@ -74,7 +74,7 @@ export class ModuloComponent implements OnInit {
 
     getTypePacotes() {
 
-        this._admService.getTypePacotes()
+        this._admService.GetTypePacotes()
             .subscribe(
                 sucesso => { this.getTypePacotesSucesso(sucesso) },
                 falha => { this.getTypePacotesError(falha) })

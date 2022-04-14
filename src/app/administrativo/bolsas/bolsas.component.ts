@@ -1,7 +1,8 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
-import { HighlightTrigger } from "src/app/_shared/animation/animation";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 import { CreateBolsaModalConfig, EditBolsaModalConfig, ShowSenhaModalConfig } from "../services/adm-modal";
 import { AdmService } from "../services/adm.service";
 import { CreateBolsaComponent } from "./create/create-bolsa.component";
@@ -11,31 +12,25 @@ import { ShowSenhaComponent } from "./show/show-senha.component";
 @Component({
     selector: "bolsas-app",
     templateUrl: './bolsas.component.html',
-    styleUrls: ['./bolsas.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./bolsas.component.scss']
 })
 
-export class BolsasComponent {
+export class BolsasComponent extends BaseComponent implements OnInit {
 
-    public initProgressBar = 'hidden'
     public typesPacotes: any[] = new Array<any>();
-    public bolsas: any[] = new Array<any>()
-    public showMessageNoBolsas = false
-
+    public bolsas: any[] = new Array<any>()    
     public pesquisarForm: FormGroup
 
     constructor(
         private _admService: AdmService,
+        override _snackBar: MatSnackBar,
         private _fb: FormBuilder,
         private _modal: MatDialog
     ) {
+        super(_snackBar);
         this.pesquisarForm = _fb.group({
             typePacoteId: ['', [Validators.required]]
         })
-    }
-
-    returnOnSelect(){
-        return false
     }
 
     ngOnInit() {
@@ -44,7 +39,7 @@ export class BolsasComponent {
 
     GetTypePacotes() {
         this.initProgressBar = 'visible'
-        this._admService.getTypePacotes()
+        this._admService.GetTypePacotes()
             .subscribe(
                 sucesso => { this.GetTypePacotesSucesso(sucesso) },
                 falha => { this.GetTypePacotesErro(falha) }
@@ -62,7 +57,7 @@ export class BolsasComponent {
     }
 
     Pesquisar() {
-        this.showMessageNoBolsas = false
+        this.showMessageNotFound = false
         if (this.pesquisarForm.valid) {
             this.initProgressBar = 'visible'
             this._admService.GetBolsas(this.pesquisarForm.get('typePacoteId')?.value)
@@ -74,20 +69,23 @@ export class BolsasComponent {
     }
 
     PesquisarSucesso(resp:any) {
-        this.bolsas = Object.assign([], resp['bolsas'])
+        this.bolsas = new Array<any>()
+        this.bolsas = resp['bolsas']
+        this.length = this.bolsas.length
         this.initProgressBar = 'hidden'
     }
 
     PesquisarFalha(Error:any) {
+        this.bolsas = new Array<any>()
         this.initProgressBar = 'hidden'
-        this.showMessageNoBolsas = true
+        this.showMessageNotFound = true
     }
 
     openCreateBolsaModal(): void {
         const dialogRef = this._modal
             .open(CreateBolsaComponent, CreateBolsaModalConfig());
         dialogRef.afterClosed().subscribe((data) => {
-
+           
         });
     }
 
@@ -99,6 +97,9 @@ export class BolsasComponent {
         const dialogRef = this._modal
         .open(EditBolsaComponent, EditBolsaModalConfig(bolsaId));
     dialogRef.afterClosed().subscribe((data) => {
+        if(data.clicked == true){
+            this.Pesquisar();
+        }
 
     });
     }
@@ -112,8 +113,6 @@ export class BolsasComponent {
     }
 
     showSenha(resp:any): void {
-
-        // openCreateBolsaModal(): void {
         const dialogRef = this._modal
             .open(ShowSenhaComponent, ShowSenhaModalConfig(resp['senha']));
         dialogRef.afterClosed().subscribe((data) => {

@@ -71,7 +71,6 @@ export class MateriaTemplateComponent implements OnInit {
                 .subscribe(response => {
 
                 }, (err) => {
-                    console.log(err)
                     this.progress = false
                 },
                     () => {

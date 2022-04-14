@@ -68,6 +68,23 @@ export class FinanceiroService extends BaseService {
             return response;
     }
 
+    // Produtos
+
+    public GetRegistrosFinanceirosDosProdutos(pageSize?: number, currentPage?: number, jsonParam?: any): Observable<any> {
+
+        var formJson = JSON.stringify(jsonParam)
+
+        let path = `/financeiro/produtos-venda/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson=${formJson}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
     // CEP
 
     public CepConsulta(CEP?: any) : Observable<any> {       

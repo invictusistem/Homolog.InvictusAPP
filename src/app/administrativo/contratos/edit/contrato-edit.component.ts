@@ -82,7 +82,9 @@ export class EditarContratoComponent implements OnInit {
             this._http.put(`${this.baseUrl}/contrato`, this.contrato, {})
                 .subscribe(resp => {
 
-                }, (error) => { console.log(error) },
+                }, (error) => { 
+                    //console.log(error) 
+                },
                     () => {
                         this.dialogRef.close({ clicked: "Ok" });
                     })

@@ -108,21 +108,22 @@ export class ProfessoresComponent {
 
 
 
+
     ngOnInit() {
         // console.log('init colaboradores 123')
         const token = localStorage.getItem('jwt')
     }
 
     pageIndex = 0
-    get page() {
-        return console.log('page')
-    }
+    
 
     onSubmit(form?: any, event?: any) {
+
         this.showMessageNoColaborador = false
         var formJson = JSON.stringify(this.pesquisarForm.value)
         this.showSpinner = true
-        if (this.pesquisarForm.valid) {
+       // console.log('subbimit form')
+        if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
             this.spinnerSearch = 'visible'
             this.http.get(`${this.baseUrl}/professor/?itemsPerPage=` + this.pageSize + `&currentPage=1&paramsJson=${formJson}`)
                 .subscribe(
@@ -176,7 +177,7 @@ export class ProfessoresComponent {
     
 
     changePage(event?: any, element?: any) {
-        console.log(event)
+       // console.log(event)
         //console.log(element.target)
 
         this.showSpinner = true
@@ -280,13 +281,15 @@ export class ProfessoresComponent {
             // })
         }).subscribe((response: any) => {
 
-            console.log(response)
+           // console.log(response)
             this.professores = Object.assign([], response['data'])
             this.length = response['totalItemsInDatabase']
-            console.log(this.length)
-            console.log(this.professores)
+            //console.log(this.length)
+            //console.log(this.professores)
             // this.dialogRef.close();
-        }, err => { console.log(err) },
+        }, err => { 
+           //console.log(err)
+         },
             () => { });
 
     }
@@ -361,9 +364,11 @@ export class ProfessoresComponent {
             })
         }).subscribe(response => {
 
-            console.log(response)
+           // console.log(response)
 
-        }, err => { console.log(err) },
+        }, err => { 
+           // console.log(err)
+         },
             () => {
                 // TODO mudar status e perfil acesso
             });

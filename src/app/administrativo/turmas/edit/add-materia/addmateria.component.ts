@@ -38,14 +38,16 @@ export class AddPMateriaModalComponent implements OnInit {
             .subscribe(
                 (result: any) => {
 
-                    console.log(result['matsView'])
+                   // console.log(result['matsView'])
                     this.materias = Object.assign([], result['matsView'])
                   
-                    console.log(this.materias)
+                  //  console.log(this.materias)
                   
 
                 },
-                (error) => { console.log(error) },
+                (error) => { 
+                   // console.log(error) 
+                },
                 () => {
                     this.initProgressBar = 'hidden'
                     this.showContent = true
@@ -110,8 +112,8 @@ export class AddPMateriaModalComponent implements OnInit {
 
     onCheckboxChange(event: any) {
         //console.log(profId)
-        console.log(event.checked)
-        console.log(this.materias)
+       // console.log(event.checked)
+       // console.log(this.materias)
        // console.log(this.data['professor'])
         // if (event.checked) {
         //     this.listProfId.push(profId)

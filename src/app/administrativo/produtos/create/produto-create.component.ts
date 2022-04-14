@@ -83,7 +83,9 @@ export class ProdutoCreateComponent implements OnInit {
         .subscribe((resp: any) => {
             this.unidades = Object.assign([], resp['unidades'])
         },
-        (err)=> { console.log(err)},
+        (err)=> { 
+           // console.log(err)
+        },
         () => { 
 
         })
@@ -123,14 +125,14 @@ export class ProdutoCreateComponent implements OnInit {
 
         var produto = new Produto();
         produto = form.value
-        console.log(form.value)
-        console.log(form.valid)
+       // console.log(form.value)
+       // console.log(form.valid)
         //produto.toFloat(form.value["preco"])
         var preco = parseFloat(form.value["preco"])
         var precoFloat = preco.toFixed(2)
-        console.log(precoFloat)
+       // console.log(precoFloat)
         produto.preco =  parseFloat(preco.toFixed(2))
-        console.log(produto)
+       // console.log(produto)
         //.toFixed(2)
 
         if (form.valid) {
@@ -140,10 +142,10 @@ export class ProdutoCreateComponent implements OnInit {
 
             }).subscribe(response => {
 
-                console.log(response)
+               // console.log(response)
 
             }, (err) => {
-                console.log(err)
+               // console.log(err)
 
             },
                 () => {

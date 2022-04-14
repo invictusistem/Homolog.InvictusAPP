@@ -1,8 +1,11 @@
+import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { ConfirmAcaoModalComponent } from "src/app/_shared/components/acao-confirm/confirm-acao.component";
 import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
+import { ConfirmAcaoModalConfig } from "src/app/_shared/services/shared.modal";
 import { CreateColaboradorModalConfig, EditColaboradorModalConfig } from "../services/adm-modal";
 import { AdmService } from "../services/adm.service";
 import { CreateColaboradoresComponent } from "./create/colaborador-create.component";
@@ -16,15 +19,13 @@ import { EditColaboradoresComponent } from "./edit/colaborador-edit.component";
 
 export class ColaboradoresComponent extends BaseComponent implements OnInit {
 
-    colaboradores: any[] = new Array<any>();
-    
-    showMessageNoColaborador = false
-    mensagem: string = "";
+    colaboradores: any[] = new Array<any>();    
     public pesquisarForm: FormGroup
-
+    
     constructor(
         private _admService: AdmService,
         override _snackBar: MatSnackBar,
+        private _http: HttpClient,
         private _fb: FormBuilder,
         private _modal: MatDialog) {
 
@@ -59,23 +60,24 @@ export class ColaboradoresComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
-       
+
     }
 
-    onSubmit(event?: any) {
+    public Pesquisar(event?: any) {
 
-        this.showMessageNoColaborador = false
+        this.showMessageNotFound = false
 
-        if (this.pesquisarForm.valid) {
-            this.spinnerSearch = 'visible'
+        if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
+
+            this.spinnerSearch = 'visible'            
 
             if (event != undefined) {
-                this.currentPageTeste = event.pageIndex + 1
+                this.currentPage = event.pageIndex + 1
             } else {
-                this.currentPageTeste = 1
+                this.currentPage = 1
             }
 
-            this._admService.getColaboradores(this.pageSize, this.currentPageTeste, this.pesquisarForm.value)
+            this._admService.GetColaboradores(this.pageSize, this.currentPage, this.pesquisarForm.value)
                 .subscribe(
                     sucesso => { this.processarSucesso(sucesso, event) },
                     falha => { this.processarFalha(falha) }
@@ -83,7 +85,11 @@ export class ColaboradoresComponent extends BaseComponent implements OnInit {
         }
 
         return event
+    }
 
+    get podeDeletar() {
+
+        return this.tokenInfo.role == 'SuperAdm'
     }
 
     processarSucesso(response: any, event?: any) {
@@ -97,24 +103,38 @@ export class ColaboradoresComponent extends BaseComponent implements OnInit {
             this.pageIndexNumber = (event.pageIndex * this.pageSize)
         } else {
             this.pageIndexNumber = 0
-            console.log(this.paginator)
             if (this.paginator != undefined) {
                 this.paginator.firstPage();
             }
         }
+    }
 
+    public Deletar(colaboradorId: any) {
+
+        const dialogRef = this._modal
+            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
+
+            if (data.clicked == true) {
+                this.spinnerSearch = 'visible'
+                this._http.delete(`${this.baseUrl}/colaboradores/${colaboradorId}`)
+                    .subscribe(
+                        response => { },
+                        err => { this.spinnerSearch = 'hidden' })
+            }
+        })
     }
 
     processarFalha(fail: any) {
 
         if (fail['status'] == 404) {
-            this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
-            this.showMessageNoColaborador = true
+            this.mensagemNotFound = "Sua pesquisa não encontrou nenhum registro correspondente"
+            this.showMessageNotFound = true
             this.colaboradores = new Array<any>();
         }
         if (fail['status'] != 404) {
-            this.mensagem = "Ocorreu um erro desconhecido, por favor, procure o administrador do sistema"
-            this.showMessageNoColaborador = true
+            this.mensagemNotFound = "Ocorreu um erro desconhecido, por favor, procure o administrador do sistema"
+            this.showMessageNotFound = true
             this.colaboradores = new Array<any>();
         }
 
@@ -129,7 +149,7 @@ export class ColaboradoresComponent extends BaseComponent implements OnInit {
     openCreateUserModal(): void {
         const dialogRef = this._modal
             .open(CreateColaboradoresComponent, CreateColaboradorModalConfig());
-            
+
         dialogRef.afterClosed().subscribe((data) => {
 
         });

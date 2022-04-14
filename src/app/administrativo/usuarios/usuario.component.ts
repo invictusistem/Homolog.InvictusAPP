@@ -173,7 +173,7 @@ export class UsuarioComponent implements OnInit {
                // this.currentPageTeste = 1
             }
 
-            this._admService.getUsuarios(this.pageSize, this.currentPage, this.pesquisarForm.value)
+            this._admService.GetUsuarios(this.pageSize, this.currentPage, this.pesquisarForm.value)
                 .subscribe(
                     sucesso => { this.processarSucesso(sucesso, event) },
                     falha => { this.processarFalha(falha) }

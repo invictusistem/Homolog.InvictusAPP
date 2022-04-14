@@ -81,7 +81,9 @@ export class PlanoPgmEditComponent implements OnInit {
                     this.showContent = true
 
                 },
-                error: (error) => { console.error(error) }
+                error: (error) => {
+                    // console.error(error)
+                     }
             })
 
 
@@ -101,7 +103,7 @@ export class PlanoPgmEditComponent implements OnInit {
                 this.contratos = resp['contratos'] 
             },
             error: (error) => { 
-                console.error(error)
+               // console.error(error)
              }
         })
     }
@@ -129,7 +131,9 @@ export class PlanoPgmEditComponent implements OnInit {
             this.disabledSpinner = true
             this._http.put(`${this.baseUrl}/plano-pagamento`, this.moduloForm.value, {})
                 .subscribe(response => {
-                }, (err) => { console.log(err) },
+                }, (err) => { 
+                    //console.log(err)
+                 },
                     () => {
 
                         this.disabledSpinner = false

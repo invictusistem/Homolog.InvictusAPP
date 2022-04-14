@@ -11,7 +11,7 @@ export function SelectUnidadeModalConfig(form: any, unidades: any) {
 export function TrocaSenhaModalConfig() {
     return {
         width: '420px',
-        height: '360px',
+        height: '420px',
         hasBackdrop: true,
         disableClose: true
     }

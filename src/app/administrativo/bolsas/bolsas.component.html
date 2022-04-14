@@ -1,7 +1,8 @@
-<div class="container" style="width: 95%; padding-top: 20px;">
+<div class="container" >
 
     <div>
-        <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar bolsa" disabled matTooltipPosition="above"
+      
+        <i #tooltip="matTooltip" matTooltip="criar bolsa" matTooltipPosition="above"
             matTooltipHideDelay="100">
             <button mat-icon-button (click)="openCreateBolsaModal()">
                 <mat-icon>description</mat-icon>
@@ -11,29 +12,26 @@
 
     <br>
 
-    <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm"
-        style="margin-top: 5px;display: inline-block">
+    <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm">
 
-        <span style="font-size: 0.9em;font-style: italic;">
+        <span>
             Selecione o tipo do pacote para pesquisar pela bolsa:
         </span>
 
         <div class="form-row align-items-center divSiteForm">
 
-            <mat-form-field appearance="standard" style="width: 200px;">
-
+            <mat-form-field appearance="standard">
                 <mat-label></mat-label>
                 <mat-select [disabled]="typesPacotes.length == 0" formControlName="typePacoteId">
-                    <mat-option></mat-option>
                     <mat-option *ngFor="let pac of typesPacotes" [value]="pac.id">{{pac.nome}}</mat-option>
                 </mat-select>
 
             </mat-form-field>
 
             <span>
-                <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
+                <i #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
                     matTooltipHideDelay="100">
-                    <button mat-icon-button>
+                    <button mat-icon-button [disabled]="typesPacotes.length == 0 || initProgressBar == 'visible'">
                         <mat-icon>search</mat-icon>
                     </button>
                 </i>
@@ -47,62 +45,37 @@
     <mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
     </mat-progress-bar>
 
-    <div class="card-header card-msg-response" unselectable="on" onselectstart="returnOnSelect()" style="margin-left: 0px;"
-        *ngIf="showMessageNoBolsas">Não foram localizadas bolsas cadastradas para esse tipo ou unidade.</div>
+    <div class="card-header card-msg-response" 
+        *ngIf="showMessageNotFound">Não foram localizadas bolsas cadastradas para esse tipo ou unidade.</div>
 
 
-    <div @rowHighlight *ngIf="bolsas.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
-        position: relative;
-       
-        box-shadow: 0 0 1em rgb(172, 170, 170);
-        background-color: rgb(227, 240, 227);">
+    <div @rowHighlight *ngIf="bolsas.length > 0" class="card card-plain mat-elevation-z8 card-table">
 
         <div class="card-header">
-            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+            <h4 class="card-title" >
                 Bolsas</h4>
-            <p class="card-category">Bolsas cadastrados no sistema:</p>
+            <p class="card-category">Bolsas localizadas: {{length}}.</p>
         </div>
 
         <div class="card-body">
-            <div class="table-responsive" style="height: 430px;position: relative;">
+            <div class="table-responsive table-bolsa" >
 
-                <table color="primary" style="margin-bottom: 0px;" class="table">
+                <table color="primary" class="table">
                     <thead>
                         <tr>
-                            <th style="width: 2%; 
-                text-align:left; 
-                vertical-align: middle;
-                border-top: 0px;"></th>
+                            <th></th>
 
-                            <th style="width: 20%;font-size:1em;
-                                vertical-align: middle;
-                                text-align:left;
-                border-top: 0px; font-weight: 400;">NOME</th>
+                            <th>NOME</th>
 
-                            <th style="width: 10%;font-size:1em;
-                        vertical-align: middle;
-                        text-align:center;
-                        border-top: 0px; font-weight: 400;">DESCONTO</th>
+                            <th>DESCONTO</th>
 
-                            <th style="width: 15%;font-size:1em;
-                        vertical-align: middle;
-                        text-align:center;
-                        border-top: 0px; font-weight: 400;">CRIAÇÃO</th>
+                            <th>CRIAÇÃO</th>
 
-                            <th style="width: 15%;font-size:1em;
-                text-align:center; 
-                vertical-align: middle;
-                border-top: 0px; font-weight: 400;">DATA EXPIRAÇÃO</th>
+                            <th>DATA EXPIRAÇÃO</th>
 
-                            <th style="width: 20%;font-size:1em;
-                            text-align:center; 
-                            vertical-align: middle;
-                            border-top: 0px; font-weight: 400;">CÓDIGO</th>
+                            <th>CÓDIGO</th>
 
-                            <th style="width: 18%;font-size:1em;
-                text-align:center; 
-                vertical-align: middle;
-                border-top: 0px; font-weight: 400;"></th>
+                            <th></th>
 
                         </tr>
                     </thead>

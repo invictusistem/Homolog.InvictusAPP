@@ -2,10 +2,9 @@ import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
-import { JwtHelperService } from "@auth0/angular-jwt";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
-import { TokenInfos } from "src/app/_shared/models/token.model";
-import { environment } from "src/environments/environment";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 import { CreateContratoComponent } from "./create/contrato-create.component";
 import { EditarContratoComponent } from "./edit/contrato-edit.component";
 
@@ -16,22 +15,19 @@ import { EditarContratoComponent } from "./edit/contrato-edit.component";
     animations: [HighlightTrigger]
 })
 
-export class ContratoComponent implements OnInit {
-
-    baseUrl = environment.baseUrl;
+export class ContratoComponent extends BaseComponent implements OnInit {  
 
     public typesPacotes: any = new Array<any>();
-    public contratos: any[] = new Array<any>()
-
-    public initProgressBar = 'visible'
-    public tokenInfo: TokenInfos = new TokenInfos();
-    private jwtHelper = new JwtHelperService();
+    public contratos: any[] = new Array<any>();   
     public pesquisarForm: FormGroup
     public showSpinnerSearch = false
+
     constructor(
         private _http: HttpClient,
         private _fb: FormBuilder,
+        override _snackBar: MatSnackBar,
         private _modal: MatDialog) {
+            super(_snackBar);
         this.pesquisarForm = _fb.group({
             typePacoteId: ['', [Validators.required]]
         });

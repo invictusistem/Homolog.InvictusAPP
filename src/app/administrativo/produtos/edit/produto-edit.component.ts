@@ -84,12 +84,12 @@ export class ProdutoEditComponent implements OnInit {
     GetProduto(produtoId:any){
         this.http.get(`${this.baseUrl}/produto/${produtoId}`)
         .subscribe((response: any) => {
-                    console.log(response)
+                  //  console.log(response)
 
                     this.produto  = Object.assign({}, response['produto'])
         
                 }, err => { 
-                    console.log(err)
+                    //console.log(err)
                 },
                     () => { });
     }
@@ -161,7 +161,7 @@ export class ProdutoEditComponent implements OnInit {
     }
 
     saveEdit(form: any){
-        console.log(form.value)
+      //  console.log(form.value)
 
         // var produto = new Produto();
         // produto = form.value
@@ -176,10 +176,10 @@ export class ProdutoEditComponent implements OnInit {
                
             }).subscribe(response => {
 
-                console.log(response)
+               // console.log(response)
                 
             }, (err) => {
-                console.log(err)
+               // console.log(err)
                
             },
                 () => {

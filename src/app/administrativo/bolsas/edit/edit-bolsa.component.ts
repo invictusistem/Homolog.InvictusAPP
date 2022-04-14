@@ -93,13 +93,11 @@ export class EditBolsaComponent implements OnInit {
 
     onSubmitSucesso(resp?:any) {
         this.disabledSaveButton = 'hidden'
-        //console.log(resp['senha'])
         this.dialogRef.close({ clicked: true })
     }
 
     onSubmitErro(error?:any) {
         this.disabledSaveButton = 'hidden'
-        console.log(error)
     }
 
 

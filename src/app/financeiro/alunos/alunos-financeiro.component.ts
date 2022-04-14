@@ -133,7 +133,7 @@ export class AlunoFinancComponent implements OnInit {
 
 
 
-        if (this.pesquisarForm.valid) {
+        if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
             this.spinnerSearch = 'visible'
 
             if (event != undefined) {

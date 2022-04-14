@@ -99,7 +99,7 @@ export class ModuloViewComponent implements OnInit {
     ngOnInit() {
         const token: any = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-        console.log(this.data)
+        //console.log(this.data)
         this.GetEditPacoteView(this.data['modulo'].id)
     }
 
@@ -246,7 +246,7 @@ export class ModuloViewComponent implements OnInit {
         //         element.materiaId == pacote.id);
         //     if (pacotId != undefined) return;
         // }
-        console.log(form.value)
+        //console.log(form.value)
 
         const docsForm = this._fb.group({
             id: [pacote.id],
@@ -295,7 +295,7 @@ export class ModuloViewComponent implements OnInit {
 
         if(this.moduloForm.valid){
 
-            this._admService.editPacote(this.moduloForm.value)
+            this._admService.EditPacote(this.moduloForm.value)
                 .subscribe(
                     sucesso => { this.onSubmitSucesso(sucesso)},
                     falha => { this.onSubmitErro(falha)})

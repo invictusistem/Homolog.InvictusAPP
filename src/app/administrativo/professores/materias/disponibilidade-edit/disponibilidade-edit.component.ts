@@ -34,7 +34,7 @@ export class EditDispoComponent implements OnInit {
 
     ngOnInit() {
       
-        console.log(this.data['dispo'])
+        //console.log(this.data['dispo'])
         this.originalDispo = Object.assign({}, this.data['dispo'])
         this.dispo = Object.assign({}, this.data['dispo'])
       
@@ -56,7 +56,7 @@ export class EditDispoComponent implements OnInit {
 
     saveEdit(form: any) {
         this.disabledSaveButton = true
-        this._admService.editDisponibilidade(this.dispo)
+        this._admService.EditDisponibilidade(this.dispo)
         .subscribe(
             sucesso => {  this.dialogRef.close({ clicked: true }); },
             falha => {  this.dialogRef.close({ clicked: false }); }

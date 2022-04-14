@@ -109,8 +109,7 @@ export class EditColaboradoresComponent implements OnInit {
             this.http.put(`${this.baseUrl}/colaboradores`, this.colaboradorForm.value, {})
                 .subscribe(response => {
 
-                }, err => {
-                    console.log(err)
+                }, err => {                    
                     this.saveBar = 'hidden'
                 },
                     () => {
@@ -126,9 +125,7 @@ export class EditColaboradoresComponent implements OnInit {
 
 
     openSnackBar() {
-
-        this._helper.openSnackBarError('ERRO')
-       
+        this._helper.openSnackBarError('ERRO')       
     }    
 
     consultaCEP(CEP: string) {
@@ -140,12 +137,10 @@ export class EditColaboradoresComponent implements OnInit {
 
             this._admService.CepConsulta(this.colaboradorForm.get('cep')?.value)
                 .subscribe(response => {
-
                     this.colaboradorForm.get('logradouro')?.setValue(response["logradouro"].toUpperCase())
                     this.colaboradorForm.get('bairro')?.setValue(response["bairro"].toUpperCase())
                     this.colaboradorForm.get('cidade')?.setValue(response["localidade"].toUpperCase())
                     this.colaboradorForm.get('uf')?.setValue(response["uf"].toUpperCase())
-
                 }, err => {  },
                     () => {  });
         }

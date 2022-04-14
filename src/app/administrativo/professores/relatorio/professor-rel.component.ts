@@ -44,7 +44,7 @@ export class ProfRelatorioComponent implements OnInit {
     ngOnInit() {
         const token: any = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-        console.log(this.data)
+       // console.log(this.data)
     }
 
     public Pesquisar(){

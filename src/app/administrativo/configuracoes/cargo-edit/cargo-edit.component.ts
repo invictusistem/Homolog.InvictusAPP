@@ -48,7 +48,6 @@ export class CargoEditComponent implements OnInit {
     ngOnInit() {
         var token: any = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-        console.log(this.data['value'])
         this.GetCargo()
 
     }
@@ -81,7 +80,6 @@ export class CargoEditComponent implements OnInit {
                 .subscribe(response => {
 
                 }, (err) => {
-                    //console.log(err)
                     this.disabledSaveButton = 'hidden'
                     this.progress = false
                     this._helpers.openSnackBarErrorDefault()

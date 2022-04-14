@@ -1,21 +1,16 @@
-<div style="font-size: 1.2em;">Cadastrar Colaborador
-    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
-        matTooltipHideDelay="100">
-        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
-            <mat-icon>close</mat-icon>
-        </button>
-    </i>
-
+<div style="font-size: 1.2em;">Cadastrar Colaborador   
+    <close-modal></close-modal>
 </div>
 
 <mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query"></mat-progress-bar>
 
 <div *ngIf="showContent" @rowHighlight>
 
-
     <div style="font-size: 0.9em;margin-top: 5px;">* O colaborador será salvo na unidade de {{tokenInfo.Unidade}}</div>
+
     <hr>
-    <div style="">
+
+    <div >
 
         <form  novalidate [formGroup]="colaboradorForm" style=""
             (ngSubmit)="onSubmit(colaboradorForm)">

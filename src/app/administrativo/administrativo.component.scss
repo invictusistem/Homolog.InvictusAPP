@@ -1,9 +1,49 @@
 .example-container {
+    
     position: absolute;
     top: 63px;
     bottom: 0px;
     left: 0;
     right: 0;
+
+    mat-sidenav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 200px;
+        background: rgba(252, 249, 249, 0.904);
+        border-radius: 10.5px;
+        box-shadow: 0 0 8px 5px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    div {
+        position: absolute;
+        width: auto;
+        top: 0px;
+        bottom: 0px;
+        left: 0;
+        background-color: rgb(109, 218, 109);
+        right: 0;
+
+        span {
+            width: 190px;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1em;
+        }
+
+        li {
+            overflow: auto;
+        }
+
+        mat-icon {
+            top: -3px;
+            position: relative;
+            overflow: auto;
+            color: rgb(245, 243, 243);
+            vertical-align: middle;
+        }
+    }
 }
 
 .active {
@@ -15,47 +55,47 @@
     overflow: auto;
 }
 .example-sidenav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 200px;
-    background: rgba(252, 249, 249, 0.904);
-    border-radius: 10.5px;
-    box-shadow: 0 0 8px 5px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // width: 200px;
+    // background: rgba(252, 249, 249, 0.904);
+    // border-radius: 10.5px;
+    // box-shadow: 0 0 8px 5px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.example-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-}
+// .example-header {
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+// }
 
-.example-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
+// .example-footer {
+//     position: fixed;
+//     bottom: 0;
+//     left: 0;
+//     right: 0;
+// }
 
-.sidenav a {
-    padding: 6px 8px 6px 16px;
-    margin: 5px;
-    text-decoration: none;
-    font-size: 1.5em;
-    color: #050505;
-    display: block;
-}
+// .sidenav a {
+//     padding: 6px 8px 6px 16px;
+//     margin: 5px;
+//     text-decoration: none;
+//     font-size: 1.5em;
+//     color: #050505;
+//     display: block;
+// }
 
-.sidenav a:hover {
-    color: #8b959c;   
-}
+// .sidenav a:hover {
+//     color: #8b959c;
+// }
 
-#menu {
-    li {
-        a:hover {
-            background-color: rgb(73, 168, 73);
-            font-weight: bold;
-        }
-    }
-}
+// #menu {
+//     li {
+//         a:hover {
+//             background-color: rgb(73, 168, 73);
+//             font-weight: bold;
+//         }
+//     }
+// }

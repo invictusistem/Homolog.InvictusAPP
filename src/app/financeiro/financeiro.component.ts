@@ -15,12 +15,11 @@ declare interface RouteInfo {
 
 export const ROUTES: RouteInfo[] = [
     { path: '/financeiro/alunofin', title: 'Aluno/Financeiro', class: '', typeIcon: 'manage_accounts' },
-    { path: '/financeiro/balanco', title: 'Caixa/Cursos', class: '', typeIcon: 'store' },
+  //  { path: '/financeiro/balanco', title: 'Caixa/Cursos', class: '', typeIcon: 'store' },
     { path: '/financeiro/fincaixa', title: 'Caixa/Produtos', class: '', typeIcon: 'store' },
-    { path: '/financeiro/unidadebalanco', title: 'Balanço/Unidade', class: '', typeIcon: 'sync_alt' },
-    { path: '/financeiro/fornecedor', title: 'Fornecedores', class: '', typeIcon: 'contact_page' },
-    //{ path: '/financeiro/relatorio', title: 'Relatórios', class: '', typeIcon: 'description' }
-] // sync_alt
+    //{ path: '/financeiro/unidadebalanco', title: 'Balanço/Unidade', class: '', typeIcon: 'sync_alt' },
+    { path: '/financeiro/fornecedor', title: 'Fornecedores', class: '', typeIcon: 'contact_page' }
+] 
 
 @Component({
     selector: 'financeiro-app',

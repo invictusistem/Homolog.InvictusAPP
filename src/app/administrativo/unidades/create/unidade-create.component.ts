@@ -89,10 +89,10 @@ public msgErros: any;
             .subscribe(response => {
                 this.cargos = Object.assign([], response)
             }, (err) => {
-                console.log(err)
+               // console.log(err)
             },
                 () => { 
-                    console.log(this.cargos)
+                   // console.log(this.cargos)
                     //this.showForm = true
                 });
     }
@@ -106,7 +106,9 @@ public msgErros: any;
         var command = { unidade: this.unidadeForm.value, colaborador: this.colaboradorForm?.value}
             this._http.post(`${this._baseUrl}/unidade`, command, {})
                 .subscribe(resp => { },
-                    (error) => { console.log(error) },
+                    (error) => { 
+                        //console.log(error)
+                     },
                     () => { this.dialogRef.close({ clicked: "OK" }) })
 
        // }
@@ -133,9 +135,9 @@ public msgErros: any;
     }
 
     consultaCEP(CEP: string, form:any) {
-        console.log(CEP);
-        console.log(form.controls['cep'].valid);
-        console.log(form.controls['cep'].value)
+      //  console.log(CEP);
+       // console.log(form.controls['cep'].valid);
+       // console.log(form.controls['cep'].value)
         if (form.controls['cep'].value) {
 
             this._http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
@@ -146,7 +148,9 @@ public msgErros: any;
                     form.get('bairro').setValue(response["bairro"]);
                     form.get('cidade').setValue(response["localidade"]);
                     form.get('uf').setValue(response["uf"]);
-                }, err => { console.log(err) },
+                }, err => { 
+                    //console.log(err) 
+                },
                     () => {
                         // console.log('finaly') 
                     });

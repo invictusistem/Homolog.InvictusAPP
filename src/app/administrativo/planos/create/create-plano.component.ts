@@ -67,7 +67,7 @@ export class PlanoPgmCreateComponent implements OnInit {
                 this.initProgressBar = 'hidden'
 			},
             error: (error) => { 
-			console.error(error) 
+			//console.error(error) 
 			}
         })
     }
@@ -110,7 +110,9 @@ export class PlanoPgmCreateComponent implements OnInit {
             this.disabledSpinner = true
             this._http.post(`${this.baseUrl}/plano-pagamento`, form.value, {})
                 .subscribe(response => {
-                }, (err) => { console.log(err) },
+                }, (err) => { 
+                   // console.log(err) 
+                },
                     () => {
                         this._helper.openSnackBarSucesso("Plano criado com sucesso.")
                         this.dialogRef.close({ clicked: "Ok" });

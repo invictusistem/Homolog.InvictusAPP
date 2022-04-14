@@ -30,6 +30,8 @@ import { TurmaPresencaEditComponent } from "./turmas/turma-calendario/aula-prese
 import { CalendarioTurmaComponent } from "./turmas/turma-calendario/calendarioturma.component";
 import { CalendPresencaComponent } from "./turmas/turma-calendario/presenca/cal-presenca.component";
 import { TurmaDetalheModal } from "./turmas/turma-calendario/turma-detalhe/turma-detalhe.component";
+import { DocsAnaliseComponent } from './docs-analise/docs-analise.component';
+import { EstagioControleComponent } from './estagios-controle/estagio-controle.component';
 
 @NgModule({
     declarations: [
@@ -52,11 +54,15 @@ import { TurmaDetalheModal } from "./turmas/turma-calendario/turma-detalhe/turma
         PresencaComponent,
         NotasComponent,
         ConfirmarIniciarAulaModal,
+        // Docs-Analise
+        DocsAnaliseComponent,
         // Estagios
         EstagioComponent,
         EstagioAlunosComponent,
         EstagioEditComponent,
         EstagioCadastroComponent,
+        // Estagios Controle
+        EstagioControleComponent,
         // Transferencia
         TransferenciaComponent,
         // Turmas
@@ -68,7 +74,7 @@ import { TurmaDetalheModal } from "./turmas/turma-calendario/turma-detalhe/turma
         AulaEditarModal,
         AulaDetalheModal,
         TurmasInfoAlunosPedagComponent,
-        TurmaNotasComponent
+        TurmaNotasComponent        
     ],
     imports: [
         SharedModule,
@@ -85,8 +91,12 @@ import { TurmaDetalheModal } from "./turmas/turma-calendario/turma-detalhe/turma
         AlunoAcessoComponent,
         // Diario-Classe
         TurmasComponent,
+        // Docs-Analise
+        DocsAnaliseComponent,
         // Estagios
         EstagioComponent,
+        // Estagios Controle
+        EstagioControleComponent,
         // Transferencia
         TransferenciaComponent,
         // Turmas
