@@ -9,6 +9,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { environment } from "src/environments/environment";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
+import { AdmService } from "../../services/adm.service";
 
 @Component({
     selector: 'edit-planomodal',
@@ -40,7 +41,8 @@ export class PlanoPgmEditComponent implements OnInit {
         private router: Router,
         private _fb: FormBuilder,
         private _helper: HelpersService,
-        private _http: HttpClient,
+        private _admService: AdmService,
+        //private _http: HttpClient,
         public dialogRef: MatDialogRef<PlanoPgmEditComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.moduloForm = _fb.group({
@@ -70,7 +72,8 @@ export class PlanoPgmEditComponent implements OnInit {
     private GetPlano() {
 
 
-        this._http.get(`${this.baseUrl}/plano-pagamento/${this.data['plano'].id}`)
+
+        this._admService.GetPlanoById(this.data['plano'].id)
             .subscribe({
                 next: (resp: any) => {
                     this.moduloForm.patchValue(resp['plano'])
@@ -83,9 +86,8 @@ export class PlanoPgmEditComponent implements OnInit {
                 },
                 error: (error) => {
                     // console.error(error)
-                     }
+                }
             })
-
 
     }
 
@@ -96,16 +98,16 @@ export class PlanoPgmEditComponent implements OnInit {
         this.disabledContrato = true
         this.contratos = new Array<any>();
 
-        this._http.get(`${this.baseUrl}/contrato/type-pacote/${typePacoteId}`)
-        .subscribe({
-            next: (resp: any) => { 
-                this.disabledContrato = false
-                this.contratos = resp['contratos'] 
-            },
-            error: (error) => { 
-               // console.error(error)
-             }
-        })
+        this._admService.GetContratosByTypePacote(typePacoteId)
+            .subscribe({
+                next: (resp: any) => {
+                    this.disabledContrato = false
+                    this.contratos = resp['contratos']
+                },
+                error: (error) => {
+                    // console.error(error)
+                }
+            })
     }
 
     get disabledSaveButton() {
@@ -129,11 +131,12 @@ export class PlanoPgmEditComponent implements OnInit {
             this.saveSpinner = 'visible'
             this.isDisabled = true
             this.disabledSpinner = true
-            this._http.put(`${this.baseUrl}/plano-pagamento`, this.moduloForm.value, {})
+
+            this._admService.EditPlano(this.moduloForm.value)
                 .subscribe(response => {
-                }, (err) => { 
+                }, (err) => {
                     //console.log(err)
-                 },
+                },
                     () => {
 
                         this.disabledSpinner = false

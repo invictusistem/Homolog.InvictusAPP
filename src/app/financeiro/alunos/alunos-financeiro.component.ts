@@ -10,8 +10,9 @@ import { ModalConfirmarComponent } from "src/app/_shared/components/modal-confir
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { ConfirmAcaoModalConfig, ModalconfirmarConfig } from "src/app/_shared/services/shared.modal";
 import { environment } from "src/environments/environment";
-import { InfoFinancModalConfig } from "../services/financ-modal";
+import { InfoFinancModalConfig, ReparcelamentoComponentModal } from "../services/financ-modal";
 import { InfoFinancComponent } from "./infos/aluno-informacoes.component";
+import { ReparcelamentoComponent } from "./reparcelamento/reparcelamento.component";
 
 @Component({
     selector: "alunofin-app",
@@ -214,24 +215,30 @@ export class AlunoFinancComponent implements OnInit {
     //     });
     // }
 
-    openReparcelamentoModal(aluno: any): void {
-        // const dialogRef = this._modal
-        //     .open(ReparcelamentoComponent, {
-        //         height: 'auto',
-        //         width: '1000px',
-        //         autoFocus: false,
-        //         maxHeight: '90vh',
-
-        //         data: { aluno: aluno },
-        //         hasBackdrop: true,
-        //         disableClose: true
-        //     });
-
-        // dialogRef.afterClosed().subscribe(result => {
-
-        // });
+    public openReparcelamentoModal(aluno: any): void {
+        const dialogRef = this._modal
+            .open(ReparcelamentoComponent, ReparcelamentoComponentModal(aluno));
+        dialogRef.afterClosed().subscribe(data => {
+        });
     }
 
+//     openReparcelamentoModal(aluno: any): void {
+//         const dialogRef = this._modal
+//             .open(ReparcelamentoComponent, {
+//                 height: 'auto',
+//                 width: '1000px',
+//                 autoFocus: false,
+//                 maxHeight: '90vh',
+
+//                 data: { aluno: aluno },
+//                 hasBackdrop: true,
+//                 disableClose: true
+//             });
+
+//         dialogRef.afterClosed().subscribe(result => {
+
+//         });
+//     }
 }
 
 

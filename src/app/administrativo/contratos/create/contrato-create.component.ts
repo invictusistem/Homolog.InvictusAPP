@@ -9,6 +9,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { environment } from "src/environments/environment";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { Cargos } from "src/app/_shared/models/perfil.model";
+import { AdmService } from "../../services/adm.service";
 
 @Component({
     selector: 'contrato-createmodal',
@@ -42,7 +43,8 @@ export class CreateContratoComponent implements OnInit {
         private _snackBar: MatSnackBar,
         private router: Router,
         private _fb: FormBuilder,
-        private _http: HttpClient,
+        //private _http: HttpClient,
+        private _admService: AdmService,
         public dialogRef: MatDialogRef<CreateContratoComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.contratoForm = _fb.group({
@@ -64,7 +66,7 @@ export class CreateContratoComponent implements OnInit {
 
     private GetTypes() {
 
-        this._http.get(`${this.baseUrl}/typepacote`)
+        this._admService.GetTypePacotes()
         .subscribe({
             next: (resp: any) => { 
                 this.typePacotes = resp['typePacotes']
@@ -89,18 +91,16 @@ export class CreateContratoComponent implements OnInit {
 
         if (this.contratoForm.valid) {
 
-            this._http.post(`${this.baseUrl}/contrato`, form.value, {})
-                .subscribe(resp => {
+            this._admService.SaveContrato(form.value)
+            .subscribe(resp => {
 
-                }, (error) => { 
-                    //console.log(error) 
-                },
-                    () => {
-                        this.dialogRef.close({ clicked: "OK" });
-                    })
-
+            }, (error) => { 
+                //console.log(error) 
+            },
+                () => {
+                    this.dialogRef.close({ clicked: "OK" });
+                })
         }
-
     }
 
 

@@ -1,7 +1,7 @@
-<div style="font-size: 1.2em;">Confirmar?
+<div style="font-size: 1.2em;">Parcelas
     <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
         matTooltipHideDelay="100">
-        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+        <button [mat-dialog-close]="{clicked: false}" style="" mat-icon-button>
             <mat-icon>close</mat-icon>
         </button>
     </i>
@@ -77,11 +77,11 @@
         <tbody>
 
             <tr *ngIf="data['parcelas'] != 0">
-                <td style="font-size:0.8em;font-weight: 400;text-align:center;vertical-align: middle;">
+                <td style="font-size:0.8em;font-weight: 400;text-align:left;vertical-align: middle;">
                     Entrada Parcelamento
                 </td>
 
-                <td style="font-size:0.8em;font-weight: 400;text-align:left;vertical-align: middle;">
+                <td style="font-size:0.8em;font-weight: 400;text-align:center;vertical-align: middle;">
                     {{ data['vencimento']| date:'M/y' }}
                 </td>
 
@@ -97,11 +97,11 @@
             </tr>
 
             <tr *ngFor="let reparcelas of reparcelaCommand.parcelas;let i = index;">
-                <td style="font-size:0.8em;font-weight: 400;text-align:center;vertical-align: middle;">
+                <td style="font-size:0.8em;font-weight: 400;text-align:left;vertical-align: middle;">
                   Reparcelamento {{i+1}}/{{data['parcelas']}}
                 </td>
 
-                <td style="font-size:0.8em;font-weight: 400;text-align:left;vertical-align: middle;">
+                <td style="font-size:0.8em;font-weight: 400;text-align:center;vertical-align: middle;">
                 {{ reparcelas.vencimento | date:'M/y'}}
                 </td>
 
@@ -118,8 +118,12 @@
         </tbody>
     </table>
     <br>
-    <button type="submit" mat-raised-button 
-    disabled="false" style="float:right;margin-bottom: 0px;margin-left: 10px;"
+    <mat-progress-bar style="margin-bottom: 5px;" [style.visibility]="saveProgressBar"
+    @rowHighlight mode="query">
+    </mat-progress-bar>
+
+    <button type="submit" mat-raised-button color="primary"
+    [disabled]="disabledSaveButton" style="float:right;margin-bottom: 0px;margin-left: 10px;"
     (click)="confirmarParc()">
     Confirmar
 </button>

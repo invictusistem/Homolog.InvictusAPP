@@ -7,6 +7,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
+import { AdmService } from "../services/adm.service";
 import { PlanoPgmCreateComponent } from "./create/create-plano.component";
 import { PlanoPgmEditComponent } from "./edit/edit-plano.component";
 
@@ -30,7 +31,8 @@ export class PlanoPgmComponent implements OnInit {
     public typesPacotes: any[] = new Array<any>();
     public disabledForm = true
     constructor(
-        private _http: HttpClient,
+       // private _http: HttpClient,
+       private _admService: AdmService,
         private _helpers: HelpersService,
         private _fb: FormBuilder,
         private _modal: MatDialog) {
@@ -51,20 +53,19 @@ export class PlanoPgmComponent implements OnInit {
 
     getTypePacotes() {
 
-        //if(this.pesquisarForm.valid){
-        this._http.get(`${this.baseUrl}/typepacote`)
-            .subscribe({
-                next: (resp: any) => {
+        this._admService.GetTypePacotes()
+        .subscribe({
+            next: (resp: any) => {
 
-                    //console.log(resp)
-                    this.typesPacotes = Object.assign([], resp['typePacotes']);
-                    this.disabledForm = false
-                    this.spinnerSearch = 'hidden'
-                },
-                error: (error) => {
-                    this.spinnerSearch = 'hidden'
-                }
-            })
+                //console.log(resp)
+                this.typesPacotes = Object.assign([], resp['typePacotes']);
+                this.disabledForm = false
+                this.spinnerSearch = 'hidden'
+            },
+            error: (error) => {
+                this.spinnerSearch = 'hidden'
+            }
+        })       
     }
 
     public Pesquisar() {
@@ -74,12 +75,11 @@ export class PlanoPgmComponent implements OnInit {
             let typePacoteId = this.pesquisarForm.get('typePacoteId')?.value
             //let unidadeId = this.pesquisarForm.get('unidadeId').value
             // console.log(typePacoteId)
-
-            this._http.get(`${this.baseUrl}/plano-pagamento/pacote/${typePacoteId}`)
-                .subscribe({
-                    next: (resp: any) => this.PesquisarResult(resp) ,
-                    error: (error) => { }
-                })
+            this._admService.GetPlanoPacoteById(typePacoteId)
+            .subscribe({
+                next: (resp: any) => this.PesquisarResult(resp) ,
+                error: (error) => { }
+            })           
         }
     }
 
@@ -90,29 +90,29 @@ export class PlanoPgmComponent implements OnInit {
     }
 
     private GetPlanos() {
-        this._http.get(`${this.baseUrl}/plano-pagamento`)
-            .subscribe(resp => {
-                this.planos = Object.assign([], resp);
-            }, (error) => { 
-                //console.log(error) 
-            },
-                () => {
-                    //console.log(this.planos)
-                })
 
+        this._admService.GetPlanos()
+        .subscribe(resp => {
+            this.planos = Object.assign([], resp);
+        }, (error) => { 
+            //console.log(error) 
+        },
+            () => {
+                //console.log(this.planos)
+            })
     }
 
     getModulos() {
 
-        this._http.get(`${this.baseUrl}/unidade/modulos`)
-            .subscribe(resp => {
-                this.modulos = Object.assign([], resp);
-            }, (error) => { 
-                //console.log(error)
-             },
-                () => {
-                    console.log(this.modulos)
-                })
+        this._admService.GetModulosUnidade()
+        .subscribe(resp => {
+            this.modulos = Object.assign([], resp);
+        }, (error) => { 
+            //console.log(error)
+         },
+            () => {
+               
+            })      
     }
 
     createPlano(): void {

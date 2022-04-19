@@ -33,6 +33,7 @@ export class BaseComponent {
     // Spinners
     public spinnerSearch = 'hidden'
     public initProgressBar = 'visible'
+    public showForm = false
     // Variables
     public showMessageNotFound = false
     public mensagemNotFound: string = "";
@@ -84,30 +85,30 @@ export class BaseComponent {
         });
     }
 
-    public ConsultaCEP(CEP: string) {
-        // let handelr!: HttpHandler
-        // let client = new HttpClient(this.handelr)
-        //if (this.colaboradorForm.get('cep')?.valid) {
-        // let handelr!: HttpHandler
-        // let client = new HttpClient(handelr)
-        // let sharedService: SharedService = new SharedService(client)
-        //CEP = '123'
-        console.log(CEP)
-        this.service.CepConsulta(CEP)
-            .subscribe(
-                (response: any) => {
-                    console.log(response)
-                    //return response
+    // public ConsultaCEP(CEP: string) {
+    //     // let handelr!: HttpHandler
+    //     // let client = new HttpClient(this.handelr)
+    //     //if (this.colaboradorForm.get('cep')?.valid) {
+    //     // let handelr!: HttpHandler
+    //     // let client = new HttpClient(handelr)
+    //     // let sharedService: SharedService = new SharedService(client)
+    //     //CEP = '123'
+    //     console.log(CEP)
+    //     this.service.CepConsulta(CEP)
+    //         .subscribe(
+    //             (response: any) => {
+    //                 console.log(response)
+    //                 //return response
 
-                }, (err: any) => {
-                    console.log('erro consulta CEP')
-                    this.openSnackBarErrorDefault()
-                },
-                () => {
+    //             }, (err: any) => {
+    //                 console.log('erro consulta CEP')
+    //                 this.openSnackBarErrorDefault()
+    //             },
+    //             () => {
 
-                });
-        // }
-    }
+    //             });
+    //     // }
+    // }
 
     protected GetTokenInfos() {
         const token: any = localStorage.getItem('jwt')

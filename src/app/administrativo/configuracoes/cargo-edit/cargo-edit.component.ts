@@ -8,6 +8,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { environment } from "src/environments/environment";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
+import { AdmService } from "../../services/adm.service";
 
 
 @Component({
@@ -33,7 +34,8 @@ export class CargoEditComponent implements OnInit {
     constructor(
         private _helpers: HelpersService,
         private _fb: FormBuilder,
-        private _http: HttpClient,
+        private _admService: AdmService,
+        //private _http: HttpClient,
         public dialogRef: MatDialogRef<CargoEditComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.cargoForm = _fb.group({
@@ -53,8 +55,8 @@ export class CargoEditComponent implements OnInit {
     }
 
     private GetCargo(){
-     
-        this._http.get(`${this.baseUrl}/parametro/get-value/${this.data['value'].id}`, {})
+
+        this._admService.GetValue(this.data['value'].id)
         .subscribe({
             next: (response: any) => { 
                 this.cargoForm.patchValue(response['value']);
@@ -76,19 +78,20 @@ export class CargoEditComponent implements OnInit {
         if (this.cargoForm.valid) {
             this.disabledSaveButton = 'visible'
             this.progress = true
-            this._http.put(`${this.baseUrl}/parametro/value`, this.cargoForm.value, {})
-                .subscribe(response => {
 
-                }, (err) => {
-                    this.disabledSaveButton = 'hidden'
+            this._admService.EditValue(this.cargoForm.value)
+            .subscribe(response => {
+
+            }, (err) => {
+                this.disabledSaveButton = 'hidden'
+                this.progress = false
+                this._helpers.openSnackBarErrorDefault()
+            },
+                () => {
+                    this._helpers.openSnackBarSucesso("Cargo editado com sucesso.");
                     this.progress = false
-                    this._helpers.openSnackBarErrorDefault()
-                },
-                    () => {
-                        this._helpers.openSnackBarSucesso("Cargo editado com sucesso.");
-                        this.progress = false
-                        this.dialogRef.close({ clicked: true });
-                    });
+                    this.dialogRef.close({ clicked: true });
+                });          
         }
     }
 

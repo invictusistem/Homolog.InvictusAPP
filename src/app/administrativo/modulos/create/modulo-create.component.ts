@@ -46,7 +46,6 @@ export class ModuloCreateComponent implements OnInit {
     constructor(
         private _admService: AdmService,
         private _fb: FormBuilder,
-        private _http: HttpClient,
         public dialogRef: MatDialogRef<ModuloCreateComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
 
@@ -84,12 +83,12 @@ export class ModuloCreateComponent implements OnInit {
 
     GetUnidadeBySigla(){
 
-        this._http.get(`${this.baseUrl}/unidade/sigla/${this.tokenInfo.Unidade}`)
-            .subscribe(
-                (sucesso: any) => {
-                    this.moduloForm.get('unidadeId')?.setValue(sucesso['unidade'])
-                }
-            )
+        this._admService.GetUnidadesFilteredBySigla(this.tokenInfo.Unidade)
+        .subscribe(
+            (sucesso: any) => {
+                this.moduloForm.get('unidadeId')?.setValue(sucesso['unidade'])
+            }
+        )      
     }
 
     get materias() {

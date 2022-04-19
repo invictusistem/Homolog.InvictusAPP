@@ -21,7 +21,7 @@ export class EditColaboradoresComponent implements OnInit {
 
     public initProgressBar = 'visible'
     public saveBar = 'hidden'
-   // unidades = Unidades;
+    // unidades = Unidades;
     showMensagem = false
     mensagem = ''
     cpf = ''
@@ -35,7 +35,7 @@ export class EditColaboradoresComponent implements OnInit {
     constructor(
         private _helper: HelpersService,
         private _admService: AdmService,
-        private http: HttpClient,
+        // private http: HttpClient,
         private _fb: FormBuilder,
         public dialogRef: MatDialogRef<EditColaboradoresComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -56,7 +56,7 @@ export class EditColaboradoresComponent implements OnInit {
             uf: ['', [Validators.required, Validators.minLength(2)]],
             bairro: ['', [Validators.required, Validators.minLength(1)]],
             dataCriacao: [''],
-            supervisorId:['']
+            supervisorId: ['']
         })
     }
 
@@ -65,57 +65,56 @@ export class EditColaboradoresComponent implements OnInit {
         return this.tentando
     }
     get desabilitar() {
-          
-            if (this.colaboradorForm.valid &&
-                JSON.stringify(this.originalColaborador) !=
-                JSON.stringify(this.colaboradorForm.value)) {
-    
-                return this.saveBar != 'hidden'
-            } else {
-                return true
-            }
+
+        if (this.colaboradorForm.valid &&
+            JSON.stringify(this.originalColaborador) !=
+            JSON.stringify(this.colaboradorForm.value)) {
+
+            return this.saveBar != 'hidden'
+        } else {
+            return true
+        }
     }
 
-    ngOnInit() {       
+    ngOnInit() {
         this.getColaborador();
     }
 
     getColaborador() {
 
-        this.http.get(`${this.baseUrl}/colaboradores/Cargo/${this.data['colaborador'].id}`)
-        .subscribe({
-            next: (response: any) => { 
-                this.cargos = Object.assign([], response['values'])
-                this.colaboradorForm.patchValue(response['colaborador']);
-                this.originalColaborador = JSON.parse(JSON.stringify(this.colaboradorForm.value))
-                this.dialogRef.addPanelClass('myeditcolab-class')
+        this._admService.GetColaborador(this.data['colaborador'].id)
+            .subscribe({
+                next: (response: any) => {
+                    this.cargos = Object.assign([], response['values'])
+                    this.colaboradorForm.patchValue(response['colaborador']);
+                    this.originalColaborador = JSON.parse(JSON.stringify(this.colaboradorForm.value))
+                    this.dialogRef.addPanelClass('myeditcolab-class')
                     this.showForm = true
                     this.initProgressBar = 'hidden'
-			},
-            error: (error) => { 
-                this.initProgressBar = 'hidden'
-			}
-        })
-
+                },
+                error: (error) => {
+                    this.initProgressBar = 'hidden'
+                }
+            })
     }
-    
+
 
     disabledSpinner = false
     edit(form: any) {
-      
+
         if (this.colaboradorForm.valid) {
             this.saveBar = 'visible'
-          
-            this.http.put(`${this.baseUrl}/colaboradores`, this.colaboradorForm.value, {})
+
+            this._admService.EditColaborador(this.colaboradorForm.value)
                 .subscribe(response => {
 
-                }, err => {                    
+                }, err => {
                     this.saveBar = 'hidden'
                 },
                     () => {
                         this._helper.openSnackBarSucesso('Colaborador editado com sucesso.')
                         this.saveBar = 'hidden'
-                     
+
                         this.dialogRef.close();
 
                     });
@@ -125,8 +124,8 @@ export class EditColaboradoresComponent implements OnInit {
 
 
     openSnackBar() {
-        this._helper.openSnackBarError('ERRO')       
-    }    
+        this._helper.openSnackBarError('ERRO')
+    }
 
     consultaCEP(CEP: string) {
 
@@ -141,8 +140,8 @@ export class EditColaboradoresComponent implements OnInit {
                     this.colaboradorForm.get('bairro')?.setValue(response["bairro"].toUpperCase())
                     this.colaboradorForm.get('cidade')?.setValue(response["localidade"].toUpperCase())
                     this.colaboradorForm.get('uf')?.setValue(response["uf"].toUpperCase())
-                }, err => {  },
-                    () => {  });
+                }, err => { },
+                    () => { });
         }
     }
 }

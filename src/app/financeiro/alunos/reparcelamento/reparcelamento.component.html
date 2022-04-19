@@ -18,6 +18,11 @@
     <mat-label>Nº matrícula</mat-label>
     <input value="000213" selected disabled required name="nome" matInput placeholder="Nome">
 </mat-form-field>
+
+<mat-progress-bar style="" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<ng-container *ngIf="showForm">
 <br>
 <!-- <div style="color:red; margin-bottom: 10px; font-size: 0.8em; font-style: italic;">* O aluno não se encontra matriculado
     em nenhuma
@@ -142,7 +147,7 @@
                         <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
 
 
-                            <mat-checkbox *ngIf="debs.statusBoleto == 'Em aberto'" style="margin-right: 3px;width: 50px;" type="checkbox" color="primary"
+                            <mat-checkbox *ngIf="debs.statusBoleto == 'Vencido'" style="margin-right: 3px;width: 50px;" type="checkbox" color="primary"
                                 [(ngModel)]="debs.selected" class="example-margin" name="checked">
                             </mat-checkbox>
 
@@ -376,27 +381,28 @@
 
         </form> -->
         <ng-container>
+            <form [formGroup]="reparcelamentoform" >
             <br>
             <mat-form-field appearance="outline" style="width: 140px; ">
                 <mat-label>Total selecionado</mat-label>
                 <input disabled [value]="totalSelecionado" disabled matInput>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" style="width: 100px;margin-left: 5px; ">
+           <mat-form-field appearance="outline" style="width: 100px;margin-left: 5px; ">
                 <mat-label>Juros</mat-label>
-                <input [(ngModel)]="juros" currencyMask currencyMask
+                <input formControlName="juros" currencyMask currencyMask
                     [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" matInput>
             </mat-form-field>
 
             <mat-form-field appearance="outline" style="width: 100px;margin-left: 5px; ">
                 <mat-label>Desconto</mat-label>
-                <input [(ngModel)]="desconto" currencyMask currencyMask
+                <input formControlName="desconto" currencyMask currencyMask
                     [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" matInput>
             </mat-form-field>
 
             <mat-form-field appearance="outline" style="width: 100px;margin-left: 5px; ">
                 <mat-label>Acréscimo</mat-label>
-                <input [(ngModel)]="acrescimo" currencyMask currencyMask
+                <input formControlName="acrescimo" currencyMask currencyMask
                     [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" matInput>
             </mat-form-field>
 
@@ -406,35 +412,44 @@
                 <input disabled [value]="totalParcelar" currencyMask disabled matInput>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" style="width: 120px; ">
+            <!-- <mat-form-field appearance="outline" style="width: 120px; ">
                 <mat-label>Vencimento</mat-label>
-                <input mask="00/00/0000" required name="cpf" matInput placeholder="Vencimento" 
-                [(ngModel)]="vencimento"
+                <input mask="00/00/0000" required name="cpf" matInput placeholder="Vencimento"                
                     (focusout)="onFocusOutDateEvent($event)"
                     onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
-            </mat-form-field>
+            </mat-form-field> -->
+
+            <mat-form-field appearance="outline" style="width: 175px">
+                <mat-label>Vencimento</mat-label>
+                <input formControlName="vencimento" [disabled]="true" 
+                matInput [matDatepicker]="picker">               
+                <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                <mat-datepicker #picker disabled="false"></mat-datepicker>
+              </mat-form-field>
 
             <br>
 
             <mat-form-field appearance="outline" style="width: 100px;margin-left: 5px; ">
                 <mat-label>Entrada</mat-label>
-                <input [(ngModel)]="valorEntrada" currencyMask currencyMask
+                <input formControlName="valorEntrada" currencyMask currencyMask
                     [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" matInput>
             </mat-form-field>
 
             <mat-form-field appearance="outline" style="width: 100px;margin-left: 5px; ">
                 <mat-label>Parcelas</mat-label>
-                <input [(ngModel)]="parcelas" type="number" min="0"
+                <input formControlName="parcelas"  min="1"
                     onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" 
                      matInput>
-            </mat-form-field>
+            </mat-form-field> 
 
-            <i style="margin-right: 5px;margin-bottom: 10px;" #tooltip="matTooltip" matTooltip="calcular" matTooltipPosition="above"
+            <i style="margin-right: 5px;margin-bottom: 10px;" #tooltip="matTooltip" matTooltip="visualizar" matTooltipPosition="above"
                 matTooltipHideDelay="100">
-                <button (click)="calcular()" style="" mat-icon-button>
-                    <mat-icon style="font-size: 2.2em;">calculate</mat-icon>
+                <button type="button" (click)="Calcular()" [disabled]="!reparcelamentoform.valid" mat-icon-button>
+                    <mat-icon style="font-size: 2.2em;">visibility</mat-icon>
                 </button>
             </i>
+
+        </form>
 
         </ng-container>
 
@@ -443,3 +458,4 @@
 
 
 </mat-tab-group>
+</ng-container>

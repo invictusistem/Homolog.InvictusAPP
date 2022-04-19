@@ -18,6 +18,18 @@ export function ReceberComponentModal(debito?:any, aluno?:any){
     }
 }
 
+export function ReparcelamentoComponentModal(aluno:any){
+    return { 
+        //height:'545px',
+        width: '1000px',
+        data: { aluno: aluno },        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+// fornecedor
+
 export function CreateFornecedorModal(){
     return {
         height: '590px',

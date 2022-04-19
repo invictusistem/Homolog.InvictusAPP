@@ -3,7 +3,10 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
+import { CreateFornecedorModal, EditFornecedorModal } from "../services/financ-modal";
 import { FinanceiroService } from "../services/financ.service";
+import { CreateFornecedorComponent } from "./create/fornecedor-create.component";
+import { EditFornecedorComponent } from "./edit/fornecedor-edit.component";
 
 @Component({
     selector: "fornecedores-app",
@@ -117,21 +120,19 @@ export class FornecedoresComponent extends BaseComponent implements OnInit {
         this.spinnerSearch = 'hidden'
     }
 
-
+    
     openCreateFornecedorModal(): void {
-        // const dialogRef = this._modal
-        //     .open(CreateFornecedorComponent, CreateFornecedorModal());
-        // dialogRef.afterClosed().subscribe((data) => {
-
-        // });
+        const dialogRef = this._modal
+            .open(CreateFornecedorComponent, CreateFornecedorModal());
+        dialogRef.afterClosed().subscribe((data) => {
+        });
     }
 
     OpenEditFornecedorModal(fornecedor:any): void {
-        // const dialogRef = this._modal
-        //     .open(EditFornecedorComponent, EditFornecedorModal(fornecedor.id));
-        // dialogRef.afterClosed().subscribe((data) => {
-
-        // });
+        const dialogRef = this._modal
+            .open(EditFornecedorComponent, EditFornecedorModal(fornecedor.id));
+        dialogRef.afterClosed().subscribe((data) => {
+        });
     }
     
     // openCreateFornecedorModal(): void {

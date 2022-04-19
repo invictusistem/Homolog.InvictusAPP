@@ -6,6 +6,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { environment } from "src/environments/environment";
 import { TokenInfos } from "src/app/_shared/models/token.model";
+import { AdmService } from "../../services/adm.service";
 
 @Component({
     selector: 'doctemplatemodal',
@@ -25,7 +26,7 @@ export class DocTemplateComponent implements OnInit {
     public progress = false
     constructor(
         private _fb: FormBuilder,
-        private _http: HttpClient,
+        private _admService: AdmService,
         public dialogRef: MatDialogRef<DocTemplateComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.docForm = _fb.group({
@@ -36,18 +37,16 @@ export class DocTemplateComponent implements OnInit {
     }
 
     ngOnInit() {
-        const token:any = localStorage.getItem('jwt')
+        const token: any = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-
     }
-
 
     onSubmit(form: FormGroup) {
 
         if (form.valid) {
 
             this.progress = true
-            this._http.post(`${this.baseUrl}/documentacao`, this.docForm.value, {})
+            this._admService.SaveDocumento(this.docForm.value)
                 .subscribe(response => {
 
                 }, (err) => {

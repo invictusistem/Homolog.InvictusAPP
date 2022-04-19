@@ -126,7 +126,7 @@ export class CalendarioTurmaComponent implements OnInit {
 
 
         //OLD
-        // console.log(response)
+        console.log(resp)
         // this.listAlunos = Object.assign([], response['data']);
 
         //this.length = resp['result'].totalItemsInDatabase
@@ -135,7 +135,8 @@ export class CalendarioTurmaComponent implements OnInit {
         if (event != undefined) {
             this.pageIndexNumber = (event.pageIndex * this.pageSize)
         } else {
-            this.pageIndexNumber = resp['result'].currentPage
+
+            this.pageIndexNumber = (resp['result'].currentPage -1) * this.pageSize
             //  console.log(this.paginator)
             this.initialPage = resp['result'].currentPage - 1
             if (this.paginator != undefined) {

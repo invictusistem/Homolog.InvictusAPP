@@ -5,6 +5,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
+import { AdmService } from "../services/adm.service";
 import { CreateContratoComponent } from "./create/contrato-create.component";
 import { EditarContratoComponent } from "./edit/contrato-edit.component";
 
@@ -23,7 +24,8 @@ export class ContratoComponent extends BaseComponent implements OnInit {
     public showSpinnerSearch = false
 
     constructor(
-        private _http: HttpClient,
+       // private _http: HttpClient,
+       private _admService: AdmService,
         private _fb: FormBuilder,
         override _snackBar: MatSnackBar,
         private _modal: MatDialog) {
@@ -47,23 +49,23 @@ export class ContratoComponent extends BaseComponent implements OnInit {
             this.contratos = []
             let typePacoteId = this.pesquisarForm.get('typePacoteId')?.value
             // console.log(typePacoteId)
-            this._http.get(`${this.baseUrl}/contrato/type-pacote/${typePacoteId}`)
-                .subscribe({
-                    next: (resp: any) => {
-                        this.contratos = Object.assign([], resp['contratos']);
-                        this.showSpinnerSearch = false
-                    },
-                    error: (error) => {
-                        this.showSpinnerSearch = false
-                    }
-                })
-        }
 
+            this._admService.GetContratosByTypePacote(typePacoteId)
+            .subscribe({
+                next: (resp: any) => {
+                    this.contratos = Object.assign([], resp['contratos']);
+                    this.showSpinnerSearch = false
+                },
+                error: (error) => {
+                    this.showSpinnerSearch = false
+                }
+            })          
+        }
     }
 
     getTypePacotes() {
 
-        this._http.get(`${this.baseUrl}/typepacote`)
+        this._admService.GetTypePacotes()
         .subscribe({
             next: (resp: any) => { 
                 this.typesPacotes = Object.assign([], resp['typePacotes']);
@@ -73,7 +75,6 @@ export class ContratoComponent extends BaseComponent implements OnInit {
                 this.initProgressBar = 'hidden'
 			}
         })
-
     }
 
     openCreateContratoModal(): void {

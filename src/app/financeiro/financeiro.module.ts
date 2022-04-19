@@ -4,8 +4,12 @@ import { AlunoFinancComponent } from './alunos/alunos-financeiro.component';
 import { InfoFinancComponent } from './alunos/infos/aluno-informacoes.component';
 import { EditFinancComponent } from './alunos/infos/edit/financeiro-edit.component';
 import { ReceberComponent } from './alunos/infos/receber/receber.component';
+import { ConfirmarParcelamento } from './alunos/reparcelamento/confirmar/reparcelamento-confirmar.component';
+import { ReparcelamentoComponent } from './alunos/reparcelamento/reparcelamento.component';
 import { FinCaixaComponent } from './caixa/fincaixa.component';
 import { FinanceiroComponent } from './financeiro.component';
+import { CreateFornecedorComponent } from './fornecedores/create/fornecedor-create.component';
+import { EditFornecedorComponent } from './fornecedores/edit/fornecedor-edit.component';
 import { FornecedoresComponent } from './fornecedores/fornecedores.component';
 import { FinanceiroService } from './services/financ.service';
 
@@ -14,6 +18,8 @@ import { FinanceiroService } from './services/financ.service';
         FinanceiroComponent,
         // Alunos
         AlunoFinancComponent,
+        ReparcelamentoComponent,
+        ConfirmarParcelamento,
         // ConfirmarParcelamento,
          InfoFinancComponent,
          ReceberComponent,
@@ -21,7 +27,9 @@ import { FinanceiroService } from './services/financ.service';
          // Caixa
          FinCaixaComponent,
          // Fornecedores
-         FornecedoresComponent
+         FornecedoresComponent,
+         CreateFornecedorComponent,
+         EditFornecedorComponent
     ],
     imports: [
         SharedModule,
@@ -41,10 +49,14 @@ import { FinanceiroService } from './services/financ.service';
     ],
     entryComponents: [
         // Alunos
-        // ConfirmarParcelamento,
+        ConfirmarParcelamento,
+        ReparcelamentoComponent,
         InfoFinancComponent,
         ReceberComponent,
-        EditFinancComponent
+        EditFinancComponent,
+        // Fornecedores
+        CreateFornecedorComponent,
+        EditFornecedorComponent
     ]
 })
 

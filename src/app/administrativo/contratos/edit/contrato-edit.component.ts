@@ -9,6 +9,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { environment } from "src/environments/environment";
 import { TokenInfos } from "src/app/_shared/models/token.model";
+import { AdmService } from "../../services/adm.service";
 
 @Component({
     selector: 'editcontratomodal',
@@ -40,7 +41,8 @@ export class EditarContratoComponent implements OnInit {
         private _snackBar: MatSnackBar,
         private router: Router,
         private _fb: FormBuilder,
-        private _http: HttpClient,
+       // private _http: HttpClient,
+       private _admService: AdmService,
         public dialogRef: MatDialogRef<EditarContratoComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.contratoForm = _fb.group({
@@ -58,7 +60,7 @@ export class EditarContratoComponent implements OnInit {
 
     private GetContrato(contratoId: number) {
 
-        this._http.get(`${this.baseUrl}/contrato/${contratoId}`)
+        this._admService.GetContrato(contratoId)
         .subscribe({
             next: (resp: any) => { 
                 this.contrato = Object.assign({}, resp['contrato'])
@@ -69,7 +71,7 @@ export class EditarContratoComponent implements OnInit {
             error: (error) => { 
                 this.showSpinnerSearch = false
 			}
-        })
+        })      
     }
     
     onSubmit(form: any) {
@@ -79,18 +81,17 @@ export class EditarContratoComponent implements OnInit {
         console.log(this.contrato)
 
         if (form.valid) {
-            this._http.put(`${this.baseUrl}/contrato`, this.contrato, {})
-                .subscribe(resp => {
 
-                }, (error) => { 
-                    //console.log(error) 
-                },
-                    () => {
-                        this.dialogRef.close({ clicked: "Ok" });
-                    })
+            this._admService.EditContrato(this.contrato)
+            .subscribe(resp => {
 
+            }, (error) => { 
+                //console.log(error) 
+            },
+                () => {
+                    this.dialogRef.close({ clicked: "Ok" });
+                })
         }
-
     }
 
     disabledButton(form: any) {

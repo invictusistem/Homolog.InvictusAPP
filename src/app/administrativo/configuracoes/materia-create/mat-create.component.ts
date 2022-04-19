@@ -7,6 +7,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { environment } from "src/environments/environment";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { Modalidade } from "src/app/_shared/models/perfil.model";
+import { AdmService } from "../../services/adm.service";
 
 @Component({
     selector: 'mat-createmodal',
@@ -28,7 +29,8 @@ export class MateriaTemplateComponent implements OnInit {
     public modalidade = Modalidade
     constructor(
         private _fb: FormBuilder,
-        private _http: HttpClient,
+        //private _http: HttpClient,
+        private _admService: AdmService,
         public dialogRef: MatDialogRef<MateriaTemplateComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.docForm = _fb.group({
@@ -42,24 +44,22 @@ export class MateriaTemplateComponent implements OnInit {
     }
 
     ngOnInit() {
-        const token:any = localStorage.getItem('jwt')
+        const token: any = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.getTypePacotes();
     }
 
     getTypePacotes() {
 
-        
-        this._http.get(`${this.baseUrl}/typepacote`)
-        .subscribe({
-            next: (resp: any) => { 
-                this.typesPacotes = Object.assign([], resp['typePacotes']);
-			},
-            error: (error) => { 
-			
-			}
-        })
-        
+        this._admService.GetTypePacotes()
+            .subscribe({
+                next: (resp: any) => {
+                    this.typesPacotes = Object.assign([], resp['typePacotes']);
+                },
+                error: (error) => {
+
+                }
+            })
     }
 
     onSubmit(form: FormGroup) {
@@ -67,7 +67,7 @@ export class MateriaTemplateComponent implements OnInit {
         if (form.valid) {
 
             this.progress = true
-            this._http.post(`${this.baseUrl}/materia-template`, this.docForm.value, {})
+            this._admService.SaveMateria(this.docForm.value)
                 .subscribe(response => {
 
                 }, (err) => {

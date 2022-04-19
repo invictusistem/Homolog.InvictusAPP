@@ -9,6 +9,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { environment } from "src/environments/environment";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
+import { AdmService } from "../../services/adm.service";
 
 @Component({
     selector: 'createplanopgmmodal',
@@ -35,7 +36,8 @@ export class PlanoPgmCreateComponent implements OnInit {
         private router: Router,
         private _helper: HelpersService,
         private _fb: FormBuilder,
-        private _http: HttpClient,
+        private _admService: AdmService,
+       // private _http: HttpClient,
         public dialogRef: MatDialogRef<PlanoPgmCreateComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.moduloForm = _fb.group({
@@ -60,7 +62,8 @@ export class PlanoPgmCreateComponent implements OnInit {
 
     private GetTypes() {
 
-        this._http.get(`${this.baseUrl}/typepacote`)
+
+        this._admService.GetTypePacotes()
         .subscribe({
             next: (resp: any) => { 
                 this.typePacotes = resp['typePacotes']
@@ -69,7 +72,7 @@ export class PlanoPgmCreateComponent implements OnInit {
             error: (error) => { 
 			//console.error(error) 
 			}
-        })
+        })       
     }
 
     getContratos(typePacoteId:any) {
@@ -78,8 +81,8 @@ export class PlanoPgmCreateComponent implements OnInit {
         this.initProgressBar = 'visible'
         this.disabledContrato = true
         this.contratos = new Array<any>();
-        
-        this._http.get(`${this.baseUrl}/contrato/type-pacote/${typePacoteId}`)
+
+        this._admService.GetContratosByTypePacote(typePacoteId)
         .subscribe({
             next: (resp: any) => { 
                 this.disabledContrato = false
@@ -89,8 +92,7 @@ export class PlanoPgmCreateComponent implements OnInit {
             error: (error) => { 
                 this.initProgressBar = 'hidden'
 			}
-        })
-
+        })  
     }
 
     get disabledSaveButton() {
@@ -108,15 +110,16 @@ export class PlanoPgmCreateComponent implements OnInit {
         if (this.moduloForm.valid) {
             this.saveSpinner = 'visible'
             this.disabledSpinner = true
-            this._http.post(`${this.baseUrl}/plano-pagamento`, form.value, {})
-                .subscribe(response => {
-                }, (err) => { 
-                   // console.log(err) 
-                },
-                    () => {
-                        this._helper.openSnackBarSucesso("Plano criado com sucesso.")
-                        this.dialogRef.close({ clicked: "Ok" });
-                    });
+
+            this._admService.SavePlano(form.value)
+            .subscribe(response => {
+            }, (err) => { 
+               // console.log(err) 
+            },
+                () => {
+                    this._helper.openSnackBarSucesso("Plano criado com sucesso.")
+                    this.dialogRef.close({ clicked: "Ok" });
+                });          
         }
     }
 }

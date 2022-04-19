@@ -25,7 +25,7 @@ export class ColaboradoresComponent extends BaseComponent implements OnInit {
     constructor(
         private _admService: AdmService,
         override _snackBar: MatSnackBar,
-        private _http: HttpClient,
+        //private _http: HttpClient,
         private _fb: FormBuilder,
         private _modal: MatDialog) {
 
@@ -117,10 +117,11 @@ export class ColaboradoresComponent extends BaseComponent implements OnInit {
 
             if (data.clicked == true) {
                 this.spinnerSearch = 'visible'
-                this._http.delete(`${this.baseUrl}/colaboradores/${colaboradorId}`)
-                    .subscribe(
-                        response => { },
-                        err => { this.spinnerSearch = 'hidden' })
+
+                this._admService.DeleteColaborador(colaboradorId)
+                .subscribe(
+                    response => { },
+                    err => { this.spinnerSearch = 'hidden' })
             }
         })
     }

@@ -1,9 +1,7 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClient } from "@angular/common/http";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { environment } from "src/environments/environment";
 import { AdmService } from "../../services/adm.service";
 import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 
@@ -16,15 +14,15 @@ import { BaseComponent } from "src/app/_shared/services/basecomponent.component"
 export class CreateColaboradoresComponent extends BaseComponent implements OnInit {
 
     mostrarModalPrincipal = true
-    
+
     public colaboradorForm: FormGroup;
     public validadeEmailMsg = false
     public validadeCPFMsg = false
     public disabledSpinner = false
     public showContent = false
     public disabledSaveButton = 'hidden'
-    
-    showForm = false
+
+    //showForm = false
     cargos: any[] = new Array<any>()
     mensagem = "";
     public showMensagem = 'hidden'
@@ -34,9 +32,8 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
         override _snackBar: MatSnackBar,
         private _admService: AdmService,
         private _fb: FormBuilder,
-        private http: HttpClient,
         public dialogRef: MatDialogRef<CreateColaboradoresComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any) {        
+        @Inject(MAT_DIALOG_DATA) public data: any) {
 
         super(_snackBar);
 
@@ -57,14 +54,13 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
 
         })
     }
-    ngOnInit() {        
+    ngOnInit() {
         this.getCargos();
     }
 
-
     getCargos() {
 
-        this.http.get(`${this.baseUrl}/parametro/value/Cargo`)
+        this._admService.GetConfig('CARGOS')
             .subscribe({
                 next: (response: any) => {
                     this.cargos = Object.assign([], response['values'])
@@ -75,9 +71,7 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
                     this.showForm = true
                     this.funcaoTestar()
                 },
-                error: (error) => {
-                    
-                }
+                error: (error) => { }
             })
     }
 
@@ -88,22 +82,22 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
             this.disabledSpinner = true
 
             this.disabledSaveButton = 'visible'
-            this.http.post(`${this.baseUrl}/colaboradores`, this.colaboradorForm.value, {
-            }).subscribe(response => {
-            }, (err) => {
-                if (err['status'] == 409) {
-                    this.msgErros = err['error'].msg
-                    this.showMensagem = 'visible'
-                    this.disabledSaveButton = 'hidden'
-                } else {
-                    this.dialogRef.close({ clicked: "Ok" });
-                }
-            },
-                () => {
-                    this.openSnackBarSucesso('Colaborador salvo com sucesso')
-                    this.dialogRef.close({ clicked: "Ok" });
-                    this.disabledSaveButton = 'hidden'
-                });
+            this._admService.SaveColaborador(this.colaboradorForm.value)
+                .subscribe(response => {
+                }, (err) => {
+                    if (err['status'] == 409) {
+                        this.msgErros = err['error'].msg
+                        this.showMensagem = 'visible'
+                        this.disabledSaveButton = 'hidden'
+                    } else {
+                        this.dialogRef.close({ clicked: "Ok" });
+                    }
+                },
+                    () => {
+                        this.openSnackBarSucesso('Colaborador salvo com sucesso')
+                        this.dialogRef.close({ clicked: "Ok" });
+                        this.disabledSaveButton = 'hidden'
+                    });
         }
     }
 
@@ -117,7 +111,7 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
 
     showEndereco = 'hidden'
     consultaCEP(CEP: string) {
-       
+
         if (this.colaboradorForm.get('cep')?.valid) {
 
             this._admService.CepConsulta(this.colaboradorForm.get('cep')?.value)
