@@ -8,31 +8,33 @@ import { AdmService } from "src/app/administrativo/services/adm.service";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { TokenInfos } from "src/app/_shared/models/token.model";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 import { PedagogicoService } from "../../services/pedagogico.service";
 
 @Component({
     selector: "estagiocadastro-app",
     templateUrl: './estagiocadastro.component.html',
-    styleUrls: ['./estagiocadastro.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./estagiocadastro.component.scss']
 })
 
-export class EstagioCadastroComponent implements OnInit {
-
-    private jwtHelper = new JwtHelperService();
-    tokenInfo: TokenInfos = new TokenInfos();
-    public disabledSaveButton = 'hidden'
+export class EstagioCadastroComponent extends BaseComponent implements OnInit {
+   
     public styleVisibilityEndereco = 'hidden'
+    public msgNotFound = 'hidden'
     public estagioForm: FormGroup
+    public estagioTipos: any[] = new Array<any>();
 
     constructor(
         private _helper: HelpersService,
         private _admService: AdmService,
+        override _snackBar: MatSnackBar,
         private _pedagService: PedagogicoService,
         private _fb: FormBuilder,
         public dialogRef: MatDialogRef<EstagioCadastroComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
+        super(_snackBar)
+
         this.estagioForm = _fb.group({
             nome: ["", [Validators.required]],
             dataInicio: ["", [Validators.required]],
@@ -45,6 +47,7 @@ export class EstagioCadastroComponent implements OnInit {
             cidade: ['', [Validators.required, Validators.minLength(1)]],
             uf: ['', [Validators.required, Validators.minLength(2)]],
             bairro: ['', [Validators.required, Validators.minLength(1)]],
+            tipoEstagio:['', [Validators.required]],
             ativo: [true]
         })
 
@@ -52,11 +55,46 @@ export class EstagioCadastroComponent implements OnInit {
 
 
     ngOnInit() {
-
-
-        const token: any = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token)
+        this.GetEstagioTipos()
     }
+
+    public GetEstagioTipos() {
+        this.showMessageNotFound = false
+        this._pedagService.GetEstagioTipos()
+          .subscribe(
+            sucesso => { this.GetEstagiosSucesso(sucesso) },
+            erro => { this.GetEstagiosFalha(erro) },
+          )
+      }
+    
+      private GetEstagiosSucesso(response: any) {
+        
+        this.initProgressBar = 'hidden'
+        this.estagioTipos = response['tipos']
+        this.length = this.estagioTipos.length
+        this.initProgressBar = 'hidden'
+        this.showForm = true
+        this.dialogRef.addPanelClass('my-estagio-create-class')
+      }
+    
+      private GetEstagiosFalha(erro: any) {
+    
+        this.initProgressBar = 'hidden'
+        this.showForm = false
+        //this.dialogRef.addPanelClass('my-estagio-create-class')
+    
+        if (erro['status'] == 404) {
+          this.mensagemNotFound = "Não há tipos cadastrados. Favor, cadastrar um tipo para poder cadastrar um estágio."
+          this.msgNotFound = 'visible'
+        }
+        if (erro['status'] != 404) {
+          this.mensagemNotFound = "Ocorreu um erro desconhecido, por favor, procure o administrador do sistema"
+        }
+        //this.spinnerSearch = 'hidden'
+        this.showMessageNotFound = true
+        //this.msgNotFound = 'visible'
+      }
+
 
 
     consultaCEP(CEP: string) {

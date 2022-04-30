@@ -11,7 +11,16 @@
 
 export function CreateEstagioModalConfig(data?:any) {
     return {        
-        height: '520px',
+        //height: '520px',
+        width: '700px',        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function EstagioTipoModalConfig(data?:any) {
+    return {        
+        //height: '600px',
         width: '700px',        
         hasBackdrop: true,
         disableClose: true
@@ -27,8 +36,35 @@ export function EditEstagioModalConfig(estagio:any) {
     }
 }
 
-// estagiodocs
+// estagio-controle
 
+export function EstagioMatriculaModalConfig(aluno:any) {
+    return {               
+        width: '700px',  
+        data: { aluno: aluno },        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function MatriculaLiberarModalConfig(info:any) {
+    return {               
+        width: '550px',  
+        data: { info: info },        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function DocumentacaoModalConfig(aluno:any) {
+    return {       
+        //height: '600px',        
+        width: '1100px',  
+        data: { aluno: aluno },        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
 
 // matricula
 

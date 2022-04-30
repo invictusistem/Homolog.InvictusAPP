@@ -4,11 +4,12 @@ import { MatDialog } from "@angular/material/dialog";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { TokenInfos } from "src/app/_shared/models/token.model";
-import { CreateEstagioModalConfig, EditEstagioModalConfig } from "../services/pedag-modal";
+import { CreateEstagioModalConfig, EditEstagioModalConfig, EstagioTipoModalConfig } from "../services/pedag-modal";
 import { PedagogicoService } from "../services/pedagogico.service";
 import { EstagioCadastroComponent } from "./create/estagiocadastro.component";
 import { EstagioEditComponent } from "./edit/estagio-edit.component";
 import { EstagioAlunosComponent } from "./estagio-alunos/estagio-alunos.component";
+import { EstagioTipoComponent } from "./tipos/estagio-tipo.component";
 
 @Component({
     selector: "estagio-app",
@@ -94,6 +95,17 @@ export class EstagioComponent implements OnInit {
             .open(EstagioCadastroComponent, CreateEstagioModalConfig());
         dialogRef.afterClosed().subscribe(data => {
             if (data.clicked == true) this.GetEstagios()
+            
+        });
+    }
+
+    public EstagioTipo(): void{
+        const dialogRef = this._modal
+            .open(EstagioTipoComponent, EstagioTipoModalConfig());
+        dialogRef.afterClosed().subscribe(data => {
+            if (data.clicked == true){
+
+            } 
             
         });
     }

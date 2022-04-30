@@ -12,6 +12,9 @@ import { ProfessoresComponent } from './administrativo/professores/professores.c
 import { AdmTurmasComponent } from './administrativo/turmas/administrativo-turma.component';
 import { UnidadesComponent } from './administrativo/unidades/unidades.component';
 import { UsuarioComponent } from './administrativo/usuarios/usuario.component';
+import { AlunoSiaComponent } from './aluno/aluno.component';
+import { EstagioSiaComponent } from './aluno/estagio/estagio-sia.component';
+import { ComercialComponent } from './comercial/comercial.component';
 import { AlunoFinancComponent } from './financeiro/alunos/alunos-financeiro.component';
 import { FinCaixaComponent } from './financeiro/caixa/fincaixa.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
@@ -42,17 +45,17 @@ const routes: Routes = [
   {
     path: 'adm', component: AdmComponent, canActivate: [AuthGuard],
     children: [
-      { path: 'admcursos', component: AdmTurmasComponent, canActivate: [AuthGuard] }, 
+      { path: 'admcursos', component: AdmTurmasComponent, canActivate: [AuthGuard] },
       { path: 'usuarios', component: UsuarioComponent, canActivate: [AuthGuard] },
       { path: 'unidades', component: UnidadesComponent, canActivate: [AuthGuard] },
       { path: 'professores', component: ProfessoresComponent, canActivate: [AuthGuard] },
       { path: 'produtos', component: ProdutosComponent, canActivate: [AuthGuard] },
-      { path: 'contrato', component:ContratoComponent, canActivate: [AuthGuard] },
-      { path: 'bolsas', component:BolsasComponent, canActivate: [AuthGuard] },
+      { path: 'contrato', component: ContratoComponent, canActivate: [AuthGuard] },
+      { path: 'bolsas', component: BolsasComponent, canActivate: [AuthGuard] },
       { path: 'colaboradores', component: ColaboradoresComponent, canActivate: [AuthGuard] },
-      { path: 'modulo', component:ModuloComponent, canActivate: [AuthGuard] },
+      { path: 'modulo', component: ModuloComponent, canActivate: [AuthGuard] },
       { path: 'config', component: ConfiguracoesComponent, canActivate: [AuthGuard] },
-      { path: 'planopgm', component:PlanoPgmComponent, canActivate: [AuthGuard] },
+      { path: 'planopgm', component: PlanoPgmComponent, canActivate: [AuthGuard] },
     ]
   },
   {
@@ -60,7 +63,7 @@ const routes: Routes = [
     children: [
       { path: 'matricula', component: MatriculaCadastroComponent, canActivate: [AuthGuard] }
     ]
-  }, 
+  },
   {
     path: 'pedag', component: PedagogicoComponent, canActivate: [AuthGuard],
     children: [
@@ -70,11 +73,18 @@ const routes: Routes = [
       { path: 'turmas', component: TurmasComponent, canActivate: [AuthGuard] },
       // { path: 'pedagrel', component: PedagRelatorioComponent, canActivate: [AuthGuard] },
       { path: 'estagio', component: EstagioComponent, canActivate: [AuthGuard] },
-      { path: 'turmasinfo', component:  PedagogicoturmaComponent, canActivate: [AuthGuard] },
+      { path: 'turmasinfo', component: PedagogicoturmaComponent, canActivate: [AuthGuard] },
       // { path: 'reposicoes', component:  ReposicoesComponent, canActivate: [AuthGuard] },
-      { path: 'analisedocs', component:  DocsAnaliseComponent, canActivate: [AuthGuard] },
-      { path: 'estagiosdoc', component:  EstagioControleComponent, canActivate: [AuthGuard] },
-      { path: 'alunoacesso', component:  AlunoAcessoComponent, canActivate: [AuthGuard] }
+      { path: 'analisedocs', component: DocsAnaliseComponent, canActivate: [AuthGuard] },
+      { path: 'estagiosdoc', component: EstagioControleComponent, canActivate: [AuthGuard] },
+      { path: 'alunoacesso', component: AlunoAcessoComponent, canActivate: [AuthGuard] }
+    ]
+  },
+  {
+    path: 'comercial', component: ComercialComponent, canActivate: [AuthGuard],
+    children: [
+      //  { path: 'addlead', component: AddLeadComponent, canActivate: [AuthGuard] },
+      // { path: 'leads', component: LeadsComponent, canActivate: [AuthGuard] }
     ]
   },
   {
@@ -86,6 +96,13 @@ const routes: Routes = [
       { path: 'fincaixa', component: FinCaixaComponent, canActivate: [AuthGuard] },
       { path: 'fornecedor', component: FornecedoresComponent, canActivate: [AuthGuard] }
       // { path: 'relatorio', component: FinRelatorioComponent, canActivate: [AuthGuard] }
+    ]
+  },
+  {
+    path: 'aluno-sia', component: AlunoSiaComponent, canActivate: [AuthGuard],
+    children: [
+      { path: 'estagio-sia', component: EstagioSiaComponent, canActivate: [AuthGuard] }
+      // { path: 'alunodocs', component: AlunoDocsComponent, canActivate: [AuthGuard] }
     ]
   },
   {

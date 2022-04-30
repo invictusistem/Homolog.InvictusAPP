@@ -32,6 +32,11 @@ import { CalendPresencaComponent } from "./turmas/turma-calendario/presenca/cal-
 import { TurmaDetalheModal } from "./turmas/turma-calendario/turma-detalhe/turma-detalhe.component";
 import { DocsAnaliseComponent } from './docs-analise/docs-analise.component';
 import { EstagioControleComponent } from './estagios-controle/estagio-controle.component';
+import { EstagioTipoComponent } from './estagios/tipos/estagio-tipo.component';
+import { TipoCreateComponent } from "./estagios/tipos/create/tipo-create.component";
+import { EstagioMatriculaComponent } from './estagios-controle/matricula/estagio-matricula.component';
+import { MatriculaLiberarComponent } from './estagios-controle/matricula/liberar/matricula-liberar.component';
+import { EstagioDocumentacaoComponent } from './estagios-controle/documentacao/estagio-documentacao.component';
 
 @NgModule({
     declarations: [
@@ -61,8 +66,13 @@ import { EstagioControleComponent } from './estagios-controle/estagio-controle.c
         EstagioAlunosComponent,
         EstagioEditComponent,
         EstagioCadastroComponent,
+        EstagioTipoComponent,
+        TipoCreateComponent,  
         // Estagios Controle
         EstagioControleComponent,
+        EstagioMatriculaComponent,
+        MatriculaLiberarComponent,
+        EstagioDocumentacaoComponent,
         // Transferencia
         TransferenciaComponent,
         // Turmas
@@ -74,7 +84,11 @@ import { EstagioControleComponent } from './estagios-controle/estagio-controle.c
         AulaEditarModal,
         AulaDetalheModal,
         TurmasInfoAlunosPedagComponent,
-        TurmaNotasComponent        
+        TurmaNotasComponent,
+        EstagioMatriculaComponent,
+        MatriculaLiberarComponent,
+        EstagioDocumentacaoComponent
+             
     ],
     imports: [
         SharedModule,
@@ -122,6 +136,12 @@ import { EstagioControleComponent } from './estagios-controle/estagio-controle.c
         EstagioAlunosComponent,
         EstagioEditComponent,
         EstagioCadastroComponent,
+        EstagioTipoComponent,
+        TipoCreateComponent,
+        // Estagios Controle
+        EstagioMatriculaComponent,
+        MatriculaLiberarComponent,
+        EstagioDocumentacaoComponent,
         // Turmas
         CalendarioTurmaComponent,
         TurmaDetalheModal,

@@ -27,6 +27,19 @@ export class PedagogicoService extends BaseService {
             return response;
     }
 
+    public GetEstagioTipos() : Observable<any> {  
+
+        let path = `/estagio/tipos`
+        
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
     public GetEstagio(estagioId:any) : Observable<any> {  
 
         let path = `/estagio/${estagioId}`
@@ -53,6 +66,19 @@ export class PedagogicoService extends BaseService {
             return response;
     }
 
+    public AddEstagioTipo(estagioTipo:any): Observable<any>{
+
+        let path = `/estagio/tipos`
+       // console.log(estagio)
+        let response = this.http
+            .post(this.BaseUrl + path, estagioTipo, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
     public EditEstagio(estagio:any): Observable<any>{
 
         let path = `/estagio`
@@ -66,13 +92,52 @@ export class PedagogicoService extends BaseService {
             return response;
     }
 
-    // EstagiosDocs
+    // Estagios-Controle
 
     public GetAlunosEstagio(pageSize?: number, currentPage?: number, jsonParam?: any) : Observable<any> {       
 
         var formJson = JSON.stringify(jsonParam)
 
         let path = `/estagio/alunos/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson=${formJson}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public GetEstagiosLiberados(matriculaId: any) : Observable<any> {       
+
+        let path = `/estagio/aluno/tipos-liberados/${matriculaId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public LiberarMatricula(liberarEstagioCommand:any): Observable<any>{
+
+        let path = `/estagio/matricular`
+       // console.log(estagio)
+        let response = this.http
+            .post(this.BaseUrl + path, liberarEstagioCommand, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+            
+            return response;
+    }
+
+    public GetDocumentacaoAlunoEstagio(matriculaId: any): Observable<any> {       
+
+        let path = `/estagio/aluno/${matriculaId}/documentos-estagio`
 
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())

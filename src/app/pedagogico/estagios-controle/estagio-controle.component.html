@@ -1,83 +1,5 @@
-<!--
-<div class="container">
-    <br>
-    <div @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
-                position: relative;
-                margin-top: 20px;
-                box-shadow: 0 0 1em rgb(172, 170, 170);
-                background-color: rgb(227, 240, 227);">
-        <div class="card-header">
-            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
-                Estágio/Documentações (Curso Técnico em Enfermagem)</h4>
-            <p class="card-category">Documentações pendente de análise: </p>
-        </div>
-        <div class="card-body">
+<div class="container" style="width: 95%;padding-top: 20px; ">
 
-
-
-            <div *ngFor="let aluno of docsViewModel" style="margin-bottom: 10px;">
-
-                <div style="font-size: 1.2em;margin-bottom: 10px;">
-                    <mat-icon style="vertical-align: middle; 
-                    margin: 0px; margin: 0px;">portrait</mat-icon>
-                    {{aluno.nome}}, CPF {{aluno.cpf}}, TODO: Turma x
-                </div>
-
-                <div *ngFor="let doc of aluno.documentos">
-
-
-                    <span style="font-size: 1.2em;">
-                        <mat-icon (click)="exportar(doc)" type="button" style="vertical-align: middle; 
-                        margin: 0px; margin-bottom: 5px;">save_alt</mat-icon>
-                        {{doc.nome}} ({{doc.descricao}})
-                    </span>
-
-
-                    <span *ngIf="doc.analisado;else analisar">
-
-                        <mat-icon [style.color]="doc.validado? 'green':'red'" style="vertical-align: middle; 
-                        margin: 0px;color: green; margin-bottom: 5px;">
-                            {{doc.validado? 'done' : 'close'}}
-                        </mat-icon>
-
-
-                    </span>
-
-                    <ng-template #analisar>
-                        <button style="" class="analisar" mat-button [matMenuTriggerFor]="menu">
-                            analisar
-                        </button>
-                        <mat-menu #menu="matMenu">
-                            <button (click)="aprovar(aluno,doc)" mat-menu-item>
-                                <mat-icon style="vertical-align: middle; 
-                        margin: 0px;color: green; margin-bottom: 5px;">
-                                    done
-                                </mat-icon>
-                                aprovar
-                            </button>
-                            <button (click)="reprovar(aluno,doc)" mat-menu-item>
-                                <mat-icon style="vertical-align: middle; 
-                        margin: 0px;color: red; margin-bottom: 5px;">
-                                    close
-                                </mat-icon>
-                                reprovar
-                            </button>
-                        </mat-menu>
-                    </ng-template>
-                    <br>
-                </div>
-                <hr>
-            </div>
-        </div>
-    </div>
-</div>
--->
-
-
-<div class="container" style="width: 95%;padding-top: 20px; ">  
-
-
-    
     <br>
 
     <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm"
@@ -123,11 +45,11 @@
 
     </form>
 
-    <div class="card-header card-msg-response" unselectable="on"
-     *ngIf="showMessageNoAluno">{{mensagem}}</div>
+    <div class="card-header card-msg-response" unselectable="on" *ngIf="showMessageNoAluno">{{mensagem}}</div>
 
-<mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px" mode="query">
-</mat-progress-bar>
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px"
+        mode="query">
+    </mat-progress-bar>
 
 
     <div *ngIf="listAlunos.length > 0" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
@@ -142,7 +64,7 @@
         <div class="card-body">
             <div class="table-responsive" style="height: 380px;position: relative;">
                 <table @rowHighlight color="primary" style="margin-bottom: 0px;" class="table">
-                   
+
                     <thead>
                         <tr>
                             <th style="width: 2%; 
@@ -182,7 +104,7 @@
                 vertical-align: middle;
                 border-top: 0px; font-weight: 400;"></th>
 
-                            
+
                         </tr>
                     </thead>
                     <tbody>
@@ -192,21 +114,22 @@
 
                             <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
 
-                            <td style="text-align:center;vertical-align: middle;">{{item.numeroMatricula || 'sem estágio'}}</td>
-                           
+                            <td style="text-align:center;vertical-align: middle;">{{item.numeroMatricula ||
+                                'sem estágio'}}</td>
 
-                            <td style="text-align: center;vertical-align: middle;">{{item.cpf}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.cpf | cpf}}</td>
 
                             <td style="text-align: center;vertical-align: middle;">{{item.sigla}}</td>
 
                             <td style="text-align: center;vertical-align: middle;">{{item.ativo ? 'sim' : 'não'}}</td>
 
                             <td style="text-align: center;vertical-align: middle;">
-                            
 
-                                <ng-container *ngIf="item.numeroMatricula != null;else semMat">
 
-                                    <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                  <!-- <ng-container *ngIf="item.status == null;else semMat">
+
+                                  <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
                                         matTooltip="informações financeiras" matTooltipPosition="above"
                                         matTooltipHideDelay="100">
                                         <button (click)="openInfoFinancModal(item)" 
@@ -244,34 +167,143 @@
                                             mat-icon-button>
                                             <mat-icon>school</mat-icon>
                                         </button>
-                                    </i> -->
+                                    </i> 
 
-                                </ng-container>
+                                </ng-container>-->
 
-                                <ng-template #semMat>
-                                    <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
-                                        matTooltip="informações cadastrais" matTooltipPosition="above"
-                                        matTooltipHideDelay="100">
-                                        <button (click)="viewInfoCadastrais(item)"
-                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                                            mat-icon-button>
-                                            <mat-icon>search</mat-icon>
-                                        </button>
+                               <!-- <ng-template #semMat>
 
-                                    </i>
+                                    <ng-container *ngIf="item.status == null;else aguardando">
 
-                                    <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
-                                        matTooltip="liberar matrícula para estágio" matTooltipPosition="above"
-                                        matTooltipHideDelay="100">
-                                        <button (click)="matricular(item)" [disabled]="true"
-                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                                            mat-icon-button>
-                                            <mat-icon>read_more</mat-icon>
-                                        </button>
-                                    </i>
-                                </ng-template>
+                                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                            matTooltip="informações cadastrais" matTooltipPosition="above"
+                                            matTooltipHideDelay="100">
+                                            <button (click)="OpenInfoModal(item)"
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon>info</mat-icon>
+                                            </button>
+
+                                        </i>
+
+                                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                            matTooltip="liberar matrícula para estágio" matTooltipPosition="above"
+                                            matTooltipHideDelay="100">
+                                            <button (click)="matricular(item)"
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon>read_more</mat-icon>
+                                            </button>
+                                        </i>
+
+                                    </ng-container>
+
+                                    <ng-template #aguardando>
+
+                                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                            matTooltip="informações cadastrais" matTooltipPosition="above"
+                                            matTooltipHideDelay="100">
+                                            <button (click)="OpenInfoModal(item)"
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon>info</mat-icon>
+                                            </button>
+
+                                        </i>
+
+                                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                            matTooltip="liberar matrícula para estágio" matTooltipPosition="above"
+                                            matTooltipHideDelay="100">
+                                            <button (click)="matricular(item)"
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon>read_more</mat-icon>
+                                            </button>
+                                        </i>
+
+                                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                            matTooltip="analisar documentação" matTooltipPosition="above"
+                                            matTooltipHideDelay="100">
+                                            <button
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon>warning</mat-icon>
+                                            </button>
+                                        </i>
 
 
+                                    </ng-template>
+
+                                </ng-template>-->
+
+                                <container-element [ngSwitch]="item.status">
+
+                                    <ng-container *ngSwitchCase="null">
+
+                                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                            matTooltip="informações cadastrais" matTooltipPosition="above"
+                                            matTooltipHideDelay="100">
+                                            <button (click)="OpenInfoModal(item)"
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon>info</mat-icon>
+                                            </button>
+
+                                        </i>
+
+                                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                            matTooltip="liberar matrícula para estágio" matTooltipPosition="above"
+                                            matTooltipHideDelay="100">
+                                            <button (click)="matricular(item)"
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon>read_more</mat-icon>
+                                            </button>
+                                        </i>
+
+                                    </ng-container>
+
+                                    <ng-container *ngSwitchCase="'Aguardando envio/análise documental'">
+
+                                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                            matTooltip="informações cadastrais" matTooltipPosition="above"
+                                            matTooltipHideDelay="100">
+                                            <button (click)="OpenInfoModal(item)"
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon>info</mat-icon>
+                                            </button>
+
+                                        </i>
+
+                                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                            matTooltip="liberar matrícula para estágio" matTooltipPosition="above"
+                                            matTooltipHideDelay="100">
+                                            <button (click)="matricular(item)"
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon >read_more</mat-icon>
+                                            </button>
+                                        </i>
+
+                                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                            matTooltip="documentação/pendência" matTooltipPosition="above"
+                                            matTooltipHideDelay="100">
+                                            <button (click)="Documentacao(item)"
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon style="color:rgb(138, 23, 23)">warning</mat-icon>
+                                            </button>
+                                        </i>
+                                    </ng-container>
+                                    <!-- <ng-container *ngSwitchCase="match_expression_3">...</ng-container>
+                                  <ng-container *ngSwitchCase="match_expression_3">
+                                       use a ng-container to group multiple root nodes 
+                                      <inner-element></inner-element>
+                                      <inner-other-element></inner-other-element>
+                                    </ng-container>-->
+                                    <ng-container *ngSwitchDefault>matreiculado</ng-container>
+                                </container-element>
 
                             </td>
                         </tr>
@@ -286,18 +318,12 @@
 
 
             </div>
-            <mat-paginator *ngIf="length > 5"
-            style=" 
+            <mat-paginator *ngIf="length > 5" style=" 
             background-color: rgb(227, 240, 227);
             bottom: 0px;
-            right: 0px;" 
-            
-            [length]="length" 
-            [pageSize]="pageSize" hidePageSize="true"
-            (page)="pageEvent = Pesquisar($event)" 
-            
-            >
-          </mat-paginator>
+            right: 0px;" [length]="length" [pageSize]="pageSize" hidePageSize="true"
+                (page)="pageEvent = Pesquisar($event)">
+            </mat-paginator>
 
         </div>
     </div>

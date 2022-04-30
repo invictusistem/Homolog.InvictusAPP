@@ -8,25 +8,23 @@ import { AdmService } from "src/app/administrativo/services/adm.service";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { TokenInfos } from "src/app/_shared/models/token.model";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 import { PedagogicoService } from "../../services/pedagogico.service";
 
 @Component({
     selector: "estagioedit-app",
     templateUrl: './estagio-edit.component.html',
-    styleUrls: ['./estagio-edit.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./estagio-edit.component.scss']
 })
 
-export class EstagioEditComponent implements OnInit {
+export class EstagioEditComponent extends BaseComponent implements OnInit {
 
     //baseUrl = environment.baseUrl;
-    private jwtHelper = new JwtHelperService();
-    tokenInfo: TokenInfos = new TokenInfos();
-    //public cepReturn: CepReturn = new CepReturn();
-    public initProgressBar = 'visible'
+   
     public saveBar = 'hidden'
     private originalEstagio: any
     public estagioForm: FormGroup
+    public tipoEstagio: any[]= new Array<any>()
     //public estagio: any;
     //public showForm = false;
 
@@ -34,6 +32,7 @@ export class EstagioEditComponent implements OnInit {
         //private _snackBar: MatSnackBar,
         //private CreateMatriculaModal: MatDialog,
         private _pedagService: PedagogicoService,
+        override _snackBar: MatSnackBar,
         private _helper: HelpersService,
         private _admService: AdmService,
         private _fb: FormBuilder,
@@ -43,6 +42,7 @@ export class EstagioEditComponent implements OnInit {
         //private CreateColaboradoresModal: MatDialog,
         //private EditColaboradoresModal: MatDialog
     ) {
+        super(_snackBar)
         this.estagioForm = _fb.group({
             id:[''],
             nome: ["", [Validators.required]],
@@ -56,6 +56,7 @@ export class EstagioEditComponent implements OnInit {
             cidade: ['', [Validators.required, Validators.minLength(1)]],
             uf: ['', [Validators.required, Validators.minLength(2)]],
             bairro: ['', [Validators.required, Validators.minLength(1)]],
+            tipoEstagio:['', [Validators.required]],
             ativo: [true]
         })
     }
@@ -63,9 +64,6 @@ export class EstagioEditComponent implements OnInit {
 
     ngOnInit() {
 
-        const token: any = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token)
-        
         this.GetEstagio();
     }
 
@@ -82,6 +80,7 @@ export class EstagioEditComponent implements OnInit {
         
         this.estagioForm.patchValue(response['estagio']);
         this.originalEstagio = JSON.parse(JSON.stringify(this.estagioForm.value))
+        this.tipoEstagio = response['tipos']
         this.dialogRef.addPanelClass('myestagioedit-class')
         this.initProgressBar = 'hidden'
     }

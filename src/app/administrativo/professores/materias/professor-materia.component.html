@@ -107,7 +107,10 @@
                     *ngIf="profMaterias.length > 5"
                     style="                       
                         bottom: 0px;
-                        right: 0px;" [length]="length" [pageSize]="pageSize" hidePageSize="true"
+                        right: 0px;" 
+                        [length]="length" 
+                        [pageSize]="pageSize" 
+                        hidePageSize="true"
                         (page)="pageEvent = changePage($event)">
                     </mat-paginator>
                 </div>

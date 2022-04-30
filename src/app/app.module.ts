@@ -11,6 +11,8 @@ import { AdmModule } from './administrativo/administrativo.module';
 import { FinanceiroModule } from './financeiro/financeiro.module';
 import { MatriculaModule } from './matricula/matricula.module';
 import { PedagogicoModule } from './pedagogico/pedagogico.module';
+import { ComercialModule } from './comercial/comercial.module';
+import { AlunoModule } from './aluno/aluno.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { PedagogicoModule } from './pedagogico/pedagogico.module';
     AdmModule,
     MatriculaModule,
     PedagogicoModule,
-    FinanceiroModule
+    ComercialModule,
+    FinanceiroModule,
+    AlunoModule
   ],
   providers: [],
   entryComponents: [

@@ -81,7 +81,15 @@
             <!-- <mat-hint>nº vagas</mat-hint> -->
         </mat-form-field>
 
-
+        <mat-form-field appearance="standard" style="width: 40%;margin-left: 5%;">
+            <mat-label>Estágio/Tipo</mat-label>
+            <mat-select formControlName="tipoEstagio" selected required>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let tipo of tipoEstagio" 
+                [value]="tipo.id">{{tipo.nome}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
 
 

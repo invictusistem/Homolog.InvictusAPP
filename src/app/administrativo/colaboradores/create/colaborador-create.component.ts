@@ -20,7 +20,7 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
     public validadeCPFMsg = false
     public disabledSpinner = false
     public showContent = false
-    public disabledSaveButton = 'hidden'
+    //public disabledSaveButton = 'hidden'
 
     //showForm = false
     cargos: any[] = new Array<any>()

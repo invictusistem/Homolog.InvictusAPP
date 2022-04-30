@@ -8,12 +8,13 @@
 
 </div>
 
-<!-- <div style="font-size: 0.8em;margin-top: 5px;">* O Estágio estará disponível para a unidade de {{tokenInfo.Unidade}}
-</div> -->
-<hr>
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight
+    mode="query"></mat-progress-bar>
+<div [style.visibility]="msgNotFound">{{mensagemNotFound}}</div>
 
-<div>
 
+<div *ngIf="showForm">
+    <hr>
     <form novalidate [formGroup]="estagioForm" (ngSubmit)="Salvar(estagioForm)">
 
 
@@ -78,7 +79,15 @@
             <!-- <mat-hint>nº vagas</mat-hint> -->
         </mat-form-field>
 
-
+        <mat-form-field appearance="standard" style="width: 40%;margin-left: 5%;">
+            <mat-label>Estágio/Tipo</mat-label>
+            <mat-select formControlName="tipoEstagio" selected required>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let tipo of estagioTipos" 
+                [value]="tipo.id">{{tipo.nome}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
 
 

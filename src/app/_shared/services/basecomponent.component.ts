@@ -37,6 +37,7 @@ export class BaseComponent {
     // Variables
     public showMessageNotFound = false
     public mensagemNotFound: string = "";
+    public disabledSaveButton = 'hidden'
 
     // handelr!: HttpHandler
     // client = new HttpClient(this.handelr)

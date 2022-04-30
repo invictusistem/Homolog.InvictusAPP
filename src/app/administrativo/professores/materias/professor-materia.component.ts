@@ -99,11 +99,11 @@ export class ProfMateriasComponent implements OnInit {
     //   }
 
     ngOnInit() {
-        const token:any = localStorage.getItem('jwt')
+        const token: any = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
         //this.dialogRef.removePanelClass('my-class')
         //this.dialogRef.addPanelClass('my-class')
-       // console.log(this.data['prof'])
+        // console.log(this.data['prof'])
         this.GetInfos()
 
 
@@ -119,20 +119,20 @@ export class ProfMateriasComponent implements OnInit {
                 this.disponibilidades = resp['disponibilidades']
                 this.length = this.profMaterias.length
             },
-                (error) => { 
+                (error) => {
                     this.editAndSaveBar = 'hidden'
                     this.showDeleteSpinner = false
                 },
                 () => {
-                   // console.log(this.disponibilidades)
-                   this.editAndSaveBar = 'hidden'
-                   this.initProgressBar = 'hidden'
-                   this.dialogRef.addPanelClass('myprofmateria-class')
+                    // console.log(this.disponibilidades)
+                    this.editAndSaveBar = 'hidden'
+                    this.initProgressBar = 'hidden'
+                    this.dialogRef.addPanelClass('myprofmateria-class')
                     this.showDeleteSpinner = false
                     this.mostrarModalPrincipal = false
 
                     this.disabledDelete = false
-                    
+
                     this.showForm = true
                 })
 
@@ -181,7 +181,7 @@ export class ProfMateriasComponent implements OnInit {
     adicionar() {
 
         var mat = this.profMaterias.find(element => element.pacoteMateriaId == this.materiaForm.get('materiaId')?.value)
-       // console.log(mat)
+        // console.log(mat)
 
         if (mat == undefined) {
             this._http.post(`${this.baseUrl}/professor/materia/${this.data['prof'].id}/${this.materiaForm.get('materiaId')?.value}`, {})
@@ -196,7 +196,7 @@ export class ProfMateriasComponent implements OnInit {
     }
 
     adicionarUnidade() {
-      //  console.log()
+        //  console.log()
     }
 
 
@@ -209,7 +209,7 @@ export class ProfMateriasComponent implements OnInit {
                 //  this.unidades = resp['unidades']
                 // this.typePacotes = resp['typePacotes']
             },
-                (error) => { 
+                (error) => {
                     this.editAndSaveBar = 'hidden'
                 },
                 () => {
@@ -229,7 +229,7 @@ export class ProfMateriasComponent implements OnInit {
                 this.profMaterias = resp['profMaterias']
                 this.length = this.profMaterias.length
             },
-                (error) => { 
+                (error) => {
                     this.editAndSaveBar = 'hidden'
                     this.showDeleteSpinner = false
                 },
@@ -258,7 +258,7 @@ export class ProfMateriasComponent implements OnInit {
             if (data.clicked === "Ok") {
 
                 //this.atualizarUnidadesDisponiveis();
-                
+
                 this.GetInfos()
                 //  this.getColaboradores(1, this.pageSize);
             } else if (data.clicked === "Cancel") {
@@ -267,10 +267,10 @@ export class ProfMateriasComponent implements OnInit {
         });
     }
 
-    showDeleteSpinner=false
-    get disableDeleteButton(){
+    showDeleteSpinner = false
+    get disableDeleteButton() {
 
-        if(this.showDeleteSpinner) return true
+        if (this.showDeleteSpinner) return true
 
 
         return false
@@ -303,8 +303,8 @@ export class ProfMateriasComponent implements OnInit {
 
 
 
-    changePage(event?:any) {
-       // console.log(event.pageIndex)
+    changePage(event?: any) {
+        // console.log(event.pageIndex)
         this.pageIndex = event.pageIndex
 
         return event

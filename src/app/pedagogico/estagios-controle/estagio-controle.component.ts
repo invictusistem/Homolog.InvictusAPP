@@ -3,7 +3,11 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
+import { InfosComponent } from "../alunos/informacoes-matricula/infos.component";
+import { DocumentacaoModalConfig, EstagioMatriculaModalConfig, OpenInfoComponentModal } from "../services/pedag-modal";
 import { PedagogicoService } from "../services/pedagogico.service";
+import { EstagioDocumentacaoComponent } from "./documentacao/estagio-documentacao.component";
+import { EstagioMatriculaComponent } from "./matricula/estagio-matricula.component";
 
 @Component({
     selector: "estagiosdocs-app",
@@ -155,27 +159,34 @@ export class EstagioControleComponent extends BaseComponent implements OnInit {
         this.spinnerSearch = 'hidden'
     }
 
-    public viewInfoCadastrais(aluno:any): void {
-        // const dialogRef = this._modal
-        //     .open(InfoCadastraisComponent, {
-        //         height: 'auto',
-        //         width: '1000px',
-        //         autoFocus: false,
-        //         maxHeight: '400vhvh',
-        //         data: { aluno: aluno },
-        //         hasBackdrop: true,
-        //         disableClose: true
-        //     });
-
-        // dialogRef.afterClosed().subscribe((data) => {
-        //     if (data.clicked === "OK") {
-        //         this.Pesquisar();               
-        //     } else if (data.clicked === "Cancel") {              
-        //     }
-        // });
+    public OpenInfoModal(aluno: any): void {
+        const dialogRef = this._modal
+            .open(InfosComponent, OpenInfoComponentModal(aluno));
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "OK") {
+            } else if (data.clicked === "Cancel") {
+            }
+        });
     }
     
-    public matricular(aluno: any) {
+    public matricular(aluno: any): void {
+        const dialogRef = this._modal
+            .open(EstagioMatriculaComponent, EstagioMatriculaModalConfig(aluno));
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "OK") {
+            } else if (data.clicked === "Cancel") {
+            }
+        });
+    }
+
+    public Documentacao(aluno: any): void {
+        const dialogRef = this._modal
+            .open(EstagioDocumentacaoComponent, DocumentacaoModalConfig(aluno));
+        dialogRef.afterClosed().subscribe((data) => {
+            // if (data.clicked === "OK") {
+            // } else if (data.clicked === "Cancel") {
+            // }
+        });
 
     }
 

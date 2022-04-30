@@ -26,6 +26,16 @@ export abstract class BaseService {
         };
     }
 
+    protected ObterHeaderUpload() {
+        return {
+            headers: new HttpHeaders({
+                'reportProgress': 'true',
+                'observe': 'events',
+                'Authorization':`Bearer ${localStorage.getItem('jwt')}`
+            })
+        };
+    }
+
     protected extractData(response: any) {
         return response || {};
     }
