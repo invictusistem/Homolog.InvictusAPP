@@ -49,11 +49,17 @@
 
     <div>
         <!-- Configurações! <br> -->
-        <angular-editor color="primary" [disabled]="true" [placeholder]="'Enter text here...'" formControlName="conteudo"></angular-editor>
+        <angular-editor style="height: 300px;" color="primary" 
+        [config]="config" [disabled]="true" [placeholder]="'Enter text here...'" 
+        formControlName="conteudo"></angular-editor>
         <!-- <angular-editor color="primary"  [innerHTML]="htmlContent" ></angular-editor> -->
 
 
         <br>
+        <div class="html">
+            {{ contratoForm.get('conteudo')?.value }}
+          </div>
+          <br>
         <button type="submit" color="primary" mat-raised-button disabled="false"
             style="float:right;margin-bottom: 0px;margin-left: 10px;" [disabled]="!contratoForm.valid">
             Salvar

@@ -14,8 +14,7 @@ import { FinanceiroService } from "../services/financ.service";
 @Component({
     selector: "fincaixa-app",
     templateUrl: './fincaixa.component.html',
-    styleUrls: ['./fincaixa.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./fincaixa.component.scss']
 })
 
 export class FinCaixaComponent extends BaseComponent implements OnInit {

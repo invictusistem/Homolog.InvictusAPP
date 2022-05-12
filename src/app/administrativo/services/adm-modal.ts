@@ -1,82 +1,7 @@
+import { HttpEventType } from "@angular/common/http";
 
-    //#region /Bolas
+//#region /Bolas
 
-
-    //#endregion
-
-
-    //#region /Calendario
-
-
-    //#endregion
-
-    //#region /Colaboradores
-
-
-    //#endregion
-
-
-    //#region /Configuracoes
-
-
-    //#endregion
-
-    //#region /Contratos
-
-
-    //#endregion
-
-    //#region /MessageModal
-
-
-    //#endregion
-
-    //#region /Modulos
-
-
-    //#endregion
-
-    //#region /PlanoPgm
-
-
-    //#endregion
-
-    //#region /Produtos
-
-
-    //#endregion
-
-    //#region /Professores
-
-
-    //#endregion
-
-    //#region /Turmas
-
-
-    //#endregion
-
-    //#region /Unidades
-
-
-    //#endregion
-
-
-    //#region /Usuarios
-
-
-    //#endregion
-
-
-
-
-
-
-
-
-
-
-// Bolas
 export function CreateBolsaModalConfig(usuario?: any) {
     return {
         width: '600px',
@@ -103,11 +28,17 @@ export function ShowSenhaModalConfig(senha?: any) {
     }
 }
 
-// Calendario
+//#endregion
 
 
-// Colaboradores
-export function EditColaboradorModalConfig(data?:any) {
+//#region /Calendario
+
+
+//#endregion
+
+//#region /Colaboradores
+
+export function EditColaboradorModalConfig(data?: any) {
     return {
         //minHeight: '420',
         width: '710px',
@@ -126,25 +57,106 @@ export function CreateColaboradorModalConfig(data?: any) {
     }
 }
 
-// Configuracoes
+//#endregion
 
-export function EditCargoModalConfig(value?:any) {
+
+//#region /Configuracoes
+
+
+
+export function OpenCreateMateriaConfig(data?: any) {
     return {
-        //minHeight: '420',
-        width: '700px',
-        data: { value: value },
+        //height:
+        width: '850px',
+        data: { data: data },
         hasBackdrop: true,
         disableClose: true
     }
 }
 
-// Contratos
+export function OpenEditMateriaConfig(matId?: any) {
+    return {
+        //height:
+        width: '850px',
+        data: { matId: matId },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenCreateDocModalConfig(data?: any) {
+    return {
+        //height:
+        width: '700px',
+        data: { data: data },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenEditDocModalConfig(docId?: any) {
+    return {
+        //height:
+        width: '700px',
+        data: { docId: docId },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenCreateCargoModalConfig(data?: any) {
+    return {
+        //height:
+        width: '700px',
+        data: { data: data },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenEditCargoModalConfig(cargoId?: any) {
+    return {
+        //minHeight: '420',
+        width: '700px',
+        data: { cargoId: cargoId },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
 
 
-// MessageModal
+//#endregion
+
+//#region /Contratos
+
+export function OpenCreateContratoModalConfig(data?: any) {
+    return {
+        //height:
+        width: '1000px',
+        data: { data: data },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenEditContratoModalConfig(contrato: any) {
+    return {
+        //height:
+        width: '1000px',
+        data: { contrato: contrato },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+//#endregion
+
+//#region /MessageModal
 
 
-// Modulos
+//#endregion
+
+//#region /Modulos
 
 export function ModuloCreateComponentModal(data?: any) {
     return {
@@ -172,17 +184,72 @@ export function ModuloDetalheComponentModal(modulo?: any) {
     }
 }
 
-// PlanoPgm
+//#endregion
 
+//#region /PlanoPgm
 
-// Produtos
+export function CreatePlanoModalConfig(data?: any) {
+    return {
+        //height:
+        width: '600px',
+        data: { data: data },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
 
+export function EditPlanoModalConfig(plano?: any) {
+    return {
+        //height:
+        width: '600px',
+        data: { plano: plano },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
 
-// Professores
+//#endregion
+
+//#region /Produtos
+
+export function OpenCreateProdutoModalConfig(data?: any) {
+    return {
+        //height:
+        width: '600px',
+        data: { data: data },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenEditProdutoModalConfig(produto?: any) {
+    return {
+        //height:
+        width: '600px',
+        data: { produto: produto },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenDoacaoProdutoModalConfig(produto?: any) {
+    return {
+        //height:
+        width: '900px',
+        data: { produto: produto },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+//#endregion
+
+//#region /Professores
+
 
 export function CreateProfessorModalConfig() {
     return {
-        height:'620px',
+        height: '620px',
         width: '680px',
         //maxHeight: '90vh',
         //maxWidth: '450vh',
@@ -190,33 +257,51 @@ export function CreateProfessorModalConfig() {
         hasBackdrop: true,
         disableClose: true
     }
+}
 
-    // const dialogRef = this._modal
-    //     .open(CreateProfessorComponent, {
-    //         minHeight: '420px',
-    //         width: '680px',
+export function OpenAddDispoModalConfig(prof?: any) {
+    return {
+        //height:
+        width: '480px',
+        data: { prof: prof },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
 
-    //         //data: { Hello: "Hello World" },
-    //         hasBackdrop: true,
-    //         disableClose: true
-    //     });
+export function OpeEditDispoModalConfig(dispo?: any, profId?: any) {
+    return {
+        //height:
+        width: '480px',
+        data: { dispo: dispo, profId:profId },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
 
+export function OpenAddMatModalConfig(profId?: any, profMaterias?: any) {
+    return {
+        //height:
+        width: '550px',
+        data: { profId: profId, materias: profMaterias },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
 
-    // dialogRef.afterClosed().subscribe((data) => {
-    //     if (data.clicked === "Ok") {
-    //         // Reset form here
-    //         console.log('afte close ok')
-    //         this.getColaboradores(1, this.pageSize);
-    //     } else if (data.clicked === "Cancel") {
-    //         // Do nothing. Cancel any events that navigate away from the
-    //         // component.
-    //     }
-    // });
+export function OpenProfMateriasModalConfig(prof?: any) {
+    return {
+        //height:
+        width: '880px',
+        data: { prof: prof },
+        hasBackdrop: true,
+        disableClose: true
+    }
 }
 
 export function ProfCalendarioModalConfig(prof?: any) {
     return {
-        height:'auto',
+        height: 'auto',
         width: '1230px',
         maxHeight: '90vh',
         maxWidth: '450vh',
@@ -230,7 +315,7 @@ export function ProfRelatorioModalConfig(prof?: any) {
     return {
         //height:'570px',
         width: '710px',
-        data: { prof: prof},
+        data: { prof: prof },
         hasBackdrop: true,
         disableClose: true
     }
@@ -240,11 +325,202 @@ export function ProfEditModalConfig(prof?: any) {
     return {
         //height: '520px',
         width: '680px',
-        data: { prof: prof},
+        data: { prof: prof },
         hasBackdrop: true,
         disableClose: true
     }
 }
+
+
+//#endregion
+
+//#region /Turmas
+
+export function OpenTurmaEditmodel(turma?: any) {
+    return {
+        width: '1030px',
+        data: { turma: turma },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function ConfirmModalConfig(prof?: any) {
+    return {
+        //height:
+        width: '500px',
+        data: { prof: prof },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenAddProfModalConfig(turmaId?: any) {
+    return {
+        //height:
+        width: '1030px',
+        data: { turmaId: turmaId },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenAddMateriaModalConfig(turmaId?: any, prof?: any) {
+    return {
+        //height:
+        width: '1030px',
+        data: { turmaId: turmaId, professor: prof },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function iniciarTurmaModalConfig(turmaId?: any) {
+    return {
+        //height:
+        width: '500px',
+        data: { turmaId: turmaId },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenCreateCursoModalConfig() {
+    return {
+        //height:
+        width: '720px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+//#endregion
+
+//#region /Unidades
+
+export function OpenUnidadeCreateModalConfig() {
+    return {
+        //height:
+        width: '650px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenEditUnidadeConfig(unidade?: any) {
+    return {
+        //height:
+        width: '670px',
+        data: { unidade: unidade },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function AddSalaConfig(unidade?: any) {
+    return {
+        //height:
+        width: '600px',
+        data: { unidade: unidade },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function EditSalaModalConfig(unidade?: any) {
+    return {
+        //height:
+        width: '600px',
+        data: { unidade: unidade },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+
+//#endregion
+
+
+//#region /Usuarios
+
+export function openCreateUserModalConfig() {
+    return {
+        //height:
+        width: '600px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenEditUserModalConfig(colaborador?: any) {
+    return {
+        //height:
+        width: '600px',
+        data: { colaborador: colaborador },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function EditAcessoModal(usuario?: any) {
+    return {
+        width: '600px',
+        data: { usuario: usuario },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+
+//#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Bolas
+
+
+// Calendario
+
+
+// Colaboradores
+
+
+// Configuracoes
+
+
+
+// Contratos
+
+
+// MessageModal
+
+
+// Modulos
+
+
+
+// PlanoPgm
+
+
+// Produtos
+
+
+// Professores
+
+
+
 
 
 
@@ -255,27 +531,13 @@ export function ProfEditModalConfig(prof?: any) {
 //turmas
 
 
-export function OpenTurmaEditmodel(turma?:any) {
-    return {
-        width: '1030px',
-        data: { turma: turma },
-        hasBackdrop: true,
-        disableClose: true
-    }
-}
+
 
 // Unidades
 
 //Usuarios
 
-export function EditAcessoModal(usuario?: any) {
-    return {
-        width: '600px',
-        data: { usuario: usuario },
-        hasBackdrop: true,
-        disableClose: true
-    }
-}
+
 
 
 

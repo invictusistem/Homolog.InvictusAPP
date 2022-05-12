@@ -48,7 +48,7 @@ export class MatriculaLiberarComponent extends BaseComponent implements OnInit {
 
   private ConfirmarFalha(error: any) {
     this.disabledSaveButton = 'hidden'
-    this.openSnackBarErrorDefault()
+    this.OpenSnackBarErrorDefault()
   }
 
   cancelar() {

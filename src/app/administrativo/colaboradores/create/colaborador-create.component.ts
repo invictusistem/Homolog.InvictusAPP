@@ -80,21 +80,26 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
 
         if (this.colaboradorForm.valid) {
             this.disabledSpinner = true
-
+            this.disabledCloseModalIcon = true
             this.disabledSaveButton = 'visible'
             this._admService.SaveColaborador(this.colaboradorForm.value)
                 .subscribe(response => {
                 }, (err) => {
+                    this.OpenSnackBarErrorDefault()
+                    this.disabledCloseModalIcon = false
+                    this.disabledSaveButton = 'hidden'
                     if (err['status'] == 409) {
                         this.msgErros = err['error'].msg
                         this.showMensagem = 'visible'
-                        this.disabledSaveButton = 'hidden'
+                        
                     } else {
-                        this.dialogRef.close({ clicked: "Ok" });
+                        //this.disabledCloseModalIcon = false
+                        //this.dialogRef.close({ clicked: "Ok" });
                     }
                 },
                     () => {
-                        this.openSnackBarSucesso('Colaborador salvo com sucesso')
+                        this.disabledCloseModalIcon = false
+                        this.OpenSnackBarSucesso('Colaborador salvo com sucesso')
                         this.dialogRef.close({ clicked: "Ok" });
                         this.disabledSaveButton = 'hidden'
                     });

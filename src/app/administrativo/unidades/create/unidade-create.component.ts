@@ -1,16 +1,11 @@
 import { Component, Inject, OnInit, Pipe, PipeTransform } from "@angular/core";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-//import { GenericTask } from 'src/app/shared/models/generictask.model';
-import { Output, EventEmitter } from '@angular/core';
-//import { AdmService } from '../../adm.service';
-import { PageEvent } from '@angular/material/paginator';
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { environment } from "src/environments/environment";
 import { UpperCasePipe } from "@angular/common";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
-
 
 @Pipe({ name: 'myPipe' })
 export class MyPipe implements PipeTransform {

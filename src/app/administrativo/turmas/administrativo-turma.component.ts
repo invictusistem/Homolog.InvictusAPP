@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
@@ -8,7 +8,7 @@ import { ConfirmAcaoModalComponent } from "src/app/_shared/components/acao-confi
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { ConfirmAcaoModalConfig } from "src/app/_shared/services/shared.modal";
 import { environment } from "src/environments/environment";
-import { OpenTurmaEditmodel } from "../services/adm-modal";
+import { iniciarTurmaModalConfig, OpenCreateCursoModalConfig, OpenTurmaEditmodel } from "../services/adm-modal";
 import { AdmService } from "../services/adm.service";
 import { CreateCursoComponent } from "./create/turma-create.component";
 import { EditCursoComponent } from "./edit/turma-edit.component";
@@ -54,21 +54,13 @@ export class AdmTurmasComponent implements OnInit {
     }
 
     iniciarTurma(turmaId: any): void {
-       
         const dialogRef = this._modal
-            .open(ConfirmarIniciarTurmaModal, {
-                height: 'auto',
-                width: '500px',
-                data: { turmaId: turmaId },
-                hasBackdrop: true,
-                disableClose: true
-            });
-        dialogRef.afterClosed().subscribe(result => {
-            if (result.clicked === true) {
-                this.getCursos();
-            }
-
-        });
+        .open(ConfirmarIniciarTurmaModal, iniciarTurmaModalConfig(turmaId));
+    dialogRef.afterClosed().subscribe((result: any) => {
+        if (result.clicked === true) {
+            this.getCursos();
+        }
+    });
     }
 
     get podeDeletar() {
@@ -138,22 +130,12 @@ export class AdmTurmasComponent implements OnInit {
 
     openCreateCursoModal(): void {
         const dialogRef = this._modal
-            .open(CreateCursoComponent, {
-                height: 'auto',
-                width: '720px',
-                autoFocus: false,
-                maxHeight: '90vh',               
-                hasBackdrop: true,
-                disableClose: true
-            });
-       
-
-        dialogRef.afterClosed().subscribe(result => {
+            .open(CreateCursoComponent, OpenCreateCursoModalConfig());
+        dialogRef.afterClosed().subscribe((result: any) => {
             if (result.clicked === "OK") {
                 this.getCursos();
                // console.log('afte close ok')
             }
-
         });
     }
 
@@ -198,7 +180,7 @@ export class AdmTurmasComponent implements OnInit {
 
                 this.http.delete(`${this.baseUrl}/dev/deletar-turma/${turma.id}`)
                     .subscribe(
-                        response => { }, 
+                        response => { this.getCursos(); }, 
                         err => { })
             }
         })

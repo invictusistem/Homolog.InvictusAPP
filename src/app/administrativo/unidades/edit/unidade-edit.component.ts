@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClient } from "@angular/common/http";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AdmService } from "../../services/adm.service";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
@@ -119,7 +118,4 @@ export class EditUnidadeComponent implements OnInit {
     private SaveEditFalha(falha: any){
         this.saveSpinner = 'hidden'
     }
-
-
-
 }

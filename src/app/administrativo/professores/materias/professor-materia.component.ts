@@ -11,6 +11,7 @@ import { AddDispoComponent } from "./disponibilidade-create/disponibilidade-crea
 import { EditDispoComponent } from "./disponibilidade-edit/disponibilidade-edit.component";
 import { AddMatComponent } from "./create/materia-create.component";
 import { PageEvent } from "@angular/material/paginator";
+import { OpeEditDispoModalConfig, OpenAddDispoModalConfig, OpenAddMatModalConfig } from "../../services/adm-modal";
 
 
 @Component({
@@ -244,25 +245,10 @@ export class ProfMateriasComponent implements OnInit {
 
     openAddDispoModal(): void {
         const dialogRef = this._modal
-            .open(AddDispoComponent, {
-                minHeight: '400px',
-                width: '480px',
-                //  panelClass: 'my-class',
-                data: { unidades: this.unidades, profId: this.data['prof'].id },
-                hasBackdrop: true,
-                disableClose: true
-            });
-
-
+            .open(AddDispoComponent, OpenAddDispoModalConfig());
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
-
-                //this.atualizarUnidadesDisponiveis();
-
                 this.GetInfos()
-                //  this.getColaboradores(1, this.pageSize);
-            } else if (data.clicked === "Cancel") {
-
             }
         });
     }
@@ -278,24 +264,13 @@ export class ProfMateriasComponent implements OnInit {
 
     opeEditDispoModal(dispo: any): void {
         const dialogRef = this._modal
-            .open(EditDispoComponent, {
-                minHeight: '400px',
-                width: '480px',
-                //  panelClass: 'my-class',
-                data: { dispo: dispo, profId: this.data['prof'].id },
-                hasBackdrop: true,
-                disableClose: true
-            });
-
-
+            .open(EditDispoComponent, OpeEditDispoModalConfig(dispo,this.data['prof'].id ));
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === true) {
                 this._helpers.openSnackBarSucesso("Disponibilidade editada com sucesso")
                 //this.atualizarUnidadesDisponiveis();
                 this.GetInfos()
                 //  this.getColaboradores(1, this.pageSize);
-            } else if (data.clicked === false) {
-
             }
         });
     }
@@ -319,18 +294,11 @@ export class ProfMateriasComponent implements OnInit {
     length = 0
     pageSize = 5
     pageIndex = 0
+
+
     openAddMatModal(): void {
         const dialogRef = this._modal
-            .open(AddMatComponent, {
-                // minHeight: '400px',
-                width: '550px',
-                //  panelClass: 'my-class',
-                data: { profId: this.data['prof'].id, materias: this.profMaterias },
-                hasBackdrop: true,
-                disableClose: true
-            });
-
-
+            .open(AddMatComponent, OpenAddMatModalConfig(this.data['prof'].id, this.profMaterias));
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === true) {
                 // this.disabledDelete = false
@@ -340,8 +308,6 @@ export class ProfMateriasComponent implements OnInit {
                 this.editAndSaveBar = 'visible'
                 this.GetInfos()
                 //  this.getColaboradores(1, this.pageSize);
-            } else if (data.clicked === "Cancel") {
-
             }
         });
     }

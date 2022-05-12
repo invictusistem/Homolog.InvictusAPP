@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClient } from "@angular/common/http";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
@@ -8,19 +7,20 @@ import { environment } from "src/environments/environment";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { AdmService } from "../../services/adm.service";
 import { TitularDoc } from "src/app/_shared/models/perfil.model";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
     selector: 'modulocreatemodal',
     templateUrl: './modulo-create.component.html',
-    styleUrls: ['./modulo-create.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./modulo-create.component.scss']
 })
 
-export class ModuloCreateComponent implements OnInit {
+export class ModuloCreateComponent extends BaseComponent implements OnInit {
 
 
-    baseUrl = environment.baseUrl;
-    public initProgressBar = 'visible'
+    //baseUrl = environment.baseUrl;
+    //public initProgressBar = 'visible'
     public saveProgressBar = 'hidden'
     
     public showContent = false
@@ -30,8 +30,8 @@ export class ModuloCreateComponent implements OnInit {
     public addMateriaForm: FormGroup;
     public addDocForm: FormGroup;
     
-    private jwtHelper = new JwtHelperService();
-    public tokenInfo: TokenInfos = new TokenInfos();
+    //private jwtHelper = new JwtHelperService();
+    //public tokenInfo: TokenInfos = new TokenInfos();
    
     public errorMsg: any[] = new Array<any>()
     public unidadesAutorizadas: any[] = new Array<any>();
@@ -44,11 +44,12 @@ export class ModuloCreateComponent implements OnInit {
     public titularDoc = TitularDoc
 
     constructor(
+        override _snackBar: MatSnackBar,
         private _admService: AdmService,
         private _fb: FormBuilder,
         public dialogRef: MatDialogRef<ModuloCreateComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-
+            super(_snackBar);
         this.addMateriaForm = _fb.group({
             pacote: ['', [Validators.required]]
         })
@@ -61,7 +62,7 @@ export class ModuloCreateComponent implements OnInit {
             descricao: ['', [Validators.required]],
             totalHoras: [''],
             typePacoteId: ['', [Validators.required]],
-            unidadeId: ['', [Validators.required]],
+            //unidadeId: ['', [Validators.required]],
             ativo: [true],
 
             materias: this._fb.array([], [Validators.required]),
@@ -72,24 +73,24 @@ export class ModuloCreateComponent implements OnInit {
 
     ngOnInit() {
 
-        const token: any = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token)
+        //const token: any = localStorage.getItem('jwt')
+        //this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.unidadesAutorizadas = JSON.parse(this.tokenInfo.UnidadesAutorizadas as string)
         this.GetViewModels()
         // TEMP
-        this.GetUnidadeBySigla()
+        //this.GetUnidadeBySigla()
     }
 
 
-    GetUnidadeBySigla(){
+    // GetUnidadeBySigla(){
 
-        this._admService.GetUnidadesFilteredBySigla(this.tokenInfo.Unidade)
-        .subscribe(
-            (sucesso: any) => {
-                this.moduloForm.get('unidadeId')?.setValue(sucesso['unidade'])
-            }
-        )      
-    }
+    //     this._admService.GetUnidadesFilteredBySigla(this.tokenInfo.Unidade)
+    //     .subscribe(
+    //         (sucesso: any) => {
+    //             this.moduloForm.get('unidadeId')?.setValue(sucesso['unidade'])
+    //         }
+    //     )      
+    // }
 
     get materias() {
         return this.moduloForm.controls["materias"] as FormArray;
@@ -174,7 +175,7 @@ export class ModuloCreateComponent implements OnInit {
     }
 
     
-    get disabledSaveButton() {
+    get disabledSave() {
 
         if (this.saveProgressBar == 'visible') return true
 
@@ -223,11 +224,11 @@ export class ModuloCreateComponent implements OnInit {
 
     buscarMateriasErro(error: any) {
         this.initProgressBar = 'hidden'
-        console.log(error)
+       // console.log(error)
     }
 
     onSubmit(form: any) {
-        console.log(this.moduloForm.value)
+        //console.log(this.moduloForm.value)
         if (form.valid) {
             this.saveProgressBar = 'visible'
             this._admService.SavePacote(this.moduloForm.value)

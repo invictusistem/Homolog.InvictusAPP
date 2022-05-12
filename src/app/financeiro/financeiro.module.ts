@@ -12,6 +12,14 @@ import { CreateFornecedorComponent } from './fornecedores/create/fornecedor-crea
 import { EditFornecedorComponent } from './fornecedores/edit/fornecedor-edit.component';
 import { FornecedoresComponent } from './fornecedores/fornecedores.component';
 import { FinanceiroService } from './services/financ.service';
+import { FinancConfigsComponent } from './configuracoes/financ-configs.component';
+import { BancosConfigComponent } from './configuracoes/bancos/bancos-config.component';
+import { CentrocustoConfigComponent } from './configuracoes/centro-custos/centrocusto-config.component';
+import { FormarecebimentoConfigComponent } from './configuracoes/forma-recebimento/formarecebimento-config.component';
+import { MeiopagamentoConfigComponent } from './configuracoes/meio-pagamento/meiopagamento-config.component';
+import { PlanocontasConfigComponent } from './configuracoes/plano-contas/planocontas-config.component';
+import { BancocreateConfigComponent } from './configuracoes/bancos/create/bancocreate-config.component';
+import { CaixaEscolaComponent } from './caixa-escola/caixa-escola.component';
 
 @NgModule({
     declarations: [
@@ -21,15 +29,26 @@ import { FinanceiroService } from './services/financ.service';
         ReparcelamentoComponent,
         ConfirmarParcelamento,
         // ConfirmarParcelamento,
-         InfoFinancComponent,
-         ReceberComponent,
-         EditFinancComponent,
-         // Caixa
-         FinCaixaComponent,
-         // Fornecedores
-         FornecedoresComponent,
-         CreateFornecedorComponent,
-         EditFornecedorComponent
+        InfoFinancComponent,
+        ReceberComponent,
+        EditFinancComponent,
+        // Caixa
+        FinCaixaComponent,
+        // Caixa Escola
+        CaixaEscolaComponent,
+        // Fornecedores
+        FornecedoresComponent,
+        CreateFornecedorComponent,
+        EditFornecedorComponent,
+        // Configurações
+        FinancConfigsComponent,
+        BancosConfigComponent,
+        CentrocustoConfigComponent,
+        FormarecebimentoConfigComponent,
+        MeiopagamentoConfigComponent,
+        PlanocontasConfigComponent
+        
+        //BancocreateConfigComponent
     ],
     imports: [
         SharedModule,
@@ -44,8 +63,12 @@ import { FinanceiroService } from './services/financ.service';
         AlunoFinancComponent,
         //Caixa
         FinCaixaComponent,
+        // Caixa Escola
+        CaixaEscolaComponent,
         // Fornecedores
-        FornecedoresComponent
+        FornecedoresComponent,
+        // Configurações
+        FinancConfigsComponent
     ],
     entryComponents: [
         // Alunos
@@ -56,7 +79,13 @@ import { FinanceiroService } from './services/financ.service';
         EditFinancComponent,
         // Fornecedores
         CreateFornecedorComponent,
-        EditFornecedorComponent
+        EditFornecedorComponent,
+        // Configurações
+        BancosConfigComponent,
+        CentrocustoConfigComponent,
+        FormarecebimentoConfigComponent,
+        MeiopagamentoConfigComponent,
+        PlanocontasConfigComponent
     ]
 })
 

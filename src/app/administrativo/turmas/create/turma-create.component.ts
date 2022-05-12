@@ -1,7 +1,7 @@
-import { Component, Inject, Input, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { CurrencyPipe, DatePipe } from '@angular/common';
@@ -94,7 +94,40 @@ export class CreateCursoComponent implements OnInit {
             prevInicio_3: ['', [Validators.required, Validators.minLength(10)]],
             prevTermino_3: ['', [Validators.required, Validators.minLength(10)]],
             diasSemana: this._fb.array([], [Validators.required])
-        });       
+        });   
+        
+        
+        this.cursoForm.controls['prevInicio_1'].valueChanges.subscribe(
+            (form: any) => {
+                
+                var date = new Date(this.cursoForm.get('prevInicio_1')?.value)
+
+                date = new Date(date.setMonth(date.getMonth()+ 23))
+
+                this.cursoForm.get('prevTermino_1')?.setValue(new Date(date))
+                
+            }
+        );
+
+        this.cursoForm.controls['prevInicio_2'].valueChanges.subscribe(
+            (form: any) => {
+                var date = new Date(this.cursoForm.get('prevInicio_2')?.value)
+
+                date = new Date(date.setMonth(date.getMonth()+ 23))
+
+                this.cursoForm.get('prevTermino_2')?.setValue(new Date(date))
+            }
+        );
+
+        this.cursoForm.controls['prevInicio_3'].valueChanges.subscribe(
+            (form: any) => {
+                var date = new Date(this.cursoForm.get('prevInicio_3')?.value)
+
+                date = new Date(date.setMonth(date.getMonth()+ 23))
+
+                this.cursoForm.get('prevTermino_3')?.setValue(new Date(date))
+            }
+        );
 
     }
   
@@ -126,8 +159,8 @@ export class CreateCursoComponent implements OnInit {
 
         const matForm = this._fb.group({
             diaSemana: new FormControl (""),
-            horarioInicio: new FormControl (""),
-            horarioFim: new FormControl ("")
+            horarioInicio: new FormControl("",[Validators.required, Validators.minLength(4)]),
+            horarioFim: new FormControl ("",[Validators.required, Validators.minLength(4)])
         });
 
         this.diasSemana.push(matForm);
@@ -163,6 +196,7 @@ export class CreateCursoComponent implements OnInit {
                     this.initProgressBar = 'hidden'
                     this.showForm = true
                     this.showCapacidadeDropDown = true
+                    this.dialogRef.addPanelClass('turma-create-class')
                     /*if domingo ou sabado
                     
                     */

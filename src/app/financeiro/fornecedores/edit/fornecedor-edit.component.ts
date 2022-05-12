@@ -102,13 +102,13 @@ export class EditFornecedorComponent extends BaseComponent implements OnInit {
 
     private SaveEditSucesso(resp: any) {
         this.saveSpinner = 'hidden'
-        this.openSnackBarSucesso("Fornecedor editado com sucesso.")
+        this.OpenSnackBarSucesso("Fornecedor editado com sucesso.")
         this.dialogRef.close();
     }
 
     private SaveEditFalha(error: any) {
         this.saveSpinner = 'hidden'
-        this.openSnackBarErrorDefault();
+        this.OpenSnackBarErrorDefault();
     }
 
     public ConsultaCEP(CEP: string) {

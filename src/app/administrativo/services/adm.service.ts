@@ -229,8 +229,21 @@ export class AdmService extends BaseService {
 
         if (config == 'DOCUMENTOS') path = `/documentacao`
 
-        if (config == 'MATERIAS') path = `/materia-template`
+        if (config == 'MATERIAS') path = `/materia-template/materias`
 
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public GetDocById(dociId?: any): Observable<any> {
+
+        let path = `/documentacao/${dociId}`
 
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
@@ -255,6 +268,18 @@ export class AdmService extends BaseService {
         return response;
     }   
     
+    public GetMateriaById(matId?: any): Observable<any> {
+
+        let path = `/materia-template/${matId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
     
     public SaveMateria(materia:any): Observable<any> {
 
@@ -262,6 +287,19 @@ export class AdmService extends BaseService {
 
         let response = this.http
             .post(this.BaseUrl + path, materia, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    } 
+
+    public EditMateria(materia:any): Observable<any> {
+
+        let path = `/materia-template`
+
+        let response = this.http
+            .put(this.BaseUrl + path, materia, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));
@@ -280,7 +318,20 @@ export class AdmService extends BaseService {
                 catchError(this.serviceError));
 
         return response;
-    }    
+    }  
+    
+    public EditDocumento(doc:any): Observable<any> {
+
+        let path = `/documentacao`
+
+        let response = this.http
+            .put(this.BaseUrl + path, doc, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }   
 
     public EditValue(value:any): Observable<any> {
 
@@ -324,6 +375,30 @@ export class AdmService extends BaseService {
                 catchError(this.serviceError));
 
         return response;
+
+    }
+
+    public GetContratoExemplo(contratoId: any): Observable<any> {
+
+        let path = `/contrato/exemplo/${contratoId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderDownload())
+            .pipe(
+                map(this.extractDataDownload),
+                catchError(this.serviceError));
+
+        return response;
+
+        // let path = `/contrato/exemplo/${contratoId}`
+
+        // let response = this.http
+        //     .get(this.BaseUrl + path, this.ObterHeaderJson())
+        //     .pipe(
+        //         map(this.extractData),
+        //         catchError(this.serviceError));
+
+        // return response;
 
     }
 
@@ -635,6 +710,18 @@ export class AdmService extends BaseService {
 
     // Usuários
 
+    public DeleteUsuario(userEmail:any): Observable<any> {
+
+        let path = `/usuario/${userEmail}`
+
+        let response = this.http
+            .delete(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
 
     public GetUsuarioAcessos(userId:any): Observable<any> {
 

@@ -68,12 +68,12 @@ export class TipoCreateComponent extends BaseComponent implements OnInit {
     }
 
     private SaveSucess(){
-        this.openSnackBarSucesso("Matéria adicionada com sucesso.")
+        this.OpenSnackBarSucesso("Matéria adicionada com sucesso.")
         this.dialogRef.close({ clicked: true });
     }
 
     private SaveError(error: any){
-        this.openSnackBarError("Ocorreu um erro, entre em contato com o administrador do sistema.")
+        this.OpenSnackBarError("Ocorreu um erro, entre em contato com o administrador do sistema.")
     }
 
     //disabledSaveButton = false

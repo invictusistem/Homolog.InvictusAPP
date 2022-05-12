@@ -26,9 +26,9 @@ export class CreateUserComponent implements OnInit {
     // genericTasks: GenericTask[] = new Array<GenericTask>();
     // length: number;
     // pageEvent: PageEvent;
-    mensagem = "";
+    mensagem = "no message";
     showForm = false
-    showMensagem = false
+    showMensagem = 'hidden'
     constructor(
         //private service: AdmService,
         private _helper: HelpersService,
@@ -59,7 +59,7 @@ export class CreateUserComponent implements OnInit {
        // console.log(email)
         if (email == '') return;
         this.showForm = false
-        this.showMensagem = false
+        this.showMensagem = 'hidden'
         this.initProgressBar = 'visible'
         this.http.get(`${this.baseUrl}/usuario/procurar/?email=${email}`).subscribe(
             (result: any) => {
@@ -79,13 +79,13 @@ export class CreateUserComponent implements OnInit {
                 this.initProgressBar = 'hidden'
                // console.log(err['error'])
                 this.mensagem = err['error'].mensagem
-                this.showMensagem = true
+                this.showMensagem = 'visible'
                 }
             },
             () => {
                 this.initProgressBar = 'hidden'
                 
-                this.showMensagem = false
+                this.showMensagem = 'hidden'
                 this.showForm = true
                
             }

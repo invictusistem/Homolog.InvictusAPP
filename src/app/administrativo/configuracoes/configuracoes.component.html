@@ -1,9 +1,8 @@
 <div class="container" style="width: 95%; padding-top: 20px;">
 
     <span>
-        <i style="" #tooltip="matTooltip" matTooltip="criar cargo" matTooltipPosition="above"
-            matTooltipHideDelay="100">
-            <button (click)="openCreateCargoModal()" mat-icon-button>
+        <i style="" #tooltip="matTooltip" matTooltip="criar cargo" matTooltipPosition="above" matTooltipHideDelay="100">
+            <button (click)="OpenCreateCargoModal()" mat-icon-button>
                 <mat-icon>engineering</mat-icon>
             </button>
         </i>
@@ -12,7 +11,7 @@
     <span>
         <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar documento" matTooltipPosition="above"
             matTooltipHideDelay="100">
-            <button (click)="openCreateDocModal()" disabled mat-icon-button>
+            <button (click)="OpenCreateDocModal()" mat-icon-button>
                 <mat-icon>assignment_ind</mat-icon>
             </button>
         </i>
@@ -21,7 +20,7 @@
     <span>
         <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar materia" matTooltipPosition="above"
             matTooltipHideDelay="100">
-            <button (click)="openCreateMateriaModal()" disabled  mat-icon-button>
+            <button (click)="OpenCreateMateriaModal()" mat-icon-button>
                 <mat-icon>school</mat-icon>
             </button>
         </i>
@@ -36,11 +35,11 @@
 
     <mat-form-field appearance="standard" style="width: 150px;">
         <mat-label></mat-label>
-        <mat-select placeholder="" >
+        <mat-select placeholder="">
             <mat-option></mat-option>
-            <mat-option (click)="GetConfig('CARGOS')" value="Cargos">Cargos</mat-option>
-            <mat-option disabled (click)="GetConfig('DOCUMENTOS')" value="Cargos">Documentos</mat-option>
-            <mat-option disabled (click)="GetMaterias()" value="Cargos">Matérias</mat-option>
+            <mat-option (click)="GetConfig('CARGOS')">Cargos</mat-option>
+            <mat-option (click)="GetConfig('DOCUMENTOS')">Documentos</mat-option>
+            <mat-option (click)="GetConfig('MATERIAS')">Matérias</mat-option>
 
         </mat-select>
     </mat-form-field>
@@ -96,13 +95,22 @@
                             <td style="text-align: center;vertical-align: middle;">
 
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
-                                matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
-                                <button (click)="OpenEditCargoModal(item)"
-                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                                    mat-icon-button>
-                                    <mat-icon  >settings</mat-icon>
-                                </button>
-                            </i>
+                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="OpenEditCargoModal(item.id)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>settings</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i *ngIf="!podeDeletar" style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="deletar turma e os matriculados"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="DeleteCargo(item)"  
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>delete_outline</mat-icon>
+                                    </button>
+                                </i>
 
                             </td>
 
@@ -166,19 +174,36 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of documentos;let i = index;" @rowHighlight>
+                            
                             <td style="text-align:center;vertical-align: middle;">
                                 {{i + 1}}
                             </td>
 
                             <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
 
-
                             <td style="text-align: center;vertical-align: middle;">{{item.descricao }}</td>
 
+                            <td style="text-align:center;vertical-align: middle;">{{item.validadeDias}}</td>
+
                             <td style="text-align: center;vertical-align: middle;">
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="OpenEditDocModal(item.id)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>settings</mat-icon>
+                                    </button>
+                                </i>
 
+                                <i *ngIf="!podeDeletar" style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="deletar turma e os matriculados"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="deleteDocumento(item)"  
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>delete_outline</mat-icon>
+                                    </button>
+                                </i>
                             </td>
-
 
                         </tr>
 
@@ -229,9 +254,13 @@
 
                             <th>NOME</th>
 
+                            <th>TIPO PACOTE</th>
+
                             <th>DESCRIÇÃO</th>
 
                             <th>MODALIDADE</th>
+
+                            <th>CARGA HORÁRIA</th>
 
                             <th></th>
 
@@ -239,6 +268,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of materias;let i = index;" @rowHighlight>
+                            
                             <td style="text-align:center;vertical-align: middle;">
                                 {{i + 1}}
                             </td>
@@ -247,12 +277,35 @@
 
 
 
-                            <td style="text-align: center;vertical-align: middle;">{{item.modalidade }}</td>
+                            <td style="text-align: center;vertical-align: middle;">{{item.typePacoteNome}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.descricao}}</td>
 
                             <td style="text-align: center;vertical-align: middle;">
-
+                                {{item.modalidade }}
                             </td>
 
+                            <td style="text-align: center;vertical-align: middle;">{{item.cargaHoraria }}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button (click)="OpenEditMatModal(item.id)"
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon>settings</mat-icon>
+                                </button>
+                            </i>
+
+                            <i *ngIf="!podeDeletar" style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="deletar turma e os matriculados"
+                                matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button (click)="deleteMateria(item)"  
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon>delete_outline</mat-icon>
+                                </button>
+                            </i>
+                            </td>
 
                         </tr>
 
@@ -261,15 +314,12 @@
 
             </div>
 
-            <mat-paginator  style="
+            <!-- <mat-paginator style="
                 background-color: rgb(227, 240, 227);
                 bottom: 0px;
-                right: 0px;" 
-                [length]="materiasLength" 
-                [pageSize]="materiasPageSize" 
-                hidePageSize="true"
+                right: 0px;" [length]="materiasLength" [pageSize]="materiasPageSize" hidePageSize="true"
                 (page)="materiasPageEvent = GetMaterias($event)">
-            </mat-paginator>
+            </mat-paginator> -->
 
         </div>
 

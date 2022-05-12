@@ -31,8 +31,8 @@
         <br>
 
         <mat-form-field appearance="standard" style="width: 280px; ">
-            <mat-label>Descrição</mat-label>
-            <input selected formControlName="descricao" matInput placeholder="dica: Curso Técnico de Enfermagem">
+            <mat-label>Nome</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" formControlName="descricao" matInput placeholder="dica: Curso Técnico de Enfermagem">
         </mat-form-field>
 
         <mat-form-field appearance="standard" style="width: 80px;margin-left: 10px; ">
@@ -74,7 +74,8 @@
 
                     <ng-container formArrayName="materias">
                        
-                        <ng-container *ngFor="let matForm of materias.controls; let i = index;">
+                        <ng-container *ngFor="let matForm of materias.controls; let i = index;" 
+                        [formGroupName]="i">
                             <div >
 
                                 <mat-form-field appearance="standard" style="width: 245px;">
@@ -154,12 +155,11 @@
                 </button>
             </form>
 
-
             <form novalidate [formGroup]="moduloForm">
 
                 <ng-container formArrayName="documentosExigidos">
 
-                    <ng-container *ngFor="let docsForm of documentos.controls; let i = index;">
+                    <ng-container *ngFor="let docsForm of documentos.controls; let i = index;" [formGroupName]="i">
                         <div >
 
                             <mat-form-field appearance="standard" style="width: 180px;">
@@ -191,7 +191,7 @@
                                     delete_forever</mat-icon>
                             </button>
 
-                            <br>
+                            <!-- <br>
 
                             <mat-form-field appearance="standard" style="width: 90px;">
                                 <mat-label>Validade (dias)</mat-label>
@@ -201,7 +201,7 @@
 
                             <mat-checkbox color="primary" style="margin-left:10px ;"
                                 formControlName="obrigatorioParaMatricula">
-                                Documento obrigatório para matrícula</mat-checkbox>
+                                Documento obrigatório para matrícula</mat-checkbox> -->
 
                         </div>
                     </ng-container>
@@ -224,7 +224,7 @@
 
     <span>
         <form novalidate [formGroup]="moduloForm" (ngSubmit)="onSubmit(moduloForm)" style="width: 200px; float: right;">
-            <button type="submit" [disabled]="disabledSaveButton" mat-raised-button color="primary"
+            <button type="submit" [disabled]="disabledSave" mat-raised-button color="primary"
                 style="float:right;margin-top: 10px">
 
                 salvar

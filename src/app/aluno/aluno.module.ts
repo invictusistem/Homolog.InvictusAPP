@@ -4,14 +4,21 @@ import { AlunoSiaComponent } from './aluno.component';
 import { EstagioSiaComponent } from './estagio/estagio-sia.component';
 import { EstagiosiaDocumentacaoComponent } from './estagio/documentos/estagiosia-documentacao.component';
 import { AlunoSiaService } from './services/aluno-sia.service';
+import { EstagioSelecionarComponent } from './estagio/selecionar/estagio-selecionar.component';
+import { AlunoReqsComponent } from './requerimento/aluno-reqs.component';
+import { ReqsCriarComponent } from './requerimento/criar/reqs-criar.component';
 
 @NgModule({
     declarations: [
         AlunoSiaComponent,
-        EstagioSiaComponent,
+        // Estagio
         EstagioSiaComponent,
         EstagiosiaDocumentacaoComponent,
-        EstagiosiaDocumentacaoComponent
+        EstagioSelecionarComponent,
+        // Requerimento
+        AlunoReqsComponent,
+        ReqsCriarComponent
+        
         // AlunoEstagioComponent,
         // InscricaoEstComponent,
         // AlunoDocsComponent
@@ -25,11 +32,17 @@ import { AlunoSiaService } from './services/aluno-sia.service';
     ],    
     exports: [
         AlunoSiaComponent,
-        EstagioSiaComponent
+        // Estágio
+        EstagioSiaComponent,
+        // Requerimento
+        AlunoReqsComponent
         //AlunoEstagioComponent        
     ],
     entryComponents: [  
-        EstagiosiaDocumentacaoComponent
+        EstagiosiaDocumentacaoComponent,
+        EstagioSelecionarComponent,
+        // Requerimento
+        ReqsCriarComponent
         // InscricaoEstComponent,
         // AlunoDocsComponent
     ]

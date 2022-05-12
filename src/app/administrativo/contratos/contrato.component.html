@@ -10,9 +10,9 @@
     </div>
 
     <br>
-   
-     <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" 
-    class="form-inline siteForm" style="margin-top: 5px;display: inline-block">
+
+    <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm"
+        style="margin-top: 5px;display: inline-block">
 
         <span style="font-size: 0.9em;font-style: italic;">
             Selecione o tipo do pacote para pesquisar pelo contrato:
@@ -23,13 +23,12 @@
             <mat-form-field appearance="standard" style="width: 200px;">
 
                 <mat-label></mat-label>
-                <mat-select [disabled]="typesPacotes.length == 0" formControlName="typePacoteId"  placeholder="type pacote">
-                    <mat-option ></mat-option>
-                    <mat-option *ngFor="let pac of typesPacotes"
-                    [value]="pac.id"
-                    >{{pac.nome}}</mat-option>
+                <mat-select [disabled]="typesPacotes.length == 0" formControlName="typePacoteId"
+                    placeholder="type pacote">
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let pac of typesPacotes" [value]="pac.id">{{pac.nome}}</mat-option>
                 </mat-select>
-        
+
             </mat-form-field>
 
             <span>
@@ -43,9 +42,10 @@
 
         </div>
 
-    </form>  
-   
-    <mat-progress-bar @rowHighlight [style.visibility]="initProgressBar" style="margin:0px"  mode="query"></mat-progress-bar>
+    </form>
+
+    <mat-progress-bar @rowHighlight [style.visibility]="initProgressBar" style="margin:0px" mode="query">
+    </mat-progress-bar>
 
     <div @rowHighlight *ngIf="contratos.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
         position: relative;
@@ -60,40 +60,22 @@
         </div>
 
         <div class="card-body">
-            <div class="table-responsive" style="height: 430px;position: relative;">
+            <div class="table-responsive table-contratos">
 
-                <table color="primary" style="margin-bottom: 0px;" class="table">
+                <table color="primary" class="table">
                     <thead>
                         <tr>
-                            <th style="width: 2%; 
-                text-align:left; 
-                vertical-align: middle;
-                border-top: 0px;"></th>
+                            <th></th>
 
-                            <th style="width: 25%;font-size:1.2em;
-                                vertical-align: middle;
-                                text-align:left;
-                border-top: 0px; font-weight: 400;">Título</th>
+                            <th>TÍTULO</th>
 
-                            <th style="width: 20%;font-size:1.2em;
-                        vertical-align: middle;
-                        text-align:center;
-                        border-top: 0px; font-weight: 400;">Código</th>
+                            <th>CÓDIGO</th>
 
-                        <th style="width: 15%;font-size:1.2em;
-                        vertical-align: middle;
-                        text-align:center;
-                        border-top: 0px; font-weight: 400;">Ativo</th>
+                            <th>ATIVO</th>
 
-                            <th style="width: 20%;font-size:1.2em;
-                text-align:center; 
-                vertical-align: middle;
-                border-top: 0px; font-weight: 400;">Data Cadasto</th>
+                            <th>DATA CADASTRO</th>
 
-                            <th style="width: 6%;font-size:1.2em;
-                text-align:center; 
-                vertical-align: middle;
-                border-top: 0px; font-weight: 400;"></th>
+                            <th></th>
 
                             <!-- <th style="width: 6%;
                 border-top: 0px;"></th>
@@ -128,6 +110,15 @@
                                         <mat-icon>settings</mat-icon>
                                     </button>
                                 </i>
+
+                                <i style="margin: 0px; margin: 0px;" *ngIf="item.podeEditar" #tooltip="matTooltip"
+                                matTooltip="baixar exemplo" matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button (click)="GetSamplePDFModal(item.id)"
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon>file_download</mat-icon>
+                                </button>
+                            </i>
 
                             </td>
                             <!-- <td style="text-align: center;vertical-align: middle;">

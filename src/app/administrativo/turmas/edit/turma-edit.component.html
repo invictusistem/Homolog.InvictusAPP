@@ -59,7 +59,6 @@
             </mat-form-field>
         </ng-container>
 
-
         <ng-template #iniciada>
             <br>
             <mat-form-field appearance="standard" style="width: 60%;">
@@ -71,7 +70,9 @@
             <!-- <div style="margin-left: 10px;margin-bottom: 30px;">Turma iniciada em {{turma.previsaoAtual | date:'d/M/yyy'}} com previsão de término em {{turma.previsaoTerminoAtual | date:'d/M/yyy'}}</div> -->
 
         </ng-template>
+
         <br>
+        
         <mat-form-field appearance="standard" style="border-color: black; width: 16%">
             <mat-label>vagas/matriculados:</mat-label>
             <input [disabled]="true" name="templateName" matInput value="{{turma.vagas}}/{{turma.totalAlunos}}">

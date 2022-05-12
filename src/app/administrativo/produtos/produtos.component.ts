@@ -5,6 +5,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { environment } from "src/environments/environment";
+import { OpenCreateProdutoModalConfig, OpenDoacaoProdutoModalConfig, OpenEditProdutoModalConfig } from "../services/adm-modal";
 import { ProdutoCreateComponent } from "./create/produto-create.component";
 import { ProdutoDoacaoComponent } from "./doacao/produto-doacao.component";
 import { ProdutoEditComponent } from "./edit/produto-edit.component";
@@ -56,21 +57,11 @@ export class ProdutosComponent implements OnInit {
 
     openCreateProdutoModal(): void {
         const dialogRef = this._modal
-            .open(ProdutoCreateComponent, {
-                height: 'auto',
-                width: '600px',
-
-                data: { Hello: "Hello World" },
-                hasBackdrop: true,
-                disableClose: true
-            });       
-
-        dialogRef.afterClosed().subscribe(result => {
-            if (result.clicked === "Ok") {
+            .open(ProdutoCreateComponent, OpenCreateProdutoModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "Ok") {
 
                 this.GetProdutos();
-               
-            } else if (result.clicked === "Cancel") {
                
             }
         });
@@ -78,52 +69,26 @@ export class ProdutosComponent implements OnInit {
 
     openEditProdutoModal(produto: any): void {
         const dialogRef = this._modal
-            .open(ProdutoEditComponent, {
-                height: 'auto',
-                width: '600px',
-
-                data: { produto: produto },
-                hasBackdrop: true,
-                disableClose: true
-            });
-        
-
-        dialogRef.afterClosed().subscribe(result => {
+            .open(ProdutoEditComponent, OpenEditProdutoModalConfig(produto));
+        dialogRef.afterClosed().subscribe((result) => {
             if (result.clicked === "Ok") {
 
                 this.GetProdutos();
-               
-            } else if (result.clicked === "Cancel") {
                
             }
         });
     }
 
-    openDoacaoProdutoModal(produto: any): void{ //ProdutoDoacaoComponent
+    openDoacaoProdutoModal(produto: any): void{
         const dialogRef = this._modal
-        .open(ProdutoDoacaoComponent, {
-            height: 'auto',
-            width: '900px',
-            autoFocus: false,
-            maxHeight: '90vh',
-            maxWidth: '400vh',
+            .open(ProdutoDoacaoComponent, OpenDoacaoProdutoModalConfig(produto));
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result.clicked === "Ok") {
 
-
-            data: { produto: produto },
-            hasBackdrop: true,
-            disableClose: true
+                this.GetProdutos();
+               
+            }
         });
-    
-
-    dialogRef.afterClosed().subscribe(result => {
-        if (result.clicked === "Ok") {
-
-            this.GetProdutos();
-           
-        } else if (result.clicked === "Cancel") {
-           
-        }
-    });
     }
 
 

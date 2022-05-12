@@ -6,23 +6,23 @@ import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { AdmService } from "../../services/adm.service";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
-
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
     selector: 'editacessomodal',
     templateUrl: './editacesso.component.html',
-    styleUrls: ['./editacesso.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./editacesso.component.scss']
 })
 
-export class EditAcessoComponent implements OnInit {
+export class EditAcessoComponent extends BaseComponent implements OnInit {
 
 
     public myrForm: FormGroup;
-    private jwtHelper = new JwtHelperService();
-    public tokenInfo: TokenInfos = new TokenInfos();
+    //private jwtHelper = new JwtHelperService();
+    //public tokenInfo: TokenInfos = new TokenInfos();
     public mostrarModalPrincipal = true
-    public initProgressBar = 'visible'
+    //public initProgressBar = 'visible'
     public saveProgressBar = 'hidden'
     public disabledEnvio = false
     public showContent = false
@@ -32,11 +32,11 @@ export class EditAcessoComponent implements OnInit {
 
     constructor(
         private _admService: AdmService,
-        private _helper: HelpersService,
+        override _snackBar: MatSnackBar,
         private _fb: FormBuilder,
         public dialogRef: MatDialogRef<EditAcessoComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-
+            super(_snackBar);
         this.myrForm = _fb.group({
             nome: ['', [Validators.required, Validators.minLength(5)]],
 
@@ -46,7 +46,7 @@ export class EditAcessoComponent implements OnInit {
 
     ngOnInit() {
         const token: any = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token)
+        ////this.tokenInfo = this.jwtHelper.decodeToken(token)
        // console.log(this.data['usuario'])
         this.getAcessos()
     }
@@ -72,12 +72,12 @@ export class EditAcessoComponent implements OnInit {
     }
 
     enviarLoginSucesso(resp: any){
-        this._helper.openSnackBarSucesso("E-mail com informações de acesso enviado com sucesso.")
+        this.OpenSnackBarSucesso("E-mail com informações de acesso enviado com sucesso.")
         this.disabledEnvio = false
     }
 
     enviarLoginFalha(error: any){
-        this._helper.openSnackBarErrorDefault()
+        this.OpenSnackBarErrorDefault()
         this.disabledEnvio = false
     }
 
@@ -117,7 +117,7 @@ export class EditAcessoComponent implements OnInit {
         this.saveProgressBar = 'hidden'
     }
 
-    disabledSaveButton = false
+    //disabledSaveButton = false
     get disabledButton() {
 
         // console.log(JSON.stringify(this.varJson))

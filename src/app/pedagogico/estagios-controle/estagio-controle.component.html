@@ -115,7 +115,7 @@
                             <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
 
                             <td style="text-align:center;vertical-align: middle;">{{item.numeroMatricula ||
-                                'sem estágio'}}</td>
+                                'não matriculado'}}</td>
 
 
                             <td style="text-align: center;vertical-align: middle;">{{item.cpf | cpf}}</td>
@@ -127,7 +127,7 @@
                             <td style="text-align: center;vertical-align: middle;">
 
 
-                                  <!-- <ng-container *ngIf="item.status == null;else semMat">
+                                <!-- <ng-container *ngIf="item.status == null;else semMat">
 
                                   <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
                                         matTooltip="informações financeiras" matTooltipPosition="above"
@@ -171,7 +171,7 @@
 
                                 </ng-container>-->
 
-                               <!-- <ng-template #semMat>
+                                <!-- <ng-template #semMat>
 
                                     <ng-container *ngIf="item.status == null;else aguardando">
 
@@ -282,7 +282,7 @@
                                             <button (click)="matricular(item)"
                                                 style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                                 mat-icon-button>
-                                                <mat-icon >read_more</mat-icon>
+                                                <mat-icon>read_more</mat-icon>
                                             </button>
                                         </i>
 
@@ -302,7 +302,40 @@
                                       <inner-element></inner-element>
                                       <inner-other-element></inner-other-element>
                                     </ng-container>-->
-                                    <ng-container *ngSwitchDefault>matreiculado</ng-container>
+                                    <ng-container *ngSwitchCase="'Aguardando escolha do aluno'">
+
+                                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                            matTooltip="informações cadastrais" matTooltipPosition="above"
+                                            matTooltipHideDelay="100">
+                                            <button (click)="OpenInfoModal(item)"
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon>info</mat-icon>
+                                            </button>
+
+                                        </i>
+
+                                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                            matTooltip="liberar matrícula para estágio" matTooltipPosition="above"
+                                            matTooltipHideDelay="100">
+                                            <button (click)="matricular(item)"
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon>read_more</mat-icon>
+                                            </button>
+                                        </i>
+
+                                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                            matTooltip="documentação/pendência" matTooltipPosition="above"
+                                            matTooltipHideDelay="100">
+                                            <button (click)="Documentacao(item)"
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon style="color:rgb(138, 23, 23)">warning</mat-icon>
+                                            </button>
+                                        </i>
+
+                                    </ng-container>
                                 </container-element>
 
                             </td>

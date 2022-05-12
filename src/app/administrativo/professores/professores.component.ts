@@ -1,14 +1,16 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Component, ElementRef } from "@angular/core";
+import { Component, ElementRef, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { Cargos, Unidades } from "src/app/_shared/models/perfil.model";
 import { TokenInfos } from "src/app/_shared/models/token.model";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 import { environment } from "src/environments/environment";
-import { CreateProfessorModalConfig, ProfCalendarioModalConfig, ProfEditModalConfig, ProfRelatorioModalConfig } from "../services/adm-modal";
+import { CreateProfessorModalConfig, OpenProfMateriasModalConfig, ProfCalendarioModalConfig, ProfEditModalConfig, ProfRelatorioModalConfig } from "../services/adm-modal";
 import { ProfCalendarioComponent } from "./calendario/professor-calend.component";
 import { CreateProfessorComponent } from "./create/professor-create.component";
 import { EditProfessorComponent } from "./edit/professor-edit.component";
@@ -19,26 +21,25 @@ import { ProfRelatorioComponent } from "./relatorio/professor-rel.component";
 @Component({
     selector: "professores-app",
     templateUrl: './professores.component.html',
-    styleUrls: ['./professores.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./professores.component.scss']
 })
 
-export class ProfessoresComponent {
+export class ProfessoresComponent extends BaseComponent implements OnInit{
 
     // paginated
-    pageIndexNumber: number = 0;
-    public spinnerSearch = 'hidden'
+    //pageIndexNumber: number = 0;
+    //,public spinnerSearch = 'hidden'
     actualPage = 1
     paginationInfo?: IPager;
-    pageSize: number = 5;
-    pageEvent: PageEvent  = new PageEvent()
-    length: number = 0
+    //pageSize: number = 5;
+    //pageEvent: PageEvent  = new PageEvent()
+    //length: number = 0
     public totalPages: number = 0
     
 
 
     professores: any[] = new Array<any>();//Colaborador[] = new Array<Colaborador>();
-    baseUrl = environment.baseUrl;
+    //baseUrl = environment.baseUrl;
 
 
 
@@ -56,8 +57,8 @@ export class ProfessoresComponent {
     showMessageNoColaborador = false
     mensagem: string = "";
 
-    public tokenInfo: TokenInfos = new TokenInfos();
-    private jwtHelper = new JwtHelperService();
+    //public tokenInfo: TokenInfos = new TokenInfos();
+    //private jwtHelper = new JwtHelperService();
 
     public pesquisarForm: FormGroup
     //pagination
@@ -67,8 +68,10 @@ export class ProfessoresComponent {
        // private elementRef: ElementRef,
         private http: HttpClient,
         private _fb: FormBuilder,
+        override _snackBar: MatSnackBar,
        // private CreateColaboradoresModal: MatDialog,
         private _modal: MatDialog) {
+            super(_snackBar);
         this.pesquisarForm = _fb.group({
             nome: ['', [Validators.required]],
             email: ['', [Validators.required]],
@@ -111,7 +114,7 @@ export class ProfessoresComponent {
 
     ngOnInit() {
         // console.log('init colaboradores 123')
-        const token = localStorage.getItem('jwt')
+        //const token = localStorage.getItem('jwt')
     }
 
     pageIndex = 0
@@ -305,24 +308,13 @@ export class ProfessoresComponent {
 
     openProfMateriasModal(prof: any):void{
         const dialogRef = this._modal
-            .open(ProfMateriasComponent, {
-                //minHeight: '520px',
-                width: '880px',
-              //  panelClass: 'my-class',
-                data: { prof: prof },
-                hasBackdrop: true,
-                disableClose: true
-            });
-
-
+            .open(ProfMateriasComponent, OpenProfMateriasModalConfig(prof));
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
                 
-              //  console.log('afte close ok')
-                this.getColaboradores(1, this.pageSize);
-            } else if (data.clicked === "Cancel") {
-               
-            }
+                //  console.log('afte close ok')
+                  this.getColaboradores(1, this.pageSize);
+              }
         });
     }
     

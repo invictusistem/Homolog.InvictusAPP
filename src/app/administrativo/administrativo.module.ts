@@ -53,6 +53,8 @@ import { EditAcessoComponent } from "./usuarios/acesso-edit/editacesso.component
 import { CreateUserComponent } from "./usuarios/create/createuser.component";
 import { EditUserComponent } from "./usuarios/edit/edituser.component";
 import { UsuarioComponent } from "./usuarios/usuario.component";
+import { MatEditComponent } from './configuracoes/materia-edit/mat-edit.component';
+import { DocEditComponent } from './configuracoes/doc-edit/doc-edit.component';
 
 
 @NgModule({
@@ -70,9 +72,11 @@ import { UsuarioComponent } from "./usuarios/usuario.component";
         // Configurações
         ConfiguracoesComponent,
         MateriaTemplateComponent,
+        MatEditComponent,
         DocTemplateComponent,
         CargoEditComponent,
         CargoCreateComponent,
+        DocEditComponent,
         // Contratos
         ContratoComponent,
         EditarContratoComponent,
@@ -120,7 +124,9 @@ import { UsuarioComponent } from "./usuarios/usuario.component";
         UsuarioComponent,
         EditUserComponent,
         CreateUserComponent,
-        EditAcessoComponent
+        EditAcessoComponent,
+        MatEditComponent,
+        DocEditComponent
     ],
     imports: [
         SharedModule,
@@ -153,7 +159,6 @@ import { UsuarioComponent } from "./usuarios/usuario.component";
         UnidadesComponent,
         // Usuarios
         UsuarioComponent
-
     ],
     entryComponents: [
         // Bolsas
@@ -165,9 +170,11 @@ import { UsuarioComponent } from "./usuarios/usuario.component";
         EditColaboradoresComponent,
         // Configurações
         MateriaTemplateComponent,
+        MatEditComponent,
         DocTemplateComponent,
         CargoEditComponent,
         CargoCreateComponent,
+        DocEditComponent,
         // Contratos
         EditarContratoComponent,
         CreateContratoComponent,

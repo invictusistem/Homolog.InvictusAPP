@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BaseComponent } from 'src/app/_shared/services/basecomponent.component';
-import { OpenEstagioDocModalConfig } from '../services/aluno-sia.modal';
+import { OpenEstagioDocModalConfig, OpenEstagioSelecionarModalConfig } from '../services/aluno-sia.modal';
 import { AlunoSiaService } from '../services/aluno-sia.service';
 import { EstagiosiaDocumentacaoComponent } from './documentos/estagiosia-documentacao.component';
+import { EstagioSelecionarComponent } from './selecionar/estagio-selecionar.component';
 
 @Component({
   selector: 'app-estagio-sia',
@@ -54,6 +55,12 @@ export class EstagioSiaComponent extends BaseComponent implements OnInit {
       this.envioDocContainer = true
       this.showForm = true
     }
+
+    if (this.status == "liberado") {
+      this.initProgressBar = 'hidden'
+      this.envioDocContainer = true
+      this.showForm = true
+    }
   }
 
   private ResponseFalha(error: any) {
@@ -66,6 +73,15 @@ export class EstagioSiaComponent extends BaseComponent implements OnInit {
   public OpenDocModal(): void {
     const dialogRef = this._modal
       .open(EstagiosiaDocumentacaoComponent, OpenEstagioDocModalConfig());
+
+    dialogRef.afterClosed().subscribe((data) => {
+
+    });
+  }
+
+  public OpenEscolhaEstagio():void {
+    const dialogRef = this._modal
+      .open(EstagioSelecionarComponent, OpenEstagioSelecionarModalConfig());
 
     dialogRef.afterClosed().subscribe((data) => {
 

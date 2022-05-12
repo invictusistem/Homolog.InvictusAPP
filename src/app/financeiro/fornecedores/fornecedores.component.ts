@@ -33,7 +33,8 @@ export class FornecedoresComponent extends BaseComponent implements OnInit {
             nome: ['', [Validators.required]],
             email: ['', [Validators.required]],
             cpf: ['', [Validators.required]],
-            ativo: [false]
+            ativo: [false],
+            todasUnidades: [false]
         });
 
         this.pesquisarForm.valueChanges.subscribe(
@@ -67,7 +68,8 @@ export class FornecedoresComponent extends BaseComponent implements OnInit {
 
         this.showMessageNoData = false
 
-        if (this.pesquisarForm.valid) {
+        if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
+            
             this.spinnerSearch = 'visible'
 
             if (event != undefined) {

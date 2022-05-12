@@ -7,7 +7,9 @@
     </i>
 </div>
 
-<!-- <div style="font-size: 0.8em;margin-top: 5px;">* O colaborador será salvo na unidade de {{tokenInfo.Unidade}}</div> -->
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
 <hr>
 
 <div style="position: relative;">
@@ -31,16 +33,35 @@
                 formControlName="validadeDias" matInput placeholder="">
         </mat-form-field>
 
+        <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>
 
-        <ng-container>
-            <button type="submit" mat-raised-button disabled="true" color="primary"
-                style="float:right;margin-bottom: 0px;margin-left: 10px;" [disabled]="!docForm.valid || progress">
-
-
-                <mat-spinner *ngIf="progress" style="margin-left: 8px;margin-top: 5px; position: absolute;"
-                    [diameter]="26"></mat-spinner>Salvar
+        <span style="float: right;margin-top: 15px;">
+            <button type="submit" mat-raised-button color="primary" 
+                style="float:right;margin-left: 10px;" [disabled]="disabledSave">
+               Salvar
             </button>
-        </ng-container>
+        </span>
+
+         <!-- <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>
+
+        <span [style.visibility]="showMensagem"  
+        style="width: 480px; text-align: left; vertical-align: middle;
+        float:left;margin-top: 15px;
+            padding: 0px;">
+            <div *ngFor="let erro of msgErros; " style="font-size: 0.8em;color: red;">
+                * {{ erro }}
+            </div>
+        </span>
+
+        <span style="float: right;margin-top: 15px;">
+
+            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" 
+            style="float:right;margin-left: 10px;">
+                Salvar
+            </button>
+        </span> -->
 
 
 

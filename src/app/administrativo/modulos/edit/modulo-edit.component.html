@@ -63,7 +63,8 @@
 
                     <ng-container formArrayName="materias">
 
-                        <ng-container *ngFor="let matForm of materias.controls; let i = index;">
+                        <ng-container *ngFor="let matForm of materias.controls; let i = index;" 
+                        [formGroupName]="i">
                             <div >
 
                                 <span>{{ i + 1 }} - </span>
@@ -146,7 +147,8 @@
 
             <ng-container formArrayName="documentosExigidos">
 
-                <ng-container *ngFor="let docsForm of documentosExig.controls; let i = index;">
+                <ng-container *ngFor="let docsForm of documentosExig.controls; let i = index;" 
+                [formGroupName]="i">
                     <div >
 
                         <mat-form-field appearance="standard" style="width: 180px;">
@@ -213,7 +215,7 @@
 
     <span>
         <form novalidate [formGroup]="moduloForm" (ngSubmit)="onSubmit(moduloForm)" style="width: 200px; float: right;">
-            <button type="submit" [disabled]="disabledSaveButton" mat-raised-button color="primary"
+            <button type="submit" [disabled]="disabledSave" mat-raised-button color="primary"
                 style="float:right;margin-top: 10px">
 
                 salvar

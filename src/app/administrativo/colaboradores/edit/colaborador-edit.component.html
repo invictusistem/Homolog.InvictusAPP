@@ -21,7 +21,9 @@
         <mat-form-field appearance="standard" style="width: 55%; ">
             <mat-label>Nome</mat-label>
             <input oninput="this.value = this.value.toUpperCase()"
-             matInput required formControlName="nome">
+            [value]="colaboradorForm.get('nome')?.value"
+            formControlName="nome"
+             matInput required >
         </mat-form-field>
 
         <mat-form-field appearance="standard" style="width: 40%; margin-left: 5%;">
@@ -65,7 +67,7 @@
             matInput formControlName="cep">
         </mat-form-field>
         
-        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP" matTooltipPosition="above"
+        <i [style.visibility]="autorizado" style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP" matTooltipPosition="above"
             matTooltipHideDelay="100">
             <span type="button" (click)="consultaCEP(colaboradorForm.get('cep')?.value)" style="margin: 0px; margin: 0px;" mat-icon-button>
                 <mat-icon>search</mat-icon>
@@ -83,9 +85,12 @@
                 <input formControlName="numero" oninput="this.value = this.value.toUpperCase()" required selected matInput placeholder="ex: rua tal...">
             </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 45%; margin-left: 5%;">
+            <mat-form-field appearance="standard" style="width: 45%; margin-left: 5%;" floatLabel="always">
                 <mat-label>Complemento</mat-label>
-                <input selected matInput oninput="this.value = this.value.toUpperCase()" formControlName="complemento">
+                <input matInput oninput="this.value = this.value.toUpperCase()" 
+                
+                [value]="colaboradorForm.get('complemento')?.value"
+                formControlName="complemento">
             </mat-form-field>
 
             <br>
@@ -101,7 +106,7 @@
                     placeholder="digite o bairro">
             </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 35%; margin-left: 5%">
+            <mat-form-field appearance="standard" style="width: 35%; margin-left: 5%" hideRequiredMarker="true">
                 <mat-label>Bairro</mat-label>
                 <input selected formControlName="bairro" matInput oninput="this.value = this.value.toUpperCase()" >
             </mat-form-field>
@@ -112,7 +117,7 @@
         <mat-progress-bar [style.visibility]="saveBar" @rowHighlight mode="query">
         </mat-progress-bar>
 
-        <div style="float: right;margin-top: 15px;">
+        <div [style.visibility]="autorizado" style="float: right;margin-top: 15px;">
             <button color="primary" [disabled]="desabilitar" type="submit" mat-raised-button 
             style="position: relative; float:right;margin-left: 10px;">
                 Salvar

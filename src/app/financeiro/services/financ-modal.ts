@@ -47,3 +47,45 @@ export function EditFornecedorModal(fornecedor?: any){
         disableClose: true
     }
 }
+
+// configurações
+
+export function OpenBancosConfigModal(){
+    return {
+        width: '680px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenCentroCustoConfigModal(){
+    return {
+        width: '680px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenFormaRecebimentoconfigModal(){
+    return {
+        width: '680px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenMeioPagamentoConfigModal(){
+    return {
+        width: '680px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenPlanocontasConfigModal(){
+    return {
+        width: '680px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}

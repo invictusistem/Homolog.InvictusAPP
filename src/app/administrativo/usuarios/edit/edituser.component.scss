@@ -1,4 +1,8 @@
-mat-dialog-container{
-    margin:0px;
-    padding:0px;
-}
+::ng-deep .usuarios-edit-class {
+    height: 310px !important;
+    width: 600px;
+  }
+  
+  ::ng-deep .mat-form-field {
+    font-size: 0.9em;
+  }

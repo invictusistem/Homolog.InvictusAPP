@@ -12,9 +12,9 @@ export const ROUTES: RouteInfo[] = [
     { path: './adm', title: 'Administrativo', class: '', typeIcon: '' },
     { path: './mat', title: 'Matrícula', class: '', typeIcon: '' },
     { path: './pedag', title: 'Pedagógico', class: '', typeIcon: ''},
-   // { path: './comercial', title: 'Comercial', class: '', typeIcon: ''},
-   // { path: './financeiro', title: 'Financeiro', class: '', typeIcon: '' },
-   // { path: './aluno-sia', title: 'Aluno/Sia', class: '', typeIcon: '' }
+    //{ path: './comercial', title: 'Comercial', class: '', typeIcon: ''},
+    { path: './financeiro', title: 'Financeiro', class: '', typeIcon: '' },
+    //{ path: './aluno-sia', title: 'Aluno/Sia', class: '', typeIcon: '' }
 ]
 
 @Component({

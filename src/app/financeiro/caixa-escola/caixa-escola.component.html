@@ -1,0 +1,42 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+   
+    <br>
+
+    <form novalidate [formGroup]="pesquisarForm" 
+    class="form-inline siteForm">
+
+        <span>Selecione o período
+            para pesquisar pelas
+            vendas efetuadas:
+        </span>      
+
+        <div class="form-row align-items-center">
+
+            <mat-form-field appearance="standard">
+                <mat-label>Selecione o período</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate [disabled]="true" formControlName="start" placeholder="início">
+                    <input matEndDate formControlName="end" [disabled]="true" placeholder="fim">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker disabled="true"></mat-date-range-picker>
+            </mat-form-field>
+
+            <span>
+                <i #tooltip="matTooltip" matTooltip="pesquisar"
+                    matTooltipPosition="above" matTooltipHideDelay="100">
+                    <button disabled type="submit" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+        </div>
+
+    </form>
+
+   
+
+
+</div>

@@ -14,11 +14,13 @@ declare interface RouteInfo {
 }
 
 export const ROUTES: RouteInfo[] = [
+    { path: '/financeiro/caixa-escola', title: 'Caixa/Escola', class: '', typeIcon: 'store' },
     { path: '/financeiro/alunofin', title: 'Aluno/Financeiro', class: '', typeIcon: 'manage_accounts' },
-  //  { path: '/financeiro/balanco', title: 'Caixa/Cursos', class: '', typeIcon: 'store' },
+  //  { path: '/financeiro/caixa-escola', title: 'Caixa/Escola', class: '', typeIcon: 'store' },
     { path: '/financeiro/fincaixa', title: 'Caixa/Produtos', class: '', typeIcon: 'store' },
     //{ path: '/financeiro/unidadebalanco', title: 'Balanço/Unidade', class: '', typeIcon: 'sync_alt' },
-    { path: '/financeiro/fornecedor', title: 'Fornecedores', class: '', typeIcon: 'contact_page' }
+    { path: '/financeiro/fornecedor', title: 'Fornecedores', class: '', typeIcon: 'contact_page' },
+   // { path: '/financeiro/configuracoes', title: 'Configurações', class: '', typeIcon: 'contact_page' }
 ] 
 
 @Component({

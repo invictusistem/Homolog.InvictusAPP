@@ -18,7 +18,7 @@ import { ShowSenhaComponent } from "./show/show-senha.component";
 export class BolsasComponent extends BaseComponent implements OnInit {
 
     public typesPacotes: any[] = new Array<any>();
-    public bolsas: any[] = new Array<any>()    
+    public bolsas: any[] = new Array<any>()
     public pesquisarForm: FormGroup
 
     constructor(
@@ -47,12 +47,12 @@ export class BolsasComponent extends BaseComponent implements OnInit {
 
     }
 
-    GetTypePacotesSucesso(resposta:any) {
+    GetTypePacotesSucesso(resposta: any) {
         this.typesPacotes = Object.assign([], resposta['typePacotes']);
         this.initProgressBar = 'hidden'
     }
 
-    GetTypePacotesErro(error:any) {
+    GetTypePacotesErro(error: any) {
         this.initProgressBar = 'hidden'
     }
 
@@ -68,14 +68,14 @@ export class BolsasComponent extends BaseComponent implements OnInit {
         }
     }
 
-    PesquisarSucesso(resp:any) {
+    PesquisarSucesso(resp: any) {
         this.bolsas = new Array<any>()
         this.bolsas = resp['bolsas']
         this.length = this.bolsas.length
         this.initProgressBar = 'hidden'
     }
 
-    PesquisarFalha(Error:any) {
+    PesquisarFalha(Error: any) {
         this.bolsas = new Array<any>()
         this.initProgressBar = 'hidden'
         this.showMessageNotFound = true
@@ -85,7 +85,7 @@ export class BolsasComponent extends BaseComponent implements OnInit {
         const dialogRef = this._modal
             .open(CreateBolsaComponent, CreateBolsaModalConfig());
         dialogRef.afterClosed().subscribe((data) => {
-           
+
         });
     }
 
@@ -93,18 +93,18 @@ export class BolsasComponent extends BaseComponent implements OnInit {
         return false
     }
 
-    EditarBolsa(bolsaId:any){
+    EditarBolsa(bolsaId: any) {
         const dialogRef = this._modal
-        .open(EditBolsaComponent, EditBolsaModalConfig(bolsaId));
-    dialogRef.afterClosed().subscribe((data) => {
-        if(data.clicked == true){
-            this.Pesquisar();
-        }
+            .open(EditBolsaComponent, EditBolsaModalConfig(bolsaId));
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked == true) {
+                this.Pesquisar();
+            }
 
-    });
+        });
     }
 
-    public VerCodigoBolsa(bolsaId:any) {
+    public VerCodigoBolsa(bolsaId: any) {
         this._admService.GetBolsaSenha(bolsaId)
             .subscribe(
                 resposta => { this.showSenha(resposta) },
@@ -112,7 +112,7 @@ export class BolsasComponent extends BaseComponent implements OnInit {
             )
     }
 
-    showSenha(resp:any): void {
+    showSenha(resp: any): void {
         const dialogRef = this._modal
             .open(ShowSenhaComponent, ShowSenhaModalConfig(resp['senha']));
         dialogRef.afterClosed().subscribe((data) => {

@@ -38,7 +38,8 @@ export class BaseComponent {
     public showMessageNotFound = false
     public mensagemNotFound: string = "";
     public disabledSaveButton = 'hidden'
-
+    public hideSaveProgressBar = 'hidden'
+    public disabledCloseModalIcon = false
     // handelr!: HttpHandler
     // client = new HttpClient(this.handelr)
     // private sharedService:SharedService = new SharedService(this.client)
@@ -58,7 +59,7 @@ export class BaseComponent {
     //client = new HttpClient(this.handelr)
     //private service = new SharedService(new HttpClient());
 
-    public openSnackBarSucesso(mensagem?: any) {
+    public OpenSnackBarSucesso(mensagem?: any) {
 
         this._snackBar?.open(mensagem, '', {
             horizontalPosition: 'center',
@@ -68,7 +69,7 @@ export class BaseComponent {
         });
     }
 
-    public openSnackBarError(mensagem?: any) {
+    public OpenSnackBarError(mensagem?: any) {
         this._snackBar?.open(mensagem, '', {
             horizontalPosition: 'center',
             verticalPosition: 'top',
@@ -77,7 +78,7 @@ export class BaseComponent {
         });
     }
 
-    public openSnackBarErrorDefault() {
+    public OpenSnackBarErrorDefault() {
         this._snackBar?.open('Ocorreu um erro, favor procure o administrador do sistema.', '', {
             horizontalPosition: 'center',
             verticalPosition: 'top',

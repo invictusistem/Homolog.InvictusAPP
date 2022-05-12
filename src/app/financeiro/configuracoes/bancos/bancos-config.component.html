@@ -1,0 +1,122 @@
+<div style="font-size: 1.2em;">Bancos
+    <close-modal [disable]="disabledCloseModalIcon"></close-modal>
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showForm" @rowHighlight>
+    <hr>
+
+    <!-- <mat-form-field appearance="standard" style="width: 35%; ">
+        <mat-label>Aluno</mat-label>
+        <input [value]="data['aluno'].nome" [disabled]="true" matInput>
+    </mat-form-field> -->
+
+
+    <br>
+
+    <mat-tab-group class="bancos-tab-group">
+
+        <mat-tab label="Bancos">
+
+            <div class="table-responsive" style="height: 400px;position: relative;">
+                
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+
+                    <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
+                    <thead>
+                        <tr>
+                            <th style="width: 2%; 
+                    text-align:left; 
+                    vertical-align: middle;
+                    border-top: 0px;"></th>
+
+                            <th style="width: 25%;font-size:0.9em;
+                    vertical-align: middle; 
+                    text-align:left;
+                     border-top: 0px; font-weight: 400;">NOME</th>
+
+                            <th style="width: 22%;font-size:0.9em;
+                    vertical-align: middle;
+                    text-align:center;
+                    border-top: 0px; font-weight: 400;">E-MAIL</th>
+
+                            <th style="width: 10%;font-size:0.9em;
+                    vertical-align: middle;
+                    text-align:center;
+                    border-top: 0px; font-weight: 400;"></th>
+
+                            <th style="width: 30%;font-size:0.9em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">MATÉRIA</th>
+
+                            <!--<th style="width: 12%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">Matriculados</th>
+    
+                    <th style="width: 13%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">Status</th> -->
+
+                            <th style="width: 7%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="adicionar professor" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
+                                    <button  style="margin: 0px;" mat-icon-button>
+                                        <mat-icon>person_add</mat-icon>
+                                    </button>
+                                </i>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr >
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">1</td>
+
+                            <td style="font-size:0.9em;text-align:left;vertical-align: middle;">Caixa da Escola
+                            </td>
+
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                ESCOLA
+                            </td>
+
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                ESCOLA
+                            </td>
+
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+
+                            </td>
+
+                            <td style="vertical-align: middle;">
+
+                                <i style="float: right;margin-left: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="excluir" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button 
+                                        style="margin: 0px;" mat-icon-button>
+                                        <mat-icon>delete_outline</mat-icon>
+                                    </button>
+                                </i>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+              
+
+            </div>
+            
+        </mat-tab>
+
+    </mat-tab-group>
+
+</div>

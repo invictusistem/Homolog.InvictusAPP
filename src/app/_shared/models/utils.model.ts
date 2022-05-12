@@ -1,3 +1,25 @@
+import { HttpEventType } from "@angular/common/http";
+
+
+
+export function ExtractFile(data: any, fileName: any){
+      switch (data.type) {
+          case HttpEventType.Response:
+              // this.showSpinner = false;
+              //this.downloadStatus.emit( {status: ProgressStatusEnum.COMPLETE});
+              const downloadedFile = new Blob([data.body], { type: data.body.type });
+              const a = document.createElement('a');
+              a.setAttribute('style', 'display:none;');
+              document.body.appendChild(a);
+              a.download = fileName;
+              a.href = URL.createObjectURL(downloadedFile);
+              a.target = '_blank';
+              a.click();
+              document.body.removeChild(a);
+              break;
+      }
+}
+
 export const Tabs = [
     { class: '', typeIcon: 'manage_accounts' },
     // { path: '/adm/unidades', title: 'Unidades', class: '', typeIcon: 'house' },

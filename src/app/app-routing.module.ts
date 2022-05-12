@@ -14,9 +14,12 @@ import { UnidadesComponent } from './administrativo/unidades/unidades.component'
 import { UsuarioComponent } from './administrativo/usuarios/usuario.component';
 import { AlunoSiaComponent } from './aluno/aluno.component';
 import { EstagioSiaComponent } from './aluno/estagio/estagio-sia.component';
+import { AlunoReqsComponent } from './aluno/requerimento/aluno-reqs.component';
 import { ComercialComponent } from './comercial/comercial.component';
 import { AlunoFinancComponent } from './financeiro/alunos/alunos-financeiro.component';
+import { CaixaEscolaComponent } from './financeiro/caixa-escola/caixa-escola.component';
 import { FinCaixaComponent } from './financeiro/caixa/fincaixa.component';
+import { FinancConfigsComponent } from './financeiro/configuracoes/financ-configs.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
 import { FornecedoresComponent } from './financeiro/fornecedores/fornecedores.component';
 import { MatriculaCadastroComponent } from './matricula/cadastro/matricula-cadastro.component';
@@ -28,6 +31,7 @@ import { DocsAnaliseComponent } from './pedagogico/docs-analise/docs-analise.com
 import { EstagioControleComponent } from './pedagogico/estagios-controle/estagio-controle.component';
 import { EstagioComponent } from './pedagogico/estagios/estagio.component';
 import { PedagogicoComponent } from './pedagogico/pedagogico.component';
+import { PedagReqsComponent } from './pedagogico/requerimentos/pedag-reqs.component';
 import { TransferenciaComponent } from './pedagogico/transferencia/transferencia.component';
 import { PedagogicoturmaComponent } from './pedagogico/turmas/pedagogico-turmas.component';
 import { HomeComponent } from './_shared/home/home.component';
@@ -74,7 +78,7 @@ const routes: Routes = [
       // { path: 'pedagrel', component: PedagRelatorioComponent, canActivate: [AuthGuard] },
       { path: 'estagio', component: EstagioComponent, canActivate: [AuthGuard] },
       { path: 'turmasinfo', component: PedagogicoturmaComponent, canActivate: [AuthGuard] },
-      // { path: 'reposicoes', component:  ReposicoesComponent, canActivate: [AuthGuard] },
+      { path: 'requerimentos', component:  PedagReqsComponent, canActivate: [AuthGuard] },
       { path: 'analisedocs', component: DocsAnaliseComponent, canActivate: [AuthGuard] },
       { path: 'estagiosdoc', component: EstagioControleComponent, canActivate: [AuthGuard] },
       { path: 'alunoacesso', component: AlunoAcessoComponent, canActivate: [AuthGuard] }
@@ -91,17 +95,18 @@ const routes: Routes = [
     path: 'financeiro', component: FinanceiroComponent, canActivate: [AuthGuard],
     children: [
       { path: 'alunofin', component: AlunoFinancComponent, canActivate: [AuthGuard] },
-      // { path: 'balanco', component: BalancoComponent, canActivate: [AuthGuard] },
+      { path: 'caixa-escola', component: CaixaEscolaComponent, canActivate: [AuthGuard] },
       // { path: 'unidadebalanco', component: UnidadeBalancoComponent, canActivate: [AuthGuard] },
       { path: 'fincaixa', component: FinCaixaComponent, canActivate: [AuthGuard] },
-      { path: 'fornecedor', component: FornecedoresComponent, canActivate: [AuthGuard] }
-      // { path: 'relatorio', component: FinRelatorioComponent, canActivate: [AuthGuard] }
+      { path: 'fornecedor', component: FornecedoresComponent, canActivate: [AuthGuard] },
+      { path: 'configuracoes', component: FinancConfigsComponent, canActivate: [AuthGuard] }
     ]
   },
   {
     path: 'aluno-sia', component: AlunoSiaComponent, canActivate: [AuthGuard],
     children: [
-      { path: 'estagio-sia', component: EstagioSiaComponent, canActivate: [AuthGuard] }
+      { path: 'estagio-sia', component: EstagioSiaComponent, canActivate: [AuthGuard] },
+      { path: 'requerimentos', component: AlunoReqsComponent, canActivate: [AuthGuard] }
       // { path: 'alunodocs', component: AlunoDocsComponent, canActivate: [AuthGuard] }
     ]
   },

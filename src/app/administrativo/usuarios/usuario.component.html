@@ -42,6 +42,12 @@
                 </i>
             </span>
 
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                todas unidades:
+            </span>
+            <mat-checkbox formControlName="todasUnidades" color="primary"></mat-checkbox>
+
+
         </div>
 
     </form>
@@ -57,45 +63,31 @@
 
     <div @rowHighlight *ngIf="usuarios.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
         position: relative;
-        margin-top: 50px;
+        margin-top: 20px;
         box-shadow: 0 0 1em rgb(172, 170, 170);
         background-color: rgb(227, 240, 227);">
 
         <div class="card-header">
             <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
                 Usuários</h4>
-            <p class="card-category"> Usuários com acesso sistema - {{ tokenInfo.Unidade }}</p>
+            <p class="card-category"> Usuários com acesso ao sistema</p>
         </div>
 
         <div class="card-body">
-            <div class="table-responsive" style="height: 430px;position: relative;">
+            <div class="table-responsive table-usuarios" style="height: 430px;position: relative;">
 
                 <table color="primary" style="margin-bottom: 0px;" class="table">
                     <thead>
                         <tr>
-                            <th style="width: 2%; 
-                    text-align:center; 
-                    vertical-align: middle;
-                    border-top: 0px;"></th>
+                            <th></th>
 
-                            <th style="width: 38%;font-size:1.2em;
-                                    vertical-align: middle;
-                    border-top: 0px; font-weight: 400;">Nome</th>
+                            <th>NOME</th>
 
-                            <th style="width: 20%;font-size:1.2em;
-                    text-align:center; 
-                    vertical-align: middle;
-                    border-top: 0px; font-weight: 400;">Perfil</th>
+                            <th>PERFIL</th>
 
-                            <th style="width: 20%;font-size:1.2em;
-                    text-align:center; 
-                    vertical-align: middle;
-                    border-top: 0px; font-weight: 400;">Autorizado</th>
+                            <th>AUTORIZADO</th>
 
-                            <th style="width: 20%;
-                    border-top: 0px;"></th>
-
-
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -113,8 +105,8 @@
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="ativo"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
                                     <button style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                                        [style.color]="item.ativo == true ? 'green' : 'red'" mat-icon-button>
-                                        <mat-icon>{{item.ativo == true ? 'done' : 'close'}}</mat-icon>
+                                        [style.color]="item.clamKey == true ? 'green' : 'red'" mat-icon-button>
+                                        <mat-icon>{{item.clamKey == true ? 'done' : 'close'}}</mat-icon>
                                     </button>
                                 </i>
                             </td>
@@ -142,6 +134,16 @@
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>key</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i *ngIf="podeDeletar" style="margin: 10px; " #tooltip="matTooltip"
+                                    matTooltip="deletar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="disabledOpenEditButton" 
+                                    (click)="Deletar(item.email)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>delete_outline</mat-icon>
                                     </button>
                                 </i>
 
@@ -197,15 +199,16 @@
 
             </div>
 
-            <!-- <mat-paginator *ngIf="length > 5" style="
+            <mat-paginator *ngIf="length > 5" style="
                 background-color: rgb(227, 240, 227);
                 bottom: 0px;
-                right: 0px;" [length]="length" 
-                [pageSize]="5" 
+                right: 0px;" 
+                [length]="length" 
+                [pageSize]="pageSize" 
                 hidePageSize="true" 
                 (page)="pageEvent = onSubmit($event)"
                >
-            </mat-paginator> -->
+            </mat-paginator>
 
         </div>
 

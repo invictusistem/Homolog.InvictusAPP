@@ -3,17 +3,18 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { AdmService } from "../../services/adm.service";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
     selector: 'edit-bolsamodal',
     templateUrl: './edit-bolsa.component.html',
-    styleUrls: ['./edit-bolsa.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./edit-bolsa.component.scss']
 })
 
-export class EditBolsaComponent implements OnInit {
+export class EditBolsaComponent extends BaseComponent implements OnInit {
 
-    public initProgressBar = 'visible'
+    //public initProgressBar = 'visible'
     public showContent = false
     // public typesPacotes: any;
     public originalBolsa: any
@@ -21,10 +22,11 @@ export class EditBolsaComponent implements OnInit {
 
     constructor(
         private _admService: AdmService,
+        override _snackBar: MatSnackBar,
         private _fb: FormBuilder,
         public dialogRef: MatDialogRef<EditBolsaComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-
+            super(_snackBar);
         this.bolsaForm = _fb.group({
             id: [''],
             nome: ['', [Validators.required]],
@@ -35,8 +37,6 @@ export class EditBolsaComponent implements OnInit {
             colaborador: [''],
             unidadeId: [''],
             dataCriacao: ['']
-
-
         })
     }
 
@@ -67,7 +67,7 @@ export class EditBolsaComponent implements OnInit {
         this.initProgressBar = 'hidden'
     }
 
-    disabledSaveButton = 'hidden'
+    //disabledSaveButton = 'hidden'
     get disabledButton() {
         if (this.bolsaForm.valid &&
             JSON.stringify(this.originalBolsa) !=
@@ -99,8 +99,4 @@ export class EditBolsaComponent implements OnInit {
     onSubmitErro(error?:any) {
         this.disabledSaveButton = 'hidden'
     }
-
-
 }
-
-

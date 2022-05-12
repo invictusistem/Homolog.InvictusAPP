@@ -45,7 +45,7 @@ export class EstagioComponent implements OnInit {
         this._pedagService.GetEstagios()
             .subscribe(
                 sucesso => { this.GetEstagiosSucesso(sucesso) },
-                erro => { this.GetEstagiosFalha(erro) },
+                erro => { this.GetEstagiosFalha(erro) }
             )
     }
 

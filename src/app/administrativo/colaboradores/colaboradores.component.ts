@@ -19,9 +19,9 @@ import { EditColaboradoresComponent } from "./edit/colaborador-edit.component";
 
 export class ColaboradoresComponent extends BaseComponent implements OnInit {
 
-    colaboradores: any[] = new Array<any>();    
+    colaboradores: any[] = new Array<any>();
     public pesquisarForm: FormGroup
-    
+
     constructor(
         private _admService: AdmService,
         override _snackBar: MatSnackBar,
@@ -69,7 +69,7 @@ export class ColaboradoresComponent extends BaseComponent implements OnInit {
 
         if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
 
-            this.spinnerSearch = 'visible'            
+            this.spinnerSearch = 'visible'
 
             if (event != undefined) {
                 this.currentPage = event.pageIndex + 1
@@ -119,9 +119,9 @@ export class ColaboradoresComponent extends BaseComponent implements OnInit {
                 this.spinnerSearch = 'visible'
 
                 this._admService.DeleteColaborador(colaboradorId)
-                .subscribe(
-                    response => { },
-                    err => { this.spinnerSearch = 'hidden' })
+                    .subscribe(
+                        response => { this.spinnerSearch = 'hidden' },
+                        err => { this.spinnerSearch = 'hidden' })
             }
         })
     }
@@ -150,7 +150,6 @@ export class ColaboradoresComponent extends BaseComponent implements OnInit {
     openCreateUserModal(): void {
         const dialogRef = this._modal
             .open(CreateColaboradoresComponent, CreateColaboradorModalConfig());
-
         dialogRef.afterClosed().subscribe((data) => {
 
         });

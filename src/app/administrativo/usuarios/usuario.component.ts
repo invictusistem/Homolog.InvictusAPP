@@ -1,49 +1,53 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
+import { ConfirmAcaoModalComponent } from "src/app/_shared/components/acao-confirm/confirm-acao.component";
 import { TokenInfos } from "src/app/_shared/models/token.model";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 import { environment } from "src/environments/environment";
-import { EditAcessoModal } from "../services/adm-modal";
+import { EditAcessoModal, openCreateUserModalConfig, OpenEditUserModalConfig } from "../services/adm-modal";
 import { AdmService } from "../services/adm.service";
 import { EditAcessoComponent } from "./acesso-edit/editacesso.component";
 import { CreateUserComponent } from "./create/createuser.component";
 import { EditUserComponent } from "./edit/edituser.component";
+import { ConfirmAcaoModalConfig } from "src/app/_shared/services/shared.modal";
 
 @Component({
     selector: "usuario-app",
     templateUrl: './usuario.component.html',
-    styleUrls: ['./usuario.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./usuario.component.scss']
 })
 
-export class UsuarioComponent implements OnInit {
+export class UsuarioComponent extends BaseComponent implements OnInit {
 
     testeDonne: string = 'done'
-    private baseUrl = environment.baseUrl;
-    pageSize: number = 5;
-    length: number = 0
-    pageIndexNumber: number = 0;
-    currentPage = 1
+    //private baseUrl = environment.baseUrl;
+    //pageSize: number = 5;
+    //length: number = 0
+    //pageIndexNumber: number = 0;
+    //currentPage = 1
     usuarios: any[] = new Array<any>();// Colaborador[] = new Array<Colaborador>()
-    private jwtHelper = new JwtHelperService();
-    tokenInfo: TokenInfos = new TokenInfos();
+    //private jwtHelper = new JwtHelperService();
+    //tokenInfo: TokenInfos = new TokenInfos();
     public pesquisarForm: FormGroup
-    public spinnerSearch = 'hidden'
+    //public spinnerSearch = 'hidden'
 
     constructor(
+        override _snackBar: MatSnackBar,
         //private http: HttpClient,
         private _fb: FormBuilder,
         private _admService: AdmService,
         private _modal: MatDialog) {
-
+            super(_snackBar);
             this.pesquisarForm = _fb.group({
                 nome: ['', [Validators.required]],
                 email: ['', [Validators.required]],
                 cpf: ['', [Validators.required]],
-                ativo: [false]
+                ativo: [false],
+                todasUnidades: [false]
             });
     
             this.pesquisarForm.valueChanges.subscribe(
@@ -71,8 +75,8 @@ export class UsuarioComponent implements OnInit {
     ngOnInit() {
         //this.getUsers(1, this.pageSize)
 
-        const token: any = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token)
+        //const token: any = localStorage.getItem('jwt')
+        //this.tokenInfo = this.jwtHelper.decodeToken(token)
     }
 
     get disabledEdit(){
@@ -98,51 +102,17 @@ export class UsuarioComponent implements OnInit {
     */
     openCreateUserModal(): void {
         const dialogRef = this._modal
-            .open(CreateUserComponent, {
-                height: '400px',
-                width: '600px',
+            .open(CreateUserComponent, openCreateUserModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
 
-                //data: { Hello: "Hello World" },
-                hasBackdrop: true,
-                disableClose: true
-            });
-        // dialogRef.afterClosed().subscribe(result => {
-        //     console.log('The dialog was closed');
-        //     // this.animal = result;
-        // });
-
-        dialogRef.afterClosed().subscribe(result => {
-            //console.log('The dialog was closed');
-            // console.log(result);
-            // console.log(this.templateTasks);
-            //console.log(this.templateTasks);
-            //this.newtasks. = this.templateTasks
-            // this.templateTasks = result;
         });
     }
 
-    openEditUserModal(item: any): void {
+    openEditUserModal(colaborador: any): void {
         const dialogRef = this._modal
-            .open(EditUserComponent, {
-               // height: '300px',
-                width: '600px',
+            .open(EditUserComponent, OpenEditUserModalConfig(colaborador));
+        dialogRef.afterClosed().subscribe((data) => {
 
-                data: { colaborador: item },
-                hasBackdrop: true,
-                disableClose: true
-            });
-        // dialogRef.afterClosed().subscribe(result => {
-        //     console.log('The dialog was closed');
-        //     // this.animal = result;
-        // });
-
-        dialogRef.afterClosed().subscribe(result => {
-            //console.log('The dialog was closed');
-            // console.log(result);
-            // console.log(this.templateTasks);
-            //console.log(this.templateTasks);
-            //this.newtasks. = this.templateTasks
-            // this.templateTasks = result;
         });
     }
 
@@ -163,14 +133,14 @@ export class UsuarioComponent implements OnInit {
 
         this.showMessageNoColaborador = false
 
-        if (this.pesquisarForm.valid) {
-           // this.spinnerSearch = true
+        if (this.pesquisarForm.valid  || this.tokenInfo['role'] == 'SuperAdm') {
+          
            this.spinnerSearch = 'visible'
 
             if (event != undefined) {
-              //  this.currentPageTeste = event.pageIndex + 1
+                this.currentPage = event.pageIndex + 1
             } else {
-               // this.currentPageTeste = 1
+                this.currentPage = 1
             }
 
             this._admService.GetUsuarios(this.pageSize, this.currentPage, this.pesquisarForm.value)
@@ -191,16 +161,17 @@ export class UsuarioComponent implements OnInit {
 
         this.length = response['totalItemsInDatabase']
 
-       // this.spinnerSearch = false
+        this.spinnerSearch = 'hidden'
         if (event != undefined){
             this.pageIndexNumber = (event.pageIndex * this.pageSize)
         }else{
             this.pageIndexNumber = 0
-          
-           // this.paginator.firstPage();
+            if (this.paginator != undefined) {
+                this.paginator.firstPage();
+            }
         }
 
-        this.spinnerSearch = 'hidden'
+       // this.spinnerSearch = 'hidden'
 
     }
 
@@ -220,6 +191,32 @@ export class UsuarioComponent implements OnInit {
        // this.spinnerSearch = false
     }
 
+    get podeDeletar() {
+
+        return this.tokenInfo.role == 'SuperAdm'
+    }
+
+    get disabledOpenEditButton() {
+
+        return this.spinnerSearch != 'hidden'
+    }
+
+    public Deletar(colaboradorId: any) {
+
+        const dialogRef = this._modal
+            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
+
+            if (data.clicked == true) {
+                this.spinnerSearch = 'visible'
+
+                this._admService.DeleteUsuario(colaboradorId)
+                    .subscribe(
+                        response => { this.spinnerSearch = 'hidden' },
+                        err => { this.spinnerSearch = 'hidden' })
+            }
+        })
+    }
 
     pesquisar(nome: string, email: string, cpf: string) {
 

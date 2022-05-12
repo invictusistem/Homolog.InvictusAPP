@@ -7,6 +7,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { AdmService } from "../../services/adm.service";
 import { TitularDoc } from "src/app/_shared/models/perfil.model";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 
 export const Modalidade = [
     { type: 'Presencial', value: 'Presencial' },
@@ -16,11 +17,10 @@ export const Modalidade = [
 @Component({
     selector: 'moduloeditmodal',
     templateUrl: './modulo-edit.component.html',
-    styleUrls: ['./modulo-edit.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./modulo-edit.component.scss']
 })
 
-export class ModuloEditComponent implements OnInit {
+export class ModuloEditComponent extends BaseComponent implements OnInit {
 
 
     // initProgressBar = 'visible'
@@ -36,7 +36,7 @@ export class ModuloEditComponent implements OnInit {
     // public titularDoc = TitularDoc
     // showForm = false
 
-    public initProgressBar = 'visible'
+    //public initProgressBar = 'visible'
     public saveProgressBar = 'hidden'
 
     public showContent = false
@@ -46,8 +46,8 @@ export class ModuloEditComponent implements OnInit {
     public addMateriaForm: FormGroup;
     public addDocForm: FormGroup;
 
-    private jwtHelper = new JwtHelperService();
-    public tokenInfo: TokenInfos = new TokenInfos();
+    //private jwtHelper = new JwtHelperService();
+    //public tokenInfo: TokenInfos = new TokenInfos();
 
     public errorMsg: any[] = new Array<any>()
     public unidadesAutorizadas: any[] = new Array<any>();
@@ -61,13 +61,13 @@ export class ModuloEditComponent implements OnInit {
 
     constructor(
         private _admService: AdmService,
-        private _snackBar: MatSnackBar,
+        override _snackBar: MatSnackBar,
         //private router: Router,
         private _fb: FormBuilder,
         //private _http: HttpClient,
         public dialogRef: MatDialogRef<ModuloEditComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-
+            super(_snackBar);
         this.addMateriaForm = _fb.group({
             pacote: ['', [Validators.required]]
         })
@@ -92,8 +92,8 @@ export class ModuloEditComponent implements OnInit {
     }  
 
     ngOnInit() {
-        const token: any = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token)
+        //const token: any = localStorage.getItem('jwt')
+        //this.tokenInfo = this.jwtHelper.decodeToken(token)
 
         this.GetEditPacoteView(this.data['moduloId'])
     }
@@ -284,7 +284,7 @@ export class ModuloEditComponent implements OnInit {
         return total
     }
 
-    get disabledSaveButton() {
+    get disabledSave() {
 
         if (this.saveProgressBar == 'visible') return true
 

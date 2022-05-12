@@ -8,7 +8,7 @@
 </div>
 <hr>
 
-<form novalidate [formGroup]="usuarioForm" (ngSubmit)="SaveUser()" >
+<form novalidate [formGroup]="usuarioForm" (ngSubmit)="SaveUser()">
 
     <mat-form-field appearance="standard" style="width: 40%;">
         <mat-label>Email</mat-label>
@@ -25,10 +25,9 @@
 
     </i>
 
-    <div *ngIf="showMensagem" class="alert alert-danger" role="alert"
-            style="text-align: center; vertical-align: middle; position:relative; height: 45px; float:left;margin-bottom: 20px;">
-            {{mensagem}}
-        </div>
+    <div [style.visibility]="showMensagem" style="font-size: 0.8;color: red;">
+        {{mensagem}}
+    </div>
 
     <mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
     </mat-progress-bar>
@@ -41,7 +40,7 @@
             <input [disabled]="true" selected [value]="usuario.nome" name="nome" matInput placeholder="Nome">
         </mat-form-field>
 
-       
+
 
         <mat-form-field appearance="standard" style="width: 35%;margin-left: 5%;">
             <mat-label>Cargo</mat-label>
@@ -67,17 +66,17 @@
 
 
 
-        <div *ngIf="showMensagem" class="alert alert-danger" role="alert"
+        <!-- <div *ngIf="showMensagem" class="alert alert-danger" role="alert"
             style="text-align: center; vertical-align: middle; position:relative; height: 45px; float:left;margin-bottom: 20px;">
             {{mensagem}}
         </div>
-        <br>
+        <br> -->
 
         <mat-progress-bar [style.visibility]="sabeSpinner" @rowHighlight style="margin:0px" mode="query">
         </mat-progress-bar>
         <div style="float: right;margin-top: 15px;">
 
-            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" style="width: 100px; position: relative; float:right;margin-bottom: 10px;
+            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" style="width: 100px; position: relative; float:right;
                 margin-left: 10px;">
                 Salvar
             </button>

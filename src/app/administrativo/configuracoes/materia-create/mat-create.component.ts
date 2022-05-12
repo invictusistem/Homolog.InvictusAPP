@@ -8,32 +8,35 @@ import { environment } from "src/environments/environment";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { Modalidade } from "src/app/_shared/models/perfil.model";
 import { AdmService } from "../../services/adm.service";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
     selector: 'mat-createmodal',
     templateUrl: './mat-create.component.html',
-    styleUrls: ['./mat-create.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./mat-create.component.scss']
 })
 
-export class MateriaTemplateComponent implements OnInit {
+export class MateriaTemplateComponent extends BaseComponent implements OnInit {
 
 
-    baseUrl = environment.baseUrl;
+    //baseUrl = environment.baseUrl;
 
-    private jwtHelper = new JwtHelperService();
-    public tokenInfo: TokenInfos = new TokenInfos();
+    //private jwtHelper = new JwtHelperService();
+    //public tokenInfo: TokenInfos = new TokenInfos();
     public docForm: FormGroup
     public typesPacotes: any[] = new Array<any>();
-    public progress = false
+    //public progress = false
     public modalidade = Modalidade
     constructor(
         private _fb: FormBuilder,
+        override _snackBar: MatSnackBar,
         //private _http: HttpClient,
         private _admService: AdmService,
         public dialogRef: MatDialogRef<MateriaTemplateComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-        this.docForm = _fb.group({
+            super(_snackBar);
+            this.docForm = _fb.group({            
             nome: ['', [Validators.required]],
             descricao: [''],
             typePacoteId: ['', [Validators.required]],
@@ -44,8 +47,8 @@ export class MateriaTemplateComponent implements OnInit {
     }
 
     ngOnInit() {
-        const token: any = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token)
+        //const token: any = localStorage.getItem('jwt')
+        //this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.getTypePacotes();
     }
 
@@ -55,9 +58,11 @@ export class MateriaTemplateComponent implements OnInit {
             .subscribe({
                 next: (resp: any) => {
                     this.typesPacotes = Object.assign([], resp['typePacotes']);
+                    this.showForm = true
+                    this.initProgressBar = 'hidden'
                 },
-                error: (error) => {
-
+                error: (error) => {                    
+                    this.initProgressBar = 'hidden'
                 }
             })
     }
@@ -65,18 +70,27 @@ export class MateriaTemplateComponent implements OnInit {
     onSubmit(form: FormGroup) {
 
         if (form.valid) {
-
-            this.progress = true
+            this.disabledSaveButton = 'visible'
+            //this.progress = true
             this._admService.SaveMateria(this.docForm.value)
                 .subscribe(response => {
 
                 }, (err) => {
-                    this.progress = false
+                    this.disabledSaveButton = 'hidden'
+                this.OpenSnackBarErrorDefault()
                 },
                     () => {
-                        this.progress = false
+                        this.OpenSnackBarSucesso("Matéria salva com sucesso.");
                         this.dialogRef.close({ clicked: "Ok" });
                     });
+        }
+    }
+
+    get disabledButton() {
+        if (this.docForm.valid) {
+            return this.disabledSaveButton != 'hidden'
+        } else {
+            return true
         }
     }
 }

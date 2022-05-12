@@ -16,13 +16,13 @@
     font-size: 0.9em;
   }
   
-  ::ng-deep .mymodulocreate-class .mat-dialog-container {
-    height: 70vh;
+  ::ng-deep .modulo-view-class {
+    height: 700px !important;
     width: 850px;
   }
   
-  ::ng-deep .mat-tab-group.matcreatemodulo {
-    height: 360px !important;
+  ::ng-deep .mat-tab-group.matviewmodulo {
+    height: 420px !important;
   }
   //   ::ng-deep .mat-form-field-underline .mat-form-field-ripple{
   //     transform: translateY(-1.1em) scale(.75);

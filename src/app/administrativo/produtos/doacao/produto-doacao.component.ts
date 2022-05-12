@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
@@ -18,7 +18,6 @@ import { CompraProdutoCommand, ProdutosCommand } from "src/app/_shared/models/pr
     styleUrls: ['./produto-doacao.component.scss'],
     animations: [HighlightTrigger]
 })
-
 
 export class ProdutoDoacaoComponent implements OnInit {
 

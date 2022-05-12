@@ -37,6 +37,45 @@ export class AlunoSiaService extends BaseService {
         return response;
     }
 
+    public GetEstagiosTiposLiberados(matriculaId:any): Observable<any> {
+
+        let path = `/sia/estagio/tipo/${matriculaId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public GetEstagiosLiberados(tipoId: any): Observable<any> {
+
+        let path = `/sia/estagio/liberados/${tipoId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public GetEstagio(estagioId: any): Observable<any> {
+
+        let path = `/sia/estagio/busca/${estagioId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
     public UploadFile(file:any, documentoId:any): Observable<any> {
 
         let path = `/sia/estagio/documentacao/${documentoId}`
@@ -49,6 +88,8 @@ export class AlunoSiaService extends BaseService {
 
         return response;
     }
+
+   // Requerimento
 
    
 

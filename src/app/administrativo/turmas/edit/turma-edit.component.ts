@@ -9,6 +9,7 @@ import { HelpersService } from "src/app/_shared/components/helpers/helpers.compo
 import { ConfirmModalComponent } from "src/app/_shared/components/modal-confirmar-v2/confirm-modal.component";
 import { AddProfessorModalComponent } from "./add-professor/addprof.component";
 import { AddPMateriaModalComponent } from "./add-materia/addmateria.component";
+import { OpenAddMateriaModalConfig, OpenAddProfModalConfig } from "../../services/adm-modal";
 
 @Component({
     selector: 'editcursomodal',
@@ -44,7 +45,7 @@ export class EditCursoComponent implements OnInit {
     constructor(
         private _http: HttpClient,
         private _helper: HelpersService,
-        public dialog: MatDialog,
+        public _modal: MatDialog,
         public dialogRef: MatDialogRef<EditCursoComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -191,7 +192,7 @@ export class EditCursoComponent implements OnInit {
 
     disabledDeletProf = false
     confirmModal(prof?: any): void {
-        const dialogRef = this.dialog
+        const dialogRef = this._modal
             .open(ConfirmModalComponent, {
                 height: 'auto',
                 width: '500px',
@@ -305,64 +306,25 @@ export class EditCursoComponent implements OnInit {
     }
 
     openAddProfModal(): void {
-        const dialogRef = this.dialog
-            .open(AddProfessorModalComponent, {
-               // height: 'auto',
-                width: '1030px',
-                //autoFocus: false,
-                //maxHeight: '90vh',
-               // maxWidth: '400vh',
-
-                data: { turmaId: this.data['turma'].id },
-                hasBackdrop: true,
-                disableClose: true
-            });
-
-        dialogRef.afterClosed().subscribe(result => {
-            //console.log('The dialog was closed');
-           // console.log(result);
-            if (result["clicked"] == true) {
-               // console.log(result["profsIds"])
-                //this.saveProfs(result["profsIds"])
-                this.GetInformacoesDaTurma(this.data['turma'].id);
-
-
-            }
-            // console.log(this.templateTasks);
-            //console.log(this.templateTasks);
-            //this.newtasks. = this.templateTasks
-            // this.templateTasks = result;
+        const dialogRef = this._modal
+            .open(AddProfessorModalComponent, OpenAddProfModalConfig(this.data['turma'].id));
+        dialogRef.afterClosed().subscribe((data: any) => {
+            if (data["clicked"] == true) {
+                // console.log(result["profsIds"])
+                 //this.saveProfs(result["profsIds"])
+                 this.GetInformacoesDaTurma(this.data['turma'].id);
+             }
         });
     }
 
     openAddMateriaModal(prof:any): void {
-        const dialogRef = this.dialog
-            .open(AddPMateriaModalComponent, {
-                //height: 'auto',
-                width: '1030px',
-                // autoFocus: false,
-                // maxHeight: '90vh',
-                // maxWidth: '400vh',
-
-                data: { turmaId: this.data['turma'].id, professor: prof },
-                hasBackdrop: true,
-                disableClose: true
-            });
-
-        dialogRef.afterClosed().subscribe(result => {
-            //console.log('The dialog was closed');
-           // console.log(result);
+        const dialogRef = this._modal
+            .open(AddPMateriaModalComponent, OpenAddMateriaModalConfig(this.data['turma'].id, prof));
+        dialogRef.afterClosed().subscribe((result:any) => {
             if (result["clicked"] == true) {
-               // console.log(result["profsIds"])
-                this.GetInformacoesDaTurma(this.data['turma'].id);
-                //this.saveProfs(result["profsIds"])
-
-
-            }
-            // console.log(this.templateTasks);
-            //console.log(this.templateTasks);
-            //this.newtasks. = this.templateTasks
-            // this.templateTasks = result;
+                // console.log(result["profsIds"])
+                 this.GetInformacoesDaTurma(this.data['turma'].id);
+             }
         });
     }
 

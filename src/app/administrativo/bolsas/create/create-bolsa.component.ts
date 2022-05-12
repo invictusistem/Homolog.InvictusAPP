@@ -4,38 +4,37 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { AdmService } from "../../services/adm.service";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
     selector: 'createbolsamodal',
     templateUrl: './create-bolsa.component.html',
-    styleUrls: ['./create-bolsa.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./create-bolsa.component.scss']
 })
 
-export class CreateBolsaComponent implements OnInit {
+export class CreateBolsaComponent extends BaseComponent implements OnInit {
     
-    public initProgressBar = 'visible'
+    //public initProgressBar = 'visible'
     public showContent = false
     public typesPacotes: any[] = new Array<any>()
     public bolsaForm: FormGroup
 
     constructor(
+        override _snackBar: MatSnackBar,
         private _admService: AdmService,
-        private _helper: HelpersService, 
+        //private _helper: HelpersService, 
         private _fb: FormBuilder,
         public dialogRef: MatDialogRef<CreateBolsaComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-
+            super(_snackBar);
         this.bolsaForm = _fb.group({
             nome:['',[Validators.required]],
             percentualDesconto:['',[Validators.required,Validators.min(1), Validators.max(100)]],
             typePacoteId:['',[Validators.required]],
             dataExpiracao:['',[Validators.required]]
         })        
-    }
-
-
-    
+    }   
 
     ngOnInit() {
         this.GetTypePacotes();
@@ -62,7 +61,7 @@ export class CreateBolsaComponent implements OnInit {
         this.initProgressBar = 'hidden'
     }
 
-    disabledSaveButton = 'hidden'
+    //disabledSaveButton = 'hidden'
     get disabledButton() {
         if (this.bolsaForm.valid) {
             return this.disabledSaveButton != 'hidden'
@@ -84,15 +83,11 @@ export class CreateBolsaComponent implements OnInit {
 
     onSubmitSucesso(resp?:any){
         this.disabledSaveButton = 'hidden'       
-        this._helper.openSnackBarSucesso('Bolsa cadastrada com sucesso.')
+        this.OpenSnackBarSucesso('Bolsa cadastrada com sucesso.')
         this.dialogRef.close({ clicked: true})
     }
 
     onSubmitErro(error?:any){
         this.disabledSaveButton = 'hidden'      
     }
-    
-
 }
-
-

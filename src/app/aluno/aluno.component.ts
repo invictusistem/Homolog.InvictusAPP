@@ -29,7 +29,7 @@ export const ROUTES2: RouteInfo[] = [
 ]
 
 export const ROUTES3: RouteInfo[] = [
-    { path: '/aluno/estagio', title: 'Requerimentos', class: '', typeIcon: 'read_more' }
+    { path: '/aluno-sia/requerimentos', title: 'Requerimentos', class: '', typeIcon: 'read_more' }
     //{ path: '/aluno/estagio', title: 'Estágio/', class: '', typeIcon: 'domain' },
     //{ path: '/aluno/estagio', title: 'Estágios', class: '', typeIcon: 'domain' },
    // { path: '/aluno/alunodocs', title: 'Documentação', class: '', typeIcon: 'attachment' },

@@ -1,14 +1,21 @@
+import { HttpClient } from "@angular/common/http";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
+import { ConfirmAcaoModalComponent } from "src/app/_shared/components/acao-confirm/confirm-acao.component";
+import { TokenInfos } from "src/app/_shared/models/token.model";
+import { ConfirmAcaoModalConfig } from "src/app/_shared/services/shared.modal";
 import { environment } from "src/environments/environment";
-import { EditCargoModalConfig } from "../services/adm-modal";
+import { OpenCreateCargoModalConfig, OpenCreateDocModalConfig, OpenCreateMateriaConfig, OpenEditCargoModalConfig, OpenEditDocModalConfig, OpenEditMateriaConfig } from "../services/adm-modal";
 import { AdmService } from "../services/adm.service";
 import { CargoCreateComponent } from "./cargo-create/cargo-create.component";
 import { CargoEditComponent } from "./cargo-edit/cargo-edit.component";
 import { DocTemplateComponent } from "./doc-create/doc-create.component";
+import { DocEditComponent } from "./doc-edit/doc-edit.component";
 import { MateriaTemplateComponent } from "./materia-create/mat-create.component";
+import { MatEditComponent } from "./materia-edit/mat-edit.component";
 
 enum Config {
     CARGOS,
@@ -26,6 +33,9 @@ enum Config {
 
 export class ConfiguracoesComponent implements OnInit {
 
+    private jwtHelper = new JwtHelperService();
+    tokenInfo: TokenInfos = new TokenInfos();
+    public baseUrl: string = environment.baseUrl
     // Materias paginated
     materiasLength: number = 0
     materiasPageSize: number = 10;
@@ -36,26 +46,30 @@ export class ConfiguracoesComponent implements OnInit {
     //
     public config?: Config
     public configCargos = Config.CARGOS
-    private baseUrl = environment.baseUrl;
+
     public searchSpinner = 'hidden'
-    public showCargosTable = false
-    public showDocumentosTable = false
-    public showMateriasTable = false
-    public htmlContent: any = "weewgwegewgegergregergergerg";//any;
+    // table Cargos
     public cargos: any[] = new Array<any>();
+    public showCargosTable = false
+    // Table Documentos
     public documentos: any[] = new Array<any>();
+    public showDocumentosTable = false
+    // Table Matérias
     public materias: any[] = new Array<any>();
+    public showMateriasTable = false
+
     constructor(
-        private _admService: AdmService,       
-        private _modal: MatDialog
+        private _admService: AdmService,
+        private _modal: MatDialog,
+        private _http: HttpClient,
     ) { }
 
 
     ngOnInit() {
-       
+
     }
 
-   
+
     public GetMaterias(event?: any) {
 
         this.searchSpinner = 'visible'
@@ -72,7 +86,7 @@ export class ConfiguracoesComponent implements OnInit {
                 falha => { this.GetMateriasError(falha) }
             )
 
-            return event
+        return event
     }
 
     private GetMateriasSucesso(response: any, event?: any) {
@@ -86,7 +100,7 @@ export class ConfiguracoesComponent implements OnInit {
             this.materiasPageIndexNumber = (event.pageIndex * this.materiasPageSize)
         } else {
             this.materiasPageIndexNumber = 0
-          
+
             if (this.MateriaPaginator != undefined) {
                 this.MateriaPaginator.firstPage();
             }
@@ -95,7 +109,7 @@ export class ConfiguracoesComponent implements OnInit {
         this.showMateriasTable = true
     }
 
-    private GetMateriasError(fail?:any) {
+    private GetMateriasError(fail?: any) {
         if (fail['status'] == 404) {
             // this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
             // this.showMessageNoColaborador = true
@@ -124,7 +138,22 @@ export class ConfiguracoesComponent implements OnInit {
             )
     }
 
-    private GetConfigSucess(response?:any, config?:any) {
+    get podeDeletar() {
+       
+        return this.tokenInfo.role == 'SuperAdm'
+    }
+
+    private GetConfigSucess(response?: any, config?: any) {
+
+        this.cargos = new Array<any>();
+        this.showCargosTable = false
+        // Table Documentos
+        this.documentos = new Array<any>();
+        this.showDocumentosTable = false
+        // Table Matérias
+        this.materias = new Array<any>();
+        this.showMateriasTable = false
+
         this.searchSpinner = 'hidden'
         if (config == 'CARGOS') {
             this.showCargosTable = true
@@ -141,7 +170,7 @@ export class ConfiguracoesComponent implements OnInit {
 
     }
 
-    private GetConfigError(error?:any) {
+    private GetConfigError(error?: any) {
         this.searchSpinner = 'hidden'
     }
 
@@ -183,77 +212,100 @@ export class ConfiguracoesComponent implements OnInit {
 
     }
 
-    openCreateMateriaModal(): void { 
+    public OpenCreateCargoModal(): void {
         const dialogRef = this._modal
-            .open(MateriaTemplateComponent, {
-                height: 'auto',
-                width: '850px',
-                autoFocus: false,
-                maxHeight: '90vh',
-                data: { Hello: "Hello World" },
-                hasBackdrop: true,
-                disableClose: true
-            });
-
-
+            .open(CargoCreateComponent, OpenCreateCargoModalConfig());
         dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "Ok") {
 
-            } else if (data.clicked === "Cancel") {
+        });
+    }
+    
+    public OpenCreateDocModal(): void {
+        const dialogRef = this._modal
+            .open(DocTemplateComponent, OpenCreateDocModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
 
-            }
         });
     }
 
-    openCreateDocModal(): void { 
+    public OpenCreateMateriaModal(): void {
         const dialogRef = this._modal
-            .open(DocTemplateComponent, {
-                height: 'auto',
-                width: '700px',
-                autoFocus: false,
-                maxHeight: '90vh',
-                data: { Hello: "Hello World" },
-                hasBackdrop: true,
-                disableClose: true
-            });
-
-
+            .open(MateriaTemplateComponent, OpenCreateMateriaConfig());
         dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "Ok") {
 
-            } else if (data.clicked === "Cancel") {
-
-            }
         });
     }
 
-    openCreateCargoModal(): void {
+    public OpenEditCargoModal(cargoId: any): void {
         const dialogRef = this._modal
-            .open(CargoCreateComponent, {
-                height: 'auto',
-                width: '700px',
-                autoFocus: false,
-                maxHeight: '90vh',
-                data: { Hello: "Hello World" },
-                hasBackdrop: true,
-                disableClose: true
-            });
-
-
-        dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "Ok") {
-
-            } else if (data.clicked === "Cancel") {
-
-            }
-        });
-    }    
-
-    public OpenEditCargoModal(item: any): void {
-        const dialogRef = this._modal
-            .open(CargoEditComponent, EditCargoModalConfig(item));
+            .open(CargoEditComponent, OpenEditCargoModalConfig(cargoId));
         dialogRef.afterClosed().subscribe(data => {
         });
+    }
+
+    public OpenEditDocModal(docId: any): void {
+        const dialogRef = this._modal
+            .open(DocEditComponent, OpenEditDocModalConfig(docId));
+        dialogRef.afterClosed().subscribe(data => {
+        });
+    }
+
+    public OpenEditMatModal(matId: any): void {
+        const dialogRef = this._modal
+            .open(MatEditComponent, OpenEditMateriaConfig(matId));
+        dialogRef.afterClosed().subscribe(data => {
+        });
+    }
+
+
+
+    public DeleteCargo(doc:any): void {
+
+        const dialogRef = this._modal
+            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
+
+            if (data.clicked == true) {
+
+                this._http.delete(`${this.baseUrl}/parametro/value/${doc.id}`)
+                    .subscribe(
+                        response => { this.GetConfig('CARGOS')}, 
+                        err => { })
+            }
+        })
+    }
+
+    deleteDocumento(doc:any): void {
+
+        const dialogRef = this._modal
+            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
+
+            if (data.clicked == true) {
+
+                this._http.delete(`${this.baseUrl}/documentacao/${doc.id}`)
+                    .subscribe(
+                        response => { this.GetConfig('DOCUMENTOS') }, 
+                        err => { })
+            }
+        })
+    }
+
+    
+    deleteMateria(doc:any): void {
+
+        const dialogRef = this._modal
+            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
+
+            if (data.clicked == true) {
+
+                this._http.delete(`${this.baseUrl}/materia-template/${doc.id}`)
+                    .subscribe(
+                        response => { this.GetConfig('MATERIAS') }, 
+                        err => { })
+            }
+        })
     }
 
 

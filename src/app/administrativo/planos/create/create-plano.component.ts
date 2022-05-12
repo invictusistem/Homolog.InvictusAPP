@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClient } from "@angular/common/http";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
@@ -10,36 +9,37 @@ import { environment } from "src/environments/environment";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { AdmService } from "../../services/adm.service";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 
 @Component({
     selector: 'createplanopgmmodal',
     templateUrl: './create-plano.component.html',
-    styleUrls: ['./create-plano.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./create-plano.component.scss']
 })
 
-export class PlanoPgmCreateComponent implements OnInit {
+export class PlanoPgmCreateComponent extends BaseComponent implements OnInit {
 
 
-    baseUrl = environment.baseUrl;
+   // baseUrl = environment.baseUrl;
     public disabledContrato = true
-    public initProgressBar = 'visible'
+    //public initProgressBar = 'visible'
     public saveSpinner = 'hidden'
     public typePacotes: any
     public moduloForm: FormGroup;
-    private jwtHelper = new JwtHelperService();
-    public tokenInfo: TokenInfos = new TokenInfos();
+    //private jwtHelper = new JwtHelperService();
+    //public tokenInfo: TokenInfos = new TokenInfos();
     public disabledSpinner = false
     public contratos: any[] = new Array<any>();
     constructor(
-        private _snackBar: MatSnackBar,
-        private router: Router,
-        private _helper: HelpersService,
+        override _snackBar: MatSnackBar,
+        //private router: Router,
+        //private _helper: HelpersService,
         private _fb: FormBuilder,
         private _admService: AdmService,
        // private _http: HttpClient,
         public dialogRef: MatDialogRef<PlanoPgmCreateComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
+            super(_snackBar);
         this.moduloForm = _fb.group({
             typePacoteId: ['', [Validators.required]],
             descricao: ['', [Validators.required]],
@@ -55,8 +55,8 @@ export class PlanoPgmCreateComponent implements OnInit {
     }
 
     ngOnInit() {
-        const token:any = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token)
+        //const token:any = localStorage.getItem('jwt')
+        //this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.GetTypes()
     }
 
@@ -95,7 +95,7 @@ export class PlanoPgmCreateComponent implements OnInit {
         })  
     }
 
-    get disabledSaveButton() {
+    get disabledSave() {
 
         if (this.moduloForm.valid) {
             return this.saveSpinner != 'hidden'
@@ -117,7 +117,7 @@ export class PlanoPgmCreateComponent implements OnInit {
                // console.log(err) 
             },
                 () => {
-                    this._helper.openSnackBarSucesso("Plano criado com sucesso.")
+                    this.OpenSnackBarSucesso("Plano criado com sucesso.")
                     this.dialogRef.close({ clicked: "Ok" });
                 });          
         }

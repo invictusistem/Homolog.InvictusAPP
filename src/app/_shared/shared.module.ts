@@ -26,6 +26,7 @@ import { ConfirmModalComponent } from './components/modal-confirmar-v2/confirm-m
 import { SharedService } from './services/shared.service';
 import { CloseModalComponent } from './components/close-modal-component/close-modal.component';
 import { WrapTooltipComponent } from './components/wrap-tooltip/wrap-tooltip.component';
+import { SanitizeHtmlPipe } from './components/pipes/sanitize-html.pipe';
 
 
 export const maskConfig: Partial<IConfig> = {
@@ -64,6 +65,7 @@ export function GetNgxMaskModuleConfig() {
     CPFPipe,
     CNPJPipe,
     IdadePipe,
+    SanitizeHtmlPipe,
     MyTimeInput,
     WrapTooltipComponent
   ],
@@ -103,6 +105,7 @@ export function GetNgxMaskModuleConfig() {
     CPFPipe,
     CNPJPipe,
     IdadePipe,
+    SanitizeHtmlPipe,
     MyTimeInput
   ],
   entryComponents: [

@@ -10,26 +10,29 @@ import { environment } from "src/environments/environment";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { Cargos } from "src/app/_shared/models/perfil.model";
 import { AdmService } from "../../services/adm.service";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
+import { AngularEditorConfig } from "@kolkov/angular-editor";
 
 @Component({
     selector: 'contrato-createmodal',
     templateUrl: './contrato-create.component.html',
-    styleUrls: ['./contrato-create.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./contrato-create.component.scss']
 })
 
-export class CreateContratoComponent implements OnInit {
+export class CreateContratoComponent extends BaseComponent implements OnInit {
+
+   
     public htmlContent: string = "";
     public typePacotes: any
     // pageSize: number = 5;
     // genericTasks: GenericTask[] = new Array<GenericTask>();
     // length: number;
     // pageEvent: PageEvent;
-    baseUrl = environment.baseUrl;
+    //baseUrl = environment.baseUrl;
     //public cepReturn: CepReturn = new CepReturn();
     public contratoForm: FormGroup;
-    private jwtHelper = new JwtHelperService();
-    public tokenInfo: TokenInfos = new TokenInfos();
+    //private jwtHelper = new JwtHelperService();
+    //public tokenInfo: TokenInfos = new TokenInfos();
     public validadeEmailMsg = false
     public validadeCPFMsg = false
     cargos = Cargos;
@@ -40,13 +43,15 @@ export class CreateContratoComponent implements OnInit {
     //unidades = Unidades;//: string[] = new Array("Campo Grande II", "Jacarepaguá");
     constructor(
         //private service: AdmService,
-        private _snackBar: MatSnackBar,
-        private router: Router,
+        //private _snackBar: MatSnackBar,
+        override _snackBar: MatSnackBar,
+        //private router: Router,
         private _fb: FormBuilder,
         //private _http: HttpClient,
         private _admService: AdmService,
         public dialogRef: MatDialogRef<CreateContratoComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
+            super(_snackBar);
         this.contratoForm = _fb.group({
             titulo: ['', [Validators.required]],
             typePacoteId: ['', [Validators.required]],
@@ -57,11 +62,8 @@ export class CreateContratoComponent implements OnInit {
 
     }
 
-    ngOnInit() {
-        const token:any = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token)
+    ngOnInit() {        
         this.GetTypes()
-
     }
 
     private GetTypes() {
@@ -70,6 +72,7 @@ export class CreateContratoComponent implements OnInit {
         .subscribe({
             next: (resp: any) => { 
                 this.typePacotes = resp['typePacotes']
+                this.dialogRef.addPanelClass('contrato-create-class')
 			},
             error: (error) => { 
                 if (error['status'] == 404) {
@@ -103,5 +106,36 @@ export class CreateContratoComponent implements OnInit {
         }
     }
 
+    config: AngularEditorConfig = {
+        editable: true,
+        sanitize: false,
+        spellcheck: true,
+        height: '22rem',
+        minHeight: '22rem',
+        placeholder: 'Enter text here...',
+        translate: 'no',
+        defaultParagraphSeparator: 'p',
+        defaultFontName: 'Arial',
+        toolbarHiddenButtons: [
+          ['bold']
+          ],
+        customClasses: [
+          {
+            name: "quote",
+            class: "quote",
+          },
+          {
+            name: 'redText',
+            class: 'redText'
+          },
+          {
+            name: "titleText",
+            class: "titleText",
+            tag: "h1",
+          },
+        ]
+      };
+
 
 }
+

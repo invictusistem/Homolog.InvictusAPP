@@ -1,9 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { TokenInfos } from "src/app/_shared/models/token.model";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 import { ModuloCreateComponentModal, ModuloDetalheComponentModal, ModuloEditComponentModal } from "../services/adm-modal";
 import { AdmService } from "../services/adm.service";
 import { ModuloCreateComponent } from "./create/modulo-create.component";
@@ -17,15 +19,15 @@ import { ModuloViewComponent } from "./view/modulo-view.component";
     animations: [HighlightTrigger]
 })
 
-export class ModuloComponent implements OnInit {
+export class ModuloComponent extends BaseComponent implements OnInit {
 
     public pacotes: any[] = new Array<any>()
     public typesPacotes: any = new Array<any>();
     public unidadesAutorizadas: any[] = new Array<any>()
-    public initProgressBar = 'visible'
+    //public initProgressBar = 'visible'
 
-    public tokenInfo: TokenInfos = new TokenInfos();
-    private jwtHelper = new JwtHelperService();
+    //public tokenInfo: TokenInfos = new TokenInfos();
+    //private jwtHelper = new JwtHelperService();
     public pesquisarForm: FormGroup
 
     public showTeste = false
@@ -33,7 +35,9 @@ export class ModuloComponent implements OnInit {
     constructor(
         private _fb: FormBuilder,
         private _admService: AdmService,
+        override _snackBar: MatSnackBar,
         private _modal: MatDialog) {
+            super(_snackBar);
         this.pesquisarForm = _fb.group({
             typePacoteId: ['', [Validators.required]],
             unidadeId: ['', [Validators.required]]
@@ -42,8 +46,8 @@ export class ModuloComponent implements OnInit {
     
     ngOnInit() {
         
-        const token:any = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token)
+        //const token:any = localStorage.getItem('jwt')
+        //this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.unidadesAutorizadas = JSON.parse(this.tokenInfo.UnidadesAutorizadas as string)
 
         this.pesquisarForm.get('unidadeId')?.setValue(this.tokenInfo.UnidadeId)
@@ -53,7 +57,7 @@ export class ModuloComponent implements OnInit {
     Pesquisar() {
 
         if (this.pesquisarForm.valid) {
-
+            this.initProgressBar = 'visible'
             this._admService.PesquisarPacote(
                 this.pesquisarForm.get('typePacoteId')?.value,
                 this.pesquisarForm.get('unidadeId')?.value)
@@ -64,11 +68,14 @@ export class ModuloComponent implements OnInit {
     }
 
     pesquisarSucesso(resposta:any){
+        this.initProgressBar = 'hidden'
         this.pacotes = Object.assign([], resposta['pacotes']);
         
     }
 
     pesquisarError(error:any){
+        this.initProgressBar = 'hidden'
+        this.OpenSnackBarErrorDefault();
        // console.log(error)
     }
 
@@ -101,6 +108,7 @@ export class ModuloComponent implements OnInit {
     openEditModal(modulo: any): void {
         const dialogRef = this._modal
             .open(ModuloEditComponent, ModuloEditComponentModal(modulo.id));
+            
         dialogRef.afterClosed().subscribe(
             data => { });
     }

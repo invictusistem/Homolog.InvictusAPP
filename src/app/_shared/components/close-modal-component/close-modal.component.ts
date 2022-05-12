@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 
 @Component({
     selector: 'close-modal',
@@ -8,6 +8,7 @@ import { Component, OnInit } from "@angular/core";
 
 export class CloseModalComponent implements OnInit {    
 
+    @Input() disable!: boolean;
     constructor(
         //override _snackBar: MatSnackBar,        
        // public dialogRef: MatDialogRef<CloseModalComponent>,

@@ -88,13 +88,13 @@ export class CreateFornecedorComponent extends BaseComponent implements OnInit {
   }
 
   onSubmitSucess(resposta: any) {
-    this.openSnackBarSucesso("Fornecedor salvo com sucesso.")
+    this.OpenSnackBarSucesso("Fornecedor salvo com sucesso.")
     this.saveSpinner = 'hidden'
     this.dialogRef.close({})
   }
 
   onSubmitFalha(error: any) {
-    this.openSnackBarErrorDefault();
+    this.OpenSnackBarErrorDefault();
     this.saveSpinner = 'hidden'
   }
 

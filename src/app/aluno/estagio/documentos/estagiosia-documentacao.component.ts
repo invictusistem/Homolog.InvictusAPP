@@ -64,7 +64,7 @@ export class EstagiosiaDocumentacaoComponent extends BaseComponent implements On
     var fileSize = file.size // 4194304 
     
     if (fileSize > 4194304) {
-      this.openSnackBarError("O arquivo não pode ser superior a 4 megabytes.")
+      this.OpenSnackBarError("O arquivo não pode ser superior a 4 megabytes.")
       return
     }
 
@@ -96,13 +96,13 @@ export class EstagiosiaDocumentacaoComponent extends BaseComponent implements On
     this._alunoService.UploadFile(file, docId)
       .subscribe({
         next: (resp: any) => { 
-          this.openSnackBarSucesso("Upload efetuado com sucesso")
+          this.OpenSnackBarSucesso("Upload efetuado com sucesso")
           
           this.GetDocumentacao()
         },
         error: (falha: any) => { 
           this.disabledButtons = false
-          this.openSnackBarErrorDefault()
+          this.OpenSnackBarErrorDefault()
         }
       })
   }

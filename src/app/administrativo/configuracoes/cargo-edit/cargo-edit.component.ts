@@ -1,62 +1,57 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClient } from "@angular/common/http";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { JwtHelperService } from "@auth0/angular-jwt";
-import { HighlightTrigger } from "src/app/_shared/animation/animation";
-import { environment } from "src/environments/environment";
-import { TokenInfos } from "src/app/_shared/models/token.model";
-import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { AdmService } from "../../services/adm.service";
-
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
     selector: 'cargoeditmodal',
     templateUrl: './cargo-edit.component.html',
-    styleUrls: ['./cargo-edit.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./cargo-edit.component.scss']
 })
 
-export class CargoEditComponent implements OnInit {
+export class CargoEditComponent extends BaseComponent implements OnInit {
 
 
-    baseUrl = environment.baseUrl;
+    //baseUrl = environment.baseUrl;
 
-    public initProgressBar = 'visible'
-    public showForm = false
+    //public initProgressBar = 'visible'
+    //public showForm = false
     private originalCargo: any
 
-    private jwtHelper = new JwtHelperService();
-    public tokenInfo: TokenInfos = new TokenInfos();
+    //private jwtHelper = new JwtHelperService();
+    //public tokenInfo: TokenInfos = new TokenInfos();
     public cargoForm: FormGroup
     public progress = false
     constructor(
-        private _helpers: HelpersService,
+        override _snackBar: MatSnackBar,
         private _fb: FormBuilder,
         private _admService: AdmService,
         //private _http: HttpClient,
         public dialogRef: MatDialogRef<CargoEditComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
+            super(_snackBar);
         this.cargoForm = _fb.group({
             id:[''],
             value: ['', [Validators.required]],
             descricao: [''],
             comentario: ['', [Validators.required]],
+            ativo:[''],
             parametrosKeyId: ['']
         })
     }
 
     ngOnInit() {
-        var token: any = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token)
+        //var token: any = localStorage.getItem('jwt')
+        //this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.GetCargo()
 
     }
 
     private GetCargo(){
 
-        this._admService.GetValue(this.data['value'].id)
+        this._admService.GetValue(this.data['cargoId'])
         .subscribe({
             next: (response: any) => { 
                 this.cargoForm.patchValue(response['value']);
@@ -67,7 +62,7 @@ export class CargoEditComponent implements OnInit {
             error: (error) => { 
                 this.disabledSaveButton = 'hidden'
                 this.progress = false
-                this._helpers.openSnackBarErrorDefault()
+                this.OpenSnackBarErrorDefault()
 			}
         })
     }    
@@ -85,20 +80,23 @@ export class CargoEditComponent implements OnInit {
             }, (err) => {
                 this.disabledSaveButton = 'hidden'
                 this.progress = false
-                this._helpers.openSnackBarErrorDefault()
+                this.OpenSnackBarErrorDefault()
             },
                 () => {
-                    this._helpers.openSnackBarSucesso("Cargo editado com sucesso.");
+                    this.OpenSnackBarSucesso("Cargo editado com sucesso.");
                     this.progress = false
                     this.dialogRef.close({ clicked: true });
                 });          
         }
     }
 
-    disabledSaveButton = 'hidden'
+    //disabledSaveButton = 'hidden'
 
     get disabledButton() {
-        if (this.cargoForm.valid) {
+        if (this.cargoForm.valid &&
+            JSON.stringify(this.originalCargo) !=
+            JSON.stringify(this.cargoForm.value)) {
+
             return this.disabledSaveButton != 'hidden'
         } else {
             return true

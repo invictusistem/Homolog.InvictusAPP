@@ -37,6 +37,7 @@ import { TipoCreateComponent } from "./estagios/tipos/create/tipo-create.compone
 import { EstagioMatriculaComponent } from './estagios-controle/matricula/estagio-matricula.component';
 import { MatriculaLiberarComponent } from './estagios-controle/matricula/liberar/matricula-liberar.component';
 import { EstagioDocumentacaoComponent } from './estagios-controle/documentacao/estagio-documentacao.component';
+import { PedagReqsComponent } from './requerimentos/pedag-reqs.component';
 
 @NgModule({
     declarations: [
@@ -87,7 +88,8 @@ import { EstagioDocumentacaoComponent } from './estagios-controle/documentacao/e
         TurmaNotasComponent,
         EstagioMatriculaComponent,
         MatriculaLiberarComponent,
-        EstagioDocumentacaoComponent
+        EstagioDocumentacaoComponent,
+        PedagReqsComponent
              
     ],
     imports: [

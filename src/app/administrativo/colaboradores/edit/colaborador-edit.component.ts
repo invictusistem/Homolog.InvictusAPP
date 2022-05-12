@@ -6,26 +6,27 @@ import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { environment } from "src/environments/environment";
 import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { AdmService } from "../../services/adm.service";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
     selector: 'editcolaboradoresmodal',
     templateUrl: './colaborador-edit.component.html',
-    styleUrls: ['./colaborador-edit.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./colaborador-edit.component.scss']
 })
 
-export class EditColaboradoresComponent implements OnInit {
+export class EditColaboradoresComponent extends BaseComponent implements OnInit {
 
-    baseUrl = environment.baseUrl;
+    //baseUrl = environment.baseUrl;
     originalColaborador: any;
-
-    public initProgressBar = 'visible'
+    autorizado = 'visible'
+    //public initProgressBar = 'visible'
     public saveBar = 'hidden'
     // unidades = Unidades;
     showMensagem = false
     mensagem = ''
     cpf = ''
-    showForm = false
+    //showForm = false
 
     //public cepReturn: CepReturn = new CepReturn();
     cargos: any[] = new Array<any>();
@@ -35,10 +36,11 @@ export class EditColaboradoresComponent implements OnInit {
     constructor(
         private _helper: HelpersService,
         private _admService: AdmService,
-        // private http: HttpClient,
+        override _snackBar: MatSnackBar,
         private _fb: FormBuilder,
         public dialogRef: MatDialogRef<EditColaboradoresComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
+            super(_snackBar);
         this.colaboradorForm = _fb.group({
             id: [''],
             nome: ['', [Validators.required, Validators.minLength(5)]],
@@ -50,7 +52,7 @@ export class EditColaboradoresComponent implements OnInit {
             ativo: [true, [Validators.required]],
             cep: ['', [Validators.required, Validators.minLength(8)]],
             logradouro: ['', [Validators.required, Validators.minLength(1)]],
-            complemento: [''],
+            complemento: [null],
             numero: ['', [Validators.required]],
             cidade: ['', [Validators.required, Validators.minLength(1)]],
             uf: ['', [Validators.required, Validators.minLength(2)]],
@@ -85,12 +87,16 @@ export class EditColaboradoresComponent implements OnInit {
         this._admService.GetColaborador(this.data['colaborador'].id)
             .subscribe({
                 next: (response: any) => {
+                    
                     this.cargos = Object.assign([], response['values'])
                     this.colaboradorForm.patchValue(response['colaborador']);
                     this.originalColaborador = JSON.parse(JSON.stringify(this.colaboradorForm.value))
                     this.dialogRef.addPanelClass('myeditcolab-class')
+                    // this.colaboradorForm.disable()
+                    // this.autorizado = 'hidden'
                     this.showForm = true
                     this.initProgressBar = 'hidden'
+                    
                 },
                 error: (error) => {
                     this.initProgressBar = 'hidden'
@@ -128,7 +134,7 @@ export class EditColaboradoresComponent implements OnInit {
     }
 
     consultaCEP(CEP: string) {
-
+console.log('consulta')
         if (this.colaboradorForm.get('cep')?.valid) {
 
             CEP = CEP.replace('-', '');
