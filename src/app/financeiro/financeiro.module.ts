@@ -20,6 +20,16 @@ import { MeiopagamentoConfigComponent } from './configuracoes/meio-pagamento/mei
 import { PlanocontasConfigComponent } from './configuracoes/plano-contas/planocontas-config.component';
 import { BancocreateConfigComponent } from './configuracoes/bancos/create/bancocreate-config.component';
 import { CaixaEscolaComponent } from './caixa-escola/caixa-escola.component';
+import { BancoeditConfigComponent } from './configuracoes/bancos/edit/bancoedit-config.component';
+import { MeiopgmcreateConfigComponent } from './configuracoes/meio-pagamento/create/meiopgmcreate-config.component';
+import { MeiopgmeditConfigComponent } from './configuracoes/meio-pagamento/edit/meiopgmedit-config.component';
+import { CentrocreateConfigComponent } from './configuracoes/centro-custos/create/centrocreate-config.component';
+import { CentroeditConfigComponent } from './configuracoes/centro-custos/edit/centroedit-config.component';
+import { FormacreateConfigComponent } from './configuracoes/forma-recebimento/create/formacreate-config.component';
+import { PlanocreateConfigComponent } from './configuracoes/plano-contas/create/planocreate-config.component';
+import { PlanoeditConfigComponent } from './configuracoes/plano-contas/edit/planoedit-config.component';
+import { SubcontacreateConfigComponent } from './configuracoes/plano-contas/subconta/create/subcontacreate-config.component';
+import { SubcontaeditConfigComponent } from './configuracoes/plano-contas/subconta/edit/subcontaedit-config.component';
 
 @NgModule({
     declarations: [
@@ -43,12 +53,21 @@ import { CaixaEscolaComponent } from './caixa-escola/caixa-escola.component';
         // Configurações
         FinancConfigsComponent,
         BancosConfigComponent,
+        BancocreateConfigComponent,
+        BancoeditConfigComponent,
         CentrocustoConfigComponent,
         FormarecebimentoConfigComponent,
+        PlanocontasConfigComponent,
         MeiopagamentoConfigComponent,
-        PlanocontasConfigComponent
-        
-        //BancocreateConfigComponent
+        MeiopgmcreateConfigComponent,
+        MeiopgmeditConfigComponent,
+        CentrocreateConfigComponent,
+        CentroeditConfigComponent,
+        FormacreateConfigComponent,
+        PlanocreateConfigComponent,
+        PlanoeditConfigComponent,
+        SubcontacreateConfigComponent,
+        SubcontaeditConfigComponent
     ],
     imports: [
         SharedModule,
@@ -82,9 +101,13 @@ import { CaixaEscolaComponent } from './caixa-escola/caixa-escola.component';
         EditFornecedorComponent,
         // Configurações
         BancosConfigComponent,
+        BancoeditConfigComponent,
+        BancocreateConfigComponent,
         CentrocustoConfigComponent,
         FormarecebimentoConfigComponent,
         MeiopagamentoConfigComponent,
+        MeiopgmcreateConfigComponent,
+        MeiopgmeditConfigComponent,
         PlanocontasConfigComponent
     ]
 })

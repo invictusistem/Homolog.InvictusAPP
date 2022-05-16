@@ -40,6 +40,9 @@ export class BaseComponent {
     public disabledSaveButton = 'hidden'
     public hideSaveProgressBar = 'hidden'
     public disabledCloseModalIcon = false
+    public showSaveButton = 'visible'
+    public matProgressSaveButton = 'hidden'
+    //public disabledButtonSave = false
     // handelr!: HttpHandler
     // client = new HttpClient(this.handelr)
     // private sharedService:SharedService = new SharedService(this.client)

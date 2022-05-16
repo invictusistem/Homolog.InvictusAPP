@@ -1,5 +1,5 @@
 // Alunos
-export function InfoFinancModalConfig(aluno?:any){
+export function InfoFinancModalConfig(aluno?: any) {
     return {
         width: '1150px',
         data: { aluno: aluno },
@@ -8,21 +8,21 @@ export function InfoFinancModalConfig(aluno?:any){
     }
 }
 
-export function ReceberComponentModal(debito?:any, aluno?:any){
-    return { 
-        height:'545px',
+export function ReceberComponentModal(debito?: any, aluno?: any) {
+    return {
+        height: '545px',
         width: '650px',
-        data: { debito: debito, aluno: aluno },        
+        data: { debito: debito, aluno: aluno },
         hasBackdrop: true,
         disableClose: true
     }
 }
 
-export function ReparcelamentoComponentModal(aluno:any){
-    return { 
+export function ReparcelamentoComponentModal(aluno: any) {
+    return {
         //height:'545px',
         width: '1000px',
-        data: { aluno: aluno },        
+        data: { aluno: aluno },
         hasBackdrop: true,
         disableClose: true
     }
@@ -30,7 +30,7 @@ export function ReparcelamentoComponentModal(aluno:any){
 
 // fornecedor
 
-export function CreateFornecedorModal(){
+export function CreateFornecedorModal() {
     return {
         height: '590px',
         width: '680px',
@@ -39,7 +39,7 @@ export function CreateFornecedorModal(){
     }
 }
 
-export function EditFornecedorModal(fornecedor?: any){
+export function EditFornecedorModal(fornecedor?: any) {
     return {
         width: '680px',
         data: { fornecedor: fornecedor },
@@ -50,7 +50,8 @@ export function EditFornecedorModal(fornecedor?: any){
 
 // configurações
 
-export function OpenBancosConfigModal(){
+//banco
+export function OpenBancosConfigModal() {
     return {
         width: '680px',
         hasBackdrop: true,
@@ -58,7 +59,25 @@ export function OpenBancosConfigModal(){
     }
 }
 
-export function OpenCentroCustoConfigModal(){
+export function OpenBancoCreateConfigModal() {
+    return {
+        height: '335px',
+        width: '480px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenBancoEditConfigModal(bancoId: any) {
+    return {
+        width: '480px',
+        data: { bancoId: bancoId },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+// centro custo
+export function OpenCentroCustoConfigModal() {
     return {
         width: '680px',
         hasBackdrop: true,
@@ -66,7 +85,25 @@ export function OpenCentroCustoConfigModal(){
     }
 }
 
-export function OpenFormaRecebimentoconfigModal(){
+export function OpenCentroCustoCreateConfigModal() {
+    return {
+        width: '580px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenCentroCustoEditConfigModal(centroId: any) {
+    return {
+        width: '580px',
+        data: { id: centroId },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+// forma recebimento
+export function OpenFormaRecebimentoconfigModal() {
     return {
         width: '680px',
         hasBackdrop: true,
@@ -74,7 +111,26 @@ export function OpenFormaRecebimentoconfigModal(){
     }
 }
 
-export function OpenMeioPagamentoConfigModal(){
+export function OpenFormaRecebimentoCreateConfigModal() {
+    return {
+        width: '580px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenFormaRecebimentoEditConfigModal(formaRecId: any) {
+    return {
+        width: '640px',
+        data: { id: formaRecId },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+
+// meio pgm
+export function OpenMeioPagamentoConfigModal() {
     return {
         width: '680px',
         hasBackdrop: true,
@@ -82,9 +138,54 @@ export function OpenMeioPagamentoConfigModal(){
     }
 }
 
-export function OpenPlanocontasConfigModal(){
+export function OpenMeioPagamentoCreateConfigModal() {
     return {
+        width: '580px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenMeioPagamentoEditConfigModal(meioPgmId: any) {
+    return {
+        width: '580px',
+        data: { id: meioPgmId },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+// plano 
+export function OpenPlanocontasConfigModal() {
+    return {
+        //height: '600px',
         width: '680px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenPlanoCreateConfigModal() {
+    return {
+        width: '580px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenPlanoEditConfigModal(meioPgmId: any) {
+    return {
+        width: '580px',
+        data: { id: meioPgmId },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenSubcontaCreateConfigModal(plano: any) {
+    return {
+        width: '480px',
+        data: { plano: plano },
         hasBackdrop: true,
         disableClose: true
     }

@@ -40,7 +40,7 @@ export class EditColaboradoresComponent extends BaseComponent implements OnInit 
         private _fb: FormBuilder,
         public dialogRef: MatDialogRef<EditColaboradoresComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-            super(_snackBar);
+        super(_snackBar);
         this.colaboradorForm = _fb.group({
             id: [''],
             nome: ['', [Validators.required, Validators.minLength(5)]],
@@ -87,7 +87,7 @@ export class EditColaboradoresComponent extends BaseComponent implements OnInit 
         this._admService.GetColaborador(this.data['colaborador'].id)
             .subscribe({
                 next: (response: any) => {
-                    
+
                     this.cargos = Object.assign([], response['values'])
                     this.colaboradorForm.patchValue(response['colaborador']);
                     this.originalColaborador = JSON.parse(JSON.stringify(this.colaboradorForm.value))
@@ -96,7 +96,7 @@ export class EditColaboradoresComponent extends BaseComponent implements OnInit 
                     // this.autorizado = 'hidden'
                     this.showForm = true
                     this.initProgressBar = 'hidden'
-                    
+
                 },
                 error: (error) => {
                     this.initProgressBar = 'hidden'
@@ -134,7 +134,7 @@ export class EditColaboradoresComponent extends BaseComponent implements OnInit 
     }
 
     consultaCEP(CEP: string) {
-console.log('consulta')
+        //console.log('consulta')
         if (this.colaboradorForm.get('cep')?.valid) {
 
             CEP = CEP.replace('-', '');

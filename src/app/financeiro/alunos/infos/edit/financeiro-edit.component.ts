@@ -55,7 +55,12 @@ export class EditFinancComponent implements OnInit {
         let mensagem = 'Confirmar o cancelamento?'
         let payload = ''
         const dialogRef = this._modal
-            .open(ModalConfirmarComponent, ModalconfirmarConfig(url, metodo, mensagem, payload));
+            .open(ModalConfirmarComponent, ModalconfirmarConfig(
+                url, 
+                metodo, 
+                mensagem,
+                'Boleto cancelado com sucesso.',
+                payload));
         dialogRef.afterClosed().subscribe((data) => {
 
             if (data.confirm == true) {
