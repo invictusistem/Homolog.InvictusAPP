@@ -28,6 +28,19 @@ export class FinanceiroService extends BaseService {
         return response;
     }
 
+    public GetFornecedoresFromUnidades(): Observable<any> {
+
+        let path = `/fornecedores/todos`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
     public GetFornecedorById(id?: any): Observable<any> {
 
         let path = `/fornecedores/${id}`
@@ -85,6 +98,21 @@ export class FinanceiroService extends BaseService {
         return response;
     }
 
+    // Contas 
+
+    public GetAlunosFromUnidade(): Observable<any> {
+
+        let path = `/pedag/matricula`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
     // Configurações
 
 
@@ -102,9 +130,35 @@ export class FinanceiroService extends BaseService {
         return response;
     }
 
+    public GetBancosAtivosFromUnidade(): Observable<any> {
+
+        let path = `/configuracao-financ/banco/ativos`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
     public GetBancoById(bancoId: any): Observable<any> {
 
         let path = `/configuracao-financ/banco/${bancoId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public GetSubcontasAtivas(): Observable<any> {
+
+        let path = `/configuracao-financ/subconta/ativas`
 
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())

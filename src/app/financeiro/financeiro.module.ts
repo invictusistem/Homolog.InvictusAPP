@@ -31,6 +31,10 @@ import { PlanoeditConfigComponent } from './configuracoes/plano-contas/edit/plan
 import { SubcontacreateConfigComponent } from './configuracoes/plano-contas/subconta/create/subcontacreate-config.component';
 import { SubcontaeditConfigComponent } from './configuracoes/plano-contas/subconta/edit/subcontaedit-config.component';
 import { FormaeditConfigComponent } from './configuracoes/forma-recebimento/edit/formaedit-config.component';
+import { ContasReceberComponent } from './contasreceber/contas-receber.component';
+import { ContasPagarComponent } from './contaspagar/contas-pagar.component';
+import { ContaspagarNovaComponent } from './contaspagar/nova/contaspagar-nova.component';
+import { ContasreceberNovaComponent } from './contasreceber/nova/contasreceber-nova.component';
 
 @NgModule({
     declarations: [
@@ -47,6 +51,10 @@ import { FormaeditConfigComponent } from './configuracoes/forma-recebimento/edit
         FinCaixaComponent,
         // Caixa Escola
         CaixaEscolaComponent,
+        // Contas Receber
+        ContasReceberComponent,
+        // Contas Pagar
+        ContasPagarComponent,
         // Fornecedores
         FornecedoresComponent,
         CreateFornecedorComponent,
@@ -69,7 +77,10 @@ import { FormaeditConfigComponent } from './configuracoes/forma-recebimento/edit
         PlanoeditConfigComponent,
         SubcontacreateConfigComponent,
         SubcontaeditConfigComponent,
-        FormaeditConfigComponent
+        FormaeditConfigComponent,
+        ContaspagarNovaComponent,
+        ContasreceberNovaComponent,
+        
     ],
     imports: [
         SharedModule,
@@ -84,6 +95,10 @@ import { FormaeditConfigComponent } from './configuracoes/forma-recebimento/edit
         AlunoFinancComponent,
         //Caixa
         FinCaixaComponent,
+        // Contas Receber
+        ContasReceberComponent,
+        // Contas Pagar
+        ContasPagarComponent,
         // Caixa Escola
         CaixaEscolaComponent,
         // Fornecedores

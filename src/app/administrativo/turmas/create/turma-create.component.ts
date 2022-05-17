@@ -102,7 +102,7 @@ export class CreateCursoComponent implements OnInit {
                 
                 var date = new Date(this.cursoForm.get('prevInicio_1')?.value)
 
-                date = new Date(date.setMonth(date.getMonth()+ 23))
+                date = new Date(date.setMonth(date.getMonth()+ 21))
 
                 this.cursoForm.get('prevTermino_1')?.setValue(new Date(date))
                 
@@ -113,7 +113,7 @@ export class CreateCursoComponent implements OnInit {
             (form: any) => {
                 var date = new Date(this.cursoForm.get('prevInicio_2')?.value)
 
-                date = new Date(date.setMonth(date.getMonth()+ 23))
+                date = new Date(date.setMonth(date.getMonth()+ 21))
 
                 this.cursoForm.get('prevTermino_2')?.setValue(new Date(date))
             }

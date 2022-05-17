@@ -5,13 +5,15 @@ import { MatriculaCadastroComponent } from "./cadastro/matricula-cadastro.compon
 import { RelatorioMatriculaComponent } from "./cadastro/relatorio/matricula-relatorio.component";
 import { MatriculaComponent } from "./matricula.component";
 import { MatriculaService } from "./services/matricula.service";
+import { MatriculaLoteComponent } from './cadastro/matricula-lote/matricula-lote.component';
 
 @NgModule({
     declarations: [
         MatriculaComponent,
         MatriculaCadastroComponent,
         NovaMatriculaCreateComponent,
-        RelatorioMatriculaComponent
+        RelatorioMatriculaComponent,
+        MatriculaLoteComponent
     ],
     imports: [
         SharedModule,

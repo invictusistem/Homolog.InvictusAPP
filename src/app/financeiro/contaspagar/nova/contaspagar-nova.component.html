@@ -1,0 +1,121 @@
+<div style="font-size: 1.2em;">Nova Conta a Receber
+    <close-modal [disable]="disabledCloseModalIcon"></close-modal>
+</div>
+
+<mat-progress-bar style="" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showForm" @rowHighlight>
+
+    <hr>
+
+    <form novalidate [formGroup]="contaForm" (ngSubmit)="Save()">
+
+        <mat-form-field appearance="standard" style="width: 145px;">
+            <mat-label>Vencimento</mat-label>
+            <input matInput [disabled]="true" [matDatepicker]="dp3" formControlName="vencimento">
+            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 30%;margin-left: 10px; ">
+            <mat-label>Valor</mat-label>
+            <input formControlName="valor" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                placeholder="R$ 00,00" matInput>
+            <span matPrefix>R$&nbsp;</span>
+        </mat-form-field>
+
+        <!-- <mat-form-field appearance="standard" style="width: 30%; ">
+        <mat-label>Valor</mat-label>
+        <input formControlName="valor" currencyMask
+            [options]="{ prefix: '', thousands: '.', decimal: ',' }" placeholder="R$ 00,00" matInput>
+        <span matPrefix>R$&nbsp;</span>
+    </mat-form-field> -->
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 100%;">
+            <mat-label>Fornecedor/Funcionário</mat-label>
+            <mat-select formControlName="pessoa" selected required>
+                <mat-option></mat-option>
+                <!-- <mat-option *ngFor="let cargo of cargos" 
+            [value]="cargo.id">{{cargo.value}}
+            </mat-option> -->
+            </mat-select>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 47%;">
+            <mat-label>Subconta</mat-label>
+            <mat-select formControlName="subcontaId" selected required>
+                <mat-option></mat-option>
+                <!-- <mat-option *ngFor="let cargo of cargos" 
+            [value]="cargo.id">{{cargo.value}}
+            </mat-option> -->
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 47%;margin-left: 6%;">
+            <mat-label>Centro de Custo</mat-label>
+            <mat-select formControlName="centroCustoId" selected required>
+                <mat-option></mat-option>
+                <!-- <mat-option *ngFor="let cargo of cargos" 
+            [value]="cargo.id">{{cargo.value}}
+            </mat-option> -->
+            </mat-select>
+        </mat-form-field>       
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 47%;">
+            <mat-label>Meio de pagamento</mat-label>
+            <mat-select formControlName="meioPgmId" selected required>
+                <mat-option></mat-option>
+                <!-- <mat-option *ngFor="let cargo of cargos" 
+            [value]="cargo.id">{{cargo.value}}
+            </mat-option> -->
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 47%;margin-left: 6%;">
+            <mat-label>Conta</mat-label>
+            <mat-select formControlName="contaId" selected required>
+                <mat-option></mat-option>
+                <!-- <mat-option *ngFor="let cargo of cargos" 
+            [value]="cargo.id">{{cargo.value}}
+            </mat-option> -->
+            </mat-select>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 75%;">
+            <mat-label>Banco</mat-label>
+            <mat-select formControlName="bancoId" selected required>
+                <mat-option></mat-option>
+                <!-- <mat-option *ngFor="let cargo of cargos" 
+            [value]="cargo.id">{{cargo.value}}
+            </mat-option> -->
+            </mat-select>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="standard" style="width: 75%; ">
+            <mat-label>Histórico</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" formControlName="historico" matInput
+                placeholder="Nome">
+        </mat-form-field>
+
+        <mat-progress-bar [style.visibility]="matProgressSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>
+
+        <span style="float: right;margin-top: 15px;">
+
+            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButtonSave">
+                Salvar
+            </button>
+        </span>
+    </form>
+
+</div>

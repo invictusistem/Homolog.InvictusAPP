@@ -11,7 +11,9 @@ import { ConfirmAcaoModalConfig } from "src/app/_shared/services/shared.modal";
 import { OpenRelatorioMatriculaComponentModal } from "../services/mat-modal";
 import { MatriculaService } from "../services/matricula.service";
 import { NovaMatriculaCreateComponent } from "./create/matricula-criar.component";
+import { MatriculaLoteComponent } from "./matricula-lote/matricula-lote.component";
 import { RelatorioMatriculaComponent } from "./relatorio/matricula-relatorio.component";
+import { OpenMatriculaLoteModal } from '../services/mat-modal'
 
 @Component({
     selector: "nova-matricula-app",
@@ -129,11 +131,13 @@ export class MatriculaCadastroComponent implements OnInit {
 
     public MatricularRegistroDaPlanilha(): void {
         const dialogRef = this._modal
-            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+            .open(MatriculaLoteComponent, OpenMatriculaLoteModal());
         dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked == true) {
+            if (data.confirm == true) {
+                console.log('salvar')
+                console.log(data.form)
                 this.podeDesable = true
-                this._http.get(`https://localhost:5001/api/teste/matricular-registros`)
+                this._http.post(`https://localhost:5001/api/teste/matricular-registros`,data.form,{})
                     .subscribe(
                         resp => { this.RespMats(resp) },
                         error => { this.podeDesable = false }
@@ -178,8 +182,8 @@ export class MatriculaCadastroComponent implements OnInit {
     totalItens = 0
     commands: any[] = new Array<any>()
     public async MatricularFinal(command?:any, item?: any) { // matricular-registros
-        console.log(item)
-        console.log(command)
+        //console.log(item)
+        //console.log(command)
         //console.log(this.ids)
         if (item == undefined) { this.totalItens = command.length; this.commands = command }
         // if(id != undefined)
@@ -190,13 +194,15 @@ export class MatriculaCadastroComponent implements OnInit {
         this._http.post(`https://localhost:5001/api/teste/matricular-final-registros/${this.commands[this.index].turmaId}/${this.commands[this.index].alunoId}`, this.commands[this.index])
             .subscribe(
                 resp => {
-                    console.log('retorno matricula')
+                    //console.log('retorno matricula')
                     this.index = this.index + 1
-                    console.log(this.index)
+                    //console.log(this.index)
                     this.MatricularFinal(undefined, this.commands[this.index])
 
                 },
-                error => { console.log('erro') }
+                error => { 
+                   // console.log('erro')
+                 }
             )
     }
 

@@ -6,3 +6,12 @@ export function OpenRelatorioMatriculaComponentModal() {
         disableClose: true
     }
 }
+
+export function OpenMatriculaLoteModal() {
+    return {
+        height:'470px',
+        width: '400px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
