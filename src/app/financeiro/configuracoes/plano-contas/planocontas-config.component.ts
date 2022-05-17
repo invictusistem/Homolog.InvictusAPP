@@ -7,9 +7,10 @@ import { BaseComponent } from 'src/app/_shared/services/basecomponent.component'
 import { FinanceiroService } from '../../services/financ.service';
 import { ModalconfirmarConfig } from '../../../_shared/services/shared.modal'
 import { PlanocreateConfigComponent } from './create/planocreate-config.component';
-import { OpenPlanoCreateConfigModal, OpenPlanoEditConfigModal, OpenSubcontaCreateConfigModal } from '../../services/financ-modal'
+import { OpenPlanoCreateConfigModal, OpenPlanoEditConfigModal, OpenSubcontaCreateConfigModal, OpenSubcontaEditConfigModal } from '../../services/financ-modal'
 import { PlanoeditConfigComponent } from './edit/planoedit-config.component';
 import { SubcontacreateConfigComponent } from './subconta/create/subcontacreate-config.component';
+import { SubcontaeditConfigComponent } from './subconta/edit/subcontaedit-config.component';
 
 @Component({
   selector: 'app-planocontas-config',
@@ -31,7 +32,7 @@ export class PlanocontasConfigComponent extends BaseComponent implements OnInit 
     private _modal: MatDialog,
     public dialogRef: MatDialogRef<PlanocontasConfigComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    super(_snackBar);    
+    super(_snackBar);
 
   }
 
@@ -39,7 +40,7 @@ export class PlanocontasConfigComponent extends BaseComponent implements OnInit 
     this.GetPlanos()
   }
 
-  GetPlanos(){
+  GetPlanos() {
     this._finService.GetPlanos()
       .subscribe({
         next: (resp: any) => { this.GetPlanosSucesso(resp) },
@@ -60,53 +61,77 @@ export class PlanocontasConfigComponent extends BaseComponent implements OnInit 
     this.initProgressBar = 'hidden'
     this.OpenSnackBarErrorDefault()
   }
-  
+
 
   public CreatePlano(): void {
     const dialogRef = this._modal
       .open(PlanocreateConfigComponent, OpenPlanoCreateConfigModal());
     dialogRef.afterClosed().subscribe(data => {
       if (data.saved == true)
-      this.GetPlanos()
+        this.GetPlanos()
     });
   }
 
-  public EditarPlano(meioPgmId: any){
+  public EditarPlano(meioPgmId: any) {
     const dialogRef = this._modal
-            .open(PlanoeditConfigComponent, OpenPlanoEditConfigModal(meioPgmId));
-        dialogRef.afterClosed().subscribe((data) => {
-            if (data.saved == true) {
-              this.GetPlanos()
-            }
-        })
+      .open(PlanoeditConfigComponent, OpenPlanoEditConfigModal(meioPgmId));
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data.saved == true) {
+        this.GetPlanos()
+      }
+    })
   }
 
-  public CreateSubConta(){
+  public CreateSubConta() {
     const dialogRef = this._modal
       .open(SubcontacreateConfigComponent, OpenSubcontaCreateConfigModal(this.planoSelect));
+    dialogRef.afterClosed().subscribe(data => {
+      if (data.saved == true)
+        this.SelectPlano(this.planoSelect)
+    });
+  }
+
+  public EditarSubconta(subContaId: any) {
+    const dialogRef = this._modal
+      .open(SubcontaeditConfigComponent, OpenSubcontaEditConfigModal(this.planoSelect, subContaId));
     dialogRef.afterClosed().subscribe(data => {
       if (data.saved == true)
       this.SelectPlano(this.planoSelect)
     });
   }
 
-  public RemoverPlano(meioPgmId:any){
+  public RemoverSubConta(subcontaId: any) {
+    const dialogRef = this._modal
+      .open(ModalConfirmarComponent, ModalconfirmarConfig(
+        `configuracao-financ/subconta/${subcontaId}`,
+        'delete',
+        'Deseja remover a subconta?',
+        'Subconta deletada com sucesso.'
+      ));
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data.confirm == true) {
+        this.SelectPlano(this.planoSelect)
+      }
+    })
+  }
+
+  public RemoverPlano(meioPgmId: any) {
 
     const dialogRef = this._modal
-            .open(ModalConfirmarComponent, ModalconfirmarConfig(
-              `configuracao-financ/plano/${meioPgmId}`,
-              'delete',
-              'Deseja remover o meio de pagamento?',
-              'Meio de pagamento deletado com sucesso.'
-            ));
-        dialogRef.afterClosed().subscribe((data) => {
-            if (data.confirm == true) {
-              this.GetPlanos()
-            }
-        })
-  }  
+      .open(ModalConfirmarComponent, ModalconfirmarConfig(
+        `configuracao-financ/plano/${meioPgmId}`,
+        'delete',
+        'Deseja remover o meio de pagamento?',
+        'Meio de pagamento deletado com sucesso.'
+      ));
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data.confirm == true) {
+        this.GetPlanos()
+      }
+    })
+  }
 
-  public SelectPlano(plano: any){
+  public SelectPlano(plano: any) {
     this.showSubConta = false
     this.subContas = new Array<any>()
     this.selectPlanoProgressBar = 'visible'
@@ -121,14 +146,14 @@ export class PlanocontasConfigComponent extends BaseComponent implements OnInit 
       })
   }
 
-  private SelectPlanoSucesso(resp: any, plano:any){
+  private SelectPlanoSucesso(resp: any, plano: any) {
     this.planoSelect = plano
     this.subContas = Object.assign([], resp['result'])
     this.selectPlanoProgressBar = 'hidden'
     this.showSubConta = true
   }
 
-  private SelectPlanoError(fail: any){
+  private SelectPlanoError(fail: any) {
     this.selectPlanoProgressBar = 'hidden'
     this.OpenSnackBarErrorDefault()
   }

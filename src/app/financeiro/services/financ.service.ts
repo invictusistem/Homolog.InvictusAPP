@@ -355,6 +355,19 @@ export class FinanceiroService extends BaseService {
         return response;
     }
 
+    public GetSubcontasById(subcontaId: any): Observable<any> {
+
+        let path = `/configuracao-financ/subconta/${subcontaId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
     public SavePlano(newPlano: any): Observable<any> {
 
         let path = `/configuracao-financ/plano`
@@ -387,6 +400,19 @@ export class FinanceiroService extends BaseService {
 
         let response = this.http
             .put(this.BaseUrl + path, editedPlano, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public EditSubConta(editedSubConta: any): Observable<any> {
+
+        let path = `/configuracao-financ/subconta`
+
+        let response = this.http
+            .put(this.BaseUrl + path, editedSubConta, this.ObterHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));

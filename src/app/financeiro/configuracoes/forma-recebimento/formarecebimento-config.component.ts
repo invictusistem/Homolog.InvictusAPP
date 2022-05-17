@@ -7,7 +7,8 @@ import { BaseComponent } from 'src/app/_shared/services/basecomponent.component'
 import { FinanceiroService } from '../../services/financ.service';
 import { ModalconfirmarConfig } from '../../../_shared/services/shared.modal'
 import { FormacreateConfigComponent } from './create/formacreate-config.component';
-import { OpenFormaRecebimentoCreateConfigModal } from '../../services/financ-modal'
+import { OpenFormaRecebimentoCreateConfigModal, OpenFormaRecebimentoEditConfigModal } from '../../services/financ-modal'
+import { FormaeditConfigComponent } from './edit/formaedit-config.component';
 
 @Component({
   selector: 'app-formarecebimento-config',
@@ -25,13 +26,14 @@ export class FormarecebimentoConfigComponent extends BaseComponent implements On
     private _modal: MatDialog,
     public dialogRef: MatDialogRef<FormarecebimentoConfigComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-        super(_snackBar); }
+    super(_snackBar);
+  }
 
   ngOnInit(): void {
     this.GetFormasRecebimentosCustos()
   }
 
-  public GetFormasRecebimentosCustos(){
+  public GetFormasRecebimentosCustos() {
     this._finService.GetFormasRecebimentos()
       .subscribe({
         next: (resp: any) => { this.GetFormasRecSucesso(resp) },
@@ -51,43 +53,45 @@ export class FormarecebimentoConfigComponent extends BaseComponent implements On
     this.initProgressBar = 'hidden'
     this.OpenSnackBarErrorDefault()
   }
-  
+
 
   public CreateFormaRecebimento(): void {
     const dialogRef = this._modal
       .open(FormacreateConfigComponent, OpenFormaRecebimentoCreateConfigModal());
     dialogRef.afterClosed().subscribe(data => {
       if (data.saved == true)
-      this.GetFormasRecebimentosCustos()
+        this.GetFormasRecebimentosCustos()
     });
   }
 
-  public EditarFormaRecebimento(formaId: any){
-    // const dialogRef = this._modal
-    //         .open(CentroeditConfigComponent, OpenCentroCustoEditConfigModal(centroId));
-    //     dialogRef.afterClosed().subscribe((data) => {
-    //         if (data.saved == true) {
-    //           this.GetCentrosCustos()
-    //         }
-    //     })
-  }
-
-  public RemoverFormaRecebimento(formaId:any){
-
+  public EditarFormaRecebimento(formaId: any) {
     const dialogRef = this._modal
-            .open(ModalConfirmarComponent, ModalconfirmarConfig(
-              `configuracao-financ/forma-recebimento/${formaId}`,
-              'delete',
-              'Deseja remover o centro de custo?',
-              'Centro de custo deletado com sucesso.'
-            ));
+            .open(FormaeditConfigComponent, OpenFormaRecebimentoEditConfigModal(formaId));
         dialogRef.afterClosed().subscribe((data) => {
-            if (data.confirm == true) {
+            if (data.saved == true) {
               this.GetFormasRecebimentosCustos()
             }
         })
-  }  
+  }
 
+  public RemoveForma(formaId: any) {
+
+    const dialogRef = this._modal
+      .open(ModalConfirmarComponent, ModalconfirmarConfig(
+        `configuracao-financ/forma-recebimento/${formaId}`,
+        'delete',
+        'Deseja remover a forma de recebimento?',
+        'Forma de recebimento deletado com sucesso.'
+      ));
+
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data.confirm == true) {
+        this.GetFormasRecebimentosCustos()
+      }
+    })
+
+  }
+  
   get podeDeletar() {
 
     return this.tokenInfo.role == 'SuperAdm'

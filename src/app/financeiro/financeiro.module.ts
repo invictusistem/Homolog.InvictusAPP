@@ -30,6 +30,7 @@ import { PlanocreateConfigComponent } from './configuracoes/plano-contas/create/
 import { PlanoeditConfigComponent } from './configuracoes/plano-contas/edit/planoedit-config.component';
 import { SubcontacreateConfigComponent } from './configuracoes/plano-contas/subconta/create/subcontacreate-config.component';
 import { SubcontaeditConfigComponent } from './configuracoes/plano-contas/subconta/edit/subcontaedit-config.component';
+import { FormaeditConfigComponent } from './configuracoes/forma-recebimento/edit/formaedit-config.component';
 
 @NgModule({
     declarations: [
@@ -67,7 +68,8 @@ import { SubcontaeditConfigComponent } from './configuracoes/plano-contas/subcon
         PlanocreateConfigComponent,
         PlanoeditConfigComponent,
         SubcontacreateConfigComponent,
-        SubcontaeditConfigComponent
+        SubcontaeditConfigComponent,
+        FormaeditConfigComponent
     ],
     imports: [
         SharedModule,

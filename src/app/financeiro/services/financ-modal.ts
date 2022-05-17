@@ -121,7 +121,7 @@ export function OpenFormaRecebimentoCreateConfigModal() {
 
 export function OpenFormaRecebimentoEditConfigModal(formaRecId: any) {
     return {
-        width: '640px',
+        width: '580px',
         data: { id: formaRecId },
         hasBackdrop: true,
         disableClose: true
@@ -186,6 +186,15 @@ export function OpenSubcontaCreateConfigModal(plano: any) {
     return {
         width: '480px',
         data: { plano: plano },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenSubcontaEditConfigModal(plano: any, subContaId: any) {
+    return {
+        width: '480px',
+        data: { plano: plano, subContaId: subContaId },
         hasBackdrop: true,
         disableClose: true
     }

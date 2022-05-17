@@ -88,11 +88,35 @@
                             </td>
 
                             <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
-                                {{ banco.ativo }}
+                                <div *ngIf="banco.ativo == true;else inativo">
+
+                                    <mat-icon style="font-size: 1.3em;color: green;" >
+                                        done</mat-icon>
+
+
+                                </div>
+                                <ng-template #inativo>
+                                    <mat-icon style="font-size: 1.3em;color: red; ">close</mat-icon>
+                                </ng-template>
                             </td>
 
                             <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
-                                {{ banco.ehCaixaEscola }}
+                                
+                                <div *ngIf="banco.ehCaixaEscola == true;else inativo">
+
+                                    <mat-icon style="font-size: 1.3em;
+                                        color: green;" >
+                                        done</mat-icon>
+
+
+                                </div>
+                                <ng-template #inativo>
+
+                                    <mat-icon style="font-size: 1.3em;
+                                            color: red; ">close</mat-icon>
+
+
+                                </ng-template>
                             </td>
 
                             <td style="font-size:0.9em;text-align: center;vertical-align: middle;">

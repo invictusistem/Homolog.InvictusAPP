@@ -32,12 +32,12 @@
                     vertical-align: middle;
                     border-top: 0px;"></th>
 
-                            <th style="width: 35%;font-size:0.9em;
+                            <th style="width: 41%;font-size:0.9em;
                     vertical-align: middle; 
                     text-align:left;
                      border-top: 0px; font-weight: 400;">DESCRIÇÃO</th>
 
-                            <th style="width: 35%;font-size:0.9em;
+                            <th style="width: 40%;font-size:0.9em;
                     vertical-align: middle;
                     text-align:center;
                     border-top: 0px; font-weight: 400;">ATIVO</th>
@@ -62,7 +62,7 @@
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">Status</th> -->
 
-                            <th style="width: 28%;font-size:1em;
+                            <th style="width: 17%;font-size:1em;
                     text-align:center; 
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">
@@ -88,7 +88,21 @@
                             </td>
 
                             <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
-                                {{ plano.ativo }}
+                                <div *ngIf="plano.ativo == true;else inativo">
+
+                                    <mat-icon style="font-size: 1.3em;
+                                        color: green;" >
+                                        done</mat-icon>
+
+
+                                </div>
+                                <ng-template #inativo>
+
+                                    <mat-icon style="font-size: 1.3em;
+                                            color: red; ">close</mat-icon>
+
+
+                                </ng-template>
                             </td>
 
                             <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
@@ -115,7 +129,7 @@
                                     </button>
                                 </i> -->
 
-                                <i *ngIf="podeDeletar" style="margin-left: 10px;"
+                                <i *ngIf="podeDeletar" style="float: right;"
                                     #tooltip="matTooltip" matTooltip="excluir" matTooltipPosition="above"
                                     matTooltipHideDelay="100">
                                     <button (click)="RemoverPlano(plano.id)" style="margin: 0px;" mat-icon-button>
@@ -161,12 +175,12 @@
                     vertical-align: middle;
                     border-top: 0px;"></th>
 
-                            <th style="width: 35%;font-size:0.9em;
+                            <th style="width: 41%;font-size:0.9em;
                     vertical-align: middle; 
                     text-align:left;
                      border-top: 0px; font-weight: 400;">DESCRIÇÃO</th>
 
-                            <th style="width: 35%;font-size:0.9em;
+                            <th style="width: 40%;font-size:0.9em;
                     vertical-align: middle;
                     text-align:center;
                     border-top: 0px; font-weight: 400;">ATIVO</th>
@@ -191,7 +205,7 @@
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">Status</th> -->
 
-                            <th style="width: 28%;font-size:1em;
+                            <th style="width: 17%;font-size:1em;
                     text-align:center; 
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">
@@ -217,7 +231,23 @@
                             </td>
 
                             <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
-                                {{ sub.ativo }}
+                                
+
+                                <div *ngIf="sub.ativo == true;else inativo">
+
+                                    <mat-icon style="font-size: 1.3em;
+                                        color: green;" >
+                                        done</mat-icon>
+
+
+                                </div>
+                                <ng-template #inativo>
+
+                                    <mat-icon style="font-size: 1.3em;
+                                            color: red; ">close</mat-icon>
+
+
+                                </ng-template>
                             </td>
 
                             <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
@@ -230,27 +260,20 @@
 
                             <td style="vertical-align: middle;">
 
-                                <!-- <i style="" #tooltip="matTooltip" matTooltip="Visualizar/Editar"
+                                <i style="" #tooltip="matTooltip" matTooltip="Visualizar/Editar"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="EditarPlano(plano.id)" mat-icon-button>
+                                    <button (click)="EditarSubconta(sub.id)" mat-icon-button>
                                         <mat-icon>settings</mat-icon>
                                     </button>
                                 </i>
 
-                                <i style="margin-left: 10px;" #tooltip="matTooltip" matTooltip="Visualizar/Editar"
-                                    matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="EditarPlano(plano.id)" mat-icon-button>
-                                        <mat-icon type="button">settings</mat-icon>
-                                    </button>
-                                </i>
-
-                                <i *ngIf="podeDeletar" style="margin-left: 10px;"
+                                <i *ngIf="podeDeletar" style="float: right;"
                                     #tooltip="matTooltip" matTooltip="excluir" matTooltipPosition="above"
                                     matTooltipHideDelay="100">
-                                    <button (click)="RemoverPlano(plano.id)" style="margin: 0px;" mat-icon-button>
+                                    <button (click)="RemoverSubConta(sub.id)" style="margin: 0px;" mat-icon-button>
                                         <mat-icon>delete_outline</mat-icon>
                                     </button>
-                                </i> -->
+                                </i>
                             </td>
 
                         </tr>
