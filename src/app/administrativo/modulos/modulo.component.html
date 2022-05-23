@@ -1,35 +1,21 @@
 <div class="container" style="width: 95%; padding-top: 20px;">
 
     <div>
-        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="criar pacote" matTooltipPosition="above"
+        <i #tooltip="matTooltip" matTooltip="criar pacote" matTooltipPosition="above"
             matTooltipHideDelay="100">
             <button (click)="createModulo()" mat-icon-button>
                 <mat-icon>assignment</mat-icon>
             </button>
         </i>
 
-        <!-- <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="criar módulo" matTooltipPosition="above"
-            matTooltipHideDelay="100">
-            <button (click)="planosPgm()" mat-icon-button>
-                <mat-icon>request_quote</mat-icon>
-            </button>
-        </i> -->
-    </div>
+        <i *ngIf="showPhroto" style="margin-left: 15px;" #tooltip="matTooltip" matTooltip="criar pacote" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button (click)="createModuloNovo()" mat-icon-button>
+            <mat-icon>assignment</mat-icon>
+        </button>
+    </i>
 
-
-
-    <!-- <br> -->
-    <!-- <mat-form-field *ngIf="showTeste" appearance="standard" style="width: 200px;">
-        <mat-label></mat-label>
-
-        <mat-select   placeholder="type pacote">
-            <mat-option ></mat-option>
-            <mat-option *ngFor="let uni of unidadesAutorizadas"
-            
-            >{{uni.unidade}}</mat-option>
-        </mat-select>
-
-    </mat-form-field> -->
+    </div> 
 
     <br>
 
@@ -170,7 +156,7 @@
 
                                 <i style="margin: 0px; margin-left: 50px;" #tooltip="matTooltip"
                                     matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="openEditModal(item)" disabled
+                                    <button (click)="openEditModal(item)" 
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>mode_edit</mat-icon>

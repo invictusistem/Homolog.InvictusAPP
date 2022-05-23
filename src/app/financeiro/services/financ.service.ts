@@ -11,6 +11,23 @@ import { BaseService } from 'src/app/_shared/services/base.service';
 export class FinanceiroService extends BaseService {
 
     constructor(private http: HttpClient) { super(); }
+
+    // contas Receber
+
+    public SaveContaReceber(newconta: any): Observable<any> {
+
+        let path = `/financeiro/contas/receber`
+
+        let response = this.http
+            .post(this.BaseUrl + path, newconta, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+
     // Fornecedores
 
     public GetFornecedores(pageSize?: number, currentPage?: number, jsonParam?: any): Observable<any> {
@@ -207,6 +224,20 @@ export class FinanceiroService extends BaseService {
 
     //     return response;
     // }
+
+    public GetContasReceber(meioPgm:any, start: any, end:any): Observable<any> {
+
+        //let path = `/financeiro/contas/receber/${meioPgm}/${start}/${end}`
+        let path = `/financeiro/contas/receber/${start}/${end}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
 
     public GetMeioPagamentos(): Observable<any> {
 

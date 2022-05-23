@@ -186,7 +186,9 @@ export class CreateCursoComponent implements OnInit {
                     //console.log(this.createTurmaViewModel)
                 },
                 (error) => {
-                    // console.log(error)
+                    console.log(error['status'])
+                    if(error['status'] != 4004)
+                    //console.log('diferente de 404')
                     this.initProgressBar = 'hidden'
                     this.mensagemErro = "Não há salas cadastradas para esta unidade ou não há tipos de pacotes cadastrados"
                     this.showmensagemErro = true

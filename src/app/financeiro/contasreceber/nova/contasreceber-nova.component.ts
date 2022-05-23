@@ -31,17 +31,17 @@ export class ContasreceberNovaComponent extends BaseComponent implements OnInit 
     this.contaForm = _fb.group({
       vencimento: ['', [Validators.required]],
       valor: ['', [Validators.required]],
-      fornecedor: [true],
+      ehFornecedor: [true],
       pessoaId: ['', [Validators.required]],
       historico: ['', [Validators.required]],
       subcontaId: [''],
       bancoId: ['']
     })
 
-    this.contaForm.get('fornecedor')?.valueChanges.subscribe(
+    this.contaForm.get('ehFornecedor')?.valueChanges.subscribe(
       (form: any) => {
 
-        if (this.contaForm.get('fornecedor')?.value) {
+        if (this.contaForm.get('ehFornecedor')?.value) {
           this.contaForm.get('pessoaId')?.setValue('')
           this.eHfornecedor = true
         } else {
@@ -112,7 +112,13 @@ export class ContasreceberNovaComponent extends BaseComponent implements OnInit 
   }
 
   public Save() {
-
+    this.matProgressSaveButton = 'visible'
+    this._financService.SaveContaReceber(this.contaForm.value)
+      .subscribe({
+        next: (resp: any) => { this.OpenSnackBarSucesso('Conta cadastrada com sucesso.'); this.dialogRef.close({ saved: true}) },
+        error: (error: any) => { this.matProgressSaveButton = 'hidden'; this.OpenSnackBarErrorDefault() },
+        complete: () => {  }
+      })
   }
 
 }

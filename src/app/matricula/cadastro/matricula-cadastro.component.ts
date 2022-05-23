@@ -148,14 +148,17 @@ export class MatriculaCadastroComponent implements OnInit {
 
     one = new Promise<string>((resolve, reject) => { });
     listaCpfs: any[] = new Array<any>()
+    aluCont = 1
     RespMats(resp:any) {
+        console.log('send command')
+        console.log(this.aluCont)
         let commands = resp['commands']
 
         // this.one.then(value => {
         //     console.log('resolved', value);
         //   });
 
-        // cpf.forEach(async element => {    
+        // commands.forEach(async element => {    
         //    this.MatricularFinal(element)
 
         // });
@@ -185,6 +188,7 @@ export class MatriculaCadastroComponent implements OnInit {
         //console.log(item)
         //console.log(command)
         //console.log(this.ids)
+        this.aluCont++
         if (item == undefined) { this.totalItens = command.length; this.commands = command }
         // if(id != undefined)
 

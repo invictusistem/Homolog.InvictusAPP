@@ -55,6 +55,7 @@ import { EditUserComponent } from "./usuarios/edit/edituser.component";
 import { UsuarioComponent } from "./usuarios/usuario.component";
 import { MatEditComponent } from './configuracoes/materia-edit/mat-edit.component';
 import { DocEditComponent } from './configuracoes/doc-edit/doc-edit.component';
+import { ModuloNovoComponent } from './modulos/create-novo/modulo-novo.component';
 
 
 @NgModule({
@@ -126,7 +127,8 @@ import { DocEditComponent } from './configuracoes/doc-edit/doc-edit.component';
         CreateUserComponent,
         EditAcessoComponent,
         MatEditComponent,
-        DocEditComponent
+        DocEditComponent,
+        ModuloNovoComponent
     ],
     imports: [
         SharedModule,

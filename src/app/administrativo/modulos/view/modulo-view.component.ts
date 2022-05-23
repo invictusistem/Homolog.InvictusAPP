@@ -203,7 +203,7 @@ export class ModuloViewComponent extends BaseComponent implements OnInit {
             modalidade: [pacote.modalidade],
             cargaHoraria: [pacote.cargaHoraria],
             pacoteId: [pacote.pacoteId],
-
+            ordem:[pacote.ordem]
         });
 
         this.materias.push(matForm);

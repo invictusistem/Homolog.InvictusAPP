@@ -34,7 +34,7 @@
 
         <br>
 
-        <mat-radio-group formControlName="fornecedor" aria-label="Select an option">
+        <mat-radio-group formControlName="ehFornecedor" aria-label="Select an option">
             <mat-radio-button color="primary" [value]="false">Aluno</mat-radio-button>
             <mat-radio-button color="primary" [value]="true" style="margin-left:5px">Fornecedor</mat-radio-button>
         </mat-radio-group>
@@ -48,7 +48,7 @@
                 <mat-select formControlName="pessoaId" selected required>
                     <mat-option></mat-option>
                     <mat-option *ngFor="let forn of fornecedores" 
-                    [value]="forn.id">{{forn.nome}}
+                    [value]="forn.id">{{forn.razaoSocial}}
             </mat-option>
                 </mat-select>
             </mat-form-field>

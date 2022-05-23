@@ -117,7 +117,7 @@ export class AlunoMatriculaComponent implements OnInit {
                 bairro: ['']
             }),
 
-            respFin: _fb.group({               
+            respFin: _fb.group({
                 nome: [''],
                 tipo: ['Responsável financeiro'],
                 cpf: [''],
@@ -153,15 +153,15 @@ export class AlunoMatriculaComponent implements OnInit {
         );
 
         this.planoPgmAluno.controls['plano'].get('diaDefault')?.valueChanges.subscribe(
-            (form: any) => {              
+            (form: any) => {
                 this.CalcularParcelas()
             }
         );
 
         this.planoPgmAluno.controls['respFin'].valueChanges.subscribe(
             (form: any) => {
-                
-                if(this.planoPgmAluno.get('temRespFin')?.value == false){
+
+                if (this.planoPgmAluno.get('temRespFin')?.value == false) {
                     this.planoPgmAluno.controls['respFin'].get('telCelular')?.clearValidators()
                     this.planoPgmAluno.controls['respFin'].get('telCelular')?.updateValueAndValidity({ emitEvent: false })
 
@@ -177,7 +177,7 @@ export class AlunoMatriculaComponent implements OnInit {
                 if (this.planoPgmAluno.controls['respFin'].get('telCelular')?.value == '' &&
                     this.planoPgmAluno.controls['respFin'].get('telWhatsapp')?.value == '' &&
                     this.planoPgmAluno.controls['respFin'].get('telResidencial')?.value == '') {
-                  
+
                     this.planoPgmAluno.controls['respFin'].get('telCelular')?.setValidators([Validators.required, Validators.minLength(11)])
                     this.planoPgmAluno.controls['respFin'].get('telCelular')?.updateValueAndValidity({ emitEvent: false })
                     this.planoPgmAluno.controls['respFin'].get('telWhatsapp')?.setValidators([Validators.required, Validators.minLength(11)])
@@ -188,7 +188,7 @@ export class AlunoMatriculaComponent implements OnInit {
                 } else if (this.planoPgmAluno.controls['respFin'].get('telCelular')?.value.length < 11 ||
                     this.planoPgmAluno.controls['respFin'].get('telWhatsapp')?.value.length < 11 ||
                     this.planoPgmAluno.controls['respFin'].get('telResidencial')?.value.length < 10) {
-                   
+
                     if (this.planoPgmAluno.controls['respFin'].get('telCelular')?.value.length < 11 && this.planoPgmAluno.controls['respFin'].get('telCelular')?.value.length > 0) {
                         this.planoPgmAluno.controls['respFin'].get('telCelular')?.setValidators([Validators.required, Validators.minLength(11)])
                         this.planoPgmAluno.controls['respFin'].get('telCelular')?.updateValueAndValidity({ emitEvent: false })
@@ -220,15 +220,15 @@ export class AlunoMatriculaComponent implements OnInit {
                     this.planoPgmAluno.controls['respFin'].get('telResidencial')?.clearValidators()
                     this.planoPgmAluno.controls['respFin'].get('telResidencial')?.updateValueAndValidity({ emitEvent: false })
                 }
-                
+
             }
         );
 
 
         this.planoPgmAluno.controls['respMenor'].valueChanges.subscribe(
             (form: any) => {
-                
-                if(this.planoPgmAluno.get('temRespFin')?.value == false){
+
+                if (this.planoPgmAluno.get('temRespFin')?.value == false) {
                     this.planoPgmAluno.controls['respMenor'].get('telCelular')?.clearValidators()
                     this.planoPgmAluno.controls['respMenor'].get('telCelular')?.updateValueAndValidity({ emitEvent: false })
 
@@ -244,7 +244,7 @@ export class AlunoMatriculaComponent implements OnInit {
                 if (this.planoPgmAluno.controls['respMenor'].get('telCelular')?.value == '' &&
                     this.planoPgmAluno.controls['respMenor'].get('telWhatsapp')?.value == '' &&
                     this.planoPgmAluno.controls['respMenor'].get('telResidencial')?.value == '') {
-                  
+
                     this.planoPgmAluno.controls['respMenor'].get('telCelular')?.setValidators([Validators.required, Validators.minLength(11)])
                     this.planoPgmAluno.controls['respMenor'].get('telCelular')?.updateValueAndValidity({ emitEvent: false })
                     this.planoPgmAluno.controls['respMenor'].get('telWhatsapp')?.setValidators([Validators.required, Validators.minLength(11)])
@@ -255,7 +255,7 @@ export class AlunoMatriculaComponent implements OnInit {
                 } else if (this.planoPgmAluno.controls['respMenor'].get('telCelular')?.value.length < 11 ||
                     this.planoPgmAluno.controls['respMenor'].get('telWhatsapp')?.value.length < 11 ||
                     this.planoPgmAluno.controls['respMenor'].get('telResidencial')?.value.length < 10) {
-                   
+
                     if (this.planoPgmAluno.controls['respMenor'].get('telCelular')?.value.length < 11 && this.planoPgmAluno.controls['respMenor'].get('telCelular')?.value.length > 0) {
                         this.planoPgmAluno.controls['respMenor'].get('telCelular')?.setValidators([Validators.required, Validators.minLength(11)])
                         this.planoPgmAluno.controls['respMenor'].get('telCelular')?.updateValueAndValidity({ emitEvent: false })
@@ -303,6 +303,55 @@ export class AlunoMatriculaComponent implements OnInit {
         this.SetInitialValues()
         this.GetDefaultDay()
         this.ConsultarCursos()
+        this.VerificarSeMenorDeIdade()
+    }
+
+    VerificarSeMenorDeIdade() {
+
+            let idadeAluno: any
+            var dataForm: Date = new Date(this.data['aluno'].nascimento)
+
+            let timeDiff = Math.abs(Date.now() - dataForm.getTime());
+            idadeAluno = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
+
+        if(idadeAluno < 18){
+            this.HabilitarMenorForm()
+        }
+            //console.log(idadeAluno)
+            //return idadeAluno
+        
+    }
+
+    HabilitarMenorForm(){
+
+        this.planoPgmAluno.controls['respMenor'].get('nome')?.setValidators([Validators.required, Validators.minLength(2)])
+        this.planoPgmAluno.controls['respMenor'].get('nome')?.updateValueAndValidity({ emitEvent: false })
+        this.planoPgmAluno.controls['respMenor'].get('cpf')?.setValidators([Validators.required, Validators.minLength(11)])
+        this.planoPgmAluno.controls['respMenor'].get('cpf')?.updateValueAndValidity({ emitEvent: false })
+        this.planoPgmAluno.controls['respMenor'].get('rg')?.setValidators([Validators.required])
+        this.planoPgmAluno.controls['respMenor'].get('rg')?.updateValueAndValidity({ emitEvent: false })
+        this.planoPgmAluno.controls['respMenor'].get('nascimento')?.setValidators([Validators.required])
+        this.planoPgmAluno.controls['respMenor'].get('nascimento')?.updateValueAndValidity({ emitEvent: false })
+        this.planoPgmAluno.controls['respMenor'].get('parentesco')?.setValidators([Validators.required])
+        this.planoPgmAluno.controls['respMenor'].get('parentesco')?.updateValueAndValidity({ emitEvent: false })
+        this.planoPgmAluno.controls['respMenor'].get('naturalidade')?.setValidators([Validators.required])
+        this.planoPgmAluno.controls['respMenor'].get('naturalidade')?.updateValueAndValidity({ emitEvent: false })
+        this.planoPgmAluno.controls['respMenor'].get('naturalidadeUF')?.setValidators([Validators.required])
+        this.planoPgmAluno.controls['respMenor'].get('naturalidadeUF')?.updateValueAndValidity({ emitEvent: false })
+        this.planoPgmAluno.controls['respMenor'].get('email')?.setValidators([Validators.required, Validators.minLength(5)])
+        this.planoPgmAluno.controls['respMenor'].get('email')?.updateValueAndValidity({ emitEvent: false })
+        this.planoPgmAluno.controls['respMenor'].get('cep')?.setValidators([Validators.required, Validators.minLength(8)])
+        this.planoPgmAluno.controls['respMenor'].get('cep')?.updateValueAndValidity({ emitEvent: false })
+        this.planoPgmAluno.controls['respMenor'].get('logradouro')?.setValidators([Validators.required])
+        this.planoPgmAluno.controls['respMenor'].get('logradouro')?.updateValueAndValidity({ emitEvent: false })
+        this.planoPgmAluno.controls['respMenor'].get('numero')?.setValidators([Validators.required])
+        this.planoPgmAluno.controls['respMenor'].get('numero')?.updateValueAndValidity({ emitEvent: false })
+        this.planoPgmAluno.controls['respMenor'].get('cidade')?.setValidators([Validators.required])
+        this.planoPgmAluno.controls['respMenor'].get('cidade')?.updateValueAndValidity({ emitEvent: false })
+        this.planoPgmAluno.controls['respMenor'].get('uf')?.setValidators([Validators.required])
+        this.planoPgmAluno.controls['respMenor'].get('uf')?.updateValueAndValidity({ emitEvent: false })
+        this.planoPgmAluno.controls['respMenor'].get('bairro')?.setValidators([Validators.required])
+        this.planoPgmAluno.controls['respMenor'].get('bairro')?.updateValueAndValidity({ emitEvent: false })
     }
 
     private SetInitialValues() {
@@ -345,7 +394,7 @@ export class AlunoMatriculaComponent implements OnInit {
     }
 
     // delay(milliseconds: number, count: number): Promise<any> {
-      
+
     //     for (let index = 0; index < 10000; index++) {
     //         console.log(index)
 
@@ -385,7 +434,7 @@ export class AlunoMatriculaComponent implements OnInit {
     //     })
     // })
 
-    pesquisarTurmas(typeId:any) {
+    pesquisarTurmas(typeId: any) {
 
         this.msgNoCursos = false
         this.hidden = 'visible'
@@ -409,7 +458,7 @@ export class AlunoMatriculaComponent implements OnInit {
                 });
     }
 
-    buscar(turmaId:any) {
+    buscar(turmaId: any) {
         this.hidden = 'visible'
         this.http.get(`${this.baseUrl}/turma/get/${turmaId}/${this.data['aluno'].id}`)
             .subscribe((response: any) => {
@@ -458,7 +507,7 @@ export class AlunoMatriculaComponent implements OnInit {
             )
     }
 
-    chanceCiencia(ciencia:any) {
+    chanceCiencia(ciencia: any) {
 
         if (this.planoPgmAluno.controls['plano'].get('ciencia')?.value == 'Indicação Aluno') {
             this.TrazerAlunos()
@@ -468,7 +517,7 @@ export class AlunoMatriculaComponent implements OnInit {
         }
     }
 
-    modelChanged(newObj:any) {
+    modelChanged(newObj: any) {
         //console.log(newObj)
         this.planoPgmAluno.get('temRespFin')?.setValue(newObj.checked);
 
@@ -584,7 +633,7 @@ export class AlunoMatriculaComponent implements OnInit {
 
     }
 
-    setCienciaCurso(ciencia:any) {
+    setCienciaCurso(ciencia: any) {
         //  console.log(this.planoPgmAluno.get('ciencia').value)
     }
 
@@ -600,20 +649,20 @@ export class AlunoMatriculaComponent implements OnInit {
     searchBolsaIcon = false
     BuscarBolsa() {
         //console.log(this.planoPgmAluno.controls['plano'].get('codigoDesconto').value)
-        if(this.planoPgmAluno.controls['plano'].get('codigoDesconto')?.value != ''){
-        this.searchBolsaIcon = true
-        if (this.planoPgmAluno.controls['plano'].get('codigoDesconto')?.value != null && this.planoPgmAluno.controls['plano'].get('codigoDesconto')?.value != '') {
+        if (this.planoPgmAluno.controls['plano'].get('codigoDesconto')?.value != '') {
+            this.searchBolsaIcon = true
+            if (this.planoPgmAluno.controls['plano'].get('codigoDesconto')?.value != null && this.planoPgmAluno.controls['plano'].get('codigoDesconto')?.value != '') {
 
-            this._pedagService.GetBolsa(this.planoPgmAluno.controls['plano'].get('codigoDesconto')?.value)
-                .subscribe(
-                    sucesso => { this.BuscaBolsaSucesso(sucesso) },
-                    falha => { this.BuscaBolsaErro(falha) }
-                )
+                this._pedagService.GetBolsa(this.planoPgmAluno.controls['plano'].get('codigoDesconto')?.value)
+                    .subscribe(
+                        sucesso => { this.BuscaBolsaSucesso(sucesso) },
+                        falha => { this.BuscaBolsaErro(falha) }
+                    )
+            }
         }
     }
-    }
     percentualDesconto = 0
-    BuscaBolsaSucesso(resp:any) {
+    BuscaBolsaSucesso(resp: any) {
         this.searchBolsaIcon = false
         this.planoPgmAluno.controls['plano'].get('valor')?.setValue(this.valorPlanoOriginal)
         this.bolsa = resp['bolsa']
@@ -633,7 +682,7 @@ export class AlunoMatriculaComponent implements OnInit {
 
     }
 
-    BuscaBolsaErro(error:any) {
+    BuscaBolsaErro(error: any) {
         this.searchBolsaIcon = false
         this._helper.openSnackBarError("Senha inválida.")
 
@@ -689,12 +738,12 @@ export class AlunoMatriculaComponent implements OnInit {
 
 
     enderecoFin = 'hidden'
-    consultaCEPFin(cep:any) {
+    consultaCEPFin(cep: any) {
         // console.log(CEP);
 
         if (this.planoPgmAluno.controls['respFin'].get('cep')?.valid) {
             this.http.get(`https://viacep.com.br/ws/${cep}/json/`, {})
-                .subscribe((response:any) => {
+                .subscribe((response: any) => {
                     //   console.log(response["logradouro"])
 
                     this.planoPgmAluno.controls['respFin'].get('logradouro')?.setValue(response["logradouro"].toUpperCase());
@@ -719,12 +768,12 @@ export class AlunoMatriculaComponent implements OnInit {
     }
 
     public enderecoMenor = 'hidden'
-    consultaCEPRespMenor(cep:any) {
+    consultaCEPRespMenor(cep: any) {
         // console.log(CEP);
 
         if (this.planoPgmAluno.controls['respMenor'].get('cep')?.valid) {
             this.http.get(`https://viacep.com.br/ws/${cep}/json/`, {})
-                .subscribe((response:any) => {
+                .subscribe((response: any) => {
 
                     this.planoPgmAluno.controls['respMenor'].get('logradouro')?.setValue(response["logradouro"].toUpperCase());
                     this.planoPgmAluno.controls['respMenor'].get('bairro')?.setValue(response["bairro"].toUpperCase());
@@ -841,7 +890,7 @@ export class AlunoMatriculaComponent implements OnInit {
 
     // }
 
-    setData(number:any) {
+    setData(number: any) {
 
         // let dateNow = new Date();
         // let initialDate = new Date()
@@ -864,17 +913,17 @@ export class AlunoMatriculaComponent implements OnInit {
 
     }
 
-    public valorPlanoOriginal:any
+    public valorPlanoOriginal: any
     public temBolsa = false
 
     public spinnerBuscarPlano = 'hidden'
-    buscaPlanoPgm(planoId:any) {
+    buscaPlanoPgm(planoId: any) {
         this.verPlano = false
         //console.log(planoId)
 
         this.spinnerBuscarPlano = 'visible'
         this.http.get(`${this.baseUrl}/plano-pagamento/${planoId}`)
-            .subscribe((response:any) => {
+            .subscribe((response: any) => {
 
                 this.planoSelecionado = Object.assign([], response)['plano']
 
@@ -1012,7 +1061,7 @@ export class AlunoMatriculaComponent implements OnInit {
 
     }
 
-    OpenModalSucesso(matriculaId?:any): void {
+    OpenModalSucesso(matriculaId?: any): void {
         const dialogRef = this._modal
             .open(ConfirmMatriculaComponent, ConfirmMatriculaModalConfig(matriculaId));
         dialogRef.afterClosed().subscribe((data) => {
@@ -1082,7 +1131,7 @@ export class AlunoMatriculaComponent implements OnInit {
 
     }
 
-    searchAluno(value:any) {
+    searchAluno(value: any) {
 
         if (value == "Indicação Aluno") {
             // TOdo search aluno
@@ -1172,7 +1221,7 @@ export class AlunoMatriculaComponent implements OnInit {
         // this.showSpinner = true;
         // this.testehabilitar = false
         // console.log('download contrato')
-        this.download().subscribe((data:any) => {
+        this.download().subscribe((data: any) => {
             //console.log(data)
             switch (data.type) {
                 case HttpEventType.Response:

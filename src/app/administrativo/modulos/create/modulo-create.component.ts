@@ -1,14 +1,11 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { JwtHelperService } from "@auth0/angular-jwt";
-import { HighlightTrigger } from "src/app/_shared/animation/animation";
-import { environment } from "src/environments/environment";
-import { TokenInfos } from "src/app/_shared/models/token.model";
 import { AdmService } from "../../services/adm.service";
 import { TitularDoc } from "src/app/_shared/models/perfil.model";
 import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
     selector: 'modulocreatemodal',
@@ -18,29 +15,23 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 
 export class ModuloCreateComponent extends BaseComponent implements OnInit {
 
-
-    //baseUrl = environment.baseUrl;
-    //public initProgressBar = 'visible'
     public saveProgressBar = 'hidden'
-    
+
     public showContent = false
     public addMateriasForm = false
 
     public moduloForm: FormGroup;
     public addMateriaForm: FormGroup;
     public addDocForm: FormGroup;
-    
-    //private jwtHelper = new JwtHelperService();
-    //public tokenInfo: TokenInfos = new TokenInfos();
-   
+
     public errorMsg: any[] = new Array<any>()
     public unidadesAutorizadas: any[] = new Array<any>();
     public materiasTemplate: any[] = new Array<any>();
     public documentosTemplate: any[] = new Array<any>();
-    
+
     public typePacotes: any
     public docTemplates: any
-    
+
     public titularDoc = TitularDoc
 
     constructor(
@@ -49,7 +40,7 @@ export class ModuloCreateComponent extends BaseComponent implements OnInit {
         private _fb: FormBuilder,
         public dialogRef: MatDialogRef<ModuloCreateComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-            super(_snackBar);
+        super(_snackBar);
         this.addMateriaForm = _fb.group({
             pacote: ['', [Validators.required]]
         })
@@ -61,8 +52,7 @@ export class ModuloCreateComponent extends BaseComponent implements OnInit {
         this.moduloForm = _fb.group({
             descricao: ['', [Validators.required]],
             totalHoras: [''],
-            typePacoteId: ['', [Validators.required]],
-            //unidadeId: ['', [Validators.required]],
+            typePacoteId: ['', [Validators.required]],            
             ativo: [true],
 
             materias: this._fb.array([], [Validators.required]),
@@ -72,40 +62,23 @@ export class ModuloCreateComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
-
-        //const token: any = localStorage.getItem('jwt')
-        //this.tokenInfo = this.jwtHelper.decodeToken(token)
         this.unidadesAutorizadas = JSON.parse(this.tokenInfo.UnidadesAutorizadas as string)
         this.GetViewModels()
-        // TEMP
-        //this.GetUnidadeBySigla()
     }
 
-
-    // GetUnidadeBySigla(){
-
-    //     this._admService.GetUnidadesFilteredBySigla(this.tokenInfo.Unidade)
-    //     .subscribe(
-    //         (sucesso: any) => {
-    //             this.moduloForm.get('unidadeId')?.setValue(sucesso['unidade'])
-    //         }
-    //     )      
-    // }
-
     get materias() {
-        return this.moduloForm.controls["materias"] as FormArray;
+        return this.moduloForm.get('materias') as FormArray;
     }
     get documentos() {
         return this.moduloForm.controls["documentosExigidos"] as FormArray;
     }
-
 
     addMateria(form: any) {
 
         let pacote = form.value['pacote']
 
         if (form.valid) {
-            let pacotId = this.materias.value.find((element: any) => // get materias()
+            let pacotId = this.materias.value.find((element: any) => 
                 element.materiaId == pacote.id);
 
             if (pacotId != undefined) return;
@@ -121,18 +94,17 @@ export class ModuloCreateComponent extends BaseComponent implements OnInit {
 
             });
 
-            this.materias.push(matForm);// get materias()
+            this.materias.push(matForm);
+            //var index = this.materias.controls.indexOf(matForm); // 0
+
         }
     }
+
     addDocumentos(form: any) {
 
         let documento = form.value['documento']
 
         if (form.valid) {
-            // let documentoId = this.documentos.value.find(element =>
-            //     element.documentoId == documento.id);
-
-            // if (documentoId != undefined) return;
 
             const docsForm = this._fb.group({
                 obrigatorioParaMatricula: [false],
@@ -140,7 +112,6 @@ export class ModuloCreateComponent extends BaseComponent implements OnInit {
                 comentario: ['', [Validators.required]],
                 titular: ['', [Validators.required]],
                 validadeDias: [documento.validadeDias]
-
             });
 
             this.documentos.push(docsForm);
@@ -152,6 +123,10 @@ export class ModuloCreateComponent extends BaseComponent implements OnInit {
     }
     deleteDocumento(index: number) {
         this.documentos.removeAt(index);
+    }
+
+    drop(event: CdkDragDrop<string[]>) {
+        moveItemInFormArray(this.materias, event.previousIndex, event.currentIndex);
     }
 
     get totalHoras() {
@@ -174,7 +149,7 @@ export class ModuloCreateComponent extends BaseComponent implements OnInit {
         return total
     }
 
-    
+
     get disabledSave() {
 
         if (this.saveProgressBar == 'visible') return true
@@ -195,6 +170,7 @@ export class ModuloCreateComponent extends BaseComponent implements OnInit {
     GetViewModelsSucesso(response: any) {
         this.typePacotes = response['typePacotes']
         this.docTemplates = response['documentos']
+
         this.initProgressBar = 'hidden'
         this.dialogRef.addPanelClass('mymodulocreate-class')
         this.showContent = true
@@ -203,13 +179,11 @@ export class ModuloCreateComponent extends BaseComponent implements OnInit {
 
     GetViewModelsErro(error: any) {
         this.initProgressBar = 'hidden'
-       // console.log(error)
     }
 
     buscarMaterias(typePacoteId: any) {
         this.materias.clear()
         this.initProgressBar = 'visible'
-       // console.log('buscar')
         this._admService.GetMateriasByTypeId(typePacoteId)
             .subscribe(
                 sucesso => { this.buscarMateriasSucesso(sucesso) },
@@ -224,11 +198,9 @@ export class ModuloCreateComponent extends BaseComponent implements OnInit {
 
     buscarMateriasErro(error: any) {
         this.initProgressBar = 'hidden'
-       // console.log(error)
     }
 
     onSubmit(form: any) {
-        //console.log(this.moduloForm.value)
         if (form.valid) {
             this.saveProgressBar = 'visible'
             this._admService.SavePacote(this.moduloForm.value)
@@ -242,9 +214,8 @@ export class ModuloCreateComponent extends BaseComponent implements OnInit {
         this.dialogRef.close({ clicked: true });
         this.saveProgressBar = 'hidden'
     }
-    
+
     onSubmitErro(error: any) {
-       // console.log(error)
         if (error['status'] == 409) {
             this.errorMsg = error['error'].erros
         }
@@ -252,4 +223,19 @@ export class ModuloCreateComponent extends BaseComponent implements OnInit {
 
     }
 
+}
+
+export function moveItemInFormArray(
+    formArray: FormArray,
+    fromIndex: number,
+    toIndex: number
+): void {
+    const dir = toIndex > fromIndex ? 1 : -1;
+
+    const item = formArray.at(fromIndex);
+    for (let i = fromIndex; i * dir < toIndex * dir; i = i + dir) {
+        const current = formArray.at(i + dir);
+        formArray.setControl(i, current);
+    }
+    formArray.setControl(toIndex, item);
 }

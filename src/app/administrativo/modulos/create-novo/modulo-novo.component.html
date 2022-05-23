@@ -1,4 +1,4 @@
-<div style="font-size: 1.2em;">Pacote - Editar
+<div style="font-size: 1.2em;">Criar Pacote NOVO
     <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
         matTooltipHideDelay="100">
         <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
@@ -17,16 +17,23 @@
 
     <form novalidate [formGroup]="moduloForm">
 
+
         <mat-form-field appearance="standard" style="width: 350px;">
             <mat-label>Tipo</mat-label>
-            <input selected [value]="typePacote.nome" disabled matInput placeholder="dica: Curso Técnico de Enfermagem">
+            <mat-select formControlName="typePacoteId" placeholder="">
+                <mat-option></mat-option>
+                <mat-option (click)="buscarMaterias(type.id)" [value]="type.id" *ngFor="let type of typePacotes">
+                    {{type.nome}}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
 
         <br>
 
         <mat-form-field appearance="standard" style="width: 280px; ">
-            <mat-label>Descrição</mat-label>
-            <input selected [value]="moduloForm.get('descricao')?.value" disabled matInput placeholder="dica: Curso Técnico de Enfermagem">
+            <mat-label>Nome</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" formControlName="descricao" matInput
+                placeholder="dica: Curso Técnico de Enfermagem">
         </mat-form-field>
 
         <mat-form-field appearance="standard" style="width: 80px;margin-left: 10px; ">
@@ -36,7 +43,7 @@
 
     </form>
 
-    <mat-tab-group class="mateditwmodulo">
+    <mat-tab-group class="matcreatemodulo">
 
         <mat-tab label="Matérias">
 
@@ -44,9 +51,6 @@
 
                 <div style="font-size: 0.9em;font-style: italic;margin-top: 20px;">
                     Adicione ao menos uma matéria ao curso:
-                </div>
-                <div style="font-size: 0.9em;font-style: italic;">
-                    (Ao adicionar a matéria, arraste para determinar a ordem da mesma na grade curricular)
                 </div>
 
                 <form novalidate [formGroup]="addMateriaForm" (ngSubmit)="addMateria(addMateriaForm)">
@@ -66,16 +70,18 @@
                     </button>
                 </form>
 
+
                 <form novalidate [formGroup]="moduloForm">
 
                     <ng-container formArrayName="materias">
                         <div cdkDropList (cdkDropListDropped)="drop($event)">
-                            <div *ngFor="let matForm of materias.controls; let i = index;" 
-                            [formGroupName]="i" cdkDrag>
+                            <div *ngFor="let matForm of materias.controls; let i = index;" [formGroupName]="i" cdkDrag>
+
+                                <!-- {{ matForm.value.nome }} -->
 
                                 <mat-form-field appearance="standard" style="width: 245px;">
                                     <mat-label>Nome</mat-label>
-                                    <input selected value="{{i+1}} - {{matForm.value.nome}}" disabled matInput
+                                    <input selected value="{{i+1}} {{matForm.value.nome}}" disabled matInput
                                         placeholder="Descrição">
                                 </mat-form-field>
 
@@ -111,14 +117,17 @@
                     </ng-container>
 
                 </form>
+                <!-- <button (click)="verordem()">ver ordem</button> -->
             </ng-container>
 
             <ng-template #showEscolhaMateriasMsg>
+
                 <span style="font-style: italic; margin-top: 10px; font-size: 0.9em;">
                     * escolha o tipo para poder adicionar as matérias
                 </span>
 
             </ng-template>
+
 
         </mat-tab>
 
