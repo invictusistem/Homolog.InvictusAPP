@@ -10,7 +10,7 @@
 
         <i style="margin-left: 10px;" #tooltip="matTooltip" matTooltip="relatório de matrículas" matTooltipPosition="above"
             matTooltipHideDelay="100">
-            <button (click)="OpenRelatorioMatricula()" mat-icon-button>
+            <button (click)="OpenRelatorioMatricula()" disabled mat-icon-button>
                 <mat-icon>summarize</mat-icon>
             </button>
         </i>
@@ -18,14 +18,14 @@
 
         <i *ngIf="mostrarEmLote" style="margin-left: 10px;" #tooltip="matTooltip" matTooltip="salvar em lote" matTooltipPosition="above"
             matTooltipHideDelay="100">
-            <button (click)="SalvarEmLote()" [disabled]="podeDesable" mat-icon-button>
+            <button (click)="SalvarEmLote()" disabled mat-icon-button>
                 <mat-icon>summarize</mat-icon>
             </button>
         </i>
 
         <i *ngIf="mostrarEmLote" style="margin-left: 10px;" #tooltip="matTooltip" matTooltip="deletar em lote" matTooltipPosition="above"
             matTooltipHideDelay="100">
-            <button (click)="DeletarRegistroDaPlanilha()" [disabled]="podeDesable" mat-icon-button>
+            <button (click)="DeletarRegistroDaPlanilha()" disabled mat-icon-button>
                 <mat-icon>summarize</mat-icon>
             </button>
         </i>

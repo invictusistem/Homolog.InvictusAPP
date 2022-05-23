@@ -67,10 +67,10 @@ export class BancoeditConfigComponent extends BaseComponent implements OnInit {
   }
 
   private PodeEditar(){
-    if(this.tokenInfo.role != 'SuperAdm'){
-      this.bancoForm.disable()
-      this.showSaveButton = 'hidden'
-    }
+    // if(this.tokenInfo.role != 'SuperAdm' ){
+    //   this.bancoForm.disable()
+    //   this.showSaveButton = 'hidden'
+    // }
   }
 
   get disabledButtonSave() {
