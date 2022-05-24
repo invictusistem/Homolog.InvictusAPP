@@ -35,6 +35,8 @@ import { ContasReceberComponent } from './contasreceber/contas-receber.component
 import { ContasPagarComponent } from './contaspagar/contas-pagar.component';
 import { ContaspagarNovaComponent } from './contaspagar/nova/contaspagar-nova.component';
 import { ContasreceberNovaComponent } from './contasreceber/nova/contasreceber-nova.component';
+import { ContasreceberEditComponent } from './contasreceber/editar/contasreceber-edit.component';
+import { RecebercontasComponent } from './contasreceber/receber/recebercontas.component';
 
 @NgModule({
     declarations: [
@@ -80,6 +82,8 @@ import { ContasreceberNovaComponent } from './contasreceber/nova/contasreceber-n
         FormaeditConfigComponent,
         ContaspagarNovaComponent,
         ContasreceberNovaComponent,
+        ContasreceberEditComponent,
+        RecebercontasComponent,
         
     ],
     imports: [

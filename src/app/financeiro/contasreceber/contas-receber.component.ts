@@ -58,20 +58,37 @@ export class ContasReceberComponent extends BaseComponent implements OnInit {
 
   }
 
+  public totalAtraso: any
+public totalreceber: any
   public Pesquisar(event?: any) {
 
     this.showMessageNotFound = false
 
-    if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
-
-
+    if (this.pesquisarForm.valid) {
+      this.spinnerSearch = 'visible'
+      this.showMessageNotFound = false
+      this.contas = new Array<any>()
       this._financService.GetContasReceber(
         this.pesquisarForm.get('meioPagamentoId')?.value,
         new Date(this.pesquisarForm.get('start')?.value).toISOString(),
         new Date(this.pesquisarForm.get('end')?.value).toISOString())
         .subscribe({
-          next: (resp: any) => { },
-          error: (fail: any) => { }
+          next: (resp: any) => { 
+            this.totalAtraso = resp['totalAtraso']
+
+            this.totalreceber= resp['totalreceber']
+            this.contas = Object.assign([], resp['contas'])
+            this.spinnerSearch = 'hidden'
+          },
+          error: (fail: any) => { 
+            this.spinnerSearch = 'hidden'
+            if(fail['status'] == 404){
+              this.showMessageNotFound = true
+              this.mensagemNotFound = "Nenhum registro foi localizado no período informado."
+            }else{
+            this.OpenSnackBarErrorDefault() 
+            }
+          }
         });
     }
 

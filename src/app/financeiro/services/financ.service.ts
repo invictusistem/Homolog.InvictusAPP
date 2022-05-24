@@ -228,7 +228,8 @@ export class FinanceiroService extends BaseService {
     public GetContasReceber(meioPgm:any, start: any, end:any): Observable<any> {
 
         //let path = `/financeiro/contas/receber/${meioPgm}/${start}/${end}`
-        let path = `/financeiro/contas/receber/${start}/${end}`
+        //let path = `/financeiro/contas/receber/${start}/${end}`meioPagamentoId
+        let path = `/financeiro/contas/receber/?meioPagamentoId=${meioPgm}&start=${start}&end=${end}`
 
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
