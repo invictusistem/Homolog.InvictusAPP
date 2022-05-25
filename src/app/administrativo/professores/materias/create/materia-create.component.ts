@@ -53,14 +53,14 @@ export class AddMatComponent implements OnInit {
             );
     }
 
-    GetMaterias(typePacoteId: any) {
+    // GetMaterias(typePacoteId: any) {
 
-        this._admService.GetMateriasByTypeId(typePacoteId)
-            .subscribe(
-                sucesso => { this.processarSucesso(sucesso) },
-                falha => { this.processarFalha(falha) }
-            );
-    }
+    //     this._admService.GetMateriasByTypeId(typePacoteId)
+    //         .subscribe(
+    //             sucesso => { this.processarSucesso(sucesso) },
+    //             falha => { this.processarFalha(falha) }
+    //         );
+    // }
 
     processarSucesso(response: any) {
         this.typePacotes = response['typePacotes']
@@ -80,7 +80,7 @@ export class AddMatComponent implements OnInit {
         this.materiasForm.get('materiaId')?.setValue('')
         if (this.materiasForm.get('typePacoteId')?.valid) {
 
-            this._admService.GetMateriasByTypeId(this.materiasForm.get('typePacoteId')?.value)
+            this._admService.GetMateriasLiberadas(this.materiasForm.get('typePacoteId')?.value, this.data['profId'])
                 .subscribe(
                     sucesso => { this.setMaterias(sucesso) },
                     falha => { this.procssMateriaFalha(falha) }

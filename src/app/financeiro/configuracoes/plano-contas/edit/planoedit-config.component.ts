@@ -27,7 +27,8 @@ export class PlanoeditConfigComponent extends BaseComponent implements OnInit {
     this.planoForm = _fb.group({
       id: [''],
       descricao: ['', [Validators.required]],
-      ativo: [true]
+      ativo: [true],
+      unidadeId: ['']
     })
   }
 

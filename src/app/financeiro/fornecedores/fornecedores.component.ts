@@ -85,6 +85,8 @@ export class FornecedoresComponent extends BaseComponent implements OnInit {
                 );
         }
 
+        return event
+
     }
 
     processarSucesso(response: any, event?: any) {

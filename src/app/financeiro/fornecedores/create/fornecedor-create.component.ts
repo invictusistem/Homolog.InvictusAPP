@@ -109,6 +109,20 @@ export class CreateFornecedorComponent extends BaseComponent implements OnInit {
     }
   }
 
+  get getValue(){
+
+    var value = this.fornecedorForm.get('cnpj_cpf')?.value
+
+    if (this.fornecedorForm.get('cnpj_cpf')?.value.length <= 11) {
+      
+
+      return '123434'//value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "\$1.\$2.\$3\-\$4")
+  } else {
+      
+      return value.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "\$1.\$2.\$3\/\$4\-\$5")
+  }
+  }
+
   // buscarEmail(event: any) {
   //     if (this.fornecedorForm.get('email').valid) {
   //         this.validadeEmailMsg = false

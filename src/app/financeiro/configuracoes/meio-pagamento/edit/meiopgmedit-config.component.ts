@@ -27,7 +27,8 @@ export class MeiopgmeditConfigComponent extends BaseComponent implements OnInit 
     this.meioPgmForm = _fb.group({
       id: [''],
       descricao: ['', [Validators.required]],
-      ativo: [true]
+      ativo: [true],
+      unidadeId: ['']
     })
   }
 

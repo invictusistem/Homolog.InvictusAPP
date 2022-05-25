@@ -45,6 +45,12 @@
             </span>
 
             <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                incluir inativos:
+            </span>
+
+            <mat-checkbox formControlName="ativo" color="primary"></mat-checkbox>
+
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
                 todas unidades:
             </span>
             <mat-checkbox formControlName="todasUnidades" color="primary"></mat-checkbox>
@@ -74,57 +80,36 @@
         </div>
 
         <div class="card-body">
-            <div class="table-responsive" style="height: 430px;position: relative;">
+            <div class="table-responsive table-fornecedor">
 
-                <table color="primary" style="margin-bottom: 0px;" class="table">
+                <table color="primary" class="table">
                     <thead>
                         <tr>
-                            <th style="width: 2%; 
-                    text-align:left; 
-                    vertical-align: middle;
-                    border-top: 0px;"></th>
+                            <th></th>
 
-                            <th style="width: 22%;font-size:1em;
-                                    vertical-align: middle;
-                                    text-align:left;
-                    border-top: 0px;">NOME</th>
+                            <th>NOME</th>
 
-                            <th style="width: 20%;font-size:1em;
-                            vertical-align: middle;
-                            text-align:center;
-                            border-top: 0px;">CPF/CNJP</th>
+                            <th>CPF/CNJP</th>
 
-                            <!-- <th style="width: 20%;font-size:1.2em;
-                    text-align:center; 
-                    vertical-align: middle;
-                    border-top: 0px; font-weight: 400;">Perfil</th> -->
+                            <th>UNIDADE</th>
 
-                            <th style="width: 10%;font-size:1em;
-                    text-align:center; 
-                    vertical-align: middle;
-                    border-top: 0px;">ATIVO</th>
+                            <th>ATIVO</th>
 
-                            <!-- <th style="width: 6%;
-                    border-top: 0px;"></th> -->
-
-                            <th style="width: 26%;text-align:center; 
-                            vertical-align: middle;
-                    border-top: 0px;">
-                            </th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
 
                         <tr @rowHighlight *ngFor="let forn of fornecedores; let i = index;">
                             <td style="text-align:center;vertical-align: middle;">
-                                {{i +1}}
+                                {{(i + 1)+(pageIndexNumber)}}
                             </td>
 
                             <td style="text-align:left;vertical-align: middle;">{{forn.razaoSocial}}</td>
 
-                            <td style="text-align: center;vertical-align: middle;">{{forn.cnpj_cpf}}</td>
+                            <td style="text-align: center;vertical-align: middle;">{{forn.cnpj_cpf | cnpjORcpf}}</td>
 
-                            <!-- <td style="text-align: center;vertical-align: middle;">{{forn.email}}</td> -->
+                            <td style="text-align: center;vertical-align: middle;">{{forn.unidadeSigla}}</td>
 
                             <td style="text-align: center;vertical-align: middle;">
                                 <div *ngIf="forn.ativo;else inativo">
@@ -246,12 +231,16 @@
 
             </div>
 
-            <!-- <mat-paginator *ngIf="length > 5" style="
+            <mat-paginator *ngIf="length > 5" style="
                 background-color: rgb(227, 240, 227);
                 bottom: 0px;
-                right: 0px;" [length]="length" [pageSize]="5" hidePageSize="true" (page)="pageEvent = $event"
-                (click)="changePage(pageEvent)">
-            </mat-paginator> -->
+                right: 0px;" 
+                [length]="length" 
+                [pageSize]="pageSize" 
+                hidePageSize="true" 
+                (page)="pageEvent = Pesquisar($event)"
+                >
+            </mat-paginator>
 
         </div>
 

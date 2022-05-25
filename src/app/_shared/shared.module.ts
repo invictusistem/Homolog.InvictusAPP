@@ -27,6 +27,7 @@ import { SharedService } from './services/shared.service';
 import { CloseModalComponent } from './components/close-modal-component/close-modal.component';
 import { WrapTooltipComponent } from './components/wrap-tooltip/wrap-tooltip.component';
 import { SanitizeHtmlPipe } from './components/pipes/sanitize-html.pipe';
+import { CNPJCPFPipe } from './components/pipes/cnpj-cpf.pipe';
 
 
 export const maskConfig: Partial<IConfig> = {
@@ -62,6 +63,7 @@ export function GetNgxMaskModuleConfig() {
     ConfirmModalComponent,
     CloseModalComponent,
     WrapTooltipComponent,
+    CNPJCPFPipe,
     CPFPipe,
     CNPJPipe,
     IdadePipe,
@@ -102,6 +104,7 @@ export function GetNgxMaskModuleConfig() {
     HomeComponent,
     CloseModalComponent,
     WrapTooltipComponent,
+    CNPJCPFPipe,
     CPFPipe,
     CNPJPipe,
     IdadePipe,

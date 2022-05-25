@@ -86,7 +86,7 @@ export class AddDispoComponent implements OnInit {
 
     ngOnInit() {
         this.unidades = this.data['unidades']
-        this.disponibilidadeForm.get('pessoaId')?.setValue(this.data['profId'])
+        this.disponibilidadeForm.get('pessoaId')?.setValue(this.data['prof'].id)
         // console.log(this.unidades)
         // const token = localStorage.getItem('jwt')
         // this.tokenInfo = this.jwtHelper.decodeToken(token)

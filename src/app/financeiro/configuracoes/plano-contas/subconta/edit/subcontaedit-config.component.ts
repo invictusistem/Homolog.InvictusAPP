@@ -88,7 +88,7 @@ export class SubcontaeditConfigComponent extends BaseComponent implements OnInit
             this.matProgressSaveButton = 'hidden'
           },
           complete: () => {
-            this.OpenSnackBarSucesso("Subconta cadastrada com sucesso.")
+            this.OpenSnackBarSucesso("Subconta editada com sucesso.")
             this.dialogRef.close({ saved: true })
           }
         })

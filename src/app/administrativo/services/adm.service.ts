@@ -52,7 +52,20 @@ export class AdmService extends BaseService {
         return response;
     }
 
-    // Bolsas
+    public GetMateriasLiberadas(typePacoteId: any, profId: any): Observable<any> {
+        
+        let path = `/materia-template/materia-liberada/${typePacoteId}/${profId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    // Bolsas materia-liberada/{typePacoteId}/{professorId}
 
     public GetBolsas(typePacoteId:any): Observable<any> {
 

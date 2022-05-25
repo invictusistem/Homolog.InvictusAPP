@@ -102,12 +102,8 @@ export class ProfMateriasComponent implements OnInit {
     ngOnInit() {
         const token: any = localStorage.getItem('jwt')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
-        //this.dialogRef.removePanelClass('my-class')
-        //this.dialogRef.addPanelClass('my-class')
-        // console.log(this.data['prof'])
+        console.log(this.data['prof'])
         this.GetInfos()
-
-
     }
 
     GetInfos() {
@@ -245,7 +241,7 @@ export class ProfMateriasComponent implements OnInit {
 
     openAddDispoModal(): void {
         const dialogRef = this._modal
-            .open(AddDispoComponent, OpenAddDispoModalConfig());
+            .open(AddDispoComponent, OpenAddDispoModalConfig(this.data['prof'], this.unidades));
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
                 this.GetInfos()

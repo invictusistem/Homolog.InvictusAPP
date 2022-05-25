@@ -14,6 +14,12 @@ import { NovaMatriculaCreateComponent } from "./create/matricula-criar.component
 import { MatriculaLoteComponent } from "./matricula-lote/matricula-lote.component";
 import { RelatorioMatriculaComponent } from "./relatorio/matricula-relatorio.component";
 import { OpenMatriculaLoteModal } from '../services/mat-modal'
+import { AlunoEditComponent } from "src/app/pedagogico/alunos/edit/aluno-edit.component";
+import { AlunoMatriculaComponent } from "src/app/pedagogico/alunos/matricular/aluno-matricula.component";
+import { InfoFinancPedagComponent } from "src/app/pedagogico/alunos/financeiro-informacoes/infofinanc.component";
+import { InfoFinancComponentModal } from "../../pedagogico/services/pedag-modal"
+import { BoletimAlunoComponent } from "src/app/pedagogico/alunos/boletim/boletim.component";
+
 
 @Component({
     selector: "nova-matricula-app",
@@ -21,6 +27,7 @@ import { OpenMatriculaLoteModal } from '../services/mat-modal'
     styleUrls: ['./matricula-cadastro.component.scss'],
     animations: [HighlightTrigger]
 })
+
 
 export class MatriculaCadastroComponent implements OnInit {
 
@@ -311,45 +318,45 @@ export class MatriculaCadastroComponent implements OnInit {
     }
 
     matricular(aluno: any) {
-        // const dialogRef = this._modal
-        //     .open(AlunoMatriculaComponent, {               
-        //         width: '850px',
-        //         data: { aluno: aluno },
-        //         hasBackdrop: true,
-        //         disableClose: true
-        //     });
+        const dialogRef = this._modal
+            .open(AlunoMatriculaComponent, {
+                height: '235px',
+                width: '850px',
 
-        // dialogRef.afterClosed().subscribe((data) => {
-        //     if (data.clicked === "Ok") {
-        //         this.submitPesquisa();
+                data: { aluno: aluno },
+                hasBackdrop: true,
+                disableClose: true
+            });
+
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "Ok") {
                
-        //     } else if (data.clicked === "Cancel") {
-        //     }
-        // });
+                this.submitPesquisa();
+               
+            } else if (data.clicked === "Cancel") {
+               
+            }
+        });
 
     }
 
     viewInfoCadastrais(aluno: any): void {
-        // const dialogRef = this._modal
-        //     .open(InfoCadastraisComponent, {
-        //         height: 'auto',
-        //         width: '1000px',
-        //         autoFocus: false,
-        //         maxHeight: '400vhvh',
+        const dialogRef = this._modal
+            .open(AlunoEditComponent, {                
+                width: '1000px',
+                data: { aluno: aluno },
+                hasBackdrop: true,
+                disableClose: true
+            });
 
-        //         data: { aluno: aluno },
-        //         hasBackdrop: true,
-        //         disableClose: true
-        //     });
-
-        // dialogRef.afterClosed().subscribe((data) => {
-        //     if (data.clicked === "OK") {
-        //         this.submitPesquisa();
-        //         console.log(JSON.stringify(this.pesquisarForm.value))
-        //     } else if (data.clicked === "Cancel") {
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked == true) {
+                this.submitPesquisa();
                
-        //     }
-        // });
+            } else if (data.clicked === "Cancel") {
+                
+            }
+        });
     }
 
 
@@ -363,34 +370,28 @@ export class MatriculaCadastroComponent implements OnInit {
         // });
     }
 
-
     openInfoFinancModal(aluno: any): void {
-        // const dialogRef = this._modal
-        //     .open(InfoFinancPedagComponent, InfoFinancComponentModal(aluno));
-        // dialogRef.afterClosed().subscribe(
-        //     data => { });       
+        const dialogRef = this._modal
+            .open(InfoFinancPedagComponent, InfoFinancComponentModal(aluno));
+        dialogRef.afterClosed().subscribe(
+            data => { });       
     }
 
     openBoletimodal(aluno: any): void {
-        // const dialogRef = this._modal
-        //     .open(BoletimAlunoComponent, {
-        //         height: '90vh',
-        //         width: '1000px',
-        //         autoFocus: false,
+        const dialogRef = this._modal
+            .open(BoletimAlunoComponent, {               
+                width: '1000px',
+                data: { aluno: aluno },
+                hasBackdrop: true,
+                disableClose: true
+            });
 
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked == true) {
+            } else if (data.clicked == false) {
 
-        //         data: { aluno: aluno },
-        //         hasBackdrop: true,
-        //         disableClose: true
-        //     });
-
-        // dialogRef.afterClosed().subscribe((data) => {
-        //     if (data.clicked === "OK") {
-              
-        //     } else if (data.clicked === "Cancel") {
-
-        //     }
-        // });
+            }
+        });
     }
 
 }

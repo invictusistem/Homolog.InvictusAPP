@@ -259,11 +259,11 @@ export function CreateProfessorModalConfig() {
     }
 }
 
-export function OpenAddDispoModalConfig(prof?: any) {
+export function OpenAddDispoModalConfig(prof: any, unidades: any) {
     return {
         //height:
         width: '480px',
-        data: { prof: prof },
+        data: { prof: prof, unidades: unidades },
         hasBackdrop: true,
         disableClose: true
     }
@@ -358,7 +358,7 @@ export function ConfirmModalConfig(prof?: any) {
 export function OpenAddProfModalConfig(turmaId?: any) {
     return {
         //height:
-        width: '1030px',
+        width: '800px',
         data: { turmaId: turmaId },
         hasBackdrop: true,
         disableClose: true
@@ -368,7 +368,7 @@ export function OpenAddProfModalConfig(turmaId?: any) {
 export function OpenAddMateriaModalConfig(turmaId?: any, prof?: any) {
     return {
         //height:
-        width: '1030px',
+        width: '850px',
         data: { turmaId: turmaId, professor: prof },
         hasBackdrop: true,
         disableClose: true

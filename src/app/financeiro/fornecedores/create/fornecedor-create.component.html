@@ -17,15 +17,15 @@
 
         <mat-form-field appearance="standard" style="width: 300px; ">
             <mat-label>Nome/Razão Social</mat-label>
-            <input selected formControlName="razaoSocial" 
-            oninput="this.value = this.value.toUpperCase()" matInput placeholder="Nome">
-            
+            <input selected formControlName="razaoSocial" oninput="this.value = this.value.toUpperCase()" matInput
+                placeholder="Nome">
+
         </mat-form-field>
 
         <mat-form-field appearance="standard" style="width: 220px; margin-left: 10px;">
             <mat-label>Email</mat-label>
-            <input selected formControlName="email" 
-            oninput="this.value = this.value.toLowerCase()" matInput placeholder="Email">
+            <input selected formControlName="email" oninput="this.value = this.value.toLowerCase()" matInput
+                placeholder="Email">
         </mat-form-field>
 
         <br>
@@ -33,8 +33,8 @@
         <mat-form-field appearance="standard" style="width: 140px;">
             <mat-label>CPF/CNPJ</mat-label>
             <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
-                formControlName="cnpj_cpf" minlength="11" maxlength="14" selected matInput
-                >
+                formControlName="cnpj_cpf" minlength="11"
+                maxlength="14" selected matInput>
         </mat-form-field>
 
 
@@ -42,7 +42,7 @@
         <mat-form-field appearance="standard" style="width: 140px;margin-left: 10px;">
             <mat-label>IE/RG</mat-label>
             <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
-                formControlName="ie_rg" selected matInput >
+                formControlName="ie_rg" selected matInput>
         </mat-form-field>
 
         <br>
@@ -61,8 +61,8 @@
 
         <mat-form-field appearance="standard" style="width: 150px;margin-left: 10px;">
             <mat-label>contato/Nome</mat-label>
-            <input selected formControlName="nomeContato" oninput="this.value = this.value.toUpperCase()"
-             matInput placeholder="Nome">
+            <input selected formControlName="nomeContato" oninput="this.value = this.value.toUpperCase()" matInput
+                placeholder="Nome">
         </mat-form-field>
 
         <br>
@@ -75,7 +75,8 @@
 
         <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP" matTooltipPosition="above"
             matTooltipHideDelay="100">
-            <button type="button" (click)="consultaCEP(fornecedorForm.get('cep')?.value)" style="margin: 0px; margin: 0px;" mat-icon-button>
+            <button type="button" (click)="consultaCEP(fornecedorForm.get('cep')?.value)"
+                style="margin: 0px; margin: 0px;" mat-icon-button>
                 <mat-icon>search</mat-icon>
             </button>
         </i>
@@ -86,13 +87,14 @@
 
             <mat-form-field appearance="standard" style="width: 250px;">
                 <mat-label>Logradouro</mat-label>
-                <input selected formControlName="logradouro" oninput="this.value = this.value.toUpperCase()"
-                 matInput placeholder="ex: rua tal...">
+                <input selected formControlName="logradouro" oninput="this.value = this.value.toUpperCase()" matInput
+                    placeholder="ex: rua tal...">
             </mat-form-field>
 
             <mat-form-field appearance="standard" style="width: 80px;margin-left: 10px;">
                 <mat-label>Número</mat-label>
-                <input selected formControlName="numero" oninput="this.value = this.value.toUpperCase()" matInput placeholder="123...">
+                <input selected formControlName="numero" oninput="this.value = this.value.toUpperCase()" matInput
+                    placeholder="123...">
             </mat-form-field>
 
             <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
@@ -117,8 +119,8 @@
 
             <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
                 <mat-label>Bairro</mat-label>
-                <input selected formControlName="bairro" oninput="this.value = this.value.toUpperCase()"
-                 matInput placeholder="digite o bairro">
+                <input selected formControlName="bairro" oninput="this.value = this.value.toUpperCase()" matInput
+                    placeholder="digite o bairro">
             </mat-form-field>
 
         </ng-container>
@@ -131,9 +133,7 @@
         <mat-progress-bar [style.visibility]="saveSpinner" @rowHighlight style="margin:0px" mode="query">
         </mat-progress-bar>
 
-        <button type="submit" mat-raised-button 
-        color="primary"
-        style="float:right;margin-top: 10px;margin-left: 10px;"
+        <button type="submit" mat-raised-button color="primary" style="float:right;margin-top: 10px;margin-left: 10px;"
             [disabled]="disabledButton">
             Salvar
         </button>
