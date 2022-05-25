@@ -24,7 +24,7 @@
 
         <mat-form-field appearance="standard" style="width: 40%; margin-left: 2%;">
             <mat-label>Email</mat-label>
-            <input  selected formControlName="email" oninput="this.value = this.value.toLowerCase()" 
+            <input  formControlName="email" oninput="this.value = this.value.toLowerCase()" 
             matInput
                 placeholder="Email">            
         </mat-form-field>
@@ -79,13 +79,13 @@
             <input selected onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
             mask="(00) 00000-0000"
             minlength="10" maxlength="15"
-            formControlName="telefoneContato" required matInput placeholder="">
+            formControlName="telefoneContato" matInput placeholder="">
         </mat-form-field>
 
         <mat-form-field appearance="standard" style="width: 30%;margin-left: 2%;">
             <mat-label>Nome contato</mat-label>
             <input selected oninput="this.value = this.value.toUpperCase()" 
-            formControlName="nomeContato" required matInput placeholder="Nome">
+            formControlName="nomeContato" matInput placeholder="Nome">
         </mat-form-field>
 
        
