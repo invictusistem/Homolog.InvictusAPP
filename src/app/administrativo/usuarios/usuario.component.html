@@ -85,6 +85,8 @@
 
                             <th>PERFIL</th>
 
+                            <th>UNIDADE</th>
+
                             <th>AUTORIZADO</th>
 
                             <th></th>
@@ -98,8 +100,9 @@
 
                             <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
 
-                            <td style="text-align: center;vertical-align: middle;">{{item.roleName || 'sem perfil'}}
-                            </td>
+                            <td style="text-align: center;vertical-align: middle;">{{item.roleName || 'sem perfil'}}</td>
+
+                            <td style="text-align:center;vertical-align: middle;">{{item.unidadeSigla}}</td>
 
                             <td style="text-align: center;vertical-align: middle;">
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="ativo"
@@ -110,6 +113,8 @@
                                     </button>
                                 </i>
                             </td>
+
+                            
 
                             <td>
 
