@@ -53,22 +53,22 @@ export class CreateProfessorComponent implements OnInit {
             // newCat: [,[Validators.required, Validators.minLength(3)]],
             // newFunc: [, [Validators.required, Validators.minLength(3)]]
             nome: ['', [Validators.required, Validators.minLength(5)]], //
-            email: ['', [Validators.required, Validators.email]], // 
+            email: [''], // 
             cpf: ['', [Validators.required, Validators.minLength(11)]], //
-            cnpj: ['', [Validators.minLength(14)]],
-            celular: [null, [Validators.minLength(11)]],
-            telefoneContato: [null, [Validators.minLength(10)]],
-            nomeContato: ['', [Validators.minLength(3)]],
+            cnpj: [''],
+            celular: [null, [Validators.required,Validators.minLength(11)]],
+            telefoneContato: [null],
+            nomeContato: [''],
             dataEntrada:[''],
-            cargoId: [0, [Validators.required]],
+            cargoId: [0],
             ativo: [true],
-            cep: ['', [Validators.minLength(8)]],
-            logradouro: ['', [Validators.minLength(1)]],
+            cep: [''],
+            logradouro: [''],
             complemento: [''],
             numero: [''],
-            cidade: ['', [Validators.minLength(1)]],
-            uf: ['', [Validators.minLength(2)]],
-            bairro: ['', [Validators.minLength(1)]]//,
+            cidade: [''],
+            uf: [''],
+            bairro: ['']//,
             //celular: [new MyTel('', '', ''), [Validators.required, Validators.minLength(1)]]
         })
     }
