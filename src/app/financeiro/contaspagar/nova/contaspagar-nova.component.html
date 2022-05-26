@@ -1,4 +1,4 @@
-<div style="font-size: 1.2em;">Nova Conta a Receber
+<div style="font-size: 1.2em;">Nova Conta a Pagar
     <close-modal [disable]="disabledCloseModalIcon"></close-modal>
 </div>
 
@@ -34,57 +34,56 @@
 
         <br>
 
-        <mat-form-field appearance="standard" style="width: 100%;">
-            <mat-label>Fornecedor/Funcionário</mat-label>
-            <mat-select formControlName="pessoa" selected required>
-                <mat-option></mat-option>
-                <!-- <mat-option *ngFor="let cargo of cargos" 
-            [value]="cargo.id">{{cargo.value}}
-            </mat-option> -->
-            </mat-select>
+        <mat-radio-group formControlName="ehFornecedor" aria-label="Select an option">
+            <mat-radio-button color="primary" [value]="false">Colaborador/Professor</mat-radio-button>
+            <mat-radio-button color="primary" [value]="true" style="margin-left:5px">Fornecedor</mat-radio-button>
+        </mat-radio-group>
+
+        <br>
+
+        <ng-container *ngIf="eHfornecedor; else ehAluno">
+
+            <mat-form-field appearance="standard" style="width: 100%;">
+                <mat-label>Fornecedor</mat-label>
+                <mat-select formControlName="pessoaId" selected required>
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let forn of fornecedores" 
+                    [value]="forn.id">{{forn.razaoSocial}}
+            </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </ng-container>
+
+        <ng-template #ehAluno>
+            <mat-form-field appearance="standard" style="width: 100%;">
+                <mat-label>Colaborador/Professor</mat-label>
+                <mat-select formControlName="pessoaId" selected required>
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let colab of colaboradores" 
+                    [value]="colab.id">{{colab.nome}}
+            </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </ng-template>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 75%; ">
+            <mat-label>Histórico</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" formControlName="historico" matInput
+                placeholder="Nome">
         </mat-form-field>
 
         <br>
 
-        <mat-form-field appearance="standard" style="width: 47%;">
+        <mat-form-field appearance="standard" style="width: 75%;">
             <mat-label>Subconta</mat-label>
-            <mat-select formControlName="subcontaId" selected required>
+            <mat-select formControlName="subcontaId" selected>
                 <mat-option></mat-option>
-                <!-- <mat-option *ngFor="let cargo of cargos" 
-            [value]="cargo.id">{{cargo.value}}
-            </mat-option> -->
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="standard" style="width: 47%;margin-left: 6%;">
-            <mat-label>Centro de Custo</mat-label>
-            <mat-select formControlName="centroCustoId" selected required>
-                <mat-option></mat-option>
-                <!-- <mat-option *ngFor="let cargo of cargos" 
-            [value]="cargo.id">{{cargo.value}}
-            </mat-option> -->
-            </mat-select>
-        </mat-form-field>       
-
-        <br>
-
-        <mat-form-field appearance="standard" style="width: 47%;">
-            <mat-label>Meio de pagamento</mat-label>
-            <mat-select formControlName="meioPgmId" selected required>
-                <mat-option></mat-option>
-                <!-- <mat-option *ngFor="let cargo of cargos" 
-            [value]="cargo.id">{{cargo.value}}
-            </mat-option> -->
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="standard" style="width: 47%;margin-left: 6%;">
-            <mat-label>Conta</mat-label>
-            <mat-select formControlName="contaId" selected required>
-                <mat-option></mat-option>
-                <!-- <mat-option *ngFor="let cargo of cargos" 
-            [value]="cargo.id">{{cargo.value}}
-            </mat-option> -->
+                <mat-option *ngFor="let sub of subcontas" 
+            [value]="sub.id">{{sub.descricao}}
+            </mat-option>
             </mat-select>
         </mat-form-field>
 
@@ -92,19 +91,12 @@
 
         <mat-form-field appearance="standard" style="width: 75%;">
             <mat-label>Banco</mat-label>
-            <mat-select formControlName="bancoId" selected required>
+            <mat-select formControlName="bancoId" selected>
                 <mat-option></mat-option>
-                <!-- <mat-option *ngFor="let cargo of cargos" 
-            [value]="cargo.id">{{cargo.value}}
-            </mat-option> -->
+                <mat-option *ngFor="let banco of bancos" 
+            [value]="banco.id">{{banco.nome}}
+            </mat-option>
             </mat-select>
-        </mat-form-field>
-
-
-        <mat-form-field appearance="standard" style="width: 75%; ">
-            <mat-label>Histórico</mat-label>
-            <input oninput="this.value = this.value.toUpperCase()" formControlName="historico" matInput
-                placeholder="Nome">
         </mat-form-field>
 
         <mat-progress-bar [style.visibility]="matProgressSaveButton" @rowHighlight mode="query">

@@ -130,6 +130,19 @@ export class FinanceiroService extends BaseService {
         return response;
     }
 
+    public GetColaboradoresEProfessoresUnidade(): Observable<any> {
+
+        let path = `/fornecedores/colaboradores-e-professores`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
     // Configurações
 
 
