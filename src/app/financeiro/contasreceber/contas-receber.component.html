@@ -28,7 +28,7 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 210px;margin-left: 5%;">
+            <mat-form-field appearance="standard" style="width: 210px;margin-left: 10px;">
                 <mat-label>Selecione o período</mat-label>
                 <mat-date-range-input [rangePicker]="picker">
                     <input matStartDate [disabled]="true" formControlName="start" placeholder="início">
@@ -110,7 +110,7 @@
                         <tr *ngFor="let conta of contas;let i = index;" @rowHighlight>
 
                             <td style="text-align:center;vertical-align: middle;">
-                                <!-- {{(i + 1)+(pageIndexNumber)}} -->
+                               {{i + 1}}
                             </td>
 
                             <td style="text-align:left;vertical-align: middle;">{{conta.nome}}</td>
@@ -128,7 +128,7 @@
 
                                <i style="margin: 0px;" #tooltip="matTooltip"
                                     matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button [disabled]="true"
+                                    <button (click)="OpenEditContaReceberModal(conta.id)"
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>edit</mat-icon>

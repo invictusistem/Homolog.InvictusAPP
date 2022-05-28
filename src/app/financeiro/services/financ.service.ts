@@ -25,8 +25,33 @@ export class FinanceiroService extends BaseService {
                 catchError(this.serviceError));
 
         return response;
-    }
+    } 
 
+    public EditContaReceber(conta: any): Observable<any> {
+
+        let path = `/financeiro/contas/receber`
+
+        let response = this.http
+            .put(this.BaseUrl + path, conta, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    } 
+
+    public SaveContaPagar(newconta: any): Observable<any> {
+
+        let path = `/financeiro/contas/pagar`
+
+        let response = this.http
+            .post(this.BaseUrl + path, newconta, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
 
     // Fornecedores
 
@@ -117,6 +142,19 @@ export class FinanceiroService extends BaseService {
 
     // Contas 
 
+    public GetContaReceber(contaId:any): Observable<any> {
+
+        let path = `/financeiro/contas/receber/${contaId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
     public GetAlunosFromUnidade(): Observable<any> {
 
         let path = `/pedag/matricula`
@@ -199,6 +237,19 @@ export class FinanceiroService extends BaseService {
         return response;
     }
 
+    public GetSubcontasAtivasDebito(): Observable<any> {
+
+        let path = `/configuracao-financ/subconta/ativas/debito`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
     public SaveBanco(newBanco: any): Observable<any> {
 
         let path = `/configuracao-financ/banco`
@@ -243,6 +294,21 @@ export class FinanceiroService extends BaseService {
         //let path = `/financeiro/contas/receber/${meioPgm}/${start}/${end}`
         //let path = `/financeiro/contas/receber/${start}/${end}`meioPagamentoId
         let path = `/financeiro/contas/receber/?meioPagamentoId=${meioPgm}&start=${start}&end=${end}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public GetContasPagar(meioPgm:any, start: any, end:any): Observable<any> {
+
+        //let path = `/financeiro/contas/receber/${meioPgm}/${start}/${end}`
+        //let path = `/financeiro/contas/receber/${start}/${end}`meioPagamentoId
+        let path = `/financeiro/contas/pagar/?meioPagamentoId=${meioPgm}&start=${start}&end=${end}`
 
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())

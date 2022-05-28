@@ -4,8 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BaseComponent } from 'src/app/_shared/services/basecomponent.component';
 import { FinanceiroService } from '../services/financ.service';
-import { OpenNovaContaReceberModal } from '../services/financ-modal'
+import { OpenEditarContaReceberModal, OpenNovaContaReceberModal } from '../services/financ-modal'
 import { ContasreceberNovaComponent } from './nova/contasreceber-nova.component';
+import { ContasreceberEditComponent } from './editar/contasreceber-edit.component';
 
 @Component({
   selector: 'app-contas-receber',
@@ -19,6 +20,8 @@ export class ContasReceberComponent extends BaseComponent implements OnInit {
   public meiosPagamento: any[] = new Array<any>()
   public contas: any[] = new Array<any>()
   public disabledForm = true
+  public totalAtraso: any
+  public totalreceber: any
 
   constructor(
     override _snackBar: MatSnackBar,
@@ -58,8 +61,7 @@ export class ContasReceberComponent extends BaseComponent implements OnInit {
 
   }
 
-  public totalAtraso: any
-public totalreceber: any
+
   public Pesquisar(event?: any) {
 
     this.showMessageNotFound = false
@@ -73,20 +75,20 @@ public totalreceber: any
         new Date(this.pesquisarForm.get('start')?.value).toISOString(),
         new Date(this.pesquisarForm.get('end')?.value).toISOString())
         .subscribe({
-          next: (resp: any) => { 
+          next: (resp: any) => {
             this.totalAtraso = resp['totalAtraso']
 
-            this.totalreceber= resp['totalreceber']
+            this.totalreceber = resp['totalreceber']
             this.contas = Object.assign([], resp['contas'])
             this.spinnerSearch = 'hidden'
           },
-          error: (fail: any) => { 
+          error: (fail: any) => {
             this.spinnerSearch = 'hidden'
-            if(fail['status'] == 404){
+            if (fail['status'] == 404) {
               this.showMessageNotFound = true
               this.mensagemNotFound = "Nenhum registro foi localizado no período informado."
-            }else{
-            this.OpenSnackBarErrorDefault() 
+            } else {
+              this.OpenSnackBarErrorDefault()
             }
           }
         });
@@ -99,6 +101,14 @@ public totalreceber: any
   public OpenNovaContaReceberModal() {
     const dialogRef = this._modal
       .open(ContasreceberNovaComponent, OpenNovaContaReceberModal());
+    dialogRef.afterClosed().subscribe((data) => {
+
+    });
+  }
+
+  public OpenEditContaReceberModal(contaId: any) {
+    const dialogRef = this._modal
+      .open(ContasreceberEditComponent, OpenEditarContaReceberModal(contaId));
     dialogRef.afterClosed().subscribe((data) => {
 
     });

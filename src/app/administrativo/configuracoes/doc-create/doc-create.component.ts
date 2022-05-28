@@ -28,9 +28,9 @@ export class DocTemplateComponent extends BaseComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any) {
             super(_snackBar);
         this.docForm = _fb.group({
-            nome: ['', [Validators.required]],
-            descricao: [''],
-            validadeDias: ['', [Validators.required]]
+            nome: [null, [Validators.required]],
+            descricao: [null],
+            validadeDias: [null, [Validators.required]]
         })
     }
 

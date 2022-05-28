@@ -78,6 +78,30 @@
         <br>
 
         <mat-form-field appearance="standard" style="width: 75%;">
+            <mat-label>Meio de Pagamento</mat-label>
+            <mat-select formControlName="meioPgmId" selected>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let meio of meioPagamentos" 
+            [value]="meio.id">{{meio.descricao}}
+            </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 75%;">
+            <mat-label>Centro de Custo</mat-label>
+            <mat-select formControlName="centrocustoId" selected>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let centro of centroCustos" 
+            [value]="centro.id">{{centro.descricao}}
+            </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 75%;">
             <mat-label>Subconta</mat-label>
             <mat-select formControlName="subcontaId" selected>
                 <mat-option></mat-option>

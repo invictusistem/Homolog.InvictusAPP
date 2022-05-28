@@ -16,7 +16,11 @@ import { ContaspagarNovaComponent } from './nova/contaspagar-nova.component';
 export class ContasPagarComponent extends BaseComponent implements OnInit {
 
   public pesquisarForm: FormGroup
+  public meiosPagamento: any[] = new Array<any>()
   public contas: any[] = new Array<any>()
+  public disabledForm = true
+  public totalAtraso: any
+  public totalPagar: any
 
   constructor(
     override _snackBar: MatSnackBar,
@@ -28,38 +32,64 @@ export class ContasPagarComponent extends BaseComponent implements OnInit {
     super(_snackBar);
 
     this.pesquisarForm = _fb.group({
-      meioPagamentoId: ['', [Validators.required]],
+      meioPagamentoId: [null],
       start: ['', [Validators.required]],
       end: ['', [Validators.required]]
     });
 
   }
   ngOnInit() {
+    this.spinnerSearch = "visible"
+    this.GetMeiosPagamento()
+  }
+
+  private GetMeiosPagamento() {
+
+    this._financService.GetMeioPagamentos()
+      .subscribe({
+        next: (resp: any) => {
+          this.meiosPagamento = Object.assign([], resp['result'])
+          this.spinnerSearch = "hidden"
+          this.disabledForm = false
+        },
+        error: (fail: any) => {
+          this.spinnerSearch = "hidden"
+          this.OpenSnackBarErrorDefault()
+        }
+      })
 
   }
 
   public Pesquisar(event?: any) {
 
-    // this.showMessageNotFound = false
+    this.showMessageNotFound = false
 
-    // if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
-
-    //     this.spinnerSearch = 'visible'            
-
-    //     if (event != undefined) {
-    //         this.currentPage = event.pageIndex + 1
-    //     } else {
-    //         this.currentPage = 1
-    //     }
-
-    //     this._finService.GetRegistrosFinanceirosDosProdutos(this.pageSize, this.currentPage, this.pesquisarForm.value)
-    //         .subscribe(
-    //             sucesso => { this.ProcessarSucesso(sucesso, event) },
-    //             falha => { this.ProcessarFalha(falha) }
-    //         );
-    //}
-
-    return event
+    if (this.pesquisarForm.valid) {
+      this.spinnerSearch = 'visible'
+      this.showMessageNotFound = false
+      this.contas = new Array<any>()
+      this._financService.GetContasPagar(
+        this.pesquisarForm.get('meioPagamentoId')?.value,
+        new Date(this.pesquisarForm.get('start')?.value).toISOString(),
+        new Date(this.pesquisarForm.get('end')?.value).toISOString())
+        .subscribe({
+          next: (resp: any) => {
+            this.totalAtraso = resp['totalAtraso']
+            this.totalPagar = resp['totalPagar']
+            this.contas = Object.assign([], resp['contas'])
+            this.spinnerSearch = 'hidden'
+          },
+          error: (fail: any) => {
+            this.spinnerSearch = 'hidden'
+            if (fail['status'] == 404) {
+              this.showMessageNotFound = true
+              this.mensagemNotFound = "Nenhum registro foi localizado no período informado."
+            } else {
+              this.OpenSnackBarErrorDefault()
+            }
+          }
+        });
+    }
 
   }
 

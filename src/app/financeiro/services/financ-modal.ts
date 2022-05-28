@@ -30,6 +30,25 @@ export function ReparcelamentoComponentModal(aluno: any) {
 
 // contas Receber
 
+export function OpenNovaContaReceberModal() {
+    return {
+        width: '520px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenEditarContaReceberModal(contaId: any) {
+    return {
+        width: '520px',
+        data: { id: contaId },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+// Contas Pagar
+
 export function OpenNovaContaPagarModal() {
     return {
         width: '600px',
@@ -38,15 +57,7 @@ export function OpenNovaContaPagarModal() {
     }
 }
 
-// Contas Pagar
 
-export function OpenNovaContaReceberModal() {
-    return {
-        width: '520px',
-        hasBackdrop: true,
-        disableClose: true
-    }
-}
 
 // fornecedor
 

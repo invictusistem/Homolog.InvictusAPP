@@ -16,6 +16,8 @@ export class ContaspagarNovaComponent extends BaseComponent implements OnInit {
   public colaboradores: any[] = new Array<any>()
   public fornecedores: any[] = new Array<any>()
   public subcontas: any[] = new Array<any>()
+  public meioPagamentos: any[] = new Array<any>()
+  public centroCustos: any[] = new Array<any>()
   public bancos: any[] = new Array<any>()
   public eHfornecedor = true
 
@@ -32,11 +34,13 @@ export class ContaspagarNovaComponent extends BaseComponent implements OnInit {
       vencimento: ['', [Validators.required]],
       valor: ['', [Validators.required]],
       ehFornecedor: [true],
-      ehColaborador:[],
+      ehColaborador: [true],
       pessoaId: ['', [Validators.required]],
-      historico: ['', [Validators.required]],
-      subcontaId: [''],
-      bancoId: ['']
+      historico: [''],
+      meioPgmId: ['', [Validators.required]],
+      centrocustoId: ['', [Validators.required]],
+      subcontaId: ['', [Validators.required]],
+      bancoId: ['', [Validators.required]]
     })
 
     this.contaForm.get('ehFornecedor')?.valueChanges.subscribe(
@@ -54,21 +58,21 @@ export class ContaspagarNovaComponent extends BaseComponent implements OnInit {
 
     this.contaForm.get('pessoaId')?.valueChanges.subscribe(
       (form: any) => {
-        if(this.contaForm.get('pessoaId')?.value){
-        if (!this.contaForm.get('ehFornecedor')?.value) {
-          
-          var colab = this.colaboradores.find(x => x.id == this.contaForm.get('pessoaId')?.value)
-          
-          this.contaForm.get('ehColaborador')?.setValue(colab.isColaborador)
-          //this.eHfornecedor = true
-        } 
-      }
+        if (this.contaForm.get('pessoaId')?.value) {
+          if (!this.contaForm.get('ehFornecedor')?.value) {
+
+            var colab = this.colaboradores.find(x => x.id == this.contaForm.get('pessoaId')?.value)
+
+            this.contaForm.get('ehColaborador')?.setValue(colab.isColaborador)
+            //this.eHfornecedor = true
+          }
+        }
       }
     );
 
   }
 
-  ngOnInit() {  
+  ngOnInit() {
 
     this.GetColaboradoresEProfessoresFromUnidade()
   }
@@ -99,22 +103,41 @@ export class ContaspagarNovaComponent extends BaseComponent implements OnInit {
       .subscribe({
         next: (resp: any) => { this.bancos = Object.assign([], resp['result']) },
         error: (error: any) => { this.initProgressBar = 'hidden'; this.OpenSnackBarErrorDefault() },
+        complete: () => { this.GetMeioPagamentos() }
+      })
+  }
+
+  public GetMeioPagamentos() {
+    this._financService.GetMeioPagamentos()
+      .subscribe({
+        next: (resp: any) => { this.meioPagamentos = Object.assign([], resp['result']) },
+        error: (error: any) => { this.initProgressBar = 'hidden'; this.OpenSnackBarErrorDefault() },
+        complete: () => { this.GetCentroCustos() }
+      })
+  }
+
+  public GetCentroCustos() {
+    this._financService.GetCentrosCustos()
+      .subscribe({
+        next: (resp: any) => { this.centroCustos = Object.assign([], resp['result']) },
+        error: (error: any) => { this.initProgressBar = 'hidden'; this.OpenSnackBarErrorDefault() },
         complete: () => { this.GetAllSubcontasFromUnidade() }
       })
   }
 
+
   public GetAllSubcontasFromUnidade() {
     // GetSubcontasAtivas
-    this._financService.GetSubcontasAtivas()
+    this._financService.GetSubcontasAtivasDebito()
       .subscribe({
-        next: (resp: any) => {this.subcontas = Object.assign([], resp['result'])  },
+        next: (resp: any) => { this.subcontas = Object.assign([], resp['result']) },
         error: (error: any) => { this.initProgressBar = 'hidden'; this.OpenSnackBarErrorDefault() },
         complete: () => {
-           //
+          //
           this.dialogRef.addPanelClass('contapagar-nova-class')
           this.initProgressBar = 'hidden'
           this.showForm = true
-         }
+        }
       })
   }
 
@@ -128,11 +151,11 @@ export class ContaspagarNovaComponent extends BaseComponent implements OnInit {
 
   public Save() {
     this.matProgressSaveButton = 'visible'
-    this._financService.SaveContaReceber(this.contaForm.value)
+    this._financService.SaveContaPagar(this.contaForm.value)
       .subscribe({
-        next: (resp: any) => { this.OpenSnackBarSucesso('Conta cadastrada com sucesso.'); this.dialogRef.close({ saved: true}) },
+        next: (resp: any) => { this.OpenSnackBarSucesso('Conta cadastrada com sucesso.'); this.dialogRef.close({ saved: true }) },
         error: (error: any) => { this.matProgressSaveButton = 'hidden'; this.OpenSnackBarErrorDefault() },
-        complete: () => {  }
+        complete: () => { }
       })
   }
 

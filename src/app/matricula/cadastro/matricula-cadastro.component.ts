@@ -158,7 +158,8 @@ export class MatriculaCadastroComponent implements OnInit {
     aluCont = 1
     RespMats(resp:any) {
         console.log('send command')
-        console.log(this.aluCont)
+        console.log(resp['commands'].length)
+        //console.log(this.aluCont)
         let commands = resp['commands']
 
         // this.one.then(value => {
@@ -207,7 +208,7 @@ export class MatriculaCadastroComponent implements OnInit {
                 resp => {
                     //console.log('retorno matricula')
                     this.index = this.index + 1
-                    //console.log(this.index)
+                    console.log(this.index)
                     this.MatricularFinal(undefined, this.commands[this.index])
 
                 },

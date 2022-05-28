@@ -2,7 +2,9 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
+import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
+import { TokenInfos } from "src/app/_shared/models/token.model";
 import { DetalheAcessoModalConfig } from "../services/pedag-modal";
 import { PedagogicoService } from "../services/pedagogico.service";
 import { DetalheComponent } from "./edit/detalhe.component";
@@ -16,6 +18,8 @@ import { DetalheComponent } from "./edit/detalhe.component";
 
 export class AlunoAcessoComponent implements OnInit {
     public alunos: any[] = new Array<any>();
+    private jwtHelper = new JwtHelperService();
+    public tokenInfo: TokenInfos = new TokenInfos();
     // testeDonne: string = 'done'
     // private baseUrl = environment.baseUrl;
     @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -74,7 +78,8 @@ export class AlunoAcessoComponent implements OnInit {
 
     ngOnInit() {
 
-
+        const token:any = localStorage.getItem('jwt')
+        this.tokenInfo = this.jwtHelper.decodeToken(token)
         //const token = localStorage.getItem('jwt')
         // this.tokenInfo = this.jwtHelper.decodeToken(token)
     }
@@ -91,7 +96,7 @@ export class AlunoAcessoComponent implements OnInit {
 
         // this.showMessageNoColaborador = false
         this.showMessageNoAluno = false
-        if (this.pesquisarForm.valid) {
+        if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
             //     this.spinnerSearch = true
 
             if (event != undefined) {

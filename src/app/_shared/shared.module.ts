@@ -28,6 +28,7 @@ import { CloseModalComponent } from './components/close-modal-component/close-mo
 import { WrapTooltipComponent } from './components/wrap-tooltip/wrap-tooltip.component';
 import { SanitizeHtmlPipe } from './components/pipes/sanitize-html.pipe';
 import { CNPJCPFPipe } from './components/pipes/cnpj-cpf.pipe';
+import { NullDefaultValueDirective } from './components/pipes/input-null.pipe';
 
 
 export const maskConfig: Partial<IConfig> = {
@@ -67,6 +68,7 @@ export function GetNgxMaskModuleConfig() {
     CPFPipe,
     CNPJPipe,
     IdadePipe,
+    NullDefaultValueDirective,
     SanitizeHtmlPipe,
     MyTimeInput,
     WrapTooltipComponent
@@ -108,6 +110,7 @@ export function GetNgxMaskModuleConfig() {
     CPFPipe,
     CNPJPipe,
     IdadePipe,
+    NullDefaultValueDirective,
     SanitizeHtmlPipe,
     MyTimeInput
   ],
