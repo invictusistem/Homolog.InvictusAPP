@@ -28,18 +28,18 @@
 
         <mat-form-field appearance="standard" style="width: 40%; margin-left: 5%;">
             <mat-label>Email</mat-label>
-            <input selected matInput [value]="colaboradorForm.get('email')?.value" disabled >
+            <input matInput formControlName="email">
         </mat-form-field>
         <br>
 
         <mat-form-field appearance="standard" style="width: 18%;">
             <mat-label>CPF</mat-label>
-            <input disabled selected name="cpf" matInput [value]="colaboradorForm.get('cpf')?.value | cpf">
+            <input disabled name="cpf" matInput [value]="colaboradorForm.get('cpf')?.value | cpf">
         </mat-form-field>
 
         <mat-form-field appearance="standard" style="width: 20%;margin-left: 5%;">
             <mat-label>celular</mat-label>
-            <input selected mask="(00) 00000-0000" matInput formControlName="celular">
+            <input mask="(00) 00000-0000" matInput formControlName="celular">
         </mat-form-field>
 
         <mat-form-field appearance="standard" style="width: 25%;margin-left: 5%;">

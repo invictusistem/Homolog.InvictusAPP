@@ -28,7 +28,7 @@
 
         <mat-form-field appearance="standard" style="width: 40%; margin-left: 2%;">
             <mat-label>Email</mat-label>
-            <input selected [disabled]="true" matInput [value]="professorForm.get('email')?.value" >
+            <input formControlName="email" matInput>
         </mat-form-field>
 
         <br>
@@ -40,7 +40,7 @@
 
         <mat-form-field appearance="standard" style="width: 23%; margin-left: 2%;">
             <mat-label>CNPJ</mat-label>
-            <input [disabled]="true" matInput [value]="professorForm.get('cnpj')?.value | cnpj">            
+            <input formControlName="cnpj" mask="00.000.000/0000-00" matInput>            
         </mat-form-field>        
 
         <mat-form-field appearance="standard" style="width: 20%; margin-left: 2%;">

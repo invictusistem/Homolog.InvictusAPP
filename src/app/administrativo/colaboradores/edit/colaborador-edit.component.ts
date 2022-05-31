@@ -44,7 +44,7 @@ export class EditColaboradoresComponent extends BaseComponent implements OnInit 
         this.colaboradorForm = _fb.group({
             id: [''],
             nome: ['', [Validators.required, Validators.minLength(5)]],
-            email: [''],
+            email: ['',[Validators.email]],
             cpf: [''],
             celular: [null, [Validators.required, Validators.minLength(5)]],
             cargoId: ['', [Validators.required]],
