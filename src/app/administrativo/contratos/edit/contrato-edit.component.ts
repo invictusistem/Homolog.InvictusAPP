@@ -85,40 +85,27 @@ export class EditarContratoComponent extends BaseComponent implements OnInit {
         //console.log(this.contrato)
 
         if (form.valid) {
-
+            this.disabledSaveButton = 'visible'
             this._admService.EditContrato(this.contrato)
                 .subscribe(resp => {
 
                 }, (error) => {
+                    this.disabledSaveButton = 'hidden'
                     this.OpenSnackBarErrorDefault()
                     //console.log(error) 
                 },
                     () => {
+                        
                         this.OpenSnackBarSucesso("contrato editado com sucesso.")
                         this.dialogRef.close({ clicked: "Ok" });
                     })
         }
     }
 
-    disabledButton(form: any) {
-        // console.log(form.valid)
-        //angular.equals(obj1, obj2)
+    get disabledButton() {
 
-        if (form.valid) {
+        return this.disabledSaveButton != 'hidden'
 
-            return false
-        } else {
-
-            return true
-        }
-        // if ((JSON.stringify(this.contrato) !== JSON.stringify(this.originalContrato)) && 
-        // form.valid) {
-
-        //     return false
-        // } else {
-
-        //     return true
-        // }
     }
 
     // safeHTML(unsafe: string) {
@@ -136,22 +123,22 @@ export class EditarContratoComponent extends BaseComponent implements OnInit {
         defaultParagraphSeparator: 'p',
         defaultFontName: 'Arial',
         toolbarHiddenButtons: [
-          ],
+        ],
         customClasses: [
-          {
-            name: "quote",
-            class: "quote",
-          },
-          {
-            name: 'redText',
-            class: 'redText'
-          },
-          {
-            name: "titleText",
-            class: "titleText",
-            tag: "h1",
-          },
+            {
+                name: "quote",
+                class: "quote",
+            },
+            {
+                name: 'redText',
+                class: 'redText'
+            },
+            {
+                name: "titleText",
+                class: "titleText",
+                tag: "h1",
+            },
         ]
-      };
+    };
 
 }

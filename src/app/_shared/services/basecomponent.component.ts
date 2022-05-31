@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 import { HighlightTrigger } from '../animation/animation';
 import { TokenInfos } from '../models/token.model';
 import { SharedService } from './shared.service';
-
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 @Component({
     selector: 'app-base',
     template: ``,

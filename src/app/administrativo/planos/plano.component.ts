@@ -22,7 +22,7 @@ import { PlanoPgmEditComponent } from "./edit/edit-plano.component";
 export class PlanoPgmComponent extends BaseComponent implements OnInit {
 
     //baseUrl = environment.baseUrl;
-   // public spinnerSearch = 'visible'
+    // public spinnerSearch = 'visible'
     public modulos: any[] = new Array<any>();
 
     public pesquisarForm: FormGroup
@@ -54,7 +54,7 @@ export class PlanoPgmComponent extends BaseComponent implements OnInit {
     }
 
     getTypePacotes() {
-
+        this.spinnerSearch = 'visible'
         this._admService.GetTypePacotes()
             .subscribe({
                 next: (resp: any) => {

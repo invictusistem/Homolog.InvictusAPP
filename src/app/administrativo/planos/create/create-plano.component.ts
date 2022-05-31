@@ -66,23 +66,27 @@ export class PlanoPgmCreateComponent extends BaseComponent implements OnInit {
         this._admService.GetTypePacotes()
         .subscribe({
             next: (resp: any) => { 
+                this.dialogRef.addPanelClass('create-plano-class')
                 this.typePacotes = resp['typePacotes']
                 this.initProgressBar = 'hidden'
+                this.showForm = true
 			},
             error: (error) => { 
+                this.initProgressBar = 'hidden'
+                this.OpenSnackBarErrorDefault()
 			//console.error(error) 
 			}
         })       
     }
 
-    getContratos(typePacoteId:any) {
+    public GetContratos(typePacoteId:any) {
 
         this.moduloForm.get('contratoId')?.setValue('')
         this.initProgressBar = 'visible'
         this.disabledContrato = true
         this.contratos = new Array<any>();
 
-        this._admService.GetContratosByTypePacote(typePacoteId)
+        this._admService.GetContratosByTypePacote(typePacoteId, true)
         .subscribe({
             next: (resp: any) => { 
                 this.disabledContrato = false
@@ -90,6 +94,12 @@ export class PlanoPgmCreateComponent extends BaseComponent implements OnInit {
                 this.initProgressBar = 'hidden'
 			},
             error: (error) => { 
+                if(error['status'] == 404){
+                    this.OpenSnackBarError("Não há contratos ativos para esse tipo de pacote.")
+                }else{
+                    this.OpenSnackBarErrorDefault()
+                }
+
                 this.initProgressBar = 'hidden'
 			}
         })  
@@ -115,6 +125,7 @@ export class PlanoPgmCreateComponent extends BaseComponent implements OnInit {
             .subscribe(response => {
             }, (err) => { 
                // console.log(err) 
+               this.OpenSnackBarErrorDefault()
             },
                 () => {
                     this.OpenSnackBarSucesso("Plano criado com sucesso.")

@@ -81,10 +81,12 @@ export class PlanoPgmEditComponent extends BaseComponent implements OnInit {
                     this.typePacotes = resp['typePacotes']
                     this.contratos = resp['contratos']
                     this.initProgressBar = 'hidden'
-                    this.showContent = true
+                    this.dialogRef.addPanelClass('edit-plano-class')
+                    this.showForm = true
 
                 },
                 error: (error) => {
+                    this.OpenSnackBarErrorDefault()
                     // console.error(error)
                 }
             })
@@ -98,7 +100,7 @@ export class PlanoPgmEditComponent extends BaseComponent implements OnInit {
         this.disabledContrato = true
         this.contratos = new Array<any>();
 
-        this._admService.GetContratosByTypePacote(typePacoteId)
+        this._admService.GetContratosByTypePacote(typePacoteId, false)
             .subscribe({
                 next: (resp: any) => {
                     this.disabledContrato = false

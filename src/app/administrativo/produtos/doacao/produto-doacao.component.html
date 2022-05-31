@@ -9,15 +9,17 @@
 
 </div>
 
+<mat-progress-bar style="" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
 <hr>
 
 <br>
 
-<span *ngIf="showeMsgError" style="font-size: 0.9em; color:red" >* Não há outras unidade cadastradas. </span>
+<span *ngIf="showeMsgError" style="font-size: 0.9em; color:red">* Não há outras unidade cadastradas. </span>
 
 <div *ngIf="showForm" class="table-responsive" style="position: relative;">
 
-    <form novalidate [formGroup]="doacaoForm" (ngSubmit)="onSubmit(doacaoForm)">
+    <form novalidate [formGroup]="doacaoForm" (ngSubmit)="onSubmit()">
         <table style="margin-bottom: 0px;" class="table">
             <thead>
                 <tr>
@@ -35,7 +37,7 @@
             </thead>
 
             <tbody>
-                <tr >
+                <tr>
                     <td style="vertical-align: middle;width: 6%;font-size:1em;font-weight: 400;
                     border-top: 0px;">{{produto.nome}}</td>
 
@@ -45,9 +47,11 @@
 
                         <span style="vertical-align: middle;margin-top: 5px;">
                             <span style="vertical-align: middle;" mat-icon-button>
-                                <mat-icon type="button" (click)="add()">
-                                    add
-                                </mat-icon>
+                                <button mat-icon-button type="button" [disabled]="disabledAdd">
+                                    <mat-icon (click)="add()">
+                                        add
+                                    </mat-icon>
+                                </button>
                             </span>
                         </span>
 
@@ -104,12 +108,13 @@
             </mat-select>
         </mat-form-field>
 
-        <br>
+       
 
-        <br>
+        <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>
 
-        <button type="submit" color="primary" mat-raised-button 
-        [disabled]="!doacaoForm.valid"
+        <button type="submit" color="primary" 
+        mat-raised-button [disabled]="disabledButton"
             style="float:right;margin-bottom: 0px;margin-left: 10px;">
             Salvar
         </button>

@@ -363,9 +363,9 @@ export class AdmService extends BaseService {
 
     // Contratos
 
-    public GetContratosByTypePacote(typePacoteId: any): Observable<any> {
+    public GetContratosByTypePacote(typePacoteId: any, ativo: any): Observable<any> {
 
-        let path = `/contrato/type-pacote/${typePacoteId}`
+        let path = `/contrato/type-pacote/${typePacoteId}/?ativo=${ativo}`
 
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())

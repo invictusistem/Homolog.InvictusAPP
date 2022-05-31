@@ -11,6 +11,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { MeioPagamento } from "src/app/_shared/models/perfil.model";
 import { Parcelas } from "src/app/_shared/models/utils.model";
 import { CompraProdutoCommand, ProdutosCommand } from "src/app/_shared/models/produto.model";
+import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 
 @Component({
     selector: 'produto-doacaomodal',
@@ -19,12 +20,12 @@ import { CompraProdutoCommand, ProdutosCommand } from "src/app/_shared/models/pr
     animations: [HighlightTrigger]
 })
 
-export class ProdutoDoacaoComponent implements OnInit {
+export class ProdutoDoacaoComponent extends BaseComponent implements OnInit {
 
-    baseUrl = environment.baseUrl;
+    // baseUrl = environment.baseUrl;
 
-    private jwtHelper = new JwtHelperService();
-    public tokenInfo: TokenInfos = new TokenInfos();
+    //private jwtHelper = new JwtHelperService();
+    //public tokenInfo: TokenInfos = new TokenInfos();
     public meioPagamento = MeioPagamento
     public showParcelas = false;
     public msg = ""
@@ -41,14 +42,15 @@ export class ProdutoDoacaoComponent implements OnInit {
 
 
     constructor(
-        //private service: AdmService,
-        private _snackBar: MatSnackBar,
+        override _snackBar: MatSnackBar,
+        //private _snackBar: MatSnackBar,
         private router: Router,
         private _fb: FormBuilder,
         private _http: HttpClient,
         private _modal: MatDialog,
         public dialogRef: MatDialogRef<ProdutoDoacaoComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
+        super(_snackBar);
         this.doacaoForm = _fb.group({
             produtoId: [''],
             unidadeDonatariaId: ['', [Validators.required]],
@@ -59,12 +61,12 @@ export class ProdutoDoacaoComponent implements OnInit {
     }
 
 
-    showForm = false
+    //showForm = false
     ngOnInit() {
-        const token:any = localStorage.getItem('jwt')
-        this.tokenInfo = this.jwtHelper.decodeToken(token)
-      //  console.log(this.tokenInfo)
-       
+        const token: any = localStorage.getItem('jwt')
+        //this.tokenInfo = this.jwtHelper.decodeToken(token)
+        //  console.log(this.tokenInfo)
+
         console.log(this.data['produto'])
         this.GetProdutoDoacao();
         this.produtos = Object.assign([], this.data['produto'])
@@ -74,7 +76,7 @@ export class ProdutoDoacaoComponent implements OnInit {
         //this.produtos.push(this.data['produto'] as Produto)
     }
 
-   // messageError = ""
+    // messageError = ""
     showeMsgError = false
     GetProdutoDoacao() {
 
@@ -82,10 +84,13 @@ export class ProdutoDoacaoComponent implements OnInit {
             .subscribe((resp: any) => {
                 this.unidades = Object.assign([], resp['unidades'])
                 this.produto = Object.assign({}, resp['produto'])
+                console.log(this.produto)
+                this.initProgressBar = 'hidden'
             },
                 (err) => {
-                   // console.log(err)
-                   // this.messageError = "Não há unidade outras cadastradas"
+                    this.initProgressBar = 'hidden'
+                    // console.log(err)
+                    // this.messageError = "Não há unidade outras cadastradas"
                     this.showeMsgError = true
                 },
                 () => {
@@ -94,45 +99,53 @@ export class ProdutoDoacaoComponent implements OnInit {
     }
 
 
-    onSubmit(form: FormGroup) {
+    onSubmit() {
 
-        if (form.valid) {
-           
+        if (this.doacaoForm.valid) {
+            this.disabledSaveButton = 'visible'
             this.doacaoForm.get('produtoId')?.setValue(this.produto.id)
             this.doacaoForm.get('qntDoada')?.setValue(this.qntProduto)
-            
-            this._http.post(`${this.baseUrl}/produto/doacao`, this.doacaoForm.value, {})
-            .subscribe(response => {
 
-              //  console.log(response)
-             
-            }, (err) => {
-               // console.log(err)
-               // console.log(err['error'].mensagem)
-               
-            },
-                () => {
-                   
-                    this.openSnackBar()
-                   
-                    this.dialogRef.close({ clicked: "Ok" });
-                });
+            this._http.post(`${this.baseUrl}/produto/doacao`, this.doacaoForm.value, {})
+                .subscribe(response => {
+
+                    //  console.log(response)
+
+                }, (err) => {
+                    this.disabledSaveButton = 'hidden'
+                    // console.log(err)
+                    // console.log(err['error'].mensagem)
+                    this.OpenSnackBarErrorDefault()
+
+                },
+                    () => {
+
+                        this.OpenSnackBarSucesso("Doação efetuada com sucesso.")
+
+                        this.dialogRef.close({ clicked: "Ok" });
+                    });
         }
     }
 
-    openSnackBar() {
-        this._snackBar.open('Colaborador salvo com sucesso.', '', {
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: 'green-snackbar',
-            duration: 3 * 1000,
-        });
+    get disabledButton() {
+        if (this.doacaoForm.valid) {
+            return this.disabledSaveButton != 'hidden'
+        } else {
+            return true
+        }
     }
 
+    get disabledAdd() {
+        return this.qntProduto == this.produto.quantidade
+    }
 
     add() {
+        if (this.qntProduto == this.produto.quantidade) {
 
-        this.qntProduto++
+        } else {
+            this.qntProduto++
+        }
+
 
         // var index = this.compraProdutoCommand.produtos.indexOf(product)
         // var qntAtual = this.compraProdutoCommand.produtos[index].quantidadeComprada
@@ -141,7 +154,7 @@ export class ProdutoDoacaoComponent implements OnInit {
 
     remove() {
 
-        
+
         // var index = this.compraProdutoCommand.produtos.indexOf(product)
         // var qntAtual = this.compraProdutoCommand.produtos[index].quantidadeComprada
         if (this.qntProduto == 1) {
@@ -154,7 +167,7 @@ export class ProdutoDoacaoComponent implements OnInit {
 
     get valorTotalVenda() {
 
-       
+
         var sum = 0
         this.compraProdutoCommand.produtos?.forEach((element: any) => {
             sum += element.quantidadeComprada * element.preco
@@ -173,7 +186,7 @@ export class ProdutoDoacaoComponent implements OnInit {
 
     deletar(product: any) {
 
-        var index:any = this.compraProdutoCommand.produtos?.indexOf(product)
+        var index: any = this.compraProdutoCommand.produtos?.indexOf(product)
         //this.compraProdutoCommand.produtos[index] 
         this.compraProdutoCommand.produtos?.splice(index, 1);
 
@@ -191,9 +204,9 @@ export class ProdutoDoacaoComponent implements OnInit {
     //     console.log(this.compraProdutoCommand)
 
     //     this.compraProdutoCommand.parcelas = this.parcelasTotais
-       
+
     //     console.log(this.compraProdutoCommand.meioPagamento)
-       
+
     //     console.log(this.meioPagamento)
     //     if (this.compraProdutoCommand.produtos.length == 0) return
 

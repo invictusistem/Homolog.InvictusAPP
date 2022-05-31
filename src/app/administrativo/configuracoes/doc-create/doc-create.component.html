@@ -19,12 +19,14 @@
 
         <mat-form-field appearance="standard" style="width: 30%; ">
             <mat-label>Nome</mat-label>
-            <input selected formControlName="nome" matInput placeholder="Ex: RG">
+            <input oninput="this.value = this.value.toUpperCase()"
+             formControlName="nome" matInput placeholder="Ex: RG">
         </mat-form-field>
 
         <mat-form-field appearance="standard" style="width: 30%; margin-left: 5%;">
             <mat-label>Descrição</mat-label>
-            <input formControlName="descricao" nullValue matInput>
+            <input oninput="this.value = this.value.toUpperCase()" 
+            formControlName="descricao" matInput>
         </mat-form-field>
 
         <mat-form-field appearance="standard" style="width: 30%; margin-left: 5%;">

@@ -273,7 +273,7 @@ export function OpeEditDispoModalConfig(dispo?: any, profId?: any) {
     return {
         //height:
         width: '480px',
-        data: { dispo: dispo, profId:profId },
+        data: { dispo: dispo, profId: profId },
         hasBackdrop: true,
         disableClose: true
     }
@@ -400,7 +400,7 @@ export function OpenCreateCursoModalConfig() {
 
 export function OpenUnidadeCreateModalConfig() {
     return {
-        //height:
+        height: '450px',
         width: '650px',
         hasBackdrop: true,
         disableClose: true
@@ -409,7 +409,7 @@ export function OpenUnidadeCreateModalConfig() {
 
 export function OpenEditUnidadeConfig(unidade?: any) {
     return {
-        //height:
+        //        height: '450px',
         width: '670px',
         data: { unidade: unidade },
         hasBackdrop: true,

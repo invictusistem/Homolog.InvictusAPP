@@ -105,7 +105,7 @@
 
                                 <i *ngIf="!podeDeletar" style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="deletar turma e os matriculados"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="DeleteCargo(item)"  
+                                    <button (click)="DeleteCargo(item)"  disabled
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>delete_outline</mat-icon>
@@ -197,7 +197,7 @@
 
                                 <i *ngIf="!podeDeletar" style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="deletar turma e os matriculados"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="deleteDocumento(item)"  
+                                    <button (click)="deleteDocumento(item)"  disabled
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>delete_outline</mat-icon>
@@ -299,7 +299,7 @@
 
                             <i *ngIf="!podeDeletar" style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="deletar turma e os matriculados"
                                 matTooltipPosition="above" matTooltipHideDelay="100">
-                                <button (click)="deleteMateria(item)"  
+                                <button (click)="deleteMateria(item)"  disabled
                                     style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                     mat-icon-button>
                                     <mat-icon>delete_outline</mat-icon>

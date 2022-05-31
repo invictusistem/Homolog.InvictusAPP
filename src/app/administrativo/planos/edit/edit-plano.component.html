@@ -10,11 +10,11 @@
 <mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
 </mat-progress-bar>
 
-<div @rowHighlight *ngIf="initProgressBar == 'hidden'">
+<div @rowHighlight *ngIf="showForm">
 
     <hr>
 
-     <form novalidate [formGroup]="moduloForm" (ngSubmit)="onSubmit(moduloForm)">
+    <form novalidate [formGroup]="moduloForm" (ngSubmit)="onSubmit(moduloForm)">
 
 
 
@@ -29,8 +29,8 @@
 
 
         <mat-slide-toggle style="width: 8%;margin-left: 27%; " class="autoPagination-slide" #tooltip="matTooltip"
-            matTooltip="ativo/inativo" matTooltipPosition="above" formControlName="ativo"
-            matTooltipHideDelay="250" color="primary">
+            matTooltip="ativo/inativo" matTooltipPosition="above" formControlName="ativo" matTooltipHideDelay="250"
+            color="primary">
         </mat-slide-toggle>
         <!-- <mat-slide-toggle style="width: 20%; margin-left: 5%;" class="autoPagination-slide" #tooltip="matTooltip"
         [(ngModel)]="plano.descricao" name="Descricao" required matTooltip="ativo/inativo"
@@ -56,9 +56,8 @@
 
         <mat-form-field appearance="standard" style="width: 30%;margin-left: 5% ">
             <mat-label>Taxa Matrícua</mat-label>
-            <input formControlName="taxaMatricula" currencyMask
-                [options]="{ prefix: '', thousands: '.', decimal: ',' }" type="text" selected matInput
-                placeholder="R$ 00,00">
+            <input formControlName="taxaMatricula" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                type="text" selected matInput placeholder="R$ 00,00">
             <span matPrefix>R$&nbsp;</span>
         </mat-form-field>
 
@@ -66,8 +65,7 @@
         <mat-form-field appearance="standard" style="width: 30%;margin-left: 5%; ">
             <mat-label>Bonus Pontualidade</mat-label>
             <input currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
-            formControlName="bonusPontualidade" type="text" selected matInput
-                placeholder="R$ 00,00">
+                formControlName="bonusPontualidade" type="text" selected matInput placeholder="R$ 00,00">
             <span matPrefix>R$&nbsp;</span>
         </mat-form-field>
 
@@ -93,18 +91,15 @@
 
         <mat-form-field appearance="standard" style="width: 55%;">
             <mat-label>Contrato</mat-label>
-            <mat-select [disabled]="disabledContrato" formControlName="contratoId" 
-                placeholder="temRecuperacao">
+            <mat-select [disabled]="disabledContrato" formControlName="contratoId" placeholder="temRecuperacao">
                 <mat-option [value]="cont.id" *ngFor="let cont of contratos">{{cont.titulo}}</mat-option>
             </mat-select>
         </mat-form-field>
 
         <mat-progress-bar [style.visibility]="saveSpinner" mode="query"></mat-progress-bar>
 
-
-
-        <button color="primary" type="submit" [disabled]="disabledSave" 
-        mat-raised-button style="float:right;margin-bottom: 10px;">
+        <button color="primary" type="submit" [disabled]="disabledSave" mat-raised-button
+            style="float:right;margin-bottom: 10px;">
             Salvar
         </button>
 

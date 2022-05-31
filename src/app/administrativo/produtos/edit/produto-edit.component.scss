@@ -1,6 +1,8 @@
-::ng-deep .mat-form-field {
-    //transform: scale(0.85) !important ;
-    //padding: 0px !important;
-    font-size: 0.9em;
-  }
-  
+::ng-deep .mat-form-field { 
+  font-size: 0.9em;
+}
+
+::ng-deep .produto-edit-class {
+  height: 500px !important;
+  width: 600px;
+}

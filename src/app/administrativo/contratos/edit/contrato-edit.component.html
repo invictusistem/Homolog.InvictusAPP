@@ -41,15 +41,21 @@
 
             <br>
 
-             <div class="html">
+             <!-- <div class="html">
             {{ contrato.conteudo }}
-          </div>
+          </div> -->
           <br>
 
-            <button type="submit" color="primary" mat-raised-button
-                style="float:right;margin-bottom: 0px;margin-left: 10px;">
+          <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>
+
+        <span style="float: right;margin-top: 15px;">
+            <button type="submit" color="primary" mat-raised-button 
+            [disabled]="disabledButton" 
+                style="">
                 Salvar
             </button>
+        </span>
 
             <br>
 

@@ -9,7 +9,7 @@
 
 <mat-progress-bar [style.visibility]="initProgressBar" mode="query"></mat-progress-bar>
 
-<div @rowHighlight *ngIf="initProgressBar == 'hidden'">
+<div @rowHighlight *ngIf="showForm">
 
     <div style="font-size: 0.8em;margin-top: 5px;">* O plano de pagamento poderá ser visualizado, utilizado e editado
         por todas as unidades.</div>
@@ -22,7 +22,7 @@
             <mat-form-field appearance="standard" style="width: 65%;">
                 <mat-label>Tipo/Pacote</mat-label>
                 <mat-select formControlName="typePacoteId" placeholder="">
-                    <mat-option (click)="getContratos(type.id)" [value]="type.id" *ngFor="let type of typePacotes">
+                    <mat-option (click)="GetContratos(type.id)" [value]="type.id" *ngFor="let type of typePacotes">
                         {{type.nome}}
                     </mat-option>
                 </mat-select>

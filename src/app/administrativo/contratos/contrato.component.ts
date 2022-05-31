@@ -46,18 +46,21 @@ export class ContratoComponent extends BaseComponent implements OnInit {
     Pesquisar() {
 
         if (this.pesquisarForm.valid) {
+            this.initProgressBar = 'visible'
             this.showSpinnerSearch = true
             this.contratos = []
             let typePacoteId = this.pesquisarForm.get('typePacoteId')?.value
             // console.log(typePacoteId)
 
-            this._admService.GetContratosByTypePacote(typePacoteId)
+            this._admService.GetContratosByTypePacote(typePacoteId, false)
                 .subscribe({
                     next: (resp: any) => {
                         this.contratos = Object.assign([], resp['contratos']);
                         this.showSpinnerSearch = false
+                        this.initProgressBar = 'hidden'
                     },
                     error: (error) => {
+                        this.initProgressBar = 'hidden'
                         this.showSpinnerSearch = false
                     }
                 })
