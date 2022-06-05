@@ -12,7 +12,7 @@
 <div>
 
 
-    <form novalidate [formGroup]="unidadeForm" (ngSubmit)="onSubmit(unidadeForm)" >
+    <form novalidate [formGroup]="unidadeForm" (ngSubmit)="onSubmit(unidadeForm)">
 
         <mat-form-field appearance="standard" style="width: 45%;">
             <mat-label>Nome da unidade</mat-label>
@@ -35,6 +35,10 @@
 
         <br>
 
+        <mat-checkbox class="example-margin" formControlName="isUnidadeGlobal"
+            [value]="unidadeForm.get('isUnidadeGlobal')?.value">unidade global</mat-checkbox>
+
+        <br>
 
         <mat-form-field appearance="standard" style="width: 18%">
             <mat-label>CEP</mat-label>
@@ -94,19 +98,22 @@
         style="margin-top:10px" mode="query">
         </mat-progress-bar>
 
-        <span [style.visibility]="showMensagem"  
-            style="width: 480px; text-align: left; vertical-align: middle;
-            float:left;margin-top: 15px;
-                padding: 0px;">
-                <div *ngFor="let erro of msgErros; " style="font-size: 0.8em;color: red;">
-                    * {{ erro }}
-                </div>
-            </span>
+        <span [style.visibility]="showMensagem" 
+        style="width: 480px;
+        text-align: left; 
+        vertical-align: middle;
+        float:left;
+        margin-top: 15px;
+        padding: 0px;">
+            <div *ngFor="let erro of msgErros; " 
+            style="font-size: 0.8em;color: red;">
+                * {{ erro }}
+            </div>
+        </span>
 
         <span style="float: right;margin-top: 10px;">
             <button type="submit" mat-raised-button color="primary" 
-            [disabled]="saveButton"
-                style="">
+            [disabled]="saveButton" style="">
                 Salvar
             </button>
         </span>

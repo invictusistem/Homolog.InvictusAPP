@@ -30,7 +30,7 @@ export class CreateUnidadeComponent implements OnInit {
     // pageEvent: PageEvent;
     public saveSpinner = 'hidden'
     public showMensagem = 'hidden'
-public msgErros: any;
+    public msgErros: any[] = new Array<any>();
     testepipe: any
     private _baseUrl = environment.baseUrl
     public unidadeForm: FormGroup;
@@ -56,10 +56,11 @@ public msgErros: any;
             bairro: ['', [Validators.required]],
             cidade: ['', [Validators.required]],
             uf: ['', [Validators.required]],
+            isUnidadeGlobal: [false],
             ativo: [true],
         })
 
-       
+
     }
 
     get habilitarBotao() {
@@ -74,7 +75,7 @@ public msgErros: any;
     }
     ngOnInit() {
 
-       // this.getCargos();
+        // this.getCargos();
     }
 
     cargos: any[] = new Array<any>()
@@ -84,10 +85,10 @@ public msgErros: any;
             .subscribe(response => {
                 this.cargos = Object.assign([], response)
             }, (err) => {
-               // console.log(err)
+                // console.log(err)
             },
-                () => { 
-                   // console.log(this.cargos)
+                () => {
+                    // console.log(this.cargos)
                     //this.showForm = true
                 });
     }
@@ -98,41 +99,44 @@ public msgErros: any;
         // console.log(this.testepipe)
 
         // if (form.valid) {
-        var command = { unidade: this.unidadeForm.value, colaborador: this.colaboradorForm?.value}
-            this._http.post(`${this._baseUrl}/unidade`, command, {})
-                .subscribe(resp => { },
-                    (error) => { 
-                        //console.log(error)
-                     },
-                    () => { this.dialogRef.close({ clicked: "OK" }) })
+        var command = { unidade: this.unidadeForm.value, colaborador: this.colaboradorForm?.value }
+        this._http.post(`${this._baseUrl}/unidade`, command, {})
+            .subscribe(resp => { },
+                (error) => {
+                    //console.log(error)
+                },
+                () => { this.dialogRef.close({ clicked: "OK" }) })
 
-       // }
+        // }
     }
 
     onSubmit(form: any) {
         this.showMensagem = 'hidden'
 
         if (form.valid) {
+            this.msgErros = new Array<any>()
             this.saveSpinner = 'visible'
             this._http.post(`${this._baseUrl}/unidade`, this.unidadeForm.value, {})
                 .subscribe(resp => { },
-                    (error) => { 
+                    (error) => {
+                        console.log(error['status'])
                         this.saveSpinner = 'hidden'
                         this.msgErros = error['error'].msg
                         this.showMensagem = 'visible'
-                        this.saveSpinner = 'hidden'
-                     },
-                    () => { 
+                        
+                    },
+                    () => {
                         this._helper.openSnackBarSucesso('Unidade criada sucesso')
-                        this.dialogRef.close({ clicked: "Ok" }) })
+                        this.dialogRef.close({ created: true })
+                    })
 
         }
     }
 
-    consultaCEP(CEP: string, form:any) {
-      //  console.log(CEP);
-       // console.log(form.controls['cep'].valid);
-       // console.log(form.controls['cep'].value)
+    consultaCEP(CEP: string, form: any) {
+        //  console.log(CEP);
+        // console.log(form.controls['cep'].valid);
+        // console.log(form.controls['cep'].value)
         if (form.controls['cep'].value) {
 
             this._http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
@@ -143,7 +147,7 @@ public msgErros: any;
                     form.get('bairro').setValue(response["bairro"]);
                     form.get('cidade').setValue(response["localidade"]);
                     form.get('uf').setValue(response["uf"]);
-                }, err => { 
+                }, err => {
                     //console.log(err) 
                 },
                     () => {
@@ -152,13 +156,13 @@ public msgErros: any;
         }
     }
 
-    get saveButton(){
+    get saveButton() {
 
-        if(this.unidadeForm.valid){
+        if (this.unidadeForm.valid) {
             return this.saveSpinner != 'hidden'
-        }else{
+        } else {
             return true
         }
-    }    
+    }
 
 }

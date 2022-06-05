@@ -1,6 +1,7 @@
 import { getTreeMultipleDefaultNodeDefsError } from "@angular/cdk/tree";
 import { HttpClient } from "@angular/common/http";
 import { Component, Inject, OnInit } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { environment } from "src/environments/environment";
@@ -15,20 +16,53 @@ import { environment } from "src/environments/environment";
 export class AddPMateriaModalComponent implements OnInit {
 
     private baseUrl = environment.baseUrl
-    materias: any[] = new Array<any>();
+    public materias: any[] = new Array<any>();
+    public originalMaterias: any
+    
+    public listaMaterias: FormGroup
+
     public initProgressBar = 'visible'
     public showContent = false
     public disabledSaveButton = false
 
     constructor(
         private _http: HttpClient,
+        private _fb: FormBuilder,
         public _dialogRef: MatDialogRef<AddPMateriaModalComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
+        this.listaMaterias = _fb.group({
+            materias: _fb.array([])
+        })
 
     }
     ngOnInit() {
         this.getMateria()
+    }
+
+    get listaMats() {
+        return this.listaMaterias.get('materias') as FormArray
+    }
+
+    addMaterias(resp: any) {
+
+        this.materias = Object.assign([], resp['matsView'])
+
+        
+
+        this.materias.forEach(element => {
+
+            const mat = this._fb.group({
+                id: [element.id],
+                nome: [element.nome],
+                professorId: [element.professorId],
+                isProfessor: [element.isProfessor]
+            })
+            this.listaMats.push(mat)
+        });
+
+        this.originalMaterias = JSON.parse(JSON.stringify(this.listaMaterias.value))
+
     }
 
     getMateria() {
@@ -38,15 +72,18 @@ export class AddPMateriaModalComponent implements OnInit {
             .subscribe(
                 (result: any) => {
 
-                   // console.log(result['matsView'])
+                    // console.log(result['matsView'])
                     this.materias = Object.assign([], result['matsView'])
-                  
-                  //  console.log(this.materias)
-                  
+
+                    //  console.log(this.materias)
+                    if (this.materias.length > 0) {
+                    //    this.addMaterias(result)
+                    }
+
 
                 },
-                (error) => { 
-                   // console.log(error) 
+                (error) => {
+                    // console.log(error) 
                 },
                 () => {
                     this.initProgressBar = 'hidden'
@@ -54,20 +91,21 @@ export class AddPMateriaModalComponent implements OnInit {
                     this._dialogRef.addPanelClass('turmaaddmateria-class')
                     // this.materias.forEach(element => {
                     //     console.log(element.profId)
-                        
-                    // });
-
                     
+                    // });
+                    //console.log(this.listaMaterias.get('materias')?.value)
+
+
                 }
             )
     }
 
-    get sabeButtom(){
+    get sabeButtom() {
 
         return this.disabledSaveButton
     }
 
-    Checar(){
+    Checar() {
         return true
     }
     checked = true
@@ -84,37 +122,37 @@ export class AddPMateriaModalComponent implements OnInit {
         //     }
         // });
 
-       // console.log(this.materias)
-       this.initProgressBar = 'visible'
-       
-       this.disabledSaveButton = true
-        this._http.put(`${this.baseUrl}/pedag/turma/materias/${this.data['turmaId']}/${this.data['professor'].id}`, this.materias,{
+        // console.log(this.materias)
+        this.initProgressBar = 'visible'
+
+        this.disabledSaveButton = true
+        this._http.put(`${this.baseUrl}/pedag/turma/materias/${this.data['turmaId']}/${this.data['professor'].id}`, this.materias, {
 
         })
-        .subscribe(
-            (result) => {
+            .subscribe(
+                (result) => {
 
-              //  console.log(result)
+                    //  console.log(result)
 
-            },
-            (error) => { 
-               // console.log(error) 
-            },
-            () => {
-                this._dialogRef.close({ clicked: true, profsIds: this.listProfId });
-            }
-        )
+                },
+                (error) => {
+                    // console.log(error) 
+                },
+                () => {
+                    this._dialogRef.close({ clicked: true, profsIds: this.listProfId });
+                }
+            )
 
-        
+
     }
 
     listProfId: number[] = new Array<number>()
 
     onCheckboxChange(event: any) {
         //console.log(profId)
-       // console.log(event.checked)
-       // console.log(this.materias)
-       // console.log(this.data['professor'])
+        // console.log(event.checked)
+        // console.log(this.materias)
+        // console.log(this.data['professor'])
         // if (event.checked) {
         //     this.listProfId.push(profId)
         // } else {

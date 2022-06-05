@@ -93,6 +93,10 @@
 
 <hr>
 
+<div *ngIf="noProfessorMsg" style="font-size: 0.8em;">
+Não foram encontrados professores com disponibilidade para esta unidade que não estejam alocados nesta turma.<br>
+</div>
+
 <div style="height: 450px; position: relative;" *ngIf="showContent" @rowHighlight>
 
     <table style="margin-bottom: 0px;" class="table">

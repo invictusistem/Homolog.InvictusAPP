@@ -85,6 +85,7 @@ export class SalaEditarComponent implements OnInit {
                 this.salaForm.patchValue(resp['sala']);
                 this.originalSala = JSON.parse(JSON.stringify(this.salaForm.value))
                 // this.sala = resp['sala']
+                this.dialogRef.addPanelClass('sala-edit-class')
             },
                 (error) => { 
                    // console.log(error)

@@ -56,7 +56,7 @@ export class UnidadesComponent implements OnInit {
         const dialogRef = this._modal
             .open(CreateUnidadeComponent, OpenUnidadeCreateModalConfig());
         dialogRef.afterClosed().subscribe((data: any) => {
-            if (data.clicked === "Ok") {
+            if (data.created == true) {
                 this.getUnidades();
             }
         });
@@ -66,7 +66,7 @@ export class UnidadesComponent implements OnInit {
         const dialogRef = this._modal
             .open(EditUnidadeComponent, OpenEditUnidadeConfig(unidade));
         dialogRef.afterClosed().subscribe((data: any) => {
-            if (data.clicked === "OK") {
+            if (data.edited == true) {
                 this.getUnidades();
             }
         });

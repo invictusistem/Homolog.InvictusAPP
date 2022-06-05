@@ -22,6 +22,7 @@ export class AddProfessorModalComponent implements OnInit {
     public initProgressBar = 'visible'
     public showContent = false
     listProfId: any[] = new Array<any>()
+    public noProfessorMsg = false
 
     constructor(
         private _admService: AdmService,
@@ -50,8 +51,10 @@ export class AddProfessorModalComponent implements OnInit {
                 (error) => {
                    // console.log(error)
                     if(error['status'] == 404){
-                        this._helper.openSnackBarError("Não há professores com disponibilidades para essa turma.")
-                        this.dialogRef.close({clicked: false});
+                        //this._helper.openSnackBarError("Não há professores com disponibilidades para essa turma.")
+                        //this.dialogRef.close({clicked: false});
+                        this.noProfessorMsg = true
+                        this.initProgressBar = 'hidden'
                     }else{
                         this._helper.openSnackBarErrorDefault();
                         this.dialogRef.close({clicked: false});

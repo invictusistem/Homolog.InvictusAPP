@@ -34,7 +34,7 @@ export class EditColaboradoresComponent extends BaseComponent implements OnInit 
     public colaboradorForm: FormGroup
 
     constructor(
-        private _helper: HelpersService,
+        //private _helper: HelpersService,
         private _admService: AdmService,
         override _snackBar: MatSnackBar,
         private _fb: FormBuilder,
@@ -118,7 +118,7 @@ export class EditColaboradoresComponent extends BaseComponent implements OnInit 
                     this.saveBar = 'hidden'
                 },
                     () => {
-                        this._helper.openSnackBarSucesso('Colaborador editado com sucesso.')
+                        this.OpenSnackBarSucesso('Colaborador editado com sucesso.')
                         this.saveBar = 'hidden'
 
                         this.dialogRef.close();
@@ -130,7 +130,7 @@ export class EditColaboradoresComponent extends BaseComponent implements OnInit 
 
 
     openSnackBar() {
-        this._helper.openSnackBarError('ERRO')
+        this.OpenSnackBarError('ERRO')
     }
 
     consultaCEP(CEP: string) {

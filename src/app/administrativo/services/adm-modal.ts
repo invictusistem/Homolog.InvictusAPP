@@ -400,7 +400,7 @@ export function OpenCreateCursoModalConfig() {
 
 export function OpenUnidadeCreateModalConfig() {
     return {
-        height: '450px',
+        height: '480px',
         width: '650px',
         hasBackdrop: true,
         disableClose: true

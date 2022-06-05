@@ -14,6 +14,8 @@ export class EditUnidadeComponent implements OnInit {
 
     public initProgressBar = 'visible'
     public saveSpinner = 'hidden'
+    public showMensagem = 'hidden'
+    public msgErros: any[] = new Array<any>();
     public showContent = false
     public unidadeOriginal: any;
     public unidadeForm: FormGroup;
@@ -36,6 +38,7 @@ export class EditUnidadeComponent implements OnInit {
             bairro: ['', [Validators.required]],
             cidade: ['', [Validators.required]],
             uf: ['', [Validators.required]],
+            isUnidadeGlobal: [false],
             ativo: [''],
         })
     }
@@ -72,7 +75,7 @@ export class EditUnidadeComponent implements OnInit {
             this._admService.CepConsulta(CEP)
                 .subscribe(response => {
 
-                   // console.log(response)
+                    // console.log(response)
 
                     this.unidadeForm.get('logradouro')?.setValue(response["logradouro"].toUpperCase());
                     this.unidadeForm.get('bairro')?.setValue(response["bairro"].toUpperCase());
@@ -80,12 +83,12 @@ export class EditUnidadeComponent implements OnInit {
                     this.unidadeForm.get('uf')?.setValue(response["uf"].toUpperCase());
 
                 }, err => {
-                     //console.log(err) 
-                    });
+                    //console.log(err) 
+                });
         }
     }
-    
-    get saveButton(){
+
+    get saveButton() {
 
         if (this.unidadeForm.valid &&
             JSON.stringify(this.unidadeOriginal) !=
@@ -100,22 +103,27 @@ export class EditUnidadeComponent implements OnInit {
     public SaveEdit() {
 
         if (this.unidadeForm.valid) {
+            this.showMensagem = 'hidden'
+            this.msgErros = new Array<any>()
             this.saveSpinner = 'visible'
-            
+
             this._admService.EditUnidade(this.unidadeForm.value)
                 .subscribe(
-                    sucesso => { this.SaveEditSucesso(sucesso)},
+                    sucesso => { this.SaveEditSucesso(sucesso) },
                     falha => { this.SaveEditFalha(falha) }
-                    
-                )}
+
+                )
+        }
     }
 
-    private SaveEditSucesso(resp: any){
+    private SaveEditSucesso(resp: any) {
         this._helper.openSnackBarSucesso("Unidade editada com sucesso")
-        this._dialogRef.close()
+        this._dialogRef.close({edited: true})
     }
 
-    private SaveEditFalha(falha: any){
+    private SaveEditFalha(falha: any) {
+        this.msgErros = falha['error'].msg
+        this.showMensagem = 'visible'
         this.saveSpinner = 'hidden'
     }
 }

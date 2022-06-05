@@ -10,7 +10,8 @@
     </div>
 
     <br>
-    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch"  @rowHighlight style="margin:0px" mode="query">
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px"
+        mode="query">
     </mat-progress-bar>
     <!-- <div class="row justify-content-center">
         <div class="col"> -->
@@ -24,7 +25,7 @@
             <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
                 Unidades</h4>
             <p class="card-category">
-                Unidades cadastradas no sistema:
+                {{unidades.length}} unidades cadastradas no sistema:
             </p>
         </div>
         <div class="card-body">
@@ -38,11 +39,11 @@
                     vertical-align: middle;
                     border-top: 0px;"></th>
 
-                            <th style="width: 25%;font-size:1em;
+                            <th style="width: 37%;font-size:1em;
                                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">UNIDADE</th>
 
-                            <th style="width: 25%;font-size:1em;
+                            <th style="width: 18%;font-size:1em;
                     text-align:center; 
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">BAIRRO</th>
@@ -52,7 +53,7 @@
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">Ativo</th> -->
 
-                            <th style="width: 25%;vertical-align: middle;
+                            <th style="width: 20%;vertical-align: middle;
                                     text-align:center;  font-size: 1em;font-weight: 400;
                     border-top: 0px;">SALAS<br>CADASTRADAS</th>
 
@@ -75,6 +76,15 @@ matTooltipPosition="above" matTooltipHideDelay="100">
 
                             <td style="text-align:left;vertical-align: middle;">
                                 {{uni.descricao}} - {{uni.sigla}}
+                                <ng-container *ngIf="uni.isUnidadeGlobal" style="margin-left: 10px;">
+
+                                    <i style="margin: 0px; margin: 0px;vertical-align: middle;" #tooltip="matTooltip"
+                                        matTooltip="unidade global" matTooltipPosition="above" matTooltipHideDelay="100">
+                                        <mat-icon>public</mat-icon>
+                                    </i>
+
+                                </ng-container>
+
                             </td>
 
                             <td style="text-align: center;vertical-align: middle;">
@@ -106,8 +116,9 @@ matTooltipPosition="above" matTooltipHideDelay="100">
                             </td>
                             <td style="position: relative;">
 
-                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="editar/visualizar unidade"
-                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="editar/visualizar unidade" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
                                     <button (click)="openEditUnidade(uni)" style="margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>settings</mat-icon>
@@ -116,8 +127,7 @@ matTooltipPosition="above" matTooltipHideDelay="100">
                                 |
                                 <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="criar sala"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="addSala(uni)" style="margin: 0px; margin: 0px;"
-                                     mat-icon-button>
+                                    <button (click)="addSala(uni)" style="margin: 0px; margin: 0px;" mat-icon-button>
                                         <mat-icon>meeting_room</mat-icon>
                                     </button>
                                 </i>
