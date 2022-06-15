@@ -22,6 +22,7 @@ export class CreateFornecedorComponent extends BaseComponent implements OnInit {
   public enderecoContainer = 'hidden'
   //public cepReturn: CepReturn = new CepReturn();
   public fornecedorForm!: FormGroup;
+  public endereco: FormGroup
   public validadeEmailMsg = false
   public validadeCPFMsg = false
   // cargos = Cargos;
@@ -40,22 +41,25 @@ export class CreateFornecedorComponent extends BaseComponent implements OnInit {
 
     super(_snackBar);
     this.fornecedorForm = _fb.group({
-      razaoSocial: ['', [Validators.required]],
+      nome: ['', [Validators.required]],
       ie_rg: [''],
-      cnpj_cpf: ['', [Validators.required, Validators.minLength(11)]],
+      cnpj: ['', [Validators.required, Validators.minLength(11)]],
       email: ['', [Validators.required, Validators.email]],
-      telContato: [''],
-      whatsApp: [''],
+      telefoneContato: [''],
+      telWhatsapp: [''],
       nomeContato: ['', [Validators.required]],
-      cep: ['', [Validators.required, Validators.minLength(8)]],
-      logradouro: [''],
-      complemento: [''],
-      numero: ['', [Validators.required]],
-      cidade: ['', [Validators.required]],
-      uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],//,
-      bairro: ['', [Validators.required]],//,
       ativo: [true],
-      unidadeId: ['']
+      unidadeId: [''],
+
+      endereco: this.endereco = _fb.group({
+        cep: ['', [Validators.required, Validators.minLength(8)]],
+        logradouro: [''],
+        complemento: [''],
+        numero: ['', [Validators.required]],
+        cidade: ['', [Validators.required]],
+        uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],//,
+        bairro: ['', [Validators.required]]//,
+      })
     })
   }
 
@@ -109,18 +113,18 @@ export class CreateFornecedorComponent extends BaseComponent implements OnInit {
     }
   }
 
-  get getValue(){
+  get getValue() {
 
     var value = this.fornecedorForm.get('cnpj_cpf')?.value
 
     if (this.fornecedorForm.get('cnpj_cpf')?.value.length <= 11) {
-      
+
 
       return '123434'//value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "\$1.\$2.\$3\-\$4")
-  } else {
-      
+    } else {
+
       return value.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "\$1.\$2.\$3\/\$4\-\$5")
-  }
+    }
   }
 
   // buscarEmail(event: any) {
@@ -172,7 +176,7 @@ export class CreateFornecedorComponent extends BaseComponent implements OnInit {
 
   consultaCEP(CEP: string) {
     //  console.log(CEP);
-    if (this.fornecedorForm.get('cep')?.valid) {
+    if (this.endereco.get('cep')?.valid) {
 
 
       //var mystring = "crt/r2002_2";
@@ -182,10 +186,10 @@ export class CreateFornecedorComponent extends BaseComponent implements OnInit {
       this._http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
         .subscribe((response: any) => {
 
-          this.fornecedorForm.get('logradouro')?.setValue(response["logradouro"].toUpperCase());
-          this.fornecedorForm.get('bairro')?.setValue(response["bairro"].toUpperCase());
-          this.fornecedorForm.get('cidade')?.setValue(response["localidade"].toUpperCase());
-          this.fornecedorForm.get('uf')?.setValue(response["uf"].toUpperCase());
+          this.endereco.get('logradouro')?.setValue(response["logradouro"].toUpperCase());
+          this.endereco.get('bairro')?.setValue(response["bairro"].toUpperCase());
+          this.endereco.get('cidade')?.setValue(response["localidade"].toUpperCase());
+          this.endereco.get('uf')?.setValue(response["uf"].toUpperCase());
 
         }, err => {
           // console.log(err) 

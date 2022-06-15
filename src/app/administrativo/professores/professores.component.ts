@@ -11,6 +11,7 @@ import { TokenInfos } from "src/app/_shared/models/token.model";
 import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 import { environment } from "src/environments/environment";
 import { CreateProfessorModalConfig, OpenProfMateriasModalConfig, ProfCalendarioModalConfig, ProfEditModalConfig, ProfRelatorioModalConfig } from "../services/adm-modal";
+import { AdmService } from "../services/adm.service";
 import { ProfCalendarioComponent } from "./calendario/professor-calend.component";
 import { CreateProfessorComponent } from "./create/professor-create.component";
 import { EditProfessorComponent } from "./edit/professor-edit.component";
@@ -24,7 +25,7 @@ import { ProfRelatorioComponent } from "./relatorio/professor-rel.component";
     styleUrls: ['./professores.component.scss']
 })
 
-export class ProfessoresComponent extends BaseComponent implements OnInit{
+export class ProfessoresComponent extends BaseComponent implements OnInit {
 
     // paginated
     //pageIndexNumber: number = 0;
@@ -35,7 +36,7 @@ export class ProfessoresComponent extends BaseComponent implements OnInit{
     //pageEvent: PageEvent  = new PageEvent()
     //length: number = 0
     public totalPages: number = 0
-    
+
 
 
     professores: any[] = new Array<any>();//Colaborador[] = new Array<Colaborador>();
@@ -65,19 +66,20 @@ export class ProfessoresComponent extends BaseComponent implements OnInit{
 
 
     constructor(
-       // private elementRef: ElementRef,
+        // private elementRef: ElementRef,
+        private _admService: AdmService,
         private http: HttpClient,
         private _fb: FormBuilder,
         override _snackBar: MatSnackBar,
-       // private CreateColaboradoresModal: MatDialog,
+        // private CreateColaboradoresModal: MatDialog,
         private _modal: MatDialog) {
-            super(_snackBar);
+        super(_snackBar);
         this.pesquisarForm = _fb.group({
             nome: ['', [Validators.required]],
             email: ['', [Validators.required]],
             cpf: ['', [Validators.required]],
             ativo: [false],
-            todasUnidades:[false]
+            todasUnidades: [false]
         });
 
         this.pesquisarForm.valueChanges.subscribe(
@@ -118,69 +120,116 @@ export class ProfessoresComponent extends BaseComponent implements OnInit{
     }
 
     pageIndex = 0
-    
 
-    onSubmit(form?: any, event?: any) {
+
+    Pesquisar(event?: any) {
 
         this.showMessageNoColaborador = false
-        var formJson = JSON.stringify(this.pesquisarForm.value)
-        this.showSpinner = true
-       // console.log('subbimit form')
+
         if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
+
             this.spinnerSearch = 'visible'
-            this.http.get(`${this.baseUrl}/professor/?itemsPerPage=` + this.pageSize + `&currentPage=1&paramsJson=${formJson}`)
-                .subscribe(
-                    (response: any) => {
 
-                        this.professores = Object.assign([], response['results'].data);
+            if (event != undefined) {
+                this.currentPage = event.pageIndex + 1
+            } else {
+                this.currentPage = 1
+            }
 
-                        this.length = response['totalItemsInDatabase']
-                        this.totalPages = Math.ceil(this.length / this.pageSize)
-                       // console.log(this.totalPages)
-                        if (this.professores.length == 0) {
-                            // console.log("lengt zero")
-                            this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
-                            this.showMessageNoColaborador = true
-                        }
-                        // this.applyFiler()
-                    },
-                    (err) => {
-                        if (err['status'] == 404) {
-                            this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
-                            this.showMessageNoColaborador = true
-                            this.professores = new Array<any>();
-                        }
-                        if (err['status'] != 404) {
-                            this.mensagem = "Ocorreu um erro desconhecido, por favor, procure o administrador do sistema"
-                            this.showMessageNoColaborador = true
-                            this.professores = new Array<any>();
-                        }
+            this._admService.GetProfessores(this.pageSize, this.currentPage, this.pesquisarForm.value)
+                .subscribe({
+                    next: (resp: any) => { this.processarSucesso(resp, event) },
+                    error: (error: any) => { this.processarFalha(error) }
+                })
+            //             (response: any) => {
 
-                        this.showSpinnerFirst = false
-                        this.showSpinner = false
-                        // console.log(err)
-                         this.spinnerSearch = 'hidden'
-                        //this.openSnackBar(err)
+            //                 this.professores = Object.assign([], response['results'].data);
 
-                    },
-                    () => {
-                        this.showMessageNoColaborador = false
-                        this.showSpinnerFirst = false
-                        this.showSpinner = false
-                        this.spinnerSearch = 'hidden'
-                        //  console.log('ok get');
+            //                 this.length = response['results'].totalItemsInDatabase
+            //                 this.totalPages = Math.ceil(this.length / this.pageSize)
+            //                 console.log(this.length)
+            //                 if (this.professores.length == 0) {
+            //                     // console.log("lengt zero")
+            //                     this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
+            //                     this.showMessageNoColaborador = true
+            //                 }
+            //                 // this.applyFiler()
+            //             },
+            //             (err) => {
+            //                 if (err['status'] == 404) {
+            //                     this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
+            //                     this.showMessageNoColaborador = true
+            //                     this.professores = new Array<any>();
+            //                 }
+            //                 if (err['status'] != 404) {
+            //                     this.mensagem = "Ocorreu um erro desconhecido, por favor, procure o administrador do sistema"
+            //                     this.showMessageNoColaborador = true
+            //                     this.professores = new Array<any>();
+            //                 }
 
-                        //this.pageIndexNumber = (evento.pageIndex * this.pageSize)
-                    },
-                )
+            //                 this.showSpinnerFirst = false
+            //                 this.showSpinner = false
+            //                 // console.log(err)
+            //                  this.spinnerSearch = 'hidden'
+            //                 //this.openSnackBar(err)
+
+            //             },
+            //             () => {
+            //                 this.showMessageNoColaborador = false
+            //                 this.showSpinnerFirst = false
+            //                 this.showSpinner = false
+            //                 this.spinnerSearch = 'hidden'
+            //                 //  console.log('ok get');
+
+            //                 //this.pageIndexNumber = (evento.pageIndex * this.pageSize)
+            //             },
+            //         )
         }
-
+        return event
     }
 
-    
+    processarSucesso(response: any, event?: any) {
+
+        this.professores = Object.assign([], response['results'].data);
+
+        this.length = response['results'].totalItemsInDatabase
+
+        this.spinnerSearch = 'hidden'
+        if (event != undefined) {
+            this.pageIndexNumber = (event.pageIndex * this.pageSize)
+        } else {
+            this.pageIndexNumber = 0
+            if (this.paginator != undefined) {
+                this.paginator.firstPage();
+            }
+        }
+    }
+
+    processarFalha(fail: any) {
+
+        if (fail['status'] == 404) {
+            this.mensagemNotFound = "Sua pesquisa não encontrou nenhum registro correspondente"
+            this.showMessageNotFound = true
+            this.professores = new Array<any>();
+        }
+        if (fail['status'] != 404) {
+            this.mensagemNotFound = "Ocorreu um erro desconhecido, por favor, procure o administrador do sistema"
+            this.showMessageNotFound = true
+            this.professores = new Array<any>();
+        }
+
+        this.spinnerSearch = 'hidden'
+    }
+
+    get disabledOpenEditButton() {
+
+        return this.spinnerSearch != 'hidden'
+    }
+
+
 
     changePage(event?: any, element?: any) {
-       // console.log(event)
+        // console.log(event)
         //console.log(element.target)
 
         this.showSpinner = true
@@ -233,21 +282,21 @@ export class ProfessoresComponent extends BaseComponent implements OnInit{
         });
     }
 
-    public OpenProfCalendarioodal(prof:any): void {
+    public OpenProfCalendarioodal(prof: any): void {
         const dialogRef = this._modal
             .open(ProfCalendarioComponent, ProfCalendarioModalConfig(prof));
         dialogRef.afterClosed().subscribe(data => {
         });
     }
 
-    public OpenProfRelatorio(prof: any):void{
+    public OpenProfRelatorio(prof: any): void {
         const dialogRef = this._modal
             .open(ProfRelatorioComponent, ProfRelatorioModalConfig(prof));
         dialogRef.afterClosed().subscribe(data => {
         });
     }
-    
-    public openEditUserModal(prof: any):void{
+
+    public openEditUserModal(prof: any): void {
         const dialogRef = this._modal
             .open(EditProfessorComponent, ProfEditModalConfig(prof));
         dialogRef.afterClosed().subscribe(data => {
@@ -284,15 +333,15 @@ export class ProfessoresComponent extends BaseComponent implements OnInit{
             // })
         }).subscribe((response: any) => {
 
-           // console.log(response)
+            // console.log(response)
             this.professores = Object.assign([], response['data'])
             this.length = response['totalItemsInDatabase']
             //console.log(this.length)
             //console.log(this.professores)
             // this.dialogRef.close();
-        }, err => { 
-           //console.log(err)
-         },
+        }, err => {
+            //console.log(err)
+        },
             () => { });
 
     }
@@ -306,19 +355,19 @@ export class ProfessoresComponent extends BaseComponent implements OnInit{
 
     }
 
-    openProfMateriasModal(prof: any):void{
+    openProfMateriasModal(prof: any): void {
         const dialogRef = this._modal
             .open(ProfMateriasComponent, OpenProfMateriasModalConfig(prof));
         dialogRef.afterClosed().subscribe((data) => {
             if (data.clicked === "Ok") {
-                
+
                 //  console.log('afte close ok')
-                  this.getColaboradores(1, this.pageSize);
-              }
+                this.getColaboradores(1, this.pageSize);
+            }
         });
     }
-    
-    
+
+
     // openCreateUserModal(): void {
     //     const dialogRef = this._modal
     //         .open(CreateProfessorComponent, {
@@ -343,7 +392,7 @@ export class ProfessoresComponent extends BaseComponent implements OnInit{
     //     });
     // }
 
-    
+
 
     deleteColaborador(id: number) {
 
@@ -356,11 +405,11 @@ export class ProfessoresComponent extends BaseComponent implements OnInit{
             })
         }).subscribe(response => {
 
-           // console.log(response)
+            // console.log(response)
 
-        }, err => { 
-           // console.log(err)
-         },
+        }, err => {
+            // console.log(err)
+        },
             () => {
                 // TODO mudar status e perfil acesso
             });

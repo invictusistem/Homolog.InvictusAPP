@@ -590,6 +590,21 @@ export class AdmService extends BaseService {
 
     // Professores
 
+    public GetProfessores(pageSize?: number, currentPage?: number, jsonParam?: any): Observable<any> {
+
+        var formJson = JSON.stringify(jsonParam)
+
+        let path = `/professor/?itemsPerPage=` + pageSize + `&currentPage=${currentPage}&paramsJson=${formJson}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
     public SaveProfessorMateria(profId: any, materiaId: any): Observable<any> {
        
         let path = `/professor/materia/${profId}/${materiaId}`

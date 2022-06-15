@@ -16,6 +16,7 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
     mostrarModalPrincipal = true
 
     public colaboradorForm: FormGroup;
+    public endereco: FormGroup;
     public validadeEmailMsg = false
     public validadeCPFMsg = false
     public disabledSpinner = false
@@ -37,6 +38,16 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
 
         super(_snackBar);
 
+        // this.endereco = _fb.group({
+        //     cep: ['', [Validators.required, Validators.minLength(8)]],
+        //     logradouro: ['', [Validators.required, Validators.minLength(1)]],
+        //     complemento: [''],
+        //     numero: ['', [Validators.required]],
+        //     cidade: ['', [Validators.required, Validators.minLength(1)]],
+        //     uf: ['', [Validators.required, Validators.minLength(2)]],
+        //     bairro: ['', [Validators.required, Validators.minLength(1)]]//,
+        // })
+
         this.colaboradorForm = _fb.group({
             nome: ['', [Validators.required, Validators.minLength(5)]],
             email: ['', [Validators.required, Validators.email]],
@@ -44,15 +55,20 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
             celular: [null, [Validators.required, Validators.minLength(5)]],
             cargoId: ['', [Validators.required]],
             ativo: [true, [Validators.required]],
-            cep: ['', [Validators.required, Validators.minLength(8)]],
-            logradouro: ['', [Validators.required, Validators.minLength(1)]],
-            complemento: [''],
-            numero: ['', [Validators.required]],
-            cidade: ['', [Validators.required, Validators.minLength(1)]],
-            uf: ['', [Validators.required, Validators.minLength(2)]],
-            bairro: ['', [Validators.required, Validators.minLength(1)]]//,
+            endereco: this.endereco = _fb.group({
+                cep: ['', [Validators.required, Validators.minLength(8)]],
+                logradouro: ['', [Validators.required, Validators.minLength(1)]],
+                complemento: [''],
+                numero: ['', [Validators.required]],
+                cidade: ['', [Validators.required, Validators.minLength(1)]],
+                uf: ['', [Validators.required, Validators.minLength(2)]],
+                bairro: ['', [Validators.required, Validators.minLength(1)]]//,
+            })
+
 
         })
+
+
     }
     ngOnInit() {
         this.getCargos();
@@ -77,7 +93,7 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
 
     onSubmit(form: FormGroup) {
         this.showMensagem = 'hidden'
-
+        //console.log(this.colaboradorForm.value)
         if (this.colaboradorForm.valid) {
             this.disabledSpinner = true
             this.disabledCloseModalIcon = true
@@ -91,7 +107,7 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
                     if (err['status'] == 409) {
                         this.msgErros = err['error'].msg
                         this.showMensagem = 'visible'
-                        
+
                     } else {
                         //this.disabledCloseModalIcon = false
                         //this.dialogRef.close({ clicked: "Ok" });
@@ -116,15 +132,15 @@ export class CreateColaboradoresComponent extends BaseComponent implements OnIni
 
     showEndereco = 'hidden'
     consultaCEP(CEP: string) {
+        //console.log(CEP)
+        if (this.endereco.get('cep')?.valid) {
 
-        if (this.colaboradorForm.get('cep')?.valid) {
-
-            this._admService.CepConsulta(this.colaboradorForm.get('cep')?.value)
+            this._admService.CepConsulta(this.endereco.get('cep')?.value)
                 .subscribe(response => {
-                    this.colaboradorForm.get('logradouro')?.setValue(response["logradouro"].toUpperCase());
-                    this.colaboradorForm.get('bairro')?.setValue(response["bairro"].toUpperCase());
-                    this.colaboradorForm.get('cidade')?.setValue(response["localidade"].toUpperCase());
-                    this.colaboradorForm.get('uf')?.setValue(response["uf"].toUpperCase());
+                    this.endereco.get('logradouro')?.setValue(response["logradouro"].toUpperCase());
+                    this.endereco.get('bairro')?.setValue(response["bairro"].toUpperCase());
+                    this.endereco.get('cidade')?.setValue(response["localidade"].toUpperCase());
+                    this.endereco.get('uf')?.setValue(response["uf"].toUpperCase());
 
                 }, err => { },
                     () => {

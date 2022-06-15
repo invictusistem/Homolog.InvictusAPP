@@ -7,6 +7,8 @@ import { FinanceiroService } from '../services/financ.service';
 import { OpenEditarContaReceberModal, OpenNovaContaReceberModal } from '../services/financ-modal'
 import { ContasreceberNovaComponent } from './nova/contasreceber-nova.component';
 import { ContasreceberEditComponent } from './editar/contasreceber-edit.component';
+import { ConfirmAcaoModalComponent } from 'src/app/_shared/components/acao-confirm/confirm-acao.component';
+import { ConfirmAcaoModalConfig } from "src/app/_shared/services/shared.modal";
 
 @Component({
   selector: 'app-contas-receber',
@@ -95,6 +97,25 @@ export class ContasReceberComponent extends BaseComponent implements OnInit {
     }
 
     //return event
+
+  }
+
+  public DeletarConta(id: any) {
+
+    const dialogRef = this._modal
+      .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+    dialogRef.afterClosed().subscribe((data) => {
+
+      if (data.clicked == true) {
+
+        this._financService.DeletarConta(id)
+          .subscribe(
+            {
+              next: (resp: any) => { },
+              error: (error: any) => { }
+            })
+      }
+    })
 
   }
 

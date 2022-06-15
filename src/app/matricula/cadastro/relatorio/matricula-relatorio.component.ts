@@ -93,7 +93,9 @@ export class RelatorioMatriculaComponent implements OnInit {
     }
 
     public Pesquisar(form: any) {
+        console.log('pesquisar...')
         if (this.pesquisaForm.valid) {
+            console.log('pesquisando...')
             this.initProgressBar = 'visible'
             this.msgNoRegistro = false
             this._matService.GetMatriculaRelatorio(this.pesquisaForm.value)

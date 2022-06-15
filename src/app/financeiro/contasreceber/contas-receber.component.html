@@ -146,7 +146,7 @@
 
                                 <i style="margin: 5px;" #tooltip="matTooltip"
                                     matTooltip="excluir" matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button [disabled]="true"
+                                    <button (click)="DeletarConta(conta.id)"
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>delete</mat-icon>

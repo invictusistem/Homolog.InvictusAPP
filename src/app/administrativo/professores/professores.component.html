@@ -12,7 +12,7 @@
     <br>
 
 
-    <form [formGroup]="pesquisarForm" (ngSubmit)="onSubmit()" class="form-inline siteForm"
+    <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm"
         style="margin-top: 5px;display: inline-block">
 
         <span color="primary" style="font-size: 0.9em;font-style: italic;">Digite ao menos um dos
@@ -76,7 +76,7 @@
         <div class="card-header" style="background-color: rgb(207, 231, 207);">
             <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
                 Professores</h4>
-            <p class="card-category"> Professores localizados no sistema: </p>
+            <p class="card-category">{{length}} professores localizados no sistema: </p>
         </div>
 
         <div class="card-body">
@@ -90,7 +90,7 @@
                     vertical-align: middle;
                     border-top: 0px;"></th>
 
-                            <th style="width: 27%;font-size:1em;
+                            <th style="width: 35%;font-size:1em;
                                     vertical-align: middle;
                                     text-align:left;
                     border-top: 0px; font-weight: 400;">NOME</th>
@@ -100,13 +100,13 @@
                             text-align:center;
                             border-top: 0px; font-weight: 400;">EMAIL</th>
 
-                            <th style="width: 15%;font-size:1em;
+                            <!-- <th style="width: 15%;font-size:1em;
                     text-align:center; 
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">ACESSO AO SISTEMA
-                            </th>
+                            </th> -->
 
-                            <th style="width: 5%;font-size:1em;
+                            <th style="width: 13%;font-size:1em;
                     text-align:center; 
                     vertical-align: middle;
                     border-top: 0px; font-weight: 400;">UNIDADE
@@ -137,7 +137,7 @@
 
                             <td style="text-align: center;vertical-align: middle;">{{item.email}}</td>
 
-                            <td style="text-align: center;vertical-align: middle;">{{item.perfil || 'Sem acesso'}}</td>
+                            <!-- <td style="text-align: center;vertical-align: middle;">{{item.perfil || 'Sem acesso'}}</td> -->
 
                             <td style="text-align: center;vertical-align: middle;">{{item.unidadeSigla }}</td>
 
@@ -225,8 +225,11 @@
             <mat-paginator *ngIf="length > 5" style="
                 background-color: rgb(227, 240, 227);
                 bottom: 0px;
-                right: 0px;" #element [length]="length" [pageSize]="pageSize" hidePageSize="true"
-                (page)="pageEvent = changePage($event)">
+                right: 0px;" 
+                [length]="length" 
+                [pageSize]="pageSize" 
+                hidePageSize="true"
+                (page)="pageEvent = Pesquisar($event)">
             </mat-paginator>
 
         </div>

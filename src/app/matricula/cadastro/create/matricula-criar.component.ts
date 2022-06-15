@@ -22,6 +22,8 @@ export class NovaMatriculaCreateComponent implements OnInit {
     public hintEmailInvalid = false
 
     public alunoForm!: FormGroup;
+    public endereco: FormGroup;
+
     public pesquisaForm!: FormGroup;
     public alunoCPF: any;
     constructor(
@@ -41,54 +43,56 @@ export class NovaMatriculaCreateComponent implements OnInit {
             nomeSocial: [''],
             cpf: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
             rg: ['', [Validators.required]],
-            nomePai: [''],
-            nomeMae: [''],
+            pai: [''],
+            mae: [''],
             nascimento: ['', [Validators.required]],
             naturalidade: ['', [Validators.required]],
             naturalidadeUF: ['', [Validators.required]],
             email: ['', [Validators.required, Validators.minLength(5), Validators.email]],
-            telReferencia: [null, [Validators.required, Validators.minLength(10)]],
-            nomeContatoReferencia: ['', [Validators.required, Validators.minLength(2)]],
-            telCelular: [''],
+            telefoneContato: [null, [Validators.required, Validators.minLength(10)]],
+            nomeContato: ['', [Validators.required, Validators.minLength(2)]],
+            celular: [''],
             telWhatsapp: [''],
             telResidencial: [''],
-            cep: ['', [Validators.required, Validators.minLength(8)]],
-            logradouro: ['', [Validators.required, Validators.minLength(1)]],
-            numero: ['', [Validators.required, Validators.minLength(1)]],
-            complemento: [''],
-            cidade: ['', [Validators.required, Validators.minLength(1)]],
-            uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
-            bairro: ['', [Validators.required, Validators.minLength(1)]],
-            ativo: [true]
+            ativo: [true],
+            endereco: this.endereco = _fb.group({
+                cep: ['', [Validators.required, Validators.minLength(8)]],
+                logradouro: ['', [Validators.required, Validators.minLength(1)]],
+                numero: ['', [Validators.required, Validators.minLength(1)]],
+                complemento: [''],
+                cidade: ['', [Validators.required, Validators.minLength(1)]],
+                uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
+                bairro: ['', [Validators.required, Validators.minLength(1)]],
+            })
         })
 
         this.alunoForm.valueChanges.subscribe(
             (form: any) => {
                 //console.log(this.alunoForm.get('telWhatsapp').value.length)
                 // Nenhum preenchido
-                if (this.alunoForm.get('telCelular')?.value == '' &&
+                if (this.alunoForm.get('celular')?.value == '' &&
                     this.alunoForm.get('telWhatsapp')?.value == '' &&
                     this.alunoForm.get('telResidencial')?.value == '') {
                     //console.log('all null')
                     //console.log(this.alunoForm)
-                    this.alunoForm.get('telCelular')?.setValidators([Validators.required, Validators.minLength(11)])
-                    this.alunoForm.get('telCelular')?.updateValueAndValidity({ emitEvent: false })
+                    this.alunoForm.get('celular')?.setValidators([Validators.required, Validators.minLength(11)])
+                    this.alunoForm.get('celular')?.updateValueAndValidity({ emitEvent: false })
                     this.alunoForm.get('telWhatsapp')?.setValidators([Validators.required, Validators.minLength(11)])
                     this.alunoForm.get('telWhatsapp')?.updateValueAndValidity({ emitEvent: false })
                     this.alunoForm.get('telResidencial')?.setValidators([Validators.required, Validators.minLength(10)])
                     this.alunoForm.get('telResidencial')?.updateValueAndValidity({ emitEvent: false })
 
-                } else if (this.alunoForm.get('telCelular')?.value.length < 11 ||
+                } else if (this.alunoForm.get('celular')?.value.length < 11 ||
                     this.alunoForm.get('telWhatsapp')?.value.length < 11 ||
                     this.alunoForm.get('telResidencial')?.value.length < 10) {
                     //console.log('um com valor')
                     //console.log(this.alunoForm)
-                    if (this.alunoForm.get('telCelular')?.value.length < 11 && this.alunoForm.get('telCelular')?.value.length > 0) {
-                        this.alunoForm.get('telCelular')?.setValidators([Validators.required, Validators.minLength(11)])
-                        this.alunoForm.get('telCelular')?.updateValueAndValidity({ emitEvent: false })
+                    if (this.alunoForm.get('celular')?.value.length < 11 && this.alunoForm.get('celular')?.value.length > 0) {
+                        this.alunoForm.get('celular')?.setValidators([Validators.required, Validators.minLength(11)])
+                        this.alunoForm.get('celular')?.updateValueAndValidity({ emitEvent: false })
                     } else {
-                        this.alunoForm.get('telCelular')?.clearValidators()
-                        this.alunoForm.get('telCelular')?.updateValueAndValidity({ emitEvent: false })
+                        this.alunoForm.get('celular')?.clearValidators()
+                        this.alunoForm.get('celular')?.updateValueAndValidity({ emitEvent: false })
                     }
                     if (this.alunoForm.get('telWhatsapp')?.value.length < 11 && this.alunoForm.get('telWhatsapp')?.value.length > 0) {
                         this.alunoForm.get('telWhatsapp')?.setValidators([Validators.required, Validators.minLength(11)])
@@ -105,8 +109,8 @@ export class NovaMatriculaCreateComponent implements OnInit {
                         this.alunoForm.get('telResidencial')?.updateValueAndValidity({ emitEvent: false })
                     }
                 } else {
-                    this.alunoForm.get('telCelular')?.clearValidators()
-                    this.alunoForm.get('telCelular')?.updateValueAndValidity({ emitEvent: false })
+                    this.alunoForm.get('celular')?.clearValidators()
+                    this.alunoForm.get('celular')?.updateValueAndValidity({ emitEvent: false })
 
                     this.alunoForm.get('telWhatsapp')?.clearValidators()
                     this.alunoForm.get('telWhatsapp')?.updateValueAndValidity({ emitEvent: false })
@@ -184,14 +188,14 @@ export class NovaMatriculaCreateComponent implements OnInit {
     consultaCEP(CEP: string) {
         // console.log(CEP);
 
-        if (this.alunoForm.get('cep')?.valid) {
+        if (this.endereco.get('cep')?.valid) {
             this.http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
                 .subscribe((response: any) => {
 
-                    this.alunoForm.get('logradouro')?.setValue(response["logradouro"].toUpperCase());
-                    this.alunoForm.get('bairro')?.setValue(response["bairro"].toUpperCase());
-                    this.alunoForm.get('cidade')?.setValue(response["localidade"].toUpperCase());
-                    this.alunoForm.get('uf')?.setValue(response["uf"].toUpperCase());
+                    this.endereco.get('logradouro')?.setValue(response["logradouro"].toUpperCase());
+                    this.endereco.get('bairro')?.setValue(response["bairro"].toUpperCase());
+                    this.endereco.get('cidade')?.setValue(response["localidade"].toUpperCase());
+                    this.endereco.get('uf')?.setValue(response["uf"].toUpperCase());
 
                 }, err => {
                     //console.log(err) 
@@ -216,7 +220,7 @@ export class NovaMatriculaCreateComponent implements OnInit {
 
     // }
 
-    private OnOfMatHintMsgInvalids(command: boolean){
+    private OnOfMatHintMsgInvalids(command: boolean) {
         this.hintCpfInvalid = command
         this.hintRgInvalid = command
         this.hintEmailInvalid = command
@@ -233,30 +237,30 @@ export class NovaMatriculaCreateComponent implements OnInit {
             this.http.post(`${this.baseUrl}/alunos`, this.alunoForm.value, {
             }).subscribe(response => {
             }, (err) => {
-                if(err['status'] == 409){
+                if (err['status'] == 409) {
 
                     var msg = [
-                        { campo: 'cpf', msg: 'mensagem'  },
-                        { campo: 'email', msg: 'mesagem'  }
+                        { campo: 'cpf', msg: 'mensagem' },
+                        { campo: 'email', msg: 'mesagem' }
                     ]
 
                     msg.forEach(element => {
 
                         //cpf
-                        if(element.campo == 'cpf') this.hintCpfInvalid = true
+                        if (element.campo == 'cpf') this.hintCpfInvalid = true
                         //email
-                        if(element.campo == 'email') this.hintRgInvalid = true
+                        if (element.campo == 'email') this.hintRgInvalid = true
                         //rg
-                        if(element.campo == 'email') this.hintEmailInvalid = true
+                        if (element.campo == 'email') this.hintEmailInvalid = true
                     });
-                   // this.hintCpfInvalid = true
+                    // this.hintCpfInvalid = true
                     //this.hintRgInvalid = true
                     //this.hintEmailInvalid = true
 
-                   // this.mensagem = err['error'].mensagem
+                    // this.mensagem = err['error'].mensagem
                     //this.showMensagem = true
-                   // this.messageConflit = true
-                    this.disabledSaveButton = 'hidden'    
+                    // this.messageConflit = true
+                    this.disabledSaveButton = 'hidden'
                 }
                 // console.log(err)
                 // console.log(err['error'].mensagem)

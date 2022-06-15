@@ -35,7 +35,7 @@ export class ContasreceberNovaComponent extends BaseComponent implements OnInit 
       pessoaId: ['', [Validators.required]],
       historico: [''],
       subcontaId: ['', [Validators.required]],
-      bancoId: ['', [Validators.required]]
+      bancoId: ['']
     })
 
     this.contaForm.get('ehFornecedor')?.valueChanges.subscribe(

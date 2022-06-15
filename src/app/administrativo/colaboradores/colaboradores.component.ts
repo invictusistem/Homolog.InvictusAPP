@@ -109,23 +109,6 @@ export class ColaboradoresComponent extends BaseComponent implements OnInit {
         }
     }
 
-    public Deletar(colaboradorId: any) {
-
-        const dialogRef = this._modal
-            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
-        dialogRef.afterClosed().subscribe((data) => {
-
-            if (data.clicked == true) {
-                this.spinnerSearch = 'visible'
-
-                this._admService.DeleteColaborador(colaboradorId)
-                    .subscribe(
-                        response => { this.spinnerSearch = 'hidden' },
-                        err => { this.spinnerSearch = 'hidden' })
-            }
-        })
-    }
-
     processarFalha(fail: any) {
 
         if (fail['status'] == 404) {
@@ -146,6 +129,25 @@ export class ColaboradoresComponent extends BaseComponent implements OnInit {
 
         return this.spinnerSearch != 'hidden'
     }
+
+    public Deletar(colaboradorId: any) {
+
+        const dialogRef = this._modal
+            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
+
+            if (data.clicked == true) {
+                this.spinnerSearch = 'visible'
+
+                this._admService.DeleteColaborador(colaboradorId)
+                    .subscribe(
+                        response => { this.spinnerSearch = 'hidden' },
+                        err => { this.spinnerSearch = 'hidden' })
+            }
+        })
+    }
+
+    
 
     openCreateUserModal(): void {
         const dialogRef = this._modal

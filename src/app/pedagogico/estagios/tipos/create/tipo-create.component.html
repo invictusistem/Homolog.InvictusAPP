@@ -16,8 +16,11 @@
                 <input oninput="this.value = this.value.toUpperCase()" 
                 formControlName="nome" matInput
                     placeholder="Nome">
+                    <mat-hint *ngIf="showConflict" 
+                    style="color: red">* nome já utilizado</mat-hint>
             </mat-form-field>
 
+            <br>
             <br>
 
             <mat-form-field appearance="outline" style="width: 100%;">

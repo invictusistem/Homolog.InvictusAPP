@@ -35,6 +35,8 @@ export class EditProfessorComponent implements OnInit {
     cargos = Cargos;
     ativo = true;
     public professorForm: FormGroup
+    public endereco: FormGroup;
+
     constructor(
         // private _snackBar: MatSnackBar,
         private _admService: AdmService,
@@ -54,20 +56,24 @@ export class EditProfessorComponent implements OnInit {
             nomeContato: [''],
             dataEntrada:[''],
             dataSaida:[],
-           // cargoId: [0, [Validators.required]],
-            ativo: [true, [Validators.required]],
-            cep: [''],
-            logradouro: [''],
-            complemento: [''],
-            numero: [''],
-            cidade: [''],
-            uf: [''],
-            bairro: [''],
-            agencia: [''],
-            bancoNumero: [''],
-            conta: [''],
-            tipoConta: [''],
-            unidadeId: ['']
+            unidadeId: [''],
+            pessoaRespCadastroId:[''],
+            tipoPessoa:[''],
+            ativo: [''],
+            endereco: this.endereco = _fb.group({
+                id:[''],
+                cep: [''],
+                logradouro: [''],
+                complemento: [''],
+                numero: [''],
+                cidade: [''],
+                uf: [''],
+                bairro: [''],
+                pessoaId:['']
+
+                //celular: [new MyTel('', '', ''), [Validators.required, Validators.minLength(1)]]
+            })
+            
         })
     }
 

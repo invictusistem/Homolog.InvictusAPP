@@ -24,6 +24,8 @@ export class CreateProfessorComponent implements OnInit {
     baseUrl = environment.baseUrl;
     //public cepReturn: CepReturn = new CepReturn();
     public colaboradorForm: FormGroup;
+    public endereco: FormGroup;
+
     private jwtHelper = new JwtHelperService();
     public tokenInfo: TokenInfos = new TokenInfos();
     public validadeEmailMsg = false
@@ -56,20 +58,22 @@ export class CreateProfessorComponent implements OnInit {
             email: [''], // 
             cpf: ['', [Validators.required, Validators.minLength(11)]], //
             cnpj: [''],
-            celular: [null, [Validators.required,Validators.minLength(11)]],
+            celular: [null, [Validators.required, Validators.minLength(11)]],
             telefoneContato: [null],
             nomeContato: [''],
-            dataEntrada:[''],
-            cargoId: [0],
+            dataEntrada: [''],
+            //cargoId: [0],
             ativo: [true],
-            cep: [''],
-            logradouro: [''],
-            complemento: [''],
-            numero: [''],
-            cidade: [''],
-            uf: [''],
-            bairro: ['']//,
-            //celular: [new MyTel('', '', ''), [Validators.required, Validators.minLength(1)]]
+            endereco: this.endereco = _fb.group({
+                cep: [''],
+                logradouro: [''],
+                complemento: [''],
+                numero: [''],
+                cidade: [''],
+                uf: [''],
+                bairro: ['']//,
+                //celular: [new MyTel('', '', ''), [Validators.required, Validators.minLength(1)]]
+            })
         })
     }
 
@@ -130,7 +134,7 @@ export class CreateProfessorComponent implements OnInit {
             this.http.post(`${this.baseUrl}/professor`, this.colaboradorForm.value, {})
                 .subscribe(response => {
 
-                   // console.log(response)
+                    // console.log(response)
                     // this.colaboradores = Object.assign([], response['data'])
                     // console.log(this.colaboradores)
                     // this.dialogRef.close();
@@ -143,7 +147,7 @@ export class CreateProfessorComponent implements OnInit {
                     } else {
                         this.disabledSaveButton = 'hidden'
                         this._helper.openSnackBarErrorDefault()
-                       // console.log(err)
+                        // console.log(err)
                         //this.dialogRef.close();
                     }
                 },
@@ -227,14 +231,14 @@ export class CreateProfessorComponent implements OnInit {
     showEndereco = 'hidden'
     consultaCEP(CEP: string) {
 
-        if (this.colaboradorForm.get('cep')?.valid) {
+        if (this.endereco.get('cep')?.valid) {
 
-            this._admService.CepConsulta(this.colaboradorForm.get('cep')?.value)
+            this._admService.CepConsulta(this.endereco.get('cep')?.value)
                 .subscribe(response => {
-                    this.colaboradorForm.get('logradouro')?.setValue(response["logradouro"].toUpperCase());
-                    this.colaboradorForm.get('bairro')?.setValue(response["bairro"].toUpperCase());
-                    this.colaboradorForm.get('cidade')?.setValue(response["localidade"].toUpperCase());
-                    this.colaboradorForm.get('uf')?.setValue(response["uf"].toUpperCase());
+                    this.endereco.get('logradouro')?.setValue(response["logradouro"].toUpperCase());
+                    this.endereco.get('bairro')?.setValue(response["bairro"].toUpperCase());
+                    this.endereco.get('cidade')?.setValue(response["localidade"].toUpperCase());
+                    this.endereco.get('uf')?.setValue(response["uf"].toUpperCase());
                 }, err => { },
                     () => {
                         this.showEndereco = 'visible'

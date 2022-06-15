@@ -31,45 +31,114 @@ export class ContasreceberEditComponent extends BaseComponent implements OnInit 
     super(_snackBar);
 
     this.contaForm = _fb.group({
+      // vencimento: ['', [Validators.required]],
+      // valor: ['', [Validators.required]],
+      // ehFornecedor: [true],
+      // pessoaId: ['', [Validators.required]],
+      // historico: [''],
+      // subcontaId: ['', [Validators.required]],
+      // bancoId: ['']
+
+      id: [''],
       vencimento: ['', [Validators.required]],
+      dataPagamento: [''],
       valor: ['', [Validators.required]],
+      valorPago: [''],
+      juros: [''],
+      jurosFixo: [''],
+      multa: [''],
+      nome: [''],
+      multaFixo: [''],
+      desconto: [''],
+      diasDesconto: [''],
+      statusBoleto: [''],
+      reparcelamentoId: [''],
+      centroCustoUnidadeId: [''],
+      informacaoDebitoId: [''],
+      pessoaId: ['',[Validators.required]],
+      bancoId: [''],
+      banco: [''],
       ehFornecedor: [true],
-      pessoaId: ['', [Validators.required]],
+      id_unico: [''],
+      id_unico_original: [''],
+      status: [''],
+      msg: [''],
+      nossonumero: [''],
+      linkBoleto: [''],
+      linkGrupo: [''],
+      linhaDigitavel: [''],
+      pedido_numero: [''],
+      banco_numero: [''],
+      token_facilitador: [''],
+      credencial: [''],
       historico: [''],
-      subcontaId: ['', [Validators.required]],
-      bancoId: ['', [Validators.required]]
+      subConta: [''],
+      subContaId: ['', [Validators.required]],
+      formaPagamento: [''],
+      digitosCartao: [''],
+      responsavelCadastroId: [''],
+      tipo: [''],
+      dataCadastro: [''],
+      ativo:[true]
+
     })
 
     this.contaForm.get('ehFornecedor')?.valueChanges.subscribe(
       (form: any) => {
-
-        if (this.contaForm.get('ehFornecedor')?.value) {
-          this.contaForm.get('pessoaId')?.setValue('')
-          this.eHfornecedor = true
-        } else {
-          this.contaForm.get('pessoaId')?.setValue('')
-          this.eHfornecedor = false
-        }
+        console.log('changevalue')
+        // if (this.contaForm.get('ehFornecedor')?.value) {
+        //   this.contaForm.get('pessoaId')?.setValue('')
+        //   this.eHfornecedor = true
+        // } else {
+        //   this.contaForm.get('pessoaId')?.setValue('')
+        //   this.eHfornecedor = false
+        // }
       }
     );
+
+  }
+
+  public ChangePessoa(pessoa: any) {
+    console.log('clicado')
+    if (pessoa == 'Aluno') {
+      if (this.eHfornecedor != false) {
+        this.contaForm.get('pessoaId')?.setValue('')
+      }
+      this.eHfornecedor = false
+    } else {
+      if (this.eHfornecedor != true) {
+        this.contaForm.get('pessoaId')?.setValue('')
+      }
+      this.eHfornecedor = true
+    }
 
   }
 
   ngOnInit() {
 
 
-    this.GetContaReceber()
+    this.GetAlunosFromUnidade()
   }
 
   private GetContaReceber() {
+
     this._financService.GetContaReceber(this.data['id'])
       .subscribe({
         next: (resp: any) => {
+          //console.log(resp['conta'])
           this.contaForm.patchValue(resp['conta']);
           this.conta = JSON.parse(JSON.stringify(this.contaForm.value))
         },
         error: (error: any) => { this.initProgressBar = 'hidden'; this.OpenSnackBarErrorDefault() },
-        complete: () => { this.GetAlunosFromUnidade() }
+        complete: () => {
+          this.dialogRef.addPanelClass('contareceber-nova-class')
+          this.initProgressBar = 'hidden'
+          this.showForm = true
+          //console.log(this.fornecedores)
+
+          //console.log(this.contaForm.value)
+          // this.GetAlunosFromUnidade() 
+        }
       })
   }
 
@@ -77,7 +146,10 @@ export class ContasreceberEditComponent extends BaseComponent implements OnInit 
     // GetAlunosFromUnidade
     this._financService.GetAlunosFromUnidade()
       .subscribe({
-        next: (resp: any) => { this.alunos = Object.assign([], resp['matriculados']) },
+        next: (resp: any) => {
+          this.alunos = Object.assign([], resp['matriculados'])
+          console.log(this.alunos)
+        },
         error: (error: any) => { this.initProgressBar = 'hidden'; this.OpenSnackBarErrorDefault() },
         complete: () => { this.GetFornecedoresFromUnidade() }
       })
@@ -87,7 +159,18 @@ export class ContasreceberEditComponent extends BaseComponent implements OnInit 
     // GetFornecedoresFromUnidades
     this._financService.GetFornecedoresFromUnidades()
       .subscribe({
-        next: (resp: any) => { this.fornecedores = Object.assign([], resp['fornecedores']) },
+        next: (resp: any) => {
+
+          //this.fornecedores = resp['fornecedores'].map((element: any) => {  element.tipoPessoa == 'Fornecedor' })
+          this.fornecedores = Object.assign([], resp['fornecedores'])
+          console.log(this.fornecedores)
+          // resp['fornecedores'].forEach((element: any) => {
+          //   this.fornecedores.push({razaoSocial: element.nome, pessoaId: element.id})
+          // });
+
+
+
+        },
         error: (error: any) => { this.initProgressBar = 'hidden'; this.OpenSnackBarErrorDefault() },
         complete: () => { this.GetAllBancosFromUnidade() }
       })
@@ -111,9 +194,10 @@ export class ContasreceberEditComponent extends BaseComponent implements OnInit 
         error: (error: any) => { this.initProgressBar = 'hidden'; this.OpenSnackBarErrorDefault() },
         complete: () => {
           //
-          this.dialogRef.addPanelClass('contareceber-nova-class')
-          this.initProgressBar = 'hidden'
-          this.showForm = true
+          this.GetContaReceber()
+          // this.dialogRef.addPanelClass('contareceber-nova-class')
+          // this.initProgressBar = 'hidden'
+          // this.showForm = true
         }
       })
   }
@@ -124,9 +208,9 @@ export class ContasreceberEditComponent extends BaseComponent implements OnInit 
       JSON.stringify(this.contaForm.value)) {
 
       return this.matProgressSaveButton != 'hidden'
-  } else {
+    } else {
       return true
-  }
+    }
   }
 
   public Save() {

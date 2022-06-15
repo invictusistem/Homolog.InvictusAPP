@@ -16,13 +16,13 @@ export class EditFornecedorComponent extends BaseComponent implements OnInit {
     //baseUrl = environment.baseUrl;
     //public cepReturn: CepReturn = new CepReturn();
     public fornecedorForm!: FormGroup;
-   
+    public endereco: FormGroup;
     //public validadeEmailMsg = false
     //public validadeCPFMsg = false
     //cargos = Cargos;
     //mensagem = "";
     //showMensagem = false
-    
+
     //public showForm = false
     public saveSpinner = 'hidden'
     fornecedor: any;
@@ -32,32 +32,40 @@ export class EditFornecedorComponent extends BaseComponent implements OnInit {
     constructor(
         //private _snackBar: MatSnackBar,
         //private router: Router,
-        override _snackBar: MatSnackBar,        
+        override _snackBar: MatSnackBar,
         private _fb: FormBuilder,
         private _finService: FinanceiroService,
         //private http: HttpClient,
         public dialogRef: MatDialogRef<EditFornecedorComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
 
-          super(_snackBar);
+        super(_snackBar);
         this.fornecedorForm = _fb.group({
             id: [''],
-            razaoSocial: ['', [Validators.required]],
+            nome: ['', [Validators.required]],
             ie_rg: [''],
-            cnpj_cpf: ['', [Validators.required, Validators.minLength(11)]],
+            cnpj: ['', [Validators.required, Validators.minLength(11)]],
             email: ['', [Validators.required, Validators.email]],
-            telContato: [''],
-            whatsApp: [''],
+            telefoneContato: [''],
+            telWhatsapp: [''],
             nomeContato: ['', [Validators.required]],
-            cep: ['', [Validators.required, Validators.minLength(8)]],
-            logradouro: ['', [Validators.required]],
-            complemento: [''],
-            cidade: ['', [Validators.required, Validators.minLength(2)]],
-            numero: ['', [Validators.required]],
-            uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],//,
-            bairro: ['', [Validators.required]],
             ativo: [''],
-            unidadeId: ['']
+            unidadeId: [''],
+            pessoaRespCadastroId:[''],
+            tipoPessoa:[''],
+            dataCadastro:[''],
+            endereco: this.endereco = _fb.group({
+                id: [''],
+                cep: ['', [Validators.required, Validators.minLength(8)]],
+                logradouro: [''],
+                complemento: [''],
+                numero: ['', [Validators.required]],
+                cidade: ['', [Validators.required]],
+                uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],//,
+                bairro: ['', [Validators.required]],
+                pessoaId: ['']
+            })
+
         })
     }
 
@@ -119,21 +127,21 @@ export class EditFornecedorComponent extends BaseComponent implements OnInit {
             //var mystring = "crt/r2002_2";
             CEP = CEP.replace('-', '');
             CEP = CEP.replace('.', '');
-          //  console.log(CEP);
+            //  console.log(CEP);
             this._finService.CepConsulta(CEP)
                 .subscribe(response => {
 
-                    this.fornecedorForm.get('logradouro')?.setValue(response["logradouro"].toUpperCase());
-                    this.fornecedorForm.get('bairro')?.setValue(response["bairro"].toUpperCase());
-                    this.fornecedorForm.get('cidade')?.setValue(response["localidade"].toUpperCase());
-                    this.fornecedorForm.get('uf')?.setValue(response["uf"].toUpperCase());
+                    this.endereco.get('logradouro')?.setValue(response["logradouro"].toUpperCase());
+                    this.endereco.get('bairro')?.setValue(response["bairro"].toUpperCase());
+                    this.endereco.get('cidade')?.setValue(response["localidade"].toUpperCase());
+                    this.endereco.get('uf')?.setValue(response["uf"].toUpperCase());
 
                 }, err => { console.log(err) })
         }
     }
 
     get disabledButton() {
-       // console.log(this.fornecedorForm.valid)
+        // console.log(this.fornecedorForm.valid)
         if (this.fornecedorForm.valid &&
             JSON.stringify(this.originalFornecedor) !=
             JSON.stringify(this.fornecedorForm.value)) {

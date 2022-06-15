@@ -35,8 +35,8 @@
         <br>
 
         <mat-radio-group formControlName="ehFornecedor" aria-label="Select an option">
-            <mat-radio-button color="primary" [value]="false">Aluno</mat-radio-button>
-            <mat-radio-button color="primary" [value]="true" style="margin-left:5px">Fornecedor</mat-radio-button>
+            <mat-radio-button color="primary" (click)="ChangePessoa('Aluno')" [value]="false">Aluno</mat-radio-button>
+            <mat-radio-button color="primary" (click)="ChangePessoa('Fornecedor')" [value]="true" style="margin-left:5px">Fornecedor</mat-radio-button>
         </mat-radio-group>
 
         <br>
@@ -45,7 +45,7 @@
 
             <mat-form-field appearance="standard" style="width: 100%;">
                 <mat-label>Fornecedor</mat-label>
-                <mat-select formControlName="pessoaId" selected required>
+                <mat-select formControlName="pessoaId" selected>
                     <mat-option></mat-option>
                     <mat-option *ngFor="let forn of fornecedores" 
                     [value]="forn.id">{{forn.razaoSocial}}
@@ -79,7 +79,7 @@
 
         <mat-form-field appearance="standard" style="width: 75%;">
             <mat-label>Subconta</mat-label>
-            <mat-select formControlName="subcontaId" selected>
+            <mat-select formControlName="subContaId" selected>
                 <mat-option></mat-option>
                 <mat-option *ngFor="let sub of subcontas" 
             [value]="sub.id">{{sub.descricao}}

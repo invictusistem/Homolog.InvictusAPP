@@ -25,7 +25,7 @@ export class FinanceiroService extends BaseService {
                 catchError(this.serviceError));
 
         return response;
-    } 
+    }
 
     public EditContaReceber(conta: any): Observable<any> {
 
@@ -38,7 +38,7 @@ export class FinanceiroService extends BaseService {
                 catchError(this.serviceError));
 
         return response;
-    } 
+    }
 
     public SaveContaPagar(newconta: any): Observable<any> {
 
@@ -51,6 +51,20 @@ export class FinanceiroService extends BaseService {
                 catchError(this.serviceError));
 
         return response;
+    }
+
+    public DeletarConta(contaId: any): Observable<any> {
+
+        let path = `/financeiro/contas/${contaId}`
+
+        let response = this.http
+            .delete(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+
     }
 
     // Fornecedores
@@ -142,7 +156,7 @@ export class FinanceiroService extends BaseService {
 
     // Contas 
 
-    public GetContaReceber(contaId:any): Observable<any> {
+    public GetContaReceber(contaId: any): Observable<any> {
 
         let path = `/financeiro/contas/receber/${contaId}`
 
@@ -289,7 +303,7 @@ export class FinanceiroService extends BaseService {
     //     return response;
     // }
 
-    public GetContasReceber(meioPgm:any, start: any, end:any): Observable<any> {
+    public GetContasReceber(meioPgm: any, start: any, end: any): Observable<any> {
 
         //let path = `/financeiro/contas/receber/${meioPgm}/${start}/${end}`
         //let path = `/financeiro/contas/receber/${start}/${end}`meioPagamentoId
@@ -304,7 +318,7 @@ export class FinanceiroService extends BaseService {
         return response;
     }
 
-    public GetContasPagar(meioPgm:any, start: any, end:any): Observable<any> {
+    public GetContasPagar(meioPgm: any, start: any, end: any): Observable<any> {
 
         //let path = `/financeiro/contas/receber/${meioPgm}/${start}/${end}`
         //let path = `/financeiro/contas/receber/${start}/${end}`meioPagamentoId

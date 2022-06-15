@@ -32,6 +32,7 @@ export class EditColaboradoresComponent extends BaseComponent implements OnInit 
     cargos: any[] = new Array<any>();
     ativo = true;
     public colaboradorForm: FormGroup
+    public endereco: FormGroup;
 
     constructor(
         //private _helper: HelpersService,
@@ -41,24 +42,63 @@ export class EditColaboradoresComponent extends BaseComponent implements OnInit 
         public dialogRef: MatDialogRef<EditColaboradoresComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         super(_snackBar);
+        // this.colaboradorForm = _fb.group({
+        //     id: [''],
+        //     nome: ['', [Validators.required, Validators.minLength(5)]],
+        //     email: ['', [Validators.email]],
+        //     cpf: [''],
+        //     celular: [null, [Validators.required, Validators.minLength(5)]],
+        //     cargoId: ['', [Validators.required]],
+        //     unidadeId: [''],
+        //     ativo: [true, [Validators.required]],
+        //     cep: ['', [Validators.required, Validators.minLength(8)]],
+        //     logradouro: ['', [Validators.required, Validators.minLength(1)]],
+        //     complemento: [null],
+        //     numero: ['', [Validators.required]],
+        //     cidade: ['', [Validators.required, Validators.minLength(1)]],
+        //     uf: ['', [Validators.required, Validators.minLength(2)]],
+        //     bairro: ['', [Validators.required, Validators.minLength(1)]],
+        //     tipoPessoa:[''],
+        //     dataCriacao: [''],
+        //     supervisorId: ['']
+        // })
+
+        // this.endereco = _fb.group({
+        //     cep: ['', [Validators.required, Validators.minLength(8)]],
+        //     logradouro: ['', [Validators.required, Validators.minLength(1)]],
+        //     complemento: [''],
+        //     numero: ['', [Validators.required]],
+        //     cidade: ['', [Validators.required, Validators.minLength(1)]],
+        //     uf: ['', [Validators.required, Validators.minLength(2)]],
+        //     bairro: ['', [Validators.required, Validators.minLength(1)]]//,
+        // })
+
         this.colaboradorForm = _fb.group({
-            id: [''],
+            id:[],
             nome: ['', [Validators.required, Validators.minLength(5)]],
-            email: ['',[Validators.email]],
-            cpf: [''],
-            celular: [null, [Validators.required, Validators.minLength(5)]],
+            email: ['', [Validators.required, Validators.email]],
+            cpf: ['', [Validators.required, Validators.minLength(11)]],
+            celular: [null, [Validators.required, Validators.minLength(10)]],
             cargoId: ['', [Validators.required]],
-            unidadeId: [''],
-            ativo: [true, [Validators.required]],
-            cep: ['', [Validators.required, Validators.minLength(8)]],
-            logradouro: ['', [Validators.required, Validators.minLength(1)]],
-            complemento: [null],
-            numero: ['', [Validators.required]],
-            cidade: ['', [Validators.required, Validators.minLength(1)]],
-            uf: ['', [Validators.required, Validators.minLength(2)]],
-            bairro: ['', [Validators.required, Validators.minLength(1)]],
+            tipoPessoa:[''],
             dataCriacao: [''],
-            supervisorId: ['']
+            unidadeId:[''],
+            pessoaRespCadastroId:[''],
+            ativo: [true, [Validators.required]],
+            endereco: this.endereco = _fb.group({
+                id:[''],
+                cep: ['', [Validators.required, Validators.minLength(8)]],
+                logradouro: ['', [Validators.required, Validators.minLength(1)]],
+                complemento: [''],
+                numero: ['', [Validators.required]],
+                cidade: ['', [Validators.required, Validators.minLength(1)]],
+                uf: ['', [Validators.required, Validators.minLength(2)]],
+                bairro: ['', [Validators.required, Validators.minLength(1)]],
+                pessoaId:['']
+                //,
+            })
+
+
         })
     }
 
@@ -92,6 +132,7 @@ export class EditColaboradoresComponent extends BaseComponent implements OnInit 
                     this.colaboradorForm.patchValue(response['colaborador']);
                     this.originalColaborador = JSON.parse(JSON.stringify(this.colaboradorForm.value))
                     this.dialogRef.addPanelClass('myeditcolab-class')
+                    console.log(this.colaboradorForm.value)
                     // this.colaboradorForm.disable()
                     // this.autorizado = 'hidden'
                     this.showForm = true
@@ -135,17 +176,17 @@ export class EditColaboradoresComponent extends BaseComponent implements OnInit 
 
     consultaCEP(CEP: string) {
         //console.log('consulta')
-        if (this.colaboradorForm.get('cep')?.valid) {
+        if (this.endereco.get('cep')?.valid) {
 
             CEP = CEP.replace('-', '');
             CEP = CEP.replace('.', '');
 
-            this._admService.CepConsulta(this.colaboradorForm.get('cep')?.value)
+            this._admService.CepConsulta(this.endereco.get('cep')?.value)
                 .subscribe(response => {
-                    this.colaboradorForm.get('logradouro')?.setValue(response["logradouro"].toUpperCase())
-                    this.colaboradorForm.get('bairro')?.setValue(response["bairro"].toUpperCase())
-                    this.colaboradorForm.get('cidade')?.setValue(response["localidade"].toUpperCase())
-                    this.colaboradorForm.get('uf')?.setValue(response["uf"].toUpperCase())
+                    this.endereco.get('logradouro')?.setValue(response["logradouro"].toUpperCase())
+                    this.endereco.get('bairro')?.setValue(response["bairro"].toUpperCase())
+                    this.endereco.get('cidade')?.setValue(response["localidade"].toUpperCase())
+                    this.endereco.get('uf')?.setValue(response["uf"].toUpperCase())
                 }, err => { },
                     () => { });
         }

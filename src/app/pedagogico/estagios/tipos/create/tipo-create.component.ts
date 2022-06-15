@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { PedagogicoService } from "src/app/pedagogico/services/pedagogico.service";
@@ -9,26 +8,18 @@ import { PedagogicoService } from "src/app/pedagogico/services/pedagogico.servic
 @Component({
     selector: 'tipo-create-modal',
     templateUrl: './tipo-create.component.html',
-    styleUrls: ['./tipo-create.component.scss'],
-    animations: [HighlightTrigger]
+    styleUrls: ['./tipo-create.component.scss']
 })
 
 export class TipoCreateComponent extends BaseComponent implements OnInit {
-
-    //baseUrl = environment.baseUrl;
-    //materiasAtuais: any[] = new Array<any>()
-    //materias: any[] = new Array<any>()
-    //typePacotes: any[] = new Array<any>()
+   
     estagioTipoForm!: FormGroup
-    //mostrarDivPrincipal = false
-    //showForm = false
+    public showConflict = false
 
     constructor(
         override _snackBar: MatSnackBar,
         private _pedagService: PedagogicoService,
         private _fb: FormBuilder,
-        //private _http: HttpClient,
-        //private _helper: HelpersService,
         public dialogRef: MatDialogRef<TipoCreateComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         super(_snackBar)
@@ -40,29 +31,20 @@ export class TipoCreateComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
-        //this.materiasAtuais = Object.assign([], this.data['materias'])
-        //this.GetTypePacotes()
+       
     }   
 
-    public Save() { // AddEstagioTipo
-        // this.showMateriaMsg = false
-        // var mat = this.materiasAtuais.find(element => element.pacoteMateriaId == this.materiasForm.get('materiaId')?.value)
-        // //console.log(mat)
-        // if (mat != undefined) {
-        //     this.showMateriaMsg = true
-        //     return;
-        // }
-
-        //this.disabledSaveButton = true
+    public Save() { 
 
         if (this.estagioTipoForm.valid) {
-
+            this.showConflict = false
             this.disabledSaveButton = 'visible'
 
             this._pedagService.AddEstagioTipo(this.estagioTipoForm.value)
-                .subscribe(
-                    sucesso => { this.SaveSucess() },
-                    falha => { this.SaveError(falha) },
+                .subscribe({
+                    next: (sucesso: any) => { this.SaveSucess() },
+                    error: (fail:any)  => { this.SaveError(fail) }
+                }
                 )
         }
     }
@@ -71,12 +53,19 @@ export class TipoCreateComponent extends BaseComponent implements OnInit {
         this.OpenSnackBarSucesso("Matéria adicionada com sucesso.")
         this.dialogRef.close({ clicked: true });
     }
-
+    
     private SaveError(error: any){
-        this.OpenSnackBarError("Ocorreu um erro, entre em contato com o administrador do sistema.")
+       
+        if(error['status'] == 409){
+            this.showConflict = true
+            this.disabledSaveButton = 'hidden'
+        }else{
+            this.disabledSaveButton = 'hidden'
+            this.OpenSnackBarError("Ocorreu um erro, entre em contato com o administrador do sistema.")
+        }
+        
     }
-
-    //disabledSaveButton = false
+    
     get disabledButton() {
         if (this.estagioTipoForm.valid) {
             return this.disabledSaveButton != 'hidden'
