@@ -37,10 +37,10 @@ export class ContaspagarNovaComponent extends BaseComponent implements OnInit {
       ehColaborador: [true],
       pessoaId: ['', [Validators.required]],
       historico: [''],
-      meioPgmId: ['', [Validators.required]],
+      meioPgmId: [''],
       centrocustoId: ['', [Validators.required]],
-      subcontaId: ['', [Validators.required]],
-      bancoId: ['', [Validators.required]]
+      subcontaId: [''],
+      bancoId: ['']
     })
 
     this.contaForm.get('ehFornecedor')?.valueChanges.subscribe(

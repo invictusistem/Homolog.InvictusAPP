@@ -161,7 +161,8 @@
 
                                 <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="receber"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    <button [disabled]="true" 
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>payments</mat-icon>
                                     </button>
@@ -169,7 +170,8 @@
 
                                 <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="excluir"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    <button [disabled]="true" 
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>delete</mat-icon>
                                     </button>
