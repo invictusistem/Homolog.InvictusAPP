@@ -10,7 +10,17 @@ export function InfoFinancModalConfig(aluno?: any) {
 
 export function ReceberComponentModal(debito?: any, aluno?: any) {
     return {
-        height: '545px',
+        //height: '545px',
+        width: '650px',
+        data: { debito: debito, aluno: aluno },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function PagarComponentModal(debito: any, aluno?: any) {
+    return {
+        //height: '545px',
         width: '650px',
         data: { debito: debito, aluno: aluno },
         hasBackdrop: true,
@@ -38,10 +48,10 @@ export function OpenNovaContaReceberModal() {
     }
 }
 
-export function OpenEditarContaReceberModal(contaId: any) {
+export function OpenEditarContaReceberModal(conta: any) {
     return {
         width: '520px',
-        data: { id: contaId },
+        data: { conta: conta },
         hasBackdrop: true,
         disableClose: true
     }
@@ -52,6 +62,15 @@ export function OpenEditarContaReceberModal(contaId: any) {
 export function OpenNovaContaPagarModal() {
     return {
         width: '600px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function OpenEditContaPagarModal(conta: any) {
+    return {
+        width: '600px',
+        data: { conta: conta },
         hasBackdrop: true,
         disableClose: true
     }

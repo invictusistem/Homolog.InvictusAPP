@@ -6,17 +6,18 @@ import { BaseComponent } from 'src/app/_shared/services/basecomponent.component'
 import { FinanceiroService } from '../../services/financ.service';
 
 @Component({
-  selector: 'app-contasreceber-edit',
-  templateUrl: './contasreceber-edit.component.html',
-  styleUrls: ['./contasreceber-edit.component.scss']
+  selector: 'app-contaspagar-edit',
+  templateUrl: './contaspagar-edit.component.html',
+  styleUrls: ['./contaspagar-edit.component.scss']
 })
-
-export class ContasreceberEditComponent extends BaseComponent implements OnInit {
+export class ContaspagarEditComponent extends BaseComponent implements OnInit {
 
   public contaForm: FormGroup
   private conta: any
-  public alunos: any[] = new Array<any>()
+  
+  public colaboradores: any[] = new Array<any>()
   public fornecedores: any[] = new Array<any>()
+
   public subcontas: any[] = new Array<any>()
   public bancos: any[] = new Array<any>()
   public eHfornecedor = true
@@ -25,7 +26,7 @@ export class ContasreceberEditComponent extends BaseComponent implements OnInit 
     override _snackBar: MatSnackBar,
     private _financService: FinanceiroService,
     private _fb: FormBuilder,
-    public dialogRef: MatDialogRef<ContasreceberEditComponent>,
+    public dialogRef: MatDialogRef<ContaspagarEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     super(_snackBar);
@@ -55,7 +56,7 @@ export class ContasreceberEditComponent extends BaseComponent implements OnInit 
       reparcelamentoId: [''],
       centroCustoUnidadeId: [''],
       informacaoDebitoId: [''],
-      pessoaId: ['', [Validators.required]],
+      pessoaId: ['',[Validators.required]],
       bancoId: [''],
       banco: [''],
       ehFornecedor: [true],
@@ -79,7 +80,7 @@ export class ContasreceberEditComponent extends BaseComponent implements OnInit 
       responsavelCadastroId: [''],
       tipo: [''],
       dataCadastro: [''],
-      ativo: [true]
+      ativo:[true]
 
     })
 
@@ -99,7 +100,7 @@ export class ContasreceberEditComponent extends BaseComponent implements OnInit 
   }
 
   public ChangePessoa(pessoa: any) {
-    console.log('clicado')
+    //console.log('clicado')
     if (pessoa == 'Aluno') {
       if (this.eHfornecedor != false) {
         this.contaForm.get('pessoaId')?.setValue('')
@@ -115,9 +116,7 @@ export class ContasreceberEditComponent extends BaseComponent implements OnInit 
   }
 
   ngOnInit() {
-
-    console.log(this.data)
-    this.GetAlunosFromUnidade()
+    this.GetColaboradoresProfessore()
   }
 
   private GetContaReceber() {
@@ -131,27 +130,17 @@ export class ContasreceberEditComponent extends BaseComponent implements OnInit 
         },
         error: (error: any) => { this.initProgressBar = 'hidden'; this.OpenSnackBarErrorDefault() },
         complete: () => {
-          // View if aluno ou fornecedor
+          
           var pessoa = this.fornecedores.find(element => element.id == this.conta.pessoaId)
           console.log(pessoa)
-          if (pessoa != null) {
+          if(pessoa != null){
             this.eHfornecedor = true
-          } else {
+          }else{
             this.eHfornecedor = false
           }
+         
 
-          if (this.conta.statusBoleto == 'Pago' ||
-            this.conta.statusBoleto == 'Cancelado' ||
-            this.conta.statusBoleto == 'Suspenso' ||
-            this.conta.statusBoleto == 'Reparcelado' ||
-            this.conta.statusBoleto == 'Quitado' ||
-            this.conta.ativo == false) {
-
-            this.showSaveButton = 'hidden'
-            this.contaForm.disable();
-            //return true
-          }
-          this.dialogRef.addPanelClass('contareceber-nova-class')
+          this.dialogRef.addPanelClass('contareceber-editar-class')
           this.initProgressBar = 'hidden'
           this.showForm = true
           //console.log(this.fornecedores)
@@ -160,15 +149,16 @@ export class ContasreceberEditComponent extends BaseComponent implements OnInit 
           // this.GetAlunosFromUnidade() 
         }
       })
+
   }
 
-  public GetAlunosFromUnidade() {
+  public GetColaboradoresProfessore() {
     // GetAlunosFromUnidade
-    this._financService.GetAlunosFromUnidade() // passar o pessoaId
+    this._financService.GetColaboradoresProfessores(this.data['conta'].pessoaId)
       .subscribe({
         next: (resp: any) => {
-          this.alunos = Object.assign([], resp['matriculados'])
-          console.log(this.alunos)
+          this.colaboradores = Object.assign([], resp['result'])
+          //console.log(this.colaboradores)
         },
         error: (error: any) => { this.initProgressBar = 'hidden'; this.OpenSnackBarErrorDefault() },
         complete: () => { this.GetFornecedoresFromUnidade() }
@@ -223,6 +213,18 @@ export class ContasreceberEditComponent extends BaseComponent implements OnInit 
   }
 
   get disabledButtonSave() {
+
+    if(this.conta.statusBoleto == 'Pago' ||
+    this.conta.statusBoleto == 'Cancelado' ||
+    this.conta.statusBoleto == 'Suspenso' ||
+    this.conta.statusBoleto == 'Reparcelado' ||
+    this.conta.statusBoleto == 'Quitado'){
+      
+      this.showSaveButton = 'hidden'
+      this.contaForm.disable();
+      return true
+    }
+
     if (this.contaForm.valid &&
       JSON.stringify(this.conta) !=
       JSON.stringify(this.contaForm.value)) {

@@ -84,9 +84,26 @@ export class FinanceiroService extends BaseService {
         return response;
     }
 
-    public GetFornecedoresFromUnidades(): Observable<any> {
+    public GetColaboradoresProfessores(pessoaId: any): Observable<any> {
+       
+        let path = `/colaboradores/?pessoaId=${pessoaId}`
 
-        let path = `/fornecedores/todos`
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public GetFornecedoresFromUnidades(pessoaId?: any): Observable<any> {
+        console.log(pessoaId)
+        if (pessoaId == undefined) {
+            pessoaId = '00000000-0000-0000-0000-000000000000';
+        }
+
+        let path = `/fornecedores/todos/?pessoaId=${pessoaId}`
 
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
@@ -303,11 +320,11 @@ export class FinanceiroService extends BaseService {
     //     return response;
     // }
 
-    public GetContasReceber(meioPgm: any, start: any, end: any): Observable<any> {
+    public GetContasReceber(meioPgm: any, start: any, end: any, ativo:any): Observable<any> {
 
         //let path = `/financeiro/contas/receber/${meioPgm}/${start}/${end}`
         //let path = `/financeiro/contas/receber/${start}/${end}`meioPagamentoId
-        let path = `/financeiro/contas/receber/?meioPagamentoId=${meioPgm}&start=${start}&end=${end}`
+        let path = `/financeiro/contas/receber/?meioPagamentoId=${meioPgm}&start=${start}&end=${end}&ativo=${ativo}`
 
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
@@ -318,11 +335,11 @@ export class FinanceiroService extends BaseService {
         return response;
     }
 
-    public GetContasPagar(meioPgm: any, start: any, end: any): Observable<any> {
+    public GetContasPagar(meioPgm: any, start: any, end: any, ativo: any): Observable<any> {
 
         //let path = `/financeiro/contas/receber/${meioPgm}/${start}/${end}`
         //let path = `/financeiro/contas/receber/${start}/${end}`meioPagamentoId
-        let path = `/financeiro/contas/pagar/?meioPagamentoId=${meioPgm}&start=${start}&end=${end}`
+        let path = `/financeiro/contas/pagar/?meioPagamentoId=${meioPgm}&start=${start}&end=${end}&ativo=${ativo}`
 
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
@@ -444,6 +461,19 @@ export class FinanceiroService extends BaseService {
     public GetFormasRecebimentos(): Observable<any> {
 
         let path = `/configuracao-financ/forma-recebimento`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public GetFormasRecebimentosAtivo(): Observable<any> {
+
+        let path = `/configuracao-financ/forma-recebimento/ativo`
 
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())

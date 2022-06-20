@@ -1,4 +1,4 @@
-<div style="font-size: 1.2em;">Editar Conta a Receber
+<div style="font-size: 1.2em;">Nova Conta a Pagar
     <close-modal [disable]="disabledCloseModalIcon"></close-modal>
 </div>
 
@@ -18,32 +18,27 @@
             <mat-datepicker #dp3 disabled="false"></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field appearance="standard" style="width: 25%;margin-left: 10px; ">
+        <mat-form-field appearance="standard" style="width: 30%;margin-left: 10px; ">
             <mat-label>Valor</mat-label>
             <input formControlName="valor" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
                 placeholder="R$ 00,00" matInput>
             <span matPrefix>R$&nbsp;</span>
-        </mat-form-field>
+        </mat-form-field> 
 
         <mat-form-field appearance="standard" style="width: 30%;margin-left: 15px; ">
             <mat-label>Status</mat-label>
-            <input [value]="contaForm.get('statusBoleto')?.value"
-                [disabled]="true" matInput>
-          
-        </mat-form-field>
-
-        <!-- <mat-form-field appearance="standard" style="width: 30%; ">
-        <mat-label>Valor</mat-label>
-        <input formControlName="valor" currencyMask
-            [options]="{ prefix: '', thousands: '.', decimal: ',' }" placeholder="R$ 00,00" matInput>
-        <span matPrefix>R$&nbsp;</span>
-    </mat-form-field> -->
+            <input 
+            [value]="contaForm.get('statusBoleto')?.value"
+            [disabled]="true"
+            matInput>
+           
+        </mat-form-field>      
 
         <br>
 
         <mat-radio-group formControlName="ehFornecedor" aria-label="Select an option">
-            <mat-radio-button color="primary" (click)="ChangePessoa('Aluno')" [value]="false">Aluno</mat-radio-button>
-            <mat-radio-button color="primary" (click)="ChangePessoa('Fornecedor')" [value]="true" style="margin-left:5px">Fornecedor</mat-radio-button>
+            <mat-radio-button color="primary" [value]="false">Colaborador/Professor</mat-radio-button>
+            <mat-radio-button color="primary" [value]="true" style="margin-left:5px">Fornecedor</mat-radio-button>
         </mat-radio-group>
 
         <br>
@@ -52,7 +47,7 @@
 
             <mat-form-field appearance="standard" style="width: 100%;">
                 <mat-label>Fornecedor</mat-label>
-                <mat-select formControlName="pessoaId" selected>
+                <mat-select formControlName="pessoaId" selected required>
                     <mat-option></mat-option>
                     <mat-option *ngFor="let forn of fornecedores" 
                     [value]="forn.id">{{forn.razaoSocial}}
@@ -64,11 +59,11 @@
 
         <ng-template #ehAluno>
             <mat-form-field appearance="standard" style="width: 100%;">
-                <mat-label>Aluno</mat-label>
+                <mat-label>Colaborador/Professor</mat-label>
                 <mat-select formControlName="pessoaId" selected required>
                     <mat-option></mat-option>
-                    <mat-option *ngFor="let aluno of alunos" 
-                    [value]="aluno.matriculaId">{{aluno.alunoNome}}
+                    <mat-option *ngFor="let colab of colaboradores" 
+                    [value]="colab.id">{{colab.nome}}
             </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -83,6 +78,30 @@
         </mat-form-field>
 
         <br>
+
+        <!-- <mat-form-field appearance="standard" style="width: 75%;">
+            <mat-label>Meio de Pagamento</mat-label>
+            <mat-select formControlName="meioPgmId" selected>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let meio of meioPagamentos" 
+            [value]="meio.id">{{meio.descricao}}
+            </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 75%;">
+            <mat-label>Centro de Custo</mat-label>
+            <mat-select formControlName="centrocustoId" selected>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let centro of centroCustos" 
+            [value]="centro.id">{{centro.descricao}}
+            </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <br> -->
 
         <mat-form-field appearance="standard" style="width: 75%;">
             <mat-label>Subconta</mat-label>
@@ -109,7 +128,7 @@
         <mat-progress-bar [style.visibility]="matProgressSaveButton" @rowHighlight mode="query">
         </mat-progress-bar>
 
-        <span *ngIf="contaForm.disabled" style="float: right;margin-top: 15px;">
+        <span [style.visibility]="showSaveButton" style="float: right;margin-top: 15px;">
 
             <button type="submit" mat-raised-button color="primary" [disabled]="disabledButtonSave">
                 Salvar

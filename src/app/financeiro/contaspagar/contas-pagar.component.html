@@ -47,6 +47,12 @@
                 </i>
             </span>
 
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                incluir inativas/canceladas:
+            </span>
+
+            <mat-checkbox formControlName="ativo" color="primary"></mat-checkbox>
+
             <!-- <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
                 incluir inativos:
             </span>
@@ -80,8 +86,9 @@
             <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
                 Contas a Pagar</h4>
             <p class="card-category">{{contas.length}} contas a pagar localizadas no sistema </p>
+            <p class="card-category">Valor total pago: {{ totalPago | currency:'BRL':'R$ '}}. </p>
             <p class="card-category">Valor total em atraso: {{ totalAtraso | currency:'BRL':'R$ '}}. </p>
-            <p class="card-category">Valor total a receber: {{ totalPagar | currency:'BRL':'R$ '}}. </p>
+            <p class="card-category">Valor total a pagar: {{ totalPagar | currency:'BRL':'R$ '}}. </p>
         </div>
 
         <div class="card-body">
@@ -153,22 +160,28 @@
 
                                 <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="Visualizar/Editar"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    <button style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;" 
+                                    (click)="EditConta(item)"
                                         mat-icon-button>
                                         <mat-icon>edit</mat-icon>
                                     </button>
                                 </i>
 
-                                <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="receber"
+                                <ng-container *ngIf="item.ativo == true">
+                                <i *ngIf="item.statusBoleto == 'Em aberto' || item.statusBoleto == 'Vencido'" 
+                                style="margin: 0px;" #tooltip="matTooltip" matTooltip="pagar"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button [disabled]="true" 
+                                    <button (click)="Pagar(item)"
                                     style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>payments</mat-icon>
                                     </button>
                                 </i>
+                                </ng-container>
 
-                                <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="excluir"
+                                <ng-container *ngIf="item.ativo == true">
+                                <i  *ngIf="item.statusBoleto == 'Em aberto' || item.statusBoleto == 'Vencido'"
+                                style="margin: 0px;" #tooltip="matTooltip" matTooltip="excluir"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
                                     <button [disabled]="true" 
                                     style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
@@ -176,7 +189,7 @@
                                         <mat-icon>delete</mat-icon>
                                     </button>
                                 </i>
-
+                            </ng-container>
                                 <!-- <i style="margin: 0px;" #tooltip="matTooltip"
                                     matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
                                     <button [disabled]="disabledOpenEditButton" (click)="openEditUserModal(item)"

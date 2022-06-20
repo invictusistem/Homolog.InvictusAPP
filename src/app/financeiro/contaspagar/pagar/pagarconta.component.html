@@ -1,4 +1,4 @@
-<div style="font-size: 1.2em;">Receber
+<div style="font-size: 1.2em;">Pagar
     <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
         matTooltipHideDelay="100">
         <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
@@ -17,9 +17,9 @@
     <hr>
 
     <form novalidate [formGroup]="recebimentoForm" (ngSubmit)="Quitar()">
-        <mat-form-field appearance="standard" style="width: 300px;">
-            <mat-label>Aluno</mat-label>
-            <input [value]="aluno.nome" matInput [disabled]="true">
+        <mat-form-field appearance="standard" style="width: 350px;">
+            <mat-label>Histórico</mat-label>
+            <input [value]="debito.historico" matInput [disabled]="true">
         </mat-form-field>
 
         <mat-form-field appearance="standard" style="width: 100px;margin-left: 10px;">
@@ -41,12 +41,12 @@
                 <input matInput [disabled]="true" [value]="debito.valor | currency:'BRL':'R$ '">
             </mat-form-field>
 
-            <ng-container *ngIf="!vencido;else show">
+            <!-- <ng-container *ngIf="!vencido;else show">
                 <mat-form-field appearance="standard" style="width: 110px;margin-left: 10px;">
                     <mat-label>Bônus Pontualidade</mat-label>
                     <input matInput [disabled]="true" [value]="debito.desconto | currency:'BRL':'R$ '">
                 </mat-form-field>
-            </ng-container>
+            </ng-container> -->
 
             <ng-template #show>
 
@@ -67,7 +67,7 @@
 
 
             <mat-form-field appearance="standard" style="width: 110px;margin-left: 10px;">
-                <mat-label>Valor a Receber</mat-label>
+                <mat-label>Valor a Pagar</mat-label>
                 <input matInput [value]="recebimentoForm.get('valorReceber')?.value | currency:'BRL':'R$ '" [disabled]="true">
             </mat-form-field>
 
@@ -83,7 +83,7 @@
         <div style="border: 1px solid rgb(201, 198, 209); padding: 10px;margin-bottom: 10px;">
 
             <mat-form-field appearance="standard" style="width: 170px;">
-                <mat-label>Forma Recebimento</mat-label>
+                <mat-label>Forma Pagamento</mat-label>
                 <mat-select formControlName="formaRecebimentoId">
                     <!-- <mat-option></mat-option> -->
                     <mat-option [value]="forma.id" *ngFor="let forma of formasRecebimento">
@@ -93,13 +93,13 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 170px;margin-left: 10px;">
+            <!-- <mat-form-field appearance="standard" style="width: 170px;margin-left: 10px;">
                 <mat-label>últimos 4 digitos cartão</mat-label>
                 <input matInput formControlName="digitosCartao" mask="0000">
-            </mat-form-field>
+            </mat-form-field> -->
 
             <mat-form-field appearance="standard" style="width: 170px;margin-left: 10px;">
-                <mat-label>Transferir Para</mat-label>
+                <mat-label>Transferir de</mat-label>
                 <mat-select formControlName="bancoId" >
                     <mat-option [value]="banco.id" *ngFor="let banco of bancos"
                     [disabled]="disabledTransf(banco)"

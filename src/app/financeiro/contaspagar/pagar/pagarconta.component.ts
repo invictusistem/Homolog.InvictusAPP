@@ -1,23 +1,20 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClient } from "@angular/common/http";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { HighlightTrigger } from "src/app/_shared/animation/animation";
-import { environment } from "src/environments/environment";
-import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
-import { FinanceiroService } from "src/app/financeiro/services/financ.service";
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { BaseComponent } from 'src/app/_shared/services/basecomponent.component';
+import { FinanceiroService } from '../../services/financ.service';
 
 @Component({
-    selector: 'recebermodal',
-    templateUrl: './receber.component.html',
-    styleUrls: ['./receber.component.scss'],
-    animations: [HighlightTrigger]
+  selector: 'app-pagarconta',
+  templateUrl: './pagarconta.component.html',
+  styleUrls: ['./pagarconta.component.scss']
 })
+export class PagarcontaComponent extends BaseComponent  implements OnInit {
 
-export class ReceberComponent implements OnInit {
-
-    baseUrl = environment.baseUrl;
-    public showForm = false
+  //baseUrl = environment.baseUrl;
+    //public showForm = false
     public aluno: any;// = new Aluno();
     public debito: any;//Debito = new Debito();
     public turma: any
@@ -35,15 +32,16 @@ export class ReceberComponent implements OnInit {
     public recebimentoForm!: FormGroup
 
     constructor(
+      override _snackBar: MatSnackBar,
         private _finService: FinanceiroService,
         private _fb: FormBuilder,
         private _http: HttpClient,
         private _modal: MatDialog,
-        private _helper: HelpersService,
+        //private _helper: HelpersService,
         // private _service: PedagService,
-        public dialogRef: MatDialogRef<ReceberComponent>,
+        public dialogRef: MatDialogRef<PagarcontaComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-
+          super(_snackBar);
         this.recebimentoForm = _fb.group({
             boletoId: ['', [Validators.required]],
             valorReceber: [0],
@@ -95,7 +93,7 @@ export class ReceberComponent implements OnInit {
         */
 
 
-        //console.log(this.data['aluno'])
+        console.log(this.data)
         //console.log(this.data['debito'])
         this.GetConta();
         
@@ -218,11 +216,11 @@ export class ReceberComponent implements OnInit {
             },
                 (error) => {
                     this.saveSpinner = 'hidden'
-                    this._helper.openSnackBarErrorDefault();
+                    this.OpenSnackBarErrorDefault();
                     // console.log(error) 
                 },
                 () => {
-                    this._helper.openSnackBarSucesso("Status do boleto alterado com sucesso.")
+                    this.OpenSnackBarSucesso("Status do boleto alterado com sucesso.")
                     this.dialogRef.close({ clicked: true })
                 })
         //boleto-pagar/{idDebito}

@@ -47,6 +47,13 @@
                 </i>
             </span>
 
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                incluir inativas/canceladas:
+            </span>
+
+            <mat-checkbox formControlName="ativo" color="primary"></mat-checkbox>
+
+
             <!-- <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
                 incluir inativos:
             </span>
@@ -63,8 +70,7 @@
     </form>
 
 
-    <div class="card-header card-msg-response" 
-        *ngIf="showMessageNotFound">{{mensagemNotFound}}</div>
+    <div class="card-header card-msg-response" *ngIf="showMessageNotFound">{{mensagemNotFound}}</div>
 
     <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px"
         mode="query">
@@ -110,12 +116,13 @@
                         <tr *ngFor="let conta of contas;let i = index;" @rowHighlight>
 
                             <td style="text-align:center;vertical-align: middle;">
-                               {{i + 1}}
+                                {{i + 1}}
                             </td>
 
                             <td style="text-align:left;vertical-align: middle;">{{conta.nome}}</td>
 
-                            <td style="text-align: center;vertical-align: middle;">{{conta.vencimento | date:'dd/MM/yyyy'}}</td>
+                            <td style="text-align: center;vertical-align: middle;">{{conta.vencimento |
+                                date:'dd/MM/yyyy'}}</td>
 
                             <td style="text-align: center;vertical-align: middle;">{{conta.historico}}</td>
 
@@ -123,36 +130,41 @@
 
                             <td style="text-align: center;vertical-align: middle;">{{conta.statusBoleto}}</td>
 
-                            <td style="position: relative;text-align:center; 
-                            vertical-align: middle;">
+                            <td style="position: relative;text-align:center; vertical-align: middle;">
 
-                               <i style="margin: 0px;" #tooltip="matTooltip"
-                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="OpenEditContaReceberModal(conta.id)"
+                                <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="Visualizar/Editar"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="OpenEditContaReceberModal(conta)"
                                         style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>edit</mat-icon>
                                     </button>
                                 </i>
 
-                                <i style="margin: 5px;" #tooltip="matTooltip"
-                                    matTooltip="receber" matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button [disabled]="true"
-                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                                        mat-icon-button>
-                                        <mat-icon>payments</mat-icon>
-                                    </button>
-                                </i>
+                                <ng-container *ngIf="conta.ativo == true">
+                                    <i *ngIf="conta.statusBoleto == 'Em aberto' || conta.statusBoleto == 'Vencido'"
+                                        style="margin: 5px;" #tooltip="matTooltip" matTooltip="receber"
+                                        matTooltipPosition="above" matTooltipHideDelay="100">
+                                        <button (click)="Receber(conta)"
+                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                            mat-icon-button>
+                                            <mat-icon>payments</mat-icon>
+                                        </button>
+                                    </i>
+                                </ng-container>
 
-                                <i style="margin: 5px;" #tooltip="matTooltip"
-                                    matTooltip="excluir" matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button (click)="DeletarConta(conta.id)"
-                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                                        mat-icon-button>
-                                        <mat-icon>delete</mat-icon>
-                                    </button>
-                                </i>
- <!-- 
+                                <ng-container *ngIf="conta.ativo == true">
+                                    <i *ngIf="conta.statusBoleto == 'Em aberto' || conta.statusBoleto == 'Vencido'"
+                                        style="margin: 5px;" #tooltip="matTooltip" matTooltip="excluir"
+                                        matTooltipPosition="above" matTooltipHideDelay="100">
+                                        <button (click)="DeletarConta(conta.id)"
+                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                            mat-icon-button>
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </i>
+                                </ng-container>
+                                <!-- 
                                 <i *ngIf="podeDeletar" style="margin: 10px; " #tooltip="matTooltip"
                                     matTooltip="deletar" matTooltipPosition="above" matTooltipHideDelay="100">
                                     <button [disabled]="disabledOpenEditButton" 

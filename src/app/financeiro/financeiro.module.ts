@@ -37,6 +37,8 @@ import { ContaspagarNovaComponent } from './contaspagar/nova/contaspagar-nova.co
 import { ContasreceberNovaComponent } from './contasreceber/nova/contasreceber-nova.component';
 import { ContasreceberEditComponent } from './contasreceber/editar/contasreceber-edit.component';
 import { RecebercontasComponent } from './contasreceber/receber/recebercontas.component';
+import { ContaspagarEditComponent } from './contaspagar/editar/contaspagar-edit.component';
+import { PagarcontaComponent } from './contaspagar/pagar/pagarconta.component';
 
 @NgModule({
     declarations: [
@@ -84,6 +86,8 @@ import { RecebercontasComponent } from './contasreceber/receber/recebercontas.co
         ContasreceberNovaComponent,
         ContasreceberEditComponent,
         RecebercontasComponent,
+        ContaspagarEditComponent,
+        PagarcontaComponent,
         
     ],
     imports: [

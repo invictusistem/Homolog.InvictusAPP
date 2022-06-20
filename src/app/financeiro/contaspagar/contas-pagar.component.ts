@@ -3,9 +3,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BaseComponent } from 'src/app/_shared/services/basecomponent.component';
 import { FinanceiroService } from '../services/financ.service';
-import { OpenNovaContaPagarModal } from '../services/financ-modal'
+import { OpenNovaContaPagarModal, OpenEditContaPagarModal } from '../services/financ-modal'
 import { MatDialog } from '@angular/material/dialog';
 import { ContaspagarNovaComponent } from './nova/contaspagar-nova.component';
+import { ContaspagarEditComponent } from './editar/contaspagar-edit.component';
+import { PagarcontaComponent } from './pagar/pagarconta.component';
+import { PagarComponentModal } from '../services/financ-modal';
 
 @Component({
   selector: 'app-contas-pagar',
@@ -20,6 +23,7 @@ export class ContasPagarComponent extends BaseComponent implements OnInit {
   public contas: any[] = new Array<any>()
   public disabledForm = true
   public totalAtraso: any
+  public totalPago:any
   public totalPagar: any
 
   constructor(
@@ -34,7 +38,8 @@ export class ContasPagarComponent extends BaseComponent implements OnInit {
     this.pesquisarForm = _fb.group({
       meioPagamentoId: [null],
       start: ['', [Validators.required]],
-      end: ['', [Validators.required]]
+      end: ['', [Validators.required]],
+      ativo:[false]
     });
 
   }
@@ -60,6 +65,18 @@ export class ContasPagarComponent extends BaseComponent implements OnInit {
 
   }
 
+  public Pagar(conta:any){
+    const dialogRef = this._modal
+            .open(PagarcontaComponent, PagarComponentModal(conta));
+        dialogRef.afterClosed().subscribe((data) => {
+
+            if(data.clicked == true){
+                //this.GetInfoFinancAlunos(this.data['aluno'].matriculaId)
+            }
+
+        });
+  }
+
   public Pesquisar(event?: any) {
 
     this.showMessageNotFound = false
@@ -71,11 +88,14 @@ export class ContasPagarComponent extends BaseComponent implements OnInit {
       this._financService.GetContasPagar(
         this.pesquisarForm.get('meioPagamentoId')?.value,
         new Date(this.pesquisarForm.get('start')?.value).toISOString(),
-        new Date(this.pesquisarForm.get('end')?.value).toISOString())
+        new Date(this.pesquisarForm.get('end')?.value).toISOString(),
+        this.pesquisarForm.get('ativo')?.value
+        )
         .subscribe({
           next: (resp: any) => {
             this.totalAtraso = resp['totalAtraso']
             this.totalPagar = resp['totalPagar']
+            this.totalPago = resp['valorPago']
             this.contas = Object.assign([], resp['contas'])
             this.spinnerSearch = 'hidden'
           },
@@ -96,6 +116,14 @@ export class ContasPagarComponent extends BaseComponent implements OnInit {
   public OpenNovaContaPagarModal() {
     const dialogRef = this._modal
       .open(ContaspagarNovaComponent, OpenNovaContaPagarModal());
+    dialogRef.afterClosed().subscribe((data) => {
+
+    });
+  }
+
+  public EditConta(conta:any) {
+    const dialogRef = this._modal
+      .open(ContaspagarEditComponent, OpenEditContaPagarModal(conta));
     dialogRef.afterClosed().subscribe((data) => {
 
     });

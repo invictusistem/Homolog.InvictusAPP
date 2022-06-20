@@ -5,6 +5,16 @@ export function ConfirmAcaoModalConfig() {
     }
 }
 
+export function ConfirmDeletarContaModalConfig(contaId:any) {
+    return {
+        height: 'auto',
+        width: '500px',
+        data: { contaId: contaId},
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
 export function ModalconfirmarConfig(
     url: string,
     metodo: string,

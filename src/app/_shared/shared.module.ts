@@ -29,6 +29,7 @@ import { WrapTooltipComponent } from './components/wrap-tooltip/wrap-tooltip.com
 import { SanitizeHtmlPipe } from './components/pipes/sanitize-html.pipe';
 import { CNPJCPFPipe } from './components/pipes/cnpj-cpf.pipe';
 import { NullDefaultValueDirective } from './components/pipes/input-null.pipe';
+import { ConfirmDeletarcontaComponent } from './components/confirm-deletarconta/confirm-deletarconta.component';
 
 
 export const maskConfig: Partial<IConfig> = {
@@ -71,7 +72,8 @@ export function GetNgxMaskModuleConfig() {
     NullDefaultValueDirective,
     SanitizeHtmlPipe,
     MyTimeInput,
-    WrapTooltipComponent
+    WrapTooltipComponent,
+    ConfirmDeletarcontaComponent
   ],
 
   providers: [
@@ -116,6 +118,7 @@ export function GetNgxMaskModuleConfig() {
   ],
   entryComponents: [
     ConfirmAcaoModalComponent,
+    ConfirmDeletarcontaComponent,
     ModalConfirmarComponent,
     ConfirmModalComponent
   ]
