@@ -52,6 +52,7 @@ export class InfosComponent implements OnInit {
     private respMenorId: number = 0;
 
     public alunoForm: FormGroup;
+    public endereco: FormGroup;
     public respFinancForm: FormGroup;
     public respMenorForm: FormGroup;
 
@@ -79,28 +80,34 @@ export class InfosComponent implements OnInit {
             nome: ['', [Validators.required]],
             cpf: [''],
             rg: [''],
-            nomePai: [''],   
+            nomePai: [''],
             nomeMae: [''],
             nascimento: ['', [Validators.required]],
             naturalidade: [''],
             naturalidadeUF: [''],
             email: [''],
-            telReferencia: ['', [Validators.required]],
-            nomeContatoReferencia: ['', [Validators.required]],
-            telCelular: [''],
+            telefoneContato: ['', [Validators.required]],
+            nomeContato: ['', [Validators.required]],
+            celular: [''],
             telWhatsapp: [''],
             telResidencial: [''],
-            cep: ['', [Validators.required, Validators.minLength(8)]],
-            logradouro: ['', [Validators.required]],
-            numero: ['', [Validators.required]],
-            complemento: [''],
-            cidade: ['', [Validators.required, Validators.minLength(1)]],
-            uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
-            bairro: ['', [Validators.required, Validators.minLength(1)]],
-            
-            dataCadastro: [''],
+            tipoPessoa:[''],
+            pessoaRespCadastroId:[''],
             ativo: [''],
+            dataCadastro: [''],
             unidadeId: [''],
+
+            endereco: this.endereco = _fb.group({
+                id: [''],
+                cep: ['', [Validators.required, Validators.minLength(8)]],
+                logradouro: ['', [Validators.required]],
+                numero: ['', [Validators.required]],
+                complemento: [''],
+                cidade: ['', [Validators.required, Validators.minLength(1)]],
+                uf: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
+                bairro: ['', [Validators.required, Validators.minLength(1)]],
+                pessoaId:['']
+            })
         })
 
         this.respFinancForm = _fb.group({
@@ -110,7 +117,7 @@ export class InfosComponent implements OnInit {
             cpf: [''],
             rg: [''],
             nascimento: [''],
-            parentesco:[''],
+            parentesco: [''],
             naturalidade: [''],
             naturalidadeUF: [''],
             email: [''],
@@ -134,7 +141,7 @@ export class InfosComponent implements OnInit {
             cpf: [''],
             rg: [''],
             nascimento: [''],
-            parentesco:[''],
+            parentesco: [''],
             naturalidade: [''],
             naturalidadeUF: [''],
             email: [''],
@@ -159,7 +166,7 @@ export class InfosComponent implements OnInit {
     }
 
     ngOnInit() {
-        
+
         this.anotacaoForm.get('matriculaId')?.setValue(this.data['aluno'].matriculaId)
 
         this.GetInformacoesMatricula(this.data['aluno'].matriculaId)
@@ -173,30 +180,30 @@ export class InfosComponent implements OnInit {
     private respFinOriginal: any;
     private respMenorOriginal: any;
 
-    GetInformacoesMatricula(matriculaId:any) {
+    GetInformacoesMatricula(matriculaId: any) {
 
         this._http.get(`${this.baseUrl}/pedag/aluno/${matriculaId}`)
             .subscribe(
                 (resp: any) => {
-                //console.log(resp)
-                this.turma = resp['turma'];
-                //this.respFin = resp['respFin'];
-                //this.respMenor = resp['respMenor'];
-                this.anotacoes = resp['anotacoes'];
-                this.documentoAluno = resp['docs'];
-              
-                this.alunoForm.patchValue(resp['aluno']);
-                this.alunoOriginal = JSON.parse(JSON.stringify(this.alunoForm.value))
-                // RespFin
-                this.respFin = resp['respFin']
-                this.respFinancForm.patchValue(resp['respFin'])
-                this.respFinOriginal = JSON.parse(JSON.stringify(this.respFinancForm.value))
-                // respMenor
-                this.respMenorForm.patchValue(resp['respMenor'])
-                this.respMenor = resp['respMenor']
-                this.respMenorOriginal = JSON.parse(JSON.stringify(this.respMenorForm.value))
-            },
-                (error) => { 
+                    //console.log(resp)
+                    this.turma = resp['turma'];
+                    //this.respFin = resp['respFin'];
+                    //this.respMenor = resp['respMenor'];
+                    this.anotacoes = resp['anotacoes'];
+                    this.documentoAluno = resp['docs'];
+
+                    this.alunoForm.patchValue(resp['aluno']);
+                    this.alunoOriginal = JSON.parse(JSON.stringify(this.alunoForm.value))
+                    // RespFin
+                    this.respFin = resp['respFin']
+                    this.respFinancForm.patchValue(resp['respFin'])
+                    this.respFinOriginal = JSON.parse(JSON.stringify(this.respFinancForm.value))
+                    // respMenor
+                    this.respMenorForm.patchValue(resp['respMenor'])
+                    this.respMenor = resp['respMenor']
+                    this.respMenorOriginal = JSON.parse(JSON.stringify(this.respMenorForm.value))
+                },
+                (error) => {
                     // console.log(error) 
                 },
                 () => {
@@ -225,7 +232,7 @@ export class InfosComponent implements OnInit {
         }
     }
 
-    getListaPendenciaDocs(){
+    getListaPendenciaDocs() {
         this.downloadTabProgressBar = 'visible'
         var file = "lista_penencia";
 
@@ -233,29 +240,29 @@ export class InfosComponent implements OnInit {
             .subscribe(
                 (data: any) => {
 
-            switch (data.type) {
-                case HttpEventType.Response:
-                    // this.showSpinner = false;
-                    //this.downloadStatus.emit( {status: ProgressStatusEnum.COMPLETE});
-                    const downloadedFile = new Blob([data.body], { type: data.body.type });
-                    const a = document.createElement('a');
-                    a.setAttribute('style', 'display:none;');
-                    document.body.appendChild(a);
-                    a.download = file;
-                    a.href = URL.createObjectURL(downloadedFile);
-                    a.target = '_blank';
-                    a.click();
-                    document.body.removeChild(a);
-                    break;
-            }
-        },
-            (err) => { 
-                this.downloadTabProgressBar = 'hidden'
-            },
-            () => { 
-                this.downloadTabProgressBar = 'hidden'
-            }
-        );
+                    switch (data.type) {
+                        case HttpEventType.Response:
+                            // this.showSpinner = false;
+                            //this.downloadStatus.emit( {status: ProgressStatusEnum.COMPLETE});
+                            const downloadedFile = new Blob([data.body], { type: data.body.type });
+                            const a = document.createElement('a');
+                            a.setAttribute('style', 'display:none;');
+                            document.body.appendChild(a);
+                            a.download = file;
+                            a.href = URL.createObjectURL(downloadedFile);
+                            a.target = '_blank';
+                            a.click();
+                            document.body.removeChild(a);
+                            break;
+                    }
+                },
+                (err) => {
+                    this.downloadTabProgressBar = 'hidden'
+                },
+                () => {
+                    this.downloadTabProgressBar = 'hidden'
+                }
+            );
 
     }
 
@@ -267,32 +274,32 @@ export class InfosComponent implements OnInit {
         }));
     }
 
-    saveAlunoSucesso(resposta:any) {
+    saveAlunoSucesso(resposta: any) {
         //this.saveAlunoProgressBar = 'hidden'
         this.GetAluno(this.alunoForm.get('id')?.value);
     }
 
-    saveAlunoFalha(erro:any) {
+    saveAlunoFalha(erro: any) {
         console.log(erro)
         this.saveAlunoProgressBar = 'hidden'
     }
 
-    GetAluno(alunoId:any) {
+    GetAluno(alunoId: any) {
 
         this._service.getAlunobyId(alunoId)
             .subscribe(
                 sucesso => { this.getAlunoSucesso(sucesso) },
                 falha => { this.getAlunoFalha(falha) }
-                )
+            )
     }
 
-    getAlunoSucesso(resposta:any){
+    getAlunoSucesso(resposta: any) {
         this.alunoForm.patchValue(resposta['aluno']);
         this.alunoOriginal = JSON.parse(JSON.stringify(this.alunoForm.value))
         this.saveAlunoProgressBar = 'hidden'
     }
 
-    getAlunoFalha(erro:any){
+    getAlunoFalha(erro: any) {
         this.saveAlunoProgressBar = 'hidden'
     }
 
@@ -311,37 +318,37 @@ export class InfosComponent implements OnInit {
         }
     }
 
-    saveRespFinSucesso(resposta:any) {
+    saveRespFinSucesso(resposta: any) {
         this.GetResponsavel(this.respFinancForm.get('id')?.value);
     }
 
-    saveRespFinFalha(erro:any) {
+    saveRespFinFalha(erro: any) {
         console.log(erro)
         this.saveRespFinProgressBar = 'hidden'
     }
 
-    GetResponsavel(respId:any) {
+    GetResponsavel(respId: any) {
 
         this._service.GetResponsavelById(respId)
             .subscribe(
                 sucesso => { this.GetResponsavelSucesso(sucesso) },
                 falha => { this.GetResponsavelFalha(falha) }
-                )
+            )
     }
 
-    GetResponsavelSucesso(resposta:any){
+    GetResponsavelSucesso(resposta: any) {
         this.respFinancForm.patchValue(resposta['resp']);
         this.respFinOriginal = JSON.parse(JSON.stringify(this.respFinancForm.value))
         this.saveRespFinProgressBar = 'hidden'
     }
 
-    GetResponsavelFalha(erro:any){
+    GetResponsavelFalha(erro: any) {
         this.saveRespFinProgressBar = 'hidden'
     }
 
-     // RESP MENOR SAVE
+    // RESP MENOR SAVE
 
-     saveRespMenor(form: any) {
+    saveRespMenor(form: any) {
 
         if (this.respMenorForm.valid) {
             this.saveRespMenorProgressBar = 'visible'
@@ -354,31 +361,31 @@ export class InfosComponent implements OnInit {
         }
     }
 
-    saveRespMenorSucesso(resposta:any) {
+    saveRespMenorSucesso(resposta: any) {
         this.GetResponsavelMenor(this.respMenorForm.get('id')?.value);
     }
 
-    saveRespMenorFalha(erro:any) {
+    saveRespMenorFalha(erro: any) {
         console.log(erro)
         this.saveRespMenorProgressBar = 'hidden'
     }
 
-    GetResponsavelMenor(respId:any) {
+    GetResponsavelMenor(respId: any) {
 
         this._service.GetResponsavelById(respId)
             .subscribe(
                 sucesso => { this.GetResponsavelMenorSucesso(sucesso) },
                 falha => { this.GetResponsavelMenorlFalha(falha) }
-                )
+            )
     }
 
-    GetResponsavelMenorSucesso(resposta:any){
+    GetResponsavelMenorSucesso(resposta: any) {
         this.respMenorForm.patchValue(resposta['resp']);
         this.respMenorOriginal = JSON.parse(JSON.stringify(this.respMenorForm.value))
         this.saveRespMenorProgressBar = 'hidden'
     }
 
-    GetResponsavelMenorlFalha(erro:any){
+    GetResponsavelMenorlFalha(erro: any) {
         this.saveRespMenorProgressBar = 'hidden'
     }
 
@@ -429,20 +436,20 @@ export class InfosComponent implements OnInit {
 
     //#endregion
 
-   
 
-    consultaCEP(CEP: string, form:any) {
+
+    consultaCEP(CEP: string, form: any) {
 
         this._http.get(`https://viacep.com.br/ws/${CEP}/json/`, {})
             .subscribe(
                 (response: any) => {
 
-                form.get('logradouro').setValue(response["logradouro"].toUpperCase());
-                form.get('bairro').setValue(response["bairro"].toUpperCase());
-                form.get('cidade').setValue(response["localidade"].toUpperCase());
-                form.get('uf').setValue(response["uf"].toUpperCase());
+                    form.get('logradouro').setValue(response["logradouro"].toUpperCase());
+                    form.get('bairro').setValue(response["bairro"].toUpperCase());
+                    form.get('cidade').setValue(response["localidade"].toUpperCase());
+                    form.get('uf').setValue(response["uf"].toUpperCase());
 
-            }, err => { console.log(err) },
+                }, err => { console.log(err) },
                 () => { });
 
 
@@ -460,7 +467,7 @@ export class InfosComponent implements OnInit {
                 }, err => { console.log(err) },
                     () => {
                         this.GetAnotacoes();
-                        
+
                     });
 
 
@@ -500,14 +507,15 @@ export class InfosComponent implements OnInit {
         this._http.get(`${this.baseUrl}/pedag/matricula/anotacao/${this.data['aluno'].matriculaId}`)
             .subscribe(
                 (resp: any) => {
-                console.log(resp)
+                    console.log(resp)
 
-                this.anotacoes = resp['anotacoes'];
+                    this.anotacoes = resp['anotacoes'];
 
-                console.log(this.respMenor)
+                    console.log(this.respMenor)
 
-            },
-                (error) => { console.log(error) 
+                },
+                (error) => {
+                    console.log(error)
                     this.ShowAnotSpinner = 'hidden'
                 },
                 () => {
@@ -516,7 +524,7 @@ export class InfosComponent implements OnInit {
 
     }
 
-    excluirArquivo(doc:any) {
+    excluirArquivo(doc: any) {
         const dialogRef = this._modal
             .open(ConfirmModalComponent, {
                 minHeight: '150px',
@@ -537,17 +545,18 @@ export class InfosComponent implements OnInit {
 
     }
 
-    remover(doc:any) {
+    remover(doc: any) {
         doc.salvando = true
         this._http.put(`${this.baseUrl}/pedag/doc/excluir/${doc.id}`, {},)
             .subscribe(resp => {
-                
+
             },
-                (error) => { console.log(error)
+                (error) => {
+                    console.log(error)
                     doc.salvando = false
                 },
                 () => {
-                    
+
                     this.getInfoDocs(doc);
                 })
     }
@@ -623,7 +632,7 @@ export class InfosComponent implements OnInit {
 
 
     isMatriculado = true
-    getInfoDocs(doc:any) {
+    getInfoDocs(doc: any) {
 
         this._http.get(`${this.baseUrl}/pedag/doc/lista/${this.data['aluno'].matriculaId}`)
             .subscribe((resp: any) => {
@@ -631,7 +640,8 @@ export class InfosComponent implements OnInit {
                 this.documentoAluno = Object.assign([], resp['docs'])
                 //this.isMatriculado = resp['matriculado']
             },
-                (error) => { console.log(error)
+                (error) => {
+                    console.log(error)
                     doc.salvando = false
                 },
                 () => {
@@ -727,7 +737,7 @@ export class InfosComponent implements OnInit {
     public message!: string;
     @Output() public onUploadFinished = new EventEmitter();
 
-    apendFileAP(file:any) {
+    apendFileAP(file: any) {
         this.fileAP = new Array<File>()
         let fileToUpload = <File>file[0];
         this.fileAPName = `AP${fileToUpload.name}`
@@ -735,7 +745,7 @@ export class InfosComponent implements OnInit {
         this.fileAP.push(fileToUpload)
     }
 
-    apendFileCartaoVac(file:any) {
+    apendFileCartaoVac(file: any) {
         this.fileCartaoVac = new Array<File>()
         let fileToUpload = <File>file[0];
         this.fileCartaoVacName = `CV${fileToUpload.name}`
@@ -743,7 +753,7 @@ export class InfosComponent implements OnInit {
         this.fileCartaoVac.push(fileToUpload)
     }
 
-    apendFileTipoSang(file:any) {
+    apendFileTipoSang(file: any) {
         this.fileTipoSang = new Array<File>()
         let fileToUpload = <File>file[0];
         this.fileTipoSangName = `TP${fileToUpload.name}`
@@ -751,7 +761,7 @@ export class InfosComponent implements OnInit {
         this.fileTipoSang.push(fileToUpload)
     }
 
-    apendFileHCG(file:any) {
+    apendFileHCG(file: any) {
         this.fileHCG = new Array<File>()
         let fileToUpload = <File>file[0];
         this.fileHCGName = `HC${fileToUpload.name}`
@@ -789,13 +799,13 @@ export class InfosComponent implements OnInit {
         })
             .subscribe(
                 (event: any) => {
-                if (event.type === HttpEventType.UploadProgress)
-                    this.progress = Math.round(100 * event.loaded / event.total);
-                else if (event.type === HttpEventType.Response) {
-                    this.message = 'Upload success.';
-                    this.onUploadFinished.emit(event.body);
-                }
-            },
+                    if (event.type === HttpEventType.UploadProgress)
+                        this.progress = Math.round(100 * event.loaded / event.total);
+                    else if (event.type === HttpEventType.Response) {
+                        this.message = 'Upload success.';
+                        this.onUploadFinished.emit(event.body);
+                    }
+                },
                 (error) => { console.log(error) },
                 () => {
                     console.log('finally')
@@ -846,12 +856,12 @@ export class InfosComponent implements OnInit {
         //     })
     }
 
-    disabled(){
+    disabled() {
 
     }
 
     fileName = '';
-    exportar(event:any, doc:any) {
+    exportar(event: any, doc: any) {
 
 
 
@@ -894,7 +904,7 @@ export class InfosComponent implements OnInit {
         }
     }
 
-    baixar(doc:any) {
+    baixar(doc: any) {
 
 
         var file = doc.nome;// "Modelo LEAD.xlsx";// this.createFileName("EXCEL");
@@ -903,22 +913,22 @@ export class InfosComponent implements OnInit {
         this.download(doc.id).subscribe(
             (data: any) => {
 
-            switch (data.type) {
-                case HttpEventType.Response:
-                    // this.showSpinner = false;
-                    //this.downloadStatus.emit( {status: ProgressStatusEnum.COMPLETE});
-                    const downloadedFile = new Blob([data.body], { type: data.body.type });
-                    const a = document.createElement('a');
-                    a.setAttribute('style', 'display:none;');
-                    document.body.appendChild(a);
-                    a.download = file;
-                    a.href = URL.createObjectURL(downloadedFile);
-                    a.target = '_blank';
-                    a.click();
-                    document.body.removeChild(a);
-                    break;
-            }
-        },
+                switch (data.type) {
+                    case HttpEventType.Response:
+                        // this.showSpinner = false;
+                        //this.downloadStatus.emit( {status: ProgressStatusEnum.COMPLETE});
+                        const downloadedFile = new Blob([data.body], { type: data.body.type });
+                        const a = document.createElement('a');
+                        a.setAttribute('style', 'display:none;');
+                        document.body.appendChild(a);
+                        a.download = file;
+                        a.href = URL.createObjectURL(downloadedFile);
+                        a.target = '_blank';
+                        a.click();
+                        document.body.removeChild(a);
+                        break;
+                }
+            },
             (err) => {
 
             },
@@ -946,23 +956,23 @@ export class InfosComponent implements OnInit {
 
         this.downloadCert().subscribe(
             (data: any) => {
-            //console.log(data)
-            switch (data.type) {
-                case HttpEventType.Response:
-                    // this.showSpinner = false;
-                    //this.downloadStatus.emit( {status: ProgressStatusEnum.COMPLETE});
-                    const downloadedFile = new Blob([data.body], { type: data.body.type });
-                    const a = document.createElement('a');
-                    a.setAttribute('style', 'display:none;');
-                    document.body.appendChild(a);
-                    a.download = file;
-                    a.href = URL.createObjectURL(downloadedFile);
-                    a.target = '_blank';
-                    a.click();
-                    document.body.removeChild(a);
-                    break;
-            }
-        },
+                //console.log(data)
+                switch (data.type) {
+                    case HttpEventType.Response:
+                        // this.showSpinner = false;
+                        //this.downloadStatus.emit( {status: ProgressStatusEnum.COMPLETE});
+                        const downloadedFile = new Blob([data.body], { type: data.body.type });
+                        const a = document.createElement('a');
+                        a.setAttribute('style', 'display:none;');
+                        document.body.appendChild(a);
+                        a.download = file;
+                        a.href = URL.createObjectURL(downloadedFile);
+                        a.target = '_blank';
+                        a.click();
+                        document.body.removeChild(a);
+                        break;
+                }
+            },
             (err) => {
                 //this.showSpinner = false;
                 //this.testehabilitar = true;
@@ -974,7 +984,7 @@ export class InfosComponent implements OnInit {
         );
     }
 
-    
+
 
     public downloadCert(): Observable<HttpEvent<Blob>> {
         return this._http.request(new HttpRequest(
