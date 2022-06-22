@@ -183,7 +183,7 @@
                                 <i  *ngIf="item.statusBoleto == 'Em aberto' || item.statusBoleto == 'Vencido'"
                                 style="margin: 0px;" #tooltip="matTooltip" matTooltip="excluir"
                                     matTooltipPosition="above" matTooltipHideDelay="100">
-                                    <button [disabled]="true" 
+                                    <button (click)="DeletarConta(item.id)"
                                     style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                         mat-icon-button>
                                         <mat-icon>delete</mat-icon>

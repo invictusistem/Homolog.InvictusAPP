@@ -12,6 +12,22 @@ export class FinanceiroService extends BaseService {
 
     constructor(private http: HttpClient) { super(); }
 
+    // Caixa
+
+    public GetCaixa(cartao: any, start: any, end: any): Observable<any> {
+
+        //let path = `/financeiro/contas/receber/${meioPgm}/${start}/${end}`
+        //let path = `/financeiro/contas/receber/${start}/${end}`meioPagamentoId
+        let path = `/financeiro/caixa/?cartao=${cartao}&start=${start}&end=${end}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
     // contas Receber
 
     public SaveContaReceber(newconta: any): Observable<any> {

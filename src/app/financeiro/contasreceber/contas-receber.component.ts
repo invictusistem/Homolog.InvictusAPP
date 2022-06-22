@@ -102,8 +102,6 @@ export class ContasReceberComponent extends BaseComponent implements OnInit {
         });
     }
 
-    //return event
-
   }
 
   public Receber(conta: any){
@@ -135,9 +133,7 @@ export class ContasReceberComponent extends BaseComponent implements OnInit {
       }
     })
 
-  }
-
-  
+  }  
 
   public OpenNovaContaReceberModal() {
     const dialogRef = this._modal

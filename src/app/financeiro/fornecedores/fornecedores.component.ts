@@ -68,7 +68,7 @@ export class FornecedoresComponent extends BaseComponent implements OnInit {
 
         this.showMessageNoData = false
 
-        if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
+       // if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
             
             this.spinnerSearch = 'visible'
 
@@ -83,7 +83,7 @@ export class FornecedoresComponent extends BaseComponent implements OnInit {
                     sucesso => { this.processarSucesso(sucesso, event) },
                     falha => { this.processarFalha(falha) }
                 );
-        }
+       // }
 
         return event
 

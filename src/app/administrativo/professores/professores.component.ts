@@ -126,7 +126,7 @@ export class ProfessoresComponent extends BaseComponent implements OnInit {
 
         this.showMessageNoColaborador = false
 
-        if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
+       // if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
 
             this.spinnerSearch = 'visible'
 
@@ -184,7 +184,7 @@ export class ProfessoresComponent extends BaseComponent implements OnInit {
             //                 //this.pageIndexNumber = (evento.pageIndex * this.pageSize)
             //             },
             //         )
-        }
+       // }
         return event
     }
 

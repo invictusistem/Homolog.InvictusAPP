@@ -9,6 +9,8 @@ import { ContaspagarNovaComponent } from './nova/contaspagar-nova.component';
 import { ContaspagarEditComponent } from './editar/contaspagar-edit.component';
 import { PagarcontaComponent } from './pagar/pagarconta.component';
 import { PagarComponentModal } from '../services/financ-modal';
+import { ConfirmDeletarcontaComponent } from 'src/app/_shared/components/confirm-deletarconta/confirm-deletarconta.component';
+import { ConfirmDeletarContaModalConfig } from "src/app/_shared/services/shared.modal";
 
 @Component({
   selector: 'app-contas-pagar',
@@ -128,5 +130,22 @@ export class ContasPagarComponent extends BaseComponent implements OnInit {
 
     });
   }
+
+  public DeletarConta(id: any) { // ConfirmDeletarcontaComponent
+
+    const dialogRef = this._modal
+      .open(ConfirmDeletarcontaComponent, ConfirmDeletarContaModalConfig(id));
+    dialogRef.afterClosed().subscribe((data) => {
+
+      if (data.confirm == true) {
+        var index = this.contas.findIndex(element => element.id == id)
+        console.log(index)
+        this.contas[index].ativo = false
+        this.contas[index].statusBoleto = 'Cancelado'
+        
+      }
+    })
+
+  }  
 
 }

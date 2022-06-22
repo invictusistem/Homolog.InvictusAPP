@@ -133,7 +133,7 @@ export class UsuarioComponent extends BaseComponent implements OnInit {
 
         this.showMessageNoColaborador = false
 
-        if (this.pesquisarForm.valid  || this.tokenInfo['role'] == 'SuperAdm') {
+       // if (this.pesquisarForm.valid  || this.tokenInfo['role'] == 'SuperAdm') {
           
            this.spinnerSearch = 'visible'
 
@@ -148,7 +148,7 @@ export class UsuarioComponent extends BaseComponent implements OnInit {
                     sucesso => { this.processarSucesso(sucesso, event) },
                     falha => { this.processarFalha(falha) }
                 );
-        }
+       // }
 
         return event
 

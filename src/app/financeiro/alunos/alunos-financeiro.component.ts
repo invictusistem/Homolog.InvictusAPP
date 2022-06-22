@@ -134,7 +134,7 @@ export class AlunoFinancComponent implements OnInit {
 
 
 
-        if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
+       // if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
             this.spinnerSearch = 'visible'
 
             if (event != undefined) {
@@ -186,7 +186,7 @@ export class AlunoFinancComponent implements OnInit {
                         
                     },
                 )
-        }
+       // }
 
         return event
 

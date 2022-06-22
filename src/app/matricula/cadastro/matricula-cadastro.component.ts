@@ -240,7 +240,7 @@ export class MatriculaCadastroComponent implements OnInit {
 
         this.showMessageNoColaborador = false
 
-        if (this.pesquisarForm.valid) {
+        //if (this.pesquisarForm.valid) {
             this.spinnerSearch = true
 
             if (event != undefined) {
@@ -257,7 +257,7 @@ export class MatriculaCadastroComponent implements OnInit {
                     falha => { this.processarFalha(falha) }
                 );
 
-        }
+       // }
 
         return event
 

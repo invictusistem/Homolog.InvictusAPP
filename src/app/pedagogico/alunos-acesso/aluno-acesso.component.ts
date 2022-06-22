@@ -96,7 +96,7 @@ export class AlunoAcessoComponent implements OnInit {
 
         // this.showMessageNoColaborador = false
         this.showMessageNoAluno = false
-        if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
+       // if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
             //     this.spinnerSearch = true
 
             if (event != undefined) {
@@ -111,7 +111,7 @@ export class AlunoAcessoComponent implements OnInit {
                     sucesso => { this.processarSucesso(sucesso, event) },
                     falha => { this.processarFalha(falha) }
                 );
-        }
+       // }
 
         return event
     }
