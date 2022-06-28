@@ -16,6 +16,8 @@ import { AlunoSiaComponent } from './aluno/aluno.component';
 import { EstagioSiaComponent } from './aluno/estagio/estagio-sia.component';
 import { AlunoReqsComponent } from './aluno/requerimento/aluno-reqs.component';
 import { ComercialComponent } from './comercial/comercial.component';
+import { LeadExportarComponent } from './comercial/exportar/lead-exportar.component';
+import { LeadPesquisaComponent } from './comercial/pesquisar/lead-pesquisa.component';
 import { AlunoFinancComponent } from './financeiro/alunos/alunos-financeiro.component';
 import { CaixaEscolaComponent } from './financeiro/caixa-escola/caixa-escola.component';
 import { FinCaixaComponent } from './financeiro/caixa/fincaixa.component';
@@ -24,6 +26,7 @@ import { ContasPagarComponent } from './financeiro/contaspagar/contas-pagar.comp
 import { ContasReceberComponent } from './financeiro/contasreceber/contas-receber.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
 import { FornecedoresComponent } from './financeiro/fornecedores/fornecedores.component';
+import { FinRelatorioComponent } from './financeiro/relatorios/fin-relatorio.component';
 import { MatriculaCadastroComponent } from './matricula/cadastro/matricula-cadastro.component';
 import { MatriculaComponent } from './matricula/matricula.component';
 import { AlunoAcessoComponent } from './pedagogico/alunos-acesso/aluno-acesso.component';
@@ -89,8 +92,8 @@ const routes: Routes = [
   {
     path: 'comercial', component: ComercialComponent, canActivate: [AuthGuard],
     children: [
-      //  { path: 'addlead', component: AddLeadComponent, canActivate: [AuthGuard] },
-      // { path: 'leads', component: LeadsComponent, canActivate: [AuthGuard] }
+      { path: 'exportar', component: LeadExportarComponent, canActivate: [AuthGuard] },
+      { path: 'pesquisa', component: LeadPesquisaComponent, canActivate: [AuthGuard] }
     ]
   },
   {
@@ -103,7 +106,8 @@ const routes: Routes = [
       // { path: 'unidadebalanco', component: UnidadeBalancoComponent, canActivate: [AuthGuard] },
       { path: 'fincaixa', component: FinCaixaComponent, canActivate: [AuthGuard] },
       { path: 'fornecedor', component: FornecedoresComponent, canActivate: [AuthGuard] },
-      { path: 'configuracoes', component: FinancConfigsComponent, canActivate: [AuthGuard] }
+      { path: 'configuracoes', component: FinancConfigsComponent, canActivate: [AuthGuard] },
+      { path: 'relatorios', component: FinRelatorioComponent, canActivate: [AuthGuard] }
     ]
   },
   {

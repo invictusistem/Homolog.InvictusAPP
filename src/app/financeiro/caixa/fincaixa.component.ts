@@ -4,12 +4,14 @@ import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { TooltipComponent } from "@angular/material/tooltip";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { BaseComponent } from "src/app/_shared/services/basecomponent.component";
 import { environment } from "src/environments/environment";
 import { FinanceiroService } from "../services/financ.service";
+import { VendaCaixaComponent } from "./caixa-venda/venda-caixa.component";
 
 @Component({
     selector: "fincaixa-app",
@@ -21,7 +23,7 @@ export class FinCaixaComponent extends BaseComponent implements OnInit {
     
     mensagem: string = "";
     public pesquisarForm: FormGroup;
-    public balancoProdutos: any[] = new Array<any>();
+    public vendas: any[] = new Array<any>();
     totalVendas!: number;
 
     constructor(
@@ -42,7 +44,15 @@ export class FinCaixaComponent extends BaseComponent implements OnInit {
 
 
     ngOnInit() {
-
+        Object.defineProperty(TooltipComponent.prototype, 'message', {
+            set(v: any) {
+                const el = document.querySelectorAll('.mat-tooltip');
+         
+                if (el) {
+                    el[el.length - 1].innerHTML = v;
+                }
+            },
+         });
     }
 
     
@@ -50,43 +60,47 @@ export class FinCaixaComponent extends BaseComponent implements OnInit {
 
         this.showMessageNotFound = false
 
-        if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
+        // if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
 
-            this.spinnerSearch = 'visible'            
+        //     this.spinnerSearch = 'visible'
 
-            if (event != undefined) {
-                this.currentPage = event.pageIndex + 1
-            } else {
-                this.currentPage = 1
-            }
+        //     this._finService.GetRegistrosFinanceirosDosProdutos(this.pageSize, this.currentPage, this.pesquisarForm.value)
+        //         .subscribe(
+        //             sucesso => { this.ProcessarSucesso(sucesso, event) },
+        //             falha => { this.ProcessarFalha(falha) }
+        //         );
+        // }
 
-            this._finService.GetRegistrosFinanceirosDosProdutos(this.pageSize, this.currentPage, this.pesquisarForm.value)
-                .subscribe(
-                    sucesso => { this.ProcessarSucesso(sucesso, event) },
-                    falha => { this.ProcessarFalha(falha) }
-                );
-        }
+       var resp = new Array<any>()
+       resp.push({id: '', descricao: 'VENDA PRODUTO', qntItems: 5, valorTotal: 199.50, parcelas:3, 
+        meioPagamento: 'CARTÃO STONE', infoItems: '<h6>. 4 blusa invitus</h6><h6>.1 calça invictus</h6>', dataVenda: new Date(2022,6,28,0,0,0)})
 
-        return event
+        resp.push({id: '', descricao: 'VENDA PRODUTO', qntItems: 1, valorTotal: 199, parcelas:1, 
+        meioPagamento: 'DINHEIRO', infoItems: '<h6>. 1 blusa invitus</h6>', dataVenda: new Date(2022,6,28,0,0,0)})
+
+        this.ProcessarSucesso({ data: resp, totalItemsInDatabase: 2, totalVendas: 498.50 })
+        
 
     }
 
     private ProcessarSucesso(response: any, event?: any) {
 
-        this.balancoProdutos = Object.assign([], response['data']);
+        this.vendas = Object.assign([], response['data']);
 
         this.length = response['totalItemsInDatabase']
 
+        this.totalVendas = response['totalVendas']
+
         this.spinnerSearch = 'hidden'
-        if (event != undefined) {
-            this.pageIndexNumber = (event.pageIndex * this.pageSize)
-        } else {
-            this.pageIndexNumber = 0
-            // console.log(this.paginator)
-            if (this.paginator != undefined) {
-                this.paginator.firstPage();
-            }
-        }
+        // if (event != undefined) {
+        //     this.pageIndexNumber = (event.pageIndex * this.pageSize)
+        // } else {
+        //     this.pageIndexNumber = 0
+            
+        //     if (this.paginator != undefined) {
+        //         this.paginator.firstPage();
+        //     }
+        // }
     }
 
     private ProcessarFalha(fail: any) {
@@ -94,12 +108,12 @@ export class FinCaixaComponent extends BaseComponent implements OnInit {
         if (fail['status'] == 404) {
             this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
             this.showMessageNotFound = true
-            this.balancoProdutos = new Array<any>();
+            this.vendas = new Array<any>();
         }
         if (fail['status'] != 404) {
             this.mensagem = "Ocorreu um erro desconhecido, por favor, procure o administrador do sistema"
             this.showMessageNotFound = true
-            this.balancoProdutos = new Array<any>();
+            this.vendas = new Array<any>();
         }
 
         this.spinnerSearch = 'hidden'
@@ -107,26 +121,26 @@ export class FinCaixaComponent extends BaseComponent implements OnInit {
 
 
     openCaixaModal(): void {
-        // const dialogRef = this._modal
-        //     .open(VendaCaixaComponent, {
-        //         height: 'auto',
-        //         width: '900px',
-        //         autoFocus: false,
-        //         maxHeight: '90vh',
-        //         maxWidth: '400vh',
+        const dialogRef = this._modal
+            .open(VendaCaixaComponent, {
+                height: 'auto',
+                width: '900px',
+                autoFocus: false,
+                maxHeight: '90vh',
+                maxWidth: '400vh',
 
-        //         data: { Hello: "Hello World" },
-        //         hasBackdrop: true,
-        //         disableClose: true
-        //     });
+                data: { Hello: "Hello World" },
+                hasBackdrop: true,
+                disableClose: true
+            });
 
 
-        // dialogRef.afterClosed().subscribe((data) => {
-        //     if (data.clicked === "Ok") {
+        dialogRef.afterClosed().subscribe((data) => {
+            if (data.clicked === "Ok") {
 
-        //     } else if (data.clicked === "Cancel") {
-        //     }
-        // });
+            } else if (data.clicked === "Cancel") {
+            }
+        });
     }
 
     openVendaUnidades(): void {

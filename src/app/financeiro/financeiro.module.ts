@@ -39,6 +39,10 @@ import { ContasreceberEditComponent } from './contasreceber/editar/contasreceber
 import { RecebercontasComponent } from './contasreceber/receber/recebercontas.component';
 import { ContaspagarEditComponent } from './contaspagar/editar/contaspagar-edit.component';
 import { PagarcontaComponent } from './contaspagar/pagar/pagarconta.component';
+import { VendaCaixaComponent } from './caixa/caixa-venda/venda-caixa.component';
+import { VendaPesquisaComponent } from './caixa/caixa-venda/pesquisa/venda-pesquisa.component';
+import { VendaCaixaPagarComponent } from './caixa/caixa-venda/pagar/venda-caixa-pagar.component';
+import { FinRelatorioComponent } from './relatorios/fin-relatorio.component';
 
 @NgModule({
     declarations: [
@@ -88,6 +92,10 @@ import { PagarcontaComponent } from './contaspagar/pagar/pagarconta.component';
         RecebercontasComponent,
         ContaspagarEditComponent,
         PagarcontaComponent,
+        VendaCaixaComponent,
+        VendaPesquisaComponent,
+        VendaCaixaPagarComponent,
+        FinRelatorioComponent,
         
     ],
     imports: [
@@ -112,7 +120,9 @@ import { PagarcontaComponent } from './contaspagar/pagar/pagarconta.component';
         // Fornecedores
         FornecedoresComponent,
         // Configurações
-        FinancConfigsComponent
+        FinancConfigsComponent,
+        // Relatórios
+        FinRelatorioComponent
     ],
     entryComponents: [
         // Alunos

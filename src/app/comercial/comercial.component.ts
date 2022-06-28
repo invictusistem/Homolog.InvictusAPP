@@ -7,8 +7,8 @@ import { RouteInfo } from '../_shared/models/route-info.model';
 import { BaseComponent } from '../_shared/services/basecomponent.component';
 
 export const ROUTES: RouteInfo[] = [
-  // { path: '/comercial/leads', title: 'Lead', class: '', typeIcon: 'query_stats' },
-  // { path: '/comercial/addlead', title: 'Exportar Lead', class: '', typeIcon: 'table_chart' }
+   { path: '/comercial/exportar', title: 'Lead', class: '', typeIcon: 'query_stats' },
+   { path: '/comercial/pesquisa', title: 'Exportar Lead', class: '', typeIcon: 'table_chart' }
   // { path: '/adm/cursos', title:'cursos', class:'', typeIcon: 'house'},
   // { path: '/adm/colaboradores', title: 'Colaboradores', class: '', typeIcon: 'engineering' },
   // { path: '/adm/produtos', title: 'Produtos', class: '', typeIcon: 'fact_check' },

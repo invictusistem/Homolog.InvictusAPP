@@ -55,7 +55,7 @@ export class FormacreateConfigComponent extends BaseComponent implements OnInit 
             this.formaRecebForm.get('compensarAutomaticamenteId')?.disable()
 
           } else {
-            
+            this.formaRecebForm.get('permiteParcelamento')?.setValue(false)
             this.formaRecebForm.get('diasParaCompensacao')?.enable()
             this.formaRecebForm.get('taxa')?.enable()
             this.formaRecebForm.get('permiteParcelamento')?.enable()

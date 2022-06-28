@@ -18,6 +18,16 @@ export function ReceberComponentModal(debito?: any, aluno?: any) {
     }
 }
 
+export function PagarProdutoComponentModal(produtos: any[]) {
+    return {
+        height: '545px',
+        width: '650px',
+        data: { produtos: produtos },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
 export function PagarComponentModal(debito: any, aluno?: any) {
     return {
         //height: '545px',

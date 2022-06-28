@@ -22,7 +22,8 @@ export const ROUTES: RouteInfo[] = [
     { path: '/financeiro/fincaixa', title: 'Caixa/Produtos', class: '', typeIcon: 'store' },
     //{ path: '/financeiro/unidadebalanco', title: 'Balanço/Unidade', class: '', typeIcon: 'sync_alt' },
     { path: '/financeiro/fornecedor', title: 'Fornecedores', class: '', typeIcon: 'contact_page' },
-    { path: '/financeiro/configuracoes', title: 'Configurações', class: '', typeIcon: 'contact_page' }
+    { path: '/financeiro/configuracoes', title: 'Configurações', class: '', typeIcon: 'contact_page' },
+    { path: '/financeiro/relatorios', title: 'Relatórios', class: '', typeIcon: 'summarize' }
 ] 
 
 @Component({
