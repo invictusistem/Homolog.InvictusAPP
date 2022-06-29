@@ -60,34 +60,33 @@ export class FinCaixaComponent extends BaseComponent implements OnInit {
 
         this.showMessageNotFound = false
 
-        // if (this.pesquisarForm.valid || this.tokenInfo['role'] == 'SuperAdm') {
+        if (this.pesquisarForm.valid) {
 
-        //     this.spinnerSearch = 'visible'
+            this.spinnerSearch = 'visible'
+            this._http.get(`${this.baseUrl}/venda/busca/?start=${new Date(this.pesquisarForm.get('start')?.value).toISOString()}&end=${new Date(this.pesquisarForm.get('end')?.value).toISOString()}`)
+                    .subscribe(
+                    sucesso => { this.ProcessarSucesso(sucesso) },
+                    falha => { this.ProcessarFalha(falha) }
+                );
+        }
 
-        //     this._finService.GetRegistrosFinanceirosDosProdutos(this.pageSize, this.currentPage, this.pesquisarForm.value)
-        //         .subscribe(
-        //             sucesso => { this.ProcessarSucesso(sucesso, event) },
-        //             falha => { this.ProcessarFalha(falha) }
-        //         );
-        // }
+    //    var resp = new Array<any>()
+    //    resp.push({id: '', descricao: 'VENDA PRODUTO', qntItems: 5, valorTotal: 199.50, parcelas:3, 
+    //     meioPagamento: 'CARTÃO STONE', infoItems: '<h6>. 4 blusa invitus</h6><h6>.1 calça invictus</h6>', dataVenda: new Date(2022,6,28,0,0,0)})
 
-       var resp = new Array<any>()
-       resp.push({id: '', descricao: 'VENDA PRODUTO', qntItems: 5, valorTotal: 199.50, parcelas:3, 
-        meioPagamento: 'CARTÃO STONE', infoItems: '<h6>. 4 blusa invitus</h6><h6>.1 calça invictus</h6>', dataVenda: new Date(2022,6,28,0,0,0)})
+    //     resp.push({id: '', descricao: 'VENDA PRODUTO', qntItems: 1, valorTotal: 199, parcelas:1, 
+    //     meioPagamento: 'DINHEIRO', infoItems: '<h6>. 1 blusa invitus</h6>', dataVenda: new Date(2022,6,28,0,0,0)})
 
-        resp.push({id: '', descricao: 'VENDA PRODUTO', qntItems: 1, valorTotal: 199, parcelas:1, 
-        meioPagamento: 'DINHEIRO', infoItems: '<h6>. 1 blusa invitus</h6>', dataVenda: new Date(2022,6,28,0,0,0)})
-
-        this.ProcessarSucesso({ data: resp, totalItemsInDatabase: 2, totalVendas: 498.50 })
+        //this.ProcessarSucesso({ data: resp, totalItemsInDatabase: 2, totalVendas: 498.50 })
         
 
     }
 
-    private ProcessarSucesso(response: any, event?: any) {
+    private ProcessarSucesso(response: any) {
 
-        this.vendas = Object.assign([], response['data']);
+        this.vendas = Object.assign([], response['vendas']);
 
-        this.length = response['totalItemsInDatabase']
+        this.length = this.vendas.length;//response['totalItemsInDatabase']
 
         this.totalVendas = response['totalVendas']
 
@@ -136,10 +135,10 @@ export class FinCaixaComponent extends BaseComponent implements OnInit {
 
 
         dialogRef.afterClosed().subscribe((data) => {
-            if (data.clicked === "Ok") {
+            // if (data.clicked === "Ok") {
 
-            } else if (data.clicked === "Cancel") {
-            }
+            // } else if (data.clicked === "Cancel") {
+            // }
         });
     }
 
