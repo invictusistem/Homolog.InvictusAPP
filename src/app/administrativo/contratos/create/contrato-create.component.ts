@@ -93,17 +93,29 @@ export class CreateContratoComponent extends BaseComponent implements OnInit {
        // console.log(this.htmlContent)
 
         if (this.contratoForm.valid) {
-
+            this.disabledSaveButton = 'visible'
             this._admService.SaveContrato(form.value)
             .subscribe(resp => {
 
             }, (error) => { 
                 //console.log(error) 
+                this.OpenSnackBarErrorDefault()
+                this.disabledSaveButton = 'hidden'
             },
                 () => {
+                    this.OpenSnackBarSucesso("Contrato salvo com sucesso.")
                     this.dialogRef.close({ clicked: "OK" });
                 })
         }
+    }
+
+    get disabledButton(){
+        if(this.contratoForm.valid){
+return this.disabledSaveButton == 'visible'
+        }else{
+            return true;
+        }
+        return ""
     }
 
     config: AngularEditorConfig = {

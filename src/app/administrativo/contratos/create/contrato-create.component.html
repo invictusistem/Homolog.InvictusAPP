@@ -56,12 +56,14 @@
 
 
         <br>
-        <div class="html">
+        <!-- <div class="html">
             {{ contratoForm.get('conteudo')?.value }}
-          </div>
+          </div> -->
           <br>
+          <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>
         <button type="submit" color="primary" mat-raised-button disabled="false"
-            style="float:right;margin-bottom: 0px;margin-left: 10px;" [disabled]="!contratoForm.valid">
+            style="float:right;margin-bottom: 0px;margin-left: 10px;" [disabled]="disabledButton">
             Salvar
         </button>
         <br>

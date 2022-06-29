@@ -42,7 +42,7 @@ export class ProdutosComponent extends BaseComponent implements OnInit {
     }
 
     GetProdutos(){
-
+        this.spinnerSearch = 'visible'
         this._http.get(`${this.baseUrl}/produto`)
         .subscribe((resp:any) => {
             this.produtos = Object.assign([], resp['produtos'])

@@ -38,6 +38,8 @@ import { EstagioMatriculaComponent } from './estagios-controle/matricula/estagio
 import { MatriculaLiberarComponent } from './estagios-controle/matricula/liberar/matricula-liberar.component';
 import { EstagioDocumentacaoComponent } from './estagios-controle/documentacao/estagio-documentacao.component';
 import { PedagReqsComponent } from './requerimentos/pedag-reqs.component';
+import { TransfInternaComponent } from './transferencia/transf-interna/transf-interna.component';
+import { TransfTurmasComponent } from './transferencia/transf-turmas/transf-turmas.component';
 
 @NgModule({
     declarations: [
@@ -89,7 +91,9 @@ import { PedagReqsComponent } from './requerimentos/pedag-reqs.component';
         EstagioMatriculaComponent,
         MatriculaLiberarComponent,
         EstagioDocumentacaoComponent,
-        PedagReqsComponent
+        PedagReqsComponent,
+        TransfInternaComponent,
+        TransfTurmasComponent
              
     ],
     imports: [
