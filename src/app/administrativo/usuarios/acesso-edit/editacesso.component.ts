@@ -47,7 +47,7 @@ export class EditAcessoComponent extends BaseComponent implements OnInit {
     ngOnInit() {
         const token: any = localStorage.getItem('jwt')
         ////this.tokenInfo = this.jwtHelper.decodeToken(token)
-       // console.log(this.data['usuario'])
+        console.log(this.data['usuario'])
         this.getAcessos()
     }
 
@@ -101,7 +101,7 @@ export class EditAcessoComponent extends BaseComponent implements OnInit {
 
     saveAcesso() {
         this.saveProgressBar = 'visible'
-        this._admService.EditAcessos(this.editedAcessoView)
+        this._admService.EditAcessos(this.editedAcessoView, this.data['usuario'].id)
             .subscribe(
                 sucesso => { this.saveAcessoSucesso(sucesso) },
                 falha => { this.saveAcessoError(falha) }

@@ -778,9 +778,9 @@ export class AdmService extends BaseService {
         return response;
     }
 
-    public EditAcessos(acessos:any): Observable<any> {
+    public EditAcessos(acessos:any, colabId:any): Observable<any> {
 
-        let path = `/usuario/acessos`
+        let path = `/usuario/acessos/${colabId}`
 
         let response = this.http
             .put(this.BaseUrl + path, acessos, this.ObterHeaderJson())
