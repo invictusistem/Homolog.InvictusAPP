@@ -8,6 +8,7 @@ import { ConferenciaConfirmarComponent } from './confirmar/conferencia-confirmar
 import { ConferenciaConfirmarComponentModal } from '../services/financ-modal';
 import { SaldoBancarioComponent } from './saldo/saldo-bancario.component';
 import { OpenSaldoComponentModal } from '../services/financ-modal';
+import { ConferenciaExtornarComponent } from './extornar/conferencia-extornar.component';
 
 @Component({
   selector: 'app-conferencia-caixa',
@@ -108,19 +109,34 @@ export class ConferenciaCaixaComponent extends BaseComponent implements OnInit {
   }
 
   public ConfirmarModal(contaId: any): void {
-        const dialogRef = this._modal
-            .open(ConferenciaConfirmarComponent, ConferenciaConfirmarComponentModal(contaId));
-        dialogRef.afterClosed().subscribe((data) => {
+    const dialogRef = this._modal
+      .open(ConferenciaConfirmarComponent, ConferenciaConfirmarComponentModal(contaId));
+    dialogRef.afterClosed().subscribe((data) => {
 
-          if(data.confirm == true){
+      if (data.confirm == true) {
 
-            var index = this.contas.findIndex(element => element.id == contaId)
+        var index = this.contas.findIndex(element => element.id == contaId)
 
-            this.contas[index].statusBoleto = 'Confirmado'
-          }
+        this.contas[index].statusBoleto = 'Confirmado'
+      }
 
-        });
+    });
+  }
+
+  public Extornar(contaId: any): void{
+    const dialogRef = this._modal
+    .open(ConferenciaExtornarComponent, ConferenciaConfirmarComponentModal(contaId));
+  dialogRef.afterClosed().subscribe((data) => {
+
+    if (data.confirm == true) {
+
+      var index = this.contas.findIndex(element => element.id == contaId)
+
+      this.contas[index].statusBoleto = 'Estornado'
     }
+
+  });
+  }
 
   public Sucesso(resp: any) {
     this.spinnerSearch = 'hidden'
@@ -135,15 +151,15 @@ export class ConferenciaCaixaComponent extends BaseComponent implements OnInit {
 
   }
 
-  public SaldoBancario(): void{
+  public SaldoBancario(): void {
 
     const dialogRef = this._modal
-            .open(SaldoBancarioComponent, OpenSaldoComponentModal());
-        dialogRef.afterClosed().subscribe((data) => {
+      .open(SaldoBancarioComponent, OpenSaldoComponentModal());
+    dialogRef.afterClosed().subscribe((data) => {
 
-         
 
-        });
+
+    });
   }
 
 

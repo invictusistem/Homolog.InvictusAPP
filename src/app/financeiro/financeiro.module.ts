@@ -46,6 +46,7 @@ import { FinRelatorioComponent } from './relatorios/fin-relatorio.component';
 import { ConferenciaCaixaComponent } from './conferencia/conferencia-caixa.component';
 import { ConferenciaConfirmarComponent } from './conferencia/confirmar/conferencia-confirmar.component';
 import { SaldoBancarioComponent } from './conferencia/saldo/saldo-bancario.component';
+import { ConferenciaExtornarComponent } from './conferencia/extornar/conferencia-extornar.component';
 
 @NgModule({
     declarations: [
@@ -102,6 +103,7 @@ import { SaldoBancarioComponent } from './conferencia/saldo/saldo-bancario.compo
         ConferenciaCaixaComponent,
         ConferenciaConfirmarComponent,
         SaldoBancarioComponent,
+        ConferenciaExtornarComponent,
         
     ],
     imports: [

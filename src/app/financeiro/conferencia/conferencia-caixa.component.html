@@ -144,7 +144,7 @@
                                     <td style="position: relative;text-align:center; 
                                     vertical-align: middle;">
 
-                                        <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="extornar"
+                                        <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="estornar"
                                             matTooltipPosition="above" matTooltipHideDelay="100">
                                             <button
                                                 style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
@@ -267,6 +267,7 @@
                                         <div *ngIf="item.statusBoleto == 'Confirmado'" style="color:red ">compensado
                                         </div>
                                         <div *ngIf="item.statusBoleto == 'Pago'" style="color:red ">à compensar</div>
+                                        <div *ngIf="item.statusBoleto == 'Estornado'" style="color:red ">estornado</div>
 
                                     </td>
 
@@ -291,13 +292,26 @@
 
                                         <div *ngIf="item.statusBoleto == 'Pago'">
 
-                                            <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="receber"
+                                            <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="confirmar"
                                                 matTooltipPosition="above" matTooltipHideDelay="100">
                                                 <!-- <button
                                                 style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
                                                 mat-icon-button> -->
                                                 <mat-icon (click)="ConfirmarModal(item.id)" type="button"
-                                                    style="font-size: 1.6em;">edit</mat-icon>
+                                                    style="font-size: 1.6em;">check</mat-icon>
+                                                <!-- </button> -->
+                                            </i>
+                                        </div>
+
+                                        <div *ngIf="item.statusBoleto == 'Confirmado'">
+
+                                            <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="extornar"
+                                                matTooltipPosition="above" matTooltipHideDelay="100">
+                                                <!-- <button
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button> -->
+                                                <mat-icon (click)="Extornar(item.id)" type="button"
+                                                    style="font-size: 1.6em;">delete</mat-icon>
                                                 <!-- </button> -->
                                             </i>
                                         </div>
