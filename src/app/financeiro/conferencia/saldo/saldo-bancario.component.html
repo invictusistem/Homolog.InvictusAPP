@@ -40,7 +40,7 @@
                     </td>
 
                     <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
-                        {{banco.valor | currency:'BRL':'R$ '}}
+                        {{banco.saldo | currency:'BRL':'R$ '}}
                     </td>
 
                    
@@ -51,8 +51,8 @@
 
     <mat-form-field appearance="standard" style="width: 30%; ">
         <mat-label>Total</mat-label>
-        <input [value]="total" currencyMask
-            [options]="{ prefix: '', thousands: '.', decimal: ',' }" placeholder="00,00" matInput>
-        <span matPrefix>R$&nbsp;</span>
+        <input [value]="total | currency:'BRL':'R$ '" disabled
+           matInput>
+        <!-- <span matPrefix>R$&nbsp;</span> -->
     </mat-form-field>
 </div>

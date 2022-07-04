@@ -12,7 +12,7 @@ import { BaseComponent } from 'src/app/_shared/services/basecomponent.component'
 export class SaldoBancarioComponent extends BaseComponent implements OnInit {
 
   public bancos: any[] = new Array<any>()
-  public total: any
+  public total: number = 0;
   public showContent: boolean = false
   constructor(
     override _snackBar: MatSnackBar,
@@ -40,7 +40,8 @@ export class SaldoBancarioComponent extends BaseComponent implements OnInit {
 
   public Sucesso(resp: any) {
     this.bancos = Object.assign([], resp['bancos'])
-    this.total = Object.assign([], resp['total'])
+    this.total = resp['total']
+    console.log(this.total)
     this.initProgressBar = 'hidden'
     this.showContent = true
   }

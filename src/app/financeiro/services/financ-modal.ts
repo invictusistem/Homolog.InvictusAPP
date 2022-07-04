@@ -32,7 +32,7 @@ export function ConferenciaConfirmarComponentModal(contaId?: any) {
 export function OpenSaldoComponentModal() {
     return {
         height: 'auto',
-        width: '250px',
+        width: '400px',
         hasBackdrop: true,
         disableClose: true
     }
