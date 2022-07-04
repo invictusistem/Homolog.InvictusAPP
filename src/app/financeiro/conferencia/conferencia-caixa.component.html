@@ -70,7 +70,7 @@
                 <div class="card-header" style="background-color: rgb(207, 231, 207);">
                     <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
                         Conferência de caixa</h4>
-                    dinheiro
+
                     <!-- <p class="card-category">{{contas.length}} contas a pagar localizadas no sistema </p>
                     <p class="card-category">Valor total pago: {{ totalPago | currency:'BRL':'R$ '}}. </p>
                     <p class="card-category">Valor total em atraso: {{ totalAtraso | currency:'BRL':'R$ '}}. </p>
@@ -289,7 +289,8 @@
                                     <td style="position: relative;text-align:center; 
                                 vertical-align: middle;">
 
-                                        <div *ngIf="item.statusboleto == 'Pago'">
+                                        <div *ngIf="item.statusBoleto == 'Pago'">
+
                                             <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="receber"
                                                 matTooltipPosition="above" matTooltipHideDelay="100">
                                                 <!-- <button

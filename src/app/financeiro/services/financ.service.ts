@@ -97,7 +97,7 @@ export class FinanceiroService extends BaseService {
                 map(this.extractData),
                 catchError(this.serviceError));
 
-        console.log(response)
+       // console.log(response)
 
         return response;
     }

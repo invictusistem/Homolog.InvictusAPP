@@ -54,6 +54,7 @@ export class ConferenciaCaixaComponent extends BaseComponent implements OnInit {
           next: (resp: any) => {
 
             this.contas = Object.assign([], resp['result'])
+            console.log(this.contas)
             this.spinnerSearch = 'hidden'
 
             if (this.pesquisarForm.get('recebimento')?.value) {
