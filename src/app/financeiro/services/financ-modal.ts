@@ -29,6 +29,15 @@ export function ConferenciaConfirmarComponentModal(contaId?: any) {
     }
 }
 
+export function OpenSaldoComponentModal() {
+    return {
+        height: 'auto',
+        width: '250px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
 export function PagarProdutoComponentModal(produtos: any[]) {
     return {
         height: '545px',

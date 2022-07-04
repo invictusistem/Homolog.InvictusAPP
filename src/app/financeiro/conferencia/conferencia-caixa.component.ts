@@ -6,6 +6,8 @@ import { BaseComponent } from 'src/app/_shared/services/basecomponent.component'
 import { FinanceiroService } from '../services/financ.service';
 import { ConferenciaConfirmarComponent } from './confirmar/conferencia-confirmar.component';
 import { ConferenciaConfirmarComponentModal } from '../services/financ-modal';
+import { SaldoBancarioComponent } from './saldo/saldo-bancario.component';
+import { OpenSaldoComponentModal } from '../services/financ-modal';
 
 @Component({
   selector: 'app-conferencia-caixa',
@@ -132,8 +134,15 @@ export class ConferenciaCaixaComponent extends BaseComponent implements OnInit {
 
   }
 
-  public SaldoBancario(){
-    
+  public SaldoBancario(): void{
+
+    const dialogRef = this._modal
+            .open(SaldoBancarioComponent, OpenSaldoComponentModal());
+        dialogRef.afterClosed().subscribe((data) => {
+
+         
+
+        });
   }
 
 

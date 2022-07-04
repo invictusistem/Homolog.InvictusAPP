@@ -9,7 +9,7 @@
 
     <div class="table-responsive">
         <table color="primary" style="margin-bottom: 0px;" class="table">
-            <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
+           
             <thead>
                 <tr>
                     <th style="width: 2%; 
@@ -32,58 +32,27 @@
             </thead>
             <tbody>
 
-                <tr *ngFor="let aluno of bancos; let i = index;">
+                <tr *ngFor="let banco of bancos; let i = index;">
                     <td style="font-size:0.9em;text-align:center;vertical-align: middle;">{{i + 1}}</td>
 
                     <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
-                        {{aluno.nome}}
+                        {{banco.nome}}
                     </td>
 
                     <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
-                        {{aluno.email || 'sem e-mail cadastrado'}}
+                        {{banco.valor | currency:'BRL':'R$ '}}
                     </td>
 
-                    <td style="font-size:0.9em;text-align: center;vertical-align: middle;">{{aluno.cpf}}
-                    </td>
-
-                    <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;"></td> -->
-                    <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;">Não iniciada</td>
-            <td style="text-align: center;vertical-align: middle;"> -->
-                    <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
-                    matTooltip="adiar a tumra para a próxima data" matTooltipPosition="above"
-                    matTooltipHideDelay="100">
-                    <button 
-                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                        mat-icon-button>
-                        <mat-icon style="font-size: 1.5em;" class="material-icons-outlined">watch_later</mat-icon>
-                    </button>
-                </i>
-
-                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
-                    matTooltip="iniciar as aulas" matTooltipPosition="above"
-                    matTooltipHideDelay="100">
-                    <button 
-                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                        mat-icon-button>
-                        <mat-icon style="font-size: 1.5em;" class="material-icons-outlined">play_arrow</mat-icon>
-                    </button>
-                </i>-->
-
-                    <!-- update_disabled -->
-
-                    <!--<i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="detalhes/editar"
-                    matTooltipPosition="above" matTooltipHideDelay="100">
-                    <button (click)="openEditCursoModal(item)"
-                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
-                        mat-icon-button>
-                        <mat-icon>description</mat-icon>
-                    </button>
-                </i> 
-            </td>  
-            <td style="font-size:0.9em;text-align: center;vertical-align: middle;"></td>     
-            -->
+                   
                 </tr>
             </tbody>
         </table>
     </div>
+
+    <mat-form-field appearance="standard" style="width: 30%; ">
+        <mat-label>Total</mat-label>
+        <input [value]="total" currencyMask
+            [options]="{ prefix: '', thousands: '.', decimal: ',' }" placeholder="00,00" matInput>
+        <span matPrefix>R$&nbsp;</span>
+    </mat-form-field>
 </div>
