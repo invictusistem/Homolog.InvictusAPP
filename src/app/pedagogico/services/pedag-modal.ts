@@ -87,6 +87,54 @@ export function DocumentacaoModalConfig(aluno:any) {
 // turmapedag
 
 
+
+// Requerimento
+
+export function CreateRequerimentoModalConfig(data?:any) {
+    return {        
+        //height: '520px',
+        width: '700px',        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function CreateCategoriaModalConfig(data?:any) {
+    return {
+        width: '580px',
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function EditCategoriaModalConfig(catId?:any) {
+    return {
+        width: '580px',
+        data: { id: catId },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function CreateTipoModalConfig(cat?:any) {
+    return {
+        width: '480px',
+        data: { cat: cat },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+export function EditarTipoModalConfig(id?:any) {
+    return {
+        width: '480px',
+        data: { id: id },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+
 //turmaInfos
 
 

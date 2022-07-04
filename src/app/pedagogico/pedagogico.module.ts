@@ -40,6 +40,11 @@ import { EstagioDocumentacaoComponent } from './estagios-controle/documentacao/e
 import { PedagReqsComponent } from './requerimentos/pedag-reqs.component';
 import { TransfInternaComponent } from './transferencia/transf-interna/transf-interna.component';
 import { TransfTurmasComponent } from './transferencia/transf-turmas/transf-turmas.component';
+import { RequerimentoNovoComponent } from './requerimentos/novo/requerimento-novo.component';
+import { ReqCriarComponent } from './requerimentos/novo/nova-tipo/req-criar.component';
+import { CategoriaCreateComponent } from './requerimentos/novo/nova-categoria/categoria-create.component';
+import { CategoriaEditarComponent } from './requerimentos/novo/editar-categoria/categoria-editar.component';
+import { TipoEditarComponent } from './requerimentos/novo/editar-tipo/tipo-editar.component';
 
 @NgModule({
     declarations: [
@@ -93,7 +98,12 @@ import { TransfTurmasComponent } from './transferencia/transf-turmas/transf-turm
         EstagioDocumentacaoComponent,
         PedagReqsComponent,
         TransfInternaComponent,
-        TransfTurmasComponent
+        TransfTurmasComponent,
+        RequerimentoNovoComponent,
+        ReqCriarComponent,
+        CategoriaCreateComponent,
+        CategoriaEditarComponent,
+        TipoEditarComponent
              
     ],
     imports: [

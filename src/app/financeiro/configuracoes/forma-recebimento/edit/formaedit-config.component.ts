@@ -32,44 +32,64 @@ export class FormaeditConfigComponent extends BaseComponent implements OnInit {
       descricao: ['', [Validators.required]],
       ativo: [true],
       ehCartao: [true],
-      diasParaCompensacao: [''],
-      taxa: [''],
+      diasParaCompensacao: [1, [Validators.required, Validators.min(1)]],
+      taxa: [0, [Validators.required, Validators.min(0)]],
       permiteParcelamento: [false],
-      bancoPermitidoParaCreditoId: ['00000000-0000-0000-0000-000000000000'],
-      subcontaTaxaVinculadaId: ['00000000-0000-0000-0000-000000000000'],
-      fornecedorTaxaVinculadaId: ['00000000-0000-0000-0000-000000000000'],
-      centroDeCustoTaxaVinculadaId: ['00000000-0000-0000-0000-000000000000'],
-      unidadeId:['']
+      bancoPermitidoParaCreditoId: ['', [Validators.required]],
+      subcontaTaxaVinculadaId: ['', [Validators.required]],
+      fornecedorTaxaVinculadaId: ['', [Validators.required]],
+      centroDeCustoTaxaVinculadaId: ['', [Validators.required]],
+      unidadeId: [''],
+      compensacaoAutomatica: [true],
+      dinheiro: ['']
       //compensarAutomaticamenteId: ['']
     })
 
-    this.formaRecebForm.get('ehCartao')?.valueChanges.subscribe(
+    this.formaRecebForm.get('compensacaoAutomatica')?.valueChanges.subscribe(
       (form: any) => {
+        if (this.formaRecebForm.get('ehCartao')?.value) {
+          if (this.formaRecebForm.get('compensacaoAutomatica')?.value) {
+            this.formaRecebForm.get('diasParaCompensacao')?.setValue(1)
+            this.formaRecebForm.get('diasParaCompensacao')?.disable()
+          } else {
+            this.formaRecebForm.get('diasParaCompensacao')?.enable()
+            // this.formaRecebForm.get('compensacaoAutomatica')?.setValue(true)
 
-        if (!this.formaRecebForm.get('ehCartao')?.value) {
-
-          this.formaRecebForm.get('diasParaCompensacao')?.disable()
-          this.formaRecebForm.get('taxa')?.disable()
-          this.formaRecebForm.get('permiteParcelamento')?.disable()
-          this.formaRecebForm.get('bancoPermitidoParaCreditoId')?.disable()
-          this.formaRecebForm.get('subcontaTaxaVinculadaId')?.disable()
-          this.formaRecebForm.get('fornecedorTaxaVinculadaId')?.disable()
-          this.formaRecebForm.get('centroDeCustoTaxaVinculadaId')?.disable()
-          this.formaRecebForm.get('compensarAutomaticamenteId')?.disable()
-
-        } else {
-
-          this.formaRecebForm.get('diasParaCompensacao')?.enable()
-          this.formaRecebForm.get('taxa')?.enable()
-          this.formaRecebForm.get('permiteParcelamento')?.enable()
-          this.formaRecebForm.get('bancoPermitidoParaCreditoId')?.enable()
-          this.formaRecebForm.get('subcontaTaxaVinculadaId')?.enable()
-          this.formaRecebForm.get('fornecedorTaxaVinculadaId')?.enable()
-          this.formaRecebForm.get('centroDeCustoTaxaVinculadaId')?.enable()
-          this.formaRecebForm.get('compensarAutomaticamenteId')?.enable()
+          }
         }
+
       }
+
     );
+
+
+    // this.formaRecebForm.get('ehCartao')?.valueChanges.subscribe(
+    //   (form: any) => {
+
+    //     if (!this.formaRecebForm.get('ehCartao')?.value) {
+
+    //       this.formaRecebForm.get('diasParaCompensacao')?.disable()
+    //       this.formaRecebForm.get('taxa')?.disable()
+    //       this.formaRecebForm.get('permiteParcelamento')?.disable()
+    //       this.formaRecebForm.get('bancoPermitidoParaCreditoId')?.disable()
+    //       this.formaRecebForm.get('subcontaTaxaVinculadaId')?.disable()
+    //       this.formaRecebForm.get('fornecedorTaxaVinculadaId')?.disable()
+    //       this.formaRecebForm.get('centroDeCustoTaxaVinculadaId')?.disable()
+    //       this.formaRecebForm.get('compensarAutomaticamenteId')?.disable()
+
+    //     } else {
+
+    //       this.formaRecebForm.get('diasParaCompensacao')?.enable()
+    //       this.formaRecebForm.get('taxa')?.enable()
+    //       this.formaRecebForm.get('permiteParcelamento')?.enable()
+    //       this.formaRecebForm.get('bancoPermitidoParaCreditoId')?.enable()
+    //       this.formaRecebForm.get('subcontaTaxaVinculadaId')?.enable()
+    //       this.formaRecebForm.get('fornecedorTaxaVinculadaId')?.enable()
+    //       this.formaRecebForm.get('centroDeCustoTaxaVinculadaId')?.enable()
+    //       this.formaRecebForm.get('compensarAutomaticamenteId')?.enable()
+    //     }
+    //   }
+    // );
   }
 
   ngOnInit(): void {
@@ -107,6 +127,34 @@ export class FormaeditConfigComponent extends BaseComponent implements OnInit {
     this.originalForma = JSON.parse(JSON.stringify(this.formaRecebForm.value))
     this.dialogRef.addPanelClass('forma-edit-class')
 
+    if (!resp['result'].ehCartao) {
+      this.formaRecebForm.get('diasParaCompensacao')?.disable()
+      this.formaRecebForm.get('taxa')?.disable()
+      this.formaRecebForm.get('permiteParcelamento')?.disable()
+      this.formaRecebForm.get('bancoPermitidoParaCreditoId')?.disable()
+      this.formaRecebForm.get('subcontaTaxaVinculadaId')?.disable()
+      this.formaRecebForm.get('fornecedorTaxaVinculadaId')?.disable()
+      this.formaRecebForm.get('centroDeCustoTaxaVinculadaId')?.disable()
+      this.formaRecebForm.get('compensacaoAutomatica')?.disable()
+
+      //       this.formaRecebForm.get('taxa')?.disable()
+      /*
+            id: [''],
+            descricao: ['', [Validators.required]],
+            ativo: [true],
+            ehCartao: [true],
+            diasParaCompensacao: [1, [Validators.required, Validators.min(1)]],
+            taxa: [0, [Validators.required, Validators.min(0)]],
+            permiteParcelamento: [false],
+            bancoPermitidoParaCreditoId: ['', [Validators.required]],
+            subcontaTaxaVinculadaId: ['', [Validators.required]],
+            fornecedorTaxaVinculadaId: ['', [Validators.required]],
+            centroDeCustoTaxaVinculadaId: ['', [Validators.required]],
+            unidadeId:[''],
+            compensacaoAutomatica: [true],
+            dinheiro:['']
+            */
+    }
     this.initProgressBar = 'hidden'
     this.showForm = true
   }
@@ -132,9 +180,9 @@ export class FormaeditConfigComponent extends BaseComponent implements OnInit {
       JSON.stringify(this.formaRecebForm.value)) {
 
       return this.matProgressSaveButton != 'hidden'
-  } else {
+    } else {
       return true
-  }
+    }
   }
 
   public Save() {

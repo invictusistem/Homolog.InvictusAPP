@@ -82,7 +82,7 @@
 
         <div style="border: 1px solid rgb(201, 198, 209); padding: 10px;margin-bottom: 10px;">
 
-            <mat-form-field appearance="standard" style="width: 170px;">
+            <mat-form-field appearance="standard" style="width: 200px;">
                 <mat-label>Forma Recebimento</mat-label>
                 <mat-select formControlName="formaRecebimentoId">
                     <!-- <mat-option></mat-option> -->
@@ -93,19 +93,26 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field appearance="standard" style="width: 170px;margin-left: 10px;">
+            <mat-form-field appearance="standard" style="width: 140px;margin-left: 10px;">
                 <mat-label>últimos 4 digitos cartão</mat-label>
                 <input matInput formControlName="digitosCartao" mask="0000">
             </mat-form-field>
 
+
             <mat-form-field appearance="standard" style="width: 170px;margin-left: 10px;">
+                <mat-label>Transferir Para</mat-label>
+                <input matInput 
+                [value]="banco" disabled>
+                
+            </mat-form-field>
+            <!-- <mat-form-field appearance="standard" style="width: 170px;margin-left: 10px;">
                 <mat-label>Transferir Para</mat-label>
                 <mat-select formControlName="bancoId" >
                     <mat-option [value]="banco.id" *ngFor="let banco of bancos"
                     [disabled]="disabledTransf(banco)"
                     >{{ banco.nome}}</mat-option>
                 </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
 
         </div>
 

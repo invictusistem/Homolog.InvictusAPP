@@ -17,7 +17,8 @@ export class AddPMateriaModalComponent implements OnInit {
 
     private baseUrl = environment.baseUrl
     public materias: any[] = new Array<any>();
-    public originalMaterias: any
+    public originalMaterias: any;
+    public showNoMateria = 'hidden'
     
     public listaMaterias: FormGroup
 
@@ -83,6 +84,8 @@ export class AddPMateriaModalComponent implements OnInit {
 
                 },
                 (error) => {
+                    this.initProgressBar = 'hidden'
+                    this.showNoMateria = 'visible'
                     // console.log(error) 
                 },
                 () => {

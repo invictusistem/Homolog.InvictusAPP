@@ -12,7 +12,9 @@
 </mat-progress-bar>
 
 <hr>
-
+<div [style.visibility]="showNoMateria" style="font-size: 0.8em;">
+Não há matérias liberadas para este professor.
+</div>
 <div *ngIf="showContent" @rowHighlight>
 
     <mat-form-field appearance="standard" style="width: 55%;">

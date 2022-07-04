@@ -21,6 +21,7 @@ import { LeadPesquisaComponent } from './comercial/pesquisar/lead-pesquisa.compo
 import { AlunoFinancComponent } from './financeiro/alunos/alunos-financeiro.component';
 import { CaixaEscolaComponent } from './financeiro/caixa-escola/caixa-escola.component';
 import { FinCaixaComponent } from './financeiro/caixa/fincaixa.component';
+import { ConferenciaCaixaComponent } from './financeiro/conferencia/conferencia-caixa.component';
 import { FinancConfigsComponent } from './financeiro/configuracoes/financ-configs.component';
 import { ContasPagarComponent } from './financeiro/contaspagar/contas-pagar.component';
 import { ContasReceberComponent } from './financeiro/contasreceber/contas-receber.component';
@@ -103,6 +104,7 @@ const routes: Routes = [
       { path: 'caixa-escola', component: CaixaEscolaComponent, canActivate: [AuthGuard] },
       { path: 'contas-receber', component: ContasReceberComponent, canActivate: [AuthGuard] },
       { path: 'contas-pagar', component: ContasPagarComponent, canActivate: [AuthGuard] },
+      { path: 'conferencia', component: ConferenciaCaixaComponent, canActivate: [AuthGuard] },
       // { path: 'unidadebalanco', component: UnidadeBalancoComponent, canActivate: [AuthGuard] },
       { path: 'fincaixa', component: FinCaixaComponent, canActivate: [AuthGuard] },
       { path: 'fornecedor', component: FornecedoresComponent, canActivate: [AuthGuard] },

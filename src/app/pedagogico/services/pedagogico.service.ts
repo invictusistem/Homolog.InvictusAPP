@@ -453,7 +453,146 @@ export class PedagogicoService extends BaseService {
         return response;
     }
 
+    // Requerimentos
 
+    //requerimento:
+    public GetCategorias(): Observable<any> {
+
+        let path = `/pedag/requerimento/categorias`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public GetCategoriaById(categoriaId: any): Observable<any> {
+
+        let path = `/pedag/requerimento/categorias/${categoriaId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public GetTipoByCategoriaId(categoriaId: any): Observable<any> {
+
+        let path = `/pedag/requerimento/tipos/${categoriaId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public GetTipoById(tipoId: any): Observable<any> {
+
+        let path = `/pedag/requerimento/tipos/busca/${tipoId}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public SaveCategoria(categoria: any): Observable<any> {
+
+        let path = `/pedag/requerimento/categorias`
+        
+        let response = this.http
+            .post(this.BaseUrl + path, categoria, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public SaveTipo(tipo: any): Observable<any> {
+
+        let path = `/pedag/requerimento/tipos`
+        
+        let response = this.http
+            .post(this.BaseUrl + path, tipo, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public EditCategoria(categoria: any): Observable<any> {
+
+        let path = `/pedag/requerimento/categorias`
+        
+        let response = this.http
+            .put(this.BaseUrl + path, categoria, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+
+    public EditTipo(tipo: any): Observable<any> {
+
+        let path = `/pedag/requerimento/tipos`
+        
+        let response = this.http
+            .put(this.BaseUrl + path, tipo, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        return response;
+    }
+    /*
+    [HttpGet]
+        [Route("categorias")]
+
+[HttpGet]
+        [Route("categorias/{id}")]
+
+[HttpGet]
+        [Route("tipos/{categoriaId}")]
+
+[HttpGet]
+        [Route("tipos/busca/{tipoId}")]
+
+
+        [HttpPost]
+        [Route("categorias")]
+
+[HttpPost]
+        [Route("tipos")]
+
+
+
+[HttpPut]
+        [Route("categorias")]
+
+[HttpPut]
+        [Route("tipos")]
+
+
+
+ 
+
+    
+    */
 
 
 

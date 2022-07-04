@@ -23,9 +23,9 @@
 
         <br>
 
-        <mat-checkbox class="example-margin" formControlName="ehCartao">
+        <!-- <mat-checkbox class="example-margin" formControlName="ehCartao">
             <span style="font-size:0.9em">Cartão de Crédito/Débito</span>
-        </mat-checkbox>
+        </mat-checkbox> -->
 
         <br>
 
@@ -36,13 +36,12 @@
                 <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
                     formControlName="diasParaCompensacao" matInput placeholder="Nome">
             </mat-form-field>
-          
+
 
             <mat-form-field appearance="standard" style="width: 15%;margin-left: 15px;">
                 <mat-label>Taxa(%)</mat-label>
-                <input formControlName="taxa" currencyMask 
-                [options]="{ prefix: '', thousands: '.', decimal: ',' }"
-                matInput placeholder="00,00">
+                <input formControlName="taxa" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                    matInput placeholder="00,00">
             </mat-form-field>
 
             <mat-checkbox style="width: 30%;margin-left: 15px;" class="example-margin"
@@ -86,10 +85,14 @@
                 <mat-select formControlName="centroDeCustoTaxaVinculadaId" selected>
                     <mat-option></mat-option>
                     <mat-option *ngFor="let centro of centroCustos" [value]="centro.id">{{centro.descricao}}
-                </mat-option>
+                    </mat-option>
                 </mat-select>
             </mat-form-field>
 
+            <br>
+            <mat-checkbox class="example-margin" formControlName="compensacaoAutomatica">
+                <span style="font-size:0.9em">Compensação automática</span>
+            </mat-checkbox>
 
         </div>
         <!--<mat-form-field appearance="standard" style="width: 28%;">
@@ -118,8 +121,7 @@
 
         <span style="float: right;margin-top: 15px;">
 
-            <button type="submit" mat-raised-button color="primary" 
-            [disabled]="disabledButtonSave">
+            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButtonSave">
                 Salvar
             </button>
         </span>

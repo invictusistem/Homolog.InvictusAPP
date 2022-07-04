@@ -33,7 +33,7 @@ export class ReceberComponent implements OnInit {
     //public valorQuitado = 0
     //public formaRecebimento = "Dinheiro"
     public recebimentoForm!: FormGroup
-
+    banco:string = ""
     constructor(
         private _finService: FinanceiroService,
         private _fb: FormBuilder,
@@ -65,9 +65,20 @@ export class ReceberComponent implements OnInit {
 
                     console.log(forma)
 
-                    this.recebimentoForm.get('bancoId')?.setValue('')
+                    //this.recebimentoForm.get('bancoId')?.setValue('')
 
-                    if (this.recebimentoForm.get('formaRecebimentoId')?.value == forma?.id) {
+                    var forma = this.formasRecebimento.find(element =>
+                        element.id == this.recebimentoForm.get('formaRecebimentoId')?.value
+                    )
+
+                    var banco = this.bancos.find(element =>
+                        element.id == forma.bancoPermitidoParaCreditoId
+                    )
+                    
+                    this.recebimentoForm.get('bancoId')?.setValue(banco.id)
+                    this.banco = banco.nome
+
+                    if (banco.ehCaixaEscola == true) {
 
 
 
@@ -92,18 +103,10 @@ export class ReceberComponent implements OnInit {
         PEGAR OS BANCOS
 
         
-        */
-
-
-        //console.log(this.data['aluno'])
-        //console.log(this.data['debito'])
+        */       
         this.GetConta();
         
-        //this.GetFormasRecebimentosFromUnidade()
-
-        // this.dialogRef.addPanelClass('recebervalores-class')
-
-        //this.mostrarModalPrincipal = false
+       
     }
 
     private GetConta(){
@@ -118,31 +121,31 @@ export class ReceberComponent implements OnInit {
             })
     }
 
-    disabledTransf(banco: any) {
+    // disabledTransf(banco: any) {
 
-        var forma = this.formasRecebimento.find(element =>
-            element.descricao == 'DINHEIRO'
-        )
+    //     var forma = this.formasRecebimento.find(element =>
+    //         element.descricao == 'DINHEIRO'
+    //     )
 
-        if (this.recebimentoForm.get('formaRecebimentoId')?.value == forma?.id) {
+    //     if (this.recebimentoForm.get('formaRecebimentoId')?.value == forma?.id) {
 
-            this.recebimentoForm.get('bancoId')?.setValue(this.bancos.find(element => element.ehCaixaEscola == true).id)
-            //console.log(this.recebimentoForm.get('bancoId')?.value)
-            if (banco.ehCaixaEscola == true) {
-                return false
-            } else {
-                return true
-            }
+    //         this.recebimentoForm.get('bancoId')?.setValue(this.bancos.find(element => element.ehCaixaEscola == true).id)
+            
+    //         if (banco.ehCaixaEscola == true) {
+    //             return false
+    //         } else {
+    //             return true
+    //         }
 
-        } else {
+    //     } else {
 
-            if (banco.ehCaixaEscola == true) {
-                return true
-            } else {
-                return false
-            }
-        }
-    }
+    //         if (banco.ehCaixaEscola == true) {
+    //             return true
+    //         } else {
+    //             return false
+    //         }
+    //     }
+    // }
 
     private GetBancoFromUnidade() {
 
@@ -191,6 +194,13 @@ export class ReceberComponent implements OnInit {
 
                     //console.log(forma)
                     this.recebimentoForm.get('formaRecebimentoId')?.setValue(forma.id)
+
+                    var banco = this.bancos.find(element =>
+                        element.ehCaixaEscola == true
+                    )
+                    
+                    this.recebimentoForm.get('bancoId')?.setValue(banco.id)
+                    this.banco = banco.nome
 
                     this.iniProgressBar = 'hidden'
                     this.showForm = true

@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BaseComponent } from 'src/app/_shared/services/basecomponent.component';
 import { PedagogicoService } from '../services/pedagogico.service';
+import { RequerimentoNovoComponent } from './novo/requerimento-novo.component';
+import { CreateRequerimentoModalConfig } from '../services/pedag-modal';
 
 @Component({
   selector: 'app-pedag-reqs',
@@ -21,5 +23,14 @@ export class PedagReqsComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  openCreateRequerimento(): void {
+    const dialogRef = this._modal
+        .open(RequerimentoNovoComponent, CreateRequerimentoModalConfig());
+    dialogRef.afterClosed().subscribe((data) => {
+
+    });
+}
+
 
 }

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { CurrencyPipe, DatePipe } from '@angular/common';
@@ -15,6 +15,7 @@ import { Modulo } from "src/app/_shared/models/modulo.model";
 import { Turma } from "src/app/_shared/models/Turma.model";
 import { CreateTurmaViewModel } from "src/app/_shared/models/createturmaviewmodel.model";
 import { DisponibilidadeDto, DisponibilidadeDtoV2 } from "src/app/_shared/models/disponibilidade.model";
+import { findIndex } from "rxjs";
 
 export class ProfResponse {
     constructor(
@@ -24,6 +25,15 @@ export class ProfResponse {
         public checked?: boolean
     ) { }
 }
+
+function ValidatePhone(control: AbstractControl): {[key: string]: any} | null  {
+    console.log(control.value)
+    console.log(control.value.length)
+    if (control.value && control.value.length != 10) {
+      return { 'phoneNumberInvalid': true };
+    }
+    return null;
+  }
 
 @Component({
     selector: 'createcursomodal',
@@ -94,18 +104,33 @@ export class CreateCursoComponent implements OnInit {
             prevInicio_3: ['', [Validators.required, Validators.minLength(10)]],
             prevTermino_3: ['', [Validators.required, Validators.minLength(10)]],
             diasSemana: this._fb.array([], [Validators.required])
-        });   
-        
-        
+        });
+
+        this.diasSemana.valueChanges.subscribe(
+            (form: any) => {
+
+                console.log(form)
+
+                // form.forEach((element: any) => {
+                //     console.log(element)
+                //     console.log(this.diasSemana.valueChanges[0].value) 
+                //     //element.horarioInicio = '1111'
+                // }
+                // )
+
+            }
+        );
+
+
         this.cursoForm.controls['prevInicio_1'].valueChanges.subscribe(
             (form: any) => {
-                
+
                 var date = new Date(this.cursoForm.get('prevInicio_1')?.value)
 
-                date = new Date(date.setMonth(date.getMonth()+ 21))
+                date = new Date(date.setMonth(date.getMonth() + 21))
 
                 this.cursoForm.get('prevTermino_1')?.setValue(new Date(date))
-                
+
             }
         );
 
@@ -113,7 +138,7 @@ export class CreateCursoComponent implements OnInit {
             (form: any) => {
                 var date = new Date(this.cursoForm.get('prevInicio_2')?.value)
 
-                date = new Date(date.setMonth(date.getMonth()+ 21))
+                date = new Date(date.setMonth(date.getMonth() + 21))
 
                 this.cursoForm.get('prevTermino_2')?.setValue(new Date(date))
             }
@@ -123,14 +148,14 @@ export class CreateCursoComponent implements OnInit {
             (form: any) => {
                 var date = new Date(this.cursoForm.get('prevInicio_3')?.value)
 
-                date = new Date(date.setMonth(date.getMonth()+ 23))
+                date = new Date(date.setMonth(date.getMonth() + 23))
 
                 this.cursoForm.get('prevTermino_3')?.setValue(new Date(date))
             }
         );
 
     }
-  
+
     ngOnInit() {
         //console.log("create modal 123")
         const token: any = localStorage.getItem('jwt')
@@ -143,24 +168,17 @@ export class CreateCursoComponent implements OnInit {
     }
 
     get diasSemana(): FormArray {
-       // console.log(this.cursoForm.get('diasSemana'))
+        // console.log(this.cursoForm.get('diasSemana'))
         return this.cursoForm.controls["diasSemana"] as FormArray;
     }
 
     addDiaSemana() {
 
-        // let pacote = form.value['pacote']
-
-        // if (form.valid) {
-        //     let pacotId = this.diasSemana.value.find(element =>
-        //         element.materiaId == pacote.id);
-
-        //     if (pacotId != undefined) return;
-
         const matForm = this._fb.group({
-            diaSemana: new FormControl (""),
-            horarioInicio: new FormControl("",[Validators.required, Validators.minLength(4)]),
-            horarioFim: new FormControl ("",[Validators.required, Validators.minLength(4)])
+            diaSemana: new FormControl(""),
+            horarioInicio: new FormControl("", [Validators.required, Validators.minLength(4)
+            ,ValidatePhone]),
+            horarioFim: new FormControl("", [Validators.required, Validators.minLength(4)])
         });
 
         this.diasSemana.push(matForm);
@@ -186,10 +204,10 @@ export class CreateCursoComponent implements OnInit {
                     //console.log(this.createTurmaViewModel)
                 },
                 (error) => {
-                    console.log(error['status'])
-                    if(error['status'] != 4004)
-                    //console.log('diferente de 404')
-                    this.initProgressBar = 'hidden'
+                   // console.log(error['status'])
+                    if (error['status'] != 4004)
+                        //console.log('diferente de 404')
+                        this.initProgressBar = 'hidden'
                     this.mensagemErro = "Não há salas cadastradas para esta unidade ou não há tipos de pacotes cadastrados"
                     this.showmensagemErro = true
                 },
@@ -216,16 +234,16 @@ export class CreateCursoComponent implements OnInit {
             .subscribe(
                 (response: any) => {
                     this.pacotes = Object.assign([], response['pacotes'])
-                    
+
                     //console.log(this.createTurmaViewModel)
                 },
                 (error) => {
                     this.initProgressBar = 'hidden'
                     // console.log(error)
                 },
-                () => { 
+                () => {
                     this.initProgressBar = 'hidden'
-                    this.showCapacidadeDropDown = true 
+                    this.showCapacidadeDropDown = true
                 }
             )
     }
@@ -234,8 +252,8 @@ export class CreateCursoComponent implements OnInit {
 
         if (this.cursoForm.valid) {
             this.disabledSaveButton = true
-           // this.cursoForm.get('prevInicio_1').setValue(new Date(this.cursoForm.get('prevInicio_1').value).toLocaleString())
-           // console.log(this.cursoForm.value)
+            // this.cursoForm.get('prevInicio_1').setValue(new Date(this.cursoForm.get('prevInicio_1').value).toLocaleString())
+            // console.log(this.cursoForm.value)
 
             this.disabledSpinner = false
             this._http.post(`${this.baseUrl}/turma/`, this.cursoForm.value, {})
@@ -357,7 +375,7 @@ export class CreateCursoComponent implements OnInit {
     }
 
     removeProf(i: number) {
-        const index = this.Professores.value.findIndex((c:any) => c.id == i)
+        const index = this.Professores.value.findIndex((c: any) => c.id == i)
         this.Professores.removeAt(index);
     }
 

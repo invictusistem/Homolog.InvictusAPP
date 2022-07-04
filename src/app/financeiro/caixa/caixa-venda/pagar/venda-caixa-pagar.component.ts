@@ -3,6 +3,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { FinanceiroService } from 'src/app/financeiro/services/financ.service';
 import { BaseComponent } from 'src/app/_shared/services/basecomponent.component';
 
@@ -78,14 +80,21 @@ export class VendaCaixaPagarComponent extends BaseComponent implements OnInit {
           })
 
           if (forma.ehCartao) {
-
+            console.log('é cartao')
             if (forma.permiteParcelamento) {
+              console.log('pode parcelar')
+              this.recebimentoForm.get('parcelas')?.enable()
               this.recebimentoForm.get('parcelar')?.enable()
             } else {
+              console.log('nao pode parcelar')
+              this.recebimentoForm.get('parcelas')?.disable()
               this.recebimentoForm.get('parcelar')?.disable()
             }
 
-          } else {
+          } 
+          else {
+            console.log('nao é cartao')
+            this.recebimentoForm.get('parcelas')?.disable()
             this.recebimentoForm.get('parcelar')?.disable()
           }
         }
@@ -271,11 +280,18 @@ export class VendaCaixaPagarComponent extends BaseComponent implements OnInit {
   get saveButton() {
 
     if (this.recebimentoForm.valid) {
-      return this.saveSpinner != 'hidden'
+      return  this.saveSpinner != 'hidden'
     } else {
-      return true
+      return  true
     }
   }
+
+  public timerDaPaginacaoAutomatica(): Observable<boolean> {
+    let numero: number = 1;
+    var valido = true
+    return of(valido)
+        .pipe(delay(2000));
+}
 
 
   public Quitar() {

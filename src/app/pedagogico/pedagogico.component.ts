@@ -13,7 +13,7 @@ export const ROUTES: RouteInfo[] = [
    // { path: '/pedag/reposicoes', title: 'Reposições', class: '', typeIcon: 'change_circle' },
     { path: '/pedag/turmasinfo', title: 'Turmas', class: '', typeIcon: 'school' },
     { path: '/pedag/turmas', title: 'Diário de Classe', class: '', typeIcon: 'assignment' },
-    //{ path: '/pedag/requerimentos', title: 'Requerimentos', class: '', typeIcon: 'article' },
+    { path: '/pedag/requerimentos', title: 'Requerimentos', class: '', typeIcon: 'article' },
     { path: '/pedag/analisedocs', title: 'Documentação', class: '', typeIcon: 'description' },
     { path: '/pedag/estagio', title: 'Estágios', class: '', typeIcon: 'settings_applications' },
     { path: '/pedag/estagiosdoc', title: 'Estágios/Gestão', class: '', typeIcon: 'settings_applications' },

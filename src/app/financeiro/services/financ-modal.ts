@@ -18,6 +18,17 @@ export function ReceberComponentModal(debito?: any, aluno?: any) {
     }
 }
 
+
+export function ConferenciaConfirmarComponentModal(contaId?: any) {
+    return {
+        //height: '545px',
+        width: '450px',
+        data: { contaId: contaId },
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
 export function PagarProdutoComponentModal(produtos: any[]) {
     return {
         height: '545px',

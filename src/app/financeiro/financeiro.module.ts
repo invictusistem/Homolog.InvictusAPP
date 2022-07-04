@@ -43,6 +43,9 @@ import { VendaCaixaComponent } from './caixa/caixa-venda/venda-caixa.component';
 import { VendaPesquisaComponent } from './caixa/caixa-venda/pesquisa/venda-pesquisa.component';
 import { VendaCaixaPagarComponent } from './caixa/caixa-venda/pagar/venda-caixa-pagar.component';
 import { FinRelatorioComponent } from './relatorios/fin-relatorio.component';
+import { ConferenciaCaixaComponent } from './conferencia/conferencia-caixa.component';
+import { ConferenciaConfirmarComponent } from './conferencia/confirmar/conferencia-confirmar.component';
+import { SaldoBancarioComponent } from './conferencia/saldo/saldo-bancario.component';
 
 @NgModule({
     declarations: [
@@ -96,6 +99,9 @@ import { FinRelatorioComponent } from './relatorios/fin-relatorio.component';
         VendaPesquisaComponent,
         VendaCaixaPagarComponent,
         FinRelatorioComponent,
+        ConferenciaCaixaComponent,
+        ConferenciaConfirmarComponent,
+        SaldoBancarioComponent,
         
     ],
     imports: [

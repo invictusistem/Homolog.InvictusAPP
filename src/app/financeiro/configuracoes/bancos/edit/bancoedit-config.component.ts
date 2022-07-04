@@ -35,7 +35,8 @@ export class BancoeditConfigComponent extends BaseComponent implements OnInit {
       ativo: [true],
       dataCadastro: [''],
       utilizadoParaImpressao: [''],
-      unidadeId: ['']
+      unidadeId: [''],
+      saldo:['']
     })
   }
 

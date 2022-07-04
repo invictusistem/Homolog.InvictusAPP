@@ -83,6 +83,25 @@ export class FinanceiroService extends BaseService {
 
     }
 
+    // Conferência
+
+    public GetConferênciaCaixa(form:any): Observable<any> {
+        
+        let query = `?cartao=${form.recebimento}&start=${new Date(form.start).toISOString()}&end=${new Date(form.end).toISOString()}`
+
+        let path = `/financeiro/caixa/${query}`
+
+        let response = this.http
+            .get(this.BaseUrl + path, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+
+        console.log(response)
+
+        return response;
+    }
+
     // Fornecedores
 
     public GetFornecedores(pageSize?: number, currentPage?: number, jsonParam?: any): Observable<any> {

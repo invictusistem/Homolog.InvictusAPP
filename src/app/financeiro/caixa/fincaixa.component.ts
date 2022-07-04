@@ -44,15 +44,17 @@ export class FinCaixaComponent extends BaseComponent implements OnInit {
 
 
     ngOnInit() {
-        Object.defineProperty(TooltipComponent.prototype, 'message', {
-            set(v: any) {
-                const el = document.querySelectorAll('.mat-tooltip');
+        // var message = 'message'
+        // Object.defineProperty(TooltipComponent.prototype, message, {
+        //     Console.log(message)
+        //     set(v: any) {
+        //         const el = document.querySelectorAll('.mat-tooltip');
          
-                if (el) {
-                    el[el.length - 1].innerHTML = v;
-                }
-            },
-         });
+        //         if (el) {
+        //             el[el.length - 1].innerHTML = v;
+        //         }
+        //     },
+        //  });
     }
 
     

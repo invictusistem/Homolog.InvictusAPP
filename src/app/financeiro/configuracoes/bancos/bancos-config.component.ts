@@ -41,16 +41,16 @@ export class BancosConfigComponent extends BaseComponent implements OnInit {
 
   GetAcessos() {
 
-    this._http.get(`${this.baseUrl}/acessos`)
-      .subscribe({
-        next: (resp: any) => { 
-          let acessos = JSON.parse(resp['acessos']);
-          //this.acessos = resp['acessos']
-          console.log(this.acessos)
-         },
-        error: ( fail: any) => { }
-      }
-      )
+    // this._http.get(`${this.baseUrl}/acessos`)
+    //   .subscribe({
+    //     next: (resp: any) => { 
+    //       let acessos = JSON.parse(resp['acessos']);
+    //       //this.acessos = resp['acessos']
+    //       console.log(this.acessos)
+    //      },
+    //     error: ( fail: any) => { }
+    //   }
+    //   )
 
   }
 
