@@ -56,6 +56,7 @@ import { UsuarioComponent } from "./usuarios/usuario.component";
 import { MatEditComponent } from './configuracoes/materia-edit/mat-edit.component';
 import { DocEditComponent } from './configuracoes/doc-edit/doc-edit.component';
 import { ModuloNovoComponent } from './modulos/create-novo/modulo-novo.component';
+import { ConsultaAcessoComponent } from './usuarios/consulta-acessos/consulta-acesso.component';
 
 
 @NgModule({
@@ -128,7 +129,8 @@ import { ModuloNovoComponent } from './modulos/create-novo/modulo-novo.component
         EditAcessoComponent,
         MatEditComponent,
         DocEditComponent,
-        ModuloNovoComponent
+        ModuloNovoComponent,
+        ConsultaAcessoComponent
     ],
     imports: [
         SharedModule,

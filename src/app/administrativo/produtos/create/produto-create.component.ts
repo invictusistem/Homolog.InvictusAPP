@@ -31,9 +31,9 @@ export class ProdutoCreateComponent extends BaseComponent implements OnInit {
             descricao: ['', [Validators.required]],
             preco: ['', [Validators.required]],
             precoCusto: ['', [Validators.required]],
-            quantidade: [, [Validators.required]],
-            nivelMinimo: [, [Validators.required]],
-            unidadeId: ['', [Validators.required]],
+            quantidade: [, [Validators.required, Validators.min(0)]],
+            nivelMinimo: [, [Validators.required, Validators.min(0)]],
+            //unidadeId: ['', [Validators.required]],
             ativo: [true],
             observacoes: [''],
 

@@ -32,8 +32,10 @@ export class VendaCaixaComponent extends BaseComponent implements OnInit {
   public totalParcelas!: number
   parcelas = Parcelas
   public pesquisaForm: FormGroup
-
+public vendaform: FormGroup
   public produtos: any[] = new Array<any>();
+  public alunos: any[] = new Array<any>();
+
   constructor(
     //private service: AdmService,
     override _snackBar: MatSnackBar,
@@ -48,10 +50,10 @@ export class VendaCaixaComponent extends BaseComponent implements OnInit {
     this.pesquisaForm = _fb.group({
       name: ['', [Validators.required]]
     })
-    //this.colaboradorForm = _fb.group({
-    // templateName: ['', [Validators.required, Validators.minLength(5)]],
+    this.vendaform = _fb.group({
+    matriculaId: ['', [Validators.required, Validators.minLength(5)]],
 
-    //})
+    })
   }
 
   ngOnInit() {
@@ -60,6 +62,33 @@ export class VendaCaixaComponent extends BaseComponent implements OnInit {
     //console.log(this.tokenInfo.Unidade);
     //console.log(this.tokenInfo.Codigo);
     //console.log(this.tokenInfo);
+    this.GetAlunosVenda()
+  }
+
+  private GetAlunosVenda(){
+
+    this._http.get(`${this.baseUrl}/pedag/matricula`)
+    .subscribe({
+      next: (resp:any) => { 
+        this.alunos = Object.assign([],resp['matriculados'])
+       },
+      error: (error:any) => {
+
+       }
+    })
+
+  }
+
+  get saveVendaButton(){
+    if(this.produtosCesta.length == 0){
+      return true
+    }
+
+    if(this.vendaform.valid){
+      return false
+    }else{
+      return true
+    }
   }
 
   public Search() {
@@ -292,7 +321,7 @@ export class VendaCaixaComponent extends BaseComponent implements OnInit {
   saveEdit() {
 
     const dialogRef = this._modal
-      .open(VendaCaixaPagarComponent, PagarProdutoComponentModal(this.produtosCesta));
+      .open(VendaCaixaPagarComponent, PagarProdutoComponentModal(this.produtosCesta, this.vendaform.get('matriculaId')?.value));
     dialogRef.afterClosed().subscribe((data) => {
 
       if (data.vendido == true) {

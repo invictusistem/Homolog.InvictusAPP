@@ -38,11 +38,11 @@ export function OpenSaldoComponentModal() {
     }
 }
 
-export function PagarProdutoComponentModal(produtos: any[]) {
+export function PagarProdutoComponentModal(produtos: any[], matriculaId: any) {
     return {
         height: '545px',
         width: '650px',
-        data: { produtos: produtos },
+        data: { produtos: produtos, matriculaId: matriculaId },
         hasBackdrop: true,
         disableClose: true
     }

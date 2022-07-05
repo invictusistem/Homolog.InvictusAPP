@@ -14,6 +14,8 @@ import { EditAcessoComponent } from "./acesso-edit/editacesso.component";
 import { CreateUserComponent } from "./create/createuser.component";
 import { EditUserComponent } from "./edit/edituser.component";
 import { ConfirmAcaoModalConfig } from "src/app/_shared/services/shared.modal";
+import { ConsultaAcessoComponent } from "./consulta-acessos/consulta-acesso.component";
+import { OpenConsultaAcessos } from '../services/adm-modal';
 
 @Component({
     selector: "usuario-app",
@@ -41,36 +43,36 @@ export class UsuarioComponent extends BaseComponent implements OnInit {
         private _fb: FormBuilder,
         private _admService: AdmService,
         private _modal: MatDialog) {
-            super(_snackBar);
-            this.pesquisarForm = _fb.group({
-                nome: ['', [Validators.required]],
-                email: ['', [Validators.required]],
-                cpf: ['', [Validators.required]],
-                ativo: [false],
-                todasUnidades: [false]
-            });
-    
-            this.pesquisarForm.valueChanges.subscribe(
-                (form: any) => {
-    
-                    if (this.pesquisarForm.get('nome')?.value == '' &&
-                        this.pesquisarForm.get('email')?.value == '' &&
-                        this.pesquisarForm.get('cpf')?.value == '') {
-    
-                        this.pesquisarForm.controls['nome'].setErrors({ required: true });
-                        this.pesquisarForm.controls['email'].setErrors({ required: true });
-                        this.pesquisarForm.controls['cpf'].setErrors({ required: true });
-                    } else {
-                        this.pesquisarForm.controls['nome'].setErrors(null);
-    
-                        this.pesquisarForm.controls['email'].setErrors(null)
-    
-                        this.pesquisarForm.controls['cpf'].setErrors(null);
-                    }
-                }
-            );
+        super(_snackBar);
+        this.pesquisarForm = _fb.group({
+            nome: ['', [Validators.required]],
+            email: ['', [Validators.required]],
+            cpf: ['', [Validators.required]],
+            ativo: [false],
+            todasUnidades: [false]
+        });
 
-         }
+        this.pesquisarForm.valueChanges.subscribe(
+            (form: any) => {
+
+                if (this.pesquisarForm.get('nome')?.value == '' &&
+                    this.pesquisarForm.get('email')?.value == '' &&
+                    this.pesquisarForm.get('cpf')?.value == '') {
+
+                    this.pesquisarForm.controls['nome'].setErrors({ required: true });
+                    this.pesquisarForm.controls['email'].setErrors({ required: true });
+                    this.pesquisarForm.controls['cpf'].setErrors({ required: true });
+                } else {
+                    this.pesquisarForm.controls['nome'].setErrors(null);
+
+                    this.pesquisarForm.controls['email'].setErrors(null)
+
+                    this.pesquisarForm.controls['cpf'].setErrors(null);
+                }
+            }
+        );
+
+    }
 
     ngOnInit() {
         //this.getUsers(1, this.pageSize)
@@ -79,9 +81,17 @@ export class UsuarioComponent extends BaseComponent implements OnInit {
         //this.tokenInfo = this.jwtHelper.decodeToken(token)
     }
 
-    get disabledEdit(){
+    get disabledEdit() {
 
         return false
+    }
+
+    public OpenconsultaAcesso() {
+            const dialogRef = this._modal
+            .open(ConsultaAcessoComponent, OpenConsultaAcessos());
+        dialogRef.afterClosed().subscribe((data) => {
+
+        });
     }
 
     /*
@@ -116,12 +126,12 @@ export class UsuarioComponent extends BaseComponent implements OnInit {
         });
     }
 
-    openAcessoModal(usuario: any){
+    openAcessoModal(usuario: any) {
         const dialogRef = this._modal
-        .open(EditAcessoComponent, EditAcessoModal(usuario));
-    dialogRef.afterClosed().subscribe((data) => {
+            .open(EditAcessoComponent, EditAcessoModal(usuario));
+        dialogRef.afterClosed().subscribe((data) => {
 
-    });
+        });
     }
 
     showMessageNoColaborador = false
@@ -133,22 +143,22 @@ export class UsuarioComponent extends BaseComponent implements OnInit {
 
         this.showMessageNoColaborador = false
 
-       // if (this.pesquisarForm.valid  || this.tokenInfo['role'] == 'SuperAdm') {
-          
-           this.spinnerSearch = 'visible'
+        // if (this.pesquisarForm.valid  || this.tokenInfo['role'] == 'SuperAdm') {
 
-            if (event != undefined) {
-                this.currentPage = event.pageIndex + 1
-            } else {
-                this.currentPage = 1
-            }
+        this.spinnerSearch = 'visible'
 
-            this._admService.GetUsuarios(this.pageSize, this.currentPage, this.pesquisarForm.value)
-                .subscribe(
-                    sucesso => { this.processarSucesso(sucesso, event) },
-                    falha => { this.processarFalha(falha) }
-                );
-       // }
+        if (event != undefined) {
+            this.currentPage = event.pageIndex + 1
+        } else {
+            this.currentPage = 1
+        }
+
+        this._admService.GetUsuarios(this.pageSize, this.currentPage, this.pesquisarForm.value)
+            .subscribe(
+                sucesso => { this.processarSucesso(sucesso, event) },
+                falha => { this.processarFalha(falha) }
+            );
+        // }
 
         return event
 
@@ -156,22 +166,22 @@ export class UsuarioComponent extends BaseComponent implements OnInit {
 
 
     processarSucesso(response: any, event?: any) {
-       
+
         this.usuarios = Object.assign([], response['data']);
 
         this.length = response['totalItemsInDatabase']
 
         this.spinnerSearch = 'hidden'
-        if (event != undefined){
+        if (event != undefined) {
             this.pageIndexNumber = (event.pageIndex * this.pageSize)
-        }else{
+        } else {
             this.pageIndexNumber = 0
             if (this.paginator != undefined) {
                 this.paginator.firstPage();
             }
         }
 
-       // this.spinnerSearch = 'hidden'
+        // this.spinnerSearch = 'hidden'
 
     }
 
@@ -188,7 +198,7 @@ export class UsuarioComponent extends BaseComponent implements OnInit {
             this.usuarios = new Array<any>();
         }
         this.spinnerSearch = 'hidden'
-       // this.spinnerSearch = false
+        // this.spinnerSearch = false
     }
 
     get podeDeletar() {
@@ -220,68 +230,69 @@ export class UsuarioComponent extends BaseComponent implements OnInit {
 
     pesquisar(nome: string, email: string, cpf: string) {
 
-    //     console.log(nome + " " + email + " " + cpf)
-    //     if (nome == "" || nome == undefined) nome = ""
-    //     if (email == "" || email == undefined) email = ""
-    //     if (cpf == "" || cpf == undefined) cpf = ""
+        //     console.log(nome + " " + email + " " + cpf)
+        //     if (nome == "" || nome == undefined) nome = ""
+        //     if (email == "" || email == undefined) email = ""
+        //     if (cpf == "" || cpf == undefined) cpf = ""
 
-    //     if ((nome == "" || nome == undefined) &&
-    //         (email == "" || email == undefined) &&
-    //         (cpf == "" || cpf == undefined)) {
-    //         console.log("retorno")
-    //         return;
-    //     }
-    //     this.showMessageNoColaborador = false
-    //     this.mensagem = ""
+        //     if ((nome == "" || nome == undefined) &&
+        //         (email == "" || email == undefined) &&
+        //         (cpf == "" || cpf == undefined)) {
+        //         console.log("retorno")
+        //         return;
+        //     }
+        //     this.showMessageNoColaborador = false
+        //     this.mensagem = ""
 
-    //     let query = { nome: nome, cargo: email, unidade: cpf }
-    //     this.params.nome = nome
-    //     this.params.email = email
-    //     this.params.cpf = cpf
+        //     let query = { nome: nome, cargo: email, unidade: cpf }
+        //     this.params.nome = nome
+        //     this.params.email = email
+        //     this.params.cpf = cpf
 
-    //     this.showSpinnerFirst = true
-    //     this.usuarios = new Array<Colaborador>();
-    //     let paramsJson = JSON.stringify(this.params)
-    //     console.log(query)
+        //     this.showSpinnerFirst = true
+        //     this.usuarios = new Array<Colaborador>();
+        //     let paramsJson = JSON.stringify(this.params)
+        //     console.log(query)
 
 
-    //     this.http.get(`${this.baseUrl}/usuario/?paramsJson={"nome":"${nome}","email":"${email}","cpf":"${cpf}"}&itemsPerPage=` + this.pageSize + `&currentPage=1`
-    //         //this.http.post(`${this.baseUrl}/colaboradores/pesquisar/?itemsPerPage=` + this.pageSize + `&currentPage=1`, paramsJson, {
-    //         // headers: new HttpHeaders({
-    //         //     "Content-Type": "application/json",
-    //         //     "Authorization": "Bearer "
-    //         // })}
-    //     ).subscribe(
-    //         (response) => {
-    //             console.log(response)
-    //             this.usuarios = Object.assign([], response['usuarios'].data);
+        //     this.http.get(`${this.baseUrl}/usuario/?paramsJson={"nome":"${nome}","email":"${email}","cpf":"${cpf}"}&itemsPerPage=` + this.pageSize + `&currentPage=1`
+        //         //this.http.post(`${this.baseUrl}/colaboradores/pesquisar/?itemsPerPage=` + this.pageSize + `&currentPage=1`, paramsJson, {
+        //         // headers: new HttpHeaders({
+        //         //     "Content-Type": "application/json",
+        //         //     "Authorization": "Bearer "
+        //         // })}
+        //     ).subscribe(
+        //         (response) => {
+        //             console.log(response)
+        //             this.usuarios = Object.assign([], response['usuarios'].data);
 
-    //             //this.length = response['totalItemsInDatabase']
-    //             // if (this.length == 0) {
-    //             //     this.showMessageNoColaborador = true
-    //             //     this.mensagem = "Registro não localizado."
-    //             // }
-    //             // else if (this.usuarios.length == 0) {
-    //             //     console.log("lengt zero")
-    //             //     this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
-    //             //     this.showMessageNoColaborador = true
-    //             // }
+        //             //this.length = response['totalItemsInDatabase']
+        //             // if (this.length == 0) {
+        //             //     this.showMessageNoColaborador = true
+        //             //     this.mensagem = "Registro não localizado."
+        //             // }
+        //             // else if (this.usuarios.length == 0) {
+        //             //     console.log("lengt zero")
+        //             //     this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
+        //             //     this.showMessageNoColaborador = true
+        //             // }
 
-    //         },
-    //         (err) => {
-    //             this.showSpinnerFirst = false
-    //             console.log(err)
-    //             this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
-    //             this.showMessageNoColaborador = true
+        //         },
+        //         (err) => {
+        //             this.showSpinnerFirst = false
+        //             console.log(err)
+        //             this.mensagem = "Sua pesquisa não encontrou nenhum registro correspondente"
+        //             this.showMessageNoColaborador = true
 
-    //         },
-    //         () => {
-    //             this.showSpinnerFirst = false
-    //             console.log('ok get');
+        //         },
+        //         () => {
+        //             this.showSpinnerFirst = false
+        //             console.log('ok get');
 
-    //         },
-    //     )
+        //         },
+        //     )
 
-    // }
+        // }
 
-}}
+    }
+}

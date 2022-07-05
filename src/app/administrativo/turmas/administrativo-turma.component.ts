@@ -5,6 +5,7 @@ import { PageEvent } from "@angular/material/paginator";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { ConfirmAcaoModalComponent } from "src/app/_shared/components/acao-confirm/confirm-acao.component";
+import { HelpersService } from "src/app/_shared/components/helpers/helpers.component";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { ConfirmAcaoModalConfig } from "src/app/_shared/services/shared.modal";
 import { environment } from "src/environments/environment";
@@ -40,6 +41,7 @@ export class AdmTurmasComponent implements OnInit {
     mensagem?: string;
 
     constructor(
+        private _helper: HelpersService,
         private _admService: AdmService,
         private http: HttpClient,
         private _modal: MatDialog
@@ -182,6 +184,30 @@ export class AdmTurmasComponent implements OnInit {
                     .subscribe(
                         response => { this.getCursos(); }, 
                         err => { })
+            }
+        })
+    }
+
+    Cancelar(turmaId: any): void {
+
+        const dialogRef = this._modal
+            .open(ConfirmAcaoModalComponent, ConfirmAcaoModalConfig());
+        dialogRef.afterClosed().subscribe((data) => {
+
+            if (data.clicked == true) {
+
+                this.http.put(`${this.baseUrl}/turma/cancelar/${turmaId}`,{})
+                    .subscribe(
+                        response => { 
+                            this._helper.openSnackBarSucesso("Turma cancelada com sucesso.")
+                            this.getCursos(); }, 
+                        err => { 
+                            if(err['status'] == 409){
+                                this._helper.openSnackBarError("Não é possível cancelar turma com alunos matriculados.")
+                            }else{
+                                this._helper.openSnackBarErrorDefault();
+                            }
+                        })
             }
         })
     }

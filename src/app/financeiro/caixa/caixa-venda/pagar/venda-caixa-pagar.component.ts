@@ -53,7 +53,9 @@ export class VendaCaixaPagarComponent extends BaseComponent implements OnInit {
       digitosCartao: ['0000'],
       produtos: [''],
       parcelar: [false],
-      parcelas: [1, [Validators.min(1)]]
+      parcelas: [1, [Validators.min(1)]],
+      matriculaId: ['']
+
     })
 
     this.recebimentoForm.get('formaRecebimentoId')?.valueChanges.subscribe(
@@ -91,7 +93,7 @@ export class VendaCaixaPagarComponent extends BaseComponent implements OnInit {
               this.recebimentoForm.get('parcelar')?.disable()
             }
 
-          } 
+          }
           else {
             console.log('nao é cartao')
             this.recebimentoForm.get('parcelas')?.disable()
@@ -125,7 +127,7 @@ export class VendaCaixaPagarComponent extends BaseComponent implements OnInit {
     
     */
 
-
+    this.recebimentoForm.get('matriculaId')?.setValue(this.data['matriculaId'])
     //console.log(this.data['aluno'])
     //console.log(this.data['debito'])
     //this.GetConta();
@@ -280,9 +282,9 @@ export class VendaCaixaPagarComponent extends BaseComponent implements OnInit {
   get saveButton() {
 
     if (this.recebimentoForm.valid) {
-      return  this.saveSpinner != 'hidden'
+      return this.saveSpinner != 'hidden'
     } else {
-      return  true
+      return true
     }
   }
 
@@ -290,8 +292,8 @@ export class VendaCaixaPagarComponent extends BaseComponent implements OnInit {
     let numero: number = 1;
     var valido = true
     return of(valido)
-        .pipe(delay(2000));
-}
+      .pipe(delay(2000));
+  }
 
 
   public Quitar() {

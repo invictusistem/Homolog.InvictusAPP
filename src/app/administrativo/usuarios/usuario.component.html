@@ -6,6 +6,12 @@
                 <mat-icon>person_add_alt</mat-icon>
             </button>
         </i>
+
+        <i #tooltip="matTooltip" matTooltip="consulta acessos" matTooltipPosition="above" matTooltipHideDelay="100">
+            <button (click)="OpenconsultaAcesso()" mat-icon-button>
+                <mat-icon>visibility</mat-icon>
+            </button>
+        </i>
     </div>
 
     <br>

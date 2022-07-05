@@ -472,6 +472,16 @@ export function EditAcessoModal(usuario?: any) {
 }
 
 
+export function OpenConsultaAcessos() {
+    return {
+        width: '450px',
+        
+        hasBackdrop: true,
+        disableClose: true
+    }
+}
+
+
 //#endregion
 
 
