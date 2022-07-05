@@ -176,8 +176,7 @@ export class CreateCursoComponent implements OnInit {
 
         const matForm = this._fb.group({
             diaSemana: new FormControl(""),
-            horarioInicio: new FormControl("", [Validators.required, Validators.minLength(4)
-            ,ValidatePhone]),
+            horarioInicio: new FormControl("", [Validators.required, Validators.minLength(4)]),
             horarioFim: new FormControl("", [Validators.required, Validators.minLength(4)])
         });
 
